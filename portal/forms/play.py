@@ -12,6 +12,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
+from portal.forms.teach import check_passwords
 from portal.helpers.password import PasswordStrength, form_clean_password
 from portal.helpers.regexes import ACCESS_CODE_PATTERN
 from portal.templatetags.app_tags import is_verified
@@ -33,9 +34,7 @@ class StudentClassCodeForm(forms.Form):
 
         if access_code:
             if re.fullmatch(ACCESS_CODE_PATTERN, access_code.upper()) is None:
-                raise forms.ValidationError(
-                    "Uh oh! You didn't input a valid class code."
-                )
+                raise forms.ValidationError("Uh oh! You didn't input a valid class code.")
 
         return self.cleaned_data
 
@@ -84,16 +83,12 @@ class StudentLoginForm(AuthenticationForm):
 
         name = stripStudentName(name)
 
-        students = Student.objects.filter(
-            new_user__first_name__iexact=name, class_field=klass
-        )
+        students = Student.objects.filter(new_user__first_name__iexact=name, class_field=klass)
         if len(students) != 1:
             raise forms.ValidationError("Invalid name, class access code or password")
 
         student = students[0]
-        user = authenticate(
-            username=student.new_user.username, password=password.lower()
-        )
+        user = authenticate(username=student.new_user.username, password=password.lower())
 
         # Try the case sensitive password too, for previous accounts that don't have the lowercase one stored
         if user is None:
@@ -174,9 +169,7 @@ class IndependentStudentEditAccountForm(forms.Form):
                 raise forms.ValidationError("This field is required")
 
             if re.match(re.compile("^[\w ]+$"), name) is None:
-                raise forms.ValidationError(
-                    "Names may only contain letters, numbers, dashes, underscores, and spaces."
-                )
+                raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
 
         return name
 
@@ -218,16 +211,12 @@ class IndependentStudentSignupForm(forms.Form):
     name = forms.CharField(
         max_length=100,
         help_text="Enter full name",
-        widget=forms.TextInput(
-            attrs={"autocomplete": "off", "placeholder": "Full name"}
-        ),
+        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Full name"}),
     )
 
     email = forms.EmailField(
         help_text="Enter your email address",
-        widget=forms.EmailInput(
-            attrs={"autocomplete": "off", "placeholder": "Email address"}
-        ),
+        widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "Email address"}),
     )
 
     newsletter_ticked = forms.BooleanField(initial=False, required=False)
@@ -236,16 +225,12 @@ class IndependentStudentSignupForm(forms.Form):
 
     password = forms.CharField(
         help_text="Enter a password",
-        widget=forms.PasswordInput(
-            attrs={"autocomplete": "off", "placeholder": "Password"}
-        ),
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
     )
 
     confirm_password = forms.CharField(
         help_text="Repeat password",
-        widget=forms.PasswordInput(
-            attrs={"autocomplete": "off", "placeholder": "Repeat password"}
-        ),
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Repeat password"}),
     )
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
@@ -253,9 +238,7 @@ class IndependentStudentSignupForm(forms.Form):
     def clean_name(self):
         name = self.cleaned_data.get("name", None)
         if re.match(re.compile("^[\w ]+$"), name) is None:
-            raise forms.ValidationError(
-                "Names may only contain letters, numbers, dashes, underscores, and spaces."
-            )
+            raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
 
         return name
 
@@ -322,17 +305,11 @@ class StudentJoinOrganisationForm(forms.Form):
         if access_code:
             classes = Class.objects.filter(access_code=access_code)
             if len(classes) != 1:
-                raise forms.ValidationError(
-                    "Cannot find the school or club and/or class"
-                )
+                raise forms.ValidationError("Cannot find the school or club and/or class")
             self.klass = classes[0]
             if not self.klass.always_accept_requests:
                 if self.klass.accept_requests_until is None:
-                    raise forms.ValidationError(
-                        "Cannot find the school or club and/or class"
-                    )
+                    raise forms.ValidationError("Cannot find the school or club and/or class")
                 elif (self.klass.accept_requests_until - timezone.now()) < timedelta():
-                    raise forms.ValidationError(
-                        "Cannot find the school or club and/or class"
-                    )
+                    raise forms.ValidationError("Cannot find the school or club and/or class")
         return self.cleaned_data

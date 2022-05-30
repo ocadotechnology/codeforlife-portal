@@ -1,5 +1,6 @@
 from audioop import reverse
 from traceback import print_list
+from turtle import st
 from common.email_messages import accountDeletionEmail
 from common.helpers.emails import NOTIFICATION_EMAIL, delete_contact, send_email, update_email
 from common.models import Student
@@ -9,7 +10,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django import forms
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView, UpdateView
 from django.shortcuts import render
@@ -20,6 +21,8 @@ from portal.forms.registration import DeleteAccountForm
 from portal.helpers.password import check_update_password
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.views.api import anonymise
+from portal.views.home import logout_view
+from django.contrib import messages as messages
 
 
 def _get_form(self, form_class):
@@ -105,45 +108,30 @@ def independentStudentEditAccountView(request):
     template_name = "../templates/portal/play/student_edit_account.html"
     delete_account_confirm = False
 
-    def process_independent_student_edit_account_form(form, student, request):
+    def process_change_email_password_form(request, student, old_anchor):
+        change_email_password_form = IndependentStudentEditAccountForm(request.user, request.POST)
+        changing_email = False
+        changing_password = False
+        new_email = ""
+        if change_email_password_form.is_valid():
+            data = change_email_password_form.cleaned_data
+            # check not default value for CharField
+            changing_password = check_update_password(change_email_password_form, student, request, data)
 
-        data = form
-        if form.is_valid():
-            data = form.cleaned_data
+            # changing_email, new_email = update_email(student, request, data)
 
-        # check not default value for CharField
-        changing_password = check_update_password(form, student, request, data)
+            student.save()
 
-        # allow individual students to update more
-        changing_email, new_email = update_email(student, request, data)
+            anchor = ""
 
-        update_name(student, data)
+            # Reset ratelimit cache after successful account details update
+            clear_ratelimit_cache_for_user(student.username)
 
-        # Reset ratelimit cache after successful account details update
-        clear_ratelimit_cache_for_user(student.new_user.username)
+            messages.success(request, "Your account details have been successfully changed.")
+        else:
+            anchor = old_anchor
 
-        messages.success(request, "Your account details have been changed successfully.")
-
-        if changing_email:
-            logout(request)
-            messages.success(
-                request,
-                "Your email will be changed once you have verified it, until then "
-                "you can still log in with your old email.",
-            )
-
-        if changing_password:
-            logout(request)
-            messages.success(
-                request,
-                "Please login using your new password.",
-            )
-
-    def update_name(student, data):
-        student.new_user.first_name = data["name"]
-        # save all tables
-        student.save()
-        student.new_user.save()
+        return changing_email, new_email, changing_password, anchor
 
     if request.method == "POST":
         if "delete_password" in request.POST:
@@ -177,6 +165,7 @@ def independentStudentEditAccountView(request):
                 return HttpResponseRedirect(reverse_lazy("home"))
 
         else:
+            change_email_password_form = IndependentStudentEditAccountForm(request.user, request.POST)
             if not change_email_password_form.is_valid():
                 messages.warning(request, "Your account was not updated do to incorrect details")
                 return render(
@@ -185,7 +174,12 @@ def independentStudentEditAccountView(request):
                     {"form": change_email_password_form, "delete_account_form": delete_account_form},
                 )
             else:
-                process_independent_student_edit_account_form(change_email_password_form, user, request)
+                (changing_email, new_email, changing_password, anchor) = process_change_email_password_form(
+                    request, request.user, ""
+                )
+                logout(request)
+                messages.success(request, "Please login using your new password.")
+                return HttpResponseRedirect(reverse_lazy("independent_student_login"))
 
     return render(
         request,
@@ -242,7 +236,6 @@ class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
                 send_email(NOTIFICATION_EMAIL, [email], message["subject"], message["message"], message["title"])
                 return HttpResponseRedirect(reverse_lazy("home"))
         else:
-            print("\n-----------" * 100)
             form_class = self.form_class
             form_name = "form"
 
