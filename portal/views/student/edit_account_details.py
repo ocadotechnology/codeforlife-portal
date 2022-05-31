@@ -103,7 +103,7 @@ def independentStudentEditAccountView(request):
     hence using the functional based view
     """
     user = request.user
-    change_email_password_form = IndependentStudentEditAccountForm(user)
+    change_email_password_form = IndependentStudentEditAccountForm(user, initial={"name": user.first_name})
     delete_account_form = DeleteAccountForm(user)
     template_name = "../templates/portal/play/student_edit_account.html"
     delete_account_confirm = False
@@ -177,9 +177,24 @@ def independentStudentEditAccountView(request):
                 (changing_email, new_email, changing_password, anchor) = process_change_email_password_form(
                     request, request.user, ""
                 )
-                logout(request)
-                messages.success(request, "Please login using your new password.")
-                return HttpResponseRedirect(reverse_lazy("independent_student_login"))
+
+                if changing_email:
+                    logout(request)
+                    messages.success(request, "Your account details have been changed successfully.")
+                    messages.success(
+                        request,
+                        "Your email will be changed once you have verified it, until then "
+                        "you can still log in with your old email.",
+                    )
+                    return render(
+                        request,
+                        "portal/email_verification_needed.html",
+                        {"usertype": "INDEP_STUDENT"},
+                    )
+                if changing_password:
+                    logout(request)
+                    messages.success(request, "Your account details have been changed successfully.")
+                    return HttpResponseRedirect(reverse_lazy("independent_student_login"))
 
     return render(
         request,
