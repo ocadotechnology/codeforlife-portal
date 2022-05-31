@@ -13,6 +13,7 @@ from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 from two_factor.utils import devices_for_user
 
+from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.organisation import OrganisationForm
 from portal.forms.registration import DeleteAccountForm
 from portal.forms.teach import (
@@ -64,6 +65,8 @@ def dashboard_teacher_view(request, is_admin):
     teacher = request.user.new_teacher
     school = teacher.school
 
+    invite_teacher_form = InviteTeacherForm()
+
     coworkers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
 
     join_requests = Teacher.objects.filter(pending_join_request=school).order_by(
@@ -113,6 +116,16 @@ def dashboard_teacher_view(request, is_admin):
         elif request.POST.get("show_onboarding_complete") == "1":
             show_onboarding_complete = True
 
+        elif "invite_teacher" in request.POST:
+            # TODO: invite teacher
+            invite_teacher_form = InviteTeacherForm(request.POST)
+            if invite_teacher_form.is_valid():
+                teacher_first_name = invite_teacher_form.cleaned_data["teacher_first_name"]
+                teacher_last_name = invite_teacher_form.cleaned_data["teacher_last_name"]
+                messages.success(
+                    request,
+                    f"You have invited {teacher_first_name} {teacher_last_name} to your school.",
+                )
         elif "delete_account" in request.POST:
             delete_account_form = DeleteAccountForm(request.user, request.POST)
             if not delete_account_form.is_valid():
@@ -161,6 +174,7 @@ def dashboard_teacher_view(request, is_admin):
             "coworkers": coworkers,
             "join_requests": join_requests,
             "requests": requests,
+            "invite_teacher_form": invite_teacher_form,
             "update_school_form": update_school_form,
             "create_class_form": create_class_form,
             "update_account_form": update_account_form,

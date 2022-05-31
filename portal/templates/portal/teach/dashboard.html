@@ -93,12 +93,55 @@
             </section>
             {% if is_admin %}
                 <p>As an administrator of your school or club, you can select other teachers to whom you can provide or revoke
-                    administrative rights. You can also remove teachers from your school or club if they leave, and respond to requests from new teachers
-                    joining your organisation.</p>
-                <section>
-                    <a href="{% url 'invite_teacher' %}" class="button button--primary button--icon" name="invite_teacher">
-                        Invite a teacher<span class="iconify" data-icon="mdi:account-plus"></span></a>
-                </section>
+                    administrative rights. You can also add and remove teachers from your school or club if they leave, and
+                    respond to requests from new teachers joining your organisation. As administrator, you have the ability to
+                    see and amend other teachers' classes. Please bear this in mind when assigning admin rights to other teachers.</p>
+
+                <h5>Invite teachers to your school</h5>
+
+                <form method="post" class="p-0">
+                    {% csrf_token %}
+
+                    {{ invite_teacher_form.non_field_errors }}
+
+                    <div class="row form--row">
+                        <div class="form--row__input col-sm-4 col-md-4">
+                            <div class="input--icon">
+                                {{ invite_teacher_form.teacher_first_name }}<span class="iconify" data-icon="mdi:account-outline"></span>
+                            </div>
+                            <small>{{ invite_teacher_form.teacher_first_name.help_text }}</small>
+                            {{ invite_teacher_form.teacher_first_name.errors }}
+                        </div>
+                        <div class="form--row__input col-sm-4 col-md-4">
+                            <div class="input--icon">
+                                {{ invite_teacher_form.teacher_last_name }}<span class="iconify" data-icon="mdi:account-outline"></span>
+                            </div>
+                            <small>{{ invite_teacher_form.teacher_last_name.help_text }}</small>
+                            {{ invite_teacher_form.teacher_last_name.errors }}
+                        </div>
+                        <div class="form--row__input col-sm-4 col-md-4">
+                            <div class="input--icon">
+                                {{ invite_teacher_form.teacher_email }}<span class="iconify" data-icon="mdi:email-outline"></span>
+                            </div>
+                            <small>{{ invite_teacher_form.teacher_email.help_text }}</small>
+                            {{ invite_teacher_form.teacher_email.errors }}
+                        </div>
+                    </div>
+                    <div class="row form--row">
+                        <div class="form--row__input col-sm-12 col-md-12">
+                            <div class="form__checkbox">
+                                <div class="form__checkbox-input">
+                                    {{ invite_teacher_form.make_admin_ticked }}
+                                </div>
+                                <label for="id_{{ invite_teacher_form.make_admin_ticked.html_name }}">{{ invite_teacher_form.make_admin_ticked.label }}</label>
+                            </div>
+                            {{ invite_teacher_form.make_admin_ticked.errors }}
+                        </div>
+                    </div>
+                    <button id="invite_teacher_button" type="submit" class="button button--primary button--icon m-0" name="invite_teacher">
+                        Invite teacher<span class="iconify" data-icon="mdi:email-outline"></span>
+                    </button>
+                </form>
             {% else %}
                 <h5>You can see which other teachers in your school or club are registered here. Should you need to leave the
                     school or club, you can do so below.</h5>

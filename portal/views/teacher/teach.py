@@ -916,6 +916,7 @@ def count_student_details_click(download_type):
     activity_today.save()
 
 
+# TODO: delete this
 def invite_teacher(request):
     if request.method == "POST":
         invite_teacher_form = InviteTeacherForm(data=request.POST)
