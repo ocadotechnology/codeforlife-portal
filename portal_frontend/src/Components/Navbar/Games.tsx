@@ -37,13 +37,13 @@ const Games = ({ games }: GamesProps) => {
             fontWeight: "100",
             fontSize: "18px",
             marginLeft: "2vw",
-            background: "white",
-            color: "black",
+            background: "#fff",
+            color: "#000",
             boxShadow: "none",
             textTransform: "none",
             "&:hover": {
-              background: "white",
-              color: "black",
+              background: "#fff",
+              color: "#000",
               textDecoration: "underline",
               boxShadow: "none",
             },
@@ -69,9 +69,9 @@ const Games = ({ games }: GamesProps) => {
                 return (
                   <Typography
                     sx={{
-                      color: "black",
+                      color: "#000",
                       marginLeft: "1vw",
-                      background: "white",
+                      background: "#fff",
                       fontSize: "14px",
                       boxShadow:
                         "0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12),0px 3px 5px 0px rgba(0,0,0,0.2)",

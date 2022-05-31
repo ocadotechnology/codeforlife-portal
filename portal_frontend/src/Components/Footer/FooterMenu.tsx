@@ -9,7 +9,7 @@ const Item = styled("div")(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "left",
   fontWeight: "600",
-  color: "white",
+  color: "#fff",
 }));
 
 const FooterMenu = () => {

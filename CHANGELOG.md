@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.8.4 (2022-05-27)
+### Fix
+* Updated mui compatible colours ([#1870](https://github.com/ocadotechnology/codeforlife-portal/issues/1870)) ([`8366b33`](https://github.com/ocadotechnology/codeforlife-portal/commit/8366b33c82f53863dd10fc1575bd2a88b21d9272))
+
 ## v6.8.3 (2022-05-27)
 ### Fix
 * Edit the deployment for react test space ([#1859](https://github.com/ocadotechnology/codeforlife-portal/issues/1859)) ([`a0d22b2`](https://github.com/ocadotechnology/codeforlife-portal/commit/a0d22b231378f140e49d01fde138c1dc06d86766))
