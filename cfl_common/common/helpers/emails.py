@@ -293,7 +293,10 @@ def update_indy_email(user, request, data):
         else:
             # new email to set and verify
             send_verification_email(request, user, new_email)
-    return changing_email, new_email
+    return (
+        changing_email,
+        new_email,
+    )
 
 
 def update_email(user: Teacher or Student, request, data):

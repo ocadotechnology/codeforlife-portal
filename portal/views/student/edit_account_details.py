@@ -119,6 +119,7 @@ def independentStudentEditAccountView(request):
             changing_password = check_update_password(change_email_password_form, student, request, data)
 
             changing_email, new_email = update_indy_email(student, request, data)
+            student.first_name = request.POST["name"]
 
             student.save()
 
