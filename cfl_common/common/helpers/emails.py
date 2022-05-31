@@ -273,6 +273,29 @@ def send_dotmailer_consent_confirmation_email_to_user(user):
     )
 
 
+def update_indy_email(user, request, data):
+    changing_email = False
+    new_email = data["email"]
+
+    if new_email != "" and new_email != user.email:
+        changing_email = True
+        users_with_email = User.objects.filter(email=new_email)
+        # email is already taken
+        if users_with_email.exists():
+            email_message = emailChangeDuplicateNotificationEmail(request, new_email)
+            send_email(
+                NOTIFICATION_EMAIL,
+                [user.email],
+                email_message["subject"],
+                email_message["message"],
+                email_message["subject"],
+            )
+        else:
+            # new email to set and verify
+            send_verification_email(request, user, new_email)
+    return changing_email, new_email
+
+
 def update_email(user: Teacher or Student, request, data):
     changing_email = False
     new_email = data["email"]

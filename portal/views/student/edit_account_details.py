@@ -2,7 +2,7 @@ from audioop import reverse
 from traceback import print_list
 from turtle import st
 from common.email_messages import accountDeletionEmail
-from common.helpers.emails import NOTIFICATION_EMAIL, delete_contact, send_email, update_email
+from common.helpers.emails import NOTIFICATION_EMAIL, delete_contact, send_email, update_email, update_indy_email
 from common.models import Student
 from common.permissions import logged_in_as_student
 from django.contrib import messages as messages
@@ -118,7 +118,7 @@ def independentStudentEditAccountView(request):
             # check not default value for CharField
             changing_password = check_update_password(change_email_password_form, student, request, data)
 
-            # changing_email, new_email = update_email(student, request, data)
+            changing_email, new_email = update_indy_email(student, request, data)
 
             student.save()
 
