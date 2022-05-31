@@ -8,7 +8,7 @@ const Dashboard = () => {
       variant="body1"
       sx={{
         marginLeft: "3rem",
-        color: "black",
+        color: "#000",
         textDecoration: "none",
         textTransform: "none",
         fontWeight: "100",
