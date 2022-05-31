@@ -199,6 +199,7 @@ def independentStudentEditAccountView(request):
                 if changing_password:
                     logout(request)
                     messages.success(request, "Your account details have been changed successfully.")
+                    messages.success(request, "Please login using your new password.")
                     return HttpResponseRedirect(reverse_lazy("independent_student_login"))
 
                 if changing_first_name:
