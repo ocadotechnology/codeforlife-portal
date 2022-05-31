@@ -119,7 +119,7 @@ def independentStudentEditAccountView(request):
             changing_password = check_update_password(change_email_password_form, student, request, data)
 
             changing_email, new_email = update_indy_email(student, request, data)
-            changing_first_name = "" if request.POST["name"] == student.first_name else request.POST["name"]
+            changing_first_name = False if request.POST["name"] == student.first_name else True
             student.first_name = request.POST["name"]
 
             student.save()
@@ -183,7 +183,6 @@ def independentStudentEditAccountView(request):
                     changing_first_name,
                     anchor,
                 ) = process_change_email_password_form(request, request.user, "")
-
                 if changing_email:
                     logout(request)
                     messages.success(request, "Your account details have been changed successfully.")
@@ -203,6 +202,7 @@ def independentStudentEditAccountView(request):
                     return HttpResponseRedirect(reverse_lazy("independent_student_login"))
 
                 if changing_first_name:
+                    messages.success(request, "Your account details have been changed successfully.")
                     return HttpResponseRedirect(reverse_lazy("independent_student_details"))
 
     return render(
