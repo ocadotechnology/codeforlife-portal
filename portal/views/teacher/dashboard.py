@@ -117,11 +117,28 @@ def dashboard_teacher_view(request, is_admin):
             show_onboarding_complete = True
 
         elif "invite_teacher" in request.POST:
-            # TODO: invite teacher
             invite_teacher_form = InviteTeacherForm(request.POST)
             if invite_teacher_form.is_valid():
                 teacher_first_name = invite_teacher_form.cleaned_data["teacher_first_name"]
                 teacher_last_name = invite_teacher_form.cleaned_data["teacher_last_name"]
+                teacher_email = invite_teacher_form.cleaned_data["teacher_email"]
+                teacher_is_admin = invite_teacher_form.cleaned_data["make_admin_ticked"]
+
+                teacher = Teacher.objects.factory(
+                    first_name=teacher_first_name,
+                    last_name=teacher_last_name,
+                    email=teacher_email,
+                    password=None,
+                )
+                teacher.is_admin = teacher_is_admin
+                teacher.school = school
+                teacher.save()
+
+                # TODO: send invitation email
+
+                # Clear form
+                invite_teacher_form = InviteTeacherForm()
+
                 messages.success(
                     request,
                     f"You have invited {teacher_first_name} {teacher_last_name} to your school.",
