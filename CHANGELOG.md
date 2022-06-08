@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v6.8.5 (2022-06-08)
+### Fix
+* Remove JQueryUI ([#1874](https://github.com/ocadotechnology/codeforlife-portal/issues/1874)) ([`4b323fa`](https://github.com/ocadotechnology/codeforlife-portal/commit/4b323fa20c0c970d1fe302a29b02fa51ce42ca5c))
+
+### Documentation
+* Refine templates ([#1871](https://github.com/ocadotechnology/codeforlife-portal/issues/1871)) ([`5281956`](https://github.com/ocadotechnology/codeforlife-portal/commit/5281956bf2ec4774c3ead30a66a0339c81d6d1a4))
+
 ## v6.8.4 (2022-05-27)
 ### Fix
 * Updated mui compatible colours ([#1870](https://github.com/ocadotechnology/codeforlife-portal/issues/1870)) ([`8366b33`](https://github.com/ocadotechnology/codeforlife-portal/commit/8366b33c82f53863dd10fc1575bd2a88b21d9272))
