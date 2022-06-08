@@ -75,15 +75,11 @@ def render_signup_form(request):
     invalid_form = False
 
     teacher_signup_form = TeacherSignupForm(prefix="teacher_signup")
-    independent_student_signup_form = IndependentStudentSignupForm(
-        prefix="independent_student_signup"
-    )
+    independent_student_signup_form = IndependentStudentSignupForm(prefix="independent_student_signup")
 
     if request.method == "POST":
         if "teacher_signup-teacher_email" in request.POST:
-            teacher_signup_form = TeacherSignupForm(
-                request.POST, prefix="teacher_signup"
-            )
+            teacher_signup_form = TeacherSignupForm(request.POST, prefix="teacher_signup")
 
             if not captcha.CAPTCHA_ENABLED:
                 remove_captcha_from_forms(teacher_signup_form)
@@ -118,31 +114,33 @@ def _newsletter_ticked(form_data):
     return form_data["newsletter_ticked"]
 
 
+def send_user_already_registered_email(request, email):
+    email_message = email_messages.userAlreadyRegisteredEmail(request, email)
+    is_email_ratelimited = is_ratelimited(
+        request=request,
+        group=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP,
+        key=lambda *_: email,
+        rate=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_RATE,
+        increment=True,
+    )
+
+    if not is_email_ratelimited:
+        send_email(
+            NOTIFICATION_EMAIL,
+            [email],
+            email_message["subject"],
+            email_message["message"],
+            email_message["subject"],
+        )
+    else:
+        LOGGER.warn(f"Ratelimit teacher {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}")
+
+
 def process_signup_form(request, data):
     email = data["teacher_email"]
 
     if email and User.objects.filter(email=email).exists():
-        email_message = email_messages.userAlreadyRegisteredEmail(request, email)
-        is_email_ratelimited = is_ratelimited(
-            request=request,
-            group=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP,
-            key=lambda *_: email,
-            rate=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_RATE,
-            increment=True,
-        )
-
-        if not is_email_ratelimited:
-            send_email(
-                NOTIFICATION_EMAIL,
-                [email],
-                email_message["subject"],
-                email_message["message"],
-                email_message["subject"],
-            )
-        else:
-            LOGGER.warn(
-                f"Ratelimit teacher {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}"
-            )
+        send_user_already_registered_email(request, email)
     else:
         teacher = Teacher.objects.factory(
             first_name=data["teacher_first_name"],
@@ -153,9 +151,7 @@ def process_signup_form(request, data):
 
         if _newsletter_ticked(data):
             user = teacher.user.user
-            add_to_dotmailer(
-                user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER
-            )
+            add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
 
         send_verification_email(request, teacher.user.user)
 
@@ -171,9 +167,7 @@ def process_independent_student_signup_form(request, data):
     email = data["email"]
 
     if email and User.objects.filter(email=email).exists():
-        email_message = email_messages.userAlreadyRegisteredEmail(
-            request, email, is_independent_student=True
-        )
+        email_message = email_messages.userAlreadyRegisteredEmail(request, email, is_independent_student=True)
         is_email_ratelimited = is_ratelimited(
             request=request,
             group=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP,
@@ -191,9 +185,7 @@ def process_independent_student_signup_form(request, data):
                 email_message["subject"],
             )
         else:
-            LOGGER.warn(
-                f"Ratelimit independent {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}"
-            )
+            LOGGER.warn(f"Ratelimit independent {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}")
         return render(
             request,
             "portal/email_verification_needed.html",
@@ -209,9 +201,7 @@ def process_independent_student_signup_form(request, data):
 
     if _newsletter_ticked(data):
         user = student.new_user
-        add_to_dotmailer(
-            user.first_name, user.last_name, user.email, DotmailerUserType.STUDENT
-        )
+        add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.STUDENT)
 
     send_verification_email(request, student.new_user)
 

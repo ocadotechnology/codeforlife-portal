@@ -1,34 +1,32 @@
 from common import email_messages
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email, update_email
 from common.helpers.generators import get_random_username
-from common.models import Class, Student, Teacher, JoinReleaseStudent
+from common.models import Class, JoinReleaseStudent, Student, Teacher
 from common.permissions import logged_in_as_teacher
 from common.utils import using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
-from two_factor.utils import devices_for_user
-
 from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.organisation import OrganisationForm
 from portal.forms.registration import DeleteAccountForm
-from portal.forms.teach import (
-    ClassCreationForm,
-    TeacherAddExternalStudentForm,
-    TeacherEditAccountForm,
-)
+from portal.forms.teach import ClassCreationForm, TeacherAddExternalStudentForm, TeacherEditAccountForm
 from portal.helpers.decorators import ratelimit
 from portal.helpers.password import check_update_password
 from portal.helpers.ratelimit import (
     RATELIMIT_LOGIN_GROUP,
-    RATELIMIT_METHOD,
     RATELIMIT_LOGIN_RATE,
+    RATELIMIT_METHOD,
     clear_ratelimit_cache_for_user,
 )
+from portal.views.home import send_user_already_registered_email
+from two_factor.utils import devices_for_user
+
 from .teach import create_class
 
 
@@ -119,29 +117,34 @@ def dashboard_teacher_view(request, is_admin):
         elif "invite_teacher" in request.POST:
             invite_teacher_form = InviteTeacherForm(request.POST)
             if invite_teacher_form.is_valid():
-                teacher_first_name = invite_teacher_form.cleaned_data["teacher_first_name"]
-                teacher_last_name = invite_teacher_form.cleaned_data["teacher_last_name"]
-                teacher_email = invite_teacher_form.cleaned_data["teacher_email"]
-                teacher_is_admin = invite_teacher_form.cleaned_data["make_admin_ticked"]
+                data = invite_teacher_form.cleaned_data
+                invited_teacher_first_name = data["teacher_first_name"]
+                invited_teacher_last_name = data["teacher_last_name"]
+                invited_teacher_email = data["teacher_email"]
+                invited_teacher_is_admin = data["make_admin_ticked"]
 
-                teacher = Teacher.objects.factory(
-                    first_name=teacher_first_name,
-                    last_name=teacher_last_name,
-                    email=teacher_email,
-                    password=None,
-                )
-                teacher.is_admin = teacher_is_admin
-                teacher.school = school
-                teacher.save()
+                if invited_teacher_email and User.objects.filter(email=invited_teacher_email).exists():
+                    send_user_already_registered_email(request=request, email=invited_teacher_email)
+                else:
+                    invited_teacher = Teacher.objects.factory(
+                        first_name=invited_teacher_first_name,
+                        last_name=invited_teacher_last_name,
+                        email=invited_teacher_email,
+                        password=None,
+                    )
+                    invited_teacher.is_admin = invited_teacher_is_admin
+                    invited_teacher.school = school
+                    invited_teacher.invited_by = teacher
+                    invited_teacher.save()
 
-                # TODO: send invitation email
+                    # TODO: send invitation email
 
                 # Clear form
                 invite_teacher_form = InviteTeacherForm()
 
                 messages.success(
                     request,
-                    f"You have invited {teacher_first_name} {teacher_last_name} to your school.",
+                    f"You have invited {invited_teacher_first_name} {invited_teacher_last_name} to your school.",
                 )
         elif "delete_account" in request.POST:
             delete_account_form = DeleteAccountForm(request.user, request.POST)

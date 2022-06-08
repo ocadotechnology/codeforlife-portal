@@ -121,6 +121,7 @@ class Teacher(models.Model):
         on_delete=models.SET_NULL,
     )
     blocked_time = models.DateTimeField(null=True)
+    invited_by = models.ForeignKey("self", related_name="invited_teachers", null=True, on_delete=models.SET_NULL)
 
     objects = TeacherModelManager()
 
@@ -236,9 +237,7 @@ class StudentModelManager(models.Manager):
         user = User.objects.create_user(username=self.get_random_username(), password=password, first_name=name)
         user_profile = UserProfile.objects.create(user=user)
 
-        return Student.objects.create(
-            class_field=klass, user=user_profile, new_user=user, login_id=login_id
-        )
+        return Student.objects.create(class_field=klass, user=user_profile, new_user=user, login_id=login_id)
 
     def independentStudentFactory(self, name, email, password):
         user = User.objects.create_user(username=email, email=email, password=password, first_name=name)
