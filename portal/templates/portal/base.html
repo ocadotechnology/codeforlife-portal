@@ -227,13 +227,8 @@
 
     // enable it or disable it depending on age verification checkbox
     $('#id_age_verification').on("click", function() {
-      newsletterSubmitButton.prop("disabled", !this.checked);
-        if(this.checked) {
-            newsletterSubmitButton.removeClass("disabled");
-        }
-        else {
-            newsletterSubmitButton.addClass("disabled");
-        }
+        newsletterSubmitButton.prop("disabled", !this.checked);
+        newsletterSubmitButton.toggleClass("disabled", !this.checked);
     });
 </script>
 {% endblock scripts %}
