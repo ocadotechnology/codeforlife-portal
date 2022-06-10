@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.8.6 (2022-06-10)
+### Fix
+* Set referrer policy to preferred value ([#1877](https://github.com/ocadotechnology/codeforlife-portal/issues/1877)) ([`23869a2`](https://github.com/ocadotechnology/codeforlife-portal/commit/23869a2d990fc614c1091758e71584ca60456834))
+
 ## v6.8.5 (2022-06-08)
 ### Fix
 * Remove JQueryUI ([#1874](https://github.com/ocadotechnology/codeforlife-portal/issues/1874)) ([`4b323fa`](https://github.com/ocadotechnology/codeforlife-portal/commit/4b323fa20c0c970d1fe302a29b02fa51ce42ca5c))
