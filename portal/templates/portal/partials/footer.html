@@ -32,7 +32,15 @@
                             <small>{{ news_form.email.help_text }}</small>
                             {{ news_form.email.errors }}
                         </div>
-                        <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button--primary">Sign up</button>
+                    </div>
+                    <div class="form--row justify-content-between">
+                        <div class="form__checkbox">
+                            <div class="form__checkbox-input">
+                                {{ news_form.age_verification }}
+                            </div>
+                            <p class="p-0">Please confirm that you are over 18.</p>
+                        </div>
+                        <button type="submit" id="submit_newsletter" name="submit" value="Submit" class="button button--primary m-0">Sign up</button>
                     </div>
                 </form>
             </div>

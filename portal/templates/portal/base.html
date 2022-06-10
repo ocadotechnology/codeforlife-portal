@@ -219,6 +219,23 @@
         FreshworksWidget('open');
     });
 </script>
+<script>
+    // disable newsletter signup button by default
+    const newsletterSubmitButton = $('#submit_newsletter');
+    newsletterSubmitButton.addClass("disabled");
+    newsletterSubmitButton.prop("disabled", true);
+
+    // enable it or disable it depending on age verification checkbox
+    $('#id_age_verification').on("click", function() {
+      newsletterSubmitButton.prop("disabled", !this.checked);
+        if(this.checked) {
+            newsletterSubmitButton.removeClass("disabled");
+        }
+        else {
+            newsletterSubmitButton.addClass("disabled");
+        }
+    });
+</script>
 {% endblock scripts %}
 </body>
 </html>
