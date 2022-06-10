@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.8.7 (2022-06-10)
+### Fix
+* Add age verification checkbox to newsletter form ([#1876](https://github.com/ocadotechnology/codeforlife-portal/issues/1876)) ([`8663a79`](https://github.com/ocadotechnology/codeforlife-portal/commit/8663a79a81743950c0fd9a8ab713f55510d5bda6))
+
 ## v6.8.6 (2022-06-10)
 ### Fix
 * Set referrer policy to preferred value ([#1877](https://github.com/ocadotechnology/codeforlife-portal/issues/1877)) ([`23869a2`](https://github.com/ocadotechnology/codeforlife-portal/commit/23869a2d990fc614c1091758e71584ca60456834))
