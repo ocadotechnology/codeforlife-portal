@@ -177,12 +177,15 @@ def studentJoinRequestRejectedEmail(request, schoolName, accessCode):
     }
 
 
-def inviteTeacherEmail(request):
+def inviteTeacherEmail(request, schoolName, token):
+    url = f"{request.build_absolute_uri(reverse('invited_teacher', kwargs={'token': token}))} "
+
     return {
         "subject": f"You've been invited to join Code for Life",
         "message": (
-            f"A colleague at your school or code club has invited you to become part of "
-            f"Code for Life.\n\nPlease register your details to get started."
+            f"A teacher at the school '{schoolName}' has invited you to join the Code for Life account. To complete "
+            f"the registration process, please create a password by following the link below.\n\n"
+            f"{url}"
         ),
     }
 

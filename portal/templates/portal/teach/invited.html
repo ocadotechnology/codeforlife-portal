@@ -1,0 +1,64 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% load app_tags %}
+
+{% block content %}
+<div class="container registration justify-content-center">
+    <div class="form--register--text form--register form--register--teacher ml-0 col-xs-6">
+        <div class="form-div form">
+            <h4>Complete registration</h4>
+            <div class="row form--row">
+                <p class="semi-bold">
+                    Please create a password to complete your onboarding. It should be 10 characters long and a mix of
+                    upper and lower case letters, numbers and special characters, making it hard to guess.
+                </p>
+            </div>
+
+            <form class="d-flex flex-column" method="post" id="form-invited-teacher" autocomplete="off">
+
+                {% csrf_token %}
+
+                <div class="row form--row">
+                    <label for="{{ invited_teacher_form.teacher_password.auto_id }}"></label>
+                    <div class="input--icon">
+                        {{ invited_teacher_form.teacher_password }}<span class="iconify" data-icon="mdi:security"></span>
+                    </div>
+                    <small>{{ invited_teacher_form.teacher_password.help_text }}</small>
+                    {{ invited_teacher_form.teacher_password.errors }}
+                </div>
+                <div class="row form--row">
+                    <label for="{{ invited_teacher_form.teacher_confirm_password.auto_id }}"></label>
+                    <div class="input--icon">
+                        {{ invited_teacher_form.teacher_confirm_password }}<span class="iconify" data-icon="mdi:security"></span>
+                    </div>
+                    <small>{{ invited_teacher_form.teacher_confirm_password.help_text }}</small>
+                    {{ invited_teacher_form.teacher_confirm_password.errors }}
+                </div>
+
+                <div class="row--under">
+                    <div class="password-strength-container">
+                        <div id="teacher-password-sign" class="password-strength-sign"></div>
+                        <div id="teacher-password-text" class="password-strength-text"></div>
+                    </div>
+                </div>
+
+                <div class="row form--row">
+                    {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=invited_teacher_form.newsletter_ticked %}
+                </div>
+
+                <div class="d-flex justify-content-end row">
+                    <button class="button button--home button--primary teacher--home--button button--icon" type="submit" name="teacher_signup"> Register<span class="iconify" data-icon="mdi:chevron-right"></span></button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
+<script>
+    var TEACHER_PASSWORD_FIELD_ID = '{{ invited_teacher_form.teacher_password.auto_id }}';
+    var INDEP_STUDENT_PASSWORD_FIELD_ID = '{{ invited_teacher_form.teacher_password.auto_id }}';
+</script>
+
+{% endblock content %}

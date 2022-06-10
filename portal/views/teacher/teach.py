@@ -33,7 +33,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 
-from portal.forms.invite_teacher import InviteTeacherForm
+from portal.forms.invite_teacher import InvitedTeacherForm
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
     BaseTeacherMoveStudentsDisambiguationFormSet,
@@ -916,20 +916,13 @@ def count_student_details_click(download_type):
     activity_today.save()
 
 
-# TODO: delete this
-def invite_teacher(request):
-    if request.method == "POST":
-        invite_teacher_form = InviteTeacherForm(data=request.POST)
-        if invite_teacher_form.is_valid():
-            email_address = invite_teacher_form.cleaned_data["email"]
-            email_message = email_messages.inviteTeacherEmail(request)
-            send_email(
-                INVITE_FROM,
-                [email_address],
-                email_message["subject"],
-                email_message["message"],
-                email_message["subject"],
-            )
-            return render(request, "portal/email_invitation_sent.html")
+def invited_teacher(request, token):
+    # TODO: get teacher details from token
 
-    return render(request, "portal/teach/invite.html", {"invite_form": InviteTeacherForm()})
+    if request.method == "POST":
+        pass
+        # TODO: set password for teacher
+
+    # TODO: activate email
+
+    return render(request, "portal/teach/invited.html", {"invited_teacher_form": InvitedTeacherForm()})
