@@ -1,5 +1,4 @@
 from typing import Any, Dict, Optional, List
-from django.views.decorators.http import require_POST
 
 from aimmo.models import Game
 from common import email_messages
@@ -13,7 +12,6 @@ from common.utils import LoginRequiredNoErrorMixin
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.query import QuerySet
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -23,9 +21,6 @@ from game.models import Level, Attempt
 
 from portal.forms.play import StudentJoinOrganisationForm
 
-from portal.forms.registration import DeleteAccountForm
-
-from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import FormView
 
 
@@ -77,11 +72,6 @@ class IndependentStudentDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin
 
     def test_func(self) -> Optional[bool]:
         return logged_in_as_independent_student(self.request.user)
-
-    def hello(self, kwargs):
-        context = super().form(**kwargs)
-        context["hello"] = "hi there"
-        return context
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         levels = Level.objects.sorted_levels()

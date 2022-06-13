@@ -3,8 +3,6 @@ from __future__ import absolute_import
 from . import home_page
 from .base_page import BasePage
 
-from time import sleep
-
 
 class EmailVerificationNeededPage(BasePage):
     def __init__(self, browser):

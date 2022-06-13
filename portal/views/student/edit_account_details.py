@@ -1,18 +1,14 @@
-from audioop import reverse
-from traceback import print_list
-from turtle import st
 from common.email_messages import accountDeletionEmail
-from common.helpers.emails import NOTIFICATION_EMAIL, delete_contact, send_email, update_email, update_indy_email
+from common.helpers.emails import NOTIFICATION_EMAIL, delete_contact, send_email, update_indy_email
 from common.models import Student
 from common.permissions import logged_in_as_student
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django import forms
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic.edit import FormView, UpdateView
+from django.views.generic.edit import FormView
 from django.shortcuts import render
 
 from portal.forms.play import StudentEditAccountForm, IndependentStudentEditAccountForm
@@ -21,7 +17,6 @@ from portal.forms.registration import DeleteAccountForm
 from portal.helpers.password import check_update_password
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.views.api import anonymise
-from portal.views.home import logout_view
 from django.contrib import messages as messages
 
 
@@ -215,82 +210,6 @@ def independentStudentEditAccountView(request):
             "delete_account_confirm": delete_account_confirm,
         },
     )
-
-
-class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
-
-    login_url = reverse_lazy("independent_student_login")
-    form_class = IndependentStudentEditAccountForm
-    # second form for account deletion
-    second_form_class = DeleteAccountForm
-    template_name = "../templates/portal/play/student_edit_account.html"
-    model = Student
-    initial = {"name": "Could not find name"}
-    changing_email = False
-    changing_password = False
-
-    # adding additional form into the forms simultaneously
-    def get_context_data(self, **kwargs):
-        context = super(IndependentStudentEditAccountView, self).get_context_data(**kwargs)
-        if "form" not in context:
-            context["form"] = self.form_class(request=self.request)
-        if "delete_account_form" not in context:
-            context["delete_account_form"] = self.second_form_class(user=self.request.user)
-        return context
-
-    def get_form(self, form_class=None):
-        return _get_form(self, form_class)
-
-    def post(self, request, *args, **kwargs):
-        # making sure not both forms are submited
-
-        if "delete_account" in request.POST:
-            user = request.user
-            password = request.POST.get("delete_password")
-            form_class = self.second_form_class
-            form_name = "delete_account_form"
-            if not user.check_password(password):
-                messages.warning(request, "Your account was not deleted due to incorrect password.")
-            else:
-                email = user.email
-                anonymise(user)
-                # remove the user from the newsletter subscription
-                if bool(request.POST.get("unsubscribe_newsletter")):
-                    delete_contact(email)
-                message = accountDeletionEmail(request)
-                send_email(NOTIFICATION_EMAIL, [email], message["subject"], message["message"], message["title"])
-                return HttpResponseRedirect(reverse_lazy("home"))
-        else:
-            form_class = self.form_class
-            form_name = "form"
-
-        form = self.get_form(form_class)
-
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-    def get_form_kwargs(self):
-        kwargs = super(IndependentStudentEditAccountView, self).get_form_kwargs()
-        kwargs["initial"]["name"] = "{}{}".format(self.request.user.first_name, self.request.user.last_name)
-        return kwargs
-
-    def get_success_url(self):
-        if self.changing_email:
-            return reverse_lazy("email_verification")
-        elif self.changing_password:
-            return reverse_lazy("independent_student_login")
-        else:
-            return reverse_lazy("independent_student_details")
-
-    def form_valid(self, form):
-        return _process_form(
-            self,
-            self.process_independent_student_edit_account_form,
-            form,
-            IndependentStudentEditAccountView,
-        )
 
 
 @login_required(login_url=reverse_lazy("home"))

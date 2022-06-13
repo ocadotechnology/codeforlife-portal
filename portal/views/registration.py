@@ -24,7 +24,6 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_POST
-from responses import POST
 
 from deploy import captcha
 from portal import app_settings

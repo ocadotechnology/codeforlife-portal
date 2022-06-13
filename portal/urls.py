@@ -68,7 +68,6 @@ from portal.views.registration import (
 
 from portal.views.student.edit_account_details import (
     independentStudentEditAccountView,
-    IndependentStudentEditAccountView,
     SchoolStudentEditAccountView,
     student_edit_account,
 )

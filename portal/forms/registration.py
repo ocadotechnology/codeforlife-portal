@@ -136,10 +136,6 @@ class StudentPasswordResetForm(PasswordResetForm):
         return email
 
 
-class TestForm(forms.Form):
-    name = forms.CharField(label="Hello")
-
-
 class DeleteAccountForm(forms.Form):
     delete_password = forms.CharField(
         required=True,

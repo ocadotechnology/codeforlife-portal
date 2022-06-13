@@ -12,7 +12,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
-from portal.forms.teach import check_passwords
 from portal.helpers.password import PasswordStrength, form_clean_password
 from portal.helpers.regexes import ACCESS_CODE_PATTERN
 from portal.templatetags.app_tags import is_verified
