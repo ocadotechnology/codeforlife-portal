@@ -2,20 +2,15 @@ from __future__ import division
 
 import csv
 import json
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 from enum import Enum
 from functools import partial, wraps
 from uuid import uuid4
 
 from common import email_messages
 from common.helpers.emails import INVITE_FROM, send_email, send_verification_email
-from common.helpers.generators import (
-    generate_access_code,
-    generate_login_id,
-    generate_password,
-    get_hashed_login_id,
-)
-from common.models import Class, Student, Teacher, DailyActivity, JoinReleaseStudent
+from common.helpers.generators import generate_access_code, generate_login_id, generate_password, get_hashed_login_id
+from common.models import Class, DailyActivity, JoinReleaseStudent, SchoolTeacherInvitation, Student, Teacher
 from common.permissions import logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -28,11 +23,6 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from past.utils import old_div
-from reportlab.lib.colors import black, red
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.utils import ImageReader
-from reportlab.pdfgen import canvas
-
 from portal.forms.invite_teacher import InvitedTeacherForm
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
@@ -47,6 +37,10 @@ from portal.forms.teach import (
     TeacherMoveStudentsDestinationForm,
     TeacherSetStudentPass,
 )
+from reportlab.lib.colors import black, red
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen import canvas
 
 STUDENT_PASSWORD_LENGTH = 6
 REMINDER_CARDS_PDF_ROWS = 8
@@ -916,13 +910,27 @@ def count_student_details_click(download_type):
     activity_today.save()
 
 
+def process_teacher_invitation(request, token):
+    try:
+        invitation = SchoolTeacherInvitation.objects.get(token=token, expiry__gt=timezone.now())
+    except SchoolTeacherInvitation.DoesNotExist:
+        return "Invitation does not exist or it has expired."
+
+    if User.objects.filter(email=invitation.invited_teacher_email).exists():
+        return "An account is already registered with this email address. Please delete the account first, then access this page again."
+    else:
+        if request.method == "POST":
+            pass
+            # TODO: create teacher account
+
+        # TODO: activate email
+
+
 def invited_teacher(request, token):
-    # TODO: get teacher details from token
+    error_message = process_teacher_invitation(request, token)
 
-    if request.method == "POST":
-        pass
-        # TODO: set password for teacher
-
-    # TODO: activate email
-
-    return render(request, "portal/teach/invited.html", {"invited_teacher_form": InvitedTeacherForm()})
+    return render(
+        request,
+        "portal/teach/invited.html",
+        {"invited_teacher_form": InvitedTeacherForm(), "error_message": error_message},
+    )

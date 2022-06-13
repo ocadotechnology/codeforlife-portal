@@ -7,6 +7,12 @@
     <div class="form--register--text form--register form--register--teacher ml-0 col-xs-6">
         <div class="form-div form">
             <h4>Complete registration</h4>
+
+            {% if error_message %}
+            <ul class="errorlist">
+                <li>{{ error_message }}</li>
+            </ul>
+            {% else %}
             <div class="row form--row">
                 <p class="semi-bold">
                     Please create a password to complete your onboarding. It should be 10 characters long and a mix of
@@ -51,6 +57,7 @@
                 </div>
 
             </form>
+            {% endif %}
         </div>
     </div>
 </div>
