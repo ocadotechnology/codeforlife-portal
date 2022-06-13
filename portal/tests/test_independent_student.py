@@ -113,6 +113,8 @@ class TestIndependentStudent(TestCase):
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
 
+from time import sleep
+
 
 class TestIndependentStudentFrontend(BaseTest):
     def test_delete_indy_account(self):
@@ -135,6 +137,10 @@ class TestIndependentStudentFrontend(BaseTest):
 
         delete_account_button = page.browser.find_element_by_id("delete_account_button")
         delete_account_button.click()
+        assert (
+            page.browser.find_element_by_css_selector("#form-delete-indy-account > ul > li").text
+            == "Incorrect password"
+        )
 
         # now delete the account
 
