@@ -140,6 +140,18 @@ class Teacher(models.Model):
         return f"{self.new_user.first_name} {self.new_user.last_name}"
 
 
+class SchoolTeacherInvitation(models.Model):
+    token = models.CharField(max_length=32)
+    school = models.ForeignKey(School, related_name="teacher_invitations", null=True, on_delete=models.SET_NULL)
+    from_teacher = models.ForeignKey(Teacher, related_name="school_invitations", null=True, on_delete=models.SET_NULL)
+    invited_teacher_first_name = models.CharField(max_length=150)  # Same as User model
+    invited_teacher_last_name = models.CharField(max_length=150)  # Same as User model
+    invited_teacher_email = models.EmailField()  # Same as User model
+    invited_teacher_is_admin = models.BooleanField(default=False)
+    expiry = models.DateTimeField()
+    creation_time = models.DateTimeField(default=timezone.now, null=True)
+
+
 class ClassModelManager(models.Manager):
     def all_members(self, user):
         members = []

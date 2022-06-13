@@ -177,16 +177,26 @@ def studentJoinRequestRejectedEmail(request, schoolName, accessCode):
     }
 
 
-def inviteTeacherEmail(request, schoolName, token):
+def inviteTeacherEmail(request, schoolName, token, account_exists):
     url = f"{request.build_absolute_uri(reverse('invited_teacher', kwargs={'token': token}))} "
+
+    if account_exists:
+        message = (
+            f"A teacher at the school '{schoolName}' has invited you to join Code for Life. You already have an "
+            f"account with this email address, so you will need to delete it first. After that, to complete the "
+            f"registration process, please create a password by following the link below.\n\n"
+            f"{url}"
+        )
+    else:
+        message = (
+            f"A teacher at the school '{schoolName}' has invited you to join Code for Life. To complete "
+            f"the registration process, please create a password by following the link below.\n\n"
+            f"{url}"
+        )
 
     return {
         "subject": f"You've been invited to join Code for Life",
-        "message": (
-            f"A teacher at the school '{schoolName}' has invited you to join the Code for Life account. To complete "
-            f"the registration process, please create a password by following the link below.\n\n"
-            f"{url}"
-        ),
+        "message": message,
     }
 
 
