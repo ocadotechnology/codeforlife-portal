@@ -150,6 +150,7 @@ class SchoolTeacherInvitation(models.Model):
     invited_teacher_is_admin = models.BooleanField(default=False)
     expiry = models.DateTimeField()
     creation_time = models.DateTimeField(default=timezone.now, null=True)
+    is_active = models.BooleanField(default=True)
 
 
 class ClassModelManager(models.Manager):
