@@ -182,15 +182,16 @@ def inviteTeacherEmail(request, schoolName, token, account_exists):
 
     if account_exists:
         message = (
-            f"A teacher at the school '{schoolName}' has invited you to join Code for Life. You already have an "
-            f"account with this email address, so you will need to delete it first. After that, to complete the "
-            f"registration process, please create a password by following the link below.\n\n"
+            f"A teacher at the school '{schoolName}' has invited you to join Code for Life. 🎉 Unfortunately, you "
+            f"already have an account with this email address, so you will need to either delete it first or change "
+            f"the email registered to your other account. After that, you can complete the registration process, by "
+            f"following the link below."
             f"{url}"
         )
     else:
         message = (
-            f"A teacher at the school '{schoolName}' has invited you to join Code for Life. To complete "
-            f"the registration process, please create a password by following the link below.\n\n"
+            f"A teacher at the school '{schoolName}' has invited you to join Code for Life. 🎉 To complete the "
+            f"registration process, please create a password by following the link below.\n\n"
             f"{url}"
         )
 

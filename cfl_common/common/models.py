@@ -140,6 +140,12 @@ class Teacher(models.Model):
         return f"{self.new_user.first_name} {self.new_user.last_name}"
 
 
+class SchoolTeacherInvitationModelManager(models.Manager):
+    # Filter out inactive invitations by default
+    def get_queryset(self):
+        return super().get_queryset().filter(is_active=True)
+
+
 class SchoolTeacherInvitation(models.Model):
     token = models.CharField(max_length=32)
     school = models.ForeignKey(School, related_name="teacher_invitations", null=True, on_delete=models.SET_NULL)
@@ -151,6 +157,15 @@ class SchoolTeacherInvitation(models.Model):
     expiry = models.DateTimeField()
     creation_time = models.DateTimeField(default=timezone.now, null=True)
     is_active = models.BooleanField(default=True)
+
+    objects = SchoolTeacherInvitationModelManager()
+
+    def anonymise(self):
+        self.invited_teacher_first_name = uuid4().hex
+        self.invited_teacher_last_name = uuid4().hex
+        self.invited_teacher_email = uuid4().hex
+        self.is_active = False
+        self.save()
 
 
 class ClassModelManager(models.Manager):

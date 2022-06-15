@@ -24,17 +24,3 @@ class InviteTeacherForm(forms.Form):
         initial=False,
         required=False,
     )
-
-
-class InvitedTeacherForm(forms.Form):
-
-    teacher_password = forms.CharField(
-        help_text="Enter a password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
-    )
-    teacher_confirm_password = forms.CharField(
-        help_text="Repeat password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Repeat password"}),
-    )
-
-    newsletter_ticked = forms.BooleanField(widget=forms.CheckboxInput(), initial=False, required=False)
