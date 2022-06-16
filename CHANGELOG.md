@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.8.8 (2022-06-16)
+### Fix
+* Indy delete account ([#1872](https://github.com/ocadotechnology/codeforlife-portal/issues/1872)) ([`46e088c`](https://github.com/ocadotechnology/codeforlife-portal/commit/46e088c8c7a52ac4f1676bbd04db5ec176839866))
+
 ## v6.8.7 (2022-06-10)
 ### Fix
 * Add age verification checkbox to newsletter form ([#1876](https://github.com/ocadotechnology/codeforlife-portal/issues/1876)) ([`8663a79`](https://github.com/ocadotechnology/codeforlife-portal/commit/8663a79a81743950c0fd9a8ab713f55510d5bda6))
