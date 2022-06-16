@@ -157,18 +157,6 @@ def dashboard_teacher_view(request, is_admin):
                 # Clear form
                 invite_teacher_form = InviteTeacherForm()
 
-                # TODO: move this to when teacher completes registration
-                # invited_teacher = Teacher.objects.factory(
-                #     first_name=invited_teacher_first_name,
-                #     last_name=invited_teacher_last_name,
-                #     email=invited_teacher_email,
-                #     password=None,
-                # )
-                # invited_teacher.is_admin = invited_teacher_is_admin
-                # invited_teacher.school = school
-                # invited_teacher.invited_by = teacher
-                # invited_teacher.save()
-
         elif "delete_account" in request.POST:
             delete_account_form = DeleteAccountForm(request.user, request.POST)
             if not delete_account_form.is_valid():
