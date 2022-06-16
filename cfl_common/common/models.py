@@ -152,6 +152,10 @@ class SchoolTeacherInvitation(models.Model):
     creation_time = models.DateTimeField(default=timezone.now, null=True)
     is_active = models.BooleanField(default=True)
 
+    @property
+    def is_expired(self):
+        return self.expiry < timezone.now()
+
 
 class ClassModelManager(models.Manager):
     def all_members(self, user):
