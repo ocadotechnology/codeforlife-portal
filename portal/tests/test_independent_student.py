@@ -112,10 +112,6 @@ class TestIndependentStudent(TestCase):
 
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
-
-from time import sleep
-
-
 class TestIndependentStudentFrontend(BaseTest):
     def test_delete_indy_account(self):
         page = self.go_to_homepage()
