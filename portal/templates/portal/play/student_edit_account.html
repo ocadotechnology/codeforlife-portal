@@ -26,7 +26,7 @@
     </h4></section>
 
     {% if user.new_student.class_field %}
-        <p>You may edit your password below. It must be long enough and hard enough to stop your friends guessing it and 
+        <p>You may edit your password below. It must be long enough and hard enough to stop your friends guessing it and
             stealing all of your hard work. Choose something memorable though.</p>
         <p>If you have any problems, ask a teacher to help you.</p>
     {% else %}
@@ -111,6 +111,46 @@
         <h5>Join a school or club</h5>
         <p>To find out about linking your Code For Life account with a school or club, click 'Join'.</p>
         <a class="button button--primary" href="{% url 'student_join_organisation' %}">Join</a>
+    </div>
+</div>
+<div id="delete-indy-account" class="background">
+    <div class="container">
+        <h5>Delete account</h5>
+        <p>If you no longer wish to have a Code for Life account, you can delete it by confirming below.
+            You will receive an email to confirm this decision.
+        </p>
+        <p><b>This can't be reversed.</b>
+        </p>
+
+        <form method="post" id="form-delete-indy-account">
+
+        {% csrf_token %}
+
+        {{ delete_account_form.non_field_errors }}
+
+        <div class="row form--row">
+            <div class="form--row__input col-sm-6 col-md-4">
+                <div class="input--icon">
+                         {{ delete_account_form.delete_password }}
+                    <span class="iconify" data-icon="mdi:security"></span>
+                </div>
+                <small>{{ delete_account_form.delete_password.help_text }}</small>
+                {{ delete_account_form.delete_password.errors }}
+            </div>
+            <div class="form--row__input col-sm-6 col-md-8">
+                <div class="form__checkbox">
+                    <div class="form__checkbox-input">
+                        {{ delete_account_form.unsubscribe_newsletter }}
+                    </div>
+                    <label for="id_{{ delete_account_form.unsubscribe_newsletter.html_name }}">{{ delete_account_form.unsubscribe_newsletter.label }}</label>
+                </div>
+                {{ delete_account_form.unsubscribe_newsletter.errors }}
+            </div>
+        </div>
+        <button id="delete_account_button" class="button button--primary button--primary--danger button--icon" name="delete_account">
+            Delete account <span class="iconify" data-icon="mdi:delete-outline"></span>
+        </button>
+        </form>
     </div>
 </div>
 {% endif %}

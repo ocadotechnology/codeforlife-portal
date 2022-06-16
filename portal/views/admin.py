@@ -1,21 +1,10 @@
-from builtins import str
-from datetime import timedelta
-from time import sleep
-
-from common.models import Teacher, School, Class, Student
 from django.contrib import messages as messages
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import permission_required, login_required
-from django.contrib.auth.models import User
 from django.contrib.auth.views import (
     PasswordChangeView,
     PasswordChangeDoneView,
 )
-from django.db.models import Avg, Count, Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from django.utils import timezone
-from django_otp import device_classes
 from rest_framework.reverse import reverse_lazy
 
 from portal.forms.admin import AdminChangeOwnPasswordForm

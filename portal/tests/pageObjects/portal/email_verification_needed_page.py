@@ -7,7 +7,6 @@ from .base_page import BasePage
 class EmailVerificationNeededPage(BasePage):
     def __init__(self, browser):
         super(EmailVerificationNeededPage, self).__init__(browser)
-
         assert self.on_correct_page("emailVerificationNeeded_page")
 
     def return_to_home_page(self):

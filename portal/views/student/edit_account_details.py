@@ -1,4 +1,5 @@
-from common.helpers.emails import update_email
+from common.email_messages import accountDeletionEmail
+from common.helpers.emails import NOTIFICATION_EMAIL, delete_contact, send_email, update_indy_email
 from common.models import Student
 from common.permissions import logged_in_as_student
 from django.contrib import messages as messages
@@ -8,10 +9,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
+from django.shortcuts import render
 
 from portal.forms.play import StudentEditAccountForm, IndependentStudentEditAccountForm
+from portal.forms.registration import DeleteAccountForm
+
 from portal.helpers.password import check_update_password
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
+from portal.views.api import anonymise
+from django.contrib import messages as messages
 
 
 def _get_form(self, form_class):
@@ -68,9 +74,7 @@ class SchoolStudentEditAccountView(LoginRequiredMixin, FormView):
         # check not default value for CharField
         changing_password = check_update_password(form, student.new_user, request, data)
 
-        messages.success(
-            request, "Your account details have been changed successfully."
-        )
+        messages.success(request, "Your account details have been changed successfully.")
 
         if changing_password:
             logout(request)
@@ -84,86 +88,128 @@ class SchoolStudentEditAccountView(LoginRequiredMixin, FormView):
         return _get_form(self, form_class)
 
 
-class IndependentStudentEditAccountView(LoginRequiredMixin, FormView):
+def independentStudentEditAccountView(request):
     """
     A FormView for editing an independent student's account details. This forms enables
     an independent student to change their name, their email and / or their password.
+    Additionally it also deletes the independent students account with its second form
+
+    Django class based views makes it very difficult to have multiple forms in one view,
+    hence using the functional based view
     """
-
-    login_url = reverse_lazy("independent_student_login")
-    form_class = IndependentStudentEditAccountForm
+    user = request.user
+    change_email_password_form = IndependentStudentEditAccountForm(user, initial={"name": user.first_name})
+    delete_account_form = DeleteAccountForm(user)
     template_name = "../templates/portal/play/student_edit_account.html"
-    model = Student
-    initial = {"name": "Could not find name"}
-    changing_email = False
-    changing_password = False
+    delete_account_confirm = False
 
-    def get_form_kwargs(self):
-        kwargs = super(IndependentStudentEditAccountView, self).get_form_kwargs()
-        kwargs["initial"]["name"] = "{}{}".format(
-            self.request.user.first_name, self.request.user.last_name
-        )
-        return kwargs
+    def process_change_email_password_form(request, student, old_anchor):
+        change_email_password_form = IndependentStudentEditAccountForm(request.user, request.POST)
+        changing_email = False
+        changing_password = False
+        new_email = ""
+        if change_email_password_form.is_valid():
+            data = change_email_password_form.cleaned_data
+            # check not default value for CharField
+            changing_password = check_update_password(change_email_password_form, student, request, data)
 
-    def get_form(self, form_class=None):
-        return _get_form(self, form_class)
+            changing_email, new_email = update_indy_email(student, request, data)
+            changing_first_name = False if request.POST["name"] == student.first_name else True
+            student.first_name = request.POST["name"]
 
-    def get_success_url(self):
-        if self.changing_email:
-            return reverse_lazy("email_verification")
-        elif self.changing_password:
-            return reverse_lazy("independent_student_login")
+            student.save()
+
+            anchor = ""
+
+            # Reset ratelimit cache after successful account details update
+            clear_ratelimit_cache_for_user(student.username)
+
+            messages.success(request, "Your account details have been successfully changed.")
         else:
-            return reverse_lazy("independent_student_details")
+            anchor = old_anchor
 
-    def form_valid(self, form):
-        return _process_form(
-            self,
-            self.process_independent_student_edit_account_form,
-            form,
-            IndependentStudentEditAccountView,
-        )
+        return changing_email, new_email, changing_password, changing_first_name, anchor
 
-    def process_independent_student_edit_account_form(self, form, student, request):
-        data = form.cleaned_data
+    if request.method == "POST":
+        if "delete_password" in request.POST:
+            delete_account_form = DeleteAccountForm(user, request.POST)
+            if not delete_account_form.is_valid():
+                messages.warning(request, "Your account was not deleted due to incorrect password.")
+                return render(
+                    request,
+                    template_name,
+                    {"form": change_email_password_form, "delete_account_form": delete_account_form},
+                )
+            else:
+                delete_account_confirm = True
+                email = user.email
+                anonymise(user)
 
-        # check not default value for CharField
-        self.changing_password = check_update_password(
-            form, student.new_user, request, data
-        )
+                # remove from dotmailer
+                if bool(request.POST.get("unsubscribe_newsletter")):
+                    delete_contact(email)
 
-        # allow individual students to update more
-        self.changing_email, new_email = update_email(student, request, data)
+                # send confirmation email
+                message = accountDeletionEmail(request)
+                send_email(
+                    NOTIFICATION_EMAIL,
+                    [email],
+                    message["subject"],
+                    message["message"],
+                    message["title"],
+                )
 
-        self.update_name(student, data)
+                return HttpResponseRedirect(reverse_lazy("home"))
 
-        # Reset ratelimit cache after successful account details update
-        clear_ratelimit_cache_for_user(student.new_user.username)
+        else:
+            change_email_password_form = IndependentStudentEditAccountForm(request.user, request.POST)
+            if not change_email_password_form.is_valid():
+                messages.warning(request, "Your account was not updated do to incorrect details")
+                return render(
+                    request,
+                    template_name,
+                    {"form": change_email_password_form, "delete_account_form": delete_account_form},
+                )
+            else:
+                (
+                    changing_email,
+                    new_email,
+                    changing_password,
+                    changing_first_name,
+                    anchor,
+                ) = process_change_email_password_form(request, request.user, "")
+                if changing_email:
+                    logout(request)
+                    messages.success(request, "Your account details have been changed successfully.")
+                    messages.success(
+                        request,
+                        "Your email will be changed once you have verified it, until then "
+                        "you can still log in with your old email.",
+                    )
+                    return render(
+                        request,
+                        "portal/email_verification_needed.html",
+                        {"usertype": "INDEP_STUDENT"},
+                    )
+                if changing_password:
+                    logout(request)
+                    messages.success(request, "Your account details have been changed successfully.")
+                    messages.success(request, "Please login using your new password.")
+                    return HttpResponseRedirect(reverse_lazy("independent_student_login"))
 
-        messages.success(
-            request, "Your account details have been changed successfully."
-        )
+                if changing_first_name:
+                    messages.success(request, "Your account details have been changed successfully.")
+                    return HttpResponseRedirect(reverse_lazy("independent_student_details"))
 
-        if self.changing_email:
-            logout(request)
-            messages.success(
-                request,
-                "Your email will be changed once you have verified it, until then "
-                "you can still log in with your old email.",
-            )
-
-        if self.changing_password:
-            logout(request)
-            messages.success(
-                request,
-                "Please login using your new password.",
-            )
-
-    def update_name(self, student, data):
-        student.new_user.first_name = data["name"]
-        # save all tables
-        student.save()
-        student.new_user.save()
+    return render(
+        request,
+        template_name,
+        {
+            "form": change_email_password_form,
+            "delete_account_form": delete_account_form,
+            "delete_account_confirm": delete_account_confirm,
+        },
+    )
 
 
 @login_required(login_url=reverse_lazy("home"))
