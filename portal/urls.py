@@ -82,6 +82,7 @@ from portal.views.teacher.dashboard import (
     organisation_allow_join,
     organisation_deny_join,
     organisation_kick,
+    invite_toggle_admin,
     organisation_toggle_admin,
     teacher_accept_student_request,
     teacher_disable_2FA,
@@ -332,6 +333,9 @@ urlpatterns = [
         r"^teach/dashboard/kick/(?P<pk>[0-9]+)/$",
         organisation_kick,
         name="organisation_kick",
+    ),
+    url(
+        r"^teach/dashboard/toggle_admin_invite/(?P<invite_id>[0-9]+)/$", invite_toggle_admin, name="invite_toggle_admin"
     ),
     url(
         r"^teach/dashboard/toggle_admin/(?P<pk>[0-9]+)/$",
