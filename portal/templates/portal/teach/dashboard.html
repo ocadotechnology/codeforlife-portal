@@ -167,7 +167,7 @@
                     {% for sent_invite in sent_invites %}
                     <tr>
                         <td><p><small>{{ sent_invite.invited_teacher_first_name }}</small></p></td>
-                        <td><p><small>{{ sent_invite.invited_teacher_last_name }}</small></p></td>
+                        <td><p><small>{{ sent_invite.token }}</small></p></td>
                         <td><p><small>{{ sent_invite.invited_teacher_email }}</small></p></td>
                         <td><p><small>{{ sent_invite.invited_teacher_is_admin }}</small></p></td>
                     </tr>
@@ -259,7 +259,7 @@
                                     </small>
                                 </p>
                             </td>
-                            <td><p><small>{% if sent_invite.invited_teacher_is_admin %} Administrator ({{ sent_invite.invited_teacher_email|emaildomain }})</small></p></td>
+                            <td><p><small>{% if sent_invite.invited_teacher_is_admin %} Administrator {% else %} Standard Teacher {% endif %} ({{ sent_invite.invited_teacher_email|emaildomain }})</small></p></td>
                             <td class="cell-center">
                                     {% if sent_invite.invited_teacher_is_admin %}
                                         <button id="make_non_admin_button_invite" class='button button--small button--primary--danger button--icon'
@@ -270,7 +270,7 @@
                                         onclick="showToggleAdminConfirmation('{% url 'invite_toggle_admin' sent_invite.id %}', '{{ sent_invite.new_user.first_name|striptags | escapejs}}')">
                                         Make admin<span class="iconify" data-icon="mdi:plus"></span></button>
                                     {% endif %}
-                                <button id="resend-invite" class="button button--small button--primary button--icon">Resend invite<span class="iconify" data-icon="mdi:email-outline"></span></button>
+                                <button onclick="postWithCsrf('{% url 'resend_invite_teacher' sent_invite.id %}')" id="resend-invite" class="button button--small button--primary button--icon">Resend invite<span class="iconify" data-icon="mdi:email-outline"></span></button>
                                 <button id="delete-invite" class="button button--small button--primary--danger button--icon">Delete <span class="iconify" data-icon="mdi:delete-outline"></span></button>
                             </td>
                         </tr>

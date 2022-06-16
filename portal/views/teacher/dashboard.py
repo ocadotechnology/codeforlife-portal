@@ -441,6 +441,8 @@ def organisation_kick(request, pk):
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def invite_toggle_admin(request, invite_id):
+    current_teacher_email = request.user.email
+    current_teacher_email
     invite = SchoolTeacherInvitation.objects.filter(id=invite_id)[0]
     [print(f"{i}) {method}") for i, method in enumerate(dir(invite))]
     print(invite)
@@ -453,14 +455,14 @@ def invite_toggle_admin(request, invite_id):
     else:
         messages.success(request, "Administrator invite status has been revoked sccessfully")
         emailMessage = email_messages.adminRevokedEmail(request, invite.school)
-    #
-    #    send_email(
-    #        NOTIFICATION_EMAIL,
-    #        [invite.invited_teacher_email],
-    #        emailMessage["subject"],
-    #        emailMessage["message"],
-    #        emailMessage["subject"],
-    #    )
+
+        send_email(
+            NOTIFICATION_EMAIL,
+            [invite.invited_teacher_email],
+            emailMessage["subject"],
+            emailMessage["message"],
+            emailMessage["subject"],
+        )
     print(invite.invited_teacher_is_admin)
     invite.save()
 

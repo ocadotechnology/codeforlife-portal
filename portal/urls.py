@@ -13,6 +13,7 @@ from two_factor.views import (
     SetupCompleteView,
 )
 
+
 from portal.helpers.decorators import ratelimit
 from portal.helpers.ratelimit import (
     RATELIMIT_LOGIN_GROUP,
@@ -90,6 +91,7 @@ from portal.views.teacher.dashboard import (
 )
 from portal.views.teacher.teach import (
     invited_teacher,
+    resend_invite_teacher,
     teacher_class_password_reset,
     teacher_delete_class,
     teacher_delete_students,
@@ -334,6 +336,7 @@ urlpatterns = [
         organisation_kick,
         name="organisation_kick",
     ),
+    url(r"^teach/dashboard/resend_invite/(?P<invite_id>[0-9]+)/$", resend_invite_teacher, name="resend_invite_teacher"),
     url(
         r"^teach/dashboard/toggle_admin_invite/(?P<invite_id>[0-9]+)/$", invite_toggle_admin, name="invite_toggle_admin"
     ),

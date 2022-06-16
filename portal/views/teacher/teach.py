@@ -960,6 +960,11 @@ def process_teacher_invitation(request, token):
 
                 # Anonymise the invitation
                 invitation.anonymise()
+    print("help meeh :c")
+
+
+def resend_invite_teacher(request, token):
+    pass
 
 
 def invited_teacher(request, token):
@@ -973,6 +978,7 @@ def invited_teacher(request, token):
     else:
         invited_teacher_form = InvitedTeacherForm()
 
+    print("h3lp")
     return render(
         request,
         "portal/teach/invited.html",
