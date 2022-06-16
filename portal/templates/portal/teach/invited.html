@@ -24,6 +24,8 @@
 
                 {% csrf_token %}
 
+                {{ invited_teacher_form.non_field_errors }}
+
                 <div class="row form--row">
                     <label for="{{ invited_teacher_form.teacher_password.auto_id }}"></label>
                     <div class="input--icon">
