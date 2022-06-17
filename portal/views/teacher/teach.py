@@ -8,15 +8,7 @@ from functools import partial, wraps
 from pickle import NEWFALSE
 from uuid import uuid4
 
-from common import email_messages
-from common.helpers.emails import (
-    INVITE_FROM,
-    add_to_dotmailer,
-    generate_token,
-    send_email,
-    send_verification_email,
-    DotmailerUserType,
-)
+from common.helpers.emails import DotmailerUserType, add_to_dotmailer, generate_token, send_verification_email
 from common.helpers.generators import generate_access_code, generate_login_id, generate_password, get_hashed_login_id
 from common.models import Class, DailyActivity, JoinReleaseStudent, SchoolTeacherInvitation, Student, Teacher
 from common.permissions import logged_in_as_teacher
