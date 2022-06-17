@@ -28,7 +28,6 @@ from portal.helpers.ratelimit import (
     RATELIMIT_METHOD,
     clear_ratelimit_cache_for_user,
 )
-from portal.views.home import send_user_already_registered_email
 from two_factor.utils import devices_for_user
 
 from .teach import create_class

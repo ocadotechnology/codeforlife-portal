@@ -114,33 +114,29 @@ def _newsletter_ticked(form_data):
     return form_data["newsletter_ticked"]
 
 
-def send_user_already_registered_email(request, email):
-    email_message = email_messages.userAlreadyRegisteredEmail(request, email)
-    is_email_ratelimited = is_ratelimited(
-        request=request,
-        group=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP,
-        key=lambda *_: email,
-        rate=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_RATE,
-        increment=True,
-    )
-
-    if not is_email_ratelimited:
-        send_email(
-            NOTIFICATION_EMAIL,
-            [email],
-            email_message["subject"],
-            email_message["message"],
-            email_message["subject"],
-        )
-    else:
-        LOGGER.warn(f"Ratelimit teacher {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}")
-
-
 def process_signup_form(request, data):
     email = data["teacher_email"]
 
     if email and User.objects.filter(email=email).exists():
-        send_user_already_registered_email(request, email)
+        email_message = email_messages.userAlreadyRegisteredEmail(request, email)
+        is_email_ratelimited = is_ratelimited(
+            request=request,
+            group=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP,
+            key=lambda *_: email,
+            rate=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_RATE,
+            increment=True,
+        )
+
+        if not is_email_ratelimited:
+            send_email(
+                NOTIFICATION_EMAIL,
+                [email],
+                email_message["subject"],
+                email_message["message"],
+                email_message["subject"],
+            )
+        else:
+            LOGGER.warn(f"Ratelimit teacher {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}")
     else:
         teacher = Teacher.objects.factory(
             first_name=data["teacher_first_name"],
