@@ -102,7 +102,6 @@ def independentStudentEditAccountView(request):
     delete_account_form = DeleteAccountForm(user)
     template_name = "../templates/portal/play/student_edit_account.html"
     delete_account_confirm = False
-<<<<<<< HEAD
 
     def process_change_email_password_form(request, student, old_anchor):
         change_email_password_form = IndependentStudentEditAccountForm(request.user, request.POST)
@@ -125,69 +124,11 @@ def independentStudentEditAccountView(request):
             # Reset ratelimit cache after successful account details update
             clear_ratelimit_cache_for_user(student.username)
 
-=======
-
-    def process_change_email_password_form(request, student, old_anchor):
-        change_email_password_form = IndependentStudentEditAccountForm(request.user, request.POST)
-        changing_email = False
-        changing_password = False
-        new_email = ""
-        if change_email_password_form.is_valid():
-            data = change_email_password_form.cleaned_data
-            # check not default value for CharField
-            changing_password = check_update_password(change_email_password_form, student, request, data)
-
-            changing_email, new_email = update_indy_email(student, request, data)
-            changing_first_name = False if request.POST["name"] == student.first_name else True
-            student.first_name = request.POST["name"]
-
-            student.save()
-
-            anchor = ""
-
-            # Reset ratelimit cache after successful account details update
-            clear_ratelimit_cache_for_user(student.username)
-
->>>>>>> indy_delete_account
             messages.success(request, "Your account details have been successfully changed.")
         else:
             anchor = old_anchor
 
         return changing_email, new_email, changing_password, changing_first_name, anchor
-<<<<<<< HEAD
-
-    if request.method == "POST":
-        if "delete_password" in request.POST:
-            delete_account_form = DeleteAccountForm(user, request.POST)
-            if not delete_account_form.is_valid():
-                messages.warning(request, "Your account was not deleted due to incorrect password.")
-                return render(
-                    request,
-                    template_name,
-                    {"form": change_email_password_form, "delete_account_form": delete_account_form},
-                )
-            else:
-                delete_account_confirm = True
-                email = user.email
-                anonymise(user)
-
-                # remove from dotmailer
-                if bool(request.POST.get("unsubscribe_newsletter")):
-                    delete_contact(email)
-
-                # send confirmation email
-                message = accountDeletionEmail(request)
-                send_email(
-                    NOTIFICATION_EMAIL,
-                    [email],
-                    message["subject"],
-                    message["message"],
-                    message["title"],
-                )
-
-                return HttpResponseRedirect(reverse_lazy("home"))
-
-=======
 
     if request.method == "POST":
         if "delete_account" in request.POST:
@@ -196,7 +137,6 @@ def independentStudentEditAccountView(request):
                 messages.warning(request, "Your account was not deleted due to incorrect password.")
             else:
                 delete_account_confirm = True
->>>>>>> indy_delete_account
         else:
             change_email_password_form = IndependentStudentEditAccountForm(request.user, request.POST)
             if not change_email_password_form.is_valid():
@@ -204,14 +144,10 @@ def independentStudentEditAccountView(request):
                 return render(
                     request,
                     template_name,
-<<<<<<< HEAD
-                    {"form": change_email_password_form, "delete_account_form": delete_account_form},
-=======
                     {
                         "form": change_email_password_form,
                         "delete_account_form": delete_account_form,
                     },
->>>>>>> indy_delete_account
                 )
             else:
                 (
