@@ -149,6 +149,9 @@ class TestIndependentStudentFrontend(BaseTest):
         delete_account_button = page.browser.find_element_by_id("delete_account_button")
         delete_account_button.click()
 
+        delete_button_confirm = page.browser.find_element_by_id("delete_button")
+        delete_button_confirm.click()
+
         # check if can still login to the account
         page = self.go_to_homepage()
         assert page.go_to_independent_student_login_page().independent_student_login_failure(email, password)
