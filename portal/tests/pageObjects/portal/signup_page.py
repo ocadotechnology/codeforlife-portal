@@ -10,15 +10,12 @@ class SignupPage(BasePage):
 
         assert self.on_correct_page("signup_page")
 
-    def signup(self, first_name, last_name, email, password, confirm_password, success=True, newsletter=False):
+    def signup(self, first_name, last_name, email, password, confirm_password, success=True):
         self.browser.find_element_by_id("id_teacher_signup-teacher_first_name").send_keys(first_name)
         self.browser.find_element_by_id("id_teacher_signup-teacher_last_name").send_keys(last_name)
         self.browser.find_element_by_id("id_teacher_signup-teacher_email").send_keys(email)
         self.browser.find_element_by_id("id_teacher_signup-teacher_password").send_keys(password)
         self.browser.find_element_by_id("id_teacher_signup-teacher_confirm_password").send_keys(confirm_password)
-
-        if newsletter:
-            self.browser.find_element_by_id("id_teacher_signup-newsletter_ticked").click()
 
         self.browser.find_element_by_name("teacher_signup").click()
 

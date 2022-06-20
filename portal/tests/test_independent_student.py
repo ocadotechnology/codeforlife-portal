@@ -151,7 +151,7 @@ class TestIndependentStudentFrontend(BaseTest):
         # now check if anonymised
         assert not User.objects.get(id=user_id).is_active
 
-    def test_signup_without_newsletter(self):
+    def test_signup(self):
         page = self.go_to_homepage()
         page, _, _, _, _ = create_independent_student(page)
         assert is_email_verified_message_showing(self.selenium)
