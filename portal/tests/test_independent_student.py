@@ -1,15 +1,10 @@
 from __future__ import absolute_import
 
 import time
-
-from django.contrib.auth.models import User
-
 from common.models import JoinReleaseStudent
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
-    create_organisation_directly,
-)
+from common.tests.utils.organisation import create_organisation_directly
 from common.tests.utils.student import (
     create_independent_student,
     create_independent_student_directly,
@@ -18,13 +13,13 @@ from common.tests.utils.student import (
     verify_email,
 )
 from common.tests.utils.teacher import signup_teacher_directly
+from django.contrib.auth.models import User
 from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 from selenium.webdriver.support.wait import WebDriverWait
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
-from portal.views.registration import delete_account
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils.messages import (
@@ -161,11 +156,6 @@ class TestIndependentStudentFrontend(BaseTest):
         page, _, _, _, _ = create_independent_student(page)
         assert is_email_verified_message_showing(self.selenium)
 
-    def test_signup_with_newsletter(self):
-        page = self.go_to_homepage()
-        page, _, _, _, _ = create_independent_student(page, newsletter=True)
-        assert is_email_verified_message_showing(self.selenium)
-
     def test_signup_duplicate_email_failure(self):
         page = self.go_to_homepage()
         page, _, _, email, _ = create_independent_student(page)
@@ -186,10 +176,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page = page.go_to_signup_page()
 
         page = page.independent_student_signup(
-            "indy",
-            teacher_email,
-            password="Password1!",
-            confirm_password="Password1!",
+            "indy", teacher_email, password="Password1!", confirm_password="Password1!"
         )
 
         page.return_to_home_page()
@@ -291,8 +278,7 @@ class TestIndependentStudentFrontend(BaseTest):
 
         assert self.is_account_page(page)
         assert page.was_form_invalid(
-            "student_account_form",
-            "Names may only contain letters, numbers, dashes, underscores, and spaces.",
+            "student_account_form", "Names may only contain letters, numbers, dashes, underscores, and spaces."
         )
 
     def test_change_email(self):
