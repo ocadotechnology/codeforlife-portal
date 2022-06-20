@@ -5,8 +5,12 @@ import json
 from datetime import datetime, timedelta
 from enum import Enum
 from functools import partial, wraps
+from operator import inv
 from pickle import NEWFALSE
+import re
+from tkinter.tix import Tree
 from uuid import uuid4
+from common.models import EmailVerification
 
 from common import email_messages
 from common.helpers.emails import (
@@ -31,6 +35,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from past.utils import old_div
+from py import process
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
     BaseTeacherMoveStudentsDisambiguationFormSet,
@@ -960,11 +965,29 @@ def process_teacher_invitation(request, token):
 
                 # Anonymise the invitation
                 invitation.anonymise()
-    print("help meeh :c")
 
 
 def resend_invite_teacher(request, token):
-    pass
+    invitation = SchoolTeacherInvitation.objects.get(token=token)
+    teacher = Teacher.objects.filter(id=invitation.from_teacher.id)[0]
+    verify_email = EmailVerification(
+        user=teacher.new_user,
+        token=token,
+        email=invitation.invited_teacher_email,
+        expiry=timezone.now() + timedelta(hours=1),
+        verified=True,
+    )
+
+    messages.success(request, "Teacher re-invited!")
+    message = email_messages.inviteTeacherEmail(request, invitation.school, token, not (invitation.is_expired))
+    send_email(
+        INVITE_FROM,
+        [invitation.invited_teacher_email],
+        message["subject"],
+        message["message"],
+        message["subject"],
+    )
+    return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
 def invited_teacher(request, token):
@@ -978,7 +1001,6 @@ def invited_teacher(request, token):
     else:
         invited_teacher_form = InvitedTeacherForm()
 
-    print("h3lp")
     return render(
         request,
         "portal/teach/invited.html",

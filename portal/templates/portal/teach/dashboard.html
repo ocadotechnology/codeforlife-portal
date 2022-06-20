@@ -270,7 +270,7 @@
                                         onclick="showToggleAdminConfirmation('{% url 'invite_toggle_admin' sent_invite.id %}', '{{ sent_invite.new_user.first_name|striptags | escapejs}}')">
                                         Make admin<span class="iconify" data-icon="mdi:plus"></span></button>
                                     {% endif %}
-                                <button onclick="postWithCsrf('{% url 'resend_invite_teacher' sent_invite.id %}')" id="resend-invite" class="button button--small button--primary button--icon">Resend invite<span class="iconify" data-icon="mdi:email-outline"></span></button>
+                                    <button onclick="postWithCsrf('{% url 'resend_invite_teacher' sent_invite.token %}')" id="resend-invite" class="button button--small button--primary button--icon" >Resend invite<span class="iconify" data-icon="mdi:email-outline"></span></button>
                                 <button id="delete-invite" class="button button--small button--primary--danger button--icon">Delete <span class="iconify" data-icon="mdi:delete-outline"></span></button>
                             </td>
                         </tr>

@@ -336,7 +336,7 @@ urlpatterns = [
         organisation_kick,
         name="organisation_kick",
     ),
-    url(r"^teach/dashboard/resend_invite/(?P<invite_id>[0-9]+)/$", resend_invite_teacher, name="resend_invite_teacher"),
+    url(r"^teach/dashboard/resend_invite/(?P<token>[0-9a-g]+)/$", resend_invite_teacher, name="resend_invite_teacher"),
     url(
         r"^teach/dashboard/toggle_admin_invite/(?P<invite_id>[0-9]+)/$", invite_toggle_admin, name="invite_toggle_admin"
     ),
