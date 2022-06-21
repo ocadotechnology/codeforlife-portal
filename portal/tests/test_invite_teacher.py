@@ -1,5 +1,7 @@
 from datetime import timedelta
 from uuid import uuid4
+from build.lib.common.tests.utils.student import create_school_student_directly
+from common.tests.utils.email import go_to_teacher_login_page
 
 import pytest
 from common.models import School, SchoolTeacherInvitation, Teacher
@@ -11,6 +13,10 @@ from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
+from portal.tests.base_test import BaseTest
+
+from portal.tests.pageObjects.portal.home_page import HomePage
+from portal.views.teacher.teach import invited_teacher
 
 
 class TestInviteTeacher(TestCase):
@@ -137,3 +143,42 @@ class TestInviteTeacher(TestCase):
             "other account first or change the email associated with it in order to proceed. You will then be able to "
             "access this page."
         )
+
+
+from time import sleep
+from selenium.webdriver.common.by import By
+
+
+class TestTeacherInviteActions(BaseTest):
+    def test_resend_invite(self):
+        teacher_email, teacher_password = signup_teacher_directly()
+        school_name, _ = create_organisation_directly(teacher_email)
+        class_name = "Test Class"
+        klass, _, _ = create_class_directly(teacher_email, class_name)
+
+        page = self.go_to_homepage()
+        page = page.go_to_teacher_login_page().login(teacher_email, teacher_password)
+
+        # Generate an invite
+        invite_data = {
+            "teacher_first_name": "Adam",
+            "teacher_last_name": "NotAdam",
+            "teacher_email": "adam@adam.not",
+        }
+        for key in invite_data.keys():
+            field = page.browser.find_element_by_name(key)
+            field.send_keys(invite_data[key])
+        invite_button = page.browser.find_element_by_name("invite_teacher")
+        invite_button.click()
+
+        banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div')
+
+        sleep(10)
+        print(SchoolTeacherInvitation.objects.all())
+        print("\n" * 10)
+        assert (
+            banner.text
+            == f"You have invited {invite_data['teacher_first_name']} {invite_date['teacher_last_name']} to your school."
+        )
+
+        assert False
