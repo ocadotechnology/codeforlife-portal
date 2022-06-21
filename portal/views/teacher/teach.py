@@ -1,5 +1,6 @@
 from __future__ import division
 
+from common import email_messages
 import csv
 import json
 from datetime import datetime, timedelta
@@ -12,7 +13,14 @@ from tkinter.tix import Tree
 from uuid import uuid4
 from common.models import EmailVerification
 
-from common.helpers.emails import DotmailerUserType, add_to_dotmailer, generate_token, send_verification_email
+from common.helpers.emails import (
+    INVITE_FROM,
+    DotmailerUserType,
+    add_to_dotmailer,
+    generate_token,
+    send_email,
+    send_verification_email,
+)
 from common.helpers.generators import generate_access_code, generate_login_id, generate_password, get_hashed_login_id
 from common.models import Class, DailyActivity, JoinReleaseStudent, SchoolTeacherInvitation, Student, Teacher
 from common.permissions import logged_in_as_teacher
@@ -969,6 +977,8 @@ def delete_teacher_invite(request, token):
 
 def resend_invite_teacher(request, token):
     invitation = SchoolTeacherInvitation.objects.get(token=token)
+    invitation.expiry = timezone.now() + timedelta(days=30)
+    invitation.save()
     teacher = Teacher.objects.filter(id=invitation.from_teacher.id)[0]
     verify_email = EmailVerification(
         user=teacher.new_user,
