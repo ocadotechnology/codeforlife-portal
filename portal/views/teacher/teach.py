@@ -967,6 +967,14 @@ def process_teacher_invitation(request, token):
                 invitation.anonymise()
 
 
+def delete_teacher_invite(request, token):
+    invite_to_delete = SchoolTeacherInvitation.objects.filter(token=token)[0]
+    invite_teacher_first_name = invite_to_delete.invited_teacher_first_name
+    invite_to_delete.anonymise()
+    messages.success(request, f"Invite for {invite_teacher_first_name} successfully deleted")
+    return HttpResponseRedirect(reverse_lazy("dashboard"))
+
+
 def resend_invite_teacher(request, token):
     invitation = SchoolTeacherInvitation.objects.get(token=token)
     teacher = Teacher.objects.filter(id=invitation.from_teacher.id)[0]

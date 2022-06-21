@@ -74,7 +74,7 @@ def dashboard_teacher_view(request, is_admin):
     join_requests = Teacher.objects.filter(pending_join_request=school).order_by(
         "new_user__last_name", "new_user__first_name"
     )
-    sent_invites = SchoolTeacherInvitation.objects.filter(school=school)
+    sent_invites = SchoolTeacherInvitation.objects.filter(school=school, from_teacher=teacher)
     requests = Student.objects.filter(pending_class_request__teacher=teacher)
 
     update_school_form = OrganisationForm(user=request.user, current_school=school)

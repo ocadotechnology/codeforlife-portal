@@ -90,6 +90,7 @@ from portal.views.teacher.dashboard import (
     teacher_reject_student_request,
 )
 from portal.views.teacher.teach import (
+    delete_teacher_invite,
     invited_teacher,
     resend_invite_teacher,
     teacher_class_password_reset,
@@ -335,6 +336,9 @@ urlpatterns = [
         r"^teach/dashboard/kick/(?P<pk>[0-9]+)/$",
         organisation_kick,
         name="organisation_kick",
+    ),
+    url(
+        r"^teacher/dashboard/delete_invite/(?P<token>[0-9a-g]+)/$", delete_teacher_invite, name="delete_teacher_invite"
     ),
     url(r"^teach/dashboard/resend_invite/(?P<token>[0-9a-g]+)/$", resend_invite_teacher, name="resend_invite_teacher"),
     url(
