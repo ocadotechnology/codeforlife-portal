@@ -98,6 +98,15 @@
 {% include 'portal/mouseflow.html' %}
 
 <div class="content-footer-wrapper">
+
+    {# TODO: include popup and set timer if logged in #}
+    {% if True %}
+        {% include "portal/partials/screentime_popup.html" %}
+        <script>
+            setTimeout(showScreentimePopup, 2000);
+        </script>
+    {% endif %}
+
     {% block contentWrapper %}
     <div {% block pageID %}id="contentWrapper"{% endblock %}>
         {% block topBar %}

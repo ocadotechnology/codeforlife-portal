@@ -1,0 +1,14 @@
+{% load static %}
+{# A screen-time warning popup with a Continue button. #}
+<section id="screentime-popup" class="popup-wrapper">
+    <div class="popup-box">
+        <div class="popup-box__title flex-column justify-content-center">
+            <div><img src="https://placedog.net/100/80" /></div>
+            <div class="my-4">Time for a break?</div>
+        </div>
+        <div class="popup-box__msg text-center">You have been using the Code for Life website for a while. Remember to take regular screen breaks to recharge those brain cells!</div>
+        <div class="popup-box__buttons mt-0">
+            <a id="confirm_button" class='button button--primary' onclick="hideScreentimePopup()" aria-labelledby="confirm_button"> Continue </a>
+        </div>
+    </div>
+</section>

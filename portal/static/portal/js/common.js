@@ -55,6 +55,14 @@ function hideInfoPopup() {
   $("#info-popup").removeClass("popup--fade");
 }
 
+function showScreentimePopup() {
+  $("#screentime-popup").addClass("popup--fade");
+}
+
+function hideScreentimePopup() {
+  $("#screentime-popup").removeClass("popup--fade");
+}
+
 function postWithCsrf(path, params = undefined) {
   post(path, {
     csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
