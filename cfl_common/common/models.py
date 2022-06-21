@@ -121,6 +121,9 @@ class Teacher(models.Model):
         on_delete=models.SET_NULL,
     )
     blocked_time = models.DateTimeField(null=True)
+    invited_by = models.ForeignKey(
+        "self", related_name="invited_teachers", null=True, blank=True, on_delete=models.SET_NULL
+    )
 
     objects = TeacherModelManager()
 
@@ -137,6 +140,37 @@ class Teacher(models.Model):
 
     def __str__(self):
         return f"{self.new_user.first_name} {self.new_user.last_name}"
+
+
+class SchoolTeacherInvitationModelManager(models.Manager):
+    # Filter out inactive invitations by default
+    def get_queryset(self):
+        return super().get_queryset().filter(is_active=True)
+
+
+class SchoolTeacherInvitation(models.Model):
+    token = models.CharField(max_length=32)
+    school = models.ForeignKey(School, related_name="teacher_invitations", null=True, on_delete=models.SET_NULL)
+    from_teacher = models.ForeignKey(Teacher, related_name="school_invitations", null=True, on_delete=models.SET_NULL)
+    invited_teacher_first_name = models.CharField(max_length=150)  # Same as User model
+    invited_teacher_last_name = models.CharField(max_length=150)  # Same as User model
+    invited_teacher_email = models.EmailField()  # Same as User model
+    invited_teacher_is_admin = models.BooleanField(default=False)
+    expiry = models.DateTimeField()
+    creation_time = models.DateTimeField(default=timezone.now, null=True)
+    is_active = models.BooleanField(default=True)
+
+    objects = SchoolTeacherInvitationModelManager()
+
+    def __str__(self):
+        return f"School teacher invitation for {self.invited_teacher_email} to {self.school.name}"
+
+    def anonymise(self):
+        self.invited_teacher_first_name = uuid4().hex
+        self.invited_teacher_last_name = uuid4().hex
+        self.invited_teacher_email = uuid4().hex
+        self.is_active = False
+        self.save()
 
 
 class ClassModelManager(models.Manager):
@@ -236,9 +270,7 @@ class StudentModelManager(models.Manager):
         user = User.objects.create_user(username=self.get_random_username(), password=password, first_name=name)
         user_profile = UserProfile.objects.create(user=user)
 
-        return Student.objects.create(
-            class_field=klass, user=user_profile, new_user=user, login_id=login_id
-        )
+        return Student.objects.create(class_field=klass, user=user_profile, new_user=user, login_id=login_id)
 
     def independentStudentFactory(self, name, email, password):
         user = User.objects.create_user(username=email, email=email, password=password, first_name=name)

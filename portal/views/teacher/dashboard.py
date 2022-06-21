@@ -1,33 +1,35 @@
+import datetime
+from uuid import uuid4
+
 from common import email_messages
-from common.helpers.emails import NOTIFICATION_EMAIL, send_email, update_email
+from common.helpers.emails import INVITE_FROM, NOTIFICATION_EMAIL, send_email, update_email
 from common.helpers.generators import get_random_username
-from common.models import Class, Student, Teacher, JoinReleaseStudent
+from common.models import Class, JoinReleaseStudent, SchoolTeacherInvitation, Student, Teacher
 from common.permissions import logged_in_as_teacher
 from common.utils import using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.decorators.http import require_POST
-from two_factor.utils import devices_for_user
-
+from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.organisation import OrganisationForm
 from portal.forms.registration import DeleteAccountForm
-from portal.forms.teach import (
-    ClassCreationForm,
-    TeacherAddExternalStudentForm,
-    TeacherEditAccountForm,
-)
+from portal.forms.teach import ClassCreationForm, TeacherAddExternalStudentForm, TeacherEditAccountForm
 from portal.helpers.decorators import ratelimit
 from portal.helpers.password import check_update_password
 from portal.helpers.ratelimit import (
     RATELIMIT_LOGIN_GROUP,
-    RATELIMIT_METHOD,
     RATELIMIT_LOGIN_RATE,
+    RATELIMIT_METHOD,
     clear_ratelimit_cache_for_user,
 )
+from two_factor.utils import devices_for_user
+
 from .teach import create_class
 
 
@@ -63,6 +65,8 @@ def _get_update_account_ratelimit_key(group, request):
 def dashboard_teacher_view(request, is_admin):
     teacher = request.user.new_teacher
     school = teacher.school
+
+    invite_teacher_form = InviteTeacherForm()
 
     coworkers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
 
@@ -113,6 +117,45 @@ def dashboard_teacher_view(request, is_admin):
         elif request.POST.get("show_onboarding_complete") == "1":
             show_onboarding_complete = True
 
+        elif "invite_teacher" in request.POST:
+            invite_teacher_form = InviteTeacherForm(request.POST)
+            if invite_teacher_form.is_valid():
+                data = invite_teacher_form.cleaned_data
+                invited_teacher_first_name = data["teacher_first_name"]
+                invited_teacher_last_name = data["teacher_last_name"]
+                invited_teacher_email = data["teacher_email"]
+                invited_teacher_is_admin = data["make_admin_ticked"]
+
+                token = uuid4().hex
+                SchoolTeacherInvitation.objects.create(
+                    token=token,
+                    school=school,
+                    from_teacher=teacher,
+                    invited_teacher_first_name=invited_teacher_first_name,
+                    invited_teacher_last_name=invited_teacher_last_name,
+                    invited_teacher_email=invited_teacher_email,
+                    invited_teacher_is_admin=invited_teacher_is_admin,
+                    expiry=timezone.now() + datetime.timedelta(days=30),
+                )
+
+                account_exists = User.objects.filter(email=invited_teacher_email).exists()
+                message = email_messages.inviteTeacherEmail(request, school.name, token, account_exists)
+                send_email(
+                    INVITE_FROM,
+                    [invited_teacher_email],
+                    message["subject"],
+                    message["message"],
+                    message["subject"],
+                )
+
+                messages.success(
+                    request,
+                    f"You have invited {invited_teacher_first_name} {invited_teacher_last_name} to your school.",
+                )
+
+                # Clear form
+                invite_teacher_form = InviteTeacherForm()
+
         elif "delete_account" in request.POST:
             delete_account_form = DeleteAccountForm(request.user, request.POST)
             if not delete_account_form.is_valid():
@@ -161,6 +204,7 @@ def dashboard_teacher_view(request, is_admin):
             "coworkers": coworkers,
             "join_requests": join_requests,
             "requests": requests,
+            "invite_teacher_form": invite_teacher_form,
             "update_school_form": update_school_form,
             "create_class_form": create_class_form,
             "update_account_form": update_account_form,

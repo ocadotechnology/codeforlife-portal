@@ -88,7 +88,7 @@ from portal.views.teacher.dashboard import (
     teacher_reject_student_request,
 )
 from portal.views.teacher.teach import (
-    invite_teacher,
+    invited_teacher,
     teacher_class_password_reset,
     teacher_delete_class,
     teacher_delete_students,
@@ -287,7 +287,7 @@ urlpatterns = [
         teacher_download_csv,
         name="teacher_download_csv",
     ),
-    url(r"^teach/invite", invite_teacher, name="invite_teacher"),
+    url(r"^invited_teacher/(?P<token>[0-9a-f]+)/$", invited_teacher, name="invited_teacher"),
     url(r"^play/$", play_landing_page, name="play"),
     url(r"^play/details/$", SchoolStudentDashboard.as_view(), name="student_details"),
     url(

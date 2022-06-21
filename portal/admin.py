@@ -1,16 +1,9 @@
-from common.models import (
-    Class,
-    EmailVerification,
-    School,
-    Student,
-    Teacher,
-    UserProfile,
-)
+from common.models import Class, EmailVerification, School, SchoolTeacherInvitation, Student, Teacher, UserProfile
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from portal.forms.admin import AdminUserCreationForm, AdminChangeUserPasswordForm
+from portal.forms.admin import AdminChangeUserPasswordForm, AdminUserCreationForm
 from portal.views.api import anonymise
 
 
@@ -93,6 +86,21 @@ class EmailVerificationAdmin(admin.ModelAdmin):
     readonly_fields = ["user", "token"]
 
 
+class SchoolTeacherInvitationAdmin(admin.ModelAdmin):
+    search_fields = [
+        "from_teacher__new_user__first_name",
+        "from_teacher__new_user__last_name",
+        "from_teacher__new_user__email",
+        "school__name",
+        "invited_teacher_first_name",
+        "invited_teacher_last_name",
+        "invited_teacher_email",
+        "expiry",
+        "creation_time",
+    ]
+    readonly_fields = ["token", "school", "from_teacher"]
+
+
 def anonymise_user(user_admin, request, queryset):
     for user in queryset:
         anonymise(user)
@@ -116,3 +124,4 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(EmailVerification, EmailVerificationAdmin)
+admin.site.register(SchoolTeacherInvitation, SchoolTeacherInvitationAdmin)
