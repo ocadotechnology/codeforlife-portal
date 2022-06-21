@@ -71,7 +71,7 @@
         </div>
     </div>
 
-    <div class="form--register--text form--register form--register--indep-student col-sm-6">
+    <div class="form--register--text form--register form--register--indep-student is-flex-item col-sm-6">
         <div class="form-div">
             <h4>Independent learner</h4>
             <div class="row form--row">
@@ -101,10 +101,6 @@
                 </div>
                 <div class="row form--row">
                     {% include 'portal/partials/register_over_required_age_tickbox.html' with is_over_required_age=independent_student_signup_form.is_over_required_age %}
-                </div>
-
-                <div class="row form--row">
-                    {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=independent_student_signup_form.newsletter_ticked %}
                 </div>
 
                 <div class="row form--row">

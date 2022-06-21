@@ -195,10 +195,6 @@ def process_independent_student_signup_form(request, data):
         password=data["password"],
     )
 
-    if _newsletter_ticked(data):
-        user = student.new_user
-        add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.STUDENT)
-
     send_verification_email(request, student.new_user)
 
     return render(
