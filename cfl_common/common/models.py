@@ -121,7 +121,9 @@ class Teacher(models.Model):
         on_delete=models.SET_NULL,
     )
     blocked_time = models.DateTimeField(null=True)
-    invited_by = models.ForeignKey("self", related_name="invited_teachers", null=True, on_delete=models.SET_NULL)
+    invited_by = models.ForeignKey(
+        "self", related_name="invited_teachers", null=True, blank=True, on_delete=models.SET_NULL
+    )
 
     objects = TeacherModelManager()
 
@@ -163,6 +165,9 @@ class SchoolTeacherInvitation(models.Model):
         return self.expiry < timezone.now()
 
     objects = SchoolTeacherInvitationModelManager()
+
+    def __str__(self):
+        return f"School teacher invitation for {self.invited_teacher_email} to {self.school.name}"
 
     def anonymise(self):
         self.invited_teacher_first_name = uuid4().hex

@@ -2,6 +2,25 @@
 
 <!--next-version-placeholder-->
 
+## v6.8.8 (2022-06-16)
+### Fix
+* Indy delete account ([#1872](https://github.com/ocadotechnology/codeforlife-portal/issues/1872)) ([`46e088c`](https://github.com/ocadotechnology/codeforlife-portal/commit/46e088c8c7a52ac4f1676bbd04db5ec176839866))
+
+## v6.8.7 (2022-06-10)
+### Fix
+* Add age verification checkbox to newsletter form ([#1876](https://github.com/ocadotechnology/codeforlife-portal/issues/1876)) ([`8663a79`](https://github.com/ocadotechnology/codeforlife-portal/commit/8663a79a81743950c0fd9a8ab713f55510d5bda6))
+
+## v6.8.6 (2022-06-10)
+### Fix
+* Set referrer policy to preferred value ([#1877](https://github.com/ocadotechnology/codeforlife-portal/issues/1877)) ([`23869a2`](https://github.com/ocadotechnology/codeforlife-portal/commit/23869a2d990fc614c1091758e71584ca60456834))
+
+## v6.8.5 (2022-06-08)
+### Fix
+* Remove JQueryUI ([#1874](https://github.com/ocadotechnology/codeforlife-portal/issues/1874)) ([`4b323fa`](https://github.com/ocadotechnology/codeforlife-portal/commit/4b323fa20c0c970d1fe302a29b02fa51ce42ca5c))
+
+### Documentation
+* Refine templates ([#1871](https://github.com/ocadotechnology/codeforlife-portal/issues/1871)) ([`5281956`](https://github.com/ocadotechnology/codeforlife-portal/commit/5281956bf2ec4774c3ead30a66a0339c81d6d1a4))
+
 ## v6.8.4 (2022-05-27)
 ### Fix
 * Updated mui compatible colours ([#1870](https://github.com/ocadotechnology/codeforlife-portal/issues/1870)) ([`8366b33`](https://github.com/ocadotechnology/codeforlife-portal/commit/8366b33c82f53863dd10fc1575bd2a88b21d9272))

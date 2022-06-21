@@ -68,7 +68,7 @@ from portal.views.registration import (
 )
 
 from portal.views.student.edit_account_details import (
-    IndependentStudentEditAccountView,
+    independentStudentEditAccountView,
     SchoolStudentEditAccountView,
     student_edit_account,
 )
@@ -309,7 +309,7 @@ urlpatterns = [
             rate=RATELIMIT_LOGIN_RATE,
             block=True,
             is_teacher=False,
-        )(IndependentStudentEditAccountView.as_view()),
+        )(independentStudentEditAccountView),
         name="independent_edit_account",
     ),
     url(
