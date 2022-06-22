@@ -17,15 +17,15 @@
 {% block scripts %}
 {{ block.super }}
 <script type="text/javascript" src="{% static 'portal/js/organisation_manage.js' %}"></script>
-        <script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
-        <script>
-            var INDEP_STUDENT_PASSWORD_FIELD_ID = '{{ form.password.auto_id }}';
-        </script>
-        <script>
-            {% if delete_account_confirm %}
-                showDeleteAccountConfirmation("{{ delete_account_form.delete_password.value }}", "{{ delete_account_form.unsubscribe_newsletter.value }}", false)
-            {% endif %}
-        </script>
+    <script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
+    <script>
+        var INDEP_STUDENT_PASSWORD_FIELD_ID = '{{ form.password.auto_id }}';
+    </script>
+    <script>
+        {% if delete_account_confirm %}
+            showDeleteAccountConfirmation("{{ delete_account_form.delete_password.value }}", "{{ delete_account_form.unsubscribe_newsletter.value }}", false)
+        {% endif %}
+    </script>
 {% endblock scripts %}
 
 {% block content %}
