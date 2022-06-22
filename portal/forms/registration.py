@@ -1,26 +1,17 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
+from common.email_messages import resetEmailPasswordMessage
+from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 from common.models import Student, Teacher
 from django import forms
 from django.contrib.auth import forms as django_auth_forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import EmailMultiAlternatives
-from django.template import loader
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
 from portal.helpers.password import PasswordStrength, form_clean_password
-
-from common.helpers.emails import NOTIFICATION_EMAIL, send_email
-
-from django.contrib.auth.models import User
-
-from django.urls import reverse, reverse_lazy
-
-
-from common.email_messages import resetEmailPasswordMessage
 
 
 class TeacherPasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
@@ -95,11 +86,7 @@ class PasswordResetForm(forms.Form):
                 }
 
                 email_subject_content = resetEmailPasswordMessage(
-                    request,
-                    domain,
-                    context["uid"],
-                    context["token"],
-                    context["protocol"],
+                    request, domain, context["uid"], context["token"], context["protocol"]
                 )
 
                 send_email(
