@@ -93,6 +93,8 @@ from portal.views.teacher.teach import (
     delete_teacher_invite,
     invited_teacher,
     resend_invite_teacher,
+
+    invited_teacher,
     teacher_class_password_reset,
     teacher_delete_class,
     teacher_delete_students,

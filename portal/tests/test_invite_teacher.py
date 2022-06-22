@@ -3,6 +3,7 @@ from uuid import uuid4
 from build.lib.common.tests.utils.student import create_school_student_directly
 from common.tests.utils.email import go_to_teacher_login_page
 
+
 import pytest
 from common.models import School, SchoolTeacherInvitation, Teacher
 from common.tests.utils.classes import create_class_directly
@@ -13,11 +14,13 @@ from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
+
 from requests import delete
 from portal.tests.base_test import BaseTest
 
 from portal.tests.pageObjects.portal.home_page import HomePage
 from portal.views.teacher.teach import invited_teacher, resend_invite_teacher
+
 
 
 class TestInviteTeacher(TestCase):
@@ -144,11 +147,6 @@ class TestInviteTeacher(TestCase):
             "other account first or change the email associated with it in order to proceed. You will then be able to "
             "access this page."
         )
-
-
-from time import sleep
-from selenium.webdriver.common.by import By
-
 
 class TestTeacherInviteActions(BaseTest):
     def test_revoke_and_make_admin_invite(self):
