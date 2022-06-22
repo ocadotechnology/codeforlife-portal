@@ -29,13 +29,7 @@ class UserProfile(models.Model):
 
 
 class EmailVerification(models.Model):
-    user = models.ForeignKey(
-        User,
-        related_name="email_verifications",
-        null=True,
-        blank=True,
-        on_delete=models.CASCADE,
-    )
+    user = models.ForeignKey(User, related_name="email_verifications", null=True, blank=True, on_delete=models.CASCADE)
     token = models.CharField(max_length=30)
     email = models.CharField(max_length=200, null=True, default=None, blank=True)
     expiry = models.DateTimeField()
@@ -79,18 +73,11 @@ class School(models.Model):
         self.is_active = False
         self.save()
 
-        # Remove teachers' requests to join this school
-        self.join_request.clear()
-
 
 class TeacherModelManager(models.Manager):
     def factory(self, first_name, last_name, email, password):
         user = User.objects.create_user(
-            username=email,
-            email=email,
-            password=password,
-            first_name=first_name,
-            last_name=last_name,
+            username=email, email=email, password=password, first_name=first_name, last_name=last_name
         )
 
         user_profile = UserProfile.objects.create(user=user)
@@ -104,23 +91,10 @@ class TeacherModelManager(models.Manager):
 
 class Teacher(models.Model):
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-    new_user = models.OneToOneField(
-        User,
-        related_name="new_teacher",
-        null=True,
-        blank=True,
-        on_delete=models.CASCADE,
-    )
+    new_user = models.OneToOneField(User, related_name="new_teacher", null=True, blank=True, on_delete=models.CASCADE)
     school = models.ForeignKey(School, related_name="teacher_school", null=True, on_delete=models.SET_NULL)
     is_admin = models.BooleanField(default=False)
-    pending_join_request = models.ForeignKey(
-        School,
-        related_name="join_request",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-    )
-    blocked_time = models.DateTimeField(null=True)
+    blocked_time = models.DateTimeField(null=True, blank=True)
     invited_by = models.ForeignKey(
         "self", related_name="invited_teachers", null=True, blank=True, on_delete=models.SET_NULL
     )
@@ -285,13 +259,7 @@ class Student(models.Model):
     # hashed uuid used for the unique direct login url
     login_id = models.CharField(max_length=64, null=True)
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-    new_user = models.OneToOneField(
-        User,
-        related_name="new_student",
-        null=True,
-        blank=True,
-        on_delete=models.CASCADE,
-    )
+    new_user = models.OneToOneField(User, related_name="new_student", null=True, blank=True, on_delete=models.CASCADE)
     pending_class_request = models.ForeignKey(Class, related_name="class_request", null=True, on_delete=models.SET_NULL)
     blocked_time = models.DateTimeField(null=True)
 
