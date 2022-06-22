@@ -414,7 +414,6 @@ urlpatterns = [
         name="teacher_move_students_to_class",
     ),
     url(r"^delete/account/$", delete_account, name="delete_account"),
-    url(r"^delete/account/$", delete_account, name="delete_account"),
     url(
         r"^schools/anonymise/(?P<start_id>\d+)/", AnonymiseOrphanSchoolsView.as_view(), name="anonymise_orphan_schools"
     ),
