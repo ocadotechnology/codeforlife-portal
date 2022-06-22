@@ -103,9 +103,7 @@ def generate_independent_student_details():
 generate_independent_student_details.next_id = 1
 
 
-def signup_duplicate_independent_student_fail(
-    page, duplicate_email=None, newsletter=False
-):
+def signup_duplicate_independent_student_fail(page, duplicate_email=None):
     page = page.go_to_signup_page()
 
     name, username, email_address, password = generate_independent_student_details()
@@ -114,11 +112,7 @@ def signup_duplicate_independent_student_fail(
         duplicate_email = email_address
 
     page = page.independent_student_signup(
-        name,
-        duplicate_email,
-        password=password,
-        confirm_password=password,
-        newsletter=newsletter,
+        name, duplicate_email, password=password, confirm_password=password
     )
 
     page = page.return_to_home_page()
@@ -130,16 +124,12 @@ def signup_duplicate_independent_student_fail(
     return page, name, username, email_address, password
 
 
-def create_independent_student(page, newsletter=False):
+def create_independent_student(page):
     page = page.go_to_signup_page()
 
     name, username, email_address, password = generate_independent_student_details()
     page = page.independent_student_signup(
-        name,
-        email_address,
-        password=password,
-        confirm_password=password,
-        newsletter=newsletter,
+        name, email_address, password=password, confirm_password=password
     )
 
     page = page.return_to_home_page()

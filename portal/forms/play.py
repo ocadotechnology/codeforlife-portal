@@ -19,12 +19,7 @@ from portal.templatetags.app_tags import is_verified
 
 class StudentClassCodeForm(forms.Form):
     access_code = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "autocomplete": "off",
-                "placeholder": "Class code",
-            }
-        ),
+        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Class code"}),
         help_text="Enter your class code",
     )
 
@@ -40,21 +35,11 @@ class StudentClassCodeForm(forms.Form):
 
 class StudentLoginForm(AuthenticationForm):
     username = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "autocomplete": "off",
-                "placeholder": "Username",
-            }
-        ),
+        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Username"}),
         help_text="Enter your username",
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={
-                "autocomplete": "off",
-                "placeholder": "Password",
-            }
-        ),
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
         help_text="Enter your password",
     )
 
@@ -103,9 +88,7 @@ class StudentLoginForm(AuthenticationForm):
 
 class StudentEditAccountForm(forms.Form):
     password = forms.CharField(
-        required=True,
-        widget=forms.PasswordInput(attrs={"placeholder": "New password"}),
-        help_text="Enter new password",
+        required=True, widget=forms.PasswordInput(attrs={"placeholder": "New password"}), help_text="Enter new password"
     )
     confirm_password = forms.CharField(
         required=True,
@@ -113,8 +96,7 @@ class StudentEditAccountForm(forms.Form):
         help_text="Confirm new password",
     )
     current_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"placeholder": "Current password"}),
-        help_text="Enter your current password",
+        widget=forms.PasswordInput(attrs={"placeholder": "Current password"}), help_text="Enter your current password"
     )
 
     def __init__(self, user, *args, **kwargs):
@@ -218,8 +200,6 @@ class IndependentStudentSignupForm(forms.Form):
         widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "Email address"}),
     )
 
-    newsletter_ticked = forms.BooleanField(initial=False, required=False)
-
     is_over_required_age = forms.BooleanField(initial=False, required=True)
 
     password = forms.CharField(
@@ -256,21 +236,11 @@ class IndependentStudentSignupForm(forms.Form):
 
 class IndependentStudentLoginForm(AuthenticationForm):
     username = forms.EmailField(
-        widget=forms.EmailInput(
-            attrs={
-                "autocomplete": "off",
-                "placeholder": "Email address",
-            }
-        ),
+        widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "Email address"}),
         help_text="Enter your email address",
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={
-                "autocomplete": "off",
-                "placeholder": "Password",
-            }
-        ),
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
         help_text="Enter your password",
     )
 
@@ -293,10 +263,7 @@ class IndependentStudentLoginForm(AuthenticationForm):
 
 
 class StudentJoinOrganisationForm(forms.Form):
-    access_code = forms.CharField(
-        label="Class Access Code",
-        widget=forms.TextInput(attrs={"placeholder": "AB123"}),
-    )
+    access_code = forms.CharField(label="Class Access Code", widget=forms.TextInput(attrs={"placeholder": "AB123"}))
 
     def clean(self):
         access_code = self.cleaned_data.get("access_code", None)
