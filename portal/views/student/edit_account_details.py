@@ -19,8 +19,6 @@ from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.views.api import anonymise
 from django.contrib import messages as messages
 
-from portal.views.registration import delete_account
-
 
 def _get_form(self, form_class):
     """
