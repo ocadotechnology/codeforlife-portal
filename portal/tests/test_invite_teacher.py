@@ -151,7 +151,7 @@ from selenium.webdriver.common.by import By
 
 
 class TestTeacherInviteActions(BaseTest):
-    def test_make_admin_invite(self):
+    def test_revoke_and_make_admin_invite(self):
         teacher_email, teacher_password = signup_teacher_directly()
         school_name, _ = create_organisation_directly(teacher_email)
         class_name = "Test Class"
@@ -192,33 +192,10 @@ class TestTeacherInviteActions(BaseTest):
         invite = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0]
         assert invite.invited_teacher_is_admin
 
-    def test_revoke_admin_invite(self):
-        teacher_email, teacher_password = signup_teacher_directly()
-        school_name, _ = create_organisation_directly(teacher_email)
-        class_name = "Test Class"
-        klass, _, _ = create_class_directly(teacher_email, class_name)
-
-        page = self.go_to_homepage()
-        page = page.go_to_teacher_login_page().login(teacher_email, teacher_password)
-
-        # Generate an invite with admin
-        invite_data = {
-            "teacher_first_name": "Adam",
-            "teacher_last_name": "NotAdam",
-            "teacher_email": "adam@adam.not",
-        }
-        for key in invite_data.keys():
-            field = page.browser.find_element_by_name(key)
-            field.send_keys(invite_data[key])
-
-        make_admin_checkbox = page.browser.find_element_by_name("make_admin_ticked")
-        make_admin_checkbox.click()
-        invite_button = page.browser.find_element_by_name("invite_teacher")
-        invite_button.click()
-
         # revoke admin
         make_admin_button = page.browser.find_element_by_id("make_non_admin_button_invite")
         make_admin_button.click()
+
         # handle popup
         banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
         assert banner.text == "Administrator invite status has been revoked sccessfully"
