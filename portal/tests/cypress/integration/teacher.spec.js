@@ -147,25 +147,6 @@ describe("Teacher", () => {
     cy.logout();
   });
 
-  it("cannot see an anonymised teacher in school pending requests", () => {
-    const teacherEmail = "teacher.to.be.deleted1@codeforlife.com"; // from teachersToBeDeleted fixture
-
-    // Login as default teacher and check the teacher is in the requests table
-    cy.loginAsDefaultTeacher();
-    cy.get("#request_table").should("contain.text", teacherEmail);
-    cy.logout();
-
-    // Login as Portaladmin, go to admin site and anonymise teacher
-    cy.loginAsSuperuser("codeforlife-portal@ocado.com", "abc123");
-    cy.visit("administration/");
-    cy.anonymiseUser(teacherEmail);
-    cy.adminLogout();
-
-    // Login as default teacher again and check the request is not there now
-    cy.loginAsDefaultTeacher();
-    cy.get("#request_table").should("not.exist");
-  });
-
   it("cannot see an anonymised teacher in dashboard", () => {
     const teacherEmail = "teacher.to.be.deleted2@codeforlife.com"; // from teachersToBeDeleted fixture
     const teacherName = "Teacher To Be Deleted 2";
