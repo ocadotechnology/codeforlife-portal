@@ -159,6 +159,9 @@ class TestIndependentStudentFrontend(BaseTest):
         # now check if anonymised
         assert not User.objects.get(id=user_id).is_active
 
+        # check if email has been sent
+        assert len(mail.outbox) == 1
+
     def test_signup_without_newsletter(self):
         page = self.go_to_homepage()
         page, _, _, _, _ = create_independent_student(page)
