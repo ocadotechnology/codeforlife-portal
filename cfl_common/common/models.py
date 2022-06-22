@@ -159,12 +159,14 @@ class SchoolTeacherInvitation(models.Model):
     expiry = models.DateTimeField()
     creation_time = models.DateTimeField(default=timezone.now, null=True)
     is_active = models.BooleanField(default=True)
+    objects = SchoolTeacherInvitationModelManager()
 
     @property
     def is_expired(self):
         return self.expiry < timezone.now()
 
-    objects = SchoolTeacherInvitationModelManager()
+
+    
 
     def __str__(self):
         return f"School teacher invitation for {self.invited_teacher_email} to {self.school.name}"
