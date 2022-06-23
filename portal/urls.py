@@ -261,7 +261,7 @@ urlpatterns = [
     ),
     url(r"^teach/dashboard/resend_invite/(?P<token>[0-9a-f]+)/$", resend_invite_teacher, name="resend_invite_teacher"),
     url(
-        r"^teach/dashboard/toggle_admin_invite/(?P<token>[0-9a-f]+)/$", invite_toggle_admin, name="invite_toggle_admin"
+        r"^teach/dashboard/toggle_admin_invite/(?P<invite_id>[0-9]+)/$", invite_toggle_admin, name="invite_toggle_admin"
     ),
     url(
         r"^teach/dashboard/delete_teacher_invite/(?P<token>[0-9a-f]+)$",
