@@ -2,10 +2,7 @@ from django.urls import reverse, reverse_lazy
 
 
 def resetEmailPasswordMessage(request, domain, uid, token, protocol):
-    password_reset_uri = reverse_lazy(
-        "password_reset_check_and_confirm",
-        kwargs={"uidb64": uid, "token": token},
-    )
+    password_reset_uri = reverse_lazy("password_reset_check_and_confirm", kwargs={"uidb64": uid, "token": token})
     url = f"{protocol}://{domain}{password_reset_uri}"
     return {
         "subject": f"Password reset request",
@@ -67,44 +64,6 @@ def userAlreadyRegisteredEmail(request, email, is_independent_student=False):
             f"If you've already registered, please login: "
             f"{request.build_absolute_uri(login_url)}.\n"
             f"Otherwise please register with a different email address."
-        ),
-    }
-
-
-def joinRequestPendingEmail(request, pendingAddress):
-    return {
-        "subject": f"School or club join request",
-        "message": (
-            f"Someone with the email address '{pendingAddress}' has asked to join your "
-            f"school or club. Please log in to your dashboard to view the pending join request."
-        ),
-    }
-
-
-def joinRequestSentEmail(request, schoolName):
-    return {
-        "subject": f"School or club join request sent",
-        "message": (
-            f"Your request to join the school or club '{schoolName}' has been sent. "
-            f"The teacher or the admin of the class has been notified."
-        ),
-    }
-
-
-def joinRequestAcceptedEmail(request, schoolName):
-    return {
-        "subject": f"School or club join request accepted",
-        "message": f"Your request to join the school or club '{schoolName}' has been accepted.",
-    }
-
-
-def joinRequestDeniedEmail(request, schoolName):
-    return {
-        "subject": f"School or club join request denied",
-        "message": (
-            f"Your request to join the school or club '{schoolName}' has been denied. "
-            f"If you think this was in error you should speak to the administrator of "
-            f"that school or club."
         ),
     }
 
@@ -195,10 +154,7 @@ def inviteTeacherEmail(request, schoolName, token, account_exists):
             f"{url}"
         )
 
-    return {
-        "subject": f"You've been invited to join Code for Life",
-        "message": message,
-    }
+    return {"subject": f"You've been invited to join Code for Life", "message": message}
 
 
 def accountDeletionEmail(request):
