@@ -352,7 +352,6 @@ def invite_toggle_admin(request, invite_id):
     current_teacher_email = request.user.email
     current_teacher_email
     invite = SchoolTeacherInvitation.objects.filter(id=invite_id)[0]
-    [print(f"{i}) {method}") for i, method in enumerate(dir(invite))]
     print(invite)
     print(invite.invited_teacher_is_admin)
     invite.invited_teacher_is_admin = not invite.invited_teacher_is_admin
