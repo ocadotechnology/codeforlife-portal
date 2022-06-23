@@ -131,36 +131,12 @@ def independentStudentEditAccountView(request):
         return changing_email, new_email, changing_password, changing_first_name, anchor
 
     if request.method == "POST":
-        if "delete_password" in request.POST:
+        if "delete_account" in request.POST:
             delete_account_form = DeleteAccountForm(user, request.POST)
             if not delete_account_form.is_valid():
                 messages.warning(request, "Your account was not deleted due to incorrect password.")
-                return render(
-                    request,
-                    template_name,
-                    {"form": change_email_password_form, "delete_account_form": delete_account_form},
-                )
             else:
                 delete_account_confirm = True
-                email = user.email
-                anonymise(user)
-
-                # remove from dotmailer
-                if bool(request.POST.get("unsubscribe_newsletter")):
-                    delete_contact(email)
-
-                # send confirmation email
-                message = accountDeletionEmail(request)
-                send_email(
-                    NOTIFICATION_EMAIL,
-                    [email],
-                    message["subject"],
-                    message["message"],
-                    message["title"],
-                )
-
-                return HttpResponseRedirect(reverse_lazy("home"))
-
         else:
             change_email_password_form = IndependentStudentEditAccountForm(request.user, request.POST)
             if not change_email_password_form.is_valid():
@@ -168,7 +144,10 @@ def independentStudentEditAccountView(request):
                 return render(
                     request,
                     template_name,
-                    {"form": change_email_password_form, "delete_account_form": delete_account_form},
+                    {
+                        "form": change_email_password_form,
+                        "delete_account_form": delete_account_form,
+                    },
                 )
             else:
                 (

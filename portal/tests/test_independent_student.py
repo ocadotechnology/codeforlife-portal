@@ -144,6 +144,9 @@ class TestIndependentStudentFrontend(BaseTest):
         delete_account_button = page.browser.find_element_by_id("delete_account_button")
         delete_account_button.click()
 
+        delete_button_confirm = page.browser.find_element_by_id("delete_button")
+        delete_button_confirm.click()
+
         # check if can still login to the account
         page = self.go_to_homepage()
         assert page.go_to_independent_student_login_page().independent_student_login_failure(email, password)
@@ -151,7 +154,10 @@ class TestIndependentStudentFrontend(BaseTest):
         # now check if anonymised
         assert not User.objects.get(id=user_id).is_active
 
-    def test_signup(self):
+        # check if email has been sent
+        assert len(mail.outbox) == 1
+
+    def test_signup_without_newsletter(self):
         page = self.go_to_homepage()
         page, _, _, _, _ = create_independent_student(page)
         assert is_email_verified_message_showing(self.selenium)
