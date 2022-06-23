@@ -180,7 +180,7 @@ class TestTeacherInviteActions(BaseTest):
         )
 
         # make admin
-        sleep(3)
+        sleep(1.5)
         make_admin_button = page.browser.find_element_by_id("make_admin_button_invite")
         make_admin_button.click()
         # handle popup
@@ -225,7 +225,7 @@ class TestTeacherInviteActions(BaseTest):
         # check object was created
         invite_queryset = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")
         assert len(invite_queryset) == 1
-        sleep(3)
+        sleep(1.5)
         # delete
         delete_invite_button = page.browser.find_element_by_id("delete-invite")
         delete_invite_button.click()
