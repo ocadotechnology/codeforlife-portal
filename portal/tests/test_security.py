@@ -1,14 +1,12 @@
 from __future__ import absolute_import
 
 from builtins import str
-
-from django.contrib.auth.models import User
-from django.urls import reverse, reverse_lazy
-from django.test import Client, TestCase
-
 from common.models import School, Student, UserProfile
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.teacher import signup_teacher_directly
+from django.contrib.auth.models import User
+from django.test import Client, TestCase
+from django.urls import reverse, reverse_lazy
 
 
 class SecurityTestCase(TestCase):
@@ -60,15 +58,6 @@ class SecurityTestCase(TestCase):
             == c.get(reverse("teacher_edit_student", kwargs={"pk": stu.pk})).status_code
         )
 
-    def test_cannot_lookup_schools_if_not_logged_in(self):
-        client = Client()
-
-        url = reverse("organisation_fuzzy_lookup")
-        data = {"fuzzy_name": ["A"]}
-        response = client.get(url, data=data)
-
-        assert response.status_code == 403
-
     def test_cannot_create_school_with_email_as_name(self):
         number_of_existing_schools = len(School.objects.all())
 
@@ -78,12 +67,7 @@ class SecurityTestCase(TestCase):
         client.login(username=email, password=password)
 
         url = reverse("onboarding-organisation")
-        data = {
-            "name": email,
-            "postcode": "TEST",
-            "country": "GB",
-            "create_organisation": "",
-        }
+        data = {"name": email, "postcode": "TEST", "country": "GB", "create_organisation": ""}
 
         client.post(url, data)
 

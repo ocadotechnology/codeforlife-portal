@@ -43,7 +43,6 @@
       "new_user": 1001,
       "school": null,
       "is_admin": false,
-      "pending_join_request": 1,
       "blocked_time": null
     }
   },
@@ -55,7 +54,6 @@
       "new_user": 1002,
       "school": 1,
       "is_admin": false,
-      "pending_join_request": null,
       "blocked_time": null
     }
   },

@@ -16,6 +16,8 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
+from two_factor.utils import devices_for_user
+
 from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.organisation import OrganisationForm
 from portal.forms.registration import DeleteAccountForm
@@ -28,8 +30,6 @@ from portal.helpers.ratelimit import (
     RATELIMIT_METHOD,
     clear_ratelimit_cache_for_user,
 )
-from two_factor.utils import devices_for_user
-
 from .teach import create_class
 
 
@@ -70,9 +70,6 @@ def dashboard_teacher_view(request, is_admin):
 
     coworkers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
 
-    join_requests = Teacher.objects.filter(pending_join_request=school).order_by(
-        "new_user__last_name", "new_user__first_name"
-    )
     sent_invites = SchoolTeacherInvitation.objects.filter(school=school, from_teacher=teacher)
     requests = Student.objects.filter(pending_class_request__teacher=teacher)
 
@@ -142,11 +139,7 @@ def dashboard_teacher_view(request, is_admin):
                 account_exists = User.objects.filter(email=invited_teacher_email).exists()
                 message = email_messages.inviteTeacherEmail(request, school.name, token, account_exists)
                 send_email(
-                    INVITE_FROM,
-                    [invited_teacher_email],
-                    message["subject"],
-                    message["message"],
-                    message["subject"],
+                    INVITE_FROM, [invited_teacher_email], message["subject"], message["message"], message["subject"]
                 )
 
                 messages.success(
@@ -166,12 +159,9 @@ def dashboard_teacher_view(request, is_admin):
         else:
             anchor = "account"
             update_account_form = TeacherEditAccountForm(request.user, request.POST)
-            (
-                changing_email,
-                new_email,
-                changing_password,
-                anchor,
-            ) = process_update_account_form(request, teacher, anchor)
+            (changing_email, new_email, changing_password, anchor) = process_update_account_form(
+                request, teacher, anchor
+            )
             if changing_email:
                 logout(request)
                 messages.success(
@@ -179,18 +169,11 @@ def dashboard_teacher_view(request, is_admin):
                     "Your email will be changed once you have verified it, until then "
                     "you can still log in with your old email.",
                 )
-                return render(
-                    request,
-                    "portal/email_verification_needed.html",
-                    {"usertype": "TEACHER"},
-                )
+                return render(request, "portal/email_verification_needed.html", {"usertype": "TEACHER"})
 
             if changing_password:
                 logout(request)
-                messages.success(
-                    request,
-                    "Please login using your new password.",
-                )
+                messages.success(request, "Please login using your new password.")
                 return HttpResponseRedirect(reverse_lazy("teacher_login"))
 
     classes = Class.objects.filter(teacher=teacher)
@@ -203,7 +186,6 @@ def dashboard_teacher_view(request, is_admin):
             "classes": classes,
             "is_admin": is_admin,
             "coworkers": coworkers,
-            "join_requests": join_requests,
             "requests": requests,
             "invite_teacher_form": invite_teacher_form,
             "update_school_form": update_school_form,
@@ -250,10 +232,7 @@ def process_update_school_form(request, school, old_anchor):
 
         anchor = "#"
 
-        messages.success(
-            request,
-            "You have updated the details for your school or club successfully.",
-        )
+        messages.success(request, "You have updated the details for your school or club successfully.")
     else:
         anchor = old_anchor
 
@@ -300,64 +279,6 @@ def dashboard_manage(request):
         return dashboard_teacher_view(request, teacher.is_admin)
     else:
         return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))
-
-
-@require_POST
-@login_required(login_url=reverse_lazy("teacher_login"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
-def organisation_allow_join(request, pk):
-    teacher = get_object_or_404(Teacher, id=pk)
-    user = request.user.new_teacher
-
-    # check user has authority to accept teacher
-    if teacher.pending_join_request != user.school or not user.is_admin:
-        raise Http404
-
-    teacher.school = teacher.pending_join_request
-    teacher.pending_join_request = None
-    teacher.is_admin = False
-    teacher.save()
-
-    messages.success(request, "The teacher has been added to your school or club.")
-
-    emailMessage = email_messages.joinRequestAcceptedEmail(request, teacher.school.name)
-    send_email(
-        NOTIFICATION_EMAIL,
-        [teacher.new_user.email],
-        emailMessage["subject"],
-        emailMessage["message"],
-        emailMessage["subject"],
-    )
-
-    return HttpResponseRedirect(reverse_lazy("dashboard"))
-
-
-@require_POST
-@login_required(login_url=reverse_lazy("teacher_login"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
-def organisation_deny_join(request, pk):
-    teacher = get_object_or_404(Teacher, id=pk)
-    user = request.user.new_teacher
-
-    # check user has authority to accept teacher
-    if teacher.pending_join_request != user.school or not user.is_admin:
-        raise Http404
-
-    teacher.pending_join_request = None
-    teacher.save()
-
-    messages.success(request, "The request to join your school or club has been successfully denied.")
-
-    emailMessage = email_messages.joinRequestDeniedEmail(request, request.user.new_teacher.school.name)
-    send_email(
-        NOTIFICATION_EMAIL,
-        [teacher.new_user.email],
-        emailMessage["subject"],
-        emailMessage["message"],
-        emailMessage["subject"],
-    )
-
-    return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
 def check_teacher_is_authorised(teacher, user):
@@ -544,12 +465,7 @@ def teacher_accept_student_request(request, pk):
     return render(
         request,
         "portal/teach/teacher_add_external_student.html",
-        {
-            "students": students,
-            "class": student.pending_class_request,
-            "student": student,
-            "form": form,
-        },
+        {"students": students, "class": student.pending_class_request, "student": student, "form": form},
     )
 
 
@@ -580,9 +496,7 @@ def teacher_reject_student_request(request, pk):
         raise Http404
 
     emailMessage = email_messages.studentJoinRequestRejectedEmail(
-        request,
-        student.pending_class_request.teacher.school.name,
-        student.pending_class_request.access_code,
+        request, student.pending_class_request.teacher.school.name, student.pending_class_request.access_code
     )
     send_email(
         NOTIFICATION_EMAIL,
@@ -595,9 +509,6 @@ def teacher_reject_student_request(request, pk):
     student.pending_class_request = None
     student.save()
 
-    messages.success(
-        request,
-        "Request from external/independent student has been rejected successfully.",
-    )
+    messages.success(request, "Request from external/independent student has been rejected successfully.")
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
