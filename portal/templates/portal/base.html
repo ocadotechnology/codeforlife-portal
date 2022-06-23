@@ -100,10 +100,10 @@
 <div class="content-footer-wrapper">
 
     {# TODO: include popup and set timer if logged in #}
-    {% if True %}
+    {% if request.session.screentime_warning_timeout %}
         {% include "portal/partials/screentime_popup.html" %}
         <script>
-            setTimeout(showScreentimePopup, 2000);
+            setTimeout(showScreentimePopup, {{ request.session.screentime_warning_timeout }});
         </script>
     {% endif %}
 

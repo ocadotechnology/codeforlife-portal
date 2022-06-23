@@ -77,6 +77,7 @@ SETTINGS = {
         "django_otp.middleware.OTPMiddleware",
         "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
         "csp.middleware.CSPMiddleware",
+        "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
     ],
     "TEMPLATES": [
         {
@@ -130,6 +131,12 @@ RELATIONSHIPS = [
     OrderingRelationship(
         "MIDDLEWARE",
         "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
+        after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
+        add_missing=False,
+    ),
+    OrderingRelationship(
+        "MIDDLEWARE",
+        "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
         add_missing=False,
     ),
