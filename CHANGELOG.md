@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.9.0 (2022-06-23)
+### Feature
+* Delete indy popup ([#1879](https://github.com/ocadotechnology/codeforlife-portal/issues/1879)) ([`ad7c0b4`](https://github.com/ocadotechnology/codeforlife-portal/commit/ad7c0b4364a61dcadb43b3fac5a94f147758d87d))
+
 ## v6.8.9 (2022-06-21)
 ### Fix
 * Update registration page ([#1882](https://github.com/ocadotechnology/codeforlife-portal/issues/1882)) ([`3b2e4dc`](https://github.com/ocadotechnology/codeforlife-portal/commit/3b2e4dcc4d3db8e6e7f0136f8990996b4c72bfa7))
