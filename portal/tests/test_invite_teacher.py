@@ -2,7 +2,7 @@ from datetime import timedelta
 from uuid import uuid4
 from build.lib.common.tests.utils.student import create_school_student_directly
 from common.tests.utils.email import go_to_teacher_login_page
-
+from time import sleep
 
 import pytest
 from common.models import School, SchoolTeacherInvitation, Teacher
@@ -21,6 +21,8 @@ from portal.tests.base_test import BaseTest
 from portal.tests.pageObjects.portal.home_page import HomePage
 from portal.views.teacher.teach import invited_teacher, resend_invite_teacher
 
+
+FADE_TIME = 0.9
 
 
 class TestInviteTeacher(TestCase):
@@ -148,6 +150,7 @@ class TestInviteTeacher(TestCase):
             "access this page."
         )
 
+
 class TestTeacherInviteActions(BaseTest):
     def test_revoke_and_make_admin_invite(self):
         teacher_email, teacher_password = signup_teacher_directly()
@@ -181,6 +184,7 @@ class TestTeacherInviteActions(BaseTest):
         make_admin_button = page.browser.find_element_by_id("make_admin_button_invite")
         make_admin_button.click()
         # handle popup
+        sleep(FADE_TIME)
         confirm_button = page.browser.find_element_by_id("confirm_button")
         confirm_button.click()
 
@@ -194,7 +198,6 @@ class TestTeacherInviteActions(BaseTest):
         make_admin_button = page.browser.find_element_by_id("make_non_admin_button_invite")
         make_admin_button.click()
 
-        # handle popup
         banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
         assert banner.text == "Administrator invite status has been revoked sccessfully"
 
