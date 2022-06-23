@@ -225,7 +225,7 @@ class TestTeacherInviteActions(BaseTest):
         # check object was created
         invite_queryset = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")
         assert len(invite_queryset) == 1
-
+        sleep(FADE_TIME)
         delete_invite_button = page.browser.find_element_by_id("delete-invite")
         delete_invite_button.click()
 
