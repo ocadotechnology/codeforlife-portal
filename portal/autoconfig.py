@@ -31,6 +31,10 @@ SETTINGS = {
                 ),
                 "output_filename": "portal.css",
             },
+            "popup": {
+                "source_filenames": ("portal/sass/partials/_popup.scss",),
+                "output_filename": "popup.css",
+            },
         },
         "CSS_COMPRESSOR": None,
         "SASS_ARGUMENTS": "--quiet",

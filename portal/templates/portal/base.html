@@ -99,14 +99,6 @@
 
 <div class="content-footer-wrapper">
 
-    {# TODO: include popup and set timer if logged in #}
-    {% if request.session.screentime_warning_timeout %}
-        {% include "portal/partials/screentime_popup.html" %}
-        <script>
-            setTimeout(showScreentimePopup, {{ request.session.screentime_warning_timeout }});
-        </script>
-    {% endif %}
-
     {% block contentWrapper %}
     <div {% block pageID %}id="contentWrapper"{% endblock %}>
         {% block topBar %}
@@ -159,6 +151,13 @@
         <div class="push"></div>
     </div>
     {% endblock contentWrapper %}
+
+    {% if request.session.screentime_warning_timeout %}
+        {% include "portal/partials/screentime_popup.html" %}
+        <script>
+            setTimeout(showScreentimePopup, {{ request.session.screentime_warning_timeout }});
+        </script>
+    {% endif %}
 
     {% block footer %}
         {% include 'portal/partials/footer.html' %}
