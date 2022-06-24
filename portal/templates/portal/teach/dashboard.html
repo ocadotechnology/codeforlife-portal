@@ -144,57 +144,6 @@
             {% endif %}
         </div>
 
-
-        <!-- Help   -->
-        {% if 1 %}
-            <div class="background container">
-                <h5>Sent invites</h5>
-                <table id="invite_table" class="header-primary data-primary">
-                    <tr>
-                        <th><p>First name</p></th>
-                        <th><p>Last name</p></th>
-                        <th><p>Email address</p></th>
-                        <th><p>Actions</p></th>
-                    </tr>
-                    {% for sent_invite in sent_invites %}
-                    <tr>
-                        <td><p><small>{{ sent_invite.invited_teacher_first_name }}</small></p></td>
-                        <td><p><small>{{ sent_invite.token }}</small></p></td>
-                        <td><p><small>{{ sent_invite.invited_teacher_email }}</small></p></td>
-                        <td><p><small>{{ sent_invite.invited_teacher_is_admin }}</small></p></td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
-            <div id="school-details" class="background background--primary">
-                <div class="container">
-                    <h5>Update details of your school or club</h5>
-                    <p>Update your school or club’s name and/or postcode.</p>
-                    <strong>These details are used to allow other teachers to join your team.</strong>
-                    <form id="edit_form" method="post">
-                        {% csrf_token %}
-                        {{ update_school_form.non_field_errors }}
-                        <div class="row form--row">
-                            {% for field in update_school_form %}
-                                <div class="form--row__input col-sm-6 col-md-4">
-                                    <div class="input--icon">
-                                        {{ field }}
-                                        {% if not field == update_school_form.country %}
-                                            <span class="iconify" data-icon="mdi:domain"></span>
-                                        {% endif %}
-                                    </div>
-                                    <small>{{ field.help_text }}</small>
-                                    {{ field.errors }}
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <div class="section group">
-                            <button id="update_details_button" type="submit" class="button button--primary" name="update_school">Update details</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        {% endif %}
     </div>
 
         {% if is_admin %}
