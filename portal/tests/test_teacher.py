@@ -688,9 +688,6 @@ class TestTeacherFrontend(BaseTest):
         time.sleep(FADE_TIME)
 
         assert page.have_classes()
-        from time import sleep
-
-        sleep(10)
         page = page.open_account_tab()
 
         # test actual deletion
