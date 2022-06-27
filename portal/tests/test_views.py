@@ -37,7 +37,7 @@ from portal.views.teacher.teach import (
 from portal.views.api import anonymise
 
 
-class TestTeacherViews(TestCase):
+class TestViews(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.email, cls.password = signup_teacher_directly()
@@ -208,6 +208,12 @@ class TestTeacherViews(TestCase):
 
         with pytest.raises(Exception):
             count_student_details_click("Wrong download method")
+
+    def test_legal_pages(self):
+        c = Client()
+
+        assert c.get("privacy_policy").status_code == 200
+        assert c.get("terms").status_code == 200
 
 
 class TestLoginViews(TestCase):
