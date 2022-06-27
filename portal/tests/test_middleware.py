@@ -1,5 +1,7 @@
 import time
+from typing import Tuple
 from unittest import mock
+
 from _pytest.monkeypatch import MonkeyPatch
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly
@@ -31,7 +33,7 @@ class TestAdminAccessMiddleware(TestCase):
         self.monkeypatch = MonkeyPatch()
         self.monkeypatch.setattr("deploy.middleware.admin_access.MODULE_NAME", "test")
 
-    def _setup_user(self) -> (str, str):
+    def _setup_user(self) -> Tuple[str, str]:
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
@@ -137,11 +139,9 @@ class TestSessionTimeoutMiddleware(TestCase):
         self.email, self.password = self._setup_user()
 
         self.monkeypatch = MonkeyPatch()
-        self.monkeypatch.setattr(
-            "deploy.middleware.session_timeout.SESSION_EXPIRY_TIME", 5
-        )
+        self.monkeypatch.setattr("deploy.middleware.session_timeout.SESSION_EXPIRY_TIME", 5)
 
-    def _setup_user(self) -> (str, str):
+    def _setup_user(self) -> Tuple[str, str]:
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
@@ -163,3 +163,42 @@ class TestSessionTimeoutMiddleware(TestCase):
         user = auth.get_user(self.client)
 
         assert not user.is_authenticated
+
+
+class TestScreentimeWarningMiddleware(TestCase):
+    """
+    This tests the ScreentimeWarningMiddleware class and popup timeout is set properly.
+    """
+
+    def setUp(self) -> None:
+        self.client = Client()
+        self.email, self.password = self._setup_user()
+
+    def _setup_user(self) -> Tuple[str, str]:
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        return email, password
+
+    def test_screentime_warning_timeout(self):
+        # Timeout should not be there if the user is not logged in
+        session = self.client.session
+        assert "screentime_warning_timeout" not in session
+
+        # Log in as a teacher
+        self.client.login(username=self.email, password=self.password)
+
+        # Check the screentime_warning_timeout decreases after consecutive requests
+        self.client.get("/")
+        session = self.client.session
+        assert "screentime_warning_timeout" in session
+        previous_screentime_warning_timeout = session["screentime_warning_timeout"]
+
+        self.client.get("/")
+        session = self.client.session
+        assert "screentime_warning_timeout" in session
+        new_screentime_warning_timeout = session["screentime_warning_timeout"]
+
+        assert new_screentime_warning_timeout < previous_screentime_warning_timeout

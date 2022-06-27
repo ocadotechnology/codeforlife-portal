@@ -65,7 +65,7 @@ function hideScreentimePopup() {
   // Reset screentime warning for the user
   $.get("/user/reset_screentime_warning/");
 
-  // Show the popup again after one hour
+  // Show the popup again after one hour - just in case the user stays on the same page
   setTimeout(showScreentimePopup, 3600000);
 }
 
