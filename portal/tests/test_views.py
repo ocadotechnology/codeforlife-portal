@@ -676,8 +676,8 @@ class TestViews(TestCase):
         with pytest.raises(School.DoesNotExist):
             School.objects.get(id=school_id)
 
-    def test_legal_pages(self):
+    def test_legal_pages_load(self):
         c = Client()
 
-        assert c.get("privacy_policy").status_code == 200
-        assert c.get("terms").status_code == 200
+        assert c.get(reverse("privacy_policy")).status_code == 200
+        assert c.get(reverse("terms")).status_code == 200
