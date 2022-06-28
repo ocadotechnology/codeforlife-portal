@@ -114,11 +114,7 @@ class TestTeacherStudentFrontend(BaseTest):
             .go_to_class_page()
         )
 
-        page = (
-            page.type_student_name(student_name)
-            .type_student_name(student_name)
-            .click_create_students()
-        )
+        page = page.type_student_name(student_name).type_student_name(student_name).click_create_students()
         assert page.adding_students_failed()
         assert page.duplicate_students(student_name)
 
@@ -238,10 +234,7 @@ class TestTeacherStudentFrontend(BaseTest):
         login_url = page.get_first_login_url()
         page.browser.get(login_url)
         assert page.on_correct_page("play_dashboard_page")
-        assert (
-            new_student_name
-            in page.browser.find_element_by_xpath("//div[@class='header']").text
-        )
+        assert new_student_name in page.browser.find_element_by_xpath("//div[@class='header']").text
 
     def test_update_student_name(self):
         email, password = signup_teacher_directly()
@@ -523,6 +516,9 @@ class TestTeacherStudentFrontend(BaseTest):
         _, _, _ = create_class_directly(email_2)
         student_name_1, _, _ = create_school_student_directly(access_code_1)
         student_name_2, _, _ = create_school_student_directly(access_code_1)
+        # Sort student names alphabetically to match the UI
+        if student_name_1 > student_name_2:
+            student_name_1, student_name_2 = student_name_2, student_name_1
 
         self.selenium.get(self.live_server_url)
         page = (
@@ -541,13 +537,7 @@ class TestTeacherStudentFrontend(BaseTest):
 
         page = page.go_to_dashboard()
 
-        page = (
-            page.logout()
-            .go_to_teacher_login_page()
-            .login(email_2, password_2)
-            .open_classes_tab()
-            .go_to_class_page()
-        )
+        page = page.logout().go_to_teacher_login_page().login(email_2, password_2).open_classes_tab().go_to_class_page()
         assert page.student_exists(student_name_1)
 
     def test_dismiss(self):
@@ -571,12 +561,7 @@ class TestTeacherStudentFrontend(BaseTest):
         page = page.cancel()
         assert page.__class__.__name__ == "TeachClassPage"
 
-        page = (
-            page.toggle_select_student()
-            .dismiss_students()
-            .enter_email("student_email@gmail.com")
-            .dismiss()
-        )
+        page = page.toggle_select_student().dismiss_students().enter_email("student_email@gmail.com").dismiss()
         assert not page.student_exists(student_name_1)
 
         # check whether a record is created correctly
