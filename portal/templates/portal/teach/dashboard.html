@@ -245,13 +245,14 @@
             <section>
                 <h4>Your classes</h4>
             </section>
-            <p>Below is a list of all the classes you teach. You can add a class or edit your existing classes. You can also accept or deny
-                requests from independent students wanting to join one of your classes.</p>
+            <p>Below is a list of all the classes in your school, including classes of other teachers. You can add a class or edit your existing classes.
+                You can also accept or deny requests from independent students wanting to join one of your classes.</p>
             {% if classes %}
                 <table id="classes-table" class="header-primary data-primary">
                     <tr>
                         <th><p>Class name</p></th>
                         <th><p>Access code</p></th>
+                        <th><p>Teacher</p></th>
                         <th><p>Action</p></th>
                     </tr>
                     {% for class in classes %}
@@ -266,6 +267,17 @@
                                         </a>
                                     </div>
                                 </div>
+                            </td>
+                            <td>
+                                <p>
+                                    <small>
+                                        {% if user.email == class.teacher.new_user.email %}
+                                        You
+                                        {% else %}
+                                        {{ class.teacher }}
+                                        {% endif %}
+                                    </small>
+                                </p>
                             </td>
                             <td class="cell-center">
                                 <a id="class_button" href="{% url 'view_class' class.access_code %}"
