@@ -16,6 +16,7 @@ class SignupPage(BasePage):
         self.browser.find_element_by_id("id_teacher_signup-teacher_email").send_keys(email)
         self.browser.find_element_by_id("id_teacher_signup-teacher_password").send_keys(password)
         self.browser.find_element_by_id("id_teacher_signup-teacher_confirm_password").send_keys(confirm_password)
+        self.browser.find_element_by_id("id_teacher_signup-consent_ticked").click()
 
         if newsletter:
             self.browser.find_element_by_id("id_teacher_signup-newsletter_ticked").click()

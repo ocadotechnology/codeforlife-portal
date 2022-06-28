@@ -10,7 +10,9 @@
         <div class="form-div form">
             <h4>Teacher/Tutor</h4>
             <div class="row form--row">
-                <p class="semi-bold">Once you've registered your personal details and logged in, you'll be able to create your school or club, or join other teachers at your institution.</p>
+                <p class="semi-bold">Register below to create your school or club.</p>
+                <small>You will access to teaching resources, progress tracking and lesson plans for both Rapid Router
+                    and Kurono.</small>
             </div>
             <form class="d-flex flex-column" method="post" id="form-reg-teacher" autocomplete="off">
 
@@ -34,6 +36,9 @@
                     {{ teacher_signup_form.teacher_email }}
                     <small>{{ teacher_signup_form.teacher_email.help_text }}</small>
                     {{ teacher_signup_form.teacher_email.errors }}
+                </div>
+                <div class="row form--row">
+                    {% include 'portal/partials/register_consent_tickbox.html' with consent_ticked=teacher_signup_form.consent_ticked %}
                 </div>
                 <div class="row form--row">
                     {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=teacher_signup_form.newsletter_ticked %}
@@ -64,7 +69,8 @@
 
                 <div class="row">{{ teacher_signup_form.captcha }}</div>
                 <div class="d-flex justify-content-end row">
-                    <button class="button button--home button--primary teacher--home--button button--icon" type="submit" name="teacher_signup"> Register<span class="iconify" data-icon="mdi:chevron-right"></span></button>
+                    <button class="button button--home button--primary teacher--home--button button--icon" type="submit"
+                            name="teacher_signup">Register<span class="iconify" data-icon="mdi:chevron-right"></span></button>
                 </div>
             </form>
 
@@ -79,7 +85,8 @@
                     Register below if you are not part of a school or club.
                 </p>
                 <small class="semi-bold">
-                    Are you part of a school or club? If so, please log in <a href="{% url 'student_login_access_code' %}">here</a> or speak to your teacher.
+                    Are you part of a school or club? If so, please log in
+                    <a href="{% url 'student_login_access_code' %}">here</a> or speak to your teacher.
                 </small>
             </div>
             <form id="form-signup-independent-student" method="post" autocomplete="off" class="d-flex flex-column">
@@ -130,7 +137,8 @@
 
                 <div class="row">{{ independent_student_signup_form.captcha }}</div>
                 <div class="d-flex justify-content-end row">
-                    <button type="submit" name="independent_student_signup" class="button button--home button--icon" value="Register">Register<span class="iconify" data-icon="mdi:chevron-right"></span></button>
+                    <button type="submit" name="independent_student_signup" class="button button--home button--icon"
+                            value="Register">Register<span class="iconify" data-icon="mdi:chevron-right"></span></button>
                 </div>
             </form>
         </div>
