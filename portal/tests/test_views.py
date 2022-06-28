@@ -33,7 +33,7 @@ from portal.views.teacher.teach import (
 )
 
 
-class TestViews(TestCase):
+class TestTeacherViews(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.email, cls.password = signup_teacher_directly()
@@ -205,12 +205,6 @@ class TestViews(TestCase):
         with pytest.raises(Exception):
             count_student_details_click("Wrong download method")
 
-    def test_legal_pages(self):
-        c = Client()
-
-        assert c.get("privacy_policy").status_code == 200
-        assert c.get("terms").status_code == 200
-
 
 class TestLoginViews(TestCase):
     @classmethod
@@ -342,7 +336,7 @@ class TestLoginViews(TestCase):
 
         c = Client()
         url = reverse("student_login", kwargs={"access_code": class_access_code})
-        resp = c.post(url, {"username": randomname, "password": "xx"})
+        c.post(url, {"username": randomname, "password": "xx"})
 
         # check if there's a UserSession data within the last 10 secs
         now = timezone.now()
@@ -422,7 +416,7 @@ class TestViews(TestCase):
 
         expected_html = '<a href="/home-learning">Home learning</a>'
 
-        self.assertIn(expected_html, html)
+        assert expected_html in html
 
         response = c.get(page_url)
 
@@ -541,9 +535,7 @@ class TestViews(TestCase):
 
         c = Client()
         url = reverse("teacher_login")
-        response = c.post(
-            url, {"auth-username": email, "auth-password": password, "teacher_login_view-current_step": "auth"}
-        )
+        c.post(url, {"auth-username": email, "auth-password": password, "teacher_login_view-current_step": "auth"})
 
         # fail to delete with incorrect password
         url = reverse("delete_account")
@@ -611,13 +603,11 @@ class TestViews(TestCase):
 
         c = Client()
         url = reverse("teacher_login")
-        response = c.post(
-            url, {"auth-username": email1, "auth-password": password1, "teacher_login_view-current_step": "auth"}
-        )
+        c.post(url, {"auth-username": email1, "auth-password": password1, "teacher_login_view-current_step": "auth"})
 
         # delete teacher1 account
         url = reverse("delete_account")
-        response = c.post(url, {"password": password1})
+        c.post(url, {"password": password1})
 
         # user has been anonymised
         u = User.objects.get(id=usrid1)
@@ -646,13 +636,11 @@ class TestViews(TestCase):
         user3.new_teacher.save()
 
         url = reverse("teacher_login")
-        response = c.post(
-            url, {"auth-username": email3, "auth-password": password3, "teacher_login_view-current_step": "auth"}
-        )
+        c.post(url, {"auth-username": email3, "auth-password": password3, "teacher_login_view-current_step": "auth"})
 
         # now delete teacher3 account
         url = reverse("delete_account")
-        response = c.post(url, {"password": password3})
+        c.post(url, {"password": password3})
 
         # 2 teachers left
         teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
@@ -674,12 +662,10 @@ class TestViews(TestCase):
 
         # delete teacher2 (the last one left)
         url = reverse("teacher_login")
-        response = c.post(
-            url, {"auth-username": email2, "auth-password": password2, "teacher_login_view-current_step": "auth"}
-        )
+        c.post(url, {"auth-username": email2, "auth-password": password2, "teacher_login_view-current_step": "auth"})
 
         url = reverse("delete_account")
-        response = c.post(url, {"password": password2})
+        c.post(url, {"password": password2})
 
         # school should be anonymised
         school = School._base_manager.get(id=school_id)
@@ -689,3 +675,9 @@ class TestViews(TestCase):
 
         with pytest.raises(School.DoesNotExist):
             School.objects.get(id=school_id)
+
+    def test_legal_pages(self):
+        c = Client()
+
+        assert c.get("privacy_policy").status_code == 200
+        assert c.get("terms").status_code == 200
