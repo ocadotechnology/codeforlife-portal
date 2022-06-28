@@ -11,6 +11,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.test import Client, TestCase
+from django.urls import reverse
 
 MOCKED_SESSION_EXPIRY_TIME = 5
 
@@ -202,3 +203,12 @@ class TestScreentimeWarningMiddleware(TestCase):
         new_screentime_warning_timeout = session["screentime_warning_timeout"]
 
         assert new_screentime_warning_timeout < previous_screentime_warning_timeout
+
+        # Check the reset_screentime_warning API resets the timeout
+        url = reverse("reset_screentime_warning")
+        self.client.get(url)
+        self.client.get("/")
+        session = self.client.session
+        assert "screentime_warning_timeout" in session
+        renewed_screentime_warning_timeout = session["screentime_warning_timeout"]
+        assert renewed_screentime_warning_timeout > new_screentime_warning_timeout
