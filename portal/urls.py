@@ -23,7 +23,13 @@ from portal.views.api import (
 )
 from portal.views.dotmailer import dotmailer_consent_form, process_newsletter_form
 from portal.views.email import send_new_users_report, verify_email
-from portal.views.home import home, home_learning, logout_view, register_view
+from portal.views.home import (
+    home,
+    home_learning,
+    logout_view,
+    register_view,
+    reset_screentime_warning,
+)
 from portal.views.login import old_login_form_redirect
 from portal.views.login.independent_student import IndependentStudentLoginView
 from portal.views.login.student import StudentLoginView, StudentClassCodeView, student_direct_login
@@ -165,6 +171,11 @@ urlpatterns = [
         r"^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$",
         password_reset_check_and_confirm,
         name="password_reset_check_and_confirm",
+    ),
+    url(
+        r"^user/reset_screentime_warning/$",
+        reset_screentime_warning,
+        name="reset_screentime_warning",
     ),
     url(
         r"^teacher/password/reset/complete/$",
