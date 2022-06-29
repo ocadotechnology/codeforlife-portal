@@ -5,12 +5,11 @@ import json
 from datetime import datetime, timedelta
 from enum import Enum
 from functools import partial, wraps
-from pickle import NEWFALSE
 from uuid import uuid4
 
-from common.helpers.emails import DotmailerUserType, add_to_dotmailer, generate_token, send_verification_email
+from common.helpers.emails import send_verification_email
 from common.helpers.generators import generate_access_code, generate_login_id, generate_password, get_hashed_login_id
-from common.models import Class, DailyActivity, JoinReleaseStudent, SchoolTeacherInvitation, Student, Teacher
+from common.models import Class, DailyActivity, JoinReleaseStudent, Student, Teacher
 from common.permissions import logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -23,13 +22,13 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from past.utils import old_div
+
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
     BaseTeacherMoveStudentsDisambiguationFormSet,
     ClassCreationForm,
     ClassEditForm,
     ClassMoveForm,
-    InvitedTeacherForm,
     StudentCreationForm,
     TeacherDismissStudentsForm,
     TeacherEditStudentForm,
@@ -908,65 +907,3 @@ def count_student_details_click(download_type):
         raise Exception("Unknown download type")
 
     activity_today.save()
-
-
-def process_teacher_invitation(request, token):
-    try:
-        invitation = SchoolTeacherInvitation.objects.get(token=token, expiry__gt=timezone.now())
-    except SchoolTeacherInvitation.DoesNotExist:
-        return "Uh oh, the Invitation does not exist or it has expired. ☹️"
-
-    if User.objects.filter(email=invitation.invited_teacher_email).exists():
-        return (
-            "It looks like an account is already registered with this email address. You will need to delete the "
-            "other account first or change the email associated with it in order to proceed. You will then be able to "
-            "access this page."
-        )
-    else:
-        if request.method == "POST":
-            invited_teacher_form = InvitedTeacherForm(request.POST)
-            if invited_teacher_form.is_valid():
-                data = invited_teacher_form.cleaned_data
-                invited_teacher_password = data["teacher_password"]
-                newsletter_ticked = data["newsletter_ticked"]
-
-                # Create the teacher
-                invited_teacher = Teacher.objects.factory(
-                    first_name=invitation.invited_teacher_first_name,
-                    last_name=invitation.invited_teacher_last_name,
-                    email=invitation.invited_teacher_email,
-                    password=invited_teacher_password,
-                )
-                invited_teacher.is_admin = invitation.invited_teacher_is_admin
-                invited_teacher.school = invitation.school
-                invited_teacher.invited_by = invitation.from_teacher
-                invited_teacher.save()
-
-                # Verify their email
-                generate_token(invited_teacher.new_user, preverified=True)
-
-                # Add to Dotmailer if they ticked the box
-                if newsletter_ticked:
-                    user = invited_teacher.user.user
-                    add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
-
-                # Anonymise the invitation
-                invitation.anonymise()
-
-
-def invited_teacher(request, token):
-    error_message = process_teacher_invitation(request, token)
-
-    if request.method == "POST":
-        invited_teacher_form = InvitedTeacherForm(request.POST)
-        if invited_teacher_form.is_valid():
-            messages.success(request, "Your account has been created successfully, please log in.")
-            return HttpResponseRedirect(reverse_lazy("teacher_login"))
-    else:
-        invited_teacher_form = InvitedTeacherForm()
-
-    return render(
-        request,
-        "portal/teach/invited.html",
-        {"invited_teacher_form": invited_teacher_form, "error_message": error_message},
-    )

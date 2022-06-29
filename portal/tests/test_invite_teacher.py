@@ -1,5 +1,6 @@
 from datetime import timedelta
 from uuid import uuid4
+from time import sleep
 
 import pytest
 from common.models import School, SchoolTeacherInvitation, Teacher
@@ -11,6 +12,12 @@ from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
+
+from portal.tests.base_test import BaseTest
+from portal.views.teacher.dashboard import delete_teacher_invite
+
+
+FADE_TIME = 0.9
 
 
 class TestInviteTeacher(TestCase):
@@ -137,3 +144,144 @@ class TestInviteTeacher(TestCase):
             "other account first or change the email associated with it in order to proceed. You will then be able to "
             "access this page."
         )
+
+
+class TestTeacherInviteAPI(TestCase):
+    def test_delete_exception(self):
+        email, password = signup_teacher_directly()
+        school_name, school_postcode = create_organisation_directly(email)
+        create_class_directly(email)
+        teacher = Teacher.objects.get(new_user__email=email)
+        school = School.objects.get(name=school_name, postcode=school_postcode)
+
+        client = Client()
+        client.login(username=email, password=password)
+
+        response = client.post(reverse("delete_teacher_invite", kwargs={"token": "2345678"}))
+        message = list(response.wsgi_request._messages)[0].message
+        assert message == "You do not have permission to perform this action or the invite does not exist"
+
+        response = client.post(reverse("resend_invite_teacher", kwargs={"token": "2345678"}))
+        message = list(response.wsgi_request._messages)[0].message
+        assert message == "You do not have permission to perform this action or the invite does not exist"
+
+
+class TestTeacherInviteActions(BaseTest):
+    def test_revoke_and_make_admin_invite(self):
+        teacher_email, teacher_password = signup_teacher_directly()
+        school_name, _ = create_organisation_directly(teacher_email)
+        class_name = "Test Class"
+        klass, _, _ = create_class_directly(teacher_email, class_name)
+
+        page = self.go_to_homepage()
+        page = page.go_to_teacher_login_page().login(teacher_email, teacher_password)
+
+        # Generate an invite
+        invite_data = {
+            "teacher_first_name": "Adam",
+            "teacher_last_name": "NotAdam",
+            "teacher_email": "adam@adam.not",
+        }
+        for key in invite_data.keys():
+            field = page.browser.find_element_by_name(key)
+            field.send_keys(invite_data[key])
+        invite_button = page.browser.find_element_by_name("invite_teacher")
+        invite_button.click()
+
+        banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
+        assert (
+            banner.text
+            == f"You have invited {invite_data['teacher_first_name']} {invite_data['teacher_last_name']} to your school."
+        )
+
+        # make admin
+        sleep(FADE_TIME)
+        make_admin_button = page.browser.find_element_by_id("make_admin_button_invite")
+        make_admin_button.click()
+        # handle popup
+        sleep(FADE_TIME)
+        confirm_button = page.browser.find_element_by_id("confirm_button")
+        confirm_button.click()
+
+        # check if popup message appears and if the invite is changed to admin
+        banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
+        assert banner.text == "Administrator invite status has been given successfully"
+        invite = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0]
+        assert invite.invited_teacher_is_admin
+
+        # revoke admin
+        make_admin_button = page.browser.find_element_by_id("make_non_admin_button_invite")
+        make_admin_button.click()
+
+        banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
+        assert banner.text == "Administrator invite status has been revoked successfully"
+
+    def test_delete_invite(self):
+        teacher_email, teacher_password = signup_teacher_directly()
+        school_name, _ = create_organisation_directly(teacher_email)
+        class_name = "Test Class"
+        klass, _, _ = create_class_directly(teacher_email, class_name)
+
+        page = self.go_to_homepage()
+        page = page.go_to_teacher_login_page().login(teacher_email, teacher_password)
+
+        # Generate an invite
+        invite_data = {
+            "teacher_first_name": "Adam",
+            "teacher_last_name": "NotAdam",
+            "teacher_email": "adam@adam.not",
+        }
+        for key in invite_data.keys():
+            field = page.browser.find_element_by_name(key)
+            field.send_keys(invite_data[key])
+        invite_button = page.browser.find_element_by_name("invite_teacher")
+        invite_button.click()
+
+        # check object was created
+        invite_queryset = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")
+        assert len(invite_queryset) == 1
+        sleep(FADE_TIME)
+        # delete
+        delete_invite_button = page.browser.find_element_by_id("delete-invite")
+        delete_invite_button.click()
+
+        empty_invite_queryset = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")
+        assert len(empty_invite_queryset) == 0
+
+    def test_resend_invite(self):
+        teacher_email, teacher_password = signup_teacher_directly()
+        school_name, _ = create_organisation_directly(teacher_email)
+        class_name = "Test Class"
+        klass, _, _ = create_class_directly(teacher_email, class_name)
+
+        page = self.go_to_homepage()
+        page = page.go_to_teacher_login_page().login(teacher_email, teacher_password)
+
+        # Generate an invite
+        invite_data = {
+            "teacher_first_name": "Adam",
+            "teacher_last_name": "NotAdam",
+            "teacher_email": "adam@adam.not",
+        }
+        for key in invite_data.keys():
+            field = page.browser.find_element_by_name(key)
+            field.send_keys(invite_data[key])
+        invite_button = page.browser.find_element_by_name("invite_teacher")
+        invite_button.click()
+
+        # Note the expiry to compare later
+        invite_expiry = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0].expiry
+
+        banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
+        assert (
+            banner.text
+            == f"You have invited {invite_data['teacher_first_name']} {invite_data['teacher_last_name']} to your school."
+        )
+
+        # resend an invite
+        resend_invite = page.browser.find_element_by_id("resend-invite")
+        resend_invite.click()
+
+        # check if invite was updated by 30 days (used 29 for rounding errors)
+        new_invite_expiry = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0].expiry
+        assert timezone.now() + timedelta(days=29) <= new_invite_expiry

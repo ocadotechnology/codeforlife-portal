@@ -136,6 +136,10 @@ class SchoolTeacherInvitation(models.Model):
 
     objects = SchoolTeacherInvitationModelManager()
 
+    @property
+    def is_expired(self):
+        return self.expiry < timezone.now()
+
     def __str__(self):
         return f"School teacher invitation for {self.invited_teacher_email} to {self.school.name}"
 

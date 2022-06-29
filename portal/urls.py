@@ -54,13 +54,16 @@ from portal.views.teach import teach
 from portal.views.teacher.dashboard import (
     dashboard_manage,
     organisation_kick,
+    invite_toggle_admin,
     organisation_toggle_admin,
     teacher_accept_student_request,
     teacher_disable_2FA,
     teacher_reject_student_request,
+    delete_teacher_invite,
+    invited_teacher,
+    resend_invite_teacher,
 )
 from portal.views.teacher.teach import (
-    invited_teacher,
     teacher_class_password_reset,
     teacher_delete_class,
     teacher_delete_students,
@@ -264,6 +267,15 @@ urlpatterns = [
         rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/students/move/$",
         teacher_move_students,
         name="teacher_move_students",
+    ),
+    url(r"^teach/dashboard/resend_invite/(?P<token>[0-9a-f]+)/$", resend_invite_teacher, name="resend_invite_teacher"),
+    url(
+        r"^teach/dashboard/toggle_admin_invite/(?P<invite_id>[0-9]+)/$", invite_toggle_admin, name="invite_toggle_admin"
+    ),
+    url(
+        r"^teach/dashboard/delete_teacher_invite/(?P<token>[0-9a-f]+)$",
+        delete_teacher_invite,
+        name="delete_teacher_invite",
     ),
     url(
         rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/students/move/disambiguate/$",
