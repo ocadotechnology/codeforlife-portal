@@ -14,6 +14,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from portal.tests.base_test import BaseTest
+from portal.views.teacher.dashboard import delete_teacher_invite
 
 
 FADE_TIME = 0.9
@@ -143,6 +144,26 @@ class TestInviteTeacher(TestCase):
             "other account first or change the email associated with it in order to proceed. You will then be able to "
             "access this page."
         )
+
+
+class TestTeacherInviteAPI(TestCase):
+    def test_delete_exception(self):
+        email, password = signup_teacher_directly()
+        school_name, school_postcode = create_organisation_directly(email)
+        create_class_directly(email)
+        teacher = Teacher.objects.get(new_user__email=email)
+        school = School.objects.get(name=school_name, postcode=school_postcode)
+
+        client = Client()
+        client.login(username=email, password=password)
+
+        response = client.post(reverse("delete_teacher_invite", kwargs={"token": "2345678"}))
+        message = list(response.wsgi_request._messages)[0].message
+        assert message == "You do not have permission to perform this action or the invite does not exist"
+
+        response = client.post(reverse("resend_invite_teacher", kwargs={"token": "2345678"}))
+        message = list(response.wsgi_request._messages)[0].message
+        assert message == "You do not have permission to perform this action or the invite does not exist"
 
 
 class TestTeacherInviteActions(BaseTest):

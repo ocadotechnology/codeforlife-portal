@@ -531,7 +531,7 @@ def delete_teacher_invite(request, token):
     teacher = request.user.new_teacher
 
     # auth the user before deletion
-    if invite is None or not teacher.school == invite.school:
+    if invite is None or teacher.school != invite.school:
         messages.error(request, "You do not have permission to perform this action or the invite does not exist")
     else:
         invite_teacher_first_name = invite.invited_teacher_first_name
@@ -549,7 +549,7 @@ def resend_invite_teacher(request, token):
     teacher = request.user.new_teacher
 
     # auth the user before deletion
-    if invite is None or not teacher.school == invite.school:
+    if invite is None or teacher.school != invite.school:
         messages.error(request, "You do not have permission to perform this action or the invite does not exist")
     else:
         invite.expiry = timezone.now() + timedelta(days=30)
