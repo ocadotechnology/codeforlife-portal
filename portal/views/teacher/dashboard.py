@@ -524,12 +524,15 @@ def teacher_reject_student_request(request, pk):
 
 @login_required(login_url=reverse_lazy("teacher_login"))
 def delete_teacher_invite(request, token):
-    invite = SchoolTeacherInvitation.objects.get(token=token)
+    try:
+        invite = SchoolTeacherInvitation.objects.get(token=token)
+    except SchoolTeacherInvitation.DoesNotExist:
+        invite = None
     teacher = request.user.new_teacher
 
     # auth the user before deletion
-    if not teacher.school == invite.school:
-        messages.error(request, "You do not have permission to perform this action")
+    if invite is None or not teacher.school == invite.school:
+        messages.error(request, "You do not have permission to perform this action or the invite does not exist")
     else:
         invite_teacher_first_name = invite.invited_teacher_first_name
         invite.anonymise()
@@ -539,29 +542,25 @@ def delete_teacher_invite(request, token):
 
 @login_required(login_url=reverse_lazy("teacher_login"))
 def resend_invite_teacher(request, token):
-    invitation = SchoolTeacherInvitation.objects.get(token=token)
+    try:
+        invite = SchoolTeacherInvitation.objects.get(token=token)
+    except SchoolTeacherInvitation.DoesNotExist:
+        invite = None
     teacher = request.user.new_teacher
 
     # auth the user before deletion
-    if not teacher.school == invitation.school:
-        messages.error(request, "You do not have permission to perform this action")
+    if invite is None or not teacher.school == invite.school:
+        messages.error(request, "You do not have permission to perform this action or the invite does not exist")
     else:
-        invitation.expiry = timezone.now() + timedelta(days=30)
-        invitation.save()
-        teacher = Teacher.objects.filter(id=invitation.from_teacher.id)[0]
-        verify_email = EmailVerification(
-            user=teacher.new_user,
-            token=token,
-            email=invitation.invited_teacher_email,
-            expiry=timezone.now() + timedelta(hours=1),
-            verified=True,
-        )
+        invite.expiry = timezone.now() + timedelta(days=30)
+        invite.save()
+        teacher = Teacher.objects.filter(id=invite.from_teacher.id)[0]
 
         messages.success(request, "Teacher re-invited!")
-        message = email_messages.inviteTeacherEmail(request, invitation.school, token, not (invitation.is_expired))
+        message = email_messages.inviteTeacherEmail(request, invite.school, token, not (invite.is_expired))
         send_email(
             INVITE_FROM,
-            [invitation.invited_teacher_email],
+            [invite.invited_teacher_email],
             message["subject"],
             message["message"],
             message["subject"],
