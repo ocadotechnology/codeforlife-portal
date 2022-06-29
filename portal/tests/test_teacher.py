@@ -307,6 +307,7 @@ class TestTeacher(TestCase):
                 "teacher_signup-teacher_first_name": "Test Name",
                 "teacher_signup-teacher_last_name": "Test Last Name",
                 "teacher_signup-teacher_email": "test@email.com",
+                "teacher_signup-consent_ticked": "on",
                 "teacher_signup-teacher_password": "test",
                 "teacher_signup-teacher_confirm_password": "test",
                 "g-recaptcha-response": "something",
@@ -325,6 +326,7 @@ class TestTeacher(TestCase):
                 "teacher_signup-teacher_first_name": "Test Name",
                 "teacher_signup-teacher_last_name": "Test Last Name",
                 "teacher_signup-teacher_email": "test@email.com",
+                "teacher_signup-consent_ticked": "on",
                 "teacher_signup-teacher_password": "Password1",
                 "teacher_signup-teacher_confirm_password": "Password1",
                 "g-recaptcha-response": "something",
@@ -343,8 +345,27 @@ class TestTeacher(TestCase):
                 "teacher_signup-teacher_first_name": "Test Name",
                 "teacher_signup-teacher_last_name": "Test Last Name",
                 "teacher_signup-teacher_email": "test@email.com",
+                "teacher_signup-consent_ticked": "on",
                 "teacher_signup-teacher_password": "StrongPassword1!",
                 "teacher_signup-teacher_confirm_password": "StrongPassword2!",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        # Assert response isn't a redirect (submit failure)
+        assert response.status_code == 200
+
+    def test_signup_fails_without_consent(self):
+        c = Client()
+
+        response = c.post(
+            reverse("register"),
+            {
+                "teacher_signup-teacher_first_name": "Test Name",
+                "teacher_signup-teacher_last_name": "Test Last Name",
+                "teacher_signup-teacher_email": "test@email.com",
+                "teacher_signup-teacher_password": "StrongPassword1!",
+                "teacher_signup-teacher_confirm_password": "StrongPassword1!",
                 "g-recaptcha-response": "something",
             },
         )
@@ -361,6 +382,7 @@ class TestTeacher(TestCase):
                 "teacher_signup-teacher_first_name": "Test Name",
                 "teacher_signup-teacher_last_name": "Test Last Name",
                 "teacher_signup-teacher_email": "test@email.com",
+                "teacher_signup-consent_ticked": "on",
                 "teacher_signup-teacher_password": "StrongPassword1!",
                 "teacher_signup-teacher_confirm_password": "StrongPassword1!",
                 "g-recaptcha-response": "something",

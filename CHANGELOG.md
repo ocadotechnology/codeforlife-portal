@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.11.0 (2022-06-29)
+### Feature
+* Add consent checkbox to teacher registration form ([#1890](https://github.com/ocadotechnology/codeforlife-portal/issues/1890)) ([`96b215c`](https://github.com/ocadotechnology/codeforlife-portal/commit/96b215ce3dfeb65e0b74daa6d5c74358b182c0b3))
+
 ## v6.10.0 (2022-06-28)
 ### Feature
 * Screentime warning ([#1888](https://github.com/ocadotechnology/codeforlife-portal/issues/1888)) ([`532198e`](https://github.com/ocadotechnology/codeforlife-portal/commit/532198e2311f03e63c52d9df3bffd8b8dc34fff6))

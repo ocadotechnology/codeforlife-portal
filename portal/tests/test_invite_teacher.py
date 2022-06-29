@@ -1,6 +1,5 @@
 from datetime import timedelta
 from uuid import uuid4
-from time import sleep
 
 import pytest
 from common.models import School, SchoolTeacherInvitation, Teacher
@@ -12,10 +11,9 @@ from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
+from time import sleep
 
 from portal.tests.base_test import BaseTest
-from portal.views.teacher.dashboard import delete_teacher_invite
-
 
 FADE_TIME = 0.9
 
@@ -61,7 +59,11 @@ class TestInviteTeacher(TestCase):
         invitation_url = reverse("invited_teacher", kwargs={"token": invitation.token})
         response = client.post(
             invitation_url,
-            {"teacher_password": invited_teacher_password, "teacher_confirm_password": invited_teacher_password},
+            {
+                "teacher_password": invited_teacher_password,
+                "teacher_confirm_password": invited_teacher_password,
+                "consent_ticked": "on",
+            },
         )
 
         # Check the message displays correctly after registration
@@ -177,11 +179,7 @@ class TestTeacherInviteActions(BaseTest):
         page = page.go_to_teacher_login_page().login(teacher_email, teacher_password)
 
         # Generate an invite
-        invite_data = {
-            "teacher_first_name": "Adam",
-            "teacher_last_name": "NotAdam",
-            "teacher_email": "adam@adam.not",
-        }
+        invite_data = {"teacher_first_name": "Adam", "teacher_last_name": "NotAdam", "teacher_email": "adam@adam.not"}
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
             field.send_keys(invite_data[key])
@@ -226,11 +224,7 @@ class TestTeacherInviteActions(BaseTest):
         page = page.go_to_teacher_login_page().login(teacher_email, teacher_password)
 
         # Generate an invite
-        invite_data = {
-            "teacher_first_name": "Adam",
-            "teacher_last_name": "NotAdam",
-            "teacher_email": "adam@adam.not",
-        }
+        invite_data = {"teacher_first_name": "Adam", "teacher_last_name": "NotAdam", "teacher_email": "adam@adam.not"}
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
             field.send_keys(invite_data[key])
@@ -258,11 +252,7 @@ class TestTeacherInviteActions(BaseTest):
         page = page.go_to_teacher_login_page().login(teacher_email, teacher_password)
 
         # Generate an invite
-        invite_data = {
-            "teacher_first_name": "Adam",
-            "teacher_last_name": "NotAdam",
-            "teacher_email": "adam@adam.not",
-        }
+        invite_data = {"teacher_first_name": "Adam", "teacher_last_name": "NotAdam", "teacher_email": "adam@adam.not"}
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
             field.send_keys(invite_data[key])

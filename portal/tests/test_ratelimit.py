@@ -324,6 +324,7 @@ def test_teacher_already_registered_email(client):
         "teacher_signup-teacher_first_name": first_name,
         "teacher_signup-teacher_last_name": last_name,
         "teacher_signup-teacher_email": email,
+        "teacher_signup-consent_ticked": "on",
         "teacher_signup-teacher_password": password,
         "teacher_signup-teacher_confirm_password": password,
         "g-recaptcha-response": "something",
