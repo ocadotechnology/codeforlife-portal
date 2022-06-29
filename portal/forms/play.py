@@ -1,5 +1,5 @@
 import re
-from datetime import timedelta
+from datetime import timedelta, date
 
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
@@ -189,6 +189,14 @@ def are_password_and_confirm_password_different(password, confirm_password):
 
 
 class IndependentStudentSignupForm(forms.Form):
+    date_of_birth = forms.DateField(
+        help_text="Please enter your date of birth (we do not store this information).",
+        widget=forms.SelectDateWidget(
+            years=range(date.today().year, date.today().year - 100, -1), empty_label=("Year", "Month", "Day")
+        ),
+        required=False,
+    )
+
     name = forms.CharField(
         max_length=100,
         help_text="Enter full name",
@@ -200,7 +208,8 @@ class IndependentStudentSignupForm(forms.Form):
         widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "Email address"}),
     )
 
-    is_over_required_age = forms.BooleanField(initial=False, required=True)
+    consent_ticked = forms.BooleanField(widget=forms.CheckboxInput(), initial=False, required=True)
+    newsletter_ticked = forms.BooleanField(widget=forms.CheckboxInput(), initial=False, required=False)
 
     password = forms.CharField(
         help_text="Enter a password",
