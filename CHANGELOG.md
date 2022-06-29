@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.10.0 (2022-06-28)
+### Feature
+* Screentime warning ([#1888](https://github.com/ocadotechnology/codeforlife-portal/issues/1888)) ([`532198e`](https://github.com/ocadotechnology/codeforlife-portal/commit/532198e2311f03e63c52d9df3bffd8b8dc34fff6))
+
 ## v6.9.0 (2022-06-23)
 ### Feature
 * Delete indy popup ([#1879](https://github.com/ocadotechnology/codeforlife-portal/issues/1879)) ([`ad7c0b4`](https://github.com/ocadotechnology/codeforlife-portal/commit/ad7c0b4364a61dcadb43b3fac5a94f147758d87d))

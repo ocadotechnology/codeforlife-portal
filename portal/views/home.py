@@ -2,22 +2,23 @@ import logging
 
 from common import email_messages
 from common.helpers.emails import (
-    send_verification_email,
-    send_email,
     NOTIFICATION_EMAIL,
-    add_to_dotmailer,
     DotmailerUserType,
+    add_to_dotmailer,
+    send_email,
+    send_verification_email,
 )
-from common.models import Teacher, Student
+from common.models import Student, Teacher
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import _using_two_factor
 from deploy import captcha
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.views.decorators.cache import cache_control
 from portal.forms.play import IndependentStudentSignupForm
 from portal.forms.teach import TeacherSignupForm
@@ -251,3 +252,9 @@ def home_learning(request):
         "portal/home_learning.html",
         {"HOME_LEARNING_BANNER": HOME_LEARNING_BANNER},
     )
+
+
+def reset_screentime_warning(request):
+    if request.user.is_authenticated:
+        request.session["last_screentime_warning"] = timezone.now().timestamp()
+    return HttpResponse(status=204)  # No content
