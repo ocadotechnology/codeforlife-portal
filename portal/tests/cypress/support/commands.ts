@@ -125,6 +125,7 @@ Cypress.Commands.add(
     cy.get("#id_teacher_signup-teacher_first_name").type(firstName);
     cy.get("#id_teacher_signup-teacher_last_name").type(lastName);
     cy.get("#id_teacher_signup-teacher_email").type(email);
+    cy.get("#id_teacher_signup-consent_ticked").click();
     cy.get("#id_teacher_signup-teacher_password").type(password);
     cy.get("#id_teacher_signup-teacher_confirm_password").type(confirmPassword);
 
