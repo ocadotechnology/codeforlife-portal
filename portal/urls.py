@@ -42,6 +42,7 @@ from portal.views.home import (
     home_learning,
     logout_view,
     register_view,
+    reset_screentime_warning,
 )
 from portal.views.login import old_login_form_redirect
 from portal.views.login.independent_student import IndependentStudentLoginView
@@ -250,6 +251,11 @@ urlpatterns = [
         r"^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$",
         password_reset_check_and_confirm,
         name="password_reset_check_and_confirm",
+    ),
+    url(
+        r"^user/reset_screentime_warning/$",
+        reset_screentime_warning,
+        name="reset_screentime_warning",
     ),
     url(
         r"^teacher/password/reset/complete/$",
