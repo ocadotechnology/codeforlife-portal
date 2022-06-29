@@ -193,8 +193,11 @@
                                 <p>
                                     <small>
                                         {{ sent_invite.invited_teacher_first_name }}
-                                        {% if sent_invite.is_expired %} <b>(expired)</b>
-                                        {% else %} <b>(pending)</b>{% endif %}
+                                        {% if sent_invite.is_expired %}
+                                        <b>(expired)</b>
+                                        {% else %}
+                                        <b>(pending)</b>
+                                        {% endif %}
                                     </small>
                                 </p>
                             </td>
@@ -210,7 +213,7 @@
                                         Make admin<span class="iconify" data-icon="mdi:plus"></span></button>
                                     {% endif %}
                                     <button onclick="postWithCsrf('{% url 'resend_invite_teacher' sent_invite.token %}')" id="resend-invite" class="button button--small button--primary button--icon" >Resend invite<span class="iconify" data-icon="mdi:email-outline"></span></button>
-                                    <button onclick="postWithCsrf('{% url 'delete_teacher_invite' sent_invite.token %}')" id="delete-invite" class="button button--small button--primary--danger button--icon">Delete <span class="iconify" data-icon="mdi:delete-outline"></span></button>
+                                    <button onclick="postWithCsrf('{% url 'delete_teacher_invite' sent_invite.token %}')" id="delete-invite" class="button button--small button--primary--danger button--icon">Delete<span class="iconify" data-icon="mdi:delete-outline"></span></button>
                             </td>
                         </tr>
                     {% endfor %}

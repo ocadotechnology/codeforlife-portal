@@ -6,10 +6,6 @@ import json
 from datetime import datetime, timedelta
 from enum import Enum
 from functools import partial, wraps
-from operator import inv
-from pickle import NEWFALSE
-import re
-from tkinter.tix import Tree
 from uuid import uuid4
 from common.models import EmailVerification
 
@@ -973,6 +969,7 @@ def process_teacher_invitation(request, token):
                 invitation.anonymise()
 
 
+@login_required(login_url=reverse_lazy("teacher_login"))
 def delete_teacher_invite(request, token):
     invite_to_delete = SchoolTeacherInvitation.objects.filter(token=token)[0]
     invite_teacher_first_name = invite_to_delete.invited_teacher_first_name
@@ -981,6 +978,7 @@ def delete_teacher_invite(request, token):
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
+@login_required(login_url=reverse_lazy("teacher_login"))
 def resend_invite_teacher(request, token):
     invitation = SchoolTeacherInvitation.objects.get(token=token)
     invitation.expiry = timezone.now() + timedelta(days=30)
@@ -1004,6 +1002,7 @@ def resend_invite_teacher(request, token):
         message["subject"],
     )
     return HttpResponseRedirect(reverse_lazy("dashboard"))
+
 
 def invited_teacher(request, token):
     error_message = process_teacher_invitation(request, token)

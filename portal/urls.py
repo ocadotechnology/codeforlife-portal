@@ -7,7 +7,6 @@ from django.views.i18n import JavaScriptCatalog
 from game.views.level import play_default_level
 from two_factor.views import BackupTokensView, ProfileView, QRGeneratorView, SetupCompleteView
 
-
 from portal.helpers.decorators import ratelimit
 from portal.helpers.ratelimit import RATELIMIT_LOGIN_GROUP, RATELIMIT_METHOD, RATELIMIT_LOGIN_RATE
 from portal.helpers.regexes import ACCESS_CODE_REGEX

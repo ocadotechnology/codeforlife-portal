@@ -349,12 +349,9 @@ def organisation_kick(request, pk):
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def invite_toggle_admin(request, invite_id):
-    current_teacher_email = request.user.email
-    current_teacher_email
     invite = SchoolTeacherInvitation.objects.filter(id=invite_id)[0]
-    print(invite)
-    print(invite.invited_teacher_is_admin)
     invite.invited_teacher_is_admin = not invite.invited_teacher_is_admin
+    invite.save()
 
     if invite.invited_teacher_is_admin:
         messages.success(request, "Administrator invite status has been given successfully")
@@ -370,8 +367,6 @@ def invite_toggle_admin(request, invite_id):
             emailMessage["message"],
             emailMessage["subject"],
         )
-    print(invite.invited_teacher_is_admin)
-    invite.save()
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
