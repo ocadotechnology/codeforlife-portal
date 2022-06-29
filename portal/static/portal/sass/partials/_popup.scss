@@ -58,6 +58,10 @@
       @include _margin(8px, 8px, 8px, 8px);
     }
   }
+
+  &#screentime-popup {
+    z-index: $nav-bar-level + 1;
+  }
 }
 
 .popup--fade {

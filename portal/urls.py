@@ -23,13 +23,13 @@ from portal.views.api import (
 )
 from portal.views.dotmailer import dotmailer_consent_form, process_newsletter_form
 from portal.views.email import send_new_users_report, verify_email
-from portal.views.home import home, home_learning, logout_view, register_view
+from portal.views.home import home, home_learning, logout_view, register_view, reset_screentime_warning
 from portal.views.legal import privacy_policy, terms
 from portal.views.login import old_login_form_redirect
 from portal.views.login.independent_student import IndependentStudentLoginView
 from portal.views.login.student import StudentLoginView, StudentClassCodeView, student_direct_login
 from portal.views.login.teacher import TeacherLoginView
-from portal.views.organisation import OrganisationFuzzyLookup, organisation_leave, organisation_manage
+from portal.views.organisation import organisation_leave, organisation_manage
 from portal.views.play_landing_page import play_landing_page
 from portal.views.registration import (
     password_reset_check_and_confirm,
@@ -47,16 +47,17 @@ from portal.views.student.play import SchoolStudentDashboard, IndependentStudent
 from portal.views.teach import teach
 from portal.views.teacher.dashboard import (
     dashboard_manage,
-    organisation_allow_join,
-    organisation_deny_join,
     organisation_kick,
+    invite_toggle_admin,
     organisation_toggle_admin,
     teacher_accept_student_request,
     teacher_disable_2FA,
     teacher_reject_student_request,
+    delete_teacher_invite,
+    invited_teacher,
+    resend_invite_teacher,
 )
 from portal.views.teacher.teach import (
-    invite_teacher,
     teacher_class_password_reset,
     teacher_delete_class,
     teacher_delete_students,
@@ -164,13 +165,13 @@ urlpatterns = [
         password_reset_check_and_confirm,
         name="password_reset_check_and_confirm",
     ),
+    url(r"^user/reset_screentime_warning/$", reset_screentime_warning, name="reset_screentime_warning"),
     url(
         r"^teacher/password/reset/complete/$",
         TemplateView.as_view(template_name="portal/reset_password_done.html"),
         name="password_reset_complete",
     ),
     url(r"^teach/$", teach, name="teach"),
-    url(r"^teach/fuzzy_lookup/$", OrganisationFuzzyLookup.as_view(), name="organisation_fuzzy_lookup"),
     url(r"^teach/onboarding-organisation/$", organisation_manage, name="onboarding-organisation"),
     url(r"^teach/onboarding-classes", teacher_onboarding_create_class, name="onboarding-classes"),
     url(
@@ -188,7 +189,7 @@ urlpatterns = [
         teacher_download_csv,
         name="teacher_download_csv",
     ),
-    url(r"^teach/invite", invite_teacher, name="invite_teacher"),
+    url(r"^invited_teacher/(?P<token>[0-9a-f]+)/$", invited_teacher, name="invited_teacher"),
     url(r"^play/$", play_landing_page, name="play"),
     url(r"^play/details/$", SchoolStudentDashboard.as_view(), name="student_details"),
     url(r"^play/details/independent$", IndependentStudentDashboard.as_view(), name="independent_student_details"),
@@ -220,8 +221,6 @@ urlpatterns = [
     url(r"^teach/dashboard/kick/(?P<pk>[0-9]+)/$", organisation_kick, name="organisation_kick"),
     url(r"^teach/dashboard/toggle_admin/(?P<pk>[0-9]+)/$", organisation_toggle_admin, name="organisation_toggle_admin"),
     url(r"^teach/dashboard/disable_2FA/(?P<pk>[0-9]+)/$", teacher_disable_2FA, name="teacher_disable_2FA"),
-    url(r"^teach/dashboard/allow_join/(?P<pk>[0-9]+)/$", organisation_allow_join, name="organisation_allow_join"),
-    url(r"^teach/dashboard/deny_join/(?P<pk>[0-9]+)/$", organisation_deny_join, name="organisation_deny_join"),
     url(r"^teach/dashboard/school/leave/$", organisation_leave, name="organisation_leave"),
     url(
         r"^teach/dashboard/student/accept/(?P<pk>[0-9]+)/$",
@@ -258,6 +257,15 @@ urlpatterns = [
         rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/students/move/$",
         teacher_move_students,
         name="teacher_move_students",
+    ),
+    url(r"^teach/dashboard/resend_invite/(?P<token>[0-9a-f]+)/$", resend_invite_teacher, name="resend_invite_teacher"),
+    url(
+        r"^teach/dashboard/toggle_admin_invite/(?P<invite_id>[0-9]+)/$", invite_toggle_admin, name="invite_toggle_admin"
+    ),
+    url(
+        r"^teach/dashboard/delete_teacher_invite/(?P<token>[0-9a-f]+)$",
+        delete_teacher_invite,
+        name="delete_teacher_invite",
     ),
     url(
         rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/students/move/disambiguate/$",

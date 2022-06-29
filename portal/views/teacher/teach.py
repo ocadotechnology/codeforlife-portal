@@ -2,20 +2,14 @@ from __future__ import division
 
 import csv
 import json
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 from enum import Enum
 from functools import partial, wraps
 from uuid import uuid4
 
-from common import email_messages
-from common.helpers.emails import INVITE_FROM, send_email, send_verification_email
-from common.helpers.generators import (
-    generate_access_code,
-    generate_login_id,
-    generate_password,
-    get_hashed_login_id,
-)
-from common.models import Class, Student, Teacher, DailyActivity, JoinReleaseStudent
+from common.helpers.emails import send_verification_email
+from common.helpers.generators import generate_access_code, generate_login_id, generate_password, get_hashed_login_id
+from common.models import Class, DailyActivity, JoinReleaseStudent, Student, Teacher
 from common.permissions import logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -28,12 +22,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from past.utils import old_div
-from reportlab.lib.colors import black, red
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.utils import ImageReader
-from reportlab.pdfgen import canvas
 
-from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
     BaseTeacherMoveStudentsDisambiguationFormSet,
@@ -47,6 +36,10 @@ from portal.forms.teach import (
     TeacherMoveStudentsDestinationForm,
     TeacherSetStudentPass,
 )
+from reportlab.lib.colors import black, red
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen import canvas
 
 STUDENT_PASSWORD_LENGTH = 6
 REMINDER_CARDS_PDF_ROWS = 8
@@ -914,21 +907,3 @@ def count_student_details_click(download_type):
         raise Exception("Unknown download type")
 
     activity_today.save()
-
-
-def invite_teacher(request):
-    if request.method == "POST":
-        invite_teacher_form = InviteTeacherForm(data=request.POST)
-        if invite_teacher_form.is_valid():
-            email_address = invite_teacher_form.cleaned_data["email"]
-            email_message = email_messages.inviteTeacherEmail(request)
-            send_email(
-                INVITE_FROM,
-                [email_address],
-                email_message["subject"],
-                email_message["message"],
-                email_message["subject"],
-            )
-            return render(request, "portal/email_invitation_sent.html")
-
-    return render(request, "portal/teach/invite.html", {"invite_form": InviteTeacherForm()})

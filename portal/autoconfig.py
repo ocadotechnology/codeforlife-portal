@@ -31,6 +31,10 @@ SETTINGS = {
                 ),
                 "output_filename": "portal.css",
             },
+            "popup": {
+                "source_filenames": ("portal/sass/partials/_popup.scss",),
+                "output_filename": "popup.css",
+            },
         },
         "CSS_COMPRESSOR": None,
         "SASS_ARGUMENTS": "--quiet",
@@ -77,6 +81,7 @@ SETTINGS = {
         "django_otp.middleware.OTPMiddleware",
         "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
         "csp.middleware.CSPMiddleware",
+        "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
     ],
     "TEMPLATES": [
         {
@@ -130,6 +135,12 @@ RELATIONSHIPS = [
     OrderingRelationship(
         "MIDDLEWARE",
         "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
+        after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
+        add_missing=False,
+    ),
+    OrderingRelationship(
+        "MIDDLEWARE",
+        "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
         add_missing=False,
     ),

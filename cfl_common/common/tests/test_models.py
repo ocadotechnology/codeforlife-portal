@@ -1,4 +1,4 @@
-from common.models import Student, Teacher, School
+from common.models import Student, School
 from django.test import TestCase
 from django.utils import timezone
 
@@ -33,34 +33,6 @@ class TestModels(TestCase):
         indep_student = Student.objects.get(new_user__username=username)
 
         assert indep_student.pending_class_request is None
-
-    def test_teacher_pending_join_request_on_delete(self):
-        """
-        Given a school and a teacher without a school,
-        When the teacher requests to join the school, and that school is anonymised,
-        Then the teacher's pending join request field is set to null.
-        """
-        teacher1_email, _ = signup_teacher_directly()
-        teacher2_email, _ = signup_teacher_directly()
-        school_name, _ = create_organisation_directly(teacher1_email)
-
-        teacher1 = Teacher.objects.get(new_user__email=teacher1_email)
-        teacher2 = Teacher.objects.get(new_user__email=teacher2_email)
-        school = School.objects.get(name=school_name)
-
-        assert teacher1.school == school
-        assert teacher2.school is None
-        assert teacher2.pending_join_request is None
-
-        teacher2.pending_join_request = school
-        teacher2.save()
-
-        school.anonymise()
-
-        teacher2 = Teacher.objects.get(new_user__email=teacher2_email)
-
-        assert teacher2.school is None
-        assert teacher2.pending_join_request is None
 
     def test_creation_time(self):
         teacher_email, _ = signup_teacher_directly()

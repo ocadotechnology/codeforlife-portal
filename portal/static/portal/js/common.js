@@ -55,6 +55,20 @@ function hideInfoPopup() {
   $("#info-popup").removeClass("popup--fade");
 }
 
+function showScreentimePopup() {
+  $("#screentime-popup").addClass("popup--fade");
+}
+
+function hideScreentimePopup() {
+  $("#screentime-popup").removeClass("popup--fade");
+
+  // Reset screentime warning for the user
+  $.get("/user/reset_screentime_warning/");
+
+  // Show the popup again after one hour - just in case the user stays on the same page
+  setTimeout(showScreentimePopup, 3600000);
+}
+
 function postWithCsrf(path, params = undefined) {
   post(path, {
     csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
