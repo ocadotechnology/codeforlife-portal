@@ -1,9 +1,16 @@
-from django.core.exceptions import PermissionDenied
 from datetime import timedelta
 from uuid import uuid4
 
 from common import email_messages
-from common.helpers.emails import INVITE_FROM, NOTIFICATION_EMAIL, send_email, update_email
+from common.helpers.emails import (
+    INVITE_FROM,
+    NOTIFICATION_EMAIL,
+    DotmailerUserType,
+    add_to_dotmailer,
+    generate_token,
+    send_email,
+    update_email,
+)
 from common.helpers.generators import get_random_username
 from common.models import Class, EmailVerification, JoinReleaseStudent, SchoolTeacherInvitation, Student, Teacher
 from common.permissions import logged_in_as_teacher
@@ -76,11 +83,7 @@ def dashboard_teacher_view(request, is_admin):
 
     coworkers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
 
-    sent_invites = (
-        SchoolTeacherInvitation.objects.filter(school=school)
-        if teacher.is_admin
-        else SchoolTeacherInvitation.objects.filter(school=school, from_teacher=teacher)
-    )
+    sent_invites = SchoolTeacherInvitation.objects.filter(school=school) if teacher.is_admin else []
     requests = Student.objects.filter(pending_class_request__teacher=teacher)
 
     update_school_form = OrganisationForm(user=request.user, current_school=school)
@@ -521,7 +524,6 @@ def teacher_reject_student_request(request, pk):
 
 @login_required(login_url=reverse_lazy("teacher_login"))
 def delete_teacher_invite(request, token):
-
     invite = SchoolTeacherInvitation.objects.get(token=token)
     teacher = request.user.new_teacher
 
@@ -538,15 +540,13 @@ def delete_teacher_invite(request, token):
 
 @login_required(login_url=reverse_lazy("teacher_login"))
 def resend_invite_teacher(request, token):
-
-    invite = SchoolTeacherInvitation.objects.get(token=token)
+    invitation = SchoolTeacherInvitation.objects.get(token=token)
     teacher = request.user.new_teacher
 
     # auth the user before deletion
-    if not teacher.school == invite.school:
+    if not teacher.school == invitation.school:
         messages.error(request, "You do not have permission to perform this action")
     else:
-        invitation = SchoolTeacherInvitation.objects.get(token=token)
         invitation.expiry = timezone.now() + timedelta(days=30)
         invitation.save()
         teacher = Teacher.objects.filter(id=invitation.from_teacher.id)[0]

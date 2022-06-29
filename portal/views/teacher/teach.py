@@ -1,29 +1,15 @@
 from __future__ import division
 
-from common import email_messages
 import csv
 import json
 from datetime import datetime, timedelta
 from enum import Enum
 from functools import partial, wraps
 from uuid import uuid4
-from common.models import EmailVerification
 
-from common.helpers.emails import (
-    INVITE_FROM,
-    DotmailerUserType,
-    add_to_dotmailer,
-    generate_token,
-    send_email,
-    send_verification_email,
-)
-
-from pickle import NEWFALSE
-from uuid import uuid4
-
-from common.helpers.emails import DotmailerUserType, add_to_dotmailer, generate_token, send_verification_email
+from common.helpers.emails import send_verification_email
 from common.helpers.generators import generate_access_code, generate_login_id, generate_password, get_hashed_login_id
-from common.models import Class, DailyActivity, JoinReleaseStudent, SchoolTeacherInvitation, Student, Teacher
+from common.models import Class, DailyActivity, JoinReleaseStudent, Student, Teacher
 from common.permissions import logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -37,14 +23,12 @@ from django.utils import timezone
 from django.views.decorators.http import require_POST
 from past.utils import old_div
 
-from py import process
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
     BaseTeacherMoveStudentsDisambiguationFormSet,
     ClassCreationForm,
     ClassEditForm,
     ClassMoveForm,
-    InvitedTeacherForm,
     StudentCreationForm,
     TeacherDismissStudentsForm,
     TeacherEditStudentForm,
