@@ -1,7 +1,5 @@
 from datetime import timedelta
 from uuid import uuid4
-from build.lib.common.tests.utils.student import create_school_student_directly
-from common.tests.utils.email import go_to_teacher_login_page
 from time import sleep
 
 import pytest
@@ -15,11 +13,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
 
-from requests import delete
 from portal.tests.base_test import BaseTest
-
-from portal.tests.pageObjects.portal.home_page import HomePage
-from portal.views.teacher.teach import invited_teacher, resend_invite_teacher
 
 
 FADE_TIME = 0.9
