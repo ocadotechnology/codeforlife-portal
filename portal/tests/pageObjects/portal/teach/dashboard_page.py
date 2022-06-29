@@ -1,7 +1,5 @@
 from __future__ import absolute_import
 
-import time
-
 from .add_independent_student_to_class_page import AddIndependentStudentToClassPage
 from .class_page import TeachClassPage
 from .move_classes_page import TeachMoveClassesPage
@@ -38,10 +36,7 @@ class TeachDashboardPage(TeachBasePage):
         self.wait_for_element_by_id("id_" + first_field)
 
         for field, value in list(details.items()):
-            correct &= (
-                self.browser.find_element_by_id("id_" + field).get_attribute("value")
-                == value
-            )
+            correct &= self.browser.find_element_by_id("id_" + field).get_attribute("value") == value
 
         return correct
 
@@ -55,14 +50,8 @@ class TeachDashboardPage(TeachBasePage):
 
     def has_edit_failed(self):
         self.wait_for_element_by_id("edit_form")
-        errorlist = (
-            self.browser.find_element_by_id("edit_form")
-            .find_element_by_class_name("errorlist")
-            .text
-        )
-        error = (
-            "There is already a school or club registered with that name and postcode"
-        )
+        errorlist = self.browser.find_element_by_id("edit_form").find_element_by_class_name("errorlist").text
+        error = "There is already a school or club registered with that name and postcode"
         return error in errorlist
 
     def create_class(self, name, classmate_progress):
@@ -81,12 +70,7 @@ class TeachDashboardPage(TeachBasePage):
 
     def change_email(self, first_name, last_name, new_email, password):
         self._change_details(
-            {
-                "first_name": first_name,
-                "last_name": last_name,
-                "email": new_email,
-                "current_password": password,
-            }
+            {"first_name": first_name, "last_name": last_name, "email": new_email, "current_password": password}
         )
 
         return EmailVerificationNeededPage(self.browser)
@@ -102,9 +86,7 @@ class TeachDashboardPage(TeachBasePage):
             }
         )
 
-        from portal.tests.pageObjects.portal.teacher_login_page import (
-            TeacherLoginPage,
-        )
+        from portal.tests.pageObjects.portal.teacher_login_page import TeacherLoginPage
 
         return TeacherLoginPage(self.browser)
 
@@ -118,24 +100,9 @@ class TeachDashboardPage(TeachBasePage):
         correct = True
 
         for field, value in list(details.items()):
-            correct &= (
-                self.browser.find_element_by_id("id_" + field).get_attribute("value")
-                == value
-            )
+            correct &= self.browser.find_element_by_id("id_" + field).get_attribute("value") == value
 
         return correct
-
-    def accept_join_request(self):
-        self.browser.find_element_by_id("requests_button").click()
-        time.sleep(3)
-        self.browser.find_element_by_id("allow_button").click()
-        return self
-
-    def deny_join_request(self):
-        self.browser.find_element_by_id("requests_button").click()
-        time.sleep(3)
-        self.browser.find_element_by_id("deny_button").click()
-        return self
 
     def accept_independent_join_request(self):
         self.browser.find_element_by_id("allow_independent_button").click()
@@ -144,14 +111,6 @@ class TeachDashboardPage(TeachBasePage):
     def deny_independent_join_request(self):
         self.browser.find_element_by_id("deny_independent_button").click()
         return self
-
-    def has_join_request(self, email):
-        return self.element_exists_by_id("request_table") and (
-            email in self.browser.find_element_by_id("request_table").text
-        )
-
-    def has_no_join_requests(self):
-        return self.element_does_not_exist_by_id("request_table")
 
     def has_independent_join_request(self, email):
         return self.element_exists_by_id("independent_request_table") and (
@@ -163,9 +122,7 @@ class TeachDashboardPage(TeachBasePage):
 
     def has_onboarding_complete_popup(self):
         return self.element_exists_by_id("info-popup") and (
-            self.browser.find_element_by_id("info-popup").text.startswith(
-                "Registration complete!"
-            )
+            self.browser.find_element_by_id("info-popup").text.startswith("Registration complete!")
         )
 
     def is_teacher_in_school(self, name):

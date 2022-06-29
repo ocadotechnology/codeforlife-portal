@@ -244,9 +244,7 @@ class TestTeacher(TestCase):
             {"transfer_students": student1.pk},
         )
         c.post(
-            reverse(
-                "teacher_move_students_to_class", kwargs={"access_code": access_code1}
-            ),
+            reverse("teacher_move_students_to_class", kwargs={"access_code": access_code1}),
             {
                 "form-0-name": student1.user.user.first_name,
                 "form-MAX_NUM_FORMS": 1000,
@@ -452,9 +450,7 @@ class TestTeacherFrontend(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
         page = page.go_to_teacher_login_page()
-        page = page.login_failure(
-            "non-existent-email@codeforlife.com", "Incorrect password"
-        )
+        page = page.login_failure("non-existent-email@codeforlife.com", "Incorrect password")
         assert page.has_login_failed("form-login-teacher", INVALID_LOGIN_MESSAGE)
 
     def test_login_success(self):
@@ -522,12 +518,7 @@ class TestTeacherFrontend(BaseTest):
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login(email, password)
-            .open_account_tab()
-        )
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password).open_account_tab()
 
         page = page.change_teacher_details(
             {
@@ -539,9 +530,7 @@ class TestTeacherFrontend(BaseTest):
         assert self.is_dashboard_page(page)
         assert is_teacher_details_updated_message_showing(self.selenium)
 
-        assert page.check_account_details(
-            {"first_name": "Paulina", "last_name": "Koch"}
-        )
+        assert page.check_account_details({"first_name": "Paulina", "last_name": "Koch"})
 
     def test_edit_details_non_admin(self):
         email_1, _ = signup_teacher_directly()
@@ -554,12 +543,7 @@ class TestTeacherFrontend(BaseTest):
         create_school_student_directly(access_code_2)
 
         self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login(email_2, password_2)
-            .open_account_tab()
-        )
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email_2, password_2).open_account_tab()
 
         page = page.change_teacher_details(
             {
@@ -571,9 +555,7 @@ class TestTeacherFrontend(BaseTest):
         assert self.is_dashboard_page(page)
         assert is_teacher_details_updated_message_showing(self.selenium)
 
-        assert page.check_account_details(
-            {"first_name": "Florian", "last_name": "Aucomte"}
-        )
+        assert page.check_account_details({"first_name": "Florian", "last_name": "Aucomte"})
 
     def test_change_email(self):
         email, password = signup_teacher_directly()
@@ -629,9 +611,7 @@ class TestTeacherFrontend(BaseTest):
 
         page = page.login(new_email, password).open_account_tab()
 
-        assert page.check_account_details(
-            {"first_name": "Test", "last_name": "Teacher"}
-        )
+        assert page.check_account_details({"first_name": "Test", "last_name": "Teacher"})
 
     def test_change_password(self):
         email, password = signup_teacher_directly()
@@ -640,12 +620,7 @@ class TestTeacherFrontend(BaseTest):
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login(email, password)
-            .open_account_tab()
-        )
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password).open_account_tab()
 
         new_password = "AnotherPassword12!"
         page = page.change_password("Test", "Teacher", new_password, password)
@@ -675,11 +650,7 @@ class TestTeacherFrontend(BaseTest):
         page.teacher_reset_password(new_password)
 
         self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login(email, new_password)
-        )
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, new_password)
         assert self.is_dashboard_page(page)
 
     def test_reset_password_fail(self):
@@ -698,17 +669,10 @@ class TestTeacherFrontend(BaseTest):
         create_organisation_directly(email)
 
         self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login(email, password)
-            .open_account_tab()
-        )
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password).open_account_tab()
 
         # test incorrect password
-        page.browser.find_element_by_id("id_delete_password").send_keys(
-            "IncorrectPassword"
-        )
+        page.browser.find_element_by_id("id_delete_password").send_keys("IncorrectPassword")
         page.browser.find_element_by_id("delete_account_button").click()
         is_message_showing(page.browser, "Your account was not deleted")
 
@@ -746,7 +710,6 @@ class TestTeacherFrontend(BaseTest):
         time.sleep(FADE_TIME)
 
         assert page.have_classes()
-
         page = page.open_account_tab()
 
         # test actual deletion
@@ -760,11 +723,7 @@ class TestTeacherFrontend(BaseTest):
         assert page.browser.find_element_by_class_name("banner--homepage")
 
         # user should not be able to login now
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login_failure(email, password)
-        )
+        page = HomePage(self.selenium).go_to_teacher_login_page().login_failure(email, password)
 
         assert page.has_login_failed("form-login-teacher", INVALID_LOGIN_MESSAGE)
 
@@ -772,11 +731,7 @@ class TestTeacherFrontend(BaseTest):
         email, password = signup_teacher_directly()
 
         self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login_no_school(email, password)
-        )
+        page = HomePage(self.selenium).go_to_teacher_login_page().login_no_school(email, password)
 
         page = page.create_organisation("Test school", "W1", "GB")
         page = page.create_class("Test class", True)
@@ -786,11 +741,7 @@ class TestTeacherFrontend(BaseTest):
 
     def get_to_forgotten_password_page(self):
         self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .go_to_teacher_forgotten_password_page()
-        )
+        page = HomePage(self.selenium).go_to_teacher_login_page().go_to_teacher_forgotten_password_page()
         return page
 
     def wait_for_email(self):
