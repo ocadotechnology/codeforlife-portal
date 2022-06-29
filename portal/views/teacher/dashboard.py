@@ -531,9 +531,8 @@ def delete_teacher_invite(request, token):
     if not teacher.school == invite.school:
         messages.error(request, "You do not have permission to perform this action")
     else:
-        invite_to_delete = SchoolTeacherInvitation.objects.filter(token=token)[0]
-        invite_teacher_first_name = invite_to_delete.invited_teacher_first_name
-        invite_to_delete.anonymise()
+        invite_teacher_first_name = invite.invited_teacher_first_name
+        invite.anonymise()
         messages.success(request, f"Invite for {invite_teacher_first_name} successfully deleted")
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
