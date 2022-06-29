@@ -84,44 +84,6 @@ def userAlreadyRegisteredEmail(request, email, is_independent_student=False):
     }
 
 
-def joinRequestPendingEmail(request, pendingAddress):
-    return {
-        "subject": f"School or club join request",
-        "message": (
-            f"Someone with the email address '{pendingAddress}' has asked to join your "
-            f"school or club. Please log in to your dashboard to view the pending join request."
-        ),
-    }
-
-
-def joinRequestSentEmail(request, schoolName):
-    return {
-        "subject": f"School or club join request sent",
-        "message": (
-            f"Your request to join the school or club '{schoolName}' has been sent. "
-            f"The teacher or the admin of the class has been notified."
-        ),
-    }
-
-
-def joinRequestAcceptedEmail(request, schoolName):
-    return {
-        "subject": f"School or club join request accepted",
-        "message": f"Your request to join the school or club '{schoolName}' has been accepted.",
-    }
-
-
-def joinRequestDeniedEmail(request, schoolName):
-    return {
-        "subject": f"School or club join request denied",
-        "message": (
-            f"Your request to join the school or club '{schoolName}' has been denied. "
-            f"If you think this was in error you should speak to the administrator of "
-            f"that school or club."
-        ),
-    }
-
-
 def kickedEmail(request, schoolName):
     return {
         "subject": f"You were successfully released from your school or club",
@@ -190,14 +152,25 @@ def studentJoinRequestRejectedEmail(request, schoolName, accessCode):
     }
 
 
-def inviteTeacherEmail(request):
-    return {
-        "subject": f"You've been invited to join Code for Life",
-        "message": (
-            f"A colleague at your school or code club has invited you to become part of "
-            f"Code for Life.\n\nPlease register your details to get started."
-        ),
-    }
+def inviteTeacherEmail(request, schoolName, token, account_exists):
+    url = f"{request.build_absolute_uri(reverse('invited_teacher', kwargs={'token': token}))} "
+
+    if account_exists:
+        message = (
+            f"A teacher at the school '{schoolName}' has invited you to join Code for Life. 🎉 Unfortunately, you "
+            f"already have an account with this email address, so you will need to either delete it first or change "
+            f"the email registered to your other account. After that, you can complete the registration process, by "
+            f"following the link below."
+            f"{url}"
+        )
+    else:
+        message = (
+            f"A teacher at the school '{schoolName}' has invited you to join Code for Life. 🎉 To complete the "
+            f"registration process, please create a password by following the link below.\n\n"
+            f"{url}"
+        )
+
+    return {"subject": f"You've been invited to join Code for Life", "message": message}
 
 
 def accountDeletionEmail(request):

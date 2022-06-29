@@ -16,7 +16,36 @@ from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.templatetags.app_tags import is_verified
 
 
-class TeacherSignupForm(forms.Form):
+class InvitedTeacherForm(forms.Form):
+
+    teacher_password = forms.CharField(
+        help_text="Enter a password",
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
+    )
+    teacher_confirm_password = forms.CharField(
+        help_text="Repeat password",
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Repeat password"}),
+    )
+
+    consent_ticked = forms.BooleanField(widget=forms.CheckboxInput(), initial=False, required=True)
+    newsletter_ticked = forms.BooleanField(widget=forms.CheckboxInput(), initial=False, required=False)
+
+    def clean_teacher_password(self):
+        return form_clean_password(self, "teacher_password", PasswordStrength.TEACHER)
+
+    def clean(self):
+        if any(self.errors):
+            return
+
+        password = self.cleaned_data.get("teacher_password", None)
+        confirm_password = self.cleaned_data.get("teacher_confirm_password", None)
+
+        check_passwords(password, confirm_password)
+
+        return self.cleaned_data
+
+
+class TeacherSignupForm(InvitedTeacherForm):
 
     teacher_first_name = forms.CharField(
         help_text="Enter your first name",
@@ -33,33 +62,7 @@ class TeacherSignupForm(forms.Form):
         widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "Email address"}),
     )
 
-    consent_ticked = forms.BooleanField(widget=forms.CheckboxInput(), initial=False, required=True)
-    newsletter_ticked = forms.BooleanField(widget=forms.CheckboxInput(), initial=False, required=False)
-
-    teacher_password = forms.CharField(
-        help_text="Enter a password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
-    )
-    teacher_confirm_password = forms.CharField(
-        help_text="Repeat password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Repeat password"}),
-    )
-
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
-
-    def clean_teacher_password(self):
-        return form_clean_password(self, "teacher_password", PasswordStrength.TEACHER)
-
-    def clean(self):
-        if any(self.errors):
-            return
-
-        password = self.cleaned_data.get("teacher_password", None)
-        confirm_password = self.cleaned_data.get("teacher_confirm_password", None)
-
-        check_passwords(password, confirm_password)
-
-        return self.cleaned_data
 
 
 class TeacherEditAccountForm(forms.Form):
