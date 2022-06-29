@@ -1,10 +1,11 @@
-import datetime
+from django.core.exceptions import PermissionDenied
+from datetime import timedelta
 from uuid import uuid4
 
 from common import email_messages
 from common.helpers.emails import INVITE_FROM, NOTIFICATION_EMAIL, send_email, update_email
 from common.helpers.generators import get_random_username
-from common.models import Class, JoinReleaseStudent, SchoolTeacherInvitation, Student, Teacher
+from common.models import Class, EmailVerification, JoinReleaseStudent, SchoolTeacherInvitation, Student, Teacher
 from common.permissions import logged_in_as_teacher
 from common.utils import using_two_factor
 from django.contrib import messages as messages
@@ -21,7 +22,12 @@ from two_factor.utils import devices_for_user
 from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.organisation import OrganisationForm
 from portal.forms.registration import DeleteAccountForm
-from portal.forms.teach import ClassCreationForm, TeacherAddExternalStudentForm, TeacherEditAccountForm
+from portal.forms.teach import (
+    ClassCreationForm,
+    InvitedTeacherForm,
+    TeacherAddExternalStudentForm,
+    TeacherEditAccountForm,
+)
 from portal.helpers.decorators import ratelimit
 from portal.helpers.password import check_update_password
 from portal.helpers.ratelimit import (
@@ -70,7 +76,11 @@ def dashboard_teacher_view(request, is_admin):
 
     coworkers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
 
-    sent_invites = SchoolTeacherInvitation.objects.filter(school=school, from_teacher=teacher)
+    sent_invites = (
+        SchoolTeacherInvitation.objects.filter(school=school)
+        if teacher.is_admin
+        else SchoolTeacherInvitation.objects.filter(school=school, from_teacher=teacher)
+    )
     requests = Student.objects.filter(pending_class_request__teacher=teacher)
 
     update_school_form = OrganisationForm(user=request.user, current_school=school)
@@ -133,7 +143,7 @@ def dashboard_teacher_view(request, is_admin):
                     invited_teacher_last_name=invited_teacher_last_name,
                     invited_teacher_email=invited_teacher_email,
                     invited_teacher_is_admin=invited_teacher_is_admin,
-                    expiry=timezone.now() + datetime.timedelta(days=30),
+                    expiry=timezone.now() + timedelta(days=30),
                 )
 
                 account_exists = User.objects.filter(email=invited_teacher_email).exists()
@@ -356,17 +366,18 @@ def invite_toggle_admin(request, invite_id):
     if invite.invited_teacher_is_admin:
         messages.success(request, "Administrator invite status has been given successfully")
         emailMessage = email_messages.adminGivenEmail(request, invite.school)
+
     else:
-        messages.success(request, "Administrator invite status has been revoked sccessfully")
+        messages.success(request, "Administrator invite status has been revoked successfully")
         emailMessage = email_messages.adminRevokedEmail(request, invite.school)
 
-        send_email(
-            NOTIFICATION_EMAIL,
-            [invite.invited_teacher_email],
-            emailMessage["subject"],
-            emailMessage["message"],
-            emailMessage["subject"],
-        )
+    send_email(
+        NOTIFICATION_EMAIL,
+        [invite.invited_teacher_email],
+        emailMessage["subject"],
+        emailMessage["message"],
+        emailMessage["subject"],
+    )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
@@ -506,3 +517,116 @@ def teacher_reject_student_request(request, pk):
     messages.success(request, "Request from external/independent student has been rejected successfully.")
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
+
+
+@login_required(login_url=reverse_lazy("teacher_login"))
+def delete_teacher_invite(request, token):
+
+    invite = SchoolTeacherInvitation.objects.get(token=token)
+    teacher = request.user.new_teacher
+
+    # auth the user before deletion
+    if not teacher.school == invite.school:
+        messages.error(request, "You do not have permission to perform this action")
+    else:
+        invite_to_delete = SchoolTeacherInvitation.objects.filter(token=token)[0]
+        invite_teacher_first_name = invite_to_delete.invited_teacher_first_name
+        invite_to_delete.anonymise()
+        messages.success(request, f"Invite for {invite_teacher_first_name} successfully deleted")
+    return HttpResponseRedirect(reverse_lazy("dashboard"))
+
+
+@login_required(login_url=reverse_lazy("teacher_login"))
+def resend_invite_teacher(request, token):
+
+    invite = SchoolTeacherInvitation.objects.get(token=token)
+    teacher = request.user.new_teacher
+
+    # auth the user before deletion
+    if not teacher.school == invite.school:
+        messages.error(request, "You do not have permission to perform this action")
+    else:
+        invitation = SchoolTeacherInvitation.objects.get(token=token)
+        invitation.expiry = timezone.now() + timedelta(days=30)
+        invitation.save()
+        teacher = Teacher.objects.filter(id=invitation.from_teacher.id)[0]
+        verify_email = EmailVerification(
+            user=teacher.new_user,
+            token=token,
+            email=invitation.invited_teacher_email,
+            expiry=timezone.now() + timedelta(hours=1),
+            verified=True,
+        )
+
+        messages.success(request, "Teacher re-invited!")
+        message = email_messages.inviteTeacherEmail(request, invitation.school, token, not (invitation.is_expired))
+        send_email(
+            INVITE_FROM,
+            [invitation.invited_teacher_email],
+            message["subject"],
+            message["message"],
+            message["subject"],
+        )
+    return HttpResponseRedirect(reverse_lazy("dashboard"))
+
+
+def invited_teacher(request, token):
+    error_message = process_teacher_invitation(request, token)
+
+    if request.method == "POST":
+        invited_teacher_form = InvitedTeacherForm(request.POST)
+        if invited_teacher_form.is_valid():
+            messages.success(request, "Your account has been created successfully, please log in.")
+            return HttpResponseRedirect(reverse_lazy("teacher_login"))
+    else:
+        invited_teacher_form = InvitedTeacherForm()
+
+    return render(
+        request,
+        "portal/teach/invited.html",
+        {"invited_teacher_form": invited_teacher_form, "error_message": error_message},
+    )
+
+
+def process_teacher_invitation(request, token):
+    try:
+        invitation = SchoolTeacherInvitation.objects.get(token=token, expiry__gt=timezone.now())
+    except SchoolTeacherInvitation.DoesNotExist:
+        return "Uh oh, the Invitation does not exist or it has expired. ☹️"
+
+    if User.objects.filter(email=invitation.invited_teacher_email).exists():
+        return (
+            "It looks like an account is already registered with this email address. You will need to delete the "
+            "other account first or change the email associated with it in order to proceed. You will then be able to "
+            "access this page."
+        )
+    else:
+        if request.method == "POST":
+            invited_teacher_form = InvitedTeacherForm(request.POST)
+            if invited_teacher_form.is_valid():
+                data = invited_teacher_form.cleaned_data
+                invited_teacher_password = data["teacher_password"]
+                newsletter_ticked = data["newsletter_ticked"]
+
+                # Create the teacher
+                invited_teacher = Teacher.objects.factory(
+                    first_name=invitation.invited_teacher_first_name,
+                    last_name=invitation.invited_teacher_last_name,
+                    email=invitation.invited_teacher_email,
+                    password=invited_teacher_password,
+                )
+                invited_teacher.is_admin = invitation.invited_teacher_is_admin
+                invited_teacher.school = invitation.school
+                invited_teacher.invited_by = invitation.from_teacher
+                invited_teacher.save()
+
+                # Verify their email
+                generate_token(invited_teacher.new_user, preverified=True)
+
+                # Add to Dotmailer if they ticked the box
+                if newsletter_ticked:
+                    user = invited_teacher.user.user
+                    add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
+
+                # Anonymise the invitation
+                invitation.anonymise()

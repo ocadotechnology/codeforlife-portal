@@ -199,7 +199,7 @@ class TestTeacherInviteActions(BaseTest):
         make_admin_button.click()
 
         banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
-        assert banner.text == "Administrator invite status has been revoked sccessfully"
+        assert banner.text == "Administrator invite status has been revoked successfully"
 
     def test_delete_invite(self):
         teacher_email, teacher_password = signup_teacher_directly()

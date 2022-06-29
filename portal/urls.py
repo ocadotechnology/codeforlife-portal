@@ -59,12 +59,11 @@ from portal.views.teacher.dashboard import (
     teacher_accept_student_request,
     teacher_disable_2FA,
     teacher_reject_student_request,
-)
-from portal.views.teacher.teach import (
     delete_teacher_invite,
     invited_teacher,
     resend_invite_teacher,
-    invited_teacher,
+)
+from portal.views.teacher.teach import (
     teacher_class_password_reset,
     teacher_delete_class,
     teacher_delete_students,
