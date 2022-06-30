@@ -1,6 +1,6 @@
 import re
-from builtins import map, range, str
 
+from builtins import map, range, str
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
 from common.helpers.emails import send_verification_email
@@ -16,7 +16,36 @@ from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.templatetags.app_tags import is_verified
 
 
-class TeacherSignupForm(forms.Form):
+class InvitedTeacherForm(forms.Form):
+
+    teacher_password = forms.CharField(
+        help_text="Enter a password",
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
+    )
+    teacher_confirm_password = forms.CharField(
+        help_text="Repeat password",
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Repeat password"}),
+    )
+
+    consent_ticked = forms.BooleanField(widget=forms.CheckboxInput(), initial=False, required=True)
+    newsletter_ticked = forms.BooleanField(widget=forms.CheckboxInput(), initial=False, required=False)
+
+    def clean_teacher_password(self):
+        return form_clean_password(self, "teacher_password", PasswordStrength.TEACHER)
+
+    def clean(self):
+        if any(self.errors):
+            return
+
+        password = self.cleaned_data.get("teacher_password", None)
+        confirm_password = self.cleaned_data.get("teacher_confirm_password", None)
+
+        check_passwords(password, confirm_password)
+
+        return self.cleaned_data
+
+
+class TeacherSignupForm(InvitedTeacherForm):
 
     teacher_first_name = forms.CharField(
         help_text="Enter your first name",
@@ -33,32 +62,7 @@ class TeacherSignupForm(forms.Form):
         widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "Email address"}),
     )
 
-    newsletter_ticked = forms.BooleanField(widget=forms.CheckboxInput(), initial=False, required=False)
-
-    teacher_password = forms.CharField(
-        help_text="Enter a password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
-    )
-    teacher_confirm_password = forms.CharField(
-        help_text="Repeat password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Repeat password"}),
-    )
-
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
-
-    def clean_teacher_password(self):
-        return form_clean_password(self, "teacher_password", PasswordStrength.TEACHER)
-
-    def clean(self):
-        if any(self.errors):
-            return
-
-        password = self.cleaned_data.get("teacher_password", None)
-        confirm_password = self.cleaned_data.get("teacher_confirm_password", None)
-
-        check_passwords(password, confirm_password)
-
-        return self.cleaned_data
 
 
 class TeacherEditAccountForm(forms.Form):
@@ -89,8 +93,7 @@ class TeacherEditAccountForm(forms.Form):
         help_text="Confirm new password (optional)",
     )
     current_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"placeholder": "Current password"}),
-        help_text="Enter your current password",
+        widget=forms.PasswordInput(attrs={"placeholder": "Current password"}), help_text="Enter your current password"
     )
 
     def __init__(self, user, *args, **kwargs):
@@ -121,21 +124,11 @@ class TeacherEditAccountForm(forms.Form):
 
 class TeacherLoginForm(AuthenticationForm):
     username = forms.EmailField(
-        widget=forms.EmailInput(
-            attrs={
-                "autocomplete": "off",
-                "placeholder": "Email address",
-            }
-        ),
+        widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "Email address"}),
         help_text="Enter your email address",
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={
-                "autocomplete": "off",
-                "placeholder": "Password",
-            }
-        ),
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
         help_text="Enter your password",
     )
 
@@ -196,8 +189,7 @@ class TeacherLoginForm(AuthenticationForm):
 
 class ClassCreationForm(forms.Form):
     class_name = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "Class name"}),
-        help_text="Enter a class name",
+        widget=forms.TextInput(attrs={"placeholder": "Class name"}), help_text="Enter a class name"
     )
     classmate_progress = forms.BooleanField(
         label="Allow students to see their classmates' progress?",
@@ -220,26 +212,19 @@ class ClassEditForm(forms.Form):
     ]
     join_choices.extend(
         [
-            (
-                str(hours),
-                "Allow external requests to this class for the next " + str(hours) + " hours",
-            )
+            (str(hours), "Allow external requests to this class for the next " + str(hours) + " hours")
             for hours in range(4, 28, 4)
         ]
     )
     join_choices.extend(
         [
-            (
-                str(days * 24),
-                "Allow external requests to this class for the next " + str(days) + " days",
-            )
+            (str(days * 24), "Allow external requests to this class for the next " + str(days) + " days")
             for days in range(2, 5)
         ]
     )
     join_choices.append(("1000", "Always allow external requests to this class (not recommended)"))
     name = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "Enter class name"}),
-        help_text="Enter class name",
+        widget=forms.TextInput(attrs={"placeholder": "Enter class name"}), help_text="Enter class name"
     )
     classmate_progress = forms.BooleanField(
         label="Allow students to see their classmates' progress?",
@@ -258,30 +243,21 @@ class ClassEditForm(forms.Form):
 
 class ClassMoveForm(forms.Form):
     new_teacher = forms.ChoiceField(
-        label="New teacher to take over class",
-        help_text="Select teacher",
-        widget=forms.Select(),
+        label="New teacher to take over class", help_text="Select teacher", widget=forms.Select()
     )
 
     def __init__(self, teachers, *args, **kwargs):
         self.teachers = teachers
         teacher_choices = []
         for teacher in teachers:
-            teacher_choices.append(
-                (
-                    teacher.id,
-                    teacher.new_user.first_name + " " + teacher.new_user.last_name,
-                )
-            )
+            teacher_choices.append((teacher.id, teacher.new_user.first_name + " " + teacher.new_user.last_name))
         super(ClassMoveForm, self).__init__(*args, **kwargs)
         self.fields["new_teacher"].choices = teacher_choices
 
 
 class TeacherEditStudentForm(forms.Form):
     name = forms.CharField(
-        label="Name",
-        widget=forms.TextInput(attrs={"placeholder": "Name"}),
-        help_text="Choose a name",
+        label="Name", widget=forms.TextInput(attrs={"placeholder": "Name"}), help_text="Choose a name"
     )
 
     def __init__(self, student, *args, **kwargs):
@@ -421,18 +397,9 @@ class TeacherMoveStudentsDestinationForm(forms.Form):
 class TeacherMoveStudentDisambiguationForm(forms.Form):
     orig_name = forms.CharField(
         label="Original Name",
-        widget=forms.TextInput(
-            attrs={
-                "readonly": "readonly",
-                "placeholder": "Original Name",
-                "type": "hidden",
-            }
-        ),
+        widget=forms.TextInput(attrs={"readonly": "readonly", "placeholder": "Original Name", "type": "hidden"}),
     )
-    name = forms.CharField(
-        label="Name",
-        widget=forms.TextInput(attrs={"placeholder": "Name", "style": "margin : 0px"}),
-    )
+    name = forms.CharField(label="Name", widget=forms.TextInput(attrs={"placeholder": "Name", "style": "margin : 0px"}))
 
     def clean_name(self):
         name = stripStudentName(self.cleaned_data.get("name", ""))
@@ -463,13 +430,7 @@ class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
 class TeacherDismissStudentsForm(forms.Form):
     orig_name = forms.CharField(
         help_text="Original student name",
-        widget=forms.TextInput(
-            attrs={
-                "readonly": "readonly",
-                "placeholder": "Original Name",
-                "class": "m-0",
-            }
-        ),
+        widget=forms.TextInput(attrs={"readonly": "readonly", "placeholder": "Original Name", "class": "m-0"}),
     )
     name = forms.CharField(
         help_text="New student name",

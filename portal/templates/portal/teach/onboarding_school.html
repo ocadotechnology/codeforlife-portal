@@ -3,50 +3,8 @@
 {% load app_tags %}
 
 {% block content %}
-<script type="text/javascript" src="{% static 'portal/js/fuzzySchoolLookup.js' %}"></script>
-<script>
-    var FUZZY_NAME_FIELD_ID = "{{ join_form.fuzzy_name.auto_id }}";
-    var CHOSEN_ORG_FIELD_ID = "{{ join_form.chosen_org.auto_id }}";
-    var FUZZY_ORG_LOOKUP_URL = "{% url 'organisation_fuzzy_lookup' %}";
-</script>
-
 <div id="onboarding_organisation_page"></div>
 
-{% if teacher.pending_join_request %}
-<div id="onboarding_revoke_request_page"></div>
-
-<div class="background container">
-    <div class="row">
-        <div class="form col-sm-12">
-            <h4>Join an existing school or club</h4>
-
-            <p class="text-danger">
-                <b>
-                    You have a pending request to join {{ teacher.pending_join_request.name }}, {{ teacher.pending_join_request.postcode }}.<br>
-                    Once the administrator of your school or club has approved your request, you will be able to continue.
-                </b>
-            </p>
-
-            <p>
-                Please note: You may only have one request to join a school or club at a time. If you wish to join
-                another school or club, you must withdraw your pending request first.
-            </p>
-
-            <form id="revoke_form" method="post" class="p-0">
-
-                {% csrf_token %}
-
-                <div class="section group">
-                    <button class="button button--primary" type="submit"
-                        name="revoke_join_request">Withdraw request
-                    </button>
-                </div>
-
-            </form>
-        </div>
-    </div>
-</div>
-{% else %}
 {% if teacher.school %}
 <div class="background background--primary">
     <div class="form col-sm-8 col-center">
@@ -60,28 +18,7 @@
 <div class="background container">
     <div class="row">
         <div class="form col-sm-12">
-            <div id="create-header">
-                <div class="d-flex justify-content-between align-items-end">
-                    <h4>Create a school or club</h4>
-                    <a id="join-button" class="button button--secondary button--secondary--dark" href="#join" aria-controls="join" role="tab" data-toggle="tab">
-                        <div class="d-flex align-items-center">
-                            <div>Join an existing school</div>
-                            <span class="iconify ml-3" data-icon="mdi:arrow-right"></span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div id="join-header" class="hidden">
-                <div class="d-flex justify-content-between align-items-end">
-                    <h4>Join an existing school or club</h4>
-                    <a id="create-button" class="button button--secondary button--secondary--dark" href="#create" aria-controls="create" role="tab" data-toggle="tab">
-                        <div class="d-flex align-items-center">
-                            <span class="iconify mr-3" data-icon="mdi:arrow-left"></span>
-                            <div>Create a school or club</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
+            <h4>Create a school or club</h4>
 
             <p class="mb-3">Progress &lt; 1 of 4 &gt;</p>
             <div class="progress">
@@ -89,91 +26,38 @@
                     <span class="sr-only">25% Complete</span>
                 </div>
             </div>
+            <p>As the first person from your school or club to register for Code for Life, by default, you become the
+                organisation's administrator.</p>
 
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="create">
-                    <p>As the first person from your school or club to register for Code for Life, by default, you become the organisation's administrator.</p>
+            <form id="form-create-organisation" method="post">
 
-                    <form id="form-create-organisation" method="post">
+                {% csrf_token %}
 
-                        {% csrf_token %}
+                {{ create_form.non_field_errors }}
 
-                        {{ create_form.non_field_errors }}
-
-                        {% for field in create_form %}
-                            <div class="row form--row">
-                                <div class="form--row__input col-sm-6 col-xs-12">
-                                    <div class="input--icon">
-                                        {{ field }}
-                                        {% if not field == create_form.country %}
-                                            <span class="iconify" data-icon="mdi:domain"></span>
-                                        {% endif %}
-                                    </div>
-                                    <small>{{ field.help_text }}</small>
-                                    {{ field.errors }}
-                                </div>
-                            </div>
-                        {% endfor %}
-
-                        <div class="section group">
-                            <button type="submit" class="button button--primary" name="create_organisation" id="create_organisation_button">Create school or club</button>
+                {% for field in create_form %}
+                <div class="row form--row">
+                    <div class="form--row__input col-sm-6 col-xs-12">
+                        <div class="input--icon">
+                            {{ field }}
+                            {% if not field == create_form.country %}
+                            <span class="iconify" data-icon="mdi:domain"></span>
+                            {% endif %}
                         </div>
+                        <small>{{ field.help_text }}</small>
+                        {{ field.errors }}
+                    </div>
+                </div>
+                {% endfor %}
 
-                    </form>
+                <div class="section group">
+                    <button type="submit" class="button button--primary" name="create_organisation" id="create_organisation_button">Create school or club</button>
                 </div>
 
-                <div role="tabpanel" class="tab-pane" id="join">
-                    <p>You can search for your school or club by name and/or postcode below. A request will be sent to the school or club administrator for processing.</p>
-                    <form id="form-join-organisation" method="post">
-
-                        {% csrf_token %}
-
-                        {{ join_form.non_field_errors }}
-
-                        <div class="row form--row">
-                            <div class="form--row__input col-md-6 col-sm-9 col-xs-12">
-                                <div class="input--icon">
-                                    {{ join_form.fuzzy_name }}
-                                    <span class="iconify" data-icon="mdi:magnify"></span>
-                                </div>
-                                <small>{{ join_form.fuzzy_name.help_text }}</small>
-                                {{ join_form.fuzzy_name.errors }}
-                            </div>
-                        </div>
-                        <div class="row form--row">
-                            <div class="form--row__input col-md-6 col-sm-9 col-xs-12">
-                                <div class="input--icon">
-                                    {{ join_form.chosen_org }}
-                                </div>
-                                <small>{{ join_form.chosen_org.help_text }}</small>
-                                {{ join_form.chosen_org.errors }}
-                            </div>
-                        </div>
-
-                        <div class="section group">
-                            <button type="submit" class="button button--primary" name="join_organisation">Join school or club</button>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
-
-<script>
-    $('#join-button').on('show.bs.tab', function() {
-        // hide create header and show join header
-        $('#create-header').addClass('hidden')
-        $('#join-header').removeClass('hidden')
-    })
-    $('#create-button').on('show.bs.tab', function() {
-        // hide join header and show create header
-        $('#join-header').addClass('hidden')
-        $('#create-header').removeClass('hidden')
-    })
-</script>
-{% endif %}
 {% endif %}
 
 {% endblock content %}

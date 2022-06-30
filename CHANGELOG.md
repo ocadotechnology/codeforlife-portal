@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v6.12.0 (2022-06-29)
+### Feature
+* Remove join school functionality ([#1885](https://github.com/ocadotechnology/codeforlife-portal/issues/1885)) ([`04fec71`](https://github.com/ocadotechnology/codeforlife-portal/commit/04fec71ae5c27863bc941d4a7b6711eb1c99423f))
+* Admin invite teacher ([#1878](https://github.com/ocadotechnology/codeforlife-portal/issues/1878)) ([`3b3f916`](https://github.com/ocadotechnology/codeforlife-portal/commit/3b3f9161c30c59ebaf4f3f8b8253a312044d6af1))
+
+### Fix
+* Admin power ([#1883](https://github.com/ocadotechnology/codeforlife-portal/issues/1883)) ([`1ecc00a`](https://github.com/ocadotechnology/codeforlife-portal/commit/1ecc00a8670ac47407238c5d7b46278c766e02e3))
+
+## v6.11.0 (2022-06-29)
+### Feature
+* Add consent checkbox to teacher registration form ([#1890](https://github.com/ocadotechnology/codeforlife-portal/issues/1890)) ([`96b215c`](https://github.com/ocadotechnology/codeforlife-portal/commit/96b215ce3dfeb65e0b74daa6d5c74358b182c0b3))
+
 ## v6.10.0 (2022-06-28)
 ### Feature
 * Screentime warning ([#1888](https://github.com/ocadotechnology/codeforlife-portal/issues/1888)) ([`532198e`](https://github.com/ocadotechnology/codeforlife-portal/commit/532198e2311f03e63c52d9df3bffd8b8dc34fff6))
