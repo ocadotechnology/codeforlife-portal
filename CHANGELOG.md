@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.12.1 (2022-06-30)
+### Fix
+* Email below text ([#1892](https://github.com/ocadotechnology/codeforlife-portal/issues/1892)) ([`5abef26`](https://github.com/ocadotechnology/codeforlife-portal/commit/5abef269cec7506800eb35a7f8b4c5f638671ea6))
+
 ## v6.12.0 (2022-06-29)
 ### Feature
 * Remove join school functionality ([#1885](https://github.com/ocadotechnology/codeforlife-portal/issues/1885)) ([`04fec71`](https://github.com/ocadotechnology/codeforlife-portal/commit/04fec71ae5c27863bc941d4a7b6711eb1c99423f))
