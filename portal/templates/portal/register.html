@@ -42,8 +42,8 @@
                         <div class="form__checkbox-input">
                             {{ teacher_signup_form.consent_ticked }}
                         </div>
-                        <p class="semi-bold">I have read and understood the <a href="terms" target="_blank">Terms of use</a>
-                            and the <a href="privacy-policy" target="_blank">Privacy policy</a>.</p>
+                        <p class="semi-bold">I have read and understood the <a href="{% url 'terms' %}" target="_blank">Terms of use</a>
+                            and the <a href="{% url 'privacy_policy' %}" target="_blank">Privacy policy</a>.</p>
                     </div>
                 </div>
                 <div class="row form--row">
