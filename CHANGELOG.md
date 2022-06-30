@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.12.3 (2022-06-30)
+### Fix
+* Teacher registration text fixes ([#1897](https://github.com/ocadotechnology/codeforlife-portal/issues/1897)) ([`edaf957`](https://github.com/ocadotechnology/codeforlife-portal/commit/edaf957190f422baa605ed93436a391f5036f39e))
+
 ## v6.12.2 (2022-06-30)
 ### Fix
 * Add name of teacher to popup ([#1893](https://github.com/ocadotechnology/codeforlife-portal/issues/1893)) ([`a726df3`](https://github.com/ocadotechnology/codeforlife-portal/commit/a726df39c76084c0615c3472f6dbdc807e7d9592))
