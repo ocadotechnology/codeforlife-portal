@@ -133,7 +133,7 @@ class DeleteAccountForm(forms.Form):
     unsubscribe_newsletter = forms.BooleanField(
         label="Please remove me from the newsletter and marketing emails too.",
         widget=forms.CheckboxInput(),
-        initial=False,
+        initial=True,
         required=False,
     )
 

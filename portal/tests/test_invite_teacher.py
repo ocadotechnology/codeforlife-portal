@@ -113,7 +113,7 @@ class TestInviteTeacher(TestCase):
         # Try to access an invitation with an invalid token
         invitation_url = reverse("invited_teacher", kwargs={"token": "1"})
         response = client.get(invitation_url)
-        assert response.context["error_message"] == "Uh oh, the Invitation does not exist or it has expired. ☹️"
+        assert response.context["error_message"] == "Uh oh, the Invitation does not exist or it has expired. 😞"
 
         # Try to access an expired invitation
         expired_invitation = SchoolTeacherInvitation.objects.create(
@@ -127,7 +127,7 @@ class TestInviteTeacher(TestCase):
         )
         invitation_url = reverse("invited_teacher", kwargs={"token": expired_invitation.token})
         response = client.get(invitation_url)
-        assert response.context["error_message"] == "Uh oh, the Invitation does not exist or it has expired. ☹️"
+        assert response.context["error_message"] == "Uh oh, the Invitation does not exist or it has expired. 😞"
 
         # Try to access an invitation for an account that already exists
         same_account_invitation = SchoolTeacherInvitation.objects.create(
