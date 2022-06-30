@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.12.2 (2022-06-30)
+### Fix
+* Add name of teacher to popup ([#1893](https://github.com/ocadotechnology/codeforlife-portal/issues/1893)) ([`a726df3`](https://github.com/ocadotechnology/codeforlife-portal/commit/a726df39c76084c0615c3472f6dbdc807e7d9592))
+
 ## v6.12.1 (2022-06-30)
 ### Fix
 * Email below text ([#1892](https://github.com/ocadotechnology/codeforlife-portal/issues/1892)) ([`5abef26`](https://github.com/ocadotechnology/codeforlife-portal/commit/5abef269cec7506800eb35a7f8b4c5f638671ea6))
