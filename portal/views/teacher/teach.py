@@ -1,6 +1,7 @@
 from __future__ import division
 
 import csv
+from http.client import FORBIDDEN
 import json
 from datetime import datetime, timedelta
 from enum import Enum
@@ -9,7 +10,7 @@ from uuid import uuid4
 
 from common.helpers.emails import send_verification_email
 from common.helpers.generators import generate_access_code, generate_login_id, generate_password, get_hashed_login_id
-from common.models import Class, DailyActivity, JoinReleaseStudent, Student, Teacher
+from common.models import Class, DailyActivity, JoinReleaseStudent, School, Student, Teacher
 from common.permissions import logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -113,7 +114,7 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
     teacher = request.user.new_teacher
     students = Student.objects.filter(class_field=klass, new_user__is_active=True).order_by("new_user__first_name")
 
-    check_user_is_authorised(request, klass)
+    check_user_is_authorised(request, klass, teacher)
 
     if request.method == "POST":
         new_students_form = StudentCreationForm(klass, request.POST)
@@ -187,9 +188,9 @@ def teacher_onboarding_edit_class(request, access_code):
     )
 
 
-def check_user_is_authorised(request, klass):
+def check_user_is_authorised(request, klass, teacher=None):
     # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
+    if request.user.new_teacher != klass.teacher and not teacher.is_admin:
         raise Http404
 
 
@@ -374,7 +375,7 @@ def teacher_edit_student(request, pk):
     Changing a student's details
     """
     student = get_object_or_404(Student, id=pk)
-
+    teacher = request.user.new_teacher
     check_if_edit_authorised(request, student)
 
     name_form = TeacherEditStudentForm(student, initial={"name": student.new_user.first_name})
@@ -470,7 +471,17 @@ def process_reset_password_form(request, student, password_form):
 
 def check_if_edit_authorised(request, student):
     # check user is authorised to edit student
-    if request.user.new_teacher != student.class_field.teacher:
+    teacher = request.user.new_teacher
+    teacher_school = School.objects.get(id=teacher.school_id)
+    student_class_id = student.class_field_id
+
+    is_teacher_of_student = False
+    for teacher in Teacher.objects.filter(school_id=teacher_school.id):
+        for _class in Class.objects.filter(teacher_id=teacher.id):
+            if _class.id == student_class_id:
+                is_teacher_of_student = True
+
+    if not (is_teacher_of_student or teacher.is_admin):
         raise Http404
 
 

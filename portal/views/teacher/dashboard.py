@@ -190,6 +190,10 @@ def dashboard_teacher_view(request, is_admin):
                 return HttpResponseRedirect(reverse_lazy("teacher_login"))
 
     classes = Class.objects.filter(teacher=teacher)
+    if teacher.is_admin:
+        classes = []
+        for teacher in Teacher.objects.filter(school_id=school.id):
+            classes += Class.objects.filter(teacher_id=teacher.id)
 
     return render(
         request,
