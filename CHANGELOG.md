@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.12.4 (2022-06-30)
+### Fix
+* Invite teacher ([#1898](https://github.com/ocadotechnology/codeforlife-portal/issues/1898)) ([`dd0398e`](https://github.com/ocadotechnology/codeforlife-portal/commit/dd0398e56f23f7fc1ec91103d5256669c10fadaf))
+
 ## v6.12.3 (2022-06-30)
 ### Fix
 * Teacher registration text fixes ([#1897](https://github.com/ocadotechnology/codeforlife-portal/issues/1897)) ([`edaf957`](https://github.com/ocadotechnology/codeforlife-portal/commit/edaf957190f422baa605ed93436a391f5036f39e))
