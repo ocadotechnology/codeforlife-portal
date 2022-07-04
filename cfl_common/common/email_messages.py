@@ -160,7 +160,7 @@ def inviteTeacherEmail(request, schoolName, token, account_exists):
             f"A teacher at the school '{schoolName}' has invited you to join Code for Life. 🎉 Unfortunately, you "
             f"already have an account with this email address, so you will need to either delete it first or change "
             f"the email registered to your other account. After that, you can complete the registration process, by "
-            f"following the link below."
+            f"following the link below.\n\n"
             f"{url}"
         )
     else:
