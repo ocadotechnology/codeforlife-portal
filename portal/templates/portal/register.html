@@ -5,7 +5,7 @@
 {% block content %}
 <div id="signup_page"></div>
 
-<div class="container registration">
+<div id="register-forms" class="container registration">
     <div class="form--register--text form--register form--register--teacher is-flex-item col-sm-6">
         <div class="form-div form">
             <h4>Teacher/Tutor</h4>
@@ -97,10 +97,7 @@
                 {% csrf_token %}
 
                 <div class="row form--row">
-                    <small class="semi-bold">Please enter your date of birth (we do not store this information).</small>
-                </div>
-
-                <div class="row form--row">
+                    <small class="semi-bold mb-4">{{ independent_student_signup_form.date_of_birth.help_text }}</small>
                     <div class="form__dob-input">
                         {{ independent_student_signup_form.date_of_birth }}
                     </div>

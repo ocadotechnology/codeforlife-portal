@@ -204,16 +204,13 @@ form {
 }
 
 .form__dob-input {
+  @include _margin(0px, -10px, 0px, -10px);
   display: flex;
   flex: 1;
   justify-content: space-between;
 
   select {
     @include _margin(0px, 10px, 0px, 10px);
-  }
-
-  &:first-child {
-    @include _margin(0px, -10px, 0px, -10px);
   }
 }
 

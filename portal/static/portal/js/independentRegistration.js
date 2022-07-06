@@ -1,4 +1,5 @@
 $(function() {
+    const formSet = $("#register-forms");
     const form = $("#form-fields");
 
     const dobDaySelect = $("#id_independent_student_signup-date_of_birth_day");
@@ -10,10 +11,10 @@ $(function() {
     let dobYear;
 
     if (isDobInputted()) {
-        form.show();
+        showForm();
     }
     else {
-        form.hide();
+        hideForm();
     }
 
     dobDaySelect.add(dobMonthSelect).add(dobYearSelect).on("change", dobChangeHandler)
@@ -21,11 +22,11 @@ $(function() {
     function dobChangeHandler() {
         if (isDobInputted()) {
             const age = calculateAge();
-            form.show();
+            showForm();
             showFormAccordingToAge(age);
         }
         else {
-            form.hide();
+            hideForm();
         }
     }
 
@@ -44,6 +45,8 @@ $(function() {
     }
 
     function showFormAccordingToAge(age) {
+        showForm();
+
         if (age < 18) {
             $("#independent-newsletter").hide();
         }
@@ -70,5 +73,15 @@ $(function() {
             $("#independent-email-help-text").text("Enter your email address");
             $("#id_independent_student_signup-email").attr("placeholder", "Email address");
         }
+    }
+
+    function hideForm() {
+        formSet.addClass("align-items-start");
+        form.hide();
+    }
+
+    function showForm() {
+        formSet.removeClass("align-items-start");
+        form.show();
     }
 });
