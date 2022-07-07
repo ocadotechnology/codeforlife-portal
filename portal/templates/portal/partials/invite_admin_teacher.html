@@ -1,0 +1,23 @@
+{# A popup for inviting teacher as admin #}
+<section id="popup-make-admin-teacher" class="popup-wrapper">
+    <div class="popup-box">
+        <div>
+            <button class="close popup-box__close" type="button" id="close_popup_button" onclick="hideMakeAdminTeacherPopup()" aria-label="Close">
+                <span class="iconify" data-icon="mdi:close"></span>
+            </button>
+        </div>
+        <div class="popup-box__title">Assigning admin permissions</div>
+        <div class="popup-box__msg mt-4">
+            <div>You are about to add admin permissions to another teachers account.
+            Teacher with admin permissions will have the same permissions as you.
+            </div>
+            <div class="my-4"><strong>Do you wish to proceed?</strong></div>
+            <div class="text-danger"><strong>Accepting means you understand class data will be shared.</strong></div>
+        </div>
+        <div class="popup-box__buttons justify-content-center">
+            <a id="cancel_admin_popup_button" class="button button--primary" onclick="hideMakeAdminTeacherPopup()" aria-labelledby="cancel_admin_popup_button">Cancel</a>
+            <a id="add_admin_button" class="button button--primary button--primary--danger button--icon"  onclick="" aria-labelledby="add_admin_button">
+                Add as admin <span class="iconify" data-icon="mdi:add"></span></a>
+        </div>
+    </div>
+</section>

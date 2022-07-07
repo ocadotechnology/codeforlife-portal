@@ -11,15 +11,26 @@ function showRemoveConfirmation(path, name) {
   showPopupConfirmation(title, text, confirm_handler);
 }
 
-function showToggleAdminConfirmation(path, name) {
-  let title = "Make teacher admin";
-  let text =
-    "<div class='popup-text'><p>The teacher " +
-    name +
-    ", will be made an administrator of this school or club. They will gain all of the powers that you currently have.</p><p>Are you sure?</p></div>";
-  let confirm_handler = "postWithCsrf('" + path + "')";
+function showAssigningAdminPermissions(path, form) {
+  let title = "Assigning admin permissiions"
+  let text = "<div class='popup-text'><p>You are about to add admin permissions to another teachers account. " +
+  "Teachers with admin permissions will have the same permissions as you.</p>" +
+  "<br><br>" +
+  "<p class='semi-bold'>Do you wish to proceed?</p>" +
+  "<p class='text-danger'>Accepting means you understand class data will be shared</p>"
 
-  showPopupConfirmation(title, text, confirm_handler);
+  let confirm_handler = form.submit
+  showPopupConfirmation(title, text, confirm_handler)
+
+
+}
+
+function showToggleAdminConfirmation(path, name) {
+  let confirm_handler = "postWithCsrf('" + path + "')";
+  const popup = $("#popup-make-admin-teacher")
+  popup.addClass("popup--fade")
+  const add_admin_button = $("#add_admin_buton")
+  add_admin_button.attr("click", confirm_handler)
 }
 
 function showDisable2FAConfirmation(path, name) {
@@ -32,6 +43,27 @@ function showDisable2FAConfirmation(path, name) {
 
   showPopupConfirmation(title, text, confirm_handler);
 }
+
+
+/**
+ * Popup for inviting a teacher
+**/
+function showMakeAdminTeacherPopup(event) {
+  const popup = $("#popup-make-admin-teacher")
+  const is_invite_admin = document.getElementById("id_make_admin_ticked").checked
+  if (is_invite_admin) {
+    event.preventDefault()
+    popup.addClass("popup--fade");
+    const add_admin_button = $("#add_admin_button")
+
+    add_admin_button.on("click", () => event.target.submit())
+  }
+}
+
+function hideMakeAdminTeacherPopup() {
+  $("#popup-make-admin-teacher").removeClass("popup--fade");
+}
+
 
 /**
  * Show an account delete confirmation popup with a red delete button and either a Cancel or a Review classes button.
@@ -69,6 +101,7 @@ function showDeleteAccountConfirmation(delete_password, unsubscribe_newsletter, 
 
   popup.addClass("popup--fade");
 }
+
 
 function hideDeleteAccountPopup() {
   $("#popup-delete-review").removeClass("popup--fade");

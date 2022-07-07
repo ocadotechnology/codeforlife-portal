@@ -2,8 +2,10 @@ import random
 import sys
 
 from common.helpers.emails import generate_token
-from common.models import Teacher
+from common.models import SchoolTeacherInvitation, Teacher
 from django.core import mail
+
+from portal.views.teacher.dashboard import invited_teacher
 
 from . import email
 

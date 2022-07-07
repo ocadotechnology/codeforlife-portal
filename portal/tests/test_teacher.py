@@ -1,4 +1,6 @@
 from __future__ import absolute_import
+from requests import delete
+from selenium.common.exceptions import NoSuchElementException
 
 import time
 import re
@@ -25,6 +27,7 @@ from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.by import By
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from .base_test import BaseTest
@@ -661,6 +664,113 @@ class TestTeacherFrontend(BaseTest):
         time.sleep(5)
 
         assert len(mail.outbox) == 0
+
+    def test_admin_sees_all_school_classes(self):
+
+        email, password = signup_teacher_directly()
+        org_name, postcode = create_organisation_directly(email)
+        klass, _, access_code = create_class_directly(email, "class123")
+
+        # create non_admin account to join the school
+        # check if they cannot see classes
+        non_admin_email, non_admin_password = signup_teacher_directly()
+        join_teacher_to_organisation(non_admin_email, org_name, postcode, is_admin=False)
+
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(non_admin_email, non_admin_password)
+            .open_classes_tab()
+        )
+
+        assert page.element_does_not_exist_by_id(f"class-code-{access_code}")
+
+        page = self.go_to_homepage().teacher_logout()
+        # then make an admin account and check
+        # if the teacher can see the classes
+
+        admin_email, admin_password = signup_teacher_directly()
+        join_teacher_to_organisation(admin_email, org_name, postcode, is_admin=True)
+
+        page = self.go_to_homepage().go_to_teacher_login_page().login(admin_email, admin_password).open_classes_tab()
+        class_code_field = page.browser.find_element_by_id(f"class-code-{access_code}")
+        assert class_code_field.text == access_code
+
+    def test_admin_student_edit(self):
+        email, password = signup_teacher_directly()
+        org_name, postcode = create_organisation_directly(email)
+
+        klass, _, access_code = create_class_directly(email, "class123")
+        student_name, student_password, student_student = create_school_student_directly(access_code)
+
+        joining_email, joining_password = signup_teacher_directly()
+        join_teacher_to_organisation(joining_email, org_name, postcode, is_admin=True)
+
+        page = (
+            self.go_to_homepage().go_to_teacher_login_page().login(joining_email, joining_password).open_classes_tab()
+        )
+
+        class_button = page.browser.find_element_by_id("class_button")
+        class_button.click()
+
+        edit_student_button = page.browser.find_element_by_id("edit_student_button")
+        edit_student_button.click()
+
+        title = page.browser.find_element_by_id("student_details")
+        assert title.text == f"Edit student details for {student_name} from class {klass} ({access_code})"
+
+    def test_make_admin_popup(self):
+        email, password = signup_teacher_directly()
+        org_name, postcode = create_organisation_directly(email)
+        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password)
+        joining_email, joining_password = signup_teacher_directly()
+
+        invite_data = {
+            "teacher_first_name": "Real",
+            "teacher_last_name": "Name",
+            "teacher_email": "ren@me.me",
+        }
+
+        for key in invite_data.keys():
+            field = page.browser.find_element_by_name(key)
+            field.send_keys(invite_data[key])
+
+        invite_button = page.browser.find_element_by_name("invite_teacher_button")
+        invite_button.click()
+
+        # Once invite sent test the make admin button
+        make_admin_button = page.browser.find_element_by_id("make_admin_button_invite")
+        make_admin_button.click()
+
+        assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
+        cancel_button = page.browser.find_element_by_id("cancel_admin_popup_button")
+        cancel_button.click()
+
+        # Delete the invite and check if the form invite with
+        # admin checked also makes a popup
+        time.sleep(1)  # let the page scroll down
+        delete_invite_button = page.browser.find_element_by_id("delete-invite")
+        delete_invite_button.click()
+
+        for key in invite_data.keys():
+            field = page.browser.find_element_by_name(key)
+            field.send_keys(invite_data[key])
+        checkbox = page.browser.find_element_by_name("make_admin_ticked")
+        checkbox.click()
+
+        invite_button = page.browser.find_element_by_id("invite_teacher_button")
+        invite_button.click()
+        assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
+        cancel_button = page.browser.find_element_by_id("cancel_admin_popup_button")
+        cancel_button.click()
+
+        # Non admin teacher joined - make admin should also make a popup
+        join_teacher_to_organisation(joining_email, org_name, postcode, is_admin=False)
+
+        make_admin_button = page.browser.find_element_by_id("make_admin_button")
+        make_admin_button.click()
+
+        assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
 
     def test_delete_account(self):
         FADE_TIME = 0.9  # often fails if lower
