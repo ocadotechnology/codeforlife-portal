@@ -51,6 +51,15 @@
                 </div>
 
                 <div class="row form--row">
+                    <div class="form__checkbox">
+                        <div class="form__checkbox-input">
+                            {{ invited_teacher_form.consent_ticked }}
+                        </div>
+                        <p class="semi-bold">I have read and understood the <a href="{% url 'terms' %}" target="_blank">Terms of use</a>
+                            and the <a href="{% url 'privacy_policy' %}" target="_blank">Privacy policy</a>.</p>
+                    </div>
+                </div>
+                <div class="row form--row">
                     {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=invited_teacher_form.newsletter_ticked %}
                 </div>
 

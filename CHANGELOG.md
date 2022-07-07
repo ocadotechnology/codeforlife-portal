@@ -2,6 +2,22 @@
 
 <!--next-version-placeholder-->
 
+## v6.12.5 (2022-07-06)
+### Fix
+* Bump django from 3.2.13 to 3.2.14 ([#1899](https://github.com/ocadotechnology/codeforlife-portal/issues/1899)) ([`14abcf3`](https://github.com/ocadotechnology/codeforlife-portal/commit/14abcf3f02a1d6d6821f5986d735db49ed4856f8))
+
+## v6.12.4 (2022-06-30)
+### Fix
+* Invite teacher ([#1898](https://github.com/ocadotechnology/codeforlife-portal/issues/1898)) ([`dd0398e`](https://github.com/ocadotechnology/codeforlife-portal/commit/dd0398e56f23f7fc1ec91103d5256669c10fadaf))
+
+## v6.12.3 (2022-06-30)
+### Fix
+* Teacher registration text fixes ([#1897](https://github.com/ocadotechnology/codeforlife-portal/issues/1897)) ([`edaf957`](https://github.com/ocadotechnology/codeforlife-portal/commit/edaf957190f422baa605ed93436a391f5036f39e))
+
+## v6.12.2 (2022-06-30)
+### Fix
+* Add name of teacher to popup ([#1893](https://github.com/ocadotechnology/codeforlife-portal/issues/1893)) ([`a726df3`](https://github.com/ocadotechnology/codeforlife-portal/commit/a726df39c76084c0615c3472f6dbdc807e7d9592))
+
 ## v6.12.1 (2022-06-30)
 ### Fix
 * Email below text ([#1892](https://github.com/ocadotechnology/codeforlife-portal/issues/1892)) ([`5abef26`](https://github.com/ocadotechnology/codeforlife-portal/commit/5abef269cec7506800eb35a7f8b4c5f638671ea6))
