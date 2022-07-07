@@ -256,7 +256,7 @@ class TestTeacherInviteActions(BaseTest):
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
             field.send_keys(invite_data[key])
-        invite_button = page.browser.find_element_by_name("invite_teacher")
+        invite_button = page.browser.find_element_by_name("invite_teacher_button")
         invite_button.click()
 
         # Note the expiry to compare later
