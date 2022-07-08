@@ -590,7 +590,7 @@ def process_teacher_invitation(request, token):
     try:
         invitation = SchoolTeacherInvitation.objects.get(token=token, expiry__gt=timezone.now())
     except SchoolTeacherInvitation.DoesNotExist:
-        return "Uh oh, the Invitation does not exist or it has expired. ☹️"
+        return "Uh oh, the Invitation does not exist or it has expired. 😞"
 
     if User.objects.filter(email=invitation.invited_teacher_email).exists():
         return (

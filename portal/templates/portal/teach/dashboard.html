@@ -193,6 +193,7 @@
                                 <p>
                                     <small>
                                         {{ sent_invite.invited_teacher_first_name }}
+                                        {{ sent_invite.invited_teacher_last_name }}
                                         {% if sent_invite.is_expired %}
                                             <b>(expired)</b>
                                         {% else %}
@@ -209,7 +210,7 @@
                                         Revoke admin<span class="iconify" data-icon="mdi:block"></span></button>
                                     {% else %}
                                         <button id="make_admin_button_invite" class="button button--small button--primary button--icon"
-                                        onclick="showToggleAdminConfirmation('{% url 'invite_toggle_admin' sent_invite.id %}', '{{ sent_invite.new_user.first_name|striptags | escapejs}}')">
+                                        onclick="showToggleAdminConfirmation('{% url 'invite_toggle_admin' sent_invite.id %}', '{{ sent_invite.invited_teacher_first_name|striptags | escapejs}}')">
                                         Make admin<span class="iconify" data-icon="mdi:plus"></span></button>
                                     {% endif %}
                                     <button onclick="postWithCsrf('{% url 'resend_invite_teacher' sent_invite.token %}')" id="resend-invite" class="button button--small button--primary button--icon" >Resend invite<span class="iconify" data-icon="mdi:email-outline"></span></button>
