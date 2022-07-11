@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.13.0 (2022-07-11)
+### Feature
+* Add child-friendly legal documents ([#1889](https://github.com/ocadotechnology/codeforlife-portal/issues/1889)) ([`1440144`](https://github.com/ocadotechnology/codeforlife-portal/commit/144014400712ca23e1427d4aba9363edb21c6b0c))
+
 ## v6.12.5 (2022-07-06)
 ### Fix
 * Bump django from 3.2.13 to 3.2.14 ([#1899](https://github.com/ocadotechnology/codeforlife-portal/issues/1899)) ([`14abcf3`](https://github.com/ocadotechnology/codeforlife-portal/commit/14abcf3f02a1d6d6821f5986d735db49ed4856f8))
