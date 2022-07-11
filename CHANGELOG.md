@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.13.1 (2022-07-11)
+### Fix
+* Run black in test_settings.py (dummy version) ([`78f11a5`](https://github.com/ocadotechnology/codeforlife-portal/commit/78f11a58b6453c0d45bbdd75531ff5dacb0a1a86))
+
 ## v6.13.0 (2022-07-11)
 ### Feature
 * Add child-friendly legal documents ([#1889](https://github.com/ocadotechnology/codeforlife-portal/issues/1889)) ([`1440144`](https://github.com/ocadotechnology/codeforlife-portal/commit/144014400712ca23e1427d4aba9363edb21c6b0c))
