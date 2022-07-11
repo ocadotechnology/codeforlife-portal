@@ -1,7 +1,6 @@
 import csv
 import io
 import json
-import requests
 from datetime import timedelta, date
 
 import PyPDF2
@@ -9,10 +8,7 @@ import pytest
 from aimmo.models import Game
 from common.models import Teacher, UserSession, Student, Class, DailyActivity, School
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
-    create_organisation_directly,
-    join_teacher_to_organisation,
-)
+from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.student import (
     create_school_student_directly,
     create_student_with_direct_login,
@@ -28,13 +24,13 @@ from game.tests.utils.attempt import create_attempt
 from game.tests.utils.level import create_save_level
 
 from deploy import captcha
+from portal.views.api import anonymise
 from portal.views.teacher.teach import (
     REMINDER_CARDS_PDF_ROWS,
     REMINDER_CARDS_PDF_COLUMNS,
     REMINDER_CARDS_PDF_WARNING_TEXT,
     count_student_details_click,
 )
-from portal.views.api import anonymise
 
 
 class TestTeacherViews(TestCase):
@@ -172,7 +168,7 @@ class TestTeacherViews(TestCase):
                         "name": self.student.new_user.first_name,
                         "password": self.student.new_user.password,
                         "login_url": self.student.login_id,
-                    },
+                    }
                 ]
             )
         }
@@ -228,13 +224,7 @@ class TestLoginViews(TestCase):
         _, _, class_access_code = create_class_directly(teacher_email)
         student_name, student_password, _ = create_school_student_directly(class_access_code)
 
-        return (
-            teacher_email,
-            teacher_password,
-            student_name,
-            student_password,
-            class_access_code,
-        )
+        return (teacher_email, teacher_password, student_name, student_password, class_access_code)
 
     def _create_and_login_teacher(self, next_url=False):
         email, password, _, _, _ = self._set_up_test_data()
@@ -246,12 +236,7 @@ class TestLoginViews(TestCase):
 
         c = Client()
         response = c.post(
-            url,
-            {
-                "auth-username": email,
-                "auth-password": password,
-                "teacher_login_view-current_step": "auth",
-            },
+            url, {"auth-username": email, "auth-password": password, "teacher_login_view-current_step": "auth"}
         )
         return response, c
 
@@ -280,11 +265,7 @@ class TestLoginViews(TestCase):
         c = Client()
         c.post(
             reverse("teacher_login"),
-            {
-                "auth-username": email,
-                "auth-password": password,
-                "teacher_login_view-current_step": "auth",
-            },
+            {"auth-username": email, "auth-password": password, "teacher_login_view-current_step": "auth"},
         )
         # check if there's a UserSession data within the last minute
         now = timezone.now()
@@ -313,10 +294,7 @@ class TestLoginViews(TestCase):
         resp = c.post(reverse("student_login_access_code"), {"access_code": class_access_code})
         assert resp.status_code == 302
         nexturl = resp.url
-        assert nexturl == reverse(
-            "student_login",
-            kwargs={"access_code": class_access_code, "login_type": "classform"},
-        )
+        assert nexturl == reverse("student_login", kwargs={"access_code": class_access_code, "login_type": "classform"})
         c.post(nexturl, {"username": name, "password": password})
 
         # check if there's a UserSession data within the last 10 secs
@@ -358,7 +336,7 @@ class TestLoginViews(TestCase):
 
         c = Client()
         url = reverse("student_login", kwargs={"access_code": class_access_code})
-        resp = c.post(url, {"username": randomname, "password": "xx"})
+        c.post(url, {"username": randomname, "password": "xx"})
 
         # check if there's a UserSession data within the last 10 secs
         now = timezone.now()
@@ -438,7 +416,7 @@ class TestViews(TestCase):
 
         expected_html = '<a href="/home-learning">Home learning</a>'
 
-        self.assertIn(expected_html, html)
+        assert expected_html in html
 
         response = c.get(page_url)
 
@@ -557,14 +535,7 @@ class TestViews(TestCase):
 
         c = Client()
         url = reverse("teacher_login")
-        response = c.post(
-            url,
-            {
-                "auth-username": email,
-                "auth-password": password,
-                "teacher_login_view-current_step": "auth",
-            },
-        )
+        c.post(url, {"auth-username": email, "auth-password": password, "teacher_login_view-current_step": "auth"})
 
         # fail to delete with incorrect password
         url = reverse("delete_account")
@@ -632,18 +603,11 @@ class TestViews(TestCase):
 
         c = Client()
         url = reverse("teacher_login")
-        response = c.post(
-            url,
-            {
-                "auth-username": email1,
-                "auth-password": password1,
-                "teacher_login_view-current_step": "auth",
-            },
-        )
+        c.post(url, {"auth-username": email1, "auth-password": password1, "teacher_login_view-current_step": "auth"})
 
         # delete teacher1 account
         url = reverse("delete_account")
-        response = c.post(url, {"password": password1})
+        c.post(url, {"password": password1})
 
         # user has been anonymised
         u = User.objects.get(id=usrid1)
@@ -672,18 +636,11 @@ class TestViews(TestCase):
         user3.new_teacher.save()
 
         url = reverse("teacher_login")
-        response = c.post(
-            url,
-            {
-                "auth-username": email3,
-                "auth-password": password3,
-                "teacher_login_view-current_step": "auth",
-            },
-        )
+        c.post(url, {"auth-username": email3, "auth-password": password3, "teacher_login_view-current_step": "auth"})
 
         # now delete teacher3 account
         url = reverse("delete_account")
-        response = c.post(url, {"password": password3})
+        c.post(url, {"password": password3})
 
         # 2 teachers left
         teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
@@ -705,17 +662,10 @@ class TestViews(TestCase):
 
         # delete teacher2 (the last one left)
         url = reverse("teacher_login")
-        response = c.post(
-            url,
-            {
-                "auth-username": email2,
-                "auth-password": password2,
-                "teacher_login_view-current_step": "auth",
-            },
-        )
+        c.post(url, {"auth-username": email2, "auth-password": password2, "teacher_login_view-current_step": "auth"})
 
         url = reverse("delete_account")
-        response = c.post(url, {"password": password2})
+        c.post(url, {"password": password2})
 
         # school should be anonymised
         school = School._base_manager.get(id=school_id)
@@ -725,3 +675,9 @@ class TestViews(TestCase):
 
         with pytest.raises(School.DoesNotExist):
             School.objects.get(id=school_id)
+
+    def test_legal_pages_load(self):
+        c = Client()
+
+        assert c.get(reverse("privacy_policy")).status_code == 200
+        assert c.get(reverse("terms")).status_code == 200

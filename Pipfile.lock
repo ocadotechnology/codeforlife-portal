@@ -18,10 +18,10 @@
     "default": {
         "aimmo": {
             "hashes": [
-                "sha256:7feaa71d687c6b11b9aaf43f2371c8535f0b7e935d6c7268209f0c7aaac79ce5",
-                "sha256:dfd69f9171cb66f77c9c123754ed5991e54d4bda990a34ce7a7f049147d0c5e1"
+                "sha256:0c901683e4558e37925429dd2eca2d2c8f77426c809fa01613279b022b1ebde8",
+                "sha256:8c5dbdcd224940298db512db884f24a23e5a769f97d0a327dedf9e24cf345c05"
             ],
-            "version": "==2.3.4"
+            "version": "==2.3.5"
         },
         "asgiref": {
             "hashes": [
@@ -487,10 +487,10 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:0fde8a9fbeda40f698169e817dce4758fa4bcc2ed57428838ececa5dcba57e88",
-                "sha256:f2cc4c5eae41a11dc723b2db7840cae3addccf4c47d36c30c348d7e79978d0c9"
+                "sha256:9e8f0acc5dc681a4661777892de1b4ed5447ed7c788ee40ae299313600639bce",
+                "sha256:c738b1b6a744271c99c531613482ca2e5af1d879840869444cca06435bfd0889"
             ],
-            "version": "==4.3.0"
+            "version": "==4.3.1"
         },
         "reportlab": {
             "hashes": [
@@ -586,11 +586,11 @@
         },
         "websocket-client": {
             "hashes": [
-                "sha256:50b21db0058f7a953d67cc0445be4b948d7fc196ecbeb8083d68d94628e4abf6",
-                "sha256:722b171be00f2b90e1d4fb2f2b53146a536ca38db1da8ff49c972a4e1365d0ef"
+                "sha256:5d55652dc1d0b3c734f044337d929aaf83f4f9138816ec680c1aefefb4dc4877",
+                "sha256:d58c5f284d6a9bf8379dab423259fe8f85b70d5fa5d2916d5791a84594b122b1"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.3.2"
+            "version": "==1.3.3"
         }
     },
     "develop": {
@@ -704,11 +704,11 @@
         },
         "importlib-metadata": {
             "hashes": [
-                "sha256:5d26852efe48c0a32b0509ffbc583fda1a2266545a78d104a6f4aff3db17d700",
-                "sha256:c58c8eb8a762858f49e18436ff552e83914778e50e9d2f1660535ffb364552ec"
+                "sha256:637245b8bab2b6502fcbc752cc4b7a6f6243bb02b31c5c26156ad103d3d45670",
+                "sha256:7401a975809ea1fdc658c3aa4f78cc2195a0e019c5cbc4c06122884e9ae80c23"
             ],
             "markers": "python_version < '3.8'",
-            "version": "==4.11.4"
+            "version": "==4.12.0"
         },
         "iniconfig": {
             "hashes": [
@@ -797,11 +797,11 @@
         },
         "pytest-mock": {
             "hashes": [
-                "sha256:5112bd92cc9f186ee96e1a92efc84969ea494939c3aead39c50f421c4cc69534",
-                "sha256:6cff27cec936bf81dc5ee87f07132b807bcda51106b5ec4b90a04331cba76231"
+                "sha256:2c6d756d5d3bf98e2e80797a959ca7f81f479e7d1f5f571611b0fdd6d1745240",
+                "sha256:d989f11ca4a84479e288b0cd1e6769d6ad0d3d7743dcc75e460d1416a5f2135a"
             ],
             "index": "pypi",
-            "version": "==3.7.0"
+            "version": "==3.8.1"
         },
         "pytz": {
             "hashes": [

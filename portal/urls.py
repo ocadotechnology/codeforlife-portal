@@ -23,20 +23,14 @@ from portal.views.api import (
 )
 from portal.views.dotmailer import dotmailer_consent_form, process_newsletter_form
 from portal.views.email import send_new_users_report, verify_email
-from portal.views.home import (
-    home,
-    home_learning,
-    logout_view,
-    register_view,
-    reset_screentime_warning,
-)
+from portal.views.home import home, home_learning, logout_view, register_view, reset_screentime_warning
+from portal.views.legal import privacy_policy, terms
 from portal.views.login import old_login_form_redirect
 from portal.views.login.independent_student import IndependentStudentLoginView
 from portal.views.login.student import StudentLoginView, StudentClassCodeView, student_direct_login
 from portal.views.login.teacher import TeacherLoginView
 from portal.views.organisation import organisation_leave, organisation_manage
 from portal.views.play_landing_page import play_landing_page
-from portal.views.privacy_policy import privacy_policy
 from portal.views.registration import (
     password_reset_check_and_confirm,
     password_reset_done,
@@ -171,11 +165,7 @@ urlpatterns = [
         password_reset_check_and_confirm,
         name="password_reset_check_and_confirm",
     ),
-    url(
-        r"^user/reset_screentime_warning/$",
-        reset_screentime_warning,
-        name="reset_screentime_warning",
-    ),
+    url(r"^user/reset_screentime_warning/$", reset_screentime_warning, name="reset_screentime_warning"),
     url(
         r"^teacher/password/reset/complete/$",
         TemplateView.as_view(template_name="portal/reset_password_done.html"),
@@ -221,7 +211,7 @@ urlpatterns = [
     url(r"^about", about, name="about"),
     url(r"^getinvolved", getinvolved, name="getinvolved"),
     url(r"^contribute", contribute, name="contribute"),
-    url(r"^terms", TemplateView.as_view(template_name="portal/terms.html"), name="terms"),
+    url(r"^terms", terms, name="terms"),
     url(r"^privacy-policy/$", privacy_policy, name="privacy_policy"),
     url(r"^teach/materials/$", materials, name="materials"),
     url(r"^teach/kurono_teaching_packs$", kurono_teaching_packs, name="kurono_packs"),
