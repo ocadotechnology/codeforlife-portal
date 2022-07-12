@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.13.3 (2022-07-12)
+### Fix
+* Use our fork of sematic release ([#1903](https://github.com/ocadotechnology/codeforlife-portal/issues/1903)) ([`16aad05`](https://github.com/ocadotechnology/codeforlife-portal/commit/16aad054b168324af627dbf9bc6567aa8d8f7eaf))
+
 ## v6.13.2 (2022-07-12)
 ### Fix
 * Try the latest python-semantic-release version ([#1902](https://github.com/ocadotechnology/codeforlife-portal/issues/1902)) ([`2889139`](https://github.com/ocadotechnology/codeforlife-portal/commit/2889139f560ae872cec40f291f158555cdd5f56d))
