@@ -2,6 +2,22 @@
 
 <!--next-version-placeholder-->
 
+## v6.13.3 (2022-07-12)
+### Fix
+* Use our fork of sematic release ([#1903](https://github.com/ocadotechnology/codeforlife-portal/issues/1903)) ([`16aad05`](https://github.com/ocadotechnology/codeforlife-portal/commit/16aad054b168324af627dbf9bc6567aa8d8f7eaf))
+
+## v6.13.2 (2022-07-12)
+### Fix
+* Try the latest python-semantic-release version ([#1902](https://github.com/ocadotechnology/codeforlife-portal/issues/1902)) ([`2889139`](https://github.com/ocadotechnology/codeforlife-portal/commit/2889139f560ae872cec40f291f158555cdd5f56d))
+
+## v6.13.1 (2022-07-11)
+### Fix
+* Run black in test_settings.py (dummy version) ([`78f11a5`](https://github.com/ocadotechnology/codeforlife-portal/commit/78f11a58b6453c0d45bbdd75531ff5dacb0a1a86))
+
+## v6.13.0 (2022-07-11)
+### Feature
+* Add child-friendly legal documents ([#1889](https://github.com/ocadotechnology/codeforlife-portal/issues/1889)) ([`1440144`](https://github.com/ocadotechnology/codeforlife-portal/commit/144014400712ca23e1427d4aba9363edb21c6b0c))
+
 ## v6.12.5 (2022-07-06)
 ### Fix
 * Bump django from 3.2.13 to 3.2.14 ([#1899](https://github.com/ocadotechnology/codeforlife-portal/issues/1899)) ([`14abcf3`](https://github.com/ocadotechnology/codeforlife-portal/commit/14abcf3f02a1d6d6821f5986d735db49ed4856f8))

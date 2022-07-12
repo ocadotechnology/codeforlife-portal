@@ -8,16 +8,31 @@
 </section>
 <div class="sticky-subnav sub-nav sub-nav--teacher">
     <ul class="nav is-flex" role="tablist">
-        <li class="active"><a class="button button--secondary button--secondary--light" data-toggle="tab" href="#introduction">Introduction</a></li>
-        <li><a class="button button--secondary button--secondary--light" data-toggle="tab" href="#terms">Terms of use</a></li>
+        <li class="active"><a class="button button--secondary button--secondary--light" data-toggle="tab" href="#terms">Terms of use</a></li>
+        <li><a class="button button--secondary button--secondary--light" data-toggle="tab" href="#terms-children">Child-friendly</a></li>
     </ul>
 </div>
 {% endblock subNav %}
 
 {% block content %}
 <div class="tab-content background container">
-    <div id="introduction" class="tab-pane active">
-        <section><h4 id="introduction">Introduction</h4></section>
+    <div id="terms" class="tab-pane active">
+        <section><h4 id="terms-of-use">Terms of Use</h4></section>
+
+        <ol class="list--two-columns">
+            <li><p><a href="#introduction">Introduction</a></p></li>
+            <li><p><a href="#registration-and-types-of-membership">Registration and Types of Membership</a></p></li>
+            <li><p><a href="#misuse-of-code-for-life-site">Misuse of Code for Life site</a></p></li>
+            <li><p><a href="#prohibitions">Prohibitions</a></p></li>
+            <li><p><a href="#alerting-code-for-life">Alerting Code for Life</a></p></li>
+            <li><p><a href="#intellectual-property">Intellectual Property</a></p></li>
+            <li><p><a href="#our-liability">Our Liability</a></p></li>
+            <li><p><a href="#miscellaneous">Miscellaneous</a></p></li>
+        </ol>
+
+        <hr>
+
+        <h5 id="introduction">1. Introduction</h5>
         <div class="row d-flex">
             <div class="col-sm-6">
                 <p>Ocado Innovation Limited (as &ldquo;Ocado Technology&rdquo;), the division that powers Ocado.com, the world&rsquo;s
@@ -43,20 +58,6 @@
                     Technology from time to time (collectively, &ldquo;Code for Life&rdquo;).</p>
             </div>
         </div>
-    </div>
-
-    <div id="terms" class="tab-pane">
-        <section><h4 id="terms-of-use">Terms of Use</h4></section>
-
-        <ol class="list--two-columns">
-            <li><p><a href="#registration-and-types-of-membership">Registration and Types of Membership</a></p></li>
-            <li><p><a href="#misuse-of-code-for-life-site">Misuse of Code for Life site</a></p></li>
-            <li><p><a href="#prohibitions">Prohibitions</a></p></li>
-            <li><p><a href="#alerting-code-for-life">Alerting Code for Life</a></p></li>
-            <li><p><a href="#intellectual-property">Intellectual Property</a></p></li>
-            <li><p><a href="#our-liability">Our Liability</a></p></li>
-            <li><p><a href="#miscellaneous">Miscellaneous</a></p></li>
-        </ol>
 
         <hr>
 
@@ -65,7 +66,7 @@
                 <p><strong>Important: If you are under 13 years of age you must have your parent, guardian or carer&rsquo;s
                     consent to register for a Code for Life account, and to use their email address. If you are using
                     this at school, you must first have your teacher&rsquo;s permission to use this site. These Terms of Use
-                    were most recently updated on 27 December 2018.</strong></p>
+                    were most recently updated on {{ last_updated }}.</strong></p>
                 <p>Code for Life includes all versions of &ldquo;Rapid Router&rdquo;, &ldquo;Kurono&rdquo; and any other games, platforms and
                     other products or services released by us (whether online or otherwise), from time to time,
                     including all Code for Life websites used to play the games, platforms and any other products or
@@ -92,7 +93,7 @@
 
         <hr>
 
-        <h5 id="registration-and-types-of-membership">1. Registration and Types of Membership</h5>
+        <h5 id="registration-and-types-of-membership">2. Registration and Types of Membership</h5>
         <p><strong>Membership falls into the following categories under the Agreement outlined in this policy:</strong></p>
         <ul>
             <li><p>Administrators: person or persons assigned responsibility for the management and security of
@@ -141,7 +142,7 @@
 
         <hr>
 
-        <h5 id="misuse-of-code-for-life-site">2. Misuse of Code for Life site</h5>
+        <h5 id="misuse-of-code-for-life-site">3. Misuse of Code for Life site</h5>
         <p>We reserve the right (a) to suspend or terminate any User&rsquo;s access to Code for Life, or parts of it, and/or
             (b) to remove, or require the User to remove, material posted on Code for Life, if the User or material
             appears to us, or to someone who has complained to us, to be in breach of any provision of the Terms &
@@ -177,7 +178,7 @@
 
         <hr>
 
-        <h5 id="prohibitions">3. Prohibitions</h5>
+        <h5 id="prohibitions">4. Prohibitions</h5>
         <p>You must ensure that any activity and or communication through the Code for Life site, is not capable of (a)
             infringing the intellectual property or other rights of any person or entity, (b) breaching any applicable
             laws, regulations or codes of practice, whether criminal, tortuous or otherwise, (c) appearing to be
@@ -190,7 +191,7 @@
 
         <hr>
 
-        <h5 id="alerting-code-for-life">4. Alerting Code for Life</h5>
+        <h5 id="alerting-code-for-life">5. Alerting Code for Life</h5>
         <p>If you see anything on the Code for Life portal which appears to infringe any part of the Terms & Conditions,
             then please inform us via the <a class="freshdesk__contact-us">Contact Us</a> section of this site.</p>
         <p>We do not endorse or take responsibility for the content of any third party sites that link to or from Code
@@ -198,7 +199,7 @@
 
         <hr>
 
-        <h5 id="intellectual-property">5. Intellectual Property</h5>
+        <h5 id="intellectual-property">6. Intellectual Property</h5>
         <p>You acknowledge that all copyright, trademarks, and other intellectual property rights in and relating to
             Code for Life (including all content of the Code for Life website, the Rapid Router application, the Kurono
             application, related software (including any drawn and/or animated avatars, whether or not such avatars have
@@ -212,7 +213,7 @@
 
         <hr>
 
-        <h5 id="our-liability">6. Our Liability</h5>
+        <h5 id="our-liability">7. Our Liability</h5>
         <p>The website, use of the application and games, and access to any accounts is provided by us on an &ldquo;as is&rdquo;
             basis without any warranties or guarantees. We do not accept responsibility for any errors, omissions, or
             for the results obtained from the use of such information or for any technical problems you may experience
@@ -241,13 +242,147 @@
 
         <hr>
 
-        <h5 id="miscellaneous">7. Miscellaneous</h5>
+        <h5 id="miscellaneous">8. Miscellaneous</h5>
         <p>The delay or failure of any party to exercise its rights provided for in these Terms & Conditions shall not
             be deemed a waiver of any further rights hereunder. If any provision of the Terms & Conditions is found to
             be unenforceable or invalid, that provision shall be limited or eliminated to the minimum extent necessary
             to enable the Terms & Conditions to remain in full force and effect. The Terms & Conditions shall be
             governed by and construed in accordance with the laws of England and Wales and the parties shall submit to
             the exclusive jurisdiction of the English courts.</p>
+    </div>
+
+    <div id="terms-children" class="tab-pane">
+
+        <section><h4>Terms of Use</h4></section>
+
+        <div class="row d-flex">
+            <div class="col-sm-6">
+                <p><strong>We ask that you take the time to read and understand our Terms of Use and the Privacy Policy
+                    before registering for Code for Life. These Terms were last updated on {{ last_updated }}.
+                </strong></p>
+                <p>Our Terms of Use set out the rules that we ask you to follow when using Code for Life. The rules
+                    cover:</p>
+                <ul>
+                    <li><p>all Code for Life websites used to play the games, platforms and any other products or
+                        services that we make available to you</p></li>
+                    <li><p>all versions of “Rapid Router”, “Kurono” and any other games, platforms and other products or
+                        services we released (whether online or otherwise)</p></li>
+                </ul>
+                <p><strong>When you visit the Code for Life site or register with us you agree to follow these rules.</strong></p>
+            </div>
+            <div class="col-sm-6">
+                <p><strong>We may need to update our Terms of Use every now and then. If you have registered with us
+                    then we will email you to tell you about any changes we’ve made. We’ll also post a message up on the
+                    site so that any visitors will know that our Terms have changed.  This page shows the date we last
+                    made a change so you’ll always be able to check when the Terms were most recently updated.</strong></p>
+                <p><strong>Important: Please make sure to keep your email address up to date as we will use this to send
+                    you important messages about Code for Life. If you don’t keep it updated then it could lead to your
+                    access being restricted or your account deleted.</strong></p>
+                <p><strong>You should use the <a class="freshdesk__contact-us">Contact Us form</a> if you need help or
+                    advice on how to use the site. Please be aware that we will never ask for personal information other
+                    than what is required to identify your account and answer your questions, and we will never ask for
+                    your password.</strong></p>
+            </div>
+        </div>
+
+        <hr>
+
+        <h5>1. Misuse of the Code for Life site</h5>
+
+        <p>Please remember that you are responsible for everything you do when logged onto the Code for Life site. If
+            you create content on Code for Life which we think breaks the rules of the Terms of Use then we may:</p>
+        <ol type="a">
+            <li><p>suspend or close your access Code for Life account, OR</p></li>
+            <li><p>block your access to parts of the site OR</p></li>
+            <li><p>remove (or ask you to remove) the post which we think broke the rules.</p></li>
+        </ol>
+        <p>If we have to suspend or close your account then you won’t be allowed to re-register or access the portal
+            again unless we have given you our permission in writing to do so.</p>
+
+        <p>We’ll do our best to make sure the Code for Life website and access to your account and our games, platforms
+            and other products or services is available to you 24 hours a day. However, we sometimes have to limit
+            users’ access to their account or the site so that we can make repairs or add new content.</p>
+
+        <p>We also aim to provide you with the best service we can, but we can’t promise that the Code for Life site, or
+            our games, platforms and services will always be fault, virus or mistake-free. If you notice a problem or
+            fault, please let us know using the <a class="freshdesk__contact-us">contact us form</a> and we will do all
+            we can to correct it as quickly as we can.</p>
+
+        <p>Whether or not a user follows the Terms of Use we still have the right to:</p>
+        <ol type="a">
+            <li><p>choose whether to accept or reject their registration</p></li>
+            <li><p>suspend and cancel their account at any time (without telling them first)</p></li>
+            <li><p>stop them from accessing all or part of the games, platforms and any other of our services (including
+                any old or live games or avatar(s) they’ve created).</p></li>
+        </ol>
+
+        <p><strong>The Code for Life portal was created to help you learn how to code, and this is the only purpose you
+            should use it for. This means that you may not:</strong></p>
+        <ul>
+            <li><p>post content on Code for life for business purposes or use the Code for Life site for a business
+                purpose OR</p></li>
+            <li><p>use the Code for Life site or information you’ve taken from it, to send out spam emails.</p></li>
+        </ul>
+
+        <hr>
+
+        <h5>2. Other limits of use</h5>
+
+        <p>You must not:</p>
+        <ol type="a">
+            <li><p>copy content taken from our site or copy content created by another Code for Life user without
+                permission,</p></li>
+            <li><p>break any laws when using the site,</p></li>
+            <li><p>create levels that contain offensive, threatening, harmful or false content,</p></li>
+            <li><p>use the site in a way that causes disruption to other users,</p></li>
+            <li><p>use the site in a way that helps someone to gain access to other computer systems that they do not
+                have permission to access,</p></li>
+            <li><p>use the site in a way that affects other peoples’ use or enjoyment of the Code for Life website,</p></li>
+            <li><p>do anything that could cause damage the site, for example taking action that allows in, computer
+                viruses, logic bombs, Trojan horses or some other kind of harmful software or data.</p></li>
+        </ol>
+
+        <hr>
+
+        <h5>3. Alerting Code for Life</h5>
+
+        <p>If you see anything on the Code for Life portal which you think breaks the rules in our Terms of Use, then
+            please let us know by using the Contact Us section of the site.</p>
+
+        <p>The Code for Life site has links to websites that are run by other organisations, and other organisation
+            websites will sometimes have links to our site. We have no control over these other websites and so are not
+            responsible for their contents.</p>
+
+        <hr>
+
+        <h5>4. Intellectual Property</h5>
+
+        <p>The contents of the Code for Life website are our ‘Intellectual Property’. This means that you cannot copy or
+            reuse them without our permission. Just because it is easy to copy some of the content on the website, this
+            does not mean it is allowed. The content covered by Intellectual Property includes:</p>
+        <ol type="a">
+            <li><p>Rapid Router and the Kurono applications</p></li>
+            <li><p>Games – this will include the design of the games (for example their graphics, style and gameplay)</p></li>
+            <li><p>Avatars, whether they are drawn or animated</p></li>
+            <li><p>Any other software or services you see on our website</p></li>
+            <li><p>Source Code (this is the code that our website and games are made up of)</p></li>
+        </ol>
+
+        <hr>
+
+        <h5>5. Our responsibilities</h5>
+
+        <p>We will not be responsible for:</p>
+        <ul>
+            <li><p>viruses, trojans and similar threats that could affect your access to, or use of, the website
+                (including your account),</p></li>
+            <li><p>any problems you have logging on because your computer, mobile device, broadband or software won’
+                work with our site,</p></li>
+            <li><p>any delays or failures that happen when you are using the site,</p></li>
+            <li><p>any errors loss of access to the site caused by a technical problem at Ocado,</p></li>
+            <li><p>the site not being suitable for your learning needs,</p></li>
+            <li><p>any inaccuracies in the description of our games or levels.</p></li>
+        </ul>
     </div>
 </div>
 
