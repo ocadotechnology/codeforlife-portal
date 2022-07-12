@@ -145,8 +145,10 @@ class TestOrganisation(BaseTest, BasePage):
         assert page.__class__.__name__ == "TeachDashboardPage"
 
         page = page.click_make_admin_button()
-        assert page.is_dialog_showing()
-        page = page.confirm_dialog()
+        make_admin_button = page.browser.find_element_by_id("add_admin_button")
+        time.sleep(FADE_TIME)
+        assert make_admin_button.text == "Add as admin"
+        make_admin_button.click()
 
         assert page.is_teacher_admin()
 
