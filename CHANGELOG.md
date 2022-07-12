@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.13.2 (2022-07-12)
+### Fix
+* Try the latest python-semantic-release version ([#1902](https://github.com/ocadotechnology/codeforlife-portal/issues/1902)) ([`2889139`](https://github.com/ocadotechnology/codeforlife-portal/commit/2889139f560ae872cec40f291f158555cdd5f56d))
+
 ## v6.13.1 (2022-07-11)
 ### Fix
 * Run black in test_settings.py (dummy version) ([`78f11a5`](https://github.com/ocadotechnology/codeforlife-portal/commit/78f11a58b6453c0d45bbdd75531ff5dacb0a1a86))
