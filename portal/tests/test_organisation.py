@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import time
+
 from common.models import Teacher
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
@@ -12,6 +14,7 @@ from common.tests.utils.teacher import signup_teacher_directly
 
 from portal.tests.pageObjects.portal.base_page import BasePage
 from portal.tests.pageObjects.portal.home_page import HomePage
+from portal.tests.test_invite_teacher import FADE_TIME
 from .base_test import BaseTest
 from .utils.messages import is_organisation_created_message_showing
 
@@ -165,8 +168,10 @@ class TestOrganisation(BaseTest, BasePage):
         assert page.__class__.__name__ == "TeachDashboardPage"
 
         page = page.click_make_admin_button()
-        assert page.is_dialog_showing()
-        page = page.confirm_dialog()
+        # check if the new popup appears
+        time.sleep(FADE_TIME)
+        make_admin_button = page.browser.find_element_by_id("make_admin_button_invite")
+        assert make_admin_button.text == "Add as admin"
 
         assert page.is_teacher_admin()
 
