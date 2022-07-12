@@ -25,13 +25,17 @@ function showAssigningAdminPermissions(path, form) {
 
 }
 
-function showToggleAdminConfirmation(path, name) {
+const test = () => {
+  console.log("LOL")
+}
+function showToggleAdminConfirmation(path) {
   let confirm_handler = "postWithCsrf('" + path + "')";
   const popup = $("#popup-make-admin-teacher")
   popup.addClass("popup--fade")
-  const add_admin_button = $("#add_admin_buton")
-  add_admin_button.attr("click", confirm_handler)
+  const add_admin_button = $("#add_admin_button")
+  add_admin_button.attr("onclick", confirm_handler)
 }
+
 
 function showDisable2FAConfirmation(path, name) {
   let title = "Disable 2FA for " + name;

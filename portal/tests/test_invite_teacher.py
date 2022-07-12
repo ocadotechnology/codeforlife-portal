@@ -194,17 +194,20 @@ class TestTeacherInviteActions(BaseTest):
 
         # make admin
         sleep(FADE_TIME)
+        page.browser.execute_script('document.getElementById("delete-invite").scrollIntoView()')
         make_admin_button = page.browser.find_element_by_id("make_admin_button_invite")
         make_admin_button.click()
         # handle popup
         sleep(FADE_TIME)
-        confirm_button = page.browser.find_element_by_id("confirm_button")
+        confirm_button = page.browser.find_element_by_id("add_admin_button")
+        sleep(FADE_TIME)
         confirm_button.click()
 
         # check if popup message appears and if the invite is changed to admin
         banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
         assert banner.text == "Administrator invite status has been given successfully"
         invite = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0]
+        sleep(10)
         assert invite.invited_teacher_is_admin
 
         # revoke admin
