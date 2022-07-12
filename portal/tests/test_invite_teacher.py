@@ -207,7 +207,6 @@ class TestTeacherInviteActions(BaseTest):
         banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
         assert banner.text == "Administrator invite status has been given successfully"
         invite = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0]
-        sleep(10)
         assert invite.invited_teacher_is_admin
 
         # revoke admin
