@@ -1,6 +1,7 @@
 from __future__ import division
 
 import csv
+from http.client import FORBIDDEN
 import json
 from datetime import datetime, timedelta
 from enum import Enum
@@ -9,15 +10,15 @@ from uuid import uuid4
 
 from common.helpers.emails import send_verification_email
 from common.helpers.generators import generate_access_code, generate_login_id, generate_password, get_hashed_login_id
-from common.models import Class, DailyActivity, JoinReleaseStudent, Student, Teacher
-from common.permissions import logged_in_as_teacher
+from common.models import Class, DailyActivity, JoinReleaseStudent, School, Student, Teacher
+from common.permissions import check_teacher_authorised, logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.forms.formsets import formset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
@@ -113,7 +114,7 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
     teacher = request.user.new_teacher
     students = Student.objects.filter(class_field=klass, new_user__is_active=True).order_by("new_user__first_name")
 
-    check_user_is_authorised(request, klass)
+    check_teacher_authorised(request, klass.teacher)
 
     if request.method == "POST":
         new_students_form = StudentCreationForm(klass, request.POST)
@@ -187,12 +188,6 @@ def teacher_onboarding_edit_class(request, access_code):
     )
 
 
-def check_user_is_authorised(request, klass):
-    # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
-
-
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_view_class(request, access_code):
@@ -209,8 +204,7 @@ def teacher_delete_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
+    check_teacher_authorised(request, klass.teacher)
 
     if Student.objects.filter(class_field=klass, new_user__is_active=True).exists():
         messages.info(
@@ -230,8 +224,7 @@ def teacher_delete_students(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user is authorised to deal with class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
+    check_teacher_authorised(request, klass.teacher)
 
     # get student objects for students to be deleted, confirming they are in the class
     student_ids = json.loads(request.POST.get("transfer_students", "[]"))
@@ -271,8 +264,7 @@ def teacher_edit_class(request, access_code):
     other_teachers = Teacher.objects.filter(school=old_teacher.school).exclude(user=old_teacher.user)
 
     # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
+    check_teacher_authorised(request, klass.teacher)
 
     external_requests_message = klass.get_requests_message()
 
@@ -374,8 +366,7 @@ def teacher_edit_student(request, pk):
     Changing a student's details
     """
     student = get_object_or_404(Student, id=pk)
-
-    check_if_edit_authorised(request, student)
+    check_teacher_authorised(request, student.class_field.teacher)
 
     name_form = TeacherEditStudentForm(student, initial={"name": student.new_user.first_name})
 
@@ -468,12 +459,6 @@ def process_reset_password_form(request, student, password_form):
         )
 
 
-def check_if_edit_authorised(request, student):
-    # check user is authorised to edit student
-    if request.user.new_teacher != student.class_field.teacher:
-        raise Http404
-
-
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_dismiss_students(request, access_code):
@@ -482,7 +467,7 @@ def teacher_dismiss_students(request, access_code):
     """
     klass = get_object_or_404(Class, access_code=access_code)
 
-    check_if_dismiss_authorised(request, klass)
+    check_teacher_authorised(request, klass.teacher)
 
     # get student objects for students to be dismissed, confirming they are in the class
     student_ids = json.loads(request.POST.get("transfer_students", "[]"))
@@ -516,12 +501,6 @@ def teacher_dismiss_students(request, access_code):
         "portal/teach/teacher_dismiss_students.html",
         {"formset": formset, "class": klass, "students": students},
     )
-
-
-def check_if_dismiss_authorised(request, klass):
-    # check user is authorised to deal with class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
 
 
 def is_right_dismiss_form(request):
@@ -575,8 +554,7 @@ def teacher_class_password_reset(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
+    check_teacher_authorised(request, klass.teacher)
 
     student_ids = json.loads(request.POST.get("transfer_students", "[]"))
     students = [get_object_or_404(Student, id=i, class_field=klass) for i in student_ids]
@@ -627,8 +605,7 @@ def teacher_move_students(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user is authorised to deal with class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
+    check_teacher_authorised(request, klass.teacher)
 
     transfer_students = request.POST.get("transfer_students", "[]")
 
@@ -770,8 +747,7 @@ def teacher_print_reminder_cards(request, access_code):
 
     klass = get_object_or_404(Class, access_code=access_code)
     # Check auth
-    if klass.teacher.new_user != request.user:
-        raise Http404
+    check_teacher_authorised(request, klass.teacher)
 
     # Use data from the query string if given
     student_data = get_student_data(request)
@@ -858,8 +834,7 @@ def teacher_download_csv(request, access_code):
 
     klass = get_object_or_404(Class, access_code=access_code)
     # Check auth
-    if klass.teacher.new_user != request.user:
-        raise Http404
+    check_teacher_authorised(request, klass.teacher)
 
     class_url = request.build_absolute_uri(reverse("student_login", kwargs={"access_code": access_code}))
 

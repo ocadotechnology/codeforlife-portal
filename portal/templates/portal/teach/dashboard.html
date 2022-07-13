@@ -51,7 +51,7 @@
 
             showInfoPopup(title, text);
         {% endif %}
-    })
+})
 </script>
 {% endblock scripts %}
 
@@ -71,6 +71,7 @@
 {% block content %}
 {% include "portal/partials/popup.html" %}
 {% include "portal/partials/delete_popup.html" %}
+{% include "portal/partials/invite_admin_teacher.html" %}
 
 {% if show_onboarding_complete %}
     {% include "portal/partials/info_popup.html" %}
@@ -85,13 +86,14 @@
                 <h4>Your school: {% if user.new_teacher.school %} {{ user.new_teacher.school.name }} ({{ user.new_teacher.school.postcode }}){% endif %}</h4>
             </section>
             {% if is_admin %}
-                <p>As an administrator of your school or club, you can select other teachers to whom you can provide
-                    or revoke administrative rights. You can also add and remove teachers from your school or club if
-                    they leave. Please bear this in mind when assigning admin rights to other teachers.</p>
+                <p>
+                    As an administrator of your school or club, you can select other teachers to whom you can provide or revoke
+                    administrative rights. You can also add and remove teachers from your school or club. As administrator, you have the ability
+                    to see and amend other teachers' classes. Please bear this in mind when assigning admin rights to other teachers.
+                </p>
 
                 <h5>Invite teachers to your school</h5>
-
-                <form method="post" class="p-0">
+                <form method="post" class="p-0" onsubmit="showMakeAdminTeacherPopup(event)">
                     {% csrf_token %}
 
                     {{ invite_teacher_form.non_field_errors }}
@@ -130,7 +132,8 @@
                             {{ invite_teacher_form.make_admin_ticked.errors }}
                         </div>
                     </div>
-                    <button id="invite_teacher_button" type="submit" class="button button--primary button--icon m-0" name="invite_teacher">
+                    <input type="hidden" name="invite_teacher"/>
+                    <button id="invite_teacher_button" type="submit" class="button button--primary button--icon m-0" name="invite_teacher_button">
                         Invite teacher<span class="iconify" data-icon="mdi:email-outline"></span>
                     </button>
                 </form>
@@ -167,7 +170,7 @@
                                         Revoke admin<span class="iconify" data-icon="mdi:block"></span></button>
                                     {% else %}
                                         <button id="make_admin_button" class="button button--small button--primary button--icon"
-                                        onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin' coworker.id %}', '{{ coworker.new_user.first_name|striptags | escapejs}}')">
+                                         onclick="showToggleAdminConfirmation('{% url 'organisation_toggle_admin' coworker.id %}')">
                                         Make admin<span class="iconify" data-icon="mdi:plus"></span></button>
                                     {% endif %}
                                     {% if coworker.new_user|has_2FA %}
@@ -210,7 +213,7 @@
                                         Revoke admin<span class="iconify" data-icon="mdi:block"></span></button>
                                     {% else %}
                                         <button id="make_admin_button_invite" class="button button--small button--primary button--icon"
-                                        onclick="showToggleAdminConfirmation('{% url 'invite_toggle_admin' sent_invite.id %}', '{{ sent_invite.invited_teacher_first_name|striptags | escapejs}}')">
+                                         onclick="showToggleAdminConfirmation('{% url 'invite_toggle_admin' sent_invite.id %}')">
                                         Make admin<span class="iconify" data-icon="mdi:plus"></span></button>
                                     {% endif %}
                                     <button onclick="postWithCsrf('{% url 'resend_invite_teacher' sent_invite.token %}')" id="resend-invite" class="button button--small button--primary button--icon" >Resend invite<span class="iconify" data-icon="mdi:email-outline"></span></button>
@@ -282,13 +285,14 @@
             <section>
                 <h4>Your classes</h4>
             </section>
-            <p>Below is a list of all the classes you teach. You can add a class or edit your existing classes. You can also accept or deny
-                requests from independent students wanting to join one of your classes.</p>
+            <p>Below is a list of all the classes in your school, including classes of other teachers. You can add a class or edit your existing classes.
+                You can also accept or deny requests from independent students wanting to join one of your classes.</p>
             {% if classes %}
                 <table id="classes-table" class="header-primary data-primary">
                     <tr>
                         <th><p>Class name</p></th>
                         <th><p>Access code</p></th>
+                        <th><p>Teacher</p></th>
                         <th><p>Action</p></th>
                     </tr>
                     {% for class in classes %}
@@ -303,6 +307,17 @@
                                         </a>
                                     </div>
                                 </div>
+                            </td>
+                            <td>
+                                <p>
+                                    <small>
+                                        {% if user.email == class.teacher.new_user.email %}
+                                        You
+                                        {% else %}
+                                        {{ class.teacher }}
+                                        {% endif %}
+                                    </small>
+                                </p>
                             </td>
                             <td class="cell-center">
                                 <a id="class_button" href="{% url 'view_class' class.access_code %}"

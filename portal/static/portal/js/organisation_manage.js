@@ -11,15 +11,12 @@ function showRemoveConfirmation(path, name) {
   showPopupConfirmation(title, text, confirm_handler);
 }
 
-function showToggleAdminConfirmation(path, name) {
-  let title = "Make teacher admin";
-  let text =
-    "<div class='popup-text'><p>The teacher " +
-    name +
-    ", will be made an administrator of this school or club. They will gain all of the powers that you currently have.</p><p>Are you sure?</p></div>";
+function showToggleAdminConfirmation(path) {
   let confirm_handler = "postWithCsrf('" + path + "')";
-
-  showPopupConfirmation(title, text, confirm_handler);
+  const popup = $("#popup-make-admin-teacher")
+  popup.addClass("popup--fade")
+  const add_admin_button = $("#add_admin_button")
+  add_admin_button.attr("onclick", confirm_handler)
 }
 
 function showDisable2FAConfirmation(path, name) {
@@ -31,6 +28,25 @@ function showDisable2FAConfirmation(path, name) {
   let confirm_handler = "postWithCsrf('" + path + "')";
 
   showPopupConfirmation(title, text, confirm_handler);
+}
+
+/**
+ * Popup for inviting a teacher
+**/
+function showMakeAdminTeacherPopup(event) {
+  const popup = $("#popup-make-admin-teacher")
+  const is_invite_admin = document.getElementById("id_make_admin_ticked").checked
+  if (is_invite_admin) {
+    event.preventDefault()
+    popup.addClass("popup--fade");
+    const add_admin_button = $("#add_admin_button")
+
+    add_admin_button.on("click", () => event.target.submit())
+  }
+}
+
+function hideMakeAdminTeacherPopup() {
+  $("#popup-make-admin-teacher").removeClass("popup--fade");
 }
 
 /**

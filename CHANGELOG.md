@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.13.4 (2022-07-13)
+### Fix
+* Admin power table ([#1901](https://github.com/ocadotechnology/codeforlife-portal/issues/1901)) ([`3076c96`](https://github.com/ocadotechnology/codeforlife-portal/commit/3076c9621cbdbe4ba822da16ac741506e02d0d2f))
+
 ## v6.13.3 (2022-07-12)
 ### Fix
 * Use our fork of sematic release ([#1903](https://github.com/ocadotechnology/codeforlife-portal/issues/1903)) ([`16aad05`](https://github.com/ocadotechnology/codeforlife-portal/commit/16aad054b168324af627dbf9bc6567aa8d8f7eaf))
