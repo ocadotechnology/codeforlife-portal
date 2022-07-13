@@ -1,5 +1,8 @@
 from functools import wraps
 
+from django.http import Http404
+from common.models import Class
+
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 from rest_framework import permissions
@@ -39,6 +42,13 @@ def logged_in_as_school_student(u):
     return logged_in_as_student(u) and not u.userprofile.student.is_independent()
 
 
+def check_teacher_authorised(request, teacher):
+    current_teacher_owns_the_class = teacher == request.user.new_teacher
+
+    if not (current_teacher_owns_the_class or teacher.is_admin):
+        raise Http404
+
+
 def not_logged_in(u):
     try:
         if u.userprofile:
@@ -48,9 +58,7 @@ def not_logged_in(u):
 
 
 def not_fully_logged_in(u):
-    return not_logged_in(u) or (
-        not logged_in_as_student(u) and not logged_in_as_teacher(u)
-    )
+    return not_logged_in(u) or (not logged_in_as_student(u) and not logged_in_as_teacher(u))
 
 
 def teacher_verified(view_func):

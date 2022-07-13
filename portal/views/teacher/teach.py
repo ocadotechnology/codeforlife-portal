@@ -210,9 +210,7 @@ def teacher_delete_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user authorised to see class
-    if not (request.user.new_teacher.is_admin or request.user.new_teacher == klass.teacher):
-        return redirect(reverse_lazy("dashboard"))
-        raise Http404
+    check_teacher_authorised(request, klass.teacher)
 
     if Student.objects.filter(class_field=klass, new_user__is_active=True).exists():
         messages.info(
@@ -272,8 +270,7 @@ def teacher_edit_class(request, access_code):
     other_teachers = Teacher.objects.filter(school=old_teacher.school).exclude(user=old_teacher.user)
 
     # check user authorised to see class
-    if not request.user.new_teacher.is_admin:
-        raise Http404
+    check_teacher_authorised(request, klass.teacher)
 
     external_requests_message = klass.get_requests_message()
 

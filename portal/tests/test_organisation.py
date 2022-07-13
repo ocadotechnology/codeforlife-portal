@@ -145,10 +145,10 @@ class TestOrganisation(BaseTest, BasePage):
         assert page.__class__.__name__ == "TeachDashboardPage"
 
         page = page.click_make_admin_button()
-        make_admin_button = page.browser.find_element_by_id("add_admin_button")
         time.sleep(FADE_TIME)
-        assert make_admin_button.text == "Add as admin"
-        make_admin_button.click()
+        popup_make_admin_button = page.browser.find_element_by_id("add_admin_button")
+        assert popup_make_admin_button.text == "Add as admin"
+        popup_make_admin_button.click()
 
         assert page.is_teacher_admin()
 
@@ -169,9 +169,11 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.__class__.__name__ == "TeachDashboardPage"
 
+        time.sleep(5)
         page = page.click_make_admin_button()
         # check if the new popup appears
         time.sleep(FADE_TIME)
+        time.sleep(5)
         make_admin_button = page.browser.find_element_by_id("add_admin_button")
         assert make_admin_button.text == "Add as admin"
         make_admin_button.click()
