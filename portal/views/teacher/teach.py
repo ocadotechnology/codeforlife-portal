@@ -473,15 +473,10 @@ def check_if_edit_authorised(request, student):
     # check user is authorised to edit student
     teacher = request.user.new_teacher
     teacher_school = School.objects.get(id=teacher.school_id)
-    student_class_id = student.class_field_id
+    student_class = student.class_field
 
-    is_teacher_of_student = False
-    for teacher in Teacher.objects.filter(school_id=teacher_school.id):
-        for _class in Class.objects.filter(teacher_id=teacher.id):
-            if _class.id == student_class_id:
-                is_teacher_of_student = True
-
-    if not (is_teacher_of_student or teacher.is_admin):
+    teacher_of_student_class = student_class.teacher
+    if not (teacher_of_student_class or teacher.is_admin):
         raise Http404
 
 
