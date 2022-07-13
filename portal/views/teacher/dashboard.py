@@ -189,8 +189,13 @@ def dashboard_teacher_view(request, is_admin):
                 messages.success(request, "Please login using your new password.")
                 return HttpResponseRedirect(reverse_lazy("teacher_login"))
 
-    classes = Class.objects.filter(teacher=teacher)
+    if teacher.is_admin:
+        # Making sure the current teacher classes come up first
+        classes = school.classes()
+        [classes.insert(0, classes.pop(i)) for i in range(len(classes)) if classes[i].teacher.id == teacher.id]
 
+    else:
+        classes = Class.objects.filter(teacher=teacher)
     return render(
         request,
         "portal/teach/dashboard.html",
