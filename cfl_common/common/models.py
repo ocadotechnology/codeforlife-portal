@@ -180,6 +180,13 @@ class Class(models.Model):
     accept_requests_until = models.DateTimeField(null=True)
     creation_time = models.DateTimeField(default=timezone.now, null=True)
     is_active = models.BooleanField(default=True)
+    created_by = models.ForeignKey(
+        Teacher,
+        null=True,
+        blank=True,
+        related_name="created_classes",
+        on_delete=models.SET_NULL,
+    )
 
     objects = ClassModelManager()
 

@@ -119,7 +119,7 @@ def dashboard_teacher_view(request, is_admin):
                 class_teacher = teacher
                 if teacher.is_admin:
                     class_teacher = get_object_or_404(Teacher, id=create_class_form.cleaned_data["teacher"])
-                created_class = create_class(create_class_form, class_teacher)
+                created_class = create_class(create_class_form, class_teacher, teacher)
                 messages.success(
                     request,
                     "The class '{className}' has been created successfully.".format(className=created_class.name),
