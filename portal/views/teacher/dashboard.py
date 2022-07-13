@@ -117,9 +117,10 @@ def dashboard_teacher_view(request, is_admin):
             create_class_form = ClassCreationForm(request.POST, teacher=teacher)
             if create_class_form.is_valid():
                 class_teacher = teacher
+                # If the logged in teacher is an admin, then get the class teacher from the selected dropdown
                 if teacher.is_admin:
                     class_teacher = get_object_or_404(Teacher, id=create_class_form.cleaned_data["teacher"])
-                created_class = create_class(create_class_form, class_teacher, teacher)
+                created_class = create_class(create_class_form, class_teacher, class_creator=teacher)
                 messages.success(
                     request,
                     "The class '{className}' has been created successfully.".format(className=created_class.name),

@@ -86,14 +86,14 @@ def teacher_onboarding_create_class(request):
     )
 
 
-def create_class(form, class_teacher, teacher=None):
+def create_class(form, class_teacher, class_creator=None):
     classmate_progress = bool(form.cleaned_data["classmate_progress"])
     klass = Class.objects.create(
         name=form.cleaned_data["class_name"],
         teacher=class_teacher,
         access_code=generate_access_code(),
         classmates_data_viewable=classmate_progress,
-        created_by=class_teacher if teacher is None else teacher,
+        created_by=class_teacher if class_creator is None else class_creator,
     )
     return klass
 
