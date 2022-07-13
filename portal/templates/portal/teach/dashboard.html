@@ -8,35 +8,7 @@
 <script>
     var CONFIRMATION_DATA = {};
 
-    // store current hash, then remove it so the page doesn't jump to the section
-    const currentHash = window.location.hash
-    window.location.hash = ''
-
-    function updateLocationHash(hash) {
-        // using replaceState as changing hash directly will scroll to element
-        history.replaceState({}, '', hash)
-    }
-
     $(document).ready(function(){
-        // select the tab based on the current location hash
-        const tabs = $('.sub-nav [data-toggle="tab"]')
-        const tabNames = tabs.map((index, element) => $(element).attr('href')).toArray()
-        const currentTabIndex = tabNames.indexOf(currentHash)
-        if (currentTabIndex < 0) {
-            updateLocationHash(tabNames[0])
-        }
-        else {
-            updateLocationHash(tabNames[currentTabIndex])
-            tabs[currentTabIndex].click()
-            animate($(tabNames[currentTabIndex]).offset().top - bannerHeight)
-        }
-
-        // make each tab update the current location hash on click
-        tabs.on('shown.bs.tab', (event) => {
-            updateLocationHash(event.target.hash)
-            window.scrollTo(0, 0)
-        })
-
         $("#update-details").on("click", () => {
             $("#tab-account").click()
         })

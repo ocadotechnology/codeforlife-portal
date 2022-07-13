@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+from selenium.webdriver.support.ui import Select
+
 from . import email_verification_needed_page
 from .base_page import BasePage
 
@@ -28,16 +30,21 @@ class SignupPage(BasePage):
         else:
             return self
 
-    def independent_student_signup(
-        self, name, email_address, password, confirm_password, success=True, is_over_required_age=True
-    ):
+    def independent_student_signup(self, name, email_address, password, confirm_password, success=True):
+        dob_day_element = self.browser.find_element_by_id("id_independent_student_signup-date_of_birth_day")
+        dob_month_element = self.browser.find_element_by_id("id_independent_student_signup-date_of_birth_month")
+        dob_year_element = self.browser.find_element_by_id("id_independent_student_signup-date_of_birth_year")
+        day_select = Select(dob_day_element)
+        month_select = Select(dob_month_element)
+        year_select = Select(dob_year_element)
+        day_select.select_by_value("7")
+        month_select.select_by_value("10")
+        year_select.select_by_value("1997")
         self.browser.find_element_by_id("id_independent_student_signup-name").send_keys(name)
         self.browser.find_element_by_id("id_independent_student_signup-email").send_keys(email_address)
         self.browser.find_element_by_id("id_independent_student_signup-password").send_keys(password)
         self.browser.find_element_by_id("id_independent_student_signup-confirm_password").send_keys(confirm_password)
-
-        if is_over_required_age:
-            self.browser.find_element_by_id("id_independent_student_signup-is_over_required_age").click()
+        self.browser.find_element_by_id("id_independent_student_signup-consent_ticked").click()
 
         self.browser.find_element_by_name("independent_student_signup").click()
         if success:

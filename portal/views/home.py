@@ -1,4 +1,5 @@
 import logging
+import math
 
 from common import email_messages
 from common.helpers.emails import (
@@ -11,7 +12,6 @@ from common.helpers.emails import (
 from common.models import Student, Teacher
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import _using_two_factor
-from deploy import captcha
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
@@ -20,6 +20,8 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.cache import cache_control
+
+from deploy import captcha
 from portal.forms.play import IndependentStudentSignupForm
 from portal.forms.teach import TeacherSignupForm
 from portal.helpers.captcha import remove_captcha_from_forms
@@ -152,12 +154,7 @@ def process_signup_form(request, data):
 
         send_verification_email(request, teacher.user.user)
 
-    return render(
-        request,
-        "portal/email_verification_needed.html",
-        {"usertype": "TEACHER"},
-        status=302,
-    )
+    return render(request, "portal/email_verification_needed.html", {"usertype": "TEACHER"}, status=302)
 
 
 def process_independent_student_signup_form(request, data):
@@ -182,28 +179,20 @@ def process_independent_student_signup_form(request, data):
                 email_message["subject"],
             )
         else:
-            LOGGER.warn(f"Ratelimit independent {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}")
-        return render(
-            request,
-            "portal/email_verification_needed.html",
-            {"usertype": "INDEP_STUDENT"},
-            status=302,
-        )
+            LOGGER.warning(f"Ratelimit independent {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}")
+        return render(request, "portal/email_verification_needed.html", {"usertype": "INDEP_STUDENT"}, status=302)
 
     student = Student.objects.independentStudentFactory(
-        name=data["name"],
-        email=data["email"],
-        password=data["password"],
+        name=data["name"], email=data["email"], password=data["password"]
     )
 
-    send_verification_email(request, student.new_user)
+    dob = data["date_of_birth"]
+    age_in_days = timezone.now().date() - dob
+    age = math.floor(age_in_days.days/365)
 
-    return render(
-        request,
-        "portal/email_verification_needed.html",
-        {"usertype": "INDEP_STUDENT"},
-        status=302,
-    )
+    send_verification_email(request, student.new_user, age=age)
+
+    return render(request, "portal/email_verification_needed.html", {"usertype": "INDEP_STUDENT"}, status=302)
 
 
 def is_developer(request):
@@ -247,11 +236,7 @@ def home(request):
 
 
 def home_learning(request):
-    return render(
-        request,
-        "portal/home_learning.html",
-        {"HOME_LEARNING_BANNER": HOME_LEARNING_BANNER},
-    )
+    return render(request, "portal/home_learning.html", {"HOME_LEARNING_BANNER": HOME_LEARNING_BANNER})
 
 
 def reset_screentime_warning(request):
