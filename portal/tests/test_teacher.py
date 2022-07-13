@@ -765,9 +765,15 @@ class TestTeacherFrontend(BaseTest):
         cancel_button.click()
 
         # Non admin teacher joined - make admin should also make a popup
-        join_teacher_to_organisation(joining_email, org_name, postcode, is_admin=False)
 
-        make_admin_button = page.browser.find_element_by_id("make_admin_button")
+        join_teacher_to_organisation(joining_email, org_name, postcode, is_admin=False)
+        page.browser.execute_script("window.scrollTo(0,0)")
+        # refresh the page
+        page.open_classes_tab()
+        page.open_school_tab()
+
+        page.browser.execute_script('document.getElementById("delete-invite").scrollIntoView()')
+        make_admin_button = page.browser.find_element_by_id("make_admin_button_invite")
         make_admin_button.click()
 
         assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
