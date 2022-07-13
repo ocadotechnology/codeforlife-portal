@@ -459,15 +459,6 @@ def process_reset_password_form(request, student, password_form):
         )
 
 
-def check_if_edit_authorised(request, student):
-    # check user is authorised to edit student
-    teacher = request.user.new_teacher
-    student_class = student.class_field
-    teacher_of_student_class = student_class.teacher
-    if not (teacher_of_student_class or teacher.is_admin):
-        raise Http404
-
-
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_dismiss_students(request, access_code):
