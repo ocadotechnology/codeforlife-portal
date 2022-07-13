@@ -11,23 +11,6 @@ function showRemoveConfirmation(path, name) {
   showPopupConfirmation(title, text, confirm_handler);
 }
 
-function showAssigningAdminPermissions(path, form) {
-  let title = "Assigning admin permissiions"
-  let text = "<div class='popup-text'><p>You are about to add admin permissions to another teachers account. " +
-  "Teachers with admin permissions will have the same permissions as you.</p>" +
-  "<br><br>" +
-  "<p class='semi-bold'>Do you wish to proceed?</p>" +
-  "<p class='text-danger'>Accepting means you understand class data will be shared</p>"
-
-  let confirm_handler = form.submit
-  showPopupConfirmation(title, text, confirm_handler)
-
-
-}
-
-const test = () => {
-  console.log("LOL")
-}
 function showToggleAdminConfirmation(path) {
   let confirm_handler = "postWithCsrf('" + path + "')";
   const popup = $("#popup-make-admin-teacher")
@@ -102,7 +85,6 @@ function showDeleteAccountConfirmation(delete_password, unsubscribe_newsletter, 
     "'})";
 
   delete_button.attr("onclick", handler);
-
   popup.addClass("popup--fade");
 }
 

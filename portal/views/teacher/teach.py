@@ -272,7 +272,7 @@ def teacher_edit_class(request, access_code):
     other_teachers = Teacher.objects.filter(school=old_teacher.school).exclude(user=old_teacher.user)
 
     # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
+    if not request.user.new_teacher.is_admin:
         raise Http404
 
     external_requests_message = klass.get_requests_message()

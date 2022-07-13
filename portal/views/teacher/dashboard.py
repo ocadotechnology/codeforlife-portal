@@ -193,10 +193,15 @@ def dashboard_teacher_view(request, is_admin):
 
     classes = Class.objects.filter(teacher=teacher)
     if teacher.is_admin:
-        classes = []
-        for teacher in Teacher.objects.filter(school_id=school.id):
-            classes += Class.objects.filter(teacher_id=teacher.id)
-
+        # Making sure the current teacher classes come up first
+        current_teacher_classes = []
+        other_classes = []
+        for teacher_from_list in Teacher.objects.filter(school_id=school.id):
+            if teacher_from_list.id == teacher.id:
+                current_teacher_classes += Class.objects.filter(teacher_id=teacher.id)
+            else:
+                other_classes += Class.objects.filter(teacher_id=teacher_from_list.id)
+        classes = current_teacher_classes + other_classes
     return render(
         request,
         "portal/teach/dashboard.html",

@@ -41,7 +41,6 @@
             $("#tab-account").click()
         })
 
-
         {% if delete_account_confirm %}
             showDeleteAccountConfirmation("{{ delete_account_form.delete_password.value }}", "{{ delete_account_form.unsubscribe_newsletter.value }}", {{ user.new_teacher.has_class|yesno:"true,false" }});
         {% endif %}
