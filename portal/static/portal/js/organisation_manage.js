@@ -19,7 +19,6 @@ function showToggleAdminConfirmation(path) {
   add_admin_button.attr("onclick", confirm_handler)
 }
 
-
 function showDisable2FAConfirmation(path, name) {
   let title = "Disable 2FA for " + name;
   let text =
@@ -30,7 +29,6 @@ function showDisable2FAConfirmation(path, name) {
 
   showPopupConfirmation(title, text, confirm_handler);
 }
-
 
 /**
  * Popup for inviting a teacher
@@ -50,7 +48,6 @@ function showMakeAdminTeacherPopup(event) {
 function hideMakeAdminTeacherPopup() {
   $("#popup-make-admin-teacher").removeClass("popup--fade");
 }
-
 
 /**
  * Show an account delete confirmation popup with a red delete button and either a Cancel or a Review classes button.
@@ -85,9 +82,9 @@ function showDeleteAccountConfirmation(delete_password, unsubscribe_newsletter, 
     "'})";
 
   delete_button.attr("onclick", handler);
+
   popup.addClass("popup--fade");
 }
-
 
 function hideDeleteAccountPopup() {
   $("#popup-delete-review").removeClass("popup--fade");

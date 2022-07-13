@@ -114,7 +114,7 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
     teacher = request.user.new_teacher
     students = Student.objects.filter(class_field=klass, new_user__is_active=True).order_by("new_user__first_name")
 
-    check_user_is_authorised(request, klass, teacher)
+    check_teacher_authorised(request, klass.teacher)
 
     if request.method == "POST":
         new_students_form = StudentCreationForm(klass, request.POST)
@@ -186,12 +186,6 @@ def teacher_onboarding_edit_class(request, access_code):
         onboarding_done=False,
         next_url="portal/teach/onboarding_students.html",
     )
-
-
-def check_user_is_authorised(request, klass, teacher=None):
-    # check user authorised to see class
-    if request.user.new_teacher != klass.teacher and not teacher.is_admin:
-        raise Http404
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
@@ -372,8 +366,7 @@ def teacher_edit_student(request, pk):
     Changing a student's details
     """
     student = get_object_or_404(Student, id=pk)
-    teacher = request.user.new_teacher
-    check_if_edit_authorised(request, student)
+    check_teacher_authorised(request, student.class_field.teacher)
 
     name_form = TeacherEditStudentForm(student, initial={"name": student.new_user.first_name})
 
@@ -763,8 +756,7 @@ def teacher_print_reminder_cards(request, access_code):
 
     klass = get_object_or_404(Class, access_code=access_code)
     # Check auth
-    if klass.teacher.new_user != request.user:
-        raise Http404
+    check_teacher_authorised(request, klass.teacher)
 
     # Use data from the query string if given
     student_data = get_student_data(request)
@@ -851,8 +843,7 @@ def teacher_download_csv(request, access_code):
 
     klass = get_object_or_404(Class, access_code=access_code)
     # Check auth
-    if klass.teacher.new_user != request.user:
-        raise Http404
+    check_teacher_authorised(request, klass.teacher)
 
     class_url = request.build_absolute_uri(reverse("student_login", kwargs={"access_code": access_code}))
 

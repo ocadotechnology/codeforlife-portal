@@ -80,7 +80,6 @@ def dashboard_teacher_view(request, is_admin):
     school = teacher.school
 
     invite_teacher_form = InviteTeacherForm()
-    is_invite_admin = False
 
     coworkers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
 
@@ -137,7 +136,6 @@ def dashboard_teacher_view(request, is_admin):
                 invited_teacher_last_name = data["teacher_last_name"]
                 invited_teacher_email = data["teacher_email"]
                 invited_teacher_is_admin = data["make_admin_ticked"]
-                is_invite_admin = invited_teacher_is_admin
 
                 token = uuid4().hex
                 SchoolTeacherInvitation.objects.create(
@@ -194,6 +192,8 @@ def dashboard_teacher_view(request, is_admin):
     if teacher.is_admin:
         # Making sure the current teacher classes come up first
         classes = school.classes()
+        [classes.insert(0, classes.pop(i)) for i in range(len(classes)) if classes[i].teacher.id == teacher.id]
+
     else:
         classes = Class.objects.filter(teacher=teacher)
     return render(
@@ -215,7 +215,6 @@ def dashboard_teacher_view(request, is_admin):
             "backup_tokens": backup_tokens,
             "show_onboarding_complete": show_onboarding_complete,
             "sent_invites": sent_invites,
-            "is_invite_admin": is_invite_admin,
         },
     )
 

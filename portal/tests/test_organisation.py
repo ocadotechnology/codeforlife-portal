@@ -169,11 +169,9 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.__class__.__name__ == "TeachDashboardPage"
 
-        time.sleep(5)
         page = page.click_make_admin_button()
         # check if the new popup appears
         time.sleep(FADE_TIME)
-        time.sleep(5)
         make_admin_button = page.browser.find_element_by_id("add_admin_button")
         assert make_admin_button.text == "Add as admin"
         make_admin_button.click()

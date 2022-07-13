@@ -773,9 +773,7 @@ class TestTeacherFrontend(BaseTest):
         page.browser.execute_script("window.scrollTo(0,0)")
 
         # refresh the page and scroll to the buttons
-        time.sleep(FADE_TIME)
         page.browser.execute_script("location.reload()")
-        time.sleep(FADE_TIME)
         page.browser.execute_script("window.scroll(0,900)")
         time.sleep(FADE_TIME)
         make_admin_button = page.browser.find_element_by_id("make_admin_button")
