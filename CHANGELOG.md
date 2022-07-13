@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.13.5 (2022-07-13)
+### Fix
+* Move brain SVG to common ([#1904](https://github.com/ocadotechnology/codeforlife-portal/issues/1904)) ([`fceecb5`](https://github.com/ocadotechnology/codeforlife-portal/commit/fceecb5344f44e0907e5614e746ac9f044b28a90))
+
 ## v6.13.4 (2022-07-13)
 ### Fix
 * Admin power table ([#1901](https://github.com/ocadotechnology/codeforlife-portal/issues/1901)) ([`3076c96`](https://github.com/ocadotechnology/codeforlife-portal/commit/3076c9621cbdbe4ba822da16ac741506e02d0d2f))
