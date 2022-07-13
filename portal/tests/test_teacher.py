@@ -744,6 +744,7 @@ class TestTeacherFrontend(BaseTest):
         make_admin_button.click()
 
         assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
+        time.sleep(FADE_TIME)
         cancel_button = page.browser.find_element_by_id("cancel_admin_popup_button")
         cancel_button.click()
 
@@ -762,6 +763,7 @@ class TestTeacherFrontend(BaseTest):
         invite_button = page.browser.find_element_by_id("invite_teacher_button")
         invite_button.click()
         assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
+        time.sleep(FADE_TIME)
         cancel_button = page.browser.find_element_by_id("cancel_admin_popup_button")
         cancel_button.click()
 
