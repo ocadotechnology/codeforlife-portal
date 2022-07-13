@@ -61,7 +61,7 @@ def teacher_onboarding_create_class(request):
         return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))
 
     if request.method == "POST":
-        form = ClassCreationForm(request.POST)
+        form = ClassCreationForm(request.POST, teacher=teacher)
         if form.is_valid():
             created_class = create_class(form, teacher)
             messages.success(
@@ -75,7 +75,7 @@ def teacher_onboarding_create_class(request):
                 )
             )
     else:
-        form = ClassCreationForm()
+        form = ClassCreationForm(teacher=teacher)
 
     classes = Class.objects.filter(teacher=teacher)
 
@@ -86,13 +86,14 @@ def teacher_onboarding_create_class(request):
     )
 
 
-def create_class(form, teacher):
+def create_class(form, class_teacher, class_creator=None):
     classmate_progress = bool(form.cleaned_data["classmate_progress"])
     klass = Class.objects.create(
         name=form.cleaned_data["class_name"],
-        teacher=teacher,
+        teacher=class_teacher,
         access_code=generate_access_code(),
         classmates_data_viewable=classmate_progress,
+        created_by=class_teacher if class_creator is None else class_creator,
     )
     return klass
 

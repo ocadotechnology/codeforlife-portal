@@ -350,8 +350,18 @@
         <div id="new-class" class="background background--primary">
             <div class="container">
                 <h5>Create a new class</h5>
-                <p>When you set up a new class, a unique class access code will automatically be generated, with you being identified as the teacher for that
-                    class.</p>
+                {% if is_admin %}
+                    <p>
+                        When you set up a new class, a unique class access code will automatically be generated for the
+                        teacher assigned to the class.
+                    </p>
+                {% else %}
+                    <p>
+                        When you set up a new class, a unique class access code will automatically be generated, with
+                        you being identified as the teacher for that class.
+                    </p>
+                {% endif %}
+
                 <form method="post">
 
                     {% csrf_token %}
@@ -359,14 +369,23 @@
                     {{ create_class_form.non_field_errors }}
 
                     <div class="row form--row">
-                        <div class="form--row__input col-sm-6 col-md-6">
+                        <div class="form--row__input col-sm-6 col-md-4">
                             <div class="input--icon">
                                 {{ create_class_form.class_name }}<span class="iconify" data-icon="mdi:account-multiple"></span>
                             </div>
                             <small>{{ create_class_form.class_name.help_text }}</small>
                             {{ create_class_form.class_name.errors }}
                         </div>
-                        <div class="form--row__input col-sm-12 col-md-6">
+                        {% if is_admin %}
+                            <div class="form--row__input col-sm-6 col-md-4">
+                                {{ create_class_form.teacher }}
+                                <small>{{ create_class_form.teacher.help_text }}</small>
+                                {{ create_class_form.teacher.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="row form--row">
+                        <div class="form--row__input col-sm-12 col-md-12">
                             <div class="form__checkbox">
                                 <div class="form__checkbox-input">
                                     {{ create_class_form.classmate_progress }}

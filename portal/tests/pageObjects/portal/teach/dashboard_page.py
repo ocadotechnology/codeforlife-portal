@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+from selenium.webdriver.support.ui import Select
+
 from .add_independent_student_to_class_page import AddIndependentStudentToClassPage
 from .class_page import TeachClassPage
 from .move_classes_page import TeachMoveClassesPage
@@ -54,10 +56,13 @@ class TeachDashboardPage(TeachBasePage):
         error = "There is already a school or club registered with that name and postcode"
         return error in errorlist
 
-    def create_class(self, name, classmate_progress):
+    def create_class(self, name, classmate_progress, teacher_id=None):
         self.browser.find_element_by_id("id_class_name").send_keys(name)
         if classmate_progress:
             self.browser.find_element_by_id("id_classmate_progress").click()
+
+        if teacher_id is not None:
+            Select(self.browser.find_element_by_id("id_teacher")).select_by_value(str(teacher_id))
 
         self.browser.find_element_by_id("create_class_button").click()
 
@@ -134,7 +139,7 @@ class TeachDashboardPage(TeachBasePage):
     def is_teacher_admin(self):
         return "Revoke admin" in self.browser.find_element_by_id("teachers_table").text
 
-    def have_classes(self):
+    def has_classes(self):
         return self.element_exists_by_id("classes-table")
 
     def does_not_have_classes(self):
@@ -142,7 +147,7 @@ class TeachDashboardPage(TeachBasePage):
 
     def does_class_exist(self, name, access_code):
         return (
-            self.have_classes()
+            self.has_classes()
             and (name in self.browser.find_element_by_id("classes-table").text)
             and (access_code in self.browser.find_element_by_id("classes-table").text)
         )

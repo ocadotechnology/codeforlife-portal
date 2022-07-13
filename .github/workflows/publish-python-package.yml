@@ -29,7 +29,7 @@ jobs:
         run: |
           pip install pipenv
           pipenv install --dev --system
-      - name: "Install, build and move frontned"
+      - name: "Install, build and move frontend"
         run: |
           cd portal_frontend
           yarn --frozen-lockfile

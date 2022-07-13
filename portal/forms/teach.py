@@ -191,12 +191,32 @@ class ClassCreationForm(forms.Form):
     class_name = forms.CharField(
         widget=forms.TextInput(attrs={"placeholder": "Class name"}), help_text="Enter a class name"
     )
+    teacher = forms.ChoiceField(help_text="Select teacher", required=False)
     classmate_progress = forms.BooleanField(
         label="Allow students to see their classmates' progress?",
         widget=forms.CheckboxInput(),
         initial=False,
         required=False,
     )
+
+    def __init__(self, *args, teacher=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if teacher is not None:
+            # Place current teacher at the top
+            teacher_choices = [(teacher.id, f"{teacher.new_user.first_name} {teacher.new_user.last_name}")]
+
+            # Get coworkers and add them to the choices if the teacher is an admin
+            if teacher.is_admin:
+                coworkers = (
+                    Teacher.objects.filter(school=teacher.school)
+                    .exclude(id=teacher.id)
+                    .order_by("new_user__last_name", "new_user__first_name")
+                )
+                for coworker in coworkers:
+                    teacher_choices.append((coworker.id, f"{coworker.new_user.first_name} {coworker.new_user.last_name}"))
+
+            self.fields["teacher"].choices = teacher_choices
 
 
 class ClassEditForm(forms.Form):

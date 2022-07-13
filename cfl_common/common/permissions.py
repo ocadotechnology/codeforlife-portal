@@ -42,9 +42,11 @@ def logged_in_as_school_student(u):
     return logged_in_as_student(u) and not u.userprofile.student.is_independent()
 
 
-def check_teacher_authorised(request, teacher):
-    current_teacher_owns_the_class = teacher == request.user.new_teacher
-    is_current_teacher_school_admin = teacher.school == request.user.new_teacher.school and teacher.is_admin
+def check_teacher_authorised(request, class_teacher):
+    current_teacher_owns_the_class = class_teacher == request.user.new_teacher
+    is_current_teacher_school_admin = (
+        class_teacher.school == request.user.new_teacher.school and request.user.new_teacher.is_admin
+    )
 
     if not (current_teacher_owns_the_class or is_current_teacher_school_admin):
         raise Http404

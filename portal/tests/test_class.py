@@ -11,8 +11,9 @@ from common.tests.utils.teacher import signup_teacher_directly
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from portal.tests.utils.classes import create_class
+from .pageObjects.portal.teach.class_page import TeachClassPage
 from .base_test import BaseTest
+from .utils.classes import create_class
 from .utils.messages import is_class_created_message_showing
 
 
@@ -172,6 +173,29 @@ class TestClassFrontend(BaseTest):
 
         page, class_name = create_class(page)
         assert is_class_created_message_showing(self.selenium, class_name)
+
+    def test_create_class_as_admin_for_another_teacher(self):
+        email1, password1 = signup_teacher_directly()
+        email2, password2 = signup_teacher_directly()
+        teacher2 = Teacher.objects.get(new_user__email=email2)
+        name, postcode = create_organisation_directly(email1)
+        join_teacher_to_organisation(email2, name, postcode)
+
+        # Check teacher 2 doesn't have any classes
+        page = self.go_to_homepage().go_to_teacher_login_page().login(email2, password2).open_classes_tab()
+        assert page.does_not_have_classes()
+        page.logout()
+
+        # Log in as the first teacher and create a class for the second one
+        page = self.go_to_homepage().go_to_teacher_login_page().login(email1, password1).open_classes_tab()
+        page, class_name = create_class(page, teacher_id=teacher2.id)
+        page = TeachClassPage(page.browser)
+        assert is_class_created_message_showing(self.selenium, class_name)
+        page.logout()
+
+        # Check teacher 2 now has the class
+        page = self.go_to_homepage().go_to_teacher_login_page().login(email2, password2).open_classes_tab()
+        assert page.has_classes()
 
     def test_create_dashboard(self):
         email, password = signup_teacher_directly()
