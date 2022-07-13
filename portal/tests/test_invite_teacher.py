@@ -183,7 +183,7 @@ class TestTeacherInviteActions(BaseTest):
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
             field.send_keys(invite_data[key])
-        invite_button = page.browser.find_element_by_name("invite_teacher")
+        invite_button = page.browser.find_element_by_name("invite_teacher_button")
         invite_button.click()
 
         banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
@@ -194,11 +194,13 @@ class TestTeacherInviteActions(BaseTest):
 
         # make admin
         sleep(FADE_TIME)
+        page.browser.execute_script('document.getElementById("delete-invite").scrollIntoView()')
         make_admin_button = page.browser.find_element_by_id("make_admin_button_invite")
         make_admin_button.click()
         # handle popup
         sleep(FADE_TIME)
-        confirm_button = page.browser.find_element_by_id("confirm_button")
+        confirm_button = page.browser.find_element_by_id("add_admin_button")
+        sleep(FADE_TIME)
         confirm_button.click()
 
         # check if popup message appears and if the invite is changed to admin
@@ -228,7 +230,7 @@ class TestTeacherInviteActions(BaseTest):
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
             field.send_keys(invite_data[key])
-        invite_button = page.browser.find_element_by_name("invite_teacher")
+        invite_button = page.browser.find_element_by_name("invite_teacher_button")
         invite_button.click()
 
         # check object was created
@@ -256,7 +258,7 @@ class TestTeacherInviteActions(BaseTest):
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
             field.send_keys(invite_data[key])
-        invite_button = page.browser.find_element_by_name("invite_teacher")
+        invite_button = page.browser.find_element_by_name("invite_teacher_button")
         invite_button.click()
 
         # Note the expiry to compare later
