@@ -137,9 +137,12 @@ Cypress.Commands.add(
   "signupAsIndependentStudent",
   (name, email, password, confirmPassword) => {
     cy.visit("/register_form/");
+    cy.get("#id_independent_student_signup-date_of_birth_day").select("7");
+    cy.get("#id_independent_student_signup-date_of_birth_month").select("10");
+    cy.get("#id_independent_student_signup-date_of_birth_year").select("1997");
     cy.get("#id_independent_student_signup-name").type(name);
     cy.get("#id_independent_student_signup-email").type(email);
-    cy.get("#id_independent_student_signup-is_over_required_age").check();
+    cy.get("#id_independent_student_signup-consent_ticked").check();
     cy.get("#id_independent_student_signup-password").type(password);
     cy.get("#id_independent_student_signup-confirm_password").type(
       confirmPassword

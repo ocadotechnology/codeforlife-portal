@@ -203,6 +203,17 @@ form {
   flex-direction: column;
 }
 
+.form__dob-input {
+  @include _margin(0px, -10px, 0px, -10px);
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+
+  select {
+    @include _margin(0px, 10px, 0px, 10px);
+  }
+}
+
 @media (min-width: $mobile-max-width) {
   .registration {
     display: flex;
@@ -288,6 +299,7 @@ form {
 }
 
 .form--row {
+  @include _margin(5px, 0px, 5px, 0px);
   align-items: center;
   display: flex;
   flex-wrap: wrap;
