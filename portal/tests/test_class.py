@@ -11,8 +11,9 @@ from common.tests.utils.teacher import signup_teacher_directly
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from portal.tests.utils.classes import create_class
+from .pageObjects.portal.teach.class_page import TeachClassPage
 from .base_test import BaseTest
+from .utils.classes import create_class
 from .utils.messages import is_class_created_message_showing
 
 
@@ -188,8 +189,8 @@ class TestClassFrontend(BaseTest):
         # Log in as the first teacher and create a class for the second one
         page = self.go_to_homepage().go_to_teacher_login_page().login(email1, password1).open_classes_tab()
         page, class_name = create_class(page, teacher_id=teacher2.id)
+        page = TeachClassPage(page.browser)
         assert is_class_created_message_showing(self.selenium, class_name)
-        assert page.has_classes()
         page.logout()
 
         # Check teacher 2 now has the class
