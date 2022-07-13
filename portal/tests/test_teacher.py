@@ -770,7 +770,6 @@ class TestTeacherFrontend(BaseTest):
         # Non admin teacher joined - make admin should also make a popup
 
         join_teacher_to_organisation(joining_email, org_name, postcode, is_admin=False)
-        page.browser.execute_script("window.scrollTo(0,0)")
 
         # refresh the page and scroll to the buttons
         page.browser.execute_script("location.reload()")
