@@ -30,6 +30,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
+from portal.tests.test_invite_teacher import FADE_TIME
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils.messages import (
@@ -768,12 +769,14 @@ class TestTeacherFrontend(BaseTest):
 
         join_teacher_to_organisation(joining_email, org_name, postcode, is_admin=False)
         page.browser.execute_script("window.scrollTo(0,0)")
-        # refresh the page
-        page.open_classes_tab()
-        page.open_school_tab()
 
-        page.browser.execute_script('document.getElementById("delete-invite").scrollIntoView()')
-        make_admin_button = page.browser.find_element_by_id("make_admin_button_invite")
+        # refresh the page and scroll to the buttons
+        time.sleep(FADE_TIME)
+        page.browser.execute_script("location.reload()")
+        time.sleep(FADE_TIME)
+        page.browser.execute_script("window.scroll(0,900)")
+        time.sleep(FADE_TIME)
+        make_admin_button = page.browser.find_element_by_id("make_admin_button")
         make_admin_button.click()
 
         assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
