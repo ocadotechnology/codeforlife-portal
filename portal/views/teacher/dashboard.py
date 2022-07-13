@@ -91,7 +91,7 @@ def dashboard_teacher_view(request, is_admin):
     update_school_form.fields["postcode"].initial = school.postcode
     update_school_form.fields["country"].initial = school.country
 
-    create_class_form = ClassCreationForm()
+    create_class_form = ClassCreationForm(teacher=teacher)
 
     update_account_form = TeacherEditAccountForm(request.user)
     update_account_form.fields["first_name"].initial = request.user.first_name
@@ -114,9 +114,12 @@ def dashboard_teacher_view(request, is_admin):
 
         elif "create_class" in request.POST:
             anchor = "new-class"
-            create_class_form = ClassCreationForm(request.POST)
+            create_class_form = ClassCreationForm(request.POST, teacher=teacher)
             if create_class_form.is_valid():
-                created_class = create_class(create_class_form, teacher)
+                class_teacher = teacher
+                if teacher.is_admin:
+                    class_teacher = get_object_or_404(Teacher, id=create_class_form.cleaned_data["teacher"])
+                created_class = create_class(create_class_form, class_teacher)
                 messages.success(
                     request,
                     "The class '{className}' has been created successfully.".format(className=created_class.name),
