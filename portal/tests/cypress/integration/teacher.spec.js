@@ -123,9 +123,6 @@ describe("Teacher", () => {
 
     // Transfer class to Max Planck
     transferClass("2");
-
-    // Check Portaladmin no longer has access to the class
-    cy.get("#classes-table").should("not.contain.text", `Test Class`);
     cy.logout();
 
     // Login as Max Planck
