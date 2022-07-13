@@ -11,14 +11,14 @@ from uuid import uuid4
 from common.helpers.emails import send_verification_email
 from common.helpers.generators import generate_access_code, generate_login_id, generate_password, get_hashed_login_id
 from common.models import Class, DailyActivity, JoinReleaseStudent, School, Student, Teacher
-from common.permissions import logged_in_as_teacher
+from common.permissions import check_teacher_authorised, logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.forms.formsets import formset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
@@ -210,7 +210,8 @@ def teacher_delete_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
+    if not (request.user.new_teacher.is_admin or request.user.new_teacher == klass.teacher):
+        return redirect(reverse_lazy("dashboard"))
         raise Http404
 
     if Student.objects.filter(class_field=klass, new_user__is_active=True).exists():
@@ -231,8 +232,7 @@ def teacher_delete_students(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user is authorised to deal with class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
+    check_teacher_authorised(request, klass.teacher)
 
     # get student objects for students to be deleted, confirming they are in the class
     student_ids = json.loads(request.POST.get("transfer_students", "[]"))
@@ -472,9 +472,7 @@ def process_reset_password_form(request, student, password_form):
 def check_if_edit_authorised(request, student):
     # check user is authorised to edit student
     teacher = request.user.new_teacher
-    teacher_school = School.objects.get(id=teacher.school_id)
     student_class = student.class_field
-
     teacher_of_student_class = student_class.teacher
     if not (teacher_of_student_class or teacher.is_admin):
         raise Http404
@@ -488,7 +486,7 @@ def teacher_dismiss_students(request, access_code):
     """
     klass = get_object_or_404(Class, access_code=access_code)
 
-    check_if_dismiss_authorised(request, klass)
+    check_teacher_authorised(request, klass.teacher)
 
     # get student objects for students to be dismissed, confirming they are in the class
     student_ids = json.loads(request.POST.get("transfer_students", "[]"))
@@ -522,12 +520,6 @@ def teacher_dismiss_students(request, access_code):
         "portal/teach/teacher_dismiss_students.html",
         {"formset": formset, "class": klass, "students": students},
     )
-
-
-def check_if_dismiss_authorised(request, klass):
-    # check user is authorised to deal with class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
 
 
 def is_right_dismiss_form(request):
@@ -581,8 +573,7 @@ def teacher_class_password_reset(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user authorised to see class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
+    check_teacher_authorised(request, klass.teacher)
 
     student_ids = json.loads(request.POST.get("transfer_students", "[]"))
     students = [get_object_or_404(Student, id=i, class_field=klass) for i in student_ids]
@@ -633,8 +624,7 @@ def teacher_move_students(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
 
     # check user is authorised to deal with class
-    if request.user.new_teacher != klass.teacher:
-        raise Http404
+    check_teacher_authorised(request, klass.teacher)
 
     transfer_students = request.POST.get("transfer_students", "[]")
 
