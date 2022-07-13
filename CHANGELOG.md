@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.15.0 (2022-07-13)
+### Feature
+* Admin create class ([#1905](https://github.com/ocadotechnology/codeforlife-portal/issues/1905)) ([`1ddfb1b`](https://github.com/ocadotechnology/codeforlife-portal/commit/1ddfb1bbe8844de8ac94972b7bcf854bad708011))
+
 ## v6.14.0 (2022-07-13)
 ### Feature
 * Independent registration update ([#1891](https://github.com/ocadotechnology/codeforlife-portal/issues/1891)) ([`a6d408e`](https://github.com/ocadotechnology/codeforlife-portal/commit/a6d408e96296bdac14cd514d5ec16c45ee731597))
