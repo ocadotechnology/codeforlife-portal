@@ -22,7 +22,6 @@ $(function() {
     function dobChangeHandler() {
         if (isDobInputted()) {
             const age = calculateAge();
-            showForm();
             showFormAccordingToAge(age);
         }
         else {
@@ -31,11 +30,11 @@ $(function() {
     }
 
     function isDobInputted() {
-        dobDay = dobDaySelect.find("option:selected").text();
-        dobMonth = dobMonthSelect.find("option:selected").text();
-        dobYear = dobYearSelect.find("option:selected").text();
+        dobDay = dobDaySelect.val();
+        dobMonth = dobMonthSelect.val();
+        dobYear = dobYearSelect.val();
 
-        return dobDay !== "Day" && dobMonth !== "Month" && dobYear !== "Year";
+        return dobDay !== "" && dobMonth !== "" && dobYear !== "";
     }
 
     function calculateAge() {
@@ -49,9 +48,15 @@ $(function() {
 
         if (age < 18) {
             $("#independent-newsletter").hide();
+
+            $("#independent-adult-legal").hide();
+            $("#independent-child-legal").show();
         }
         else {
             $("#independent-newsletter").show();
+
+            $("#independent-adult-legal").show();
+            $("#independent-child-legal").hide();
         }
 
         if (age < 13) {
@@ -63,8 +68,7 @@ $(function() {
             $("#independent-email-help-text").text("Please enter your parent's email address");
             $("#id_independent_student_signup-email").attr("placeholder", "Parent's email address");
         }
-        else
-        {
+        else {
             $("#independent-consent").show();
             $("#id_independent_student_signup-consent_ticked").prop("checked", false);
 
