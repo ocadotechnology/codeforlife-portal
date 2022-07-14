@@ -10,16 +10,11 @@ $(function() {
     let dobMonth;
     let dobYear;
 
-    if (isDobInputted()) {
-        showForm();
-    }
-    else {
-        hideForm();
-    }
+    showFormIfDobInputted();
 
-    dobDaySelect.add(dobMonthSelect).add(dobYearSelect).on("change", dobChangeHandler)
+    dobDaySelect.add(dobMonthSelect).add(dobYearSelect).on("change", showFormIfDobInputted)
 
-    function dobChangeHandler() {
+    function showFormIfDobInputted() {
         if (isDobInputted()) {
             const age = calculateAge();
             showFormAccordingToAge(age);
@@ -40,7 +35,7 @@ $(function() {
     function calculateAge() {
         const birthdate = new Date(`${dobYear}-${dobMonth}-${dobDay}`);
         const ageInMs = new Date() - birthdate;
-        return Math.floor(ageInMs/1000/60/60/24/365);
+        return Math.floor(ageInMs/1000/60/60/24/365.25);
     }
 
     function showFormAccordingToAge(age) {
