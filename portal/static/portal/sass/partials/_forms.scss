@@ -299,7 +299,8 @@ form {
 }
 
 .form--row {
-  @include _margin(5px, 0px, 5px, 0px);
+  @include _margin-top(5px);
+  @include _margin-bottom(5px);
   align-items: center;
   display: flex;
   flex-wrap: wrap;
