@@ -58,6 +58,7 @@ CSP_CONFIG = {
         "https://www.youtube-nocookie.com/",
         "https://www.recaptcha.net/",
         "https://www.google.com/recaptcha/",
+        f"{domain()}/static/common/img/",
     ),
     "CSP_OBJECT_SRC": (f"{domain()}/static/common/img/",),
 }

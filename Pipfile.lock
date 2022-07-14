@@ -211,11 +211,11 @@
         },
         "google-auth": {
             "hashes": [
-                "sha256:3b2f9d2f436cc7c3b363d0ac66470f42fede249c3bafcc504e9f0bcbe983cff0",
-                "sha256:75b3977e7e22784607e074800048f44d6a56df589fb2abe58a11d4d20c97c314"
+                "sha256:14292fa3429f2bb1e99862554cde1ee730d6840ebae067814d3d15d8549c0888",
+                "sha256:5a7eed0cb0e3a83989fad0b59fe1329dfc8c479543039cd6fd1e01e9adf39475"
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5'",
-            "version": "==2.9.0"
+            "version": "==2.9.1"
         },
         "greenlet": {
             "hashes": [
@@ -507,10 +507,10 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:2b6ba47d5e3e04654764a03c7da20cbf7906682e555f662b45ca0e6029f5cae2",
-                "sha256:f1ce77c5c655e2390bff251db63ba01702d275cba540845903ea89d64f1d81df"
+                "sha256:1772d179444823d78c5b358dfbf2a1ebe2c678d2566764b426098f9da059b0f9",
+                "sha256:86baa5fcb9746c33ae3f323990430efcb0276975e492b13f9198fa05675fc621"
             ],
-            "version": "==5.0.1"
+            "version": "==5.1.0"
         },
         "reportlab": {
             "hashes": [
