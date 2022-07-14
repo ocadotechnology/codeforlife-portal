@@ -8,7 +8,7 @@
 </section>
 <div class="sticky-subnav sub-nav sub-nav--teacher">
     <ul class="nav is-flex" role="tablist">
-        <li class="active"><a class="button button--secondary button--secondary--light" data-toggle="tab" href="#privacy-policy">Privacy policy</a></li>
+        <li class="active"><a id="privacy-policy-tab" class="button button--secondary button--secondary--light" data-toggle="tab" href="#privacy-policy">Privacy policy</a></li>
         <li><a class="button button--secondary button--secondary--light" data-toggle="tab" href="#privacy-children">Child-friendly</a></li>
     </ul>
 </div>
@@ -492,7 +492,7 @@
             long we keep it and how you can ask us about it.</p>
         <p>This is the version of the policy without all the legal jargon (we understand how overly complicated some
             privacy policies can be!) A full version of the Privacy Notice can be found by clicking
-            <a href="#privacy-policy">here</a>.</p>
+            <a onclick="$('#privacy-policy-tab').click();">here</a>.</p>
         <p>What we mean by ‘personal information’ is any information that can be used to identify you, such as your name
             and email address.</p>
 
