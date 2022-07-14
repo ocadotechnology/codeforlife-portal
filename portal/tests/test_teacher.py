@@ -827,7 +827,7 @@ class TestTeacherFrontend(BaseTest):
         page.browser.find_element_by_id("review_button").click()
         time.sleep(FADE_TIME)
 
-        assert page.have_classes()
+        assert page.has_classes()
         page = page.open_account_tab()
 
         # test actual deletion

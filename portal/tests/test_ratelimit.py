@@ -1,10 +1,10 @@
 from __future__ import absolute_import
 
+import re
 from datetime import datetime, timedelta
 
 import pytest
 import pytz
-import re
 from common.models import Teacher, Student
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly
@@ -13,10 +13,7 @@ from common.tests.utils.student import (
     create_school_student_directly,
     generate_independent_student_details,
 )
-from common.tests.utils.teacher import (
-    signup_teacher_directly,
-    generate_details,
-)
+from common.tests.utils.teacher import signup_teacher_directly, generate_details
 from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -32,21 +29,11 @@ class TestRatelimit(TestCase):
     def _teacher_login(self, username, password):
         return self.client.post(
             reverse("teacher_login"),
-            {
-                "auth-username": username,
-                "auth-password": password,
-                "teacher_login_view-current_step": "auth",
-            },
+            {"auth-username": username, "auth-password": password, "teacher_login_view-current_step": "auth"},
         )
 
     def _student_login(self, username, password):
-        return self.client.post(
-            reverse("independent_student_login"),
-            {
-                "username": username,
-                "password": password,
-            },
-        )
+        return self.client.post(reverse("independent_student_login"), {"username": username, "password": password})
 
     def _teacher_update_account_bad_request(self) -> None:
         """
@@ -84,21 +71,11 @@ class TestRatelimit(TestCase):
 
     def _reset_password_request(self, email):
         return self.client.post(
-            reverse("teacher_password_reset"),
-            {
-                "email": email,
-                "g-recaptcha-response": "something",
-            },
+            reverse("teacher_password_reset"), {"email": email, "g-recaptcha-response": "something"}
         )
 
     def _reset_password(self, url, new_password):
-        return self.client.post(
-            url,
-            {
-                "new_password1": new_password,
-                "new_password2": new_password,
-            },
-        )
+        return self.client.post(url, {"new_password1": new_password, "new_password2": new_password})
 
     def _is_user_blocked(self, model: Teacher or Student, username: str) -> bool:
         """
@@ -348,10 +325,12 @@ def test_independent_student_already_registered_email(client):
     name, username, email_address, password = generate_independent_student_details()
     register_url = reverse("register")
     data = {
+        "independent_student_signup-date_of_birth_day": 7,
+        "independent_student_signup-date_of_birth_month": 10,
+        "independent_student_signup-date_of_birth_year": 1997,
         "independent_student_signup-name": name,
-        "independent_student_signup-username": username,
         "independent_student_signup-email": email_address,
-        "independent_student_signup-is_over_required_age": "on",
+        "independent_student_signup-consent_ticked": "on",
         "independent_student_signup-password": password,
         "independent_student_signup-confirm_password": password,
         "g-recaptcha-response": "something",

@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import datetime
+
 import time
 from common.models import JoinReleaseStudent
 from common.tests.utils import email as email_utils
@@ -39,9 +41,12 @@ class TestIndependentStudent(TestCase):
         response = c.post(
             reverse("register"),
             {
+                "independent_student_signup-date_of_birth_day": 7,
+                "independent_student_signup-date_of_birth_month": 10,
+                "independent_student_signup-date_of_birth_year": 1997,
                 "independent_student_signup-name": "Test Name",
                 "independent_student_signup-email": "test@email.com",
-                "independent_student_signup-is_over_required_age": "on",
+                "independent_student_signup-consent_ticked": "on",
                 "independent_student_signup-password": "pass",
                 "independent_student_signup-confirm_password": "pass",
                 "g-recaptcha-response": "something",
@@ -57,9 +62,12 @@ class TestIndependentStudent(TestCase):
         response = c.post(
             reverse("register"),
             {
+                "independent_student_signup-date_of_birth_day": 7,
+                "independent_student_signup-date_of_birth_month": 10,
+                "independent_student_signup-date_of_birth_year": 1997,
                 "independent_student_signup-name": "Test Name",
                 "independent_student_signup-email": "test@email.com",
-                "independent_student_signup-is_over_required_age": "on",
+                "independent_student_signup-consent_ticked": "on",
                 "independent_student_signup-password": "Password1",
                 "independent_student_signup-confirm_password": "Password1",
                 "g-recaptcha-response": "something",
@@ -75,9 +83,12 @@ class TestIndependentStudent(TestCase):
         response = c.post(
             reverse("register"),
             {
+                "independent_student_signup-date_of_birth_day": 7,
+                "independent_student_signup-date_of_birth_month": 10,
+                "independent_student_signup-date_of_birth_year": 1997,
                 "independent_student_signup-name": "Test Name",
                 "independent_student_signup-email": "test@email.com",
-                "independent_student_signup-is_over_required_age": "on",
+                "independent_student_signup-consent_ticked": "on",
                 "independent_student_signup-password": "Password1!",
                 "independent_student_signup-confirm_password": "Password2!",
                 "g-recaptcha-response": "something",
@@ -93,9 +104,12 @@ class TestIndependentStudent(TestCase):
         response = c.post(
             reverse("register"),
             {
+                "independent_student_signup-date_of_birth_day": 7,
+                "independent_student_signup-date_of_birth_month": 10,
+                "independent_student_signup-date_of_birth_year": 1997,
                 "independent_student_signup-name": "///",
                 "independent_student_signup-email": "test@email.com",
-                "independent_student_signup-is_over_required_age": "on",
+                "independent_student_signup-consent_ticked": "on",
                 "independent_student_signup-password": "Password1!",
                 "independent_student_signup-confirm_password": "Password1!",
                 "g-recaptcha-response": "something",
@@ -104,6 +118,28 @@ class TestIndependentStudent(TestCase):
 
         # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
+
+    def test_signup_under_13_sends_parent_email(self):
+        c = Client()
+
+        response = c.post(
+            reverse("register"),
+            {
+                "independent_student_signup-date_of_birth_day": datetime.date.today().day,
+                "independent_student_signup-date_of_birth_month": datetime.date.today().month,
+                "independent_student_signup-date_of_birth_year": datetime.date.today().year,
+                "independent_student_signup-name": "Young person",
+                "independent_student_signup-email": "test@email.com",
+                "independent_student_signup-consent_ticked": "on",
+                "independent_student_signup-password": "Password1!",
+                "independent_student_signup-confirm_password": "Password1!",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        assert response.status_code == 302
+        assert len(mail.outbox) == 1
+        assert mail.outbox[0].subject == "Code for Life account request"
 
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
@@ -119,9 +155,8 @@ class TestIndependentStudentFrontend(BaseTest):
         user_id = user.id
 
         # first check if a wrong password triggers the error
-
-        unsubstribe_newsletter_checkbox = page.browser.find_element_by_name("unsubscribe_newsletter")
-        unsubstribe_newsletter_checkbox.click()
+        unsubscribe_newsletter_checkbox = page.browser.find_element_by_name("unsubscribe_newsletter")
+        unsubscribe_newsletter_checkbox.click()
 
         delete_account_form = page.browser.find_element_by_name("delete_password")
         delete_account_form.send_keys("123")  # wrong password
@@ -134,9 +169,8 @@ class TestIndependentStudentFrontend(BaseTest):
         )
 
         # now delete the account
-
-        unsubstribe_newsletter_checkbox = page.browser.find_element_by_name("unsubscribe_newsletter")
-        unsubstribe_newsletter_checkbox.click()
+        unsubscribe_newsletter_checkbox = page.browser.find_element_by_name("unsubscribe_newsletter")
+        unsubscribe_newsletter_checkbox.click()
 
         delete_account_form = page.browser.find_element_by_name("delete_password")
         delete_account_form.send_keys(password)

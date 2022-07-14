@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v6.15.1 (2022-07-14)
+### Fix
+* Add common static to object src in CSP ([#1906](https://github.com/ocadotechnology/codeforlife-portal/issues/1906)) ([`a1450dc`](https://github.com/ocadotechnology/codeforlife-portal/commit/a1450dc32f6d1063472294ab5f5f7167bdac7f72))
+
+## v6.15.0 (2022-07-13)
+### Feature
+* Admin create class ([#1905](https://github.com/ocadotechnology/codeforlife-portal/issues/1905)) ([`1ddfb1b`](https://github.com/ocadotechnology/codeforlife-portal/commit/1ddfb1bbe8844de8ac94972b7bcf854bad708011))
+
+## v6.14.0 (2022-07-13)
+### Feature
+* Independent registration update ([#1891](https://github.com/ocadotechnology/codeforlife-portal/issues/1891)) ([`a6d408e`](https://github.com/ocadotechnology/codeforlife-portal/commit/a6d408e96296bdac14cd514d5ec16c45ee731597))
+
 ## v6.13.5 (2022-07-13)
 ### Fix
 * Move brain SVG to common ([#1904](https://github.com/ocadotechnology/codeforlife-portal/issues/1904)) ([`fceecb5`](https://github.com/ocadotechnology/codeforlife-portal/commit/fceecb5344f44e0907e5614e746ac9f044b28a90))
