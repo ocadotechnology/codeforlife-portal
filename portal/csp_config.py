@@ -59,4 +59,5 @@ CSP_CONFIG = {
         "https://www.recaptcha.net/",
         "https://www.google.com/recaptcha/",
     ),
+    "CSP_OBJECT_SRC": (f"{domain()}/static/common/img/",),
 }
