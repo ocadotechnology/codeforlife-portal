@@ -283,17 +283,17 @@
                             </div>
                         </td>
                         {% if is_admin %}
-                        <td>
-                            <p>
-                                <small>
-                                    {% if user.email == class.teacher.new_user.email %}
-                                    You
-                                    {% else %}
-                                    {{ class.teacher }}
-                                    {% endif %}
-                                </small>
-                            </p>
-                        </td>
+                            <td>
+                                <p>
+                                    <small>
+                                        {% if user.email == class.teacher.new_user.email %}
+                                            You
+                                        {% else %}
+                                            {{ class.teacher }}
+                                        {% endif %}
+                                    </small>
+                                </p>
+                            </td>
                         {% endif %}
                             <td class="cell-center">
                                 <a id="class_button" href="{% url 'view_class' class.access_code %}"

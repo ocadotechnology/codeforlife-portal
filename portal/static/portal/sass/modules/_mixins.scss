@@ -32,7 +32,6 @@
   margin-bottom: calculate-rem($margin-bottom);
 }
 
-
 @mixin _top($top) {
   top: calculate-rem($top);
 }
