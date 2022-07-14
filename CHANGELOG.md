@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.15.2 (2022-07-14)
+### Fix
+* Class teacher col hidden ([#1907](https://github.com/ocadotechnology/codeforlife-portal/issues/1907)) ([`2b649e3`](https://github.com/ocadotechnology/codeforlife-portal/commit/2b649e35dd054113ad4331d151b64c309e54131c))
+
 ## v6.15.1 (2022-07-14)
 ### Fix
 * Add common static to object src in CSP ([#1906](https://github.com/ocadotechnology/codeforlife-portal/issues/1906)) ([`a1450dc`](https://github.com/ocadotechnology/codeforlife-portal/commit/a1450dc32f6d1063472294ab5f5f7167bdac7f72))
