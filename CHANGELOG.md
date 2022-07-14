@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.15.3 (2022-07-14)
+### Fix
+* Add common static images to frame src in CSP ([#1908](https://github.com/ocadotechnology/codeforlife-portal/issues/1908)) ([`ea3a12a`](https://github.com/ocadotechnology/codeforlife-portal/commit/ea3a12a1749d3f1e0aafdc48514e27a72ddd5120))
+
 ## v6.15.2 (2022-07-14)
 ### Fix
 * Class teacher col hidden ([#1907](https://github.com/ocadotechnology/codeforlife-portal/issues/1907)) ([`2b649e3`](https://github.com/ocadotechnology/codeforlife-portal/commit/2b649e35dd054113ad4331d151b64c309e54131c))
