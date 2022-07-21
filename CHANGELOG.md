@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.15.4 (2022-07-21)
+### Fix
+* **deps:** Bump terser from 5.13.1 to 5.14.2 in /portal_frontend ([#1912](https://github.com/ocadotechnology/codeforlife-portal/issues/1912)) ([`460cebc`](https://github.com/ocadotechnology/codeforlife-portal/commit/460cebc29a10cc98eb74bd22515732efa960b39d))
+
 ## v6.15.3 (2022-07-14)
 ### Fix
 * Add common static images to frame src in CSP ([#1908](https://github.com/ocadotechnology/codeforlife-portal/issues/1908)) ([`ea3a12a`](https://github.com/ocadotechnology/codeforlife-portal/commit/ea3a12a1749d3f1e0aafdc48514e27a72ddd5120))
