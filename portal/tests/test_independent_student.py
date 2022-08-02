@@ -6,7 +6,7 @@ import time
 from common.models import JoinReleaseStudent
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly
+from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.student import (
     create_independent_student,
     create_independent_student_directly,
@@ -534,6 +534,78 @@ class TestIndependentStudentFrontend(BaseTest):
         )
 
         assert dashboard_page.has_no_independent_join_requests()
+
+    def test_join_class_denied_and_accepted_by_admin(self):
+        # Create 2 teachers in the same school, one admin, one standard
+        email1, password1 = signup_teacher_directly()
+        email2, _ = signup_teacher_directly()
+        name, postcode = create_organisation_directly(email1)
+        join_teacher_to_organisation(email2, name, postcode, is_admin=False)
+
+        # Create class for standard teacher which always accepts external requests
+        klass, class_name, access_code = create_class_directly(email2)
+        klass.always_accept_requests = True
+        klass.save()
+
+        # Create two independent students
+        username1, password2, student1 = create_independent_student_directly()
+        username2, password3, student2 = create_independent_student_directly()
+
+        # Login as both students and request to join the same class
+        homepage = self.go_to_homepage()
+        page = homepage.go_to_independent_student_login_page()
+
+        page = (
+            page.independent_student_login(username1, password2)
+            .go_to_join_a_school_or_club_page()
+            .join_a_school_or_club(access_code)
+        )
+
+        page.logout()
+
+        page = self.go_to_homepage()
+        page = page.go_to_independent_student_login_page()
+
+        page = (
+            page.independent_student_login(username2, password3)
+            .go_to_join_a_school_or_club_page()
+            .join_a_school_or_club(access_code)
+        )
+
+        page.logout()
+
+        # Login as school admin, accept the first request
+        page = self.go_to_homepage()
+        page = (
+            page.go_to_teacher_login_page()
+            .login(email1, password1)
+            .open_classes_tab()
+            .accept_independent_join_request()
+            .save(username1)
+            .return_to_class()
+        )
+
+        assert page.student_exists(username1)
+
+        # check whether a record is created correctly
+        logs = JoinReleaseStudent.objects.filter(student=student1)
+        assert len(logs) == 1
+        assert logs[0].action_type == JoinReleaseStudent.JOIN
+
+        # Deny the second request
+        page = (
+            page.go_to_dashboard()
+            .open_classes_tab()
+            .deny_independent_join_request()
+        )
+
+        assert page.has_no_independent_join_requests()
+
+        # check a record hasn't been created and the student no longer has a join request
+        logs = JoinReleaseStudent.objects.filter(student=student2)
+        assert len(logs) == 0
+        assert student2.pending_class_request is None
+        assert student2.is_independent()
 
     def test_cannot_see_aimmo(self):
         page = self.go_to_homepage()

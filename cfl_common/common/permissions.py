@@ -1,13 +1,10 @@
 from functools import wraps
 
-from django.http import Http404
-from common.models import Class
-
-from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
-from rest_framework import permissions
-
 from common.utils import using_two_factor
+from django.http import Http404
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
+from rest_framework import permissions
 
 
 def has_completed_auth_setup(u):
@@ -47,6 +44,9 @@ def check_teacher_authorised(request, class_teacher):
     is_current_teacher_school_admin = (
         class_teacher.school == request.user.new_teacher.school and request.user.new_teacher.is_admin
     )
+
+    print(current_teacher_owns_the_class)
+    print(is_current_teacher_school_admin)
 
     if not (current_teacher_owns_the_class or is_current_teacher_school_admin):
         raise Http404

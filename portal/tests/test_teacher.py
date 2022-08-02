@@ -1,22 +1,14 @@
 from __future__ import absolute_import
-from requests import delete
-from selenium.common.exceptions import NoSuchElementException
 
-import time
 import re
 
+import time
 from aimmo.models import Game
 from common.models import Class, Student, Teacher
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
-    create_organisation_directly,
-    join_teacher_to_organisation,
-)
-from common.tests.utils.student import (
-    create_independent_student_directly,
-    create_school_student_directly,
-)
+from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
+from common.tests.utils.student import create_independent_student_directly, create_school_student_directly
 from common.tests.utils.teacher import (
     signup_duplicate_teacher_fail,
     signup_teacher,
@@ -26,8 +18,8 @@ from common.tests.utils.teacher import (
 from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.tests.test_invite_teacher import FADE_TIME
@@ -56,14 +48,8 @@ class TestTeacher(TestCase):
 
         c = Client()
         c.login(username=email, password=password)
-        c.post(
-            reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass.id},
-        )
-        c.post(
-            reverse("view_class", kwargs={"access_code": access_code}),
-            {"names": "Florian"},
-        )
+        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass.id})
+        c.post(reverse("view_class", kwargs={"access_code": access_code}), {"names": "Florian"})
 
         game = Game.objects.get(id=1)
         new_student = Student.objects.last()
@@ -81,30 +67,17 @@ class TestTeacher(TestCase):
         klass.always_accept_requests = True
         klass.save()
         create_school_student_directly(access_code)
-        (
-            indep_username,
-            indep_password,
-            indep_student,
-        ) = create_independent_student_directly()
+        (indep_username, indep_password, indep_student) = create_independent_student_directly()
 
         c = Client()
 
         c.login(username=indep_username, password=indep_password)
-        c.post(
-            reverse("student_join_organisation"),
-            {"access_code": access_code, "class_join_request": "Request"},
-        )
+        c.post(reverse("student_join_organisation"), {"access_code": access_code, "class_join_request": "Request"})
         c.logout()
 
         c.login(username=email, password=password)
-        c.post(
-            reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass.pk},
-        )
-        c.post(
-            reverse("teacher_accept_student_request", kwargs={"pk": indep_student.pk}),
-            {"name": "Florian"},
-        )
+        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass.pk})
+        c.post(reverse("teacher_accept_student_request", kwargs={"pk": indep_student.pk}), {"name": "Florian"})
 
         game: Game = Game.objects.get(id=1)
         new_student = Student.objects.last()
@@ -138,18 +111,12 @@ class TestTeacher(TestCase):
 
         # Create game 1 under class 1
         c.login(username=email1, password=password1)
-        c.post(
-            reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass1.pk},
-        )
+        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass1.pk})
         c.logout()
 
         # Create game 2 under class 2
         c.login(username=email2, password=password2)
-        c.post(
-            reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass2.pk},
-        )
+        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass2.pk})
         c.logout()
 
         game1: Game = Game.objects.get(owner=teacher1.new_user)
@@ -222,17 +189,11 @@ class TestTeacher(TestCase):
 
         c = Client()
         c.login(username=email2, password=password2)
-        c.post(
-            reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass2.pk},
-        )
+        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass2.pk})
         c.logout()
 
         c.login(username=email1, password=password1)
-        c.post(
-            reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass1.pk},
-        )
+        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass1.pk})
 
         game1 = Game.objects.get(owner=teacher1.new_user)
         game2 = Game.objects.get(owner=teacher2.new_user)
@@ -244,8 +205,7 @@ class TestTeacher(TestCase):
         assert game2.can_user_play(student2.new_user)
 
         c.post(
-            reverse("teacher_move_students", kwargs={"access_code": access_code1}),
-            {"transfer_students": student1.pk},
+            reverse("teacher_move_students", kwargs={"access_code": access_code1}), {"transfer_students": student1.pk}
         )
         c.post(
             reverse("teacher_move_students_to_class", kwargs={"access_code": access_code1}),
@@ -282,10 +242,7 @@ class TestTeacher(TestCase):
 
         c = Client()
         c.login(username=email, password=password)
-        game1_response = c.post(
-            reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass.pk},
-        )
+        game1_response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass.pk})
 
         assert game1_response.status_code == 302
         assert Game.objects.filter(game_class=klass, is_archived=False).count() == 1
@@ -293,10 +250,7 @@ class TestTeacher(TestCase):
         messages = list(game1_response.wsgi_request._messages)
         assert len([m for m in messages if m.tags == "warning"]) == 0
 
-        game2_response = c.post(
-            reverse("teacher_aimmo_dashboard"),
-            {"game_class": klass.pk},
-        )
+        game2_response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass.pk})
 
         messages = list(game2_response.wsgi_request._messages)
         assert len([m for m in messages if m.tags == "warning"]) == 1
@@ -525,11 +479,7 @@ class TestTeacherFrontend(BaseTest):
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password).open_account_tab()
 
         page = page.change_teacher_details(
-            {
-                "first_name": "Paulina",
-                "last_name": "Koch",
-                "current_password": "Password2!",
-            }
+            {"first_name": "Paulina", "last_name": "Koch", "current_password": "Password2!"}
         )
         assert self.is_dashboard_page(page)
         assert is_teacher_details_updated_message_showing(self.selenium)
@@ -550,11 +500,7 @@ class TestTeacherFrontend(BaseTest):
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_2, password_2).open_account_tab()
 
         page = page.change_teacher_details(
-            {
-                "first_name": "Florian",
-                "last_name": "Aucomte",
-                "current_password": "Password2!",
-            }
+            {"first_name": "Florian", "last_name": "Aucomte", "current_password": "Password2!"}
         )
         assert self.is_dashboard_page(page)
         assert is_teacher_details_updated_message_showing(self.selenium)
@@ -667,7 +613,6 @@ class TestTeacherFrontend(BaseTest):
         assert len(mail.outbox) == 0
 
     def test_admin_sees_all_school_classes(self):
-
         email, password = signup_teacher_directly()
         org_name, postcode = create_organisation_directly(email)
         klass, _, access_code = create_class_directly(email, "class123")
@@ -726,11 +671,7 @@ class TestTeacherFrontend(BaseTest):
         page = self.go_to_homepage().go_to_teacher_login_page().login(email, password)
         joining_email, joining_password = signup_teacher_directly()
 
-        invite_data = {
-            "teacher_first_name": "Real",
-            "teacher_last_name": "Name",
-            "teacher_email": "ren@me.me",
-        }
+        invite_data = {"teacher_first_name": "Real", "teacher_last_name": "Name", "teacher_email": "ren@me.me"}
 
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)

@@ -1,16 +1,11 @@
 from __future__ import absolute_import
 
 import json
+
 import pytest
-
-from .base_test import BaseTest
-
 from common.models import JoinReleaseStudent
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
-    create_organisation_directly,
-    join_teacher_to_organisation,
-)
+from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.student import (
     create_many_school_students,
     create_school_student,
@@ -18,15 +13,13 @@ from common.tests.utils.student import (
     create_student_with_direct_login,
 )
 from common.tests.utils.teacher import signup_teacher_directly
-
+from django.contrib.auth.models import User
 from django.test import Client
 from django.urls import reverse
-from django.contrib.auth.models import User
-from django.test import Client, TestCase
+from selenium.webdriver.common.alert import Alert
 
 from portal.tests.pageObjects.portal.home_page import HomePage
-
-from selenium.webdriver.common.alert import Alert
+from .base_test import BaseTest
 
 
 class TestTeacherStudentFrontend(BaseTest):
@@ -75,8 +68,7 @@ class TestTeacherStudentFrontend(BaseTest):
 
         assert page.adding_students_failed()
         assert page.was_form_invalid(
-            "form-create-students",
-            "Names may only contain letters, numbers, dashes, underscores, and spaces.",
+            "form-create-students", "Names may only contain letters, numbers, dashes, underscores, and spaces."
         )
 
     def test_create_multiple(self):
@@ -339,8 +331,7 @@ class TestTeacherStudentFrontend(BaseTest):
 
         assert page.is_student_name(name)
         assert page.was_form_invalid(
-            "form-edit-student",
-            "Names may only contain letters, numbers, dashes, underscores, and spaces.",
+            "form-edit-student", "Names may only contain letters, numbers, dashes, underscores, and spaces."
         )
 
     def test_update_student_password(self):
@@ -399,12 +390,7 @@ class TestTeacherStudentFrontend(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        (
-            student,
-            login_id,
-            student_name,
-            student_password,
-        ) = create_student_with_direct_login(access_code)
+        (student, login_id, student_name, student_password) = create_student_with_direct_login(access_code)
 
         # "active student" is one who has logged in
         c = Client()
