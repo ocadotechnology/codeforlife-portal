@@ -537,26 +537,26 @@ class TestIndependentStudentFrontend(BaseTest):
 
     def test_join_class_denied_and_accepted_by_admin(self):
         # Create 2 teachers in the same school, one admin, one standard
-        email1, password1 = signup_teacher_directly()
-        email2, _ = signup_teacher_directly()
-        name, postcode = create_organisation_directly(email1)
-        join_teacher_to_organisation(email2, name, postcode, is_admin=False)
+        admin_email, admin_password1 = signup_teacher_directly()
+        standard_email, _ = signup_teacher_directly()
+        name, postcode = create_organisation_directly(admin_email)
+        join_teacher_to_organisation(standard_email, name, postcode, is_admin=False)
 
         # Create class for standard teacher which always accepts external requests
-        klass, class_name, access_code = create_class_directly(email2)
+        klass, class_name, access_code = create_class_directly(standard_email)
         klass.always_accept_requests = True
         klass.save()
 
         # Create two independent students
-        username1, password2, student1 = create_independent_student_directly()
-        username2, password3, student2 = create_independent_student_directly()
+        username1, password1, student1 = create_independent_student_directly()
+        username2, password2, student2 = create_independent_student_directly()
 
         # Login as both students and request to join the same class
         homepage = self.go_to_homepage()
         page = homepage.go_to_independent_student_login_page()
 
         page = (
-            page.independent_student_login(username1, password2)
+            page.independent_student_login(username1, password1)
             .go_to_join_a_school_or_club_page()
             .join_a_school_or_club(access_code)
         )
@@ -567,7 +567,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page = page.go_to_independent_student_login_page()
 
         page = (
-            page.independent_student_login(username2, password3)
+            page.independent_student_login(username2, password2)
             .go_to_join_a_school_or_club_page()
             .join_a_school_or_club(access_code)
         )
@@ -578,7 +578,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page = self.go_to_homepage()
         page = (
             page.go_to_teacher_login_page()
-            .login(email1, password1)
+            .login(admin_email, admin_password1)
             .open_classes_tab()
             .accept_independent_join_request()
             .save(username1)
