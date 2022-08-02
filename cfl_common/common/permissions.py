@@ -45,9 +45,6 @@ def check_teacher_authorised(request, class_teacher):
         class_teacher.school == request.user.new_teacher.school and request.user.new_teacher.is_admin
     )
 
-    print(current_teacher_owns_the_class)
-    print(is_current_teacher_school_admin)
-
     if not (current_teacher_owns_the_class or is_current_teacher_school_admin):
         raise Http404
 
