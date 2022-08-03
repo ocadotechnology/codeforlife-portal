@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.16.0 (2022-08-03)
+### Feature
+* Show all external requests in school to admins ([#1914](https://github.com/ocadotechnology/codeforlife-portal/issues/1914)) ([`9cc9dec`](https://github.com/ocadotechnology/codeforlife-portal/commit/9cc9dec50b6edd621b7a6d242317acc24a66ad3c))
+
 ## v6.15.4 (2022-07-21)
 ### Fix
 * **deps:** Bump terser from 5.13.1 to 5.14.2 in /portal_frontend ([#1912](https://github.com/ocadotechnology/codeforlife-portal/issues/1912)) ([`460cebc`](https://github.com/ocadotechnology/codeforlife-portal/commit/460cebc29a10cc98eb74bd22515732efa960b39d))
