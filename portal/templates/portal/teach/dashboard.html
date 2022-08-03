@@ -313,14 +313,6 @@
             <p>External or independent students may request to join your classes if the student has been given a Class Access Code, and provided you
                 have enabled external requests for that class.</p>
             {% if requests %}
-                <p>The following users have made requests to join your classes. If you accept a request, you will be able to choose a
-                    name that is unique for the user in the class and then pass on their new login details. At this point, you will be able to manage them
-                    like any other student.</p>
-                <p>To conform to our security policy, the requested student’s username and email will be deleted on acceptance.
-                    These details are displayed here to enable you to identify them as genuine.</p>
-                <p>You should not accept a request from a student whose email and username you do not recognise, or if you weren’t
-                    expecting such a request.</p>
-
                 <table id="independent_request_table" class="header-primary data-primary">
                     <tr>
                         <th><p>Name</p></th>
@@ -333,19 +325,22 @@
                             <td><p><small>{{ join_request.new_user.first_name }}</small></p></td>
                             <td><p><small>{{ join_request.new_user.email }}</small></p></td>
                             <td><p><small>{{ join_request.pending_class_request.name }}
-                                ({{ join_request.pending_class_request.access_code }})</small></p></td>
+                                {% if user.email != join_request.pending_class_request.teacher.new_user.email %}
+                                    ({{ join_request.pending_class_request.teacher.new_user.first_name }}
+                                    {{ join_request.pending_class_request.teacher.new_user.last_name}})
+                                {% endif %}
+                            </small></p></td>
                             <td colspan="2" class="cell-center">
                                 <button id="allow_independent_button" class="button--small button--primary button--icon"
                                         onclick="postWithCsrf('{% url 'teacher_accept_student_request' join_request.id %}');">
                                     Add to class<span class="iconify" data-icon="mdi:plus"></span></button>
                                 <button id="deny_independent_button" class="button--small button--primary--danger button--icon"
                                         onclick="postWithCsrf('{% url 'teacher_reject_student_request' join_request.id %}');">
-                                    Reject request<span class="iconify" data-icon="mdi:block"></span></button>
+                                    Reject<span class="iconify" data-icon="mdi:block"></span></button>
                             </td>
                         </tr>
                     {% endfor %}
                 </table>
-                <br>
             {% else %}
                 <p><strong>No student has currently requested to join your classes.</strong></p>
             {% endif %}

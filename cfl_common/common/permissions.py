@@ -1,13 +1,10 @@
 from functools import wraps
 
-from django.http import Http404
-from common.models import Class
-
-from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
-from rest_framework import permissions
-
 from common.utils import using_two_factor
+from django.http import Http404
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
+from rest_framework import permissions
 
 
 def has_completed_auth_setup(u):

@@ -1,13 +1,6 @@
-from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly
-from common.tests.utils.student import create_school_student_directly
-from common.tests.utils.teacher import signup_teacher_directly
-from django.contrib.auth.models import User, Permission
 from django.urls import reverse
 
 from portal.tests.base_test import BaseTest
-from portal.tests.pageObjects.portal.admin.admin_data_page import AdminDataPage
-from portal.tests.pageObjects.portal.admin.admin_map_page import AdminMapPage
 from portal.tests.pageObjects.portal.teacher_login_page import TeacherLoginPage
 from portal.views import admin
 

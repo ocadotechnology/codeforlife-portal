@@ -12,8 +12,8 @@ from common.helpers.emails import (
     update_email,
 )
 from common.helpers.generators import get_random_username
-from common.models import Class, EmailVerification, JoinReleaseStudent, SchoolTeacherInvitation, Student, Teacher
-from common.permissions import logged_in_as_teacher
+from common.models import Class, JoinReleaseStudent, SchoolTeacherInvitation, Student, Teacher
+from common.permissions import logged_in_as_teacher, check_teacher_authorised
 from common.utils import using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
@@ -84,7 +84,6 @@ def dashboard_teacher_view(request, is_admin):
     coworkers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
 
     sent_invites = SchoolTeacherInvitation.objects.filter(school=school) if teacher.is_admin else []
-    requests = Student.objects.filter(pending_class_request__teacher=teacher)
 
     update_school_form = OrganisationForm(user=request.user, current_school=school)
     update_school_form.fields["name"].initial = school.name
@@ -198,8 +197,17 @@ def dashboard_teacher_view(request, is_admin):
         classes = school.classes()
         [classes.insert(0, classes.pop(i)) for i in range(len(classes)) if classes[i].teacher.id == teacher.id]
 
+        requests = list(Student.objects.filter(pending_class_request__teacher__school=school))
+        [
+            requests.insert(0, requests.pop(i))
+            for i in range(len(requests))
+            if requests[i].pending_class_request.teacher.id == teacher.id
+        ]
+
     else:
         classes = Class.objects.filter(teacher=teacher)
+        requests = Student.objects.filter(pending_class_request__teacher=teacher)
+
     return render(
         request,
         "portal/teach/dashboard.html",
@@ -444,9 +452,8 @@ def teacher_disable_2FA(request, pk):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_accept_student_request(request, pk):
     student = get_object_or_404(Student, id=pk)
-    teacher = request.user.new_teacher
 
-    check_student_can_be_accepted(request, student)
+    check_student_request_can_be_handled(request, student)
 
     students = Student.objects.filter(class_field=student.pending_class_request).order_by("new_user__first_name")
 
@@ -486,7 +493,7 @@ def teacher_accept_student_request(request, pk):
     )
 
 
-def check_student_can_be_accepted(request, student):
+def check_student_request_can_be_handled(request, student):
     """
     Check student is awaiting decision on request
     """
@@ -494,8 +501,7 @@ def check_student_can_be_accepted(request, student):
         raise Http404
 
     # check user (teacher) has authority to accept student
-    if request.user.new_teacher != student.pending_class_request.teacher:
-        raise Http404
+    check_teacher_authorised(request, student.pending_class_request.teacher)
 
 
 @require_POST
@@ -504,13 +510,7 @@ def check_student_can_be_accepted(request, student):
 def teacher_reject_student_request(request, pk):
     student = get_object_or_404(Student, id=pk)
 
-    # check student is awaiting decision on request
-    if not student.pending_class_request:
-        raise Http404
-
-    # check user (teacher) has authority to reject student
-    if request.user.new_teacher != student.pending_class_request.teacher:
-        raise Http404
+    check_student_request_can_be_handled(request, student)
 
     emailMessage = email_messages.studentJoinRequestRejectedEmail(
         request, student.pending_class_request.teacher.school.name, student.pending_class_request.access_code
@@ -568,11 +568,7 @@ def resend_invite_teacher(request, token):
         messages.success(request, "Teacher re-invited!")
         message = email_messages.inviteTeacherEmail(request, invite.school, token, not (invite.is_expired))
         send_email(
-            INVITE_FROM,
-            [invite.invited_teacher_email],
-            message["subject"],
-            message["message"],
-            message["subject"],
+            INVITE_FROM, [invite.invited_teacher_email], message["subject"], message["message"], message["subject"]
         )
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
