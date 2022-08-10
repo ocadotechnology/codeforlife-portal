@@ -13,8 +13,8 @@ DEBUG = getattr(settings, "DEBUG", False)
 # The permission function for checking if the request is coming from a cron job
 IS_CLOUD_SCHEDULER_FUNCTION = getattr(settings, "IS_CLOUD_SCHEDULER_FUNCTION", lambda _: False)
 
-# One hour
-SESSION_EXPIRY_TIME = 60 * 60
+# Half an hour
+SESSION_EXPIRY_TIME = 60 * 30
 
 # One hour
 SCREENTIME_WARNING_EXPIRY_TIME = 60 * 60

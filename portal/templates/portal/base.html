@@ -159,6 +159,14 @@
         </script>
     {% endif %}
 
+    {% if request.session.last_request %}
+        {% include "portal/partials/session_popup.html" %}
+        <script>
+          // showing the popup after 28 minutes so it adds up to 30 minutes with the 2 minute countdown
+          setTimeout(showSessionPopup, 1680000);
+        </script>
+    {% endif %}
+
     {% block footer %}
         {% include 'portal/partials/footer.html' %}
     {% endblock footer %}

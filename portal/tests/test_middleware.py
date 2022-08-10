@@ -1,7 +1,7 @@
-import time
 from typing import Tuple
 from unittest import mock
 
+import time
 from _pytest.monkeypatch import MonkeyPatch
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly
@@ -79,11 +79,7 @@ class TestAdminAccessMiddleware(TestCase):
         assert type(response) == HttpResponseRedirect
         assert response.url == "/teach/dashboard/"
 
-    @mock.patch(
-        "deploy.middleware.admin_access.using_two_factor",
-        return_value=True,
-        autospec=True,
-    )
+    @mock.patch("deploy.middleware.admin_access.using_two_factor", return_value=True, autospec=True)
     def test_non_superuser_with_2FA_is_redirected(self, mock_using_two_factor):
         self.client.login(username=self.email, password=self.password)
 
@@ -95,11 +91,7 @@ class TestAdminAccessMiddleware(TestCase):
         assert type(response) == HttpResponseRedirect
         assert response.url == "/teach/dashboard/"
 
-    @mock.patch(
-        "deploy.middleware.admin_access.using_two_factor",
-        return_value=True,
-        autospec=True,
-    )
+    @mock.patch("deploy.middleware.admin_access.using_two_factor", return_value=True, autospec=True)
     def test_superuser_with_2FA_can_access_admin_site(self, mock_using_two_factor):
         self._make_user_superuser()
 
@@ -160,10 +152,34 @@ class TestSessionTimeoutMiddleware(TestCase):
 
         time.sleep(MOCKED_SESSION_EXPIRY_TIME)
 
-        self.client.get("/")
+        response = self.client.get("/")
         user = auth.get_user(self.client)
 
         assert not user.is_authenticated
+
+        messages = list(response.context["messages"])
+        assert len(messages) == 1
+        assert str(messages[0]) == "You have been logged out due to inactivity."
+
+    def test_session_reset(self):
+        self.client.login(username=self.email, password=self.password)
+
+        self.client.get("/")
+        user = auth.get_user(self.client)
+
+        assert user.is_authenticated
+
+        time.sleep(MOCKED_SESSION_EXPIRY_TIME * 0.66)
+
+        url = reverse("reset_session_time")
+        self.client.get(url)
+
+        time.sleep(MOCKED_SESSION_EXPIRY_TIME * 0.66)
+
+        self.client.get("/")
+        user = auth.get_user(self.client)
+
+        assert user.is_authenticated
 
 
 class TestScreentimeWarningMiddleware(TestCase):
