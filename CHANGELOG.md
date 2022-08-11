@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.17.0 (2022-08-11)
+### Feature
+* Add session timeout warning popup ([#1918](https://github.com/ocadotechnology/codeforlife-portal/issues/1918)) ([`cce2b64`](https://github.com/ocadotechnology/codeforlife-portal/commit/cce2b6438464805c49d607abd272e1225303df4b))
+
 ## v6.16.0 (2022-08-03)
 ### Feature
 * Show all external requests in school to admins ([#1914](https://github.com/ocadotechnology/codeforlife-portal/issues/1914)) ([`9cc9dec`](https://github.com/ocadotechnology/codeforlife-portal/commit/9cc9dec50b6edd621b7a6d242317acc24a66ad3c))
