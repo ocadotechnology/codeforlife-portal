@@ -59,7 +59,8 @@
     }
   }
 
-  &#screentime-popup {
+  &#screentime-popup,
+  &#session-popup {
     z-index: $nav-bar-level + 1;
   }
 }
@@ -74,7 +75,6 @@
   -ms-transition: opacity $fade-time ease-out;
   transition: opacity $fade-time ease-out;
 }
-
 
 @media (max-width: $mobile-max-width) {
   .popup-wrapper {

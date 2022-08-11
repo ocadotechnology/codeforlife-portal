@@ -23,7 +23,14 @@ from portal.views.api import (
 )
 from portal.views.dotmailer import dotmailer_consent_form, process_newsletter_form
 from portal.views.email import send_new_users_report, verify_email
-from portal.views.home import home, home_learning, logout_view, register_view, reset_screentime_warning
+from portal.views.home import (
+    home,
+    home_learning,
+    logout_view,
+    register_view,
+    reset_screentime_warning,
+    reset_session_time,
+)
 from portal.views.legal import privacy_policy, terms
 from portal.views.login import old_login_form_redirect
 from portal.views.login.independent_student import IndependentStudentLoginView
@@ -166,6 +173,7 @@ urlpatterns = [
         name="password_reset_check_and_confirm",
     ),
     url(r"^user/reset_screentime_warning/$", reset_screentime_warning, name="reset_screentime_warning"),
+    url(r"^user/reset_session_time/$", reset_session_time, name="reset_session_time"),
     url(
         r"^teacher/password/reset/complete/$",
         TemplateView.as_view(template_name="portal/reset_password_done.html"),

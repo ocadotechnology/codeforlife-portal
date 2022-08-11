@@ -1,0 +1,19 @@
+{% load static %}
+{# A session expiry warning popup with a "Wait, I'm still here!" button. #}
+<section id="session-popup" class="popup-wrapper text-center">
+    <div class="popup-box">
+        <div class="popup-box__title d-flex justify-content-center">
+            <h4>Where did you go? 👀</h4>
+        </div>
+        <p class="popup-box__msg">We noticed that you have been inactive for a while. Are you still there? For your
+        online safety we will log you out in:</p>
+        <div class="d-flex justify-content-center">
+            <h4><span id="minutes">2</span> min <span id="seconds">00</span> secs</h4>
+        </div>
+        <p class="popup-box__msg">You may lose progress unless you continue or save.</p>
+        <div class="popup-box__buttons mt-0">
+            <a id="session_continue_button" class="button button--primary" onclick="hideSessionPopup()"
+               aria-labelledby="session_continue_button">Wait, I'm still here!</a>
+        </div>
+    </div>
+</section>

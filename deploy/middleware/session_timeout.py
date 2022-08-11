@@ -1,5 +1,6 @@
 import time
 
+from django.contrib import messages
 from django.contrib.auth import logout
 from portal.app_settings import SESSION_EXPIRY_TIME
 
@@ -19,6 +20,7 @@ class SessionTimeoutMiddleware:
                 if elapsed > SESSION_EXPIRY_TIME:
                     del request.session["last_request"]
                     logout(request)
+                    messages.info(request, "You have been logged out due to inactivity.")
             request.session["last_request"] = time.time()
         else:
             if "last_request" in request.session:
