@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.17.2 (2022-08-12)
+### Fix
+* Add countdown stop to session expiry popup ([#1919](https://github.com/ocadotechnology/codeforlife-portal/issues/1919)) ([`3c21c90`](https://github.com/ocadotechnology/codeforlife-portal/commit/3c21c909297f956857173740790499ff40fd19d2))
+
 ## v6.17.1 (2022-08-12)
 ### Fix
 * **deps:** Bump django from 3.2.14 to 3.2.15 ([#1920](https://github.com/ocadotechnology/codeforlife-portal/issues/1920)) ([`621b526`](https://github.com/ocadotechnology/codeforlife-portal/commit/621b5261e61d05b81aa4400406b03807a292fdf1))
