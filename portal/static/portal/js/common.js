@@ -69,6 +69,8 @@ function hideScreentimePopup() {
   setTimeout(showScreentimePopup, 3600000);
 }
 
+let interval;
+
 function showSessionPopup() {
   $("#session-popup").addClass("popup--fade");
   const twoMinutes = 60 * 2
@@ -83,13 +85,17 @@ function hideSessionPopup() {
   // Reset session time for the user
   $.get("/user/reset_session_time/");
 
+  const minutesDisplay = $('#minutes');
+  const secondsDisplay = $('#seconds');
+  resetTimer(minutesDisplay, secondsDisplay)
+
   // Show the popup again after 28 minutes - just in case the user stays on the same page
   setTimeout(showSessionPopup, 1680000);
 }
 
 function startTimer(duration, minutesDisplay, secondsDisplay) {
   let timer = duration, minutes, seconds;
-  setInterval(function () {
+  interval = setInterval(function () {
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
 
@@ -103,6 +109,12 @@ function startTimer(duration, minutesDisplay, secondsDisplay) {
       document.location.reload(true);
     }
   }, 1000);
+}
+
+function resetTimer(minutesDisplay, secondsDisplay) {
+  clearInterval(interval);
+  minutesDisplay.text("2");
+  secondsDisplay.text("00");
 }
 
 function postWithCsrf(path, params = undefined) {
