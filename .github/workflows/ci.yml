@@ -25,11 +25,10 @@ jobs:
           node-version: 16.x
       - name: Install dependencies and build frontend
         run: |
-          pip install --upgrade pip
-          pip install pipenv
+          pip install codecov
           pip install pytest-cov
+          pip install pipenv
           pipenv install --dev --system
-          pip freeze
           yarn --frozen-lockfile
       - name: Build frontend
         run: |
