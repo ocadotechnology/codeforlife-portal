@@ -25,10 +25,10 @@ jobs:
           node-version: 16.x
       - name: Install dependencies and build frontend
         run: |
-          pip install codecov
-          pip install pytest-cov
           pip install pipenv
+          pip install pytest-cov
           pipenv install --dev --system
+          pip freeze
           yarn --frozen-lockfile
       - name: Build frontend
         run: |
@@ -37,9 +37,7 @@ jobs:
           yarn build
           mv build ../portal/frontend
       - name: Collect static
-        run: |
-          ls
-          python example_project/manage.py collectstatic --noinput --settings test_settings
+        run: python example_project/manage.py collectstatic --noinput --settings test_settings
       - name: Run Python tests
         run: pytest -x --cov=. --cov-report=xml
         env:
