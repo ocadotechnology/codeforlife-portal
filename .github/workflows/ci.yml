@@ -25,6 +25,7 @@ jobs:
           node-version: 16.x
       - name: Install dependencies and build frontend
         run: |
+          pip install --upgrade pip
           pip install pipenv
           pip install pytest-cov
           pipenv install --dev --system
