@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.17.1 (2022-08-12)
+### Fix
+* **deps:** Bump django from 3.2.14 to 3.2.15 ([#1920](https://github.com/ocadotechnology/codeforlife-portal/issues/1920)) ([`621b526`](https://github.com/ocadotechnology/codeforlife-portal/commit/621b5261e61d05b81aa4400406b03807a292fdf1))
+
 ## v6.17.0 (2022-08-11)
 ### Feature
 * Add session timeout warning popup ([#1918](https://github.com/ocadotechnology/codeforlife-portal/issues/1918)) ([`cce2b64`](https://github.com/ocadotechnology/codeforlife-portal/commit/cce2b6438464805c49d607abd272e1225303df4b))

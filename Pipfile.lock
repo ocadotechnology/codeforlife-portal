@@ -18,10 +18,10 @@
     "default": {
         "aimmo": {
             "hashes": [
-                "sha256:20f9888bdb9d5a572fcb1a226400d51d0e1d18cbec1dc61692039d650fa2d710",
-                "sha256:e0522ef86c3faa2328131b0d9bb695fcdc1a2745333836b6442b54c8aca7f9eb"
+                "sha256:4a001c79359e5f6c3d7ef2410743cfca9c94038bdaa9245a72e8228877ef3923",
+                "sha256:c41f325beba8dd9af786108a1ba100cc555b31a58a40eb4b95be8c55d96c6475"
             ],
-            "version": "==2.4.3"
+            "version": "==2.4.4"
         },
         "asgiref": {
             "hashes": [
@@ -72,11 +72,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:677182ba8b5b285a4e072f3ac17ceee6aff1b5ce77fd173cc5b6a2d3dc022fcf",
-                "sha256:a8681e098fa60f7c33a4b628d6fcd3fe983a0939ff1301ecacac21d0b38bad56"
+                "sha256:115baf5049d5cf4163e43492cdc7139c306ed6d451e7d3571fe9612903903713",
+                "sha256:f71934b1a822f14a86c9ac9634053689279cd04ae69cb6ade4a59471b886582b"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==3.2.14"
+            "version": "==3.2.15"
         },
         "django-autoconfig": {
             "git": "https://github.com/ocadotechnology/django-autoconfig.git",
@@ -458,10 +458,10 @@
         },
         "pytz": {
             "hashes": [
-                "sha256:1e760e2fe6a8163bc0b3d9a19c4f84342afa0a2affebfaa84b01b978a02ecaa7",
-                "sha256:e68985985296d9a66a881eb3193b0906246245294a881e7c8afe623866ac6a5c"
+                "sha256:bc824559e43e8ab983426a49525079d186b25372ff63aa3430ccd527d95edc3a",
+                "sha256:d9b245e63af49c4e51afdec5402f56b99c0cb483a84a12bb8b7db980386baade"
             ],
-            "version": "==2022.1"
+            "version": "==2022.2"
         },
         "pyyaml": {
             "hashes": [
@@ -507,10 +507,10 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:26169bd0b74450800d856222c9af5ccfc1e9f45a2fc2e5e5be856ed2161e45e4",
-                "sha256:c54b604186f0e527e523f1796a55a0eb3a36b2dc32ab2584751b3097ac3c80de"
+                "sha256:27c790098c28a6a5c13c36842230545e71ca08c03f9b878a5307137eca5e5f9a",
+                "sha256:83613e7783268f4ea6fa38f284340686713434d9b92a4c86bc3bf1ec194f9530"
             ],
-            "version": "==5.4.0"
+            "version": "==5.4.1"
         },
         "reportlab": {
             "hashes": [
@@ -693,11 +693,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:677182ba8b5b285a4e072f3ac17ceee6aff1b5ce77fd173cc5b6a2d3dc022fcf",
-                "sha256:a8681e098fa60f7c33a4b628d6fcd3fe983a0939ff1301ecacac21d0b38bad56"
+                "sha256:115baf5049d5cf4163e43492cdc7139c306ed6d451e7d3571fe9612903903713",
+                "sha256:f71934b1a822f14a86c9ac9634053689279cd04ae69cb6ade4a59471b886582b"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==3.2.14"
+            "version": "==3.2.15"
         },
         "django-selenium-clean": {
             "hashes": [
@@ -833,10 +833,10 @@
         },
         "pytz": {
             "hashes": [
-                "sha256:1e760e2fe6a8163bc0b3d9a19c4f84342afa0a2affebfaa84b01b978a02ecaa7",
-                "sha256:e68985985296d9a66a881eb3193b0906246245294a881e7c8afe623866ac6a5c"
+                "sha256:bc824559e43e8ab983426a49525079d186b25372ff63aa3430ccd527d95edc3a",
+                "sha256:d9b245e63af49c4e51afdec5402f56b99c0cb483a84a12bb8b7db980386baade"
             ],
-            "version": "==2022.1"
+            "version": "==2022.2"
         },
         "pyvirtualdisplay": {
             "hashes": [
