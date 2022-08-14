@@ -28,7 +28,7 @@ jobs:
           pip install codecov
           pip install pytest-cov
           pip install pipenv
-          pipenv install --dev --system
+          pipenv install --dev --system --verbose
           yarn --frozen-lockfile
       - name: Build frontend
         run: |
@@ -37,7 +37,9 @@ jobs:
           yarn build
           mv build ../portal/frontend
       - name: Collect static
-        run: python example_project/manage.py collectstatic --noinput --settings test_settings
+        run: |
+          ls
+          python example_project/manage.py collectstatic --noinput --settings test_settings
       - name: Run Python tests
         run: pytest -x --cov=. --cov-report=xml
         env:
