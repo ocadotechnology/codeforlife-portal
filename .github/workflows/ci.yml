@@ -29,7 +29,7 @@ jobs:
           pip install pytest-cov
           pip install pipenv
           pipenv install --dev --system --verbose
-          pip uninstall django-autoconfig
+          pip uninstall django-autoconfig -y
           pip install git+https://github.com/ocadotechnology/django-autoconfig.git@b454bf8ba2d2dea0abcad26e786cacacb298d9ee
           yarn --frozen-lockfile
       - name: Build frontend
