@@ -76,6 +76,6 @@ DOTMAILER_DEFAULT_PREFERENCES = [{"trout": True}]
 
 COOKIE_MANAGEMENT_ENABLED = False
 
-from django_autoconfig.autoconfig import configure_settings
-
-configure_settings(globals())
+# from django_autoconfig.autoconfig import configure_settings
+#
+# configure_settings(globals())

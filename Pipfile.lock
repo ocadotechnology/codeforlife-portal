@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6ae512391ec33b51fb8b19d35684b85f698960f2280bf75695cfa894a954445f"
+            "sha256": "94f884d1509743c21b1285acc34c33fc0afc119626dccac0f6a5aa1afdeaf0c9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -53,9 +53,7 @@
         },
         "cfl-common": {
             "editable": true,
-            "git": "https://github.com/ocadotechnology/codeforlife-portal.git",
-            "ref": "a35503005ba32097444beb4a142eeaaea1b3e9d8",
-            "subdirectory": "cfl_common"
+            "path": "./cfl_common"
         },
         "chardet": {
             "hashes": [
@@ -66,8 +64,7 @@
         },
         "codeforlife-portal": {
             "editable": true,
-            "git": "https://github.com/ocadotechnology/codeforlife-portal.git",
-            "ref": "a35503005ba32097444beb4a142eeaaea1b3e9d8"
+            "path": "."
         },
         "django": {
             "hashes": [
@@ -75,10 +72,6 @@
                 "sha256:f71934b1a822f14a86c9ac9634053689279cd04ae69cb6ade4a59471b886582b"
             ],
             "version": "==3.2.15"
-        },
-        "django-autoconfig": {
-            "git": "https://github.com/ocadotechnology/django-autoconfig.git",
-            "ref": "master"
         },
         "django-classy-tags": {
             "hashes": [

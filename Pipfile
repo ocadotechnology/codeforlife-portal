@@ -4,9 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-codeforlife-portal = {path = ".",editable = true}
-cfl-common = {editable = true,path = "./cfl_common"}
-django-autoconfig = { git = 'https://github.com/ocadotechnology/django-autoconfig.git', ref = 'master' }
+codeforlife-portal = {path = ".", editable = true}
+cfl-common = {editable = true, path = "./cfl_common"}
 
 [dev-packages]
 django-selenium-clean = "==0.3.3"
