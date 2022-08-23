@@ -31,6 +31,9 @@ from portal.helpers.ratelimit import (
     is_ratelimited,
 )
 from portal.strings.home_learning import HOME_LEARNING_BANNER
+from django.utils.safestring import mark_safe
+from django.utils.html import format_html
+
 
 LOGGER = logging.getLogger(__name__)
 
@@ -205,7 +208,7 @@ def redirect_teacher_to_correct_page(request, teacher):
         if not _using_two_factor(request.user):
             messages.info(
                 request,
-                (
+                mark_safe(
                     "You are not currently set up with two-factor authentication. "
                     + "Use your phone or tablet to enhance your account’s security.</br>"
                     + "Click <a href='"
@@ -213,7 +216,6 @@ def redirect_teacher_to_correct_page(request, teacher):
                     + "'>here</a> to find out more and "
                     + "set it up or go to your account page at any time."
                 ),
-                extra_tags="safe",
             )
         return reverse_lazy("dashboard")
     else:
@@ -222,6 +224,20 @@ def redirect_teacher_to_correct_page(request, teacher):
 
 @cache_control(private=True)
 def home(request):
+    class_tag = "freshdesk__contact-us"
+    messages.info(
+        request,
+        format_html(
+            "&#128679 We are currently carrying out some maintenance work on "
+            + "our website which means Kurono is temporarily unavailable."
+            + "We will have everything up and running again as soon as possible. "
+            + "Please <a class='"
+            + class_tag
+            + "'>contact us</a> if you have any questions."
+        ),
+        extra_tags="safe",
+    )
+
     """
     This view is where we can add any messages to be shown upon loading the home page.
     Following this format:
@@ -232,6 +248,7 @@ def home(request):
     sub banner (right under the page header). Other functions can be used to indicate a
     warning, an error or a simple information.
     """
+
     return render(request, "portal/home.html")
 
 

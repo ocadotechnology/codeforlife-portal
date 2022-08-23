@@ -62,11 +62,25 @@ a {
   text-decoration: underline;
 }
 
+/* The pseudo element has the same content and hover style, so it pre-sets the width of the element and visibility: hidden hides the pseudo element from actual view. */
+p > a::before {
+    display: block;
+    content: attr(title);
+    font-weight: bold;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+
 a:hover,
 a:focus {
   color: $color-text-tertiary;
   text-decoration: underline;
   font-weight: 600;
+}
+
+p > a {
+  background: blue;
 }
 
 .kurono-overview__paragraph {
