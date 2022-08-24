@@ -117,22 +117,19 @@ PIPELINE = {
     "STYLESHEETS": {
         "css": {
             "source_filenames": (
-                # "portal/sass/bootstrap.scss",
-                # "portal/sass/colorbox.scss",
-                # "portal/sass/styles.scss",
                 os.path.join(BASE_DIR, "static/portal/sass/bootstrap.scss"),
                 os.path.join(BASE_DIR, "static/portal/sass/colorbox.scss"),
                 os.path.join(BASE_DIR, "static/portal/sass/styles.scss"),
             ),
             "output_filename": "portal.css",
         },
-        "popup": {
-            "source_filenames": (
-                # "portal/sass/partials/_popup.scss",
-                os.path.join(BASE_DIR, "static/portal/sass/partials/_popup.scss"),
-            ),
-            "output_filename": "popup.css",
-        },
+        # Should be removed as it is unused
+        # "popup": {
+        #     "source_filenames": (
+        #         os.path.join(BASE_DIR, "static/portal/sass/partials/_popup.scss"),
+        #     ),
+        #     "output_filename": "popup.css",
+        # },
     },
     "CSS_COMPRESSOR": None,
     "SASS_ARGUMENTS": "--quiet"
