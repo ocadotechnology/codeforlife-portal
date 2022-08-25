@@ -123,13 +123,12 @@ PIPELINE = {
             ),
             "output_filename": "portal.css",
         },
-        # Should be removed as it is unused
-        # "popup": {
-        #     "source_filenames": (
-        #         os.path.join(BASE_DIR, "static/portal/sass/partials/_popup.scss"),
-        #     ),
-        #     "output_filename": "popup.css",
-        # },
+        "popup": {
+            "source_filenames": (
+                os.path.join(BASE_DIR, "static/portal/sass/partials/_popup.scss"),
+            ),
+            "output_filename": "popup.css",
+        },
     },
     "CSS_COMPRESSOR": None,
     "SASS_ARGUMENTS": "--quiet"
