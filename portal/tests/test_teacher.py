@@ -792,8 +792,11 @@ class TestTeacherFrontend(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login_no_school(email, password)
 
+        time.sleep(FADE_TIME)
         page = page.create_organisation("Test school", "W1", "GB")
+        time.sleep(FADE_TIME)
         page = page.create_class("Test class", True)
+        time.sleep(FADE_TIME)
         page = page.type_student_name("Test Student").create_students().complete_setup()
 
         assert page.has_onboarding_complete_popup()
