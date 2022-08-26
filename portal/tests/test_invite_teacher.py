@@ -286,7 +286,9 @@ class TestTeacherInviteActions(BaseTest):
         )
 
         # resend an invite
-        resend_invite = page.browser.find_element_by_id("resend-invite")
+        resend_invite = WebDriverWait(self.selenium, WAIT_TIME).until(
+            EC.element_to_be_clickable((By.ID, "resend-invite"))
+        )
         resend_invite.click()
 
         # check if invite was updated by 30 days (used 29 for rounding errors)
