@@ -34,7 +34,6 @@ from portal.strings.home_learning import HOME_LEARNING_BANNER
 from django.utils.safestring import mark_safe
 from django.utils.html import format_html
 
-
 LOGGER = logging.getLogger(__name__)
 
 
