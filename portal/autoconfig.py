@@ -1,18 +1,16 @@
 """Portal autoconfig"""
 import os
 
-from django_autoconfig.autoconfig import OrderingRelationship
-
 from .csp_config import CSP_CONFIG
 
-DEFAULT_SETTINGS = {
-    "AUTOCONFIG_INDEX_VIEW": "home",
-    "LANGUAGE_CODE": "en-gb",
-    "SITE_ID": 1,
-    "MEDIA_ROOT": os.path.join(os.path.join(os.path.dirname(__file__), "static"), "email_media/"),
-}
+# DEFAULT_SETTINGS = {
+#     "AUTOCONFIG_INDEX_VIEW": "home",
+#     "LANGUAGE_CODE": "en-gb",
+#     "SITE_ID": 1,
+#     "MEDIA_ROOT": os.path.join(os.path.join(os.path.dirname(__file__), "static"), "email_media/"),
+# }
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 SETTINGS = {
     "AUTOCONFIG_DISABLED_APPS": [
@@ -123,33 +121,33 @@ SETTINGS = {
     "STATICFILES_DIRS": [os.path.join(BASE_DIR, "portal/frontend/static")],
 }
 
-SETTINGS.update(CSP_CONFIG)
-
-RELATIONSHIPS = [
-    OrderingRelationship(
-        "MIDDLEWARE",
-        "django_otp.middleware.OTPMiddleware",
-        after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
-        add_missing=False,
-    ),
-    OrderingRelationship(
-        "MIDDLEWARE",
-        "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
-        after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
-        add_missing=False,
-    ),
-    OrderingRelationship(
-        "MIDDLEWARE",
-        "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
-        after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
-        add_missing=False,
-    ),
-]
-
-try:
-    import django_pandasso
-
-    SETTINGS["INSTALLED_APPS"].append("django_pandasso")
-    SETTINGS["INSTALLED_APPS"].append("social.apps.django_app.default")
-except ImportError:
-    pass
+# SETTINGS.update(CSP_CONFIG)
+#
+# RELATIONSHIPS = [
+#     OrderingRelationship(
+#         "MIDDLEWARE",
+#         "django_otp.middleware.OTPMiddleware",
+#         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
+#         add_missing=False,
+#     ),
+#     OrderingRelationship(
+#         "MIDDLEWARE",
+#         "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
+#         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
+#         add_missing=False,
+#     ),
+#     OrderingRelationship(
+#         "MIDDLEWARE",
+#         "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
+#         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
+#         add_missing=False,
+#     ),
+# ]
+#
+# try:
+#     import django_pandasso
+#
+#     SETTINGS["INSTALLED_APPS"].append("django_pandasso")
+#     SETTINGS["INSTALLED_APPS"].append("social.apps.django_app.default")
+# except ImportError:
+#     pass
