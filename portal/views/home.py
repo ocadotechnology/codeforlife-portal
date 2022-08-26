@@ -228,7 +228,7 @@ def home(request):
     messages.info(
         request,
         format_html(
-            "&#128679 We are currently carrying out some maintenance work on "
+            "We are currently carrying out some maintenance work on "
             + "our website which means Kurono is temporarily unavailable."
             + "We will have everything up and running again as soon as possible. "
             + "Please <a class='"
