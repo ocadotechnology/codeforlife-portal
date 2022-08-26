@@ -214,11 +214,10 @@ class TestTeacherInviteActions(BaseTest):
         # handle popup
         element_to_find = self.selenium.find_element_by_id("add_admin_button")
         actions = ActionChains(self.selenium)
-        actions.move_to_element(element_to_find)
+        actions.move_to_element(element_to_find).perform()
         confirm_button = WebDriverWait(self.selenium, WAIT_TIME).until(
             EC.element_to_be_clickable((By.ID, "add_admin_button"))
         )
-        sleep(FADE_TIME)
         confirm_button.click()
 
         # check if popup message appears and if the invite is changed to admin
