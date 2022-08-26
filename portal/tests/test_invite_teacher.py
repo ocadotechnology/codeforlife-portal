@@ -1,6 +1,10 @@
 from datetime import timedelta
 from uuid import uuid4
 
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
 import pytest
 from common.models import School, SchoolTeacherInvitation, Teacher
 from common.tests.utils.classes import create_class_directly
@@ -16,6 +20,7 @@ from time import sleep
 from portal.tests.base_test import BaseTest
 
 FADE_TIME = 0.9
+WAIT = 15
 
 
 class TestInviteTeacher(TestCase):
@@ -184,6 +189,7 @@ class TestTeacherInviteActions(BaseTest):
             field = page.browser.find_element_by_name(key)
             field.send_keys(invite_data[key])
         invite_button = page.browser.find_element_by_name("invite_teacher_button")
+        WebDriverWait(self.selenium, WAIT).until(EC.element_to_be_clickable(By.ID("invite_teacher_button")))
         invite_button.click()
 
         banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
