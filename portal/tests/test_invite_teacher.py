@@ -188,8 +188,9 @@ class TestTeacherInviteActions(BaseTest):
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
             field.send_keys(invite_data[key])
-        invite_button = page.browser.find_element_by_name("invite_teacher_button")
-        WebDriverWait(self.selenium, WAIT).until(EC.element_to_be_clickable(By.ID("invite_teacher_button")))
+        invite_button = WebDriverWait(self.selenium, WAIT).until(
+            EC.element_to_be_clickable((By.ID, "invite_teacher_button"))
+        )
         invite_button.click()
 
         banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
