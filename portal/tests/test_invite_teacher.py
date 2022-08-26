@@ -1,6 +1,11 @@
 from datetime import timedelta
 from uuid import uuid4
 
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+
 import pytest
 from common.models import School, SchoolTeacherInvitation, Teacher
 from common.tests.utils.classes import create_class_directly
@@ -16,6 +21,7 @@ from time import sleep
 from portal.tests.base_test import BaseTest
 
 FADE_TIME = 0.9
+WAIT_TIME = 15
 
 
 class TestInviteTeacher(TestCase):
@@ -183,7 +189,9 @@ class TestTeacherInviteActions(BaseTest):
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
             field.send_keys(invite_data[key])
-        invite_button = page.browser.find_element_by_name("invite_teacher_button")
+        invite_button = WebDriverWait(self.selenium, WAIT_TIME).until(
+            EC.element_to_be_clickable((By.ID, "invite_teacher_button"))
+        )
         invite_button.click()
 
         banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
@@ -193,14 +201,23 @@ class TestTeacherInviteActions(BaseTest):
         )
 
         # make admin
-        sleep(FADE_TIME)
-        page.browser.execute_script('document.getElementById("delete-invite").scrollIntoView()')
-        make_admin_button = page.browser.find_element_by_id("make_admin_button_invite")
+        # page.browser.execute_script('document.getElementById("delete-invite").scrollIntoView()')
+        # Selenium seems to struggle with elements that are not present on the screen
+        # hence this is the way to scroll down to the element that is needed
+        element_to_find = self.selenium.find_element_by_id("make_admin_button_invite")
+        actions = ActionChains(self.selenium)
+        actions.move_to_element(element_to_find).perform()
+        make_admin_button = WebDriverWait(self.selenium, WAIT_TIME).until(
+            EC.element_to_be_clickable((By.ID, "make_admin_button_invite"))
+        )
         make_admin_button.click()
         # handle popup
-        sleep(FADE_TIME)
-        confirm_button = page.browser.find_element_by_id("add_admin_button")
-        sleep(FADE_TIME)
+        element_to_find = self.selenium.find_element_by_id("add_admin_button")
+        actions = ActionChains(self.selenium)
+        actions.move_to_element(element_to_find).perform()
+        confirm_button = WebDriverWait(self.selenium, WAIT_TIME).until(
+            EC.element_to_be_clickable((By.ID, "add_admin_button"))
+        )
         confirm_button.click()
 
         # check if popup message appears and if the invite is changed to admin
@@ -210,7 +227,9 @@ class TestTeacherInviteActions(BaseTest):
         assert invite.invited_teacher_is_admin
 
         # revoke admin
-        make_admin_button = page.browser.find_element_by_id("make_non_admin_button_invite")
+        make_admin_button = WebDriverWait(self.selenium, WAIT_TIME).until(
+            EC.element_to_be_clickable((By.ID, "make_non_admin_button_invite"))
+        )
         make_admin_button.click()
 
         banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
@@ -238,7 +257,9 @@ class TestTeacherInviteActions(BaseTest):
         assert len(invite_queryset) == 1
         sleep(FADE_TIME)
         # delete
-        delete_invite_button = page.browser.find_element_by_id("delete-invite")
+        delete_invite_button = WebDriverWait(self.selenium, WAIT_TIME).until(
+            EC.element_to_be_clickable((By.ID, "delete-invite"))
+        )
         delete_invite_button.click()
 
         empty_invite_queryset = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")
@@ -271,7 +292,9 @@ class TestTeacherInviteActions(BaseTest):
         )
 
         # resend an invite
-        resend_invite = page.browser.find_element_by_id("resend-invite")
+        resend_invite = WebDriverWait(self.selenium, WAIT_TIME).until(
+            EC.element_to_be_clickable((By.ID, "resend-invite"))
+        )
         resend_invite.click()
 
         # check if invite was updated by 30 days (used 29 for rounding errors)

@@ -158,7 +158,7 @@ class TestSessionTimeoutMiddleware(TestCase):
         assert not user.is_authenticated
 
         messages = list(response.context["messages"])
-        assert len(messages) == 1
+        assert len(messages) == 2  # this is only while the kurono banner is up - normally is 1
         assert str(messages[0]) == "You have been logged out due to inactivity."
 
     def test_session_reset(self):
