@@ -204,7 +204,7 @@ class TestTeacherInviteActions(BaseTest):
         # page.browser.execute_script('document.getElementById("delete-invite").scrollIntoView()')
         # Selenium seems to struggle with elements that are not present on the screen
         # hence this is the way to scroll down to the element that is needed
-        element_to_find = page.browser.find_element_by_id("make_admin_button_invite")
+        element_to_find = self.selenium.find_element_by_id("make_admin_button_invite")
         actions = ActionChains(self.selenium)
         actions.move_to_element(element_to_find).perform()
         make_admin_button = WebDriverWait(self.selenium, WAIT_TIME).until(
@@ -212,7 +212,7 @@ class TestTeacherInviteActions(BaseTest):
         )
         make_admin_button.click()
         # handle popup
-        element_to_find = page.browser.find_element_by_id("add_admin_button")
+        element_to_find = self.selenium.find_element_by_id("add_admin_button")
         actions = ActionChains(self.selenium)
         actions.move_to_element(element_to_find)
         confirm_button = WebDriverWait(self.selenium, WAIT_TIME).until(
