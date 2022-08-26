@@ -208,7 +208,7 @@ def redirect_teacher_to_correct_page(request, teacher):
         if not _using_two_factor(request.user):
             messages.info(
                 request,
-                mark_safe(
+                (
                     "You are not currently set up with two-factor authentication. "
                     + "Use your phone or tablet to enhance your account’s security.</br>"
                     + "Click <a href='"
@@ -216,6 +216,7 @@ def redirect_teacher_to_correct_page(request, teacher):
                     + "'>here</a> to find out more and "
                     + "set it up or go to your account page at any time."
                 ),
+                extra_tags="safe",
             )
         return reverse_lazy("dashboard")
     else:
@@ -248,7 +249,6 @@ def home(request):
     sub banner (right under the page header). Other functions can be used to indicate a
     warning, an error or a simple information.
     """
-
     return render(request, "portal/home.html")
 
 
