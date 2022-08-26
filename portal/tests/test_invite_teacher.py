@@ -20,7 +20,7 @@ from time import sleep
 from portal.tests.base_test import BaseTest
 
 FADE_TIME = 0.9
-WAIT = 15
+WAIT_TIME = 15
 
 
 class TestInviteTeacher(TestCase):
@@ -188,7 +188,7 @@ class TestTeacherInviteActions(BaseTest):
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
             field.send_keys(invite_data[key])
-        invite_button = WebDriverWait(self.selenium, WAIT).until(
+        invite_button = WebDriverWait(self.selenium, WAIT_TIME).until(
             EC.element_to_be_clickable((By.ID, "invite_teacher_button"))
         )
         invite_button.click()
@@ -202,11 +202,15 @@ class TestTeacherInviteActions(BaseTest):
         # make admin
         sleep(FADE_TIME)
         page.browser.execute_script('document.getElementById("delete-invite").scrollIntoView()')
-        make_admin_button = page.browser.find_element_by_id("make_admin_button_invite")
+        make_admin_button = WebDriverWait(self.selenium, WAIT_TIME).until(
+            EC.element_to_be_clickable((By.ID, "make_admin_button_invite"))
+        )
         make_admin_button.click()
         # handle popup
         sleep(FADE_TIME)
-        confirm_button = page.browser.find_element_by_id("add_admin_button")
+        confirm_button = WebDriverWait(self.selenium, WAIT_TIME).until(
+            EC.element_to_be_clickable((By.ID, "add_admin_button"))
+        )
         sleep(FADE_TIME)
         confirm_button.click()
 
@@ -217,7 +221,9 @@ class TestTeacherInviteActions(BaseTest):
         assert invite.invited_teacher_is_admin
 
         # revoke admin
-        make_admin_button = page.browser.find_element_by_id("make_non_admin_button_invite")
+        make_admin_button = WebDriverWait(self.selenium, WAIT_TIME).until(
+            EC.element_to_be_clickable((By.ID, "make_non_admin_button_invite"))
+        )
         make_admin_button.click()
 
         banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
@@ -245,7 +251,9 @@ class TestTeacherInviteActions(BaseTest):
         assert len(invite_queryset) == 1
         sleep(FADE_TIME)
         # delete
-        delete_invite_button = page.browser.find_element_by_id("delete-invite")
+        delete_invite_button = WebDriverWait(self.selenium, WAIT_TIME).until(
+            EC.element_to_be_clickable((By.ID, "delete-invite"))
+        )
         delete_invite_button.click()
 
         empty_invite_queryset = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")
