@@ -39,7 +39,7 @@ jobs:
       - name: Collect static
         run: python example_project/manage.py collectstatic --noinput --settings test_settings
       - name: Run Python tests
-        run: pytest -n auto -x --cov=. --cov-report=xml
+        run: pytest -x --cov=. --cov-report=xml -n auto
         env:
           SELENIUM_WEBDRIVER: chrome-headless
           SELENIUM_HEADLESS: True
