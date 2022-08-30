@@ -3,6 +3,8 @@ from __future__ import absolute_import
 import re
 
 import time
+
+from requests import delete
 from aimmo.models import Game
 from common.models import Class, Student, Teacher
 from common.tests.utils import email as email_utils
@@ -694,7 +696,6 @@ class TestTeacherFrontend(BaseTest):
         make_admin_button.click()
 
         assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
-        time.sleep(FADE_TIME)
         cancel_button = WebDriverWait(self.selenium, WAIT_TIME).until(
             EC.element_to_be_clickable((By.ID, "cancel_admin_popup_button"))
         )
@@ -702,12 +703,11 @@ class TestTeacherFrontend(BaseTest):
 
         # Delete the invite and check if the form invite with
         # admin checked also makes a popup
-        time.sleep(1)  # let the page scroll down
+        time.sleep(FADE_TIME)
         delete_invite_button = WebDriverWait(self.selenium, WAIT_TIME).until(
-            EC.element_to_be_clickable((By.ID, "delete-invite"))
+            EC.presence_of_element_located((By.ID, "delete-invite"))
         )
         delete_invite_button.click()
-
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
             field.send_keys(invite_data[key])
