@@ -506,8 +506,8 @@ class TestViews(TestCase):
         custom_level1_id = create_save_level(student.class_field.teacher)
         custom_level2_id = create_save_level(student.class_field.teacher)
         create_save_level(student.class_field.teacher)
-        custom_level1 = Level.objects.get(id=custom_level1_id)
-        custom_level2 = Level.objects.get(id=custom_level2_id)
+        custom_level1 = Level.objects.get(id=custom_level1_id.id)
+        custom_level2 = Level.objects.get(id=custom_level2_id.id)
 
         student.new_user.shared.add(custom_level1, custom_level2)
         student.new_user.save()

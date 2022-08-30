@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v6.18.1 (2022-08-26)
+### Fix
+* Kurono banner ([#1929](https://github.com/ocadotechnology/codeforlife-portal/issues/1929)) ([`b0824a7`](https://github.com/ocadotechnology/codeforlife-portal/commit/b0824a72deb9a743e1f26fbe87a13641fd97d452))
+
+## v6.18.0 (2022-08-26)
+### Feature
+* Remove django-autoconfig ([#1924](https://github.com/ocadotechnology/codeforlife-portal/issues/1924)) ([`3d4385e`](https://github.com/ocadotechnology/codeforlife-portal/commit/3d4385e5d8fbc777f67379eb7343a71fd3471a5a))
+
 ## v6.17.2 (2022-08-12)
 ### Fix
 * Add countdown stop to session expiry popup ([#1919](https://github.com/ocadotechnology/codeforlife-portal/issues/1919)) ([`3c21c90`](https://github.com/ocadotechnology/codeforlife-portal/commit/3c21c909297f956857173740790499ff40fd19d2))

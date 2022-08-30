@@ -1,9 +1,53 @@
 """Django settings for example_project project."""
 import os
 
-from portal.csp_config import *  # Still keeping the config file, seems cleaner?
+from selenium import webdriver
 
 DEBUG = True
+
+headless_chrome_options = webdriver.ChromeOptions()
+headless_chrome_options.add_argument("--headless")
+headless_chrome_options.add_argument("--window-size=1920,1080")
+headless_chrome_options.add_argument("--start-maximized")
+headless_chrome_options.add_argument("--disable-gpu")
+headless_chrome_options.add_argument("--no-sandbox")
+headless_chrome_options.add_argument("--disable-extensions")
+headless_chrome_options.add_argument("--disable-dev-shm-usage")
+
+SELENIUM_WEBDRIVERS = {
+    "default": {"callable": webdriver.Chrome, "args": (), "kwargs": {}},
+    "firefox": {"callable": webdriver.Firefox, "args": (), "kwargs": {}},
+    "chrome-headless": {"callable": webdriver.Chrome, "args": (), "kwargs": {"options": headless_chrome_options}},
+}
+
+SELENIUM_WIDTHS = [1624]
+
+if os.environ.get("SELENIUM_HEADLESS", None):
+    from pyvirtualdisplay import Display
+
+    display = Display(visible=False, size=(1920, 1080))
+    display.start()
+    import atexit
+
+    atexit.register(lambda: display.stop())
+
+ROOT_URLCONF = "example_project.urls"
+SECRET_KEY = "bad_test_secret"
+
+DOTMAILER_CREATE_CONTACT_URL = "https://test-create-contact/"
+DOTMAILER_DELETE_USER_BY_ID_URL = "https://test-delete-contact/"
+DOTMAILER_MAIN_ADDRESS_BOOK_URL = "https://test-main-address-book/"
+DOTMAILER_TEACHER_ADDRESS_BOOK_URL = "https://test-teacher-address-book/"
+DOTMAILER_STUDENT_ADDRESS_BOOK_URL = "https://test-student-address-book/"
+DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = "https://test-no-account-address-book/"
+DOTMAILER_GET_USER_BY_EMAIL_URL = "https://test-get-user/"
+DOTMAILER_PUT_CONSENT_DATA_URL = "https://test-consent-data/"
+DOTMAILER_SEND_CAMPAIGN_URL = "https://test-send-campaign/"
+DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = "1"
+DOTMAILER_USER = "username_here"
+DOTMAILER_PASSWORD = "password_here"
+DOTMAILER_DEFAULT_PREFERENCES = [{"trout": True}]
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -21,16 +65,13 @@ USE_L10N = True
 TIME_ZONE = "Europe/London"
 
 LANGUAGE_CODE = "en-gb"
-STATIC_ROOT = os.path.join(os.path.dirname(__file__), "../")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "portal/frontend/static"),
     os.path.join(BASE_DIR, "portal/static"),
 ]
 MEDIA_ROOT = os.path.join(STATIC_ROOT, "email_media/")
-SECRET_KEY = "not-a-secret"
-
-ROOT_URLCONF = "urls"
 
 WSGI_APPLICATION = "wsgi.application"
 
@@ -62,40 +103,42 @@ INSTALLED_APPS = [
     "sekizai",  # for javascript and css management
     "treebeard",
     "two_factor",
-    "preventconcurrentlogins",
+    "preventconcurrentlogins"
 ]
 
-AUTOCONFIG_DISABLED_APPS = ["django_otp", "django_otp.plugins.otp_static", "django_otp.plugins.otp_totp"]
+AUTOCONFIG_DISABLED_APPS = [
+    "django_otp",
+    "django_otp.plugins.otp_static",
+    "django_otp.plugins.otp_totp"
+]
 
 PIPELINE = {
     "COMPILERS": ("portal.pipeline_compilers.LibSassCompiler",),
     "STYLESHEETS": {
         "css": {
             "source_filenames": (
-                # "portal/sass/bootstrap.scss",
-                # "portal/sass/colorbox.scss",
-                # "portal/sass/styles.scss",
-                os.path.join(BASE_DIR, "portal/static/portal/sass/bootstrap.scss"),
-                os.path.join(BASE_DIR, "portal/static/portal/sass/colorbox.scss"),
-                os.path.join(BASE_DIR, "portal/static/portal/sass/styles.scss"),
+                os.path.join(BASE_DIR, "static/portal/sass/bootstrap.scss"),
+                os.path.join(BASE_DIR, "static/portal/sass/colorbox.scss"),
+                os.path.join(BASE_DIR, "static/portal/sass/styles.scss"),
             ),
             "output_filename": "portal.css",
         },
         "popup": {
             "source_filenames": (
-                # "portal/sass/partials/_popup.scss",
                 os.path.join(BASE_DIR, "static/portal/sass/partials/_popup.scss"),
             ),
             "output_filename": "popup.css",
         },
     },
     "CSS_COMPRESSOR": None,
-    "SASS_ARGUMENTS": "--quiet",
+    "SASS_ARGUMENTS": "--quiet"
 }
 
-STATICFILES_FINDERS = ["pipeline.finders.PipelineFinder"]
+STATICFILES_FINDERS = ["pipeline.finders.PipelineFinder",
+                       'django.contrib.staticfiles.finders.FileSystemFinder',
+                       ]
 STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
-DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 LANGUAGES = [("en-gb", "English")]
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
@@ -107,8 +150,8 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "deploy.middleware.security.CustomSecurityMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "deploy.middleware.session_timeout.SessionTimeoutMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "deploy.middleware.session_timeout.SessionTimeoutMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "deploy.middleware.exceptionlogging.ExceptionLoggingMiddleware",
     "django_otp.middleware.OTPMiddleware",
@@ -149,7 +192,10 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 RECAPTCHA_DOMAIN = "www.recaptcha.net"
-AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend", "portal.backends.StudentLoginBackend"]
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "portal.backends.StudentLoginBackend"
+]
 USE_TZ = True
 PASSWORD_RESET_TIMEOUT_DAYS = 1
 
@@ -160,42 +206,4 @@ COOKIE_MANAGEMENT_ENABLED = False
 AUTOCONFIG_INDEX_VIEW = "home"
 SITE_ID = 1
 
-
-# from django_autoconfig import autoconfig
-
-# autoconfig.configure_settings(globals())
-#
-# RELATIONSHIPS = [
-#     OrderingRelationship(
-#         "MIDDLEWARE",
-#         "django_otp.middleware.OTPMiddleware",
-#         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
-#         add_missing=False,
-#     ),
-#     OrderingRelationship(
-#         "MIDDLEWARE",
-#         "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
-#         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
-#         add_missing=False,
-#     ),
-#     OrderingRelationship(
-#         "MIDDLEWARE",
-#         "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
-#         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
-#         add_missing=False,
-#     ),
-# ]
-#
-# try:
-#     import django_pandasso
-#
-#     SETTINGS["INSTALLED_APPS"].append("django_pandasso")
-#     SETTINGS["INSTALLED_APPS"].append("social.apps.django_app.default")
-# except ImportError:
-#     pass
-
-
-try:
-    from example_project.local_settings import *  # pylint: disable=E0611
-except ImportError:
-    pass
+from portal.csp_config import *

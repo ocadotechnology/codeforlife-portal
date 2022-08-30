@@ -31,6 +31,8 @@ from portal.helpers.ratelimit import (
     is_ratelimited,
 )
 from portal.strings.home_learning import HOME_LEARNING_BANNER
+from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 
 LOGGER = logging.getLogger(__name__)
 
@@ -222,6 +224,20 @@ def redirect_teacher_to_correct_page(request, teacher):
 
 @cache_control(private=True)
 def home(request):
+    class_tag = "freshdesk__contact-us"
+    messages.info(
+        request,
+        format_html(
+            "We are currently carrying out some maintenance work on "
+            + "our website which means Kurono is temporarily unavailable."
+            + "We will have everything up and running again as soon as possible. "
+            + "Please <a class='"
+            + class_tag
+            + "'>contact us</a> if you have any questions."
+        ),
+        extra_tags="safe",
+    )
+
     """
     This view is where we can add any messages to be shown upon loading the home page.
     Following this format:
