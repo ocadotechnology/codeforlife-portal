@@ -27,6 +27,7 @@ jobs:
         run: |
           pip install codecov
           pip install pytest-cov
+          pip install pytest-order
           pip install pipenv
           pipenv install --dev --system
           yarn --frozen-lockfile
@@ -39,7 +40,7 @@ jobs:
       - name: Collect static
         run: python example_project/manage.py collectstatic --noinput --settings test_settings
       - name: Run Python tests
-        run: pytest -x --cov=. --cov-report=xml
+        run: pytest -x --cov=. --cov-report=xml -vv
         env:
           SELENIUM_WEBDRIVER: chrome-headless
           SELENIUM_HEADLESS: True
