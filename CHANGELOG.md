@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.18.2 (2022-08-31)
+### Fix
+* Bump up version ([`49257aa`](https://github.com/ocadotechnology/codeforlife-portal/commit/49257aaea82beac9d5e12f83d906fc3ef5f82892))
+
 ## v6.18.1 (2022-08-26)
 ### Fix
 * Kurono banner ([#1929](https://github.com/ocadotechnology/codeforlife-portal/issues/1929)) ([`b0824a7`](https://github.com/ocadotechnology/codeforlife-portal/commit/b0824a72deb9a743e1f26fbe87a13641fd97d452))
