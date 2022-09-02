@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.18.3 (2022-09-02)
+### Fix
+* Clean autoconfig remains and move CSP config to common ([#1932](https://github.com/ocadotechnology/codeforlife-portal/issues/1932)) ([`b8f9d14`](https://github.com/ocadotechnology/codeforlife-portal/commit/b8f9d143d302b866d539cc3effd50ed6442ed60d))
+
 ## v6.18.2 (2022-08-31)
 ### Fix
 * Bump up version ([`49257aa`](https://github.com/ocadotechnology/codeforlife-portal/commit/49257aaea82beac9d5e12f83d906fc3ef5f82892))
