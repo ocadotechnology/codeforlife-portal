@@ -1,8 +1,6 @@
 """Django settings for example_project project."""
 import os
 
-from portal.csp_config import *  # Still keeping the config file, seems cleaner?
-
 DEBUG = True
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -21,12 +19,9 @@ USE_L10N = True
 TIME_ZONE = "Europe/London"
 
 LANGUAGE_CODE = "en-gb"
-STATIC_ROOT = os.path.join(os.path.dirname(__file__), "../")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "portal/frontend/static"),
-    os.path.join(BASE_DIR, "portal/static"),
-]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "portal/frontend/static"), os.path.join(BASE_DIR, "portal/static")]
 MEDIA_ROOT = os.path.join(STATIC_ROOT, "email_media/")
 SECRET_KEY = "not-a-secret"
 
@@ -65,35 +60,35 @@ INSTALLED_APPS = [
     "preventconcurrentlogins",
 ]
 
-AUTOCONFIG_DISABLED_APPS = ["django_otp", "django_otp.plugins.otp_static", "django_otp.plugins.otp_totp"]
-
 PIPELINE = {
     "COMPILERS": ("portal.pipeline_compilers.LibSassCompiler",),
     "STYLESHEETS": {
         "css": {
             "source_filenames": (
-                # "portal/sass/bootstrap.scss",
-                # "portal/sass/colorbox.scss",
-                # "portal/sass/styles.scss",
-                os.path.join(BASE_DIR, "portal/static/portal/sass/bootstrap.scss"),
-                os.path.join(BASE_DIR, "portal/static/portal/sass/colorbox.scss"),
-                os.path.join(BASE_DIR, "portal/static/portal/sass/styles.scss"),
+                os.path.join(BASE_DIR, "static/portal/sass/bootstrap.scss"),
+                os.path.join(BASE_DIR, "static/portal/sass/colorbox.scss"),
+                os.path.join(BASE_DIR, "static/portal/sass/styles.scss"),
             ),
             "output_filename": "portal.css",
         },
         "popup": {
-            "source_filenames": (
-                # "portal/sass/partials/_popup.scss",
-                os.path.join(BASE_DIR, "static/portal/sass/partials/_popup.scss"),
-            ),
+            "source_filenames": (os.path.join(BASE_DIR, "static/portal/sass/partials/_popup.scss"),),
             "output_filename": "popup.css",
+        },
+        "game-scss": {
+            "source_filenames": (os.path.join(BASE_DIR, "static/game/sass/game.scss"),),
+            "output_filename": "game.css",
         },
     },
     "CSS_COMPRESSOR": None,
     "SASS_ARGUMENTS": "--quiet",
 }
 
-STATICFILES_FINDERS = ["pipeline.finders.PipelineFinder"]
+STATICFILES_FINDERS = [
+    "pipeline.finders.PipelineFinder",
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
 STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
@@ -155,47 +150,10 @@ PASSWORD_RESET_TIMEOUT_DAYS = 1
 
 PIPELINE_ENABLED = False
 
+# This is used in common to enable/disable the OneTrust cookie management script
 COOKIE_MANAGEMENT_ENABLED = False
 
 AUTOCONFIG_INDEX_VIEW = "home"
 SITE_ID = 1
 
-
-# from django_autoconfig import autoconfig
-
-# autoconfig.configure_settings(globals())
-#
-# RELATIONSHIPS = [
-#     OrderingRelationship(
-#         "MIDDLEWARE",
-#         "django_otp.middleware.OTPMiddleware",
-#         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
-#         add_missing=False,
-#     ),
-#     OrderingRelationship(
-#         "MIDDLEWARE",
-#         "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
-#         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
-#         add_missing=False,
-#     ),
-#     OrderingRelationship(
-#         "MIDDLEWARE",
-#         "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
-#         after=["django.contrib.auth.middleware.AuthenticationMiddleware"],
-#         add_missing=False,
-#     ),
-# ]
-#
-# try:
-#     import django_pandasso
-#
-#     SETTINGS["INSTALLED_APPS"].append("django_pandasso")
-#     SETTINGS["INSTALLED_APPS"].append("social.apps.django_app.default")
-# except ImportError:
-#     pass
-
-
-try:
-    from example_project.local_settings import *  # pylint: disable=E0611
-except ImportError:
-    pass
+from common.csp_config import *
