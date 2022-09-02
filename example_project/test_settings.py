@@ -1,6 +1,5 @@
 """Django settings for example_project project."""
 import os
-
 from selenium import webdriver
 
 DEBUG = True
@@ -67,10 +66,7 @@ TIME_ZONE = "Europe/London"
 LANGUAGE_CODE = "en-gb"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "portal/frontend/static"),
-    os.path.join(BASE_DIR, "portal/static"),
-]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "portal/frontend/static"), os.path.join(BASE_DIR, "portal/static")]
 MEDIA_ROOT = os.path.join(STATIC_ROOT, "email_media/")
 
 WSGI_APPLICATION = "wsgi.application"
@@ -103,13 +99,7 @@ INSTALLED_APPS = [
     "sekizai",  # for javascript and css management
     "treebeard",
     "two_factor",
-    "preventconcurrentlogins"
-]
-
-AUTOCONFIG_DISABLED_APPS = [
-    "django_otp",
-    "django_otp.plugins.otp_static",
-    "django_otp.plugins.otp_totp"
+    "preventconcurrentlogins",
 ]
 
 PIPELINE = {
@@ -124,21 +114,25 @@ PIPELINE = {
             "output_filename": "portal.css",
         },
         "popup": {
-            "source_filenames": (
-                os.path.join(BASE_DIR, "static/portal/sass/partials/_popup.scss"),
-            ),
+            "source_filenames": (os.path.join(BASE_DIR, "static/portal/sass/partials/_popup.scss"),),
             "output_filename": "popup.css",
+        },
+        "game-scss": {
+            "source_filenames": (os.path.join(BASE_DIR, "static/game/sass/game.scss"),),
+            "output_filename": "game.css",
         },
     },
     "CSS_COMPRESSOR": None,
-    "SASS_ARGUMENTS": "--quiet"
+    "SASS_ARGUMENTS": "--quiet",
 }
 
-STATICFILES_FINDERS = ["pipeline.finders.PipelineFinder",
-                       'django.contrib.staticfiles.finders.FileSystemFinder',
-                       ]
+STATICFILES_FINDERS = [
+    "pipeline.finders.PipelineFinder",
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
 STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 LANGUAGES = [("en-gb", "English")]
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
@@ -192,10 +186,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 RECAPTCHA_DOMAIN = "www.recaptcha.net"
-AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "portal.backends.StudentLoginBackend"
-]
+AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend", "portal.backends.StudentLoginBackend"]
 USE_TZ = True
 PASSWORD_RESET_TIMEOUT_DAYS = 1
 
@@ -206,4 +197,4 @@ COOKIE_MANAGEMENT_ENABLED = False
 AUTOCONFIG_INDEX_VIEW = "home"
 SITE_ID = 1
 
-from portal.csp_config import *
+from common.csp_config import *
