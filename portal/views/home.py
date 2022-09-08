@@ -33,6 +33,12 @@ from portal.helpers.ratelimit import (
 from portal.strings.home_learning import HOME_LEARNING_BANNER
 from django.utils.safestring import mark_safe
 from django.utils.html import format_html
+from portal.strings.coding_club import CODING_CLUB_BANNER
+from portal.views.teacher.teach import count_student_pack_downloads_click
+
+from django.shortcuts import redirect
+from portal.templatetags.app_tags import cloud_storage
+from portal.views.teacher.teach import DownloadType
 
 LOGGER = logging.getLogger(__name__)
 
@@ -249,6 +255,21 @@ def home(request):
     warning, an error or a simple information.
     """
     return render(request, "portal/home.html")
+
+
+def coding_club(request):
+    return render(request, "portal/coding_club.html", {"BANNER": CODING_CLUB_BANNER})
+
+
+def download_student_pack(request, student_pack_type):
+    if request.method == "POST":
+        count_student_pack_downloads_click(int(student_pack_type))
+    link = (
+        cloud_storage("club_packs/pyhon_club_pack.pdf")
+        if DownloadType(int(student_pack_type)) == DownloadType.PYTHON_PACK
+        else cloud_storage("club_packs/primary_club_pack.pdf")
+    )
+    return redirect(link)
 
 
 def home_learning(request):

@@ -331,6 +331,8 @@ class DailyActivity(models.Model):
     date = models.DateField(default=timezone.now)
     csv_click_count = models.PositiveIntegerField(default=0)
     login_cards_click_count = models.PositiveIntegerField(default=0)
+    daily_primary_coding_club_downloads = models.PositiveIntegerField(default=0)
+    daily_python_coding_club_downloads = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}"

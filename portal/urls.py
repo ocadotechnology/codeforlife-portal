@@ -24,6 +24,8 @@ from portal.views.api import (
 from portal.views.dotmailer import dotmailer_consent_form, process_newsletter_form
 from portal.views.email import send_new_users_report, verify_email
 from portal.views.home import (
+    coding_club,
+    download_student_pack,
     home,
     home_learning,
     logout_view,
@@ -307,4 +309,6 @@ urlpatterns = [
         ),
     ),
     url(r"^reactTestSpace/", reactTestSpace, name="reactTestSpace"),
+    url(r"^codingClub/$", coding_club, name="codingClub"),
+    url(r"^codingClub/(?P<student_pack_type>[0-9])/", download_student_pack, name="download_student_pack"),
 ]
