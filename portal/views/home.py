@@ -235,7 +235,7 @@ def home(request):
         request,
         format_html(
             "We are currently carrying out some maintenance work on "
-            + "our website which means Kurono is temporarily unavailable."
+            + "our website which means Kurono is temporarily unavailable. "
             + "We will have everything up and running again as soon as possible. "
             + "Please <a class='"
             + class_tag

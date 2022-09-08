@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.18.4 (2022-09-08)
+### Fix
+* Update text in registration forms ([#1934](https://github.com/ocadotechnology/codeforlife-portal/issues/1934)) ([`b351013`](https://github.com/ocadotechnology/codeforlife-portal/commit/b351013707e66c457870a242730b0c6051a13611))
+
 ## v6.18.3 (2022-09-02)
 ### Fix
 * Clean autoconfig remains and move CSP config to common ([#1932](https://github.com/ocadotechnology/codeforlife-portal/issues/1932)) ([`b8f9d14`](https://github.com/ocadotechnology/codeforlife-portal/commit/b8f9d143d302b866d539cc3effd50ed6442ed60d))
