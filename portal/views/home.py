@@ -264,12 +264,12 @@ def coding_club(request):
 def download_student_pack(request, student_pack_type):
     if request.method == "POST":
         count_student_pack_downloads_click(int(student_pack_type))
-    link = (
-        cloud_storage("club_packs/pyhon_club_pack.pdf")
-        if DownloadType(int(student_pack_type)) == DownloadType.PYTHON_PACK
-        else cloud_storage("club_packs/primary_club_pack.pdf")
-    )
-    return redirect(link)
+        link = (
+            cloud_storage("club_packs/pyhon_club_pack.pdf")
+            if DownloadType(int(student_pack_type)) == DownloadType.PYTHON_PACK
+            else cloud_storage("club_packs/primary_club_pack.pdf")
+        )
+        return redirect(link)
 
 
 def home_learning(request):

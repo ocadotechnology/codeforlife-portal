@@ -310,5 +310,5 @@ urlpatterns = [
     ),
     url(r"^reactTestSpace/", reactTestSpace, name="reactTestSpace"),
     url(r"^codingClub/$", coding_club, name="codingClub"),
-    url(r"^codingClub/(?P<student_pack_type>[0-9])/", download_student_pack, name="download_student_pack"),
+    url(r"^codingClub/(?P<student_pack_type>[3-4])/", download_student_pack, name="download_student_pack"),
 ]
