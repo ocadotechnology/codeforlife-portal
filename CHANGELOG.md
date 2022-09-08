@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.19.0 (2022-09-08)
+### Feature
+* Coding club page ([#1935](https://github.com/ocadotechnology/codeforlife-portal/issues/1935)) ([`b8e0499`](https://github.com/ocadotechnology/codeforlife-portal/commit/b8e0499ac64a4487a2caf85178135d2a4a5ce754))
+
 ## v6.18.4 (2022-09-08)
 ### Fix
 * Update text in registration forms ([#1934](https://github.com/ocadotechnology/codeforlife-portal/issues/1934)) ([`b351013`](https://github.com/ocadotechnology/codeforlife-portal/commit/b351013707e66c457870a242730b0c6051a13611))
