@@ -71,8 +71,10 @@
         </div>
     </div>
 
-    <div class="background">
-        <a class="button button--primary button-right-arrow" href="{% url 'about' %}">About us</a>
+    <div class="background container">
+        <div class="d-flex justify-content-end">
+            <a class="button button--primary button-right-arrow" href="{% url 'about' %}">About us</a>
+        </div>
     </div>
 
 </section>
@@ -112,6 +114,19 @@
             </blockquote>
         </div>
     </div>
+</section>
+<section class="background container">
+    <h3>Want to run a Code for Life coding club?</h3>
+        <p class="text-left">
+            Take a look at our two club packs that we have put together using our Rapid Router resources. These are fast-paced, session based
+            clubs that can be run by anyone keen to help people learn to code. There are guides and resource links with printable cerificates
+            for those that complete the course.
+        </p>
+        <div class="d-flex justify-content-end">
+            <a id="find_out_more" href="{% url 'codingClub' %}" class="button button--primary button--icon">
+                Find out more<span class="iconify" data-icon="mdi:chevron-right"></span>
+            </a>
+        </div>
 </section>
 
 {% endblock content %}

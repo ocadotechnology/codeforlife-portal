@@ -719,6 +719,8 @@ def process_move_students_form(request, formset, old_class, new_class):
 class DownloadType(Enum):
     CSV = 1
     LOGIN_CARDS = 2
+    PRIMARY_PACK = 3
+    PYTHON_PACK = 4
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
@@ -870,6 +872,17 @@ def compute_show_page_character(p, x, y, NUM_Y):
 def compute_show_page_end(p, x, y):
     if x != 0 or y != 0:
         p.showPage()
+
+
+def count_student_pack_downloads_click(student_pack_type):
+    activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
+    if DownloadType(student_pack_type) == DownloadType.PRIMARY_PACK:
+        activity_today.primary_coding_club_downloads += 1
+    elif DownloadType(student_pack_type) == DownloadType.PYTHON_PACK:
+        activity_today.python_coding_club_downloads += 1
+    else:
+        raise Exception("Unknown download type")
+    activity_today.save()
 
 
 def count_student_details_click(download_type):

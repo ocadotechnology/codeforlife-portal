@@ -9,15 +9,16 @@
                     <div class="col-sm-4 col-xs-12">
                         <p><a href="{% url 'about' %}">About us</a></p>
                         <p><a class="freshdesk__contact-us">Help and support</a></p>
-                        <p><a class="optanon-toggle-display">Cookie settings</a></p>
                     </div>
                     <div class="col-sm-4 col-xs-12">
                         <p><a href="{% url 'privacy_policy' %}">Privacy policy</a></p>
                         <p><a href="{% url 'terms' %}">Terms of use</a></p>
+                        <p><a class="optanon-toggle-display">Cookie settings</a></p>
                     </div>
                     <div class="col-sm-4 col-xs-12">
                         <p><a href="{% url 'home-learning' %}">Home learning</a></p>
                         <p><a href="{% url 'getinvolved' %}">Get involved</a></p>
+                        <p><a href="{% url 'codingClub' %}">Coding clubs</a></p>
                     </div>
                 </div>
                 <form id="newsletter_form" action="{% url 'process_newsletter_form' %}" method="post">
