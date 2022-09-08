@@ -42,8 +42,9 @@
                         <div class="form__checkbox-input">
                             {{ teacher_signup_form.consent_ticked }}
                         </div>
-                        <p class="semi-bold">I have read and understood the <a href="{% url 'terms' %}" target="_blank">Terms of use</a>
-                            and the <a href="{% url 'privacy_policy' %}" target="_blank">Privacy policy</a>.</p>
+                        <p class="semi-bold">I am over 18 years old have read and understood the
+                            <a href="{% url 'terms' %}" target="_blank">Terms of use</a> and the
+                            <a href="{% url 'privacy_policy' %}" target="_blank">Privacy policy</a>.</p>
                     </div>
                 </div>
                 <div class="row form--row">
@@ -136,7 +137,8 @@
                     </div>
 
                     <div id="independent-parent-notification" class="row form--row">
-                        <small><strong>We will notify them of the account creation for you.</strong></small>
+                        <small><strong>We will send your parent/guardian an email to ask them to activate the account
+                            for you. Once they've done this you'll be able to log in using your name and password.</strong></small>
                     </div>
 
                     <div class="row form--row">
