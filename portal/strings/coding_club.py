@@ -4,6 +4,6 @@ CODING_CLUB_BANNER = {
     "text": "",
     "button": "",
     "image_class": "banner--picture--coding-club",
-    "alt": "Boy playing on ipad",
-    "image_description": "Credit: Annie Spratt, Unsplash",
+    "alt": "Boy using a laptop",
+    "image_description": "Credit: Jeswin Thomas, Unsplash",
 }

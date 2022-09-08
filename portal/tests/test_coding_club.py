@@ -6,15 +6,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from common.models import DailyActivity
 
-from datetime import timedelta
-from datetime import datetime
+from datetime import timedelta, datetime
 
 
 class TestCodingClubs(BaseTest):
     def test_coding_club_increment(self):
 
         # first create dailyActivity one day before datetime.now()
-        # to check if it can handle incrementing on differnt days
+        # to check if it can handle incrementing on different days
         # then check if increments are done on the same day
         old_date = datetime.now() - timedelta(days=1)
         old_daily_activity = DailyActivity(date=old_date)

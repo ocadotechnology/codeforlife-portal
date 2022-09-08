@@ -71,8 +71,10 @@
         </div>
     </div>
 
-    <div class="background">
-        <a class="button button--primary button-right-arrow" href="{% url 'about' %}">About us</a>
+    <div class="background container">
+        <div class="d-flex justify-content-end">
+            <a class="button button--primary button-right-arrow" href="{% url 'about' %}">About us</a>
+        </div>
     </div>
 
 </section>
@@ -121,9 +123,10 @@
             for those that complete the course.
         </p>
         <div class="d-flex justify-content-end">
-        <a id="find_out_more" href="{% url 'codingClub' %}" class="button button--primary button--icon">
-            Find out more<span class="iconify" data-icon="mdi:chevron-right"></span>
-        </a>
+            <a id="find_out_more" href="{% url 'codingClub' %}" class="button button--primary button--icon">
+                Find out more<span class="iconify" data-icon="mdi:chevron-right"></span>
+            </a>
+        </div>
 </section>
 
 {% endblock content %}
