@@ -34,9 +34,9 @@ class TestCodingClubs(BaseTest):
             daily_count_button.click()
         # check the old_date is still the same
         old_daily_activity = DailyActivity.objects.get(date=old_date)
-        assert old_daily_activity.daily_primary_coding_club_downloads == 0
-        assert old_daily_activity.daily_python_coding_club_downloads == 0
+        assert old_daily_activity.primary_coding_club_downloads == 0
+        assert old_daily_activity.python_coding_club_downloads == 0
         # check the current_date is incremented to 2
         current_daily_activity = DailyActivity.objects.get(date=datetime.now())
-        assert current_daily_activity.daily_primary_coding_club_downloads == 2
-        assert current_daily_activity.daily_python_coding_club_downloads == 2
+        assert current_daily_activity.primary_coding_club_downloads == 2
+        assert current_daily_activity.python_coding_club_downloads == 2
