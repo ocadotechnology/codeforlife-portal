@@ -265,9 +265,9 @@ def download_student_pack(request, student_pack_type):
     if request.method == "POST":
         count_student_pack_downloads_click(int(student_pack_type))
         link = (
-            cloud_storage("club_packs/pyhon_club_pack.pdf")
+            cloud_storage("club_packs/PythonCodingClub.zip")
             if DownloadType(int(student_pack_type)) == DownloadType.PYTHON_PACK
-            else cloud_storage("club_packs/primary_club_pack.pdf")
+            else cloud_storage("club_packs/PrimaryCodingClub.zip")
         )
         return redirect(link)
 

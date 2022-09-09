@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.19.1 (2022-09-09)
+### Fix
+* Python download texts and update buttons with zip downloads ([#1936](https://github.com/ocadotechnology/codeforlife-portal/issues/1936)) ([`4343d42`](https://github.com/ocadotechnology/codeforlife-portal/commit/4343d42769bd6810ed0ed6e4c237cdbd03df6118))
+
 ## v6.19.0 (2022-09-08)
 ### Feature
 * Coding club page ([#1935](https://github.com/ocadotechnology/codeforlife-portal/issues/1935)) ([`b8e0499`](https://github.com/ocadotechnology/codeforlife-portal/commit/b8e0499ac64a4487a2caf85178135d2a4a5ce754))
