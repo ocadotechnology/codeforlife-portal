@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.20.0 (2022-09-09)
+### Feature
+* Increase speed of tests ([#1937](https://github.com/ocadotechnology/codeforlife-portal/issues/1937)) ([`b9499f9`](https://github.com/ocadotechnology/codeforlife-portal/commit/b9499f9a77ccc11451069d346f27d165339929b0))
+
 ## v6.19.1 (2022-09-09)
 ### Fix
 * Python download texts and update buttons with zip downloads ([#1936](https://github.com/ocadotechnology/codeforlife-portal/issues/1936)) ([`4343d42`](https://github.com/ocadotechnology/codeforlife-portal/commit/4343d42769bd6810ed0ed6e4c237cdbd03df6118))
