@@ -1,5 +1,6 @@
 import logging
 
+from datetime import datetime
 import math
 from common import email_messages
 from common.helpers.emails import (
@@ -279,10 +280,4 @@ def home_learning(request):
 def reset_screentime_warning(request):
     if request.user.is_authenticated:
         request.session["last_screentime_warning"] = timezone.now().timestamp()
-    return HttpResponse(status=204)  # No content
-
-
-def reset_session_time(request):
-    if request.user.is_authenticated:
-        request.session["last_request"] = timezone.now().timestamp()
     return HttpResponse(status=204)  # No content

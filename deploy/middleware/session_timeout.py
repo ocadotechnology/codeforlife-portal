@@ -16,8 +16,8 @@ class SessionTimeoutMiddleware:
     def __call__(self, request):
         if request.user.is_authenticated:
             if "last_request" in request.session:
-                elapsed = time.time() - request.session["last_request"]
-                if elapsed > SESSION_EXPIRY_TIME:
+                elapsed_seconds = time.time() - request.session["last_request"]
+                if elapsed_seconds > SESSION_EXPIRY_TIME:
                     del request.session["last_request"]
                     logout(request)
                     messages.info(request, "You have been logged out due to inactivity.")
