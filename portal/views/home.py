@@ -1,6 +1,5 @@
 import logging
 
-from datetime import datetime
 import math
 from common import email_messages
 from common.helpers.emails import (
