@@ -14,7 +14,7 @@ from django.core import mail
 from django.test import Client
 from django.urls import reverse
 
-from example_project.test_settings import (
+from example_project.portal_test_settings import (
     DOTMAILER_USER,
     DOTMAILER_PASSWORD,
     DOTMAILER_SEND_CAMPAIGN_URL,

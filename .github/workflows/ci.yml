@@ -39,7 +39,7 @@ jobs:
           yarn build
           mv build ../portal/frontend
       - name: Collect static
-        run: python example_project/manage.py collectstatic --noinput --settings test_settings
+        run: python example_project/manage.py collectstatic --noinput --settings portal_test_settings
       - name: Run Python tests
         run: pytest -x --cov=. --cov-report=xml -vv -n auto
         env:
