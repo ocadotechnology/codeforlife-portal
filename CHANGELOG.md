@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.20.1 (2022-09-15)
+### Fix
+* Timer fix ([#1938](https://github.com/ocadotechnology/codeforlife-portal/issues/1938)) ([`b9216e9`](https://github.com/ocadotechnology/codeforlife-portal/commit/b9216e94aa32bafbe1de62ddc3782a7307c7e6c1))
+
 ## v6.20.0 (2022-09-09)
 ### Feature
 * Increase speed of tests ([#1937](https://github.com/ocadotechnology/codeforlife-portal/issues/1937)) ([`b9499f9`](https://github.com/ocadotechnology/codeforlife-portal/commit/b9499f9a77ccc11451069d346f27d165339929b0))
