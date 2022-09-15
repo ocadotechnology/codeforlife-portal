@@ -1,6 +1,7 @@
 from aimmo.urls import HOMEPAGE_REGEX
 from common.permissions import teacher_verified
 from django.conf.urls import include, url
+from django.http import HttpResponse
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.i18n import JavaScriptCatalog
@@ -31,7 +32,6 @@ from portal.views.home import (
     logout_view,
     register_view,
     reset_screentime_warning,
-    reset_session_time,
 )
 from portal.views.legal import privacy_policy, terms
 from portal.views.login import old_login_form_redirect
@@ -175,7 +175,7 @@ urlpatterns = [
         name="password_reset_check_and_confirm",
     ),
     url(r"^user/reset_screentime_warning/$", reset_screentime_warning, name="reset_screentime_warning"),
-    url(r"^user/reset_session_time/$", reset_session_time, name="reset_session_time"),
+    url(r"^user/reset_session_time/$", lambda _: HttpResponse(status=204), name="reset_session_time"),
     url(
         r"^teacher/password/reset/complete/$",
         TemplateView.as_view(template_name="portal/reset_password_done.html"),

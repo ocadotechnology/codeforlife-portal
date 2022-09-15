@@ -92,7 +92,7 @@
 
 ## v6.13.1 (2022-07-11)
 ### Fix
-* Run black in test_settings.py (dummy version) ([`78f11a5`](https://github.com/ocadotechnology/codeforlife-portal/commit/78f11a58b6453c0d45bbdd75531ff5dacb0a1a86))
+* Run black in portal_test_settings.py (dummy version) ([`78f11a5`](https://github.com/ocadotechnology/codeforlife-portal/commit/78f11a58b6453c0d45bbdd75531ff5dacb0a1a86))
 
 ## v6.13.0 (2022-07-11)
 ### Feature

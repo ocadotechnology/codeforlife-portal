@@ -280,9 +280,3 @@ def reset_screentime_warning(request):
     if request.user.is_authenticated:
         request.session["last_screentime_warning"] = timezone.now().timestamp()
     return HttpResponse(status=204)  # No content
-
-
-def reset_session_time(request):
-    if request.user.is_authenticated:
-        request.session["last_request"] = timezone.now().timestamp()
-    return HttpResponse(status=204)  # No content
