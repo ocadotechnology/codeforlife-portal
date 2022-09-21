@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.20.2 (2022-09-21)
+### Fix
+* Make kurono maintenance banner show depending on flag ([#1941](https://github.com/ocadotechnology/codeforlife-portal/issues/1941)) ([`5b6be58`](https://github.com/ocadotechnology/codeforlife-portal/commit/5b6be58c351b92c6b72dc32fe749e12701d5ace0))
+
 ## v6.20.1 (2022-09-15)
 ### Fix
 * Timer fix ([#1938](https://github.com/ocadotechnology/codeforlife-portal/issues/1938)) ([`b9216e9`](https://github.com/ocadotechnology/codeforlife-portal/commit/b9216e94aa32bafbe1de62ddc3782a7307c7e6c1))
