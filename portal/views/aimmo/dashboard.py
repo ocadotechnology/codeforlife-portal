@@ -16,6 +16,9 @@ from django.views.generic.edit import CreateView
 from portal.forms.add_game import AddGameForm
 from portal.strings.student_aimmo_dashboard import AIMMO_DASHBOARD_BANNER
 
+from common.models import Teacher, Class, School
+from pprint import pprint
+
 
 class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, CreateView):
     login_url = reverse_lazy("teacher_login")
@@ -26,8 +29,16 @@ class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Crea
         return logged_in_as_teacher(self.request.user)
 
     def get_form(self, form_class=None):
-        user = self.request.user
-        classes = user.userprofile.teacher.class_teacher.all()
+        classes = []
+        teacher = self.request.user.userprofile.teacher
+        school_id = teacher.school_id
+        school = School.objects.get(id=school_id)
+        current_school_teachers = Teacher.objects.filter(school=school)
+        classes = (
+            Class.objects.filter(teacher__in=current_school_teachers)
+            if teacher.is_admin
+            else Class.objects.filter(teacher=teacher)
+        )
         if form_class is None:
             form_class = self.get_form_class()
         return form_class(classes, **self.get_form_kwargs())
@@ -47,9 +58,7 @@ class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Crea
         return reverse_lazy("teacher_aimmo_dashboard")
 
 
-class StudentAimmoDashboard(
-    LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView
-):
+class StudentAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView):
     template_name = "portal/play/student_aimmo_dashboard.html"
 
     login_url = reverse_lazy("student_login_access_code")
@@ -77,9 +86,7 @@ class StudentAimmoDashboard(
         else:
             return {"BANNER": AIMMO_DASHBOARD_BANNER}
 
-    def _get_hero_card(
-        self, active_worksheet: Worksheet, aimmo_game: Game
-    ) -> Dict[str, Any]:
+    def _get_hero_card(self, active_worksheet: Worksheet, aimmo_game: Game) -> Dict[str, Any]:
         return {
             "image": active_worksheet.active_image_path,
             "title": active_worksheet.name,

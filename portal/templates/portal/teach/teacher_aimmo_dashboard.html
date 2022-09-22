@@ -33,7 +33,7 @@
                                    data-class-id="{{ game_class.id }}"
                                    onclick='send_event("Kurono", "Clicked", "Create game button");'>
                             {% endif %}
-                            <p class="dropdown-menu__option__text">{{ game_class.name }}</p>
+                            <p class="dropdown-menu__option__text">{{ game_class.name }} ({{ game_class.teacher }})</p>
                             </a>
                         </li>
                     {% endfor %}
