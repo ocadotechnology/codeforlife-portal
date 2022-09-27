@@ -11,9 +11,6 @@
             <th class="cell-left">
                 <p>Class</p>
             </th>
-            <th>
-                <p>Teacher</p>
-            </th>
             <th class="cell-left col-xs-6">
                 <p>Challenge</p>
             </th>
@@ -28,12 +25,14 @@
         <tr>
             <td>
                 <div class="games-table__cell">
-                    <p>{{ game.game_class.name }}</p>
-                </div>
-            </td>
-            <td>
-                <div>
-                    <p>{% if game.game_class.teacher.new_user == user %} you {% else %} {{ game.game_class.teacher }} {% endif %}</p>
+                    <p>{{ game.game_class.name }}
+
+                        {% if user.userprofile.teacher.new_user.email == game.game_class.teacher.new_user.email %}
+                            (You)
+                        {% else %}
+                            ({{ game.game_class.teacher }}) - {{ user.userprofile.teacher.id }}
+                        {% endif %}
+                </p>
                 </div>
             </td>
             <td>
