@@ -131,7 +131,6 @@ class TestAimmoDashboardFrontend(BaseTest):
         assert game.worksheet == worksheet1
 
         page.change_game_worksheet(worksheet2.id)
-        page.status
 
         game = Game.objects.get(game_class=klass)
 
