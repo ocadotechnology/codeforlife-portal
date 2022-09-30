@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.20.3 (2022-09-30)
+### Fix
+* Update contact email in Privacy Policy ([#1943](https://github.com/ocadotechnology/codeforlife-portal/issues/1943)) ([`6a4663c`](https://github.com/ocadotechnology/codeforlife-portal/commit/6a4663cc5eb2ed9a1b5eb8f5f3ece151a3339a0c))
+
 ## v6.20.2 (2022-09-21)
 ### Fix
 * Make kurono maintenance banner show depending on flag ([#1941](https://github.com/ocadotechnology/codeforlife-portal/issues/1941)) ([`5b6be58`](https://github.com/ocadotechnology/codeforlife-portal/commit/5b6be58c351b92c6b72dc32fe749e12701d5ace0))
