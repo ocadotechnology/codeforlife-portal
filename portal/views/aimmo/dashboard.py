@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional
 from aimmo.game_creator import create_game
 from aimmo.models import Game
 from aimmo.worksheets import WORKSHEETS, Worksheet, get_worksheets_excluding_id
+from common.models import Teacher, Class
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import LoginRequiredNoErrorMixin
 from django.contrib import messages
@@ -16,9 +17,6 @@ from django.views.generic.edit import CreateView
 from portal.forms.add_game import AddGameForm
 from portal.strings.student_aimmo_dashboard import AIMMO_DASHBOARD_BANNER
 
-from common.models import Teacher, Class, School
-from pprint import pprint
-
 
 class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, CreateView):
     login_url = reverse_lazy("teacher_login")
@@ -31,9 +29,7 @@ class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Crea
     def get_form(self, form_class=None):
         classes = []
         teacher = self.request.user.userprofile.teacher
-        school_id = teacher.school_id
-        school = School.objects.get(id=school_id)
-        current_school_teachers = Teacher.objects.filter(school=school)
+        current_school_teachers = Teacher.objects.filter(school=teacher.school)
         classes = (
             Class.objects.filter(teacher__in=current_school_teachers)
             if teacher.is_admin

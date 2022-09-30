@@ -27,7 +27,7 @@
                 <div class="games-table__cell">
                     <p>{{ game.game_class.name }}
 
-                        {% if user.userprofile.teacher.new_user.email == game.game_class.teacher.new_user.email %}
+                        {% if user.userprofile.teacher == game.game_class.teacher %}
                             (You)
                         {% else %}
                             ({{ game.game_class.teacher }})

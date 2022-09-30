@@ -16,9 +16,7 @@ from .conftest import IndependentStudent, SchoolStudent
 
 
 @pytest.mark.django_db
-def test_student_cannot_access_teacher_dashboard(
-    student1: SchoolStudent, class1: Class
-):
+def test_student_cannot_access_teacher_dashboard(student1: SchoolStudent, class1: Class):
     """
     Given you are logged in as a student,
     When you try to access the teacher dashboard,
@@ -75,9 +73,7 @@ def test_indep_student_cannot_access_dashboard(
 
 
 @pytest.mark.django_db
-def test_student_aimmo_dashboard_loads(
-    student1: SchoolStudent, class1: Class, aimmo_game1: Game
-):
+def test_student_aimmo_dashboard_loads(student1: SchoolStudent, class1: Class, aimmo_game1: Game):
     """
     Given an aimmo game is linked to a class,
     When a student of that class goes on the Student Kurono Dashboard page,
@@ -90,9 +86,7 @@ def test_student_aimmo_dashboard_loads(
     or the card list elements.
     """
     c = Client()
-    student_login_url = reverse(
-        "student_login", kwargs={"access_code": class1.access_code}
-    )
+    student_login_url = reverse("student_login", kwargs={"access_code": class1.access_code})
     data = {
         "username": student1.username,
         "password": student1.password,
@@ -129,11 +123,7 @@ class TestAimmoDashboardFrontend(BaseTest):
         worksheet2 = WORKSHEETS.get(2)
 
         self.selenium.get(self.live_server_url)
-        page = (
-            self.go_to_homepage()
-            .go_to_teacher_login_page()
-            .login(teacher_email, teacher_password)
-        )
+        page = self.go_to_homepage().go_to_teacher_login_page().login(teacher_email, teacher_password)
         page = page.go_to_kurono_teacher_dashboard_page().create_game(klass.id)
 
         game = Game.objects.get(game_class=klass)
@@ -141,10 +131,13 @@ class TestAimmoDashboardFrontend(BaseTest):
         assert game.worksheet == worksheet1
 
         page.change_game_worksheet(worksheet2.id)
+        page.status
 
         game = Game.objects.get(game_class=klass)
 
         assert game.worksheet == worksheet2
+        drop_down_button = page.browser.find_element_by_id("worksheets_dropdown")
+        assert "2 - Present Day II" in drop_down_button.text
 
     def test_delete_games(self):
         teacher_email, teacher_password = signup_teacher_directly()
@@ -161,11 +154,7 @@ class TestAimmoDashboardFrontend(BaseTest):
         assert Game.objects.count() == 2
 
         self.selenium.get(self.live_server_url)
-        page = (
-            self.go_to_homepage()
-            .go_to_teacher_login_page()
-            .login(teacher_email, teacher_password)
-        )
+        page = self.go_to_homepage().go_to_teacher_login_page().login(teacher_email, teacher_password)
         page.go_to_kurono_teacher_dashboard_page().delete_games([game1.id, game2.id])
 
         assert Game.objects.filter(is_archived=False).count() == 0
