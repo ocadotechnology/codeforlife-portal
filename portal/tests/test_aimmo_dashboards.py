@@ -129,14 +129,14 @@ class TestAimmoDashboardFrontend(BaseTest):
         game = Game.objects.get(game_class=klass)
 
         assert game.worksheet == worksheet1
+        drop_down_button = page.browser.find_element_by_id("worksheets_dropdown")
+        assert "1 - Present Day I" in drop_down_button.text
 
         page.change_game_worksheet(worksheet2.id)
 
         game = Game.objects.get(game_class=klass)
 
         assert game.worksheet == worksheet2
-        drop_down_button = page.browser.find_element_by_id("worksheets_dropdown")
-        assert "2 - Present Day II" in drop_down_button.text
 
     def test_delete_games(self):
         teacher_email, teacher_password = signup_teacher_directly()
