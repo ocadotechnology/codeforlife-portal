@@ -24,6 +24,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
+from game.level_management import levels_shared_with, unshare_level
 from two_factor.utils import devices_for_user
 
 from portal.forms.invite_teacher import InviteTeacherForm
@@ -44,8 +45,6 @@ from portal.helpers.ratelimit import (
     clear_ratelimit_cache_for_user,
 )
 from .teach import create_class
-
-from game.level_management import levels_shared_with, unshare_level
 
 
 def _get_update_account_rate(group, request):
