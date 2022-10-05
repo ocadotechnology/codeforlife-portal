@@ -49,6 +49,9 @@ class TestModels(TestCase):
         assert klass.creation_time > sometime
 
     def test_school_admins(self):
+        """
+        Test that only the admins of a school are returned by the school.admins() function.
+        """
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
         email3, password3 = signup_teacher_directly()
