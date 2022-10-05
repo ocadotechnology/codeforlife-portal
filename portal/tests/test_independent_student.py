@@ -1,8 +1,8 @@
 from __future__ import absolute_import
 
 import datetime
-
 import time
+
 from common.models import JoinReleaseStudent
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
@@ -539,8 +539,8 @@ class TestIndependentStudentFrontend(BaseTest):
         # Create 2 teachers in the same school, one admin, one standard
         admin_email, admin_password1 = signup_teacher_directly()
         standard_email, _ = signup_teacher_directly()
-        name, postcode = create_organisation_directly(admin_email)
-        join_teacher_to_organisation(standard_email, name, postcode, is_admin=False)
+        school = create_organisation_directly(admin_email)
+        join_teacher_to_organisation(standard_email, school.name, school.postcode, is_admin=False)
 
         # Create class for standard teacher which always accepts external requests
         klass, class_name, access_code = create_class_directly(standard_email)
@@ -593,11 +593,7 @@ class TestIndependentStudentFrontend(BaseTest):
         assert logs[0].action_type == JoinReleaseStudent.JOIN
 
         # Deny the second request
-        page = (
-            page.go_to_dashboard()
-            .open_classes_tab()
-            .deny_independent_join_request()
-        )
+        page = page.go_to_dashboard().open_classes_tab().deny_independent_join_request()
 
         assert page.has_no_independent_join_requests()
 

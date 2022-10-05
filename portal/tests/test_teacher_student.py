@@ -384,13 +384,13 @@ class TestTeacherStudentFrontend(BaseTest):
 
         # user/student is removed if they never log in (see below for active student)
         with pytest.raises(User.DoesNotExist):
-            u = User.objects.get(id=student.new_user.id)
+            User.objects.get(id=student.new_user.id)
 
     def test_delete_active_student(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        (student, login_id, student_name, student_password) = create_student_with_direct_login(access_code)
+        student, login_id, student_name, student_password = create_student_with_direct_login(access_code)
 
         # "active student" is one who has logged in
         c = Client()
@@ -408,7 +408,7 @@ class TestTeacherStudentFrontend(BaseTest):
         # user should be anonymised
         u = User.objects.get(id=student.new_user.id)
         assert u.first_name == "Deleted"
-        assert u.is_active == False
+        assert not u.is_active
 
         student.refresh_from_db()
         assert student.login_id == ""
@@ -448,7 +448,7 @@ class TestTeacherStudentFrontend(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        _, _, _ = create_school_student_directly(access_code)
+        create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
         page = (
@@ -471,10 +471,10 @@ class TestTeacherStudentFrontend(BaseTest):
     def test_move_cancel_disambiguate(self):
         old_teacher_email, password_1 = signup_teacher_directly()
         email_2, _ = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(old_teacher_email)
-        join_teacher_to_organisation(email_2, org_name, postcode)
+        school = create_organisation_directly(old_teacher_email)
+        join_teacher_to_organisation(email_2, school.name, school.postcode)
         _, _, access_code_1 = create_class_directly(old_teacher_email)
-        _, _, _ = create_class_directly(email_2)
+        create_class_directly(email_2)
         student_name, _, _ = create_school_student_directly(access_code_1)
 
         self.selenium.get(self.live_server_url)
@@ -496,10 +496,10 @@ class TestTeacherStudentFrontend(BaseTest):
     def test_move(self):
         email_1, password_1 = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email_1)
-        join_teacher_to_organisation(email_2, org_name, postcode)
+        school = create_organisation_directly(email_1)
+        join_teacher_to_organisation(email_2, school.name, school.postcode)
         _, _, access_code_1 = create_class_directly(email_1)
-        _, _, _ = create_class_directly(email_2)
+        create_class_directly(email_2)
         student_name_1, _, _ = create_school_student_directly(access_code_1)
         student_name_2, _, _ = create_school_student_directly(access_code_1)
         # Sort student names alphabetically to match the UI

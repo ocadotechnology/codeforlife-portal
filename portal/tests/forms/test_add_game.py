@@ -26,10 +26,7 @@ def worksheet() -> Worksheet:
 
 
 def test_create_game(class1: Class):
-    form = AddGameForm(
-        Class.objects.all(),
-        data={"game_class": class1.id},
-    )
+    form = AddGameForm(Class.objects.all(), data={"game_class": class1.id})
     assert form.is_valid()
 
     game = form.save()
@@ -39,10 +36,7 @@ def test_create_game(class1: Class):
 
 @pytest.mark.django_db
 def test_form_with_non_existing_class():
-    form = AddGameForm(
-        Class.objects.all(),
-        data={"game_class": 12345},
-    )
+    form = AddGameForm(Class.objects.all(), data={"game_class": 12345})
 
     assert not form.is_valid()
 
@@ -50,17 +44,11 @@ def test_form_with_non_existing_class():
 @pytest.mark.django_db
 def test_cannot_create_duplicate_game(class1: Class):
     # Create first game
-    form = AddGameForm(
-        Class.objects.all(),
-        data={"game_class": class1.id},
-    )
+    form = AddGameForm(Class.objects.all(), data={"game_class": class1.id})
     _ = form.save()
 
     # Create second game with the same class
-    form = AddGameForm(
-        Class.objects.all(),
-        data={"game_class": class1.id},
-    )
+    form = AddGameForm(Class.objects.all(), data={"game_class": class1.id})
 
     assert not form.is_valid()
 
@@ -71,18 +59,13 @@ def test_cannot_create_duplicate_game(class1: Class):
 
 
 @pytest.mark.django_db
-def test_cannot_add_game_for_classes_not_given_to_form(
-    class1: Class, worksheet: Worksheet, teacher1_email: str
-):
+def test_cannot_add_game_for_classes_not_given_to_form(class1: Class, worksheet: Worksheet, teacher1_email: str):
     # Make query set for form
     class_query_set = Class.objects.filter(id=class1.id)
 
     # Create class not in the query set
     klass, _, _ = create_class_directly(teacher1_email)
 
-    form = AddGameForm(
-        class_query_set,
-        data={"game_class": klass.id, "worksheet": worksheet.id},
-    )
+    form = AddGameForm(class_query_set, data={"game_class": klass.id, "worksheet": worksheet.id})
 
     assert not form.is_valid()

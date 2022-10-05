@@ -56,9 +56,7 @@ class GamePage(BasePage):
         self._assert_light_is_on(traffic_light_index, "red")
 
     def _assert_light_is_on(self, traffic_light_index, colour):
-        image = self.browser.find_element_by_id(
-            "trafficLight_%s_%s" % (traffic_light_index, colour)
-        )
+        image = self.browser.find_element_by_id("trafficLight_%s_%s" % (traffic_light_index, colour))
 
         assert_that(image.get_attribute("opacity"), equal_to("1"))
 
@@ -71,10 +69,7 @@ class GamePage(BasePage):
             import time
 
             millis = int(round(time.time() * 1000))
-            screenshot_filename = "/tmp/game_tests_%s-%s.png" % (
-                os.getenv("BUILD_NUMBER", "nonumber"),
-                str(millis),
-            )
+            screenshot_filename = "/tmp/game_tests_%s-%s.png" % (os.getenv("BUILD_NUMBER", "nonumber"), str(millis))
             print("Saved screenshot to " + screenshot_filename)
             self.browser.get_screenshot_as_file(screenshot_filename)
             raise e
@@ -85,9 +80,7 @@ class GamePage(BasePage):
         return self._run_failing_program("What went wrong")
 
     def run_program_that_runs_out_of_instructions(self):
-        return self._run_failing_program(
-            "The van ran out of instructions before it reached a destination."
-        )
+        return self._run_failing_program("The van ran out of instructions before it reached a destination.")
 
     def _run_failing_program(self, text):
         self.run_program("try_again_button")

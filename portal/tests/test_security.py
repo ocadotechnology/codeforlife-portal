@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 from builtins import str
+
 from common.models import School, Student, UserProfile
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.teacher import signup_teacher_directly
@@ -18,7 +19,7 @@ class SecurityTestCase(TestCase):
         c = Client()
         assert c.login(username=email2, password=pass2)
         page = reverse(view_name, args=[access_code])
-        self.assertNotEqual(c.get(page).status_code, 200)
+        assert not c.get(page).status_code == 200
 
     def _test_incorrect_teacher_no_info_leak(self, view_name):
         email1, _ = signup_teacher_directly()
@@ -31,10 +32,10 @@ class SecurityTestCase(TestCase):
         invalid_page = reverse(view_name, args=[access_code])
         invalid_login_code = c.get(invalid_page).status_code
 
-        non_existant_page = reverse(view_name, args=["AAAAA"])
-        non_existant_code = c.get(non_existant_page).status_code
+        non_existent_page = reverse(view_name, args=["AAAAA"])
+        non_existent_code = c.get(non_existent_page).status_code
 
-        assert non_existant_code == invalid_login_code
+        assert non_existent_code == invalid_login_code
 
     def test_reminder_cards_info_leak(self):
         """Check that it isn't leaked whether an access code exists."""

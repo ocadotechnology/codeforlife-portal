@@ -12,10 +12,7 @@ def generate_details(**kwargs):
     random_int = random.randint(1, sys.maxsize)
     first_name = kwargs.get("first_name", "Test")
     last_name = kwargs.get("last_name", f"Teacher {random_int}")
-    email_address = kwargs.get(
-        "email_address",
-        f"testteacher{random_int}@codeforlife.com",
-    )
+    email_address = kwargs.get("email_address", f"testteacher{random_int}@codeforlife.com")
     password = kwargs.get("password", "Password2!")
 
     return first_name, last_name, email_address, password
@@ -55,12 +52,7 @@ def signup_teacher(page, newsletter=False):
 
     first_name, last_name, email_address, password = generate_details()
     page = page.signup(
-        first_name,
-        last_name,
-        email_address,
-        password=password,
-        confirm_password=password,
-        newsletter=newsletter,
+        first_name, last_name, email_address, password=password, confirm_password=password, newsletter=newsletter
     )
 
     page = page.return_to_home_page()

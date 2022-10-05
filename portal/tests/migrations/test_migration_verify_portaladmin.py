@@ -18,9 +18,7 @@ def test_verify_portaladmin(migrator):
 @pytest.mark.django_db
 def test_verify_portaladmin_rollback(migrator):
     migrator.apply_initial_migration(("portal", "0062_verify_portaladmin"))
-    new_state = migrator.apply_tested_migration(
-        ("portal", "0061_make_portaladmin_teacher")
-    )
+    new_state = migrator.apply_tested_migration(("portal", "0061_make_portaladmin_teacher"))
 
     User = new_state.apps.get_model("auth", "User")
     EmailVerification = new_state.apps.get_model("common", "EmailVerification")

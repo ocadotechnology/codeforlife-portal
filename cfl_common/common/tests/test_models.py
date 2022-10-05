@@ -1,9 +1,9 @@
-from common.models import Student, School
+from common.models import Student, Teacher
 from django.test import TestCase
 from django.utils import timezone
 
 from .utils.classes import create_class_directly
-from .utils.organisation import create_organisation_directly
+from .utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from .utils.student import create_independent_student_directly
 from .utils.teacher import signup_teacher_directly
 
@@ -16,7 +16,7 @@ class TestModels(TestCase):
         Then the student's pending class request field is set to null.
         """
         teacher_email, _ = signup_teacher_directly()
-        school_name, _ = create_organisation_directly(teacher_email)
+        create_organisation_directly(teacher_email)
         class_name = "Test Class"
         klass, _, _ = create_class_directly(teacher_email, class_name)
 
@@ -38,9 +38,8 @@ class TestModels(TestCase):
         teacher_email, _ = signup_teacher_directly()
 
         sometime = timezone.now()  # mark time before the school creation
-        school_name, _ = create_organisation_directly(teacher_email)
+        school = create_organisation_directly(teacher_email)
 
-        school = School.objects.get(name=school_name)
         # check the creation time
         assert school.creation_time > sometime
 
@@ -48,3 +47,20 @@ class TestModels(TestCase):
         klass, name, access_code = create_class_directly(teacher_email)
         # check the creation time
         assert klass.creation_time > sometime
+
+    def test_school_admins(self):
+        email1, password1 = signup_teacher_directly()
+        email2, password2 = signup_teacher_directly()
+        email3, password3 = signup_teacher_directly()
+        school = create_organisation_directly(email1)
+        join_teacher_to_organisation(email2, school.name, school.postcode)
+        join_teacher_to_organisation(email3, school.name, school.postcode, is_admin=True)
+
+        teacher1 = Teacher.objects.get(new_user__username=email1)
+        teacher2 = Teacher.objects.get(new_user__username=email2)
+        teacher3 = Teacher.objects.get(new_user__username=email3)
+
+        assert len(school.admins()) == 2
+        assert teacher1 in school.admins()
+        assert teacher2 not in school.admins()
+        assert teacher3 in school.admins()
