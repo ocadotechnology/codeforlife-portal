@@ -1,8 +1,6 @@
 from __future__ import absolute_import
 
-from portal.tests.pageObjects.portal.play.join_school_or_club_page import (
-    JoinSchoolOrClubPage,
-)
+from portal.tests.pageObjects.portal.play.join_school_or_club_page import JoinSchoolOrClubPage
 from .play_base_page import PlayBasePage
 
 

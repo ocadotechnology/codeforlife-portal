@@ -7,9 +7,7 @@ def get_superuser():
     try:
         return User.objects.get(username="superuser")
     except User.DoesNotExist:
-        return User.objects.create_superuser(
-            "superuser", "superuser@codeforlife.education", "password"
-        )
+        return User.objects.create_superuser("superuser", "superuser@codeforlife.education", "password")
 
 
 def create_user_directly(active=True, **kwargs):

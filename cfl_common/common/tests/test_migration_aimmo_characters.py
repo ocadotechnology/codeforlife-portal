@@ -20,9 +20,7 @@ def test_characters_added(migrator):
 @pytest.mark.django_db
 def test_image_paths_updated(migrator):
     migrator.apply_initial_migration(("common", "0005_add_worksheets"))
-    new_state = migrator.apply_tested_migration(
-        ("common", "0006_update_aimmo_character_image_path")
-    )
+    new_state = migrator.apply_tested_migration(("common", "0006_update_aimmo_character_image_path"))
 
     AimmoCharacter = new_state.apps.get_model("common", "aimmocharacter")
     all_characters: QuerySet = AimmoCharacter.objects.all()

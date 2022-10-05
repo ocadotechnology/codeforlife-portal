@@ -3,9 +3,7 @@ from aimmo.models import Game
 from aimmo.worksheets import WORKSHEETS
 from common.models import Class
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
-    create_organisation_directly,
-)
+from common.tests.utils.organisation import create_organisation_directly
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from django.test.client import Client
@@ -16,9 +14,7 @@ from .conftest import IndependentStudent, SchoolStudent
 
 
 @pytest.mark.django_db
-def test_student_cannot_access_teacher_dashboard(
-    student1: SchoolStudent, class1: Class
-):
+def test_student_cannot_access_teacher_dashboard(student1: SchoolStudent, class1: Class):
     """
     Given you are logged in as a student,
     When you try to access the teacher dashboard,
@@ -26,10 +22,7 @@ def test_student_cannot_access_teacher_dashboard(
     """
     c = Client()
     url = reverse("student_login", kwargs={"access_code": class1.access_code})
-    data = {
-        "username": student1.username,
-        "password": student1.password,
-    }
+    data = {"username": student1.username, "password": student1.password}
 
     c.post(url, data)
 
@@ -47,9 +40,7 @@ def test_student_cannot_access_teacher_dashboard(
 
 
 @pytest.mark.django_db
-def test_indep_student_cannot_access_dashboard(
-    independent_student1: IndependentStudent,
-):
+def test_indep_student_cannot_access_dashboard(independent_student1: IndependentStudent,):
     """
     Given you are logged in as an independent student,
     When you try to access the student dashboard,
@@ -57,10 +48,7 @@ def test_indep_student_cannot_access_dashboard(
     """
     c = Client()
     url = reverse("independent_student_login")
-    data = {
-        "username": independent_student1.username,
-        "password": independent_student1.password,
-    }
+    data = {"username": independent_student1.username, "password": independent_student1.password}
 
     c.post(url, data)
 
@@ -75,9 +63,7 @@ def test_indep_student_cannot_access_dashboard(
 
 
 @pytest.mark.django_db
-def test_student_aimmo_dashboard_loads(
-    student1: SchoolStudent, class1: Class, aimmo_game1: Game
-):
+def test_student_aimmo_dashboard_loads(student1: SchoolStudent, class1: Class, aimmo_game1: Game):
     """
     Given an aimmo game is linked to a class,
     When a student of that class goes on the Student Kurono Dashboard page,
@@ -90,13 +76,8 @@ def test_student_aimmo_dashboard_loads(
     or the card list elements.
     """
     c = Client()
-    student_login_url = reverse(
-        "student_login", kwargs={"access_code": class1.access_code}
-    )
-    data = {
-        "username": student1.username,
-        "password": student1.password,
-    }
+    student_login_url = reverse("student_login", kwargs={"access_code": class1.access_code})
+    data = {"username": student1.username, "password": student1.password}
 
     c.post(student_login_url, data)
 
@@ -129,11 +110,7 @@ class TestAimmoDashboardFrontend(BaseTest):
         worksheet2 = WORKSHEETS.get(2)
 
         self.selenium.get(self.live_server_url)
-        page = (
-            self.go_to_homepage()
-            .go_to_teacher_login_page()
-            .login(teacher_email, teacher_password)
-        )
+        page = self.go_to_homepage().go_to_teacher_login_page().login(teacher_email, teacher_password)
         page = page.go_to_kurono_teacher_dashboard_page().create_game(klass.id)
 
         game = Game.objects.get(game_class=klass)
@@ -161,11 +138,7 @@ class TestAimmoDashboardFrontend(BaseTest):
         assert Game.objects.count() == 2
 
         self.selenium.get(self.live_server_url)
-        page = (
-            self.go_to_homepage()
-            .go_to_teacher_login_page()
-            .login(teacher_email, teacher_password)
-        )
+        page = self.go_to_homepage().go_to_teacher_login_page().login(teacher_email, teacher_password)
         page.go_to_kurono_teacher_dashboard_page().delete_games([game1.id, game2.id])
 
         assert Game.objects.filter(is_archived=False).count() == 0

@@ -26,14 +26,10 @@ class BasePage(object):
     def wait_for_element_by_css(self, css, wait_seconds=DEFAULT_WAIT_SECONDS):
         self.wait_for_presence((By.CSS_SELECTOR, css), wait_seconds)
 
-    def wait_for_element_to_be_clickable(
-        self, locator, wait_seconds=DEFAULT_WAIT_SECONDS
-    ):
+    def wait_for_element_to_be_clickable(self, locator, wait_seconds=DEFAULT_WAIT_SECONDS):
         self.wait(EC.element_to_be_clickable(locator), wait_seconds)
 
-    def wait_for_element_to_be_invisible(
-        self, locator, wait_seconds=DEFAULT_WAIT_SECONDS
-    ):
+    def wait_for_element_to_be_invisible(self, locator, wait_seconds=DEFAULT_WAIT_SECONDS):
         self.wait(EC.invisibility_of_element_located(locator), wait_seconds)
 
     def wait_for_presence(self, locator, wait_seconds=DEFAULT_WAIT_SECONDS):
@@ -78,9 +74,7 @@ class BasePage(object):
         return self.element_exists_by_id(pageName)
 
     def hover_over_resources_dropdown(self):
-        resources_dropdown = self.browser.find_element_by_id(
-            "teaching_resources_button"
-        )
+        resources_dropdown = self.browser.find_element_by_id("teaching_resources_button")
         hover = ActionChains(self.browser).move_to_element(resources_dropdown)
         hover.perform()
 
@@ -118,11 +112,7 @@ class BasePage(object):
         return self.on_correct_page("403_forbidden")
 
     def was_form_invalid(self, formID, error):
-        errors = (
-            self.browser.find_element_by_id(formID)
-            .find_element_by_class_name("errorlist")
-            .text
-        )
+        errors = self.browser.find_element_by_id(formID).find_element_by_class_name("errorlist").text
         return error in errors
 
     def is_dialog_showing(self):

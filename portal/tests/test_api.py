@@ -1,13 +1,13 @@
 from __future__ import absolute_import
 
 from unittest.mock import patch
-from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
-from common.tests.utils.teacher import signup_teacher_directly
-from common.tests.utils.classes import create_class_directly
-from common.tests.utils.student import create_school_student_directly
 
 import pytest
 from common.models import Class, School, Student, Teacher
+from common.tests.utils.classes import create_class_directly
+from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
+from common.tests.utils.student import create_school_student_directly
+from common.tests.utils.teacher import signup_teacher_directly
 from common.tests.utils.user import create_user_directly, get_superuser
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -116,15 +116,15 @@ class APITests(APITestCase):
         client = APIClient()
         # Create a school with an active teacher
         school1_teacher1_email, _ = signup_teacher_directly()
-        school1_name, school1_postcode = create_organisation_directly(school1_teacher1_email)
+        school1 = create_organisation_directly(school1_teacher1_email)
         klass11, _, access_code11 = create_class_directly(school1_teacher1_email)
         _, _, student11 = create_school_student_directly(access_code11)
 
         # Create a school with one active non-admin teacher and one inactive admin teacher
         school2_teacher1_email, _ = signup_teacher_directly()
         school2_teacher2_email, _ = signup_teacher_directly()
-        school2_name, school2_postcode = create_organisation_directly(school2_teacher1_email)
-        join_teacher_to_organisation(school2_teacher2_email, school2_name, school2_postcode, is_admin=True)
+        school2 = create_organisation_directly(school2_teacher1_email)
+        join_teacher_to_organisation(school2_teacher2_email, school2.name, school2.postcode, is_admin=True)
         klass21, _, access_code21 = create_class_directly(school2_teacher1_email)
         _, _, student21 = create_school_student_directly(access_code21)
         klass22, _, access_code22 = create_class_directly(school2_teacher2_email)
@@ -139,8 +139,8 @@ class APITests(APITestCase):
         # Create a school with 2 inactive teachers
         school3_teacher1_email, _ = signup_teacher_directly()
         school3_teacher2_email, _ = signup_teacher_directly()
-        school3_name, school3_postcode = create_organisation_directly(school3_teacher1_email)
-        join_teacher_to_organisation(school3_teacher2_email, school3_name, school3_postcode)
+        school3 = create_organisation_directly(school3_teacher1_email)
+        join_teacher_to_organisation(school3_teacher2_email, school3.name, school3.postcode)
         klass31, _, access_code31 = create_class_directly(school3_teacher1_email)
         _, _, student31 = create_school_student_directly(access_code31)
         klass32, _, access_code32 = create_class_directly(school3_teacher2_email)
@@ -154,14 +154,14 @@ class APITests(APITestCase):
 
         # Create a school with no active teachers
         school4_teacher1_email, _ = signup_teacher_directly()
-        school4_name, school4_postcode = create_organisation_directly(school4_teacher1_email)
+        school4 = create_organisation_directly(school4_teacher1_email)
         school4_teacher1 = Teacher.objects.get(new_user__email=school4_teacher1_email)
         school4_teacher1.new_user.is_active = False
         school4_teacher1.new_user.save()
 
         # Create a school with no teachers
         school5_teacher1_email, _ = signup_teacher_directly()
-        school5_name, school5_postcode = create_organisation_directly(school5_teacher1_email)
+        school5 = create_organisation_directly(school5_teacher1_email)
         school5_teacher1 = Teacher.objects.get(new_user__email=school5_teacher1_email)
         school5_teacher1.delete()
 
@@ -171,12 +171,12 @@ class APITests(APITestCase):
         assert response.status_code == status.HTTP_204_NO_CONTENT
 
         # Check the first school/class/student still exist
-        assert School.objects.filter(name=school1_name, postcode=school1_postcode).exists()
+        assert School.objects.filter(name=school1.name, postcode=school1.postcode).exists()
         assert Class.objects.filter(pk=klass11.pk).exists()
         assert Student.objects.filter(pk=student11.pk).exists()
 
         # Check the second school exists and its first class/student, but the second ones are anonymised
-        assert School.objects.filter(name=school2_name, postcode=school2_postcode).exists()
+        assert School.objects.filter(name=school2.name, postcode=school2.postcode).exists()
         assert Class.objects.filter(pk=klass21.pk).exists()
         assert not Class.objects.filter(pk=klass22.pk).exists()
         assert Student.objects.filter(pk=student21.pk).exists()
@@ -185,17 +185,17 @@ class APITests(APITestCase):
         assert Teacher.objects.get(new_user__email=school2_teacher1_email).is_admin
 
         # Check the third school is anonymised together with its classes and students
-        assert not School.objects.filter(name=school3_name, postcode=school3_postcode).exists()
+        assert not School.objects.filter(name=school3.name, postcode=school3.postcode).exists()
         assert not Class.objects.filter(pk=klass31.pk).exists()
         assert not Class.objects.filter(pk=klass32.pk).exists()
         assert not Student.objects.get(pk=student31.pk).new_user.is_active
         assert not Student.objects.get(pk=student32.pk).new_user.is_active
 
         # Check that the fourth school is anonymised
-        assert not School.objects.filter(name=school4_name, postcode=school4_postcode).exists()
+        assert not School.objects.filter(name=school4.name, postcode=school4.postcode).exists()
 
         # Check that the fifth school is anonymised
-        assert not School.objects.filter(name=school5_name, postcode=school5_postcode).exists()
+        assert not School.objects.filter(name=school5.name, postcode=school5.postcode).exists()
 
 
 def has_status_code(status_code):

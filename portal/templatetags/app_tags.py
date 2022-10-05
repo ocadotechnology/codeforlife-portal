@@ -90,6 +90,11 @@ def is_logged_in_as_teacher(u):
     return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, "teacher")
 
 
+@register.filter(name="is_logged_in_as_admin_teacher")
+def is_logged_in_as_admin_teacher(u):
+    return is_logged_in_as_teacher(u) and u.userprofile.teacher.is_admin
+
+
 @register.filter(name="is_logged_in_as_student")
 def is_logged_in_as_student(u):
     return (

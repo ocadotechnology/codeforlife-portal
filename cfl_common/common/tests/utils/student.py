@@ -89,9 +89,7 @@ def create_many_school_students(page, number_of_students):
 
 def generate_independent_student_details():
     name = "Independent Student %d" % generate_independent_student_details.next_id
-    email_address = (
-        "student%d@codeforlife.com" % generate_independent_student_details.next_id
-    )
+    email_address = "student%d@codeforlife.com" % generate_independent_student_details.next_id
     username = email_address
     password = "Password2"
 
@@ -111,15 +109,11 @@ def signup_duplicate_independent_student_fail(page, duplicate_email=None):
     if not duplicate_email:
         duplicate_email = email_address
 
-    page = page.independent_student_signup(
-        name, duplicate_email, password=password, confirm_password=password
-    )
+    page = page.independent_student_signup(name, duplicate_email, password=password, confirm_password=password)
 
     page = page.return_to_home_page()
 
-    page = email.follow_duplicate_account_link_to_login(
-        page, mail.outbox[0], "independent"
-    )
+    page = email.follow_duplicate_account_link_to_login(page, mail.outbox[0], "independent")
 
     return page, name, username, email_address, password
 
@@ -128,9 +122,7 @@ def create_independent_student(page):
     page = page.go_to_signup_page()
 
     name, username, email_address, password = generate_independent_student_details()
-    page = page.independent_student_signup(
-        name, email_address, password=password, confirm_password=password
-    )
+    page = page.independent_student_signup(name, email_address, password=password, confirm_password=password)
 
     page = page.return_to_home_page()
 

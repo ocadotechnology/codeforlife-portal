@@ -23,7 +23,7 @@ def create_organisation_directly(teacher_email, **kwargs):
     teacher.is_admin = True
     teacher.save()
 
-    return name, postcode
+    return school
 
 
 def join_teacher_to_organisation(teacher_email, org_name, postcode, is_admin=False):

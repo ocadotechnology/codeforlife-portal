@@ -22,11 +22,7 @@ class JoinSchoolOrClubPage(PlayBasePage):
         return self
 
     def has_join_request_failed(self, error):
-        errors = (
-            self.browser.find_element_by_id("join_class_form")
-            .find_element_by_class_name("errorlist")
-            .text
-        )
+        errors = self.browser.find_element_by_id("join_class_form").find_element_by_class_name("errorlist").text
         return error in errors
 
     def revoke_join_request(self):
