@@ -45,7 +45,9 @@ def test_student_cannot_access_teacher_dashboard(student1: SchoolStudent, class1
 
 
 @pytest.mark.django_db
-def test_indep_student_cannot_access_dashboard(independent_student1: IndependentStudent,):
+def test_indep_student_cannot_access_dashboard(
+    independent_student1: IndependentStudent,
+):
     """
     Given you are logged in as an independent student,
     When you try to access the student dashboard,
@@ -82,14 +84,7 @@ def test_student_aimmo_dashboard_loads(student1: SchoolStudent, class1: Class, a
     """
     c = Client()
     student_login_url = reverse("student_login", kwargs={"access_code": class1.access_code})
-<<<<<<< HEAD
-    data = {
-        "username": student1.username,
-        "password": student1.password,
-    }
-=======
     data = {"username": student1.username, "password": student1.password}
->>>>>>> master
 
     c.post(student_login_url, data)
 
