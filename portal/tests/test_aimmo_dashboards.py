@@ -4,7 +4,11 @@ from aimmo.models import Game
 from aimmo.worksheets import WORKSHEETS
 from common.models import Class, Teacher
 from common.tests.utils.classes import create_class_directly
+<<<<<<< HEAD
 from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
+=======
+from common.tests.utils.organisation import create_organisation_directly
+>>>>>>> master
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from django.test.client import Client
@@ -27,10 +31,7 @@ def test_student_cannot_access_teacher_dashboard(student1: SchoolStudent, class1
     """
     c = Client()
     url = reverse("student_login", kwargs={"access_code": class1.access_code})
-    data = {
-        "username": student1.username,
-        "password": student1.password,
-    }
+    data = {"username": student1.username, "password": student1.password}
 
     c.post(url, data)
 
@@ -48,9 +49,7 @@ def test_student_cannot_access_teacher_dashboard(student1: SchoolStudent, class1
 
 
 @pytest.mark.django_db
-def test_indep_student_cannot_access_dashboard(
-    independent_student1: IndependentStudent,
-):
+def test_indep_student_cannot_access_dashboard(independent_student1: IndependentStudent,):
     """
     Given you are logged in as an independent student,
     When you try to access the student dashboard,
@@ -58,10 +57,7 @@ def test_indep_student_cannot_access_dashboard(
     """
     c = Client()
     url = reverse("independent_student_login")
-    data = {
-        "username": independent_student1.username,
-        "password": independent_student1.password,
-    }
+    data = {"username": independent_student1.username, "password": independent_student1.password}
 
     c.post(url, data)
 
@@ -90,10 +86,14 @@ def test_student_aimmo_dashboard_loads(student1: SchoolStudent, class1: Class, a
     """
     c = Client()
     student_login_url = reverse("student_login", kwargs={"access_code": class1.access_code})
+<<<<<<< HEAD
     data = {
         "username": student1.username,
         "password": student1.password,
     }
+=======
+    data = {"username": student1.username, "password": student1.password}
+>>>>>>> master
 
     c.post(student_login_url, data)
 

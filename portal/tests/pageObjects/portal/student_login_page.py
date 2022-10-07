@@ -23,9 +23,5 @@ class StudentLoginPage(BasePage):
         self.browser.find_element_by_name("school_login").click()
 
     def has_login_failed(self, form_id, error):
-        errors = (
-            self.browser.find_element_by_id(form_id)
-            .find_element_by_class_name("errorlist")
-            .text
-        )
+        errors = self.browser.find_element_by_id(form_id).find_element_by_class_name("errorlist").text
         return error in errors

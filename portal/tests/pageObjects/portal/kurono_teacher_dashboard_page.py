@@ -28,9 +28,7 @@ class KuronoTeacherDashboardPage(BasePage):
     def delete_games(self, game_ids):
         # Tick checkboxes
         for game_id in game_ids:
-            self.browser.find_element_by_xpath(
-                f"//input[@name='game_ids' and @value='{game_id}']"
-            ).click()
+            self.browser.find_element_by_xpath(f"//input[@name='game_ids' and @value='{game_id}']").click()
 
         # Click delete
         self.browser.find_element_by_id("deleteGamesButton").click()

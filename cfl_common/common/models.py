@@ -67,6 +67,10 @@ class School(models.Model):
             return classes
         return None
 
+    def admins(self):
+        teachers = self.teacher_school.all()
+        return [teacher for teacher in teachers if teacher.is_admin] if teachers else None
+
     def anonymise(self):
         self.name = uuid4().hex
         self.postcode = ""

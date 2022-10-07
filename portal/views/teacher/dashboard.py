@@ -24,6 +24,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
+from game.level_management import levels_shared_with, unshare_level
 from two_factor.utils import devices_for_user
 
 from portal.forms.invite_teacher import InviteTeacherForm
@@ -416,17 +417,23 @@ def organisation_toggle_admin(request, pk):
 
     if teacher.is_admin:
         messages.success(request, "Administrator status has been given successfully.")
-        emailMessage = email_messages.adminGivenEmail(request, teacher.school.name)
+        email_message = email_messages.adminGivenEmail(request, teacher.school.name)
     else:
+        # Remove access to all levels that are from other teachers' students
+        [
+            unshare_level(level, teacher.new_user)
+            for level in levels_shared_with(teacher.new_user)
+            if hasattr(level.owner, "student") and not teacher.teaches(level.owner)
+        ]
         messages.success(request, "Administrator status has been revoked successfully.")
-        emailMessage = email_messages.adminRevokedEmail(request, teacher.school.name)
+        email_message = email_messages.adminRevokedEmail(request, teacher.school.name)
 
     send_email(
         NOTIFICATION_EMAIL,
         [teacher.new_user.email],
-        emailMessage["subject"],
-        emailMessage["message"],
-        emailMessage["subject"],
+        email_message["subject"],
+        email_message["message"],
+        email_message["subject"],
     )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))

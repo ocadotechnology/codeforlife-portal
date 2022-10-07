@@ -48,23 +48,14 @@ class Test2FA(TestCase):
 
         # For us the authentication is done in 2 steps. First step is 'auth'.
         response = _post(
-            {
-                "auth-username": self.email,
-                "auth-password": self.password,
-                "teacher_login_view-current_step": "auth",
-            }
+            {"auth-username": self.email, "auth-password": self.password, "teacher_login_view-current_step": "auth"}
         )
         self.assertContains(response, "Token:")
 
         # Second step is 'token'. There's a time window when these 2 steps must be done.
         #
         # Test 1: test random token
-        response = _post(
-            {
-                "token-otp_token": "123456",
-                "teacher_login_view-current_step": "token",
-            },
-        )
+        response = _post({"token-otp_token": "123456", "teacher_login_view-current_step": "token"})
         INVALID_ERR = {"__all__": ["Invalid token. Please make sure you have entered it correctly."]}
         assert response.context_data["wizard"]["form"].errors == INVALID_ERR
 
@@ -74,10 +65,7 @@ class Test2FA(TestCase):
         # Test 2: test with 1 token before (drift = -1 which would fail with tolerance = 0)
         # In production, drift of [-1, 0, 1] should work with tolerance = 1
         response = _post(
-            {
-                "token-otp_token": totp(device.bin_key, drift=-1),
-                "teacher_login_view-current_step": "token",
-            }
+            {"token-otp_token": totp(device.bin_key, drift=-1), "teacher_login_view-current_step": "token"}
         )
         assert response.context_data["wizard"]["form"].errors == INVALID_ERR
 
@@ -85,12 +73,7 @@ class Test2FA(TestCase):
         device.throttle_reset()
 
         # Test 3: test with valid current token (drift = 0)
-        response = _post(
-            {
-                "token-otp_token": totp(device.bin_key, drift=0),
-                "teacher_login_view-current_step": "token",
-            }
-        )
+        response = _post({"token-otp_token": totp(device.bin_key, drift=0), "teacher_login_view-current_step": "token"})
 
         self.assertRedirects(response, settings.LOGIN_REDIRECT_URL, fetch_redirect_response=False)
 

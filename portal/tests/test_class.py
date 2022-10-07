@@ -2,17 +2,14 @@ from __future__ import absolute_import
 
 from common.models import Class, Teacher
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
-    create_organisation_directly,
-    join_teacher_to_organisation,
-)
+from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from .pageObjects.portal.teach.class_page import TeachClassPage
 from .base_test import BaseTest
+from .pageObjects.portal.teach.class_page import TeachClassPage
 from .utils.classes import create_class
 from .utils.messages import is_class_created_message_showing
 
@@ -53,7 +50,7 @@ class TestClass(TestCase):
 
         assert response.status_code == 302
         assert len(teacher_classes) == 1
-        assert teacher.has_class() == True
+        assert teacher.has_class()
 
         # Delete the student, and try again, check the class is deleted successfully
         student.delete()
@@ -64,7 +61,7 @@ class TestClass(TestCase):
 
         assert response.status_code == 302
         assert len(teacher_classes) == 0
-        assert teacher.has_class() == False
+        assert not teacher.has_class()
 
         # Check class is anonymised
         new_klass = Class._base_manager.get(pk=klass.id)
@@ -123,8 +120,8 @@ class TestClass(TestCase):
     def test_transfer_class(self):
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
-        school_name, postcode = create_organisation_directly(email1)
-        join_teacher_to_organisation(email2, school_name, postcode)
+        school = create_organisation_directly(email1)
+        join_teacher_to_organisation(email2, school.name, school.postcode)
         klass1, _, access_code1 = create_class_directly(email1)
         klass2, _, access_code2 = create_class_directly(email2)
         _, _, student1 = create_school_student_directly(access_code1)
@@ -178,8 +175,8 @@ class TestClassFrontend(BaseTest):
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
         teacher2 = Teacher.objects.get(new_user__email=email2)
-        name, postcode = create_organisation_directly(email1)
-        join_teacher_to_organisation(email2, name, postcode)
+        school = create_organisation_directly(email1)
+        join_teacher_to_organisation(email2, school.name, school.postcode)
 
         # Check teacher 2 doesn't have any classes
         page = self.go_to_homepage().go_to_teacher_login_page().login(email2, password2).open_classes_tab()
@@ -212,10 +209,10 @@ class TestClassFrontend(BaseTest):
     def test_create_dashboard_non_admin(self):
         email_1, password_1 = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()
-        name, postcode = create_organisation_directly(email_1)
+        school = create_organisation_directly(email_1)
         klass_1, class_name_1, access_code_1 = create_class_directly(email_1)
         create_school_student_directly(access_code_1)
-        join_teacher_to_organisation(email_2, name, postcode)
+        join_teacher_to_organisation(email_2, school.name, school.postcode)
         klass_2, class_name_2, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 

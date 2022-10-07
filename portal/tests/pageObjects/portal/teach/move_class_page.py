@@ -14,16 +14,10 @@ class TeachMoveClassPage(TeachBasePage):
         assert self.on_correct_page("teach_move_class_page")
 
     def get_list_length(self):
-        return len(
-            self.browser.find_element_by_id("id_new_teacher").find_elements_by_tag_name(
-                "option"
-            )
-        )
+        return len(self.browser.find_element_by_id("id_new_teacher").find_elements_by_tag_name("option"))
 
     def select_teacher_by_index(self, teacher_index):
-        Select(self.browser.find_element_by_id("id_new_teacher")).select_by_index(
-            teacher_index
-        )
+        Select(self.browser.find_element_by_id("id_new_teacher")).select_by_index(teacher_index)
         return self
 
     def cancel(self):

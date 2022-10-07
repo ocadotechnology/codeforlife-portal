@@ -23,6 +23,8 @@ from game.models import Level
 from game.tests.utils.attempt import create_attempt
 from game.tests.utils.level import create_save_level
 
+from portal.templatetags.app_tags import is_logged_in_as_admin_teacher
+
 from deploy import captcha
 from portal.views.api import anonymise
 from portal.views.teacher.teach import (
@@ -145,9 +147,9 @@ class TestTeacherViews(TestCase):
 
     def test_organisation_kick_has_correct_permissions(self):
         teacher2_email, _ = signup_teacher_directly()
-        org_name, org_postcode = create_organisation_directly(self.email)
-        join_teacher_to_organisation(self.email, org_name, org_postcode, is_admin=True)
-        join_teacher_to_organisation(teacher2_email, org_name, org_postcode)
+        school = create_organisation_directly(self.email)
+        join_teacher_to_organisation(self.email, school.name, school.postcode, is_admin=True)
+        join_teacher_to_organisation(teacher2_email, school.name, school.postcode)
         teacher2_id = Teacher.objects.get(new_user__email=teacher2_email).id
 
         client = self.login()
@@ -224,7 +226,7 @@ class TestLoginViews(TestCase):
         _, _, class_access_code = create_class_directly(teacher_email)
         student_name, student_password, _ = create_school_student_directly(class_access_code)
 
-        return (teacher_email, teacher_password, student_name, student_password, class_access_code)
+        return teacher_email, teacher_password, student_name, student_password, class_access_code
 
     def _create_and_login_teacher(self, next_url=False):
         email, password, _, _, _ = self._set_up_test_data()
@@ -588,18 +590,18 @@ class TestViews(TestCase):
         user4.save()
         usrid4 = user4.id
 
-        school_name, postcode = create_organisation_directly(email1)
+        school = create_organisation_directly(email1)
         klass, class_name, access_code_1 = create_class_directly(email1)
         class_id = klass.id
         _, _, student = create_school_student_directly(access_code_1)
         student_user_id = student.new_user.id
 
-        join_teacher_to_organisation(email2, school_name, postcode, is_admin=False)
+        join_teacher_to_organisation(email2, school.name, school.postcode)
         _, _, access_code_2 = create_class_directly(email2)
         create_school_student_directly(access_code_2)
 
-        join_teacher_to_organisation(email3, school_name, postcode, is_admin=False)
-        join_teacher_to_organisation(email4, school_name, postcode, is_admin=False)
+        join_teacher_to_organisation(email3, school.name, school.postcode)
+        join_teacher_to_organisation(email4, school.name, school.postcode)
 
         c = Client()
         url = reverse("teacher_login")
@@ -618,8 +620,8 @@ class TestViews(TestCase):
         student_user1 = User.objects.get(id=student_user_id)
         assert not student_user1.is_active
 
-        school = School.objects.get(name=school_name)
         school_id = school.id
+        school_name = school.name
         teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
         assert len(teachers) == 3
 
@@ -681,3 +683,26 @@ class TestViews(TestCase):
 
         assert c.get(reverse("privacy_policy")).status_code == 200
         assert c.get(reverse("terms")).status_code == 200
+
+    def test_logged_in_as_admin_check(self):
+        email1, password1 = signup_teacher_directly()
+        email2, password2 = signup_teacher_directly()
+        school = create_organisation_directly(email1)
+        join_teacher_to_organisation(email2, school.name, school.postcode)
+
+        teacher1 = Teacher.objects.get(new_user__username=email1)
+        teacher2 = Teacher.objects.get(new_user__username=email2)
+
+        c = Client()
+
+        c.login(username=email1, password=password1)
+
+        assert is_logged_in_as_admin_teacher(teacher1.new_user)
+
+        c.logout()
+
+        c.login(username=email2, password=password2)
+
+        assert not is_logged_in_as_admin_teacher(teacher2.new_user)
+
+        c.logout()

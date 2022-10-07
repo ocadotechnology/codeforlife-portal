@@ -16,9 +16,7 @@ def generate_details():
 generate_details.next_id = 1
 
 
-def create_class_directly(
-    teacher_email: str, class_name: str = None
-) -> Tuple[Class, str, str]:
+def create_class_directly(teacher_email: str, class_name: str = None) -> Tuple[Class, str, str]:
     """Generate a class with the details given.
 
     Args:

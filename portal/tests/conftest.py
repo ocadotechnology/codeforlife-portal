@@ -6,10 +6,7 @@ from aimmo.models import Game
 from common.models import Class
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly
-from common.tests.utils.student import (
-    create_independent_student_directly,
-    create_school_student_directly,
-)
+from common.tests.utils.student import create_independent_student_directly, create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 
 from .utils.aimmo_games import create_aimmo_game_directly

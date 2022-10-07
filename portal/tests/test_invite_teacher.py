@@ -1,13 +1,9 @@
 from datetime import timedelta
+from time import sleep
 from uuid import uuid4
 
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
-
 import pytest
-from common.models import School, SchoolTeacherInvitation, Teacher
+from common.models import SchoolTeacherInvitation, Teacher
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly
 from common.tests.utils.teacher import signup_teacher_directly
@@ -16,7 +12,10 @@ from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
-from time import sleep
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
 from portal.tests.base_test import BaseTest
 
@@ -27,10 +26,9 @@ WAIT_TIME = 15
 class TestInviteTeacher(TestCase):
     def test_invite_teacher_successful(self):
         email, password = signup_teacher_directly()
-        school_name, school_postcode = create_organisation_directly(email)
+        school = create_organisation_directly(email)
         create_class_directly(email)
         teacher = Teacher.objects.get(new_user__email=email)
-        school = School.objects.get(name=school_name, postcode=school_postcode)
 
         client = Client()
         client.login(username=email, password=password)
@@ -95,9 +93,8 @@ class TestInviteTeacher(TestCase):
 
     def test_invite_teacher_fail(self):
         email, password = signup_teacher_directly()
-        school_name, school_postcode = create_organisation_directly(email)
+        school = create_organisation_directly(email)
         create_class_directly(email)
-        school = School.objects.get(name=school_name, postcode=school_postcode)
         teacher = Teacher.objects.get(new_user__email=email)
 
         client = Client()
@@ -157,10 +154,8 @@ class TestInviteTeacher(TestCase):
 class TestTeacherInviteAPI(TestCase):
     def test_delete_exception(self):
         email, password = signup_teacher_directly()
-        school_name, school_postcode = create_organisation_directly(email)
+        create_organisation_directly(email)
         create_class_directly(email)
-        teacher = Teacher.objects.get(new_user__email=email)
-        school = School.objects.get(name=school_name, postcode=school_postcode)
 
         client = Client()
         client.login(username=email, password=password)
@@ -177,7 +172,7 @@ class TestTeacherInviteAPI(TestCase):
 class TestTeacherInviteActions(BaseTest):
     def test_revoke_and_make_admin_invite(self):
         teacher_email, teacher_password = signup_teacher_directly()
-        school_name, _ = create_organisation_directly(teacher_email)
+        create_organisation_directly(teacher_email)
         class_name = "Test Class"
         klass, _, _ = create_class_directly(teacher_email, class_name)
 
@@ -237,7 +232,7 @@ class TestTeacherInviteActions(BaseTest):
 
     def test_delete_invite(self):
         teacher_email, teacher_password = signup_teacher_directly()
-        school_name, _ = create_organisation_directly(teacher_email)
+        create_organisation_directly(teacher_email)
         class_name = "Test Class"
         klass, _, _ = create_class_directly(teacher_email, class_name)
 
@@ -267,7 +262,7 @@ class TestTeacherInviteActions(BaseTest):
 
     def test_resend_invite(self):
         teacher_email, teacher_password = signup_teacher_directly()
-        school_name, _ = create_organisation_directly(teacher_email)
+        create_organisation_directly(teacher_email)
         class_name = "Test Class"
         klass, _, _ = create_class_directly(teacher_email, class_name)
 
@@ -281,9 +276,6 @@ class TestTeacherInviteActions(BaseTest):
             field.send_keys(invite_data[key])
         invite_button = page.browser.find_element_by_name("invite_teacher_button")
         invite_button.click()
-
-        # Note the expiry to compare later
-        invite_expiry = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0].expiry
 
         banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
         assert (

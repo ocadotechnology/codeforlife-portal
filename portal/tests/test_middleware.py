@@ -1,7 +1,7 @@
+import time
 from typing import Tuple
 from unittest import mock
 
-import time
 from _pytest.monkeypatch import MonkeyPatch
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly

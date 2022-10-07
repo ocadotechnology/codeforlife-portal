@@ -1,8 +1,8 @@
 from __future__ import absolute_import
 
 import re
-
 import time
+
 from aimmo.models import Game
 from common.models import Class, Student, Teacher
 from common.tests.utils import email as email_utils
@@ -19,11 +19,12 @@ from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.tests.test_invite_teacher import FADE_TIME
+from portal.tests.test_invite_teacher import WAIT_TIME
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils.messages import (
@@ -34,13 +35,11 @@ from .utils.messages import (
     is_password_updated_message_showing,
 )
 
-from portal.tests.test_invite_teacher import WAIT_TIME
-
 
 class TestTeacher(TestCase):
     def test_new_student_can_play_games(self):
         """
-        Given a teacher has an kurono game,
+        Given a teacher has a kurono game,
         When they add a new student to their class,
         Then the new student should be able to play that class's games
         """
@@ -70,7 +69,7 @@ class TestTeacher(TestCase):
         klass.always_accept_requests = True
         klass.save()
         create_school_student_directly(access_code)
-        (indep_username, indep_password, indep_student) = create_independent_student_directly()
+        indep_username, indep_password, indep_student = create_independent_student_directly()
 
         c = Client()
 
@@ -97,13 +96,13 @@ class TestTeacher(TestCase):
 
         # Create teacher 1 -> class 1 -> student 1
         email1, password1 = signup_teacher_directly()
-        school_name, postcode = create_organisation_directly(email1)
+        school = create_organisation_directly(email1)
         klass1, _, access_code1 = create_class_directly(email1, "Class 1")
         create_school_student_directly(access_code1)
 
         # Create teacher 2 -> class 2 -> student 2
         email2, password2 = signup_teacher_directly()
-        join_teacher_to_organisation(email2, school_name, postcode)
+        join_teacher_to_organisation(email2, school.name, school.postcode)
         klass2, _, access_code2 = create_class_directly(email2, "Class 2")
         create_school_student_directly(access_code2)
 
@@ -151,7 +150,6 @@ class TestTeacher(TestCase):
 
         # Refresh model instances
         klass1: Class = Class.objects.get(pk=klass1.pk)
-        klass2: Class = Class.objects.get(pk=klass2.pk)
         game1 = Game.objects.get(pk=game1.pk)
         game2 = Game.objects.get(pk=game2.pk)
 
@@ -178,12 +176,12 @@ class TestTeacher(TestCase):
         """
 
         email1, password1 = signup_teacher_directly()
-        school_name, postcode = create_organisation_directly(email1)
+        school = create_organisation_directly(email1)
         klass1, _, access_code1 = create_class_directly(email1, "Class 1")
         create_school_student_directly(access_code1)
 
         email2, password2 = signup_teacher_directly()
-        join_teacher_to_organisation(email2, school_name, postcode)
+        join_teacher_to_organisation(email2, school.name, school.postcode)
         klass2, _, access_code2 = create_class_directly(email2, "Class 2")
         create_school_student_directly(access_code2)
 
@@ -240,7 +238,7 @@ class TestTeacher(TestCase):
         """
 
         email, password = signup_teacher_directly()
-        _, _ = create_organisation_directly(email)
+        create_organisation_directly(email)
         klass, _, _ = create_class_directly(email)
 
         c = Client()
@@ -249,7 +247,7 @@ class TestTeacher(TestCase):
 
         assert game1_response.status_code == 302
         assert Game.objects.filter(game_class=klass, is_archived=False).count() == 1
-        assert klass.active_game != None
+        assert klass.active_game is not None
         messages = list(game1_response.wsgi_request._messages)
         assert len([m for m in messages if m.tags == "warning"]) == 0
 
@@ -492,10 +490,10 @@ class TestTeacherFrontend(BaseTest):
     def test_edit_details_non_admin(self):
         email_1, _ = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()
-        name, postcode = create_organisation_directly(email_1)
+        school = create_organisation_directly(email_1)
         _, _, access_code_1 = create_class_directly(email_1)
         create_school_student_directly(access_code_1)
-        join_teacher_to_organisation(email_2, name, postcode)
+        join_teacher_to_organisation(email_2, school.name, school.postcode)
         _, _, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
@@ -617,29 +615,26 @@ class TestTeacherFrontend(BaseTest):
 
     def test_admin_sees_all_school_classes(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        school = create_organisation_directly(email)
         klass, _, access_code = create_class_directly(email, "class123")
 
         # create non_admin account to join the school
         # check if they cannot see classes
-        non_admin_email, non_admin_password = signup_teacher_directly()
-        join_teacher_to_organisation(non_admin_email, org_name, postcode, is_admin=False)
+        standard_email, standard_password = signup_teacher_directly()
+        join_teacher_to_organisation(standard_email, school.name, school.postcode)
 
         page = (
-            self.go_to_homepage()
-            .go_to_teacher_login_page()
-            .login(non_admin_email, non_admin_password)
-            .open_classes_tab()
+            self.go_to_homepage().go_to_teacher_login_page().login(standard_email, standard_password).open_classes_tab()
         )
 
         assert page.element_does_not_exist_by_id(f"class-code-{access_code}")
 
-        page = self.go_to_homepage().teacher_logout()
+        self.go_to_homepage().teacher_logout()
         # then make an admin account and check
         # if the teacher can see the classes
 
         admin_email, admin_password = signup_teacher_directly()
-        join_teacher_to_organisation(admin_email, org_name, postcode, is_admin=True)
+        join_teacher_to_organisation(admin_email, school.name, school.postcode, is_admin=True)
 
         page = self.go_to_homepage().go_to_teacher_login_page().login(admin_email, admin_password).open_classes_tab()
         class_code_field = page.browser.find_element_by_id(f"class-code-{access_code}")
@@ -647,13 +642,13 @@ class TestTeacherFrontend(BaseTest):
 
     def test_admin_student_edit(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        school = create_organisation_directly(email)
 
         klass, _, access_code = create_class_directly(email, "class123")
         student_name, student_password, student_student = create_school_student_directly(access_code)
 
         joining_email, joining_password = signup_teacher_directly()
-        join_teacher_to_organisation(joining_email, org_name, postcode, is_admin=True)
+        join_teacher_to_organisation(joining_email, school.name, school.postcode, is_admin=True)
 
         page = (
             self.go_to_homepage().go_to_teacher_login_page().login(joining_email, joining_password).open_classes_tab()
@@ -674,9 +669,9 @@ class TestTeacherFrontend(BaseTest):
 
     def test_make_admin_popup(self):
         email, password = signup_teacher_directly()
-        org_name, postcode = create_organisation_directly(email)
+        school = create_organisation_directly(email)
         page = self.go_to_homepage().go_to_teacher_login_page().login(email, password)
-        joining_email, joining_password = signup_teacher_directly()
+        joining_email, _ = signup_teacher_directly()
 
         invite_data = {"teacher_first_name": "Real", "teacher_last_name": "Name", "teacher_email": "ren@me.me"}
 
@@ -727,7 +722,7 @@ class TestTeacherFrontend(BaseTest):
 
         # Non admin teacher joined - make admin should also make a popup
 
-        join_teacher_to_organisation(joining_email, org_name, postcode, is_admin=False)
+        join_teacher_to_organisation(joining_email, school.name, school.postcode)
 
         # refresh the page and scroll to the buttons
         page.browser.execute_script("location.reload()")

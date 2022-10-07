@@ -26,9 +26,7 @@ class TeachClassPage(TeachBasePage):
         if not self.element_exists_by_css(".errorlist"):
             return False
 
-        error_list = self.browser.find_element_by_id(
-            "form-create-students"
-        ).find_element_by_class_name("errorlist")
+        error_list = self.browser.find_element_by_id("form-create-students").find_element_by_class_name("errorlist")
 
         return error_list.text
 
@@ -36,11 +34,7 @@ class TeachClassPage(TeachBasePage):
         if not self.element_exists_by_css(".errorlist"):
             return False
 
-        errors = (
-            self.browser.find_element_by_id("form-create-students")
-            .find_element_by_class_name("errorlist")
-            .text
-        )
+        errors = self.browser.find_element_by_id("form-create-students").find_element_by_class_name("errorlist").text
         error = "You cannot add more than one student called '{0}'".format(name)
         return error in errors
 

@@ -7,7 +7,9 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['test_banner 1'] = '''<div class="banner banner--teacher">
+snapshots[
+    "test_banner 1"
+] = """<div class="banner banner--teacher">
     <div class="container">
         <div class="row">
             <div class="col-sm-12 d-flex">
@@ -35,9 +37,11 @@ snapshots['test_banner 1'] = '''<div class="banner banner--teacher">
         </div>
     </div>
 </div>
-'''
+"""
 
-snapshots['test_benefits 1'] = '''
+snapshots[
+    "test_benefits 1"
+] = """
 
 <div class="grid-benefits col-sm-8 col-center">
     
@@ -77,9 +81,11 @@ snapshots['test_benefits 1'] = '''
         </div>
     
 </div>
-'''
+"""
 
-snapshots['test_card_list 1'] = '''
+snapshots[
+    "test_card_list 1"
+] = """
 
 
 <script type="text/javascript" src="/static/portal/js/carouselCards.js"></script>
@@ -174,9 +180,11 @@ snapshots['test_card_list 1'] = '''
 <script>
     setUpCarouselCards(5)
 </script>
-'''
+"""
 
-snapshots['test_character_list 1'] = '''
+snapshots[
+    "test_character_list 1"
+] = """
 
 
 <div class="grid grid-characters grid__fit">
@@ -200,15 +208,19 @@ snapshots['test_character_list 1'] = '''
         </div>
     
 </div>
-'''
+"""
 
-snapshots['test_headline 1'] = '''<section>
+snapshots[
+    "test_headline 1"
+] = """<section>
     <h4>Test title</h4>
 </section>
 <p class="container">Test description</p>
-'''
+"""
 
-snapshots['test_hero_card 1'] = '''
+snapshots[
+    "test_hero_card 1"
+] = """
 
 
 <div class="card activated-card">
@@ -227,4 +239,4 @@ snapshots['test_hero_card 1'] = '''
         </div>
     </div>
 </div>
-'''
+"""

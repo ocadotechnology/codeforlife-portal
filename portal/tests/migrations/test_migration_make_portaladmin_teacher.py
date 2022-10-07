@@ -4,9 +4,7 @@ import pytest
 @pytest.mark.django_db
 def test_portaladmin_has_teacher_profile(migrator):
     migrator.apply_initial_migration(("portal", "0060_delete_guardian"))
-    new_state = migrator.apply_tested_migration(
-        ("portal", "0061_make_portaladmin_teacher")
-    )
+    new_state = migrator.apply_tested_migration(("portal", "0061_make_portaladmin_teacher"))
 
     User = new_state.apps.get_model("auth", "User")
     UserProfile = new_state.apps.get_model("common", "UserProfile")
@@ -34,9 +32,7 @@ def test_portaladmin_has_teacher_profile(migrator):
     assert portaladmin_class.teacher == portaladmin_teacher
 
     portaladmin_student_user = User.objects.get(username="portaladmin student")
-    portaladmin_student_userprofile = UserProfile.objects.get(
-        user=portaladmin_student_user
-    )
+    portaladmin_student_userprofile = UserProfile.objects.get(user=portaladmin_student_user)
     portaladmin_student = Student.objects.get(user=portaladmin_student_userprofile)
 
     assert portaladmin_student.class_field == portaladmin_class
