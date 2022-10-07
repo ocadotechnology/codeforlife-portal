@@ -4,7 +4,7 @@ from aimmo.models import Game
 from aimmo.worksheets import WORKSHEETS
 from common.models import Class, Teacher
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly
+from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from django.test.client import Client
@@ -107,6 +107,22 @@ def test_student_aimmo_dashboard_loads(student1: SchoolStudent, class1: Class, a
 
 # Selenium tests
 class TestAimmoDashboardFrontend(BaseTest):
+    def test_non_admin_can_see_other_classes(self):
+        admin_email, admin_password = signup_teacher_directly()
+        create_class_directly(admin_email, "class1")
+        school = create_organisation_directly(admin_email)
+
+        non_admin_email, non_admin_password = signup_teacher_directly()
+        join_teacher_to_organisation(non_admin_email, school.name, school.postcode, is_admin=False)
+        page = self.go_to_homepage().go_to_teacher_login_page().login(non_admin_email, non_admin_password)
+        page.go_to_kurono_teacher_dashboard_page()
+
+        no_class_text = page.browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[4]/div[1]/p")
+        assert (
+            "It doesn't look like you have any games created. To create a game, use the 'Select class' button above."
+            in no_class_text.text
+        )
+
     def test_admin_actions_for_other_teachers(self):
         # create a teacher for a school, create a class
         dummy_email, dummy_password = signup_teacher_directly()
@@ -114,9 +130,9 @@ class TestAimmoDashboardFrontend(BaseTest):
         create_class_directly(dummy_email, first_class_name)
 
         # create a school and then add admin to the school
-        org_name, postcode = create_organisation_directly(dummy_email)
+        school = create_organisation_directly(dummy_email)
         potential_admin_email, potential_admin_password = signup_teacher_directly()
-        join_teacher_to_organisation(potential_admin_email, org_name, postcode, is_admin=True)
+        join_teacher_to_organisation(potential_admin_email, school.name, school.postcode, is_admin=True)
         # now go to a dashboard for the admin of school
         # check if a game can be created
         page = self.go_to_homepage().go_to_teacher_login_page().login(potential_admin_email, potential_admin_password)
