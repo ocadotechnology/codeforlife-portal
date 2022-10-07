@@ -4,11 +4,7 @@ from aimmo.models import Game
 from aimmo.worksheets import WORKSHEETS
 from common.models import Class, Teacher
 from common.tests.utils.classes import create_class_directly
-<<<<<<< HEAD
-from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
-=======
 from common.tests.utils.organisation import create_organisation_directly
->>>>>>> master
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from django.test.client import Client
