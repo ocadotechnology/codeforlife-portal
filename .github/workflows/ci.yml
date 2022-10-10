@@ -29,7 +29,7 @@ jobs:
           pip install pytest-cov
           pip install pytest-xdist
           pip install pytest-order
-          pip install pipenv
+          pip install pipenv==2022.10.4
           pipenv install --dev --system
           yarn --frozen-lockfile
       - name: Build frontend
