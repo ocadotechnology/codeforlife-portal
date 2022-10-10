@@ -129,13 +129,16 @@ class TestAimmoDashboardFrontend(BaseTest):
         first_class_name = "class1"
         create_class_directly(dummy_email, first_class_name)
 
-        # create a school and then add admin to the school
+        # create a school and then add admin and non admin to the school
         school = create_organisation_directly(dummy_email)
-        potential_admin_email, potential_admin_password = signup_teacher_directly()
-        join_teacher_to_organisation(potential_admin_email, school.name, school.postcode, is_admin=True)
+        # create a non admin teacher and check that all permissions are valid
+        non_admin_email, non_admin_password = signup_teacher_directly()
+        admin_email, admin_password = signup_teacher_directly()
+        join_teacher_to_organisation(non_admin_email, school.name, school.postcode, is_admin=False)
+        join_teacher_to_organisation(admin_email, school.name, school.postcode, is_admin=True)
         # now go to a dashboard for the admin of school
         # check if a game can be created
-        page = self.go_to_homepage().go_to_teacher_login_page().login(potential_admin_email, potential_admin_password)
+        page = self.go_to_homepage().go_to_teacher_login_page().login(admin_email, admin_password)
         page.go_to_kurono_teacher_dashboard_page()
         add_class_dropdown = page.browser.find_element_by_id("add_class_dropdown")
         add_class_dropdown.click()
@@ -143,8 +146,38 @@ class TestAimmoDashboardFrontend(BaseTest):
         first_class_option.click()
         first_table_row = page.browser.find_element_by_class_name("games-table__cell")
         assert first_class_name in first_table_row.text
-        # now check if worksheet can be changed
+        # now log out and try to delete the game as non admin; they should not be able to
+        page.logout()
+        page = self.go_to_homepage().go_to_teacher_login_page().login(non_admin_email, non_admin_password)
+        page.go_to_kurono_teacher_dashboard_page()
+        game_list_checkbox = page.browser.find_element_by_id("gamesListToggle")
+        game_list_checkbox.click()
 
+        delete_game_button = page.browser.find_element_by_id("deleteGamesButton")
+        delete_game_button.click()
+        confirm_button = page.browser.find_element_by_id("confirm_button")
+        confirm_button.click()
+        WebDriverWait(self.selenium, 10).until(EC.invisibility_of_element((By.ID, "conrifm_button")))
+
+        assert Game.objects.filter(is_archived=True).count() == 0
+
+        # check if the worksheet cannot be changed
+        current_game = Game.objects.get(game_class__name=first_class_name)
+        change_worksheet_function = f"changeWorksheetConfirmation({current_game.id}, '{first_class_name}', {3})"
+        confirm_worksheet_function = f"changeWorksheet()"
+        page.browser.execute_script(change_worksheet_function)
+        page.browser.execute_script(confirm_worksheet_function)
+
+        page.go_to_kurono_teacher_dashboard_page()
+        challange_field = page.browser.find_element_by_xpath(
+            "/html/body/div[1]/div[1]/div[4]/div[1]/table/tbody/tr[2]/td[2]/div/div/button/div"
+        )
+        assert "Present day I:" in challange_field.text
+        page.logout()
+        page = self.go_to_homepage().go_to_teacher_login_page().login(admin_email, admin_password)
+        page.go_to_kurono_teacher_dashboard_page()
+
+        # now check if worksheet can be changed
         current_game = Game.objects.get(game_class__name=first_class_name)
         change_worksheet_function = f"changeWorksheetConfirmation({current_game.id}, '{first_class_name}', {3})"
         confirm_worksheet_function = f"changeWorksheet()"
@@ -159,9 +192,8 @@ class TestAimmoDashboardFrontend(BaseTest):
 
         # check admin teacher creates a game, owner is still the teacher
         game = Game.objects.all()[0]
-        assert game.created_by == Teacher.objects.get(new_user__email=potential_admin_email)
+        assert game.created_by == Teacher.objects.get(new_user__email=admin_email)
         assert game.owner == Teacher.objects.get(new_user__email=dummy_email).new_user
-
         # delete game
         game_list_checkbox = page.browser.find_element_by_id("gamesListToggle")
         game_list_checkbox.click()
