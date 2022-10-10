@@ -19,6 +19,8 @@ pyvirtualdisplay = "*"
 pytest-mock = "*"
 PyPDF2 = "==1.27.9"
 black = "*"
+importlib-metadata = "<5" # Using version 5 causes an issue when trying to run pytest. Not sure why, linked to: https://stackoverflow.com/questions/73929564/entrypoints-object-has-no-attribute-get-digital-ocean
+
 
 [requires]
 python_version = "3.7"
