@@ -106,8 +106,13 @@ class TestTeacher(TestCase):
         klass2, _, access_code2 = create_class_directly(email2, "Class 2")
         create_school_student_directly(access_code2)
 
-        teacher1: Teacher = Teacher.objects.get(new_user__email=email1)
         teacher2: Teacher = Teacher.objects.get(new_user__email=email2)
+        # make teacher1 non admin to remove extra permissions
+        teacher1: Teacher = Teacher.objects.get(new_user__email=email1)
+        teacher1.is_admin = False
+        teacher1.save()
+
+        # make the teacher1 non_admin as they have extra permissions
 
         c = Client()
 
@@ -120,13 +125,11 @@ class TestTeacher(TestCase):
         c.login(username=email2, password=password2)
         c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass2.pk})
         c.logout()
-
         game1: Game = Game.objects.get(owner=teacher1.new_user)
         game2: Game = Game.objects.get(owner=teacher2.new_user)
 
         student1: Student = Student.objects.get(class_field=klass1)
         student2: Student = Student.objects.get(class_field=klass2)
-
         # Check student permissions for each game
         assert game1.can_user_play(student1.new_user)
         assert game2.can_user_play(student2.new_user)
