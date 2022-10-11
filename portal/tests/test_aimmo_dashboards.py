@@ -10,6 +10,8 @@ from common.tests.utils.teacher import signup_teacher_directly
 from django.test.client import Client
 from django.urls.base import reverse
 
+import json
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -107,39 +109,58 @@ def test_student_aimmo_dashboard_loads(student1: SchoolStudent, class1: Class, a
 
 # Selenium tests
 class TestAimmoDashboardFrontend(BaseTest):
-    def test_non_admin_teacher_game_change(self):
+    def test_admin_permissions_actions(self):
+
+        # Create admin teacher, school and class
         admin_email, admin_password = signup_teacher_directly()
-        create_class_directly(admin_email, "class1")
         school = create_organisation_directly(admin_email)
+        admin_class, _, admin_access_code = create_class_directly(admin_email, "class 1")
 
-        non_admin_eamil, non_admin_password = signup_teacher_directly()
-        join_teacher_to_organisation(non_admin_eamil, school.name, school.postcode, is_admin=False)
-
-        c = Client()
-        c.login(username=non_admin_eamil, password=non_admin_password)
-
-        data = {"worksheet_id": 1}
-        url = reverse("teacher_aimmo_dashboard")
-        response = c.post(url, data)
-        [print(method) for method in dir(response)]
-        print(response.json())
-        assert False
-
-    def test_non_admin_can_see_other_classes(self):
-        admin_email, admin_password = signup_teacher_directly()
-        create_class_directly(admin_email, "class1")
-        school = create_organisation_directly(admin_email)
-
+        # create another teacher and add as not admin, create a class
         non_admin_email, non_admin_password = signup_teacher_directly()
         join_teacher_to_organisation(non_admin_email, school.name, school.postcode, is_admin=False)
-        page = self.go_to_homepage().go_to_teacher_login_page().login(non_admin_email, non_admin_password)
-        page.go_to_kurono_teacher_dashboard_page()
+        non_admin_class, _, non_admin_access_code = create_class_directly(non_admin_email, "class 2")
 
-        no_class_text = page.browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[4]/div[1]/p")
-        assert (
-            "It doesn't look like you have any games created. To create a game, use the 'Select class' button above."
-            in no_class_text.text
+        non_admin_teacher: Teacher = Teacher.objects.get(new_user__email=non_admin_email)
+        admin_teacher: Teacher = Teacher.objects.get(new_user__email=admin_email)
+
+        c = Client()
+        # check if non_admin cannot create class for the admin
+        c.login(username=non_admin_email, password=non_admin_password)
+        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
+        assert Game.objects.filter(game_class__teacher__school=admin_teacher.school).count() == 0
+
+        # create a game by non admin and by admin, then check if admin can delete both
+        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": non_admin_class.pk})
+        assert Game.objects.filter(game_class__teacher=non_admin_teacher).count() == 1
+        c.logout()
+
+        c.login(username=admin_email, password=admin_password)
+        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
+        assert Game.objects.filter(game_class__teacher__school=admin_teacher.school, is_archived=False).count() == 2
+
+        # check admin changing worksheets
+        admin_game = Game.objects.get(game_class__teacher=admin_teacher)
+        non_admin_game = Game.objects.get(game_class__teacher=non_admin_teacher)
+        data = json.dumps({"worksheet_id": 2})
+        c.put(
+            reverse("game-detail", kwargs={"pk": admin_game.id}),
+            data,
+            content_type="application/json",
         )
+
+        # test admin deleting classes
+        c.post(reverse("game-delete-games"), {"game_ids": admin_game.id})
+        c.post(reverse("game-delete-games"), {"game_ids": non_admin_game.id})
+        assert Game.objects.filter(game_class__teacher__school=admin_teacher.school, is_archived=True).count() == 2
+        # now make check if the non admin can delete game
+        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
+        assert Game.objects.filter(game_class__teacher=admin_teacher, is_archived=False).count() == 1
+        c.logout()
+
+        c.login(username=non_admin_email, password=non_admin_password)
+        c.post(reverse("game-delete-games"), {"game_ids": admin_game.id})
+        assert Game.objects.filter(game_class__teacher=admin_teacher, is_archived=False).count() == 1
 
     def test_admin_actions_for_other_teachers(self):
         # create a teacher for a school, create a class
