@@ -110,7 +110,6 @@ def test_student_aimmo_dashboard_loads(student1: SchoolStudent, class1: Class, a
 # Selenium tests
 class TestAimmoDashboardFrontend(BaseTest):
     def test_admin_permissions_actions(self):
-
         # Create admin teacher, school and class
         admin_email, admin_password = signup_teacher_directly()
         school = create_organisation_directly(admin_email)
@@ -161,76 +160,6 @@ class TestAimmoDashboardFrontend(BaseTest):
         c.login(username=non_admin_email, password=non_admin_password)
         c.post(reverse("game-delete-games"), {"game_ids": admin_game.id})
         assert Game.objects.filter(game_class__teacher=admin_teacher, is_archived=False).count() == 1
-
-    def test_admin_actions_for_other_teachers(self):
-        # create a teacher for a school, create a class
-        dummy_email, dummy_password = signup_teacher_directly()
-        first_class_name = "class1"
-        create_class_directly(dummy_email, first_class_name)
-
-        # create a school and then add admin and non admin to the school
-        school = create_organisation_directly(dummy_email)
-        # create a non admin teacher and check that all permissions are valid
-        non_admin_email, non_admin_password = signup_teacher_directly()
-        admin_email, admin_password = signup_teacher_directly()
-        join_teacher_to_organisation(non_admin_email, school.name, school.postcode, is_admin=False)
-        join_teacher_to_organisation(admin_email, school.name, school.postcode, is_admin=True)
-        # now go to a dashboard for the admin of school
-        # check if a game can be created
-        page = self.go_to_homepage().go_to_teacher_login_page().login(admin_email, admin_password)
-        page.go_to_kurono_teacher_dashboard_page()
-        add_class_dropdown = page.browser.find_element_by_id("add_class_dropdown")
-        add_class_dropdown.click()
-        first_class_option = page.browser.find_element_by_class_name("button.button--regular")
-        first_class_option.click()
-        first_table_row = page.browser.find_element_by_class_name("games-table__cell")
-        assert first_class_name in first_table_row.text
-        # now log out and try to delete the game as non admin; they should not be able to
-        page.logout()
-        page = self.go_to_homepage().go_to_teacher_login_page().login(non_admin_email, non_admin_password)
-        page.go_to_kurono_teacher_dashboard_page()
-        game_list_checkbox = page.browser.find_element_by_id("gamesListToggle")
-        game_list_checkbox.click()
-
-        delete_game_button = page.browser.find_element_by_id("deleteGamesButton")
-        delete_game_button.click()
-        confirm_button = page.browser.find_element_by_id("confirm_button")
-        confirm_button.click()
-        WebDriverWait(self.selenium, 10).until(EC.invisibility_of_element((By.ID, "confirm_button")))
-
-        assert Game.objects.filter(is_archived=True).count() == 0
-
-        page.logout()
-        page = self.go_to_homepage().go_to_teacher_login_page().login(admin_email, admin_password)
-        page.go_to_kurono_teacher_dashboard_page()
-
-        # now check if worksheet can be changed
-        current_game = Game.objects.get(game_class__name=first_class_name)
-        change_worksheet_function = f"changeWorksheetConfirmation({current_game.id}, '{first_class_name}', {2})"
-        confirm_worksheet_function = f"changeWorksheet()"
-        page.browser.execute_script(change_worksheet_function)
-        page.browser.execute_script(confirm_worksheet_function)
-
-        page.go_to_kurono_teacher_dashboard_page()
-        challenge_field = page.browser.find_element_by_id("worksheets_dropdown")
-        assert "2 - Present Day" in challenge_field.text
-
-        # check admin teacher creates a game, owner is still the teacher
-        game = Game.objects.all()[0]
-        assert game.created_by == Teacher.objects.get(new_user__email=admin_email)
-        assert game.owner == Teacher.objects.get(new_user__email=dummy_email).new_user
-        # delete game
-        game_list_checkbox = page.browser.find_element_by_id("gamesListToggle")
-        game_list_checkbox.click()
-
-        delete_game_button = page.browser.find_element_by_id("deleteGamesButton")
-        delete_game_button.click()
-        confirm_button = page.browser.find_element_by_id("confirm_button")
-        confirm_button.click()
-        WebDriverWait(self.selenium, 10).until(EC.invisibility_of_element((By.ID, "conrifm_button")))
-
-        assert Game.objects.filter(is_archived=True).count() == 1
-        assert Game.objects.filter(is_archived=False).count() == 0
 
     def test_worksheet_dropdown_changes_worksheet(self):
         teacher_email, teacher_password = signup_teacher_directly()
