@@ -107,6 +107,24 @@ def test_student_aimmo_dashboard_loads(student1: SchoolStudent, class1: Class, a
 
 # Selenium tests
 class TestAimmoDashboardFrontend(BaseTest):
+    def test_non_admin_teacher_game_change(self):
+        admin_email, admin_password = signup_teacher_directly()
+        create_class_directly(admin_email, "class1")
+        school = create_organisation_directly(admin_email)
+
+        non_admin_eamil, non_admin_password = signup_teacher_directly()
+        join_teacher_to_organisation(non_admin_eamil, school.name, school.postcode, is_admin=False)
+
+        c = Client()
+        c.login(username=non_admin_eamil, password=non_admin_password)
+
+        data = {"worksheet_id": 1}
+        url = reverse("teacher_aimmo_dashboard")
+        response = c.post(url, data)
+        [print(method) for method in dir(response)]
+        print(response.json())
+        assert False
+
     def test_non_admin_can_see_other_classes(self):
         admin_email, admin_password = signup_teacher_directly()
         create_class_directly(admin_email, "class1")
@@ -190,6 +208,7 @@ class TestAimmoDashboardFrontend(BaseTest):
         confirm_button.click()
         WebDriverWait(self.selenium, 10).until(EC.invisibility_of_element((By.ID, "conrifm_button")))
 
+        assert Game.objects.filter(is_archived=True).count() == 1
         assert Game.objects.filter(is_archived=False).count() == 0
 
     def test_worksheet_dropdown_changes_worksheet(self):
