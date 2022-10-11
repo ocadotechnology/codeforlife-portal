@@ -139,14 +139,16 @@ class TestAimmoDashboardFrontend(BaseTest):
         assert Game.objects.filter(game_class__teacher__school=admin_teacher.school, is_archived=False).count() == 2
 
         # check admin changing worksheets
-        admin_game = Game.objects.get(game_class__teacher=admin_teacher)
+        admin_game = Game.objects.get(owner=admin_teacher.new_user)  # here I am trying to query the right game
         non_admin_game = Game.objects.get(game_class__teacher=non_admin_teacher)
         data = json.dumps({"worksheet_id": 2})
-        c.put(
+        response = c.put(
             reverse("game-detail", kwargs={"pk": admin_game.id}),
             data,
             content_type="application/json",
         )
+        assert response.status_code == 200
+        assert Game.objects.filter(game_class__teacher=admin_teacher)[0].worksheet == WORKSHEETS.get(1)
 
         # test admin deleting classes
         c.post(reverse("game-delete-games"), {"game_ids": admin_game.id})
