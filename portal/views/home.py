@@ -16,8 +16,7 @@ from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import redirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.html import format_html
@@ -228,7 +227,7 @@ def redirect_teacher_to_correct_page(request, teacher):
 
 @cache_control(private=True)
 def home(request):
-    maintenance_banner = DynamicElement.objects.get_object_or_404(name="Maintenance banner")
+    maintenance_banner = get_object_or_404(DynamicElement, name="Maintenance banner")
 
     if maintenance_banner.active:
         messages.info(request, format_html(maintenance_banner.text), extra_tags="safe")
