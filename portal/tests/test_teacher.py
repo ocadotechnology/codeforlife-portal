@@ -106,8 +106,11 @@ class TestTeacher(TestCase):
         klass2, _, access_code2 = create_class_directly(email2, "Class 2")
         create_school_student_directly(access_code2)
 
-        teacher1: Teacher = Teacher.objects.get(new_user__email=email1)
         teacher2: Teacher = Teacher.objects.get(new_user__email=email2)
+        # make teacher1 non admin to remove extra permissions
+        teacher1: Teacher = Teacher.objects.get(new_user__email=email1)
+        teacher1.is_admin = False
+        teacher1.save()
 
         c = Client()
 
