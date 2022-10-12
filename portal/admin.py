@@ -1,4 +1,13 @@
-from common.models import Class, EmailVerification, School, SchoolTeacherInvitation, Student, Teacher, UserProfile
+from common.models import (
+    Class,
+    EmailVerification,
+    School,
+    SchoolTeacherInvitation,
+    Student,
+    Teacher,
+    UserProfile,
+    DynamicElement,
+)
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
@@ -105,3 +114,4 @@ admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(EmailVerification, EmailVerificationAdmin)
 admin.site.register(SchoolTeacherInvitation, SchoolTeacherInvitationAdmin)
+admin.site.register(DynamicElement)

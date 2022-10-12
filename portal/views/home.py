@@ -9,7 +9,7 @@ from common.helpers.emails import (
     send_email,
     send_verification_email,
 )
-from common.models import Student, Teacher
+from common.models import Student, Teacher, DynamicElement
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import _using_two_factor
 from django.contrib import messages as messages
@@ -230,23 +230,10 @@ def redirect_teacher_to_correct_page(request, teacher):
 
 @cache_control(private=True)
 def home(request):
-    kurono_down = False
+    maintenance_banner = DynamicElement.objects.get(name="Maintenance banner")
 
-    class_tag = "freshdesk__contact-us"
-
-    if kurono_down:
-        messages.info(
-            request,
-            format_html(
-                "We are currently carrying out some maintenance work on "
-                + "our website which means Kurono is temporarily unavailable. "
-                + "We will have everything up and running again as soon as possible. "
-                + "Please <a class='"
-                + class_tag
-                + "'>contact us</a> if you have any questions."
-            ),
-            extra_tags="safe",
-        )
+    if maintenance_banner.active:
+        messages.info(request, format_html(maintenance_banner.text), extra_tags="safe")
 
     """
     This view is where we can add any messages to be shown upon loading the home page.
