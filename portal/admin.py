@@ -1,13 +1,4 @@
-from common.models import (
-    Class,
-    EmailVerification,
-    School,
-    SchoolTeacherInvitation,
-    Student,
-    Teacher,
-    UserProfile,
-    DynamicElement,
-)
+from common.models import Class, EmailVerification, School, SchoolTeacherInvitation, Student, Teacher, UserProfile
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
@@ -90,11 +81,6 @@ class SchoolTeacherInvitationAdmin(admin.ModelAdmin):
     readonly_fields = ["token", "school", "from_teacher"]
 
 
-class DynamicElementAdmin(admin.ModelAdmin):
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-
 def anonymise_user(user_admin, request, queryset):
     for user in queryset:
         anonymise(user)
@@ -119,4 +105,3 @@ admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(EmailVerification, EmailVerificationAdmin)
 admin.site.register(SchoolTeacherInvitation, SchoolTeacherInvitationAdmin)
-admin.site.register(DynamicElement, DynamicElementAdmin)
