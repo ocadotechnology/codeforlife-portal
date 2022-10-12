@@ -126,41 +126,46 @@ class TestAimmoDashboardFrontend(BaseTest):
         c = Client()
         # check if non_admin cannot create class for the admin
         c.login(username=non_admin_email, password=non_admin_password)
-        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
-        assert Game.objects.filter(game_class__teacher__school=admin_teacher.school).count() == 0
+        response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
+        assert response.status_code == 200
+        assert Game.objects.filter(game_class__teacher__school=school).count() == 0
 
         # create a game by non admin and by admin, then check if admin can delete both
-        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": non_admin_class.pk})
+        response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": non_admin_class.pk})
+        assert response.status_code == 302
         assert Game.objects.filter(game_class__teacher=non_admin_teacher).count() == 1
         c.logout()
 
         c.login(username=admin_email, password=admin_password)
-        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
-        assert Game.objects.filter(game_class__teacher__school=admin_teacher.school, is_archived=False).count() == 2
+        response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
+        assert response.status_code == 302
+        assert Game.objects.filter(game_class__teacher__school=school, is_archived=False).count() == 2
 
         # check admin changing worksheets
-        admin_game = Game.objects.get(owner=admin_teacher.new_user)  # here I am trying to query the right game
-        non_admin_game = Game.objects.get(game_class__teacher=non_admin_teacher)
+        admin_game = Game.objects.get(game_class=admin_class)  # here I am trying to query the right game
+        non_admin_game = Game.objects.get(game_class=non_admin_class)
         data = json.dumps({"worksheet_id": 2})
         response = c.put(
             reverse("game-detail", kwargs={"pk": admin_game.id}),
             data,
             content_type="application/json",
         )
-        assert response.status_code == 200
+        assert response.status_code == 302
         assert Game.objects.filter(game_class__teacher=admin_teacher)[0].worksheet == WORKSHEETS.get(1)
 
         # test admin deleting classes
         c.post(reverse("game-delete-games"), {"game_ids": admin_game.id})
         c.post(reverse("game-delete-games"), {"game_ids": non_admin_game.id})
-        assert Game.objects.filter(game_class__teacher__school=admin_teacher.school, is_archived=True).count() == 2
+        assert Game.objects.filter(game_class__teacher__school=school, is_archived=True).count() == 2
         # now make check if the non admin can delete game
-        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
+        response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
+        assert response.status_code == 200
         assert Game.objects.filter(game_class__teacher=admin_teacher, is_archived=False).count() == 1
         c.logout()
 
         c.login(username=non_admin_email, password=non_admin_password)
-        c.post(reverse("game-delete-games"), {"game_ids": admin_game.id})
+        response = c.post(reverse("game-delete-games"), {"game_ids": admin_game.id})
+        assert response.status_code == 403
         assert Game.objects.filter(game_class__teacher=admin_teacher, is_archived=False).count() == 1
 
     def test_worksheet_dropdown_changes_worksheet(self):
