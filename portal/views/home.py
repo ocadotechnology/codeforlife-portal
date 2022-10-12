@@ -228,7 +228,7 @@ def redirect_teacher_to_correct_page(request, teacher):
 
 @cache_control(private=True)
 def home(request):
-    maintenance_banner = DynamicElement.objects.get(name="Maintenance banner")
+    maintenance_banner = DynamicElement.objects.get_object_or_404(name="Maintenance banner")
 
     if maintenance_banner.active:
         messages.info(request, format_html(maintenance_banner.text), extra_tags="safe")
