@@ -15,8 +15,9 @@ from common.utils import _using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.html import format_html
@@ -211,12 +212,12 @@ def redirect_teacher_to_correct_page(request, teacher):
             messages.info(
                 request,
                 (
-                        "You are not currently set up with two-factor authentication. "
-                        + "Use your phone or tablet to enhance your account’s security.</br>"
-                        + "Click <a href='"
-                        + link
-                        + "'>here</a> to find out more and "
-                        + "set it up or go to your account page at any time."
+                    "You are not currently set up with two-factor authentication. "
+                    + "Use your phone or tablet to enhance your account’s security.</br>"
+                    + "Click <a href='"
+                    + link
+                    + "'>here</a> to find out more and "
+                    + "set it up or go to your account page at any time."
                 ),
                 extra_tags="safe",
             )
@@ -227,10 +228,15 @@ def redirect_teacher_to_correct_page(request, teacher):
 
 @cache_control(private=True)
 def home(request):
-    maintenance_banner = get_object_or_404(DynamicElement, name="Maintenance banner")
+    # Putting this in a try catch because it causes some weird issue in the tests where the first Selenium test passes,
+    # but any following test fails because it cannot find the Maintenance banner instance.
+    try:
+        maintenance_banner = DynamicElement.objects.get(name="Maintenance banner")
 
-    if maintenance_banner.active:
-        messages.info(request, format_html(maintenance_banner.text), extra_tags="safe")
+        if maintenance_banner.active:
+            messages.info(request, format_html(maintenance_banner.text), extra_tags="safe")
+    except ObjectDoesNotExist:
+        pass
 
     """
     This view is where we can add any messages to be shown upon loading the home page.
