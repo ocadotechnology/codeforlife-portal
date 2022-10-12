@@ -185,11 +185,7 @@ class Class(models.Model):
     creation_time = models.DateTimeField(default=timezone.now, null=True)
     is_active = models.BooleanField(default=True)
     created_by = models.ForeignKey(
-        Teacher,
-        null=True,
-        blank=True,
-        related_name="created_classes",
-        on_delete=models.SET_NULL,
+        Teacher, null=True, blank=True, related_name="created_classes", on_delete=models.SET_NULL
     )
 
     objects = ClassModelManager()
@@ -309,7 +305,7 @@ class AimmoCharacter(models.Model):
 
 
 # -----------------------------------------------------------------------
-# Below are models used for data tracking
+# Below are models used for data tracking and maintenance
 # -----------------------------------------------------------------------
 class JoinReleaseStudent(models.Model):
     """
@@ -340,3 +336,18 @@ class DailyActivity(models.Model):
 
     def __str__(self):
         return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}"
+
+
+class DynamicElement(models.Model):
+    """
+    This model is meant to allow us to quickly update some elements dynamically on the website without having to
+    redeploy everytime. For example, if a maintenance banner needs to be added, we check the box in the Django admin
+    panel, edit the text and it'll show immediately on the website.
+    """
+
+    name = models.CharField(max_length=64, unique=True, editable=False)
+    active = models.BooleanField(default=False)
+    text = models.TextField(null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.name
