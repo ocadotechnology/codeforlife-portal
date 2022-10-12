@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
             name='DynamicElement',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=64, unique=True)),
+                ('name', models.CharField(max_length=64, unique=True, editable=False)),
                 ('active', models.BooleanField(default=False)),
                 ('text', models.TextField(blank=True, null=True)),
             ],

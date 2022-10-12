@@ -345,7 +345,7 @@ class DynamicElement(models.Model):
     panel, edit the text and it'll show immediately on the website.
     """
 
-    name = models.CharField(max_length=64, unique=True)
+    name = models.CharField(max_length=64, unique=True, editable=False)
     active = models.BooleanField(default=False)
     text = models.TextField(null=True, blank=True)
 
