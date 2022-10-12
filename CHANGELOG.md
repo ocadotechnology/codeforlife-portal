@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.22.0 (2022-10-12)
+### Feature
+* Create dynamic elements from Django admin ([#1950](https://github.com/ocadotechnology/codeforlife-portal/issues/1950)) ([`e1f7548`](https://github.com/ocadotechnology/codeforlife-portal/commit/e1f75484f779b22fe810f1bb6481af4bae468407))
+
 ## v6.21.0 (2022-10-05)
 ### Feature
 * Functionality for admin custom level sharing ([#1945](https://github.com/ocadotechnology/codeforlife-portal/issues/1945)) ([`54eb35c`](https://github.com/ocadotechnology/codeforlife-portal/commit/54eb35c22a06fcc8539e820ef83c8ea450cc7640))
