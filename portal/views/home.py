@@ -1,6 +1,6 @@
 import logging
-
 import math
+
 from common import email_messages
 from common.helpers.emails import (
     NOTIFICATION_EMAIL,
@@ -9,16 +9,18 @@ from common.helpers.emails import (
     send_email,
     send_verification_email,
 )
-from common.models import Student, Teacher
+from common.models import Student, Teacher, DynamicElement
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import _using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
+from django.utils.html import format_html
 from django.views.decorators.cache import cache_control
 
 from deploy import captcha
@@ -30,15 +32,11 @@ from portal.helpers.ratelimit import (
     RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_RATE,
     is_ratelimited,
 )
-from portal.strings.home_learning import HOME_LEARNING_BANNER
-from django.utils.safestring import mark_safe
-from django.utils.html import format_html
 from portal.strings.coding_club import CODING_CLUB_BANNER
-from portal.views.teacher.teach import count_student_pack_downloads_click
-
-from django.shortcuts import redirect
+from portal.strings.home_learning import HOME_LEARNING_BANNER
 from portal.templatetags.app_tags import cloud_storage
 from portal.views.teacher.teach import DownloadType
+from portal.views.teacher.teach import count_student_pack_downloads_click
 
 LOGGER = logging.getLogger(__name__)
 
@@ -214,12 +212,12 @@ def redirect_teacher_to_correct_page(request, teacher):
             messages.info(
                 request,
                 (
-                    "You are not currently set up with two-factor authentication. "
-                    + "Use your phone or tablet to enhance your account’s security.</br>"
-                    + "Click <a href='"
-                    + link
-                    + "'>here</a> to find out more and "
-                    + "set it up or go to your account page at any time."
+                        "You are not currently set up with two-factor authentication. "
+                        + "Use your phone or tablet to enhance your account’s security.</br>"
+                        + "Click <a href='"
+                        + link
+                        + "'>here</a> to find out more and "
+                        + "set it up or go to your account page at any time."
                 ),
                 extra_tags="safe",
             )
@@ -230,23 +228,10 @@ def redirect_teacher_to_correct_page(request, teacher):
 
 @cache_control(private=True)
 def home(request):
-    kurono_down = False
+    maintenance_banner = DynamicElement.objects.get(name="Maintenance banner")
 
-    class_tag = "freshdesk__contact-us"
-
-    if kurono_down:
-        messages.info(
-            request,
-            format_html(
-                "We are currently carrying out some maintenance work on "
-                + "our website which means Kurono is temporarily unavailable. "
-                + "We will have everything up and running again as soon as possible. "
-                + "Please <a class='"
-                + class_tag
-                + "'>contact us</a> if you have any questions."
-            ),
-            extra_tags="safe",
-        )
+    if maintenance_banner.active:
+        messages.info(request, format_html(maintenance_banner.text), extra_tags="safe")
 
     """
     This view is where we can add any messages to be shown upon loading the home page.
