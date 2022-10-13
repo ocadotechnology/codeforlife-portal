@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.22.1 (2022-10-13)
+### Fix
+* Add maintenance banner ([#1951](https://github.com/ocadotechnology/codeforlife-portal/issues/1951)) ([`0de6e06`](https://github.com/ocadotechnology/codeforlife-portal/commit/0de6e06708c21405e74ccabfbc4a9d0186fb7e43))
+
 ## v6.22.0 (2022-10-12)
 ### Feature
 * Create dynamic elements from Django admin ([#1950](https://github.com/ocadotechnology/codeforlife-portal/issues/1950)) ([`e1f7548`](https://github.com/ocadotechnology/codeforlife-portal/commit/e1f75484f779b22fe810f1bb6481af4bae468407))
