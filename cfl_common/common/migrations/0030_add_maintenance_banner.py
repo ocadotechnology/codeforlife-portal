@@ -12,7 +12,7 @@ def add_maintenance_banner(apps, schema_editor):
     DynamicElement.objects.create(name="Maintenance banner")
 
 
-def revert_portaladmin_verification(apps, schema_editor):
+def remove_maintenance_banner(apps, schema_editor):
     DynamicElement = apps.get_model("common", "DynamicElement")
     maintenance_banner = DynamicElement.objects.get(name="Maintenance banner")
     maintenance_banner.delete()
@@ -23,5 +23,5 @@ class Migration(migrations.Migration):
     dependencies = [("common", "0029_dynamicelement")]
 
     operations = [
-        migrations.RunPython(add_maintenance_banner, revert_portaladmin_verification)
+        migrations.RunPython(add_maintenance_banner, remove_maintenance_banner)
     ]
