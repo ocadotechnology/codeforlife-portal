@@ -233,6 +233,7 @@ td .button--primary {
 
 .button--dropdown {
   @extend .dropdown;
+  width: 20vw;
   align-items: center;
   background: transparent;
   border: 2px solid $color-secondary-600;
