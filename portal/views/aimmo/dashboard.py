@@ -26,8 +26,7 @@ class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Crea
         return logged_in_as_teacher(self.request.user)
 
     def get_form(self, form_class=None):
-        user = self.request.user
-        teacher = user.new_teacher
+        teacher = self.request.user.new_teacher
         non_admin_classes = Class.objects.filter(teacher=teacher)
         admin_classes = non_admin_classes.union(
             Class.objects.filter(teacher__school=teacher.school).exclude(teacher=teacher), all=True
