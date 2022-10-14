@@ -28,7 +28,11 @@ class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Crea
     def get_form(self, form_class=None):
         user = self.request.user
         teacher = user.new_teacher
-        list_of_teachers = teacher.school.teacher_school.all()
+        list_of_teachers = (
+            teacher.school.teacher_school.all()
+            if teacher.is_admin
+            else teacher.school.teacher_school.filter(new_user=user)
+        )
         classes = Class.objects.filter(teacher__in=list_of_teachers)
         if form_class is None:
             form_class = self.get_form_class()
