@@ -1,7 +1,8 @@
 from typing import Any, Dict, List, Optional
 
 from aimmo.game_creator import create_game
-from aimmo.models import Game, Class
+from aimmo.models import Game
+from common.models import Class
 from aimmo.worksheets import WORKSHEETS, Worksheet, get_worksheets_excluding_id
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import LoginRequiredNoErrorMixin
@@ -28,10 +29,7 @@ class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Crea
     def get_form(self, form_class=None):
         teacher = self.request.user.new_teacher
         non_admin_classes = teacher.class_teacher
-        school_teachers_without_current_user = Class.objects.filter(teacher__school=teacher.school).exclude(
-            teacher=teacher
-        )
-        admin_classes = non_admin_classes.union(school_teachers_without_current_user, all=True)
+        admin_classes = Class.objects.filter(teacher__school=teacher.school)
         classes = admin_classes if teacher.is_admin else non_admin_classes
         if form_class is None:
             form_class = self.get_form_class()
