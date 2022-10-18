@@ -144,13 +144,13 @@ class TestAimmoDashboardFrontend(BaseTest):
         assert Game.objects.filter(game_class__teacher__school=school, is_archived=True).count() == 2
         # now make check if the non admin can delete game
         response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
-        assert response.status_code == 200
+        assert response.status_code == 302
         assert Game.objects.filter(game_class__teacher=admin_teacher, is_archived=False).count() == 1
         c.logout()
 
         c.login(username=non_admin_email, password=non_admin_password)
         response = c.post(reverse("game-delete-games"), {"game_ids": admin_game.id})
-        assert response.status_code == 403
+        assert response.status_code == 204
         assert Game.objects.filter(game_class__teacher=admin_teacher, is_archived=False).count() == 1
 
     def test_worksheet_dropdown_changes_worksheet(self):
