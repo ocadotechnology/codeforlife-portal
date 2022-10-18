@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.23.0 (2022-10-18)
+### Feature
+* Admin aimmo power portal feature ([#1952](https://github.com/ocadotechnology/codeforlife-portal/issues/1952)) ([`2e723f5`](https://github.com/ocadotechnology/codeforlife-portal/commit/2e723f53daf7e17ace1d318cba643e06057ebd9d))
+
 ## v6.22.1 (2022-10-13)
 ### Fix
 * Add maintenance banner ([#1951](https://github.com/ocadotechnology/codeforlife-portal/issues/1951)) ([`0de6e06`](https://github.com/ocadotechnology/codeforlife-portal/commit/0de6e06708c21405e74ccabfbc4a9d0186fb7e43))
