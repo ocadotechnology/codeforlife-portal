@@ -25,7 +25,13 @@
         <tr>
             <td>
                 <div class="games-table__cell">
-                    <p>{{ game.game_class.name }}</p>
+                    <p>{{ game.game_class.name }}
+                        {% if user.userprofile.teacher == game.game_class.teacher %}
+                            (You)
+                        {% else %}
+                            ({{ game.game_class.teacher }})
+                        {% endif %}
+                    </p>
                 </div>
             </td>
             <td>

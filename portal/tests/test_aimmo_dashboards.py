@@ -1,9 +1,10 @@
+import json
 import pytest
 from aimmo.models import Game
 from aimmo.worksheets import WORKSHEETS
-from common.models import Class
+from common.models import Class, Teacher
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly
+from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from django.test.client import Client
@@ -40,7 +41,9 @@ def test_student_cannot_access_teacher_dashboard(student1: SchoolStudent, class1
 
 
 @pytest.mark.django_db
-def test_indep_student_cannot_access_dashboard(independent_student1: IndependentStudent,):
+def test_indep_student_cannot_access_dashboard(
+    independent_student1: IndependentStudent,
+):
     """
     Given you are logged in as an independent student,
     When you try to access the student dashboard,
@@ -100,6 +103,56 @@ def test_student_aimmo_dashboard_loads(student1: SchoolStudent, class1: Class, a
 
 # Selenium tests
 class TestAimmoDashboardFrontend(BaseTest):
+    def test_admin_permissions_actions(self):
+        # Create admin teacher, school and class
+        admin_email, admin_password = signup_teacher_directly()
+        school = create_organisation_directly(admin_email)
+        admin_class, _, admin_access_code = create_class_directly(admin_email, "class 1")
+
+        # create another teacher and add as not admin, create a class
+        non_admin_email, non_admin_password = signup_teacher_directly()
+        join_teacher_to_organisation(non_admin_email, school.name, school.postcode, is_admin=False)
+        non_admin_class, _, non_admin_access_code = create_class_directly(non_admin_email, "class 2")
+
+        non_admin_teacher: Teacher = Teacher.objects.get(new_user__email=non_admin_email)
+        admin_teacher: Teacher = Teacher.objects.get(new_user__email=admin_email)
+
+        c = Client()
+        # check if non_admin cannot create a game for the admin
+        c.login(username=non_admin_email, password=non_admin_password)
+        response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
+        assert response.status_code == 200
+        assert Game.objects.filter(game_class__teacher__school=school).count() == 0
+
+        # create a game by non admin and by admin, then check if admin can delete both
+        response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": non_admin_class.pk})
+        assert response.status_code == 302
+        assert Game.objects.filter(game_class__teacher=non_admin_teacher).count() == 1
+        c.logout()
+
+        c.login(username=admin_email, password=admin_password)
+        response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
+        assert response.status_code == 302
+        assert Game.objects.filter(game_class__teacher__school=school).count() == 2
+
+        admin_game = Game.objects.get(game_class=admin_class)
+        non_admin_game = Game.objects.get(game_class=non_admin_class)
+
+        # test admin deleting games
+        c.post(reverse("game-delete-games"), {"game_ids": admin_game.id})
+        c.post(reverse("game-delete-games"), {"game_ids": non_admin_game.id})
+        assert Game.objects.filter(game_class__teacher__school=school, is_archived=True).count() == 2
+        # now make check if the non admin can delete game
+        response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
+        assert response.status_code == 302
+        assert Game.objects.filter(game_class__teacher=admin_teacher, is_archived=False).count() == 1
+        c.logout()
+
+        c.login(username=non_admin_email, password=non_admin_password)
+        response = c.post(reverse("game-delete-games"), {"game_ids": admin_game.id})
+        assert response.status_code == 204
+        assert Game.objects.filter(game_class__teacher=admin_teacher, is_archived=False).count() == 1
+
     def test_worksheet_dropdown_changes_worksheet(self):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)

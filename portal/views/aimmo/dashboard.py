@@ -2,6 +2,7 @@ from typing import Any, Dict, List, Optional
 
 from aimmo.game_creator import create_game
 from aimmo.models import Game
+from common.models import Class
 from aimmo.worksheets import WORKSHEETS, Worksheet, get_worksheets_excluding_id
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import LoginRequiredNoErrorMixin
@@ -26,8 +27,10 @@ class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Crea
         return logged_in_as_teacher(self.request.user)
 
     def get_form(self, form_class=None):
-        user = self.request.user
-        classes = user.userprofile.teacher.class_teacher.all()
+        teacher = self.request.user.new_teacher
+        non_admin_classes = teacher.class_teacher
+        admin_classes = Class.objects.filter(teacher__school=teacher.school)
+        classes = admin_classes if teacher.is_admin else non_admin_classes
         if form_class is None:
             form_class = self.get_form_class()
         return form_class(classes, **self.get_form_kwargs())
@@ -47,9 +50,7 @@ class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Crea
         return reverse_lazy("teacher_aimmo_dashboard")
 
 
-class StudentAimmoDashboard(
-    LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView
-):
+class StudentAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView):
     template_name = "portal/play/student_aimmo_dashboard.html"
 
     login_url = reverse_lazy("student_login_access_code")
@@ -77,9 +78,7 @@ class StudentAimmoDashboard(
         else:
             return {"BANNER": AIMMO_DASHBOARD_BANNER}
 
-    def _get_hero_card(
-        self, active_worksheet: Worksheet, aimmo_game: Game
-    ) -> Dict[str, Any]:
+    def _get_hero_card(self, active_worksheet: Worksheet, aimmo_game: Game) -> Dict[str, Any]:
         return {
             "image": active_worksheet.active_image_path,
             "title": active_worksheet.name,
