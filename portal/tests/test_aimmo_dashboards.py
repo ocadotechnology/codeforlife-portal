@@ -118,7 +118,7 @@ class TestAimmoDashboardFrontend(BaseTest):
         admin_teacher: Teacher = Teacher.objects.get(new_user__email=admin_email)
 
         c = Client()
-        # check if non_admin cannot create class for the admin
+        # check if non_admin cannot create a game for the admin
         c.login(username=non_admin_email, password=non_admin_password)
         response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
         assert response.status_code == 200
@@ -133,12 +133,12 @@ class TestAimmoDashboardFrontend(BaseTest):
         c.login(username=admin_email, password=admin_password)
         response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": admin_class.pk})
         assert response.status_code == 302
-        assert Game.objects.filter(game_class__teacher__school=school, is_archived=False).count() == 2
+        assert Game.objects.filter(game_class__teacher__school=school).count() == 2
 
-        admin_game = Game.objects.get(game_class=admin_class)  # here I am trying to query the right game
+        admin_game = Game.objects.get(game_class=admin_class)
         non_admin_game = Game.objects.get(game_class=non_admin_class)
 
-        # test admin deleting classes
+        # test admin deleting games
         c.post(reverse("game-delete-games"), {"game_ids": admin_game.id})
         c.post(reverse("game-delete-games"), {"game_ids": non_admin_game.id})
         assert Game.objects.filter(game_class__teacher__school=school, is_archived=True).count() == 2
