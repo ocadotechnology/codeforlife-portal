@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.23.1 (2022-10-24)
+### Fix
+* Added a bug fix for class deletion and game still being up ([#1953](https://github.com/ocadotechnology/codeforlife-portal/issues/1953)) ([`a35652f`](https://github.com/ocadotechnology/codeforlife-portal/commit/a35652fd043db6a9f1466714ba03b3d7d59ba226))
+
 ## v6.23.0 (2022-10-18)
 ### Feature
 * Admin aimmo power portal feature ([#1952](https://github.com/ocadotechnology/codeforlife-portal/issues/1952)) ([`2e723f5`](https://github.com/ocadotechnology/codeforlife-portal/commit/2e723f53daf7e17ace1d318cba643e06057ebd9d))
