@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+from aimmo.models import Game
 from common.models import Class, Teacher
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
@@ -15,6 +16,26 @@ from .utils.messages import is_class_created_message_showing
 
 
 class TestClass(TestCase):
+    def test_class_deletion_deletes_game(self):
+        email, password = signup_teacher_directly()
+        school = create_organisation_directly(email)
+        klass, _, access_code = create_class_directly(email, "class 1")
+        teacher: Teacher = Teacher.objects.get(new_user__email=email)
+        c = Client()
+        c.login(username=email, password=password)
+        assert Class.objects.filter(teacher=teacher).count() == 1
+
+        # create a game
+        response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass.pk})
+        assert response.status_code == 302
+        assert Game.objects.filter(game_class__teacher=teacher, is_archived=False).count() == 1
+
+        # try do delete class and see if game is also gone
+        delete_url = reverse("teacher_delete_class", kwargs={"access_code": access_code})
+        c.post(delete_url)
+        assert Class.objects.filter(teacher=teacher).count() == 0
+        assert Game.objects.filter(game_class__teacher=teacher, is_archived=True).count() == 1
+
     def test_delete_class(self):
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
