@@ -215,6 +215,7 @@ def teacher_delete_class(request, access_code):
             "This class still has students, please remove or delete them all before deleting the class.",
         )
         return HttpResponseRedirect(reverse_lazy("view_class", kwargs={"access_code": access_code}))
+
     for game in games:
         game.is_archived = True
         game.save()

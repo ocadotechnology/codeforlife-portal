@@ -33,6 +33,7 @@ class TestClass(TestCase):
         # try do delete class and see if game is also gone
         delete_url = reverse("teacher_delete_class", kwargs={"access_code": access_code})
         c.post(delete_url)
+        assert Class.objects.filter(teacher=teacher).count() == 0
         assert Game.objects.filter(game_class__teacher=teacher, is_archived=True).count() == 1
 
     def test_delete_class(self):

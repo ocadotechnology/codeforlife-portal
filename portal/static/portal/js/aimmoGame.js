@@ -1,4 +1,4 @@
-n/* global showPopupConfirmation */
+/* global showPopupConfirmation */
 /* global hidePopupConfirmation */
 
 function classesText(classes) {
