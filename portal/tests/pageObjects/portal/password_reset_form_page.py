@@ -2,6 +2,8 @@ from __future__ import absolute_import
 
 from .base_page import BasePage
 
+from selenium.common.exceptions import NoSuchElementException
+
 
 class PasswordResetPage(BasePage):
     def __init__(self, browser):
@@ -26,6 +28,19 @@ class PasswordResetPage(BasePage):
         self.browser.find_element_by_id("student_update_button").click()
 
         self.wait_for_element_by_id("reset_password_done_page")
+
+        return self
+
+    def reset_password_fail(self, new_password):
+        self.clear_and_fill("new_password1", new_password)
+        self.clear_and_fill("new_password2", new_password)
+
+        try:
+            update_button = self.browser.find_element_by_id("teacher_update_button")
+        except NoSuchElementException:
+            update_button = self.browser.find_element_by_id("student_update_button")
+
+        update_button.click()
 
         return self
 

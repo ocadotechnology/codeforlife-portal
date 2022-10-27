@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.24.0 (2022-10-27)
+### Feature
+* Reset password must be different to the current password ([#1955](https://github.com/ocadotechnology/codeforlife-portal/issues/1955)) ([`3cd8129`](https://github.com/ocadotechnology/codeforlife-portal/commit/3cd812950e8b1d427d9887350e56304f9a8cef69))
+
 ## v6.23.1 (2022-10-24)
 ### Fix
 * Added a bug fix for class deletion and game still being up ([#1953](https://github.com/ocadotechnology/codeforlife-portal/issues/1953)) ([`a35652f`](https://github.com/ocadotechnology/codeforlife-portal/commit/a35652fd043db6a9f1466714ba03b3d7d59ba226))

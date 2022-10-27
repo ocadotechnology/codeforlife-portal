@@ -3,6 +3,8 @@ from enum import Enum, auto
 
 from django import forms
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.hashers import PBKDF2PasswordHasher as ph
+from django.core.exceptions import ValidationError
 
 
 class PasswordStrength(Enum):
@@ -78,10 +80,7 @@ def password_strength_test(
         and (not upper or re.search(r"[A-Z]", password))
         and (not lower or re.search(r"[a-z]", password))
         and (not numbers or re.search(r"[0-9]", password))
-        and (
-            not special_char
-            or re.search(r"[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]", password)
-        )
+        and (not special_char or re.search(r"[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]", password))
         and (password not in most_used_passwords)
     )
 
@@ -89,6 +88,12 @@ def password_strength_test(
 def form_clean_password(self, password_field_name, strength: PasswordStrength):
     password = self.cleaned_data.get(password_field_name, None)
     password = strength.password_test(password)
+    if hasattr(self, "user"):
+        current_user_password = self.user.password
+        algorithm, iterations, salt, hash = current_user_password.split("$")
+        new_hashed_password = ph().encode(password, salt)
+        if new_hashed_password == current_user_password:
+            raise ValidationError(f"Please choose a password that you haven't used before")
     return password
 
 
