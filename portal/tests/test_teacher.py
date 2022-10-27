@@ -607,6 +607,25 @@ class TestTeacherFrontend(BaseTest):
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email, new_password)
         assert self.is_dashboard_page(page)
 
+    def test_reset_with_same_password(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        page = self.get_to_forgotten_password_page()
+
+        page.reset_email_submit(email)
+
+        self.wait_for_email()
+
+        page = email_utils.follow_reset_email_link(self.selenium, mail.outbox[0])
+
+        page.reset_password_fail(password)
+
+        message = page.browser.find_element_by_class_name("errorlist")
+        assert "Please choose a password that you haven't used before" in message.text
+
     def test_reset_password_fail(self):
         page = self.get_to_forgotten_password_page()
         fake_email = "fake_email@fakeemail.com"
