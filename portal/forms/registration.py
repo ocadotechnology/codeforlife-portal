@@ -126,7 +126,7 @@ class StudentPasswordResetForm(PasswordResetForm):
 class DeleteAccountForm(forms.Form):
     delete_password = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={"placeholder": "Confirm password"}),
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Confirm password"}),
         help_text="Confirm password",
     )
 

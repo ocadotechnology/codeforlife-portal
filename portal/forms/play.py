@@ -88,15 +88,18 @@ class StudentLoginForm(AuthenticationForm):
 
 class StudentEditAccountForm(forms.Form):
     password = forms.CharField(
-        required=True, widget=forms.PasswordInput(attrs={"placeholder": "New password"}), help_text="Enter new password"
+        required=True,
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "New password"}),
+        help_text="Enter new password",
     )
     confirm_password = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={"placeholder": "Confirm new password"}),
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Confirm new password"}),
         help_text="Confirm new password",
     )
     current_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"placeholder": "Current password"}), help_text="Enter your current password"
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Current password"}),
+        help_text="Enter your current password",
     )
 
     def __init__(self, user, *args, **kwargs):
@@ -114,28 +117,28 @@ class IndependentStudentEditAccountForm(forms.Form):
     name = forms.CharField(
         max_length=100,
         required=False,
-        widget=forms.TextInput(attrs={"placeholder": "Name"}),
+        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Name"}),
         help_text="Enter your name",
     )
     email = forms.EmailField(
         required=False,
-        widget=forms.EmailInput(attrs={"placeholder": "New email address (optional)"}),
+        widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "New email address (optional)"}),
         help_text="Enter new email address (optional)",
     )
     password = forms.CharField(
         required=False,
-        widget=forms.PasswordInput(attrs={"placeholder": "New password (optional)"}),
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "New password (optional)"}),
         help_text="Enter new password (optional)",
     )
     confirm_password = forms.CharField(
         label="Confirm new password",
         required=False,
-        widget=forms.PasswordInput(attrs={"placeholder": "Confirm new password"}),
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Confirm new password"}),
         help_text="Confirm new password",
     )
     current_password = forms.CharField(
         label="Current password",
-        widget=forms.PasswordInput(attrs={"placeholder": "Current password"}),
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Current password"}),
         help_text="Enter your current password",
     )
 
