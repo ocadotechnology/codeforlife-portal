@@ -88,13 +88,12 @@ def password_strength_test(
 def form_clean_password(self, password_field_name, strength: PasswordStrength):
     password = self.cleaned_data.get(password_field_name, None)
     password = strength.password_test(password)
-
-    new_password = self.cleaned_data.get("new_password1")
-    current_user_password = self.user.password
-    algorithm, iterations, salt, hash = current_user_password.split("$")
-    new_hashed_password = ph().encode(new_password, salt)
-    if new_hashed_password == current_user_password:
-        raise ValidationError(f"Please choose a password that you haven't used before")
+    if hasattr(self, "user"):
+        current_user_password = self.user.password
+        algorithm, iterations, salt, hash = current_user_password.split("$")
+        new_hashed_password = ph().encode(password, salt)
+        if new_hashed_password == current_user_password:
+            raise ValidationError(f"Please choose a password that you haven't used before")
     return password
 
 
