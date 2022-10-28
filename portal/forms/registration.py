@@ -10,7 +10,6 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-
 from portal.helpers.password import PasswordStrength, form_clean_password
 
 
