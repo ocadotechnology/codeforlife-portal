@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.24.1 (2022-10-28)
+### Fix
+* Added autocompelte='off' ([#1956](https://github.com/ocadotechnology/codeforlife-portal/issues/1956)) ([`9676cc4`](https://github.com/ocadotechnology/codeforlife-portal/commit/9676cc4a8cb3ab8aeb1bbcd3b50896b506d9c2d4))
+
 ## v6.24.0 (2022-10-27)
 ### Feature
 * Reset password must be different to the current password ([#1955](https://github.com/ocadotechnology/codeforlife-portal/issues/1955)) ([`3cd8129`](https://github.com/ocadotechnology/codeforlife-portal/commit/3cd812950e8b1d427d9887350e56304f9a8cef69))
