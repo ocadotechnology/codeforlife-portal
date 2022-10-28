@@ -65,7 +65,7 @@
                 </p>
 
                 <h5>Invite teachers to your school</h5>
-                <form method="post" class="p-0" onsubmit="showMakeAdminTeacherPopup(event)">
+                <form autocomplete="off" method="post" class="p-0" onsubmit="showMakeAdminTeacherPopup(event)">
                     {% csrf_token %}
 
                     {{ invite_teacher_form.non_field_errors }}
@@ -226,7 +226,7 @@
                 <div class="container">
                     <h5>Update details of your school or club</h5>
                     <p>Update your school or club’s name and/or postcode.</p>
-                    <form id="edit_form" method="post">
+                    <form autocomplete="off" id="edit_form" method="post">
                         {% csrf_token %}
                         {{ update_school_form.non_field_errors }}
                         <div class="row form--row">
@@ -361,7 +361,7 @@
                     </p>
                 {% endif %}
 
-                <form method="post">
+                <form autocomplete="off" method="post">
 
                     {% csrf_token %}
 
@@ -406,7 +406,7 @@
                 <h4>Your account</h4>
             </section>
             <p>You can update your account details below.</p>
-            <form method="post" id="form-edit-teacher">
+            <form autocomplete="off" method="post" id="form-edit-teacher">
 
                 {% csrf_token %}
 
@@ -514,7 +514,7 @@
                 <p><b>This can't be reversed. All classes you've created will be permanently erased.</b>
                 </p>
 
-                <form method="post" id="form-delete-account">
+                <form autocomplete="off" method="post" id="form-delete-account">
 
                 {% csrf_token %}
 

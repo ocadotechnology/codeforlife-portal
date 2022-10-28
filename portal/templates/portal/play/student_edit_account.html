@@ -51,7 +51,7 @@
             Please ensure your password is strong enough to be secure.</p>
     {% endif %}
 
-    <form id="student_account_form" method="post">
+    <form autocomplete="off" id="student_account_form" method="post">
         {% csrf_token %}
         {{ form.non_field_errors }}
 
@@ -138,7 +138,7 @@
         <p><b>This can't be reversed.</b>
         </p>
 
-        <form method="post" id="form-delete-indy-account">
+        <form autocomplete="off" method="post" id="form-delete-indy-account">
 
         {% csrf_token %}
 
