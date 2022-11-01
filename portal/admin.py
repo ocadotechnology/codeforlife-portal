@@ -15,8 +15,13 @@ from django.contrib.auth.models import User
 from portal.forms.admin import AdminChangeUserPasswordForm, AdminUserCreationForm
 from portal.views.api import anonymise
 
+from import_export.admin import ExportActionMixin
 
-class ClassAdmin(admin.ModelAdmin):
+import csv
+from django.http import HttpResponse
+
+
+class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = ["name", "teacher__new_user__first_name", "teacher__new_user__last_name", "teacher__school__name"]
     list_display = ["__str__", "teacher", "teacher_school"]
     raw_id_fields = ["teacher"]
@@ -25,12 +30,12 @@ class ClassAdmin(admin.ModelAdmin):
         return obj.teacher.school
 
 
-class SchoolAdmin(admin.ModelAdmin):
+class SchoolAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = ["name", "country", "postcode", "town"]
     list_filter = ["postcode", "country"]
 
 
-class StudentAdmin(admin.ModelAdmin):
+class StudentAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
         "new_user__first_name",
         "new_user__last_name",
@@ -56,26 +61,26 @@ class StudentAdmin(admin.ModelAdmin):
             return "Independent"
 
 
-class TeacherAdmin(admin.ModelAdmin):
+class TeacherAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = ["new_user__first_name", "new_user__last_name", "school__name"]
     list_display = ["__str__", "school"]
     readonly_fields = ["user", "new_user"]
     raw_id_fields = ["school"]
 
 
-class UserProfileAdmin(admin.ModelAdmin):
+class UserProfileAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = ["user__first_name", "user__last_name", "user__username", "user__date_joined"]
     list_filter = ["user__date_joined"]
     list_display = ["user", "__str__", "joined_recently"]
     readonly_fields = ["user"]
 
 
-class EmailVerificationAdmin(admin.ModelAdmin):
+class EmailVerificationAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = ["user__first_name", "user__last_name", "user__username", "user__date_joined"]
     readonly_fields = ["user", "token"]
 
 
-class SchoolTeacherInvitationAdmin(admin.ModelAdmin):
+class SchoolTeacherInvitationAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
         "from_teacher__new_user__first_name",
         "from_teacher__new_user__last_name",
@@ -90,7 +95,7 @@ class SchoolTeacherInvitationAdmin(admin.ModelAdmin):
     readonly_fields = ["token", "school", "from_teacher"]
 
 
-class DynamicElementAdmin(admin.ModelAdmin):
+class DynamicElementAdmin(admin.ModelAdmin, ExportActionMixin):
     def has_delete_permission(self, request, obj=None):
         return False
 
@@ -100,7 +105,24 @@ def anonymise_user(user_admin, request, queryset):
         anonymise(user)
 
 
+def export_as_csv(self, request, queryset):
+
+    meta = self.model._meta
+    field_names = [field.name for field in meta.fields if field.name != "password"]
+
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = "attachment; filename={}.csv".format(meta)
+    writer = csv.writer(response)
+
+    writer.writerow(field_names)
+    for obj in queryset:
+        row = writer.writerow([getattr(obj, field) for field in field_names])
+
+    return response
+
+
 anonymise_user.short_description = "Anonymise selected users"
+export_as_csv.short_description = "Export selected users"
 
 
 UserAdmin.list_display += ("date_joined",)
@@ -108,6 +130,7 @@ UserAdmin.list_filter += ("date_joined",)
 UserAdmin.add_form = AdminUserCreationForm
 UserAdmin.change_password_form = AdminChangeUserPasswordForm
 UserAdmin.actions.append(anonymise_user)
+UserAdmin.actions.append(export_as_csv)
 
 
 admin.site.register(Class, ClassAdmin)
