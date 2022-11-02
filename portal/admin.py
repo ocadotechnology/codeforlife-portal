@@ -122,7 +122,7 @@ def export_as_csv(self, request, queryset):
 
 
 anonymise_user.short_description = "Anonymise selected users"
-export_as_csv.short_description = "Export selected users"
+export_as_csv.short_description = "Export selected users data as CSV"
 
 
 UserAdmin.list_display += ("date_joined",)
