@@ -20,6 +20,7 @@ pytest-mock = "*"
 PyPDF2 = "==1.27.9"
 black = "*"
 importlib-metadata = "<5"
+django-import-export = "*"
 
 [requires]
 python_version = "3.7"
