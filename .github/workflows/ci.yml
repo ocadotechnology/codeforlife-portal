@@ -26,6 +26,7 @@ jobs:
       - name: Install dependencies and build frontend
         run: |
           pip install codecov
+          pip install django-import-export
           pip install pytest-cov
           pip install pytest-xdist
           pip install pytest-order
