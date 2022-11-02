@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 codeforlife-portal = {path = ".", editable = true}
 cfl-common = {editable = true, path = "./cfl_common"}
-django-import-export = "*"
 
 [dev-packages]
 django-selenium-clean = "==0.3.3"
@@ -16,6 +15,10 @@ selenium = "==3.141.0"
 snapshottest = "==0.6.0"
 pytest-django = "==4.5.2"
 pytest = "==7.*"
+django-import-export = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
+pytest-order = "*"
 pyvirtualdisplay = "*"
 pytest-mock = "*"
 PyPDF2 = "==1.27.9"
