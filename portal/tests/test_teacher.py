@@ -35,6 +35,10 @@ from .utils.messages import (
     is_password_updated_message_showing,
 )
 
+from selenium.webdriver.common.action_chains import ActionChains
+
+from portal.tests.base_test import click_buttons_by_id
+
 
 class TestTeacher(TestCase):
     def test_new_student_can_play_games(self):
@@ -705,25 +709,19 @@ class TestTeacherFrontend(BaseTest):
         invite_button.click()
 
         # Once invite sent test the make admin button
+        """
         make_admin_button = WebDriverWait(self.selenium, WAIT_TIME).until(
             EC.element_to_be_clickable((By.ID, "make_admin_button_invite"))
         )
         make_admin_button.click()
+        """
 
-        assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
-        time.sleep(FADE_TIME)
-        cancel_button = WebDriverWait(self.selenium, WAIT_TIME).until(
-            EC.element_to_be_clickable((By.ID, "cancel_admin_popup_button"))
-        )
-        cancel_button.click()
+        button_ids = ["make_admin_button_invite", "cancel_admin_popup_button", "delete-invite"]
+        click_buttons_by_id(page, self, button_ids)
 
         # Delete the invite and check if the form invite with
         # admin checked also makes a popup
-        time.sleep(1)  # let the page scroll down
-        delete_invite_button = WebDriverWait(self.selenium, WAIT_TIME).until(
-            EC.element_to_be_clickable((By.ID, "delete-invite"))
-        )
-        delete_invite_button.click()
+        # time.sleep(1)  # let the page scroll down
 
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
@@ -731,16 +729,9 @@ class TestTeacherFrontend(BaseTest):
         checkbox = page.browser.find_element_by_name("make_admin_ticked")
         checkbox.click()
 
-        invite_button = WebDriverWait(self.selenium, WAIT_TIME).until(
-            EC.element_to_be_clickable((By.ID, "invite_teacher_button"))
-        )
-        invite_button.click()
-        assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
-        time.sleep(FADE_TIME)
-        cancel_button = WebDriverWait(self.selenium, WAIT_TIME).until(
-            EC.element_to_be_clickable((By.ID, "cancel_admin_popup_button"))
-        )
-        cancel_button.click()
+        button_ids = ["invite_teacher_button", "cancel_admin_popup_button"]
+
+        click_buttons_by_id(page, self, button_ids)
 
         # Non admin teacher joined - make admin should also make a popup
 
@@ -748,12 +739,7 @@ class TestTeacherFrontend(BaseTest):
 
         # refresh the page and scroll to the buttons
         page.browser.execute_script("location.reload()")
-        page.browser.execute_script("window.scroll(0,900)")
-        time.sleep(FADE_TIME)
-        make_admin_button = WebDriverWait(self.selenium, WAIT_TIME).until(
-            EC.element_to_be_clickable((By.ID, "make_admin_button"))
-        )
-        make_admin_button.click()
+        click_buttons_by_id(page, self, "make_admin_button")
 
         assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
 
