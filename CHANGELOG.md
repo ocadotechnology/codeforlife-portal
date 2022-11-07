@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.24.3 (2022-11-07)
+### Fix
+* **deps:** Bump django from 3.2.15 to 3.2.16 ([#1962](https://github.com/ocadotechnology/codeforlife-portal/issues/1962)) ([`322310f`](https://github.com/ocadotechnology/codeforlife-portal/commit/322310fcd4e29092f7370ab77124d337b1ebe8c9))
+
 ## v6.24.2 (2022-11-07)
 ### Fix
 * Fix most common flaky tests #1 ([#1958](https://github.com/ocadotechnology/codeforlife-portal/issues/1958)) ([`c6de9d6`](https://github.com/ocadotechnology/codeforlife-portal/commit/c6de9d67728767b5df7f03ba5aef6d62e5b96ed6))
