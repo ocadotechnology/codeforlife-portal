@@ -17,7 +17,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-from portal.tests.base_test import BaseTest
+from portal.tests.base_test import BaseTest, click_buttons_by_id
 
 FADE_TIME = 0.9
 WAIT_TIME = 15
@@ -179,56 +179,33 @@ class TestTeacherInviteActions(BaseTest):
         page = self.go_to_homepage()
         page = page.go_to_teacher_login_page().login(teacher_email, teacher_password)
 
-        # Generate an invite
+        # Generate an invite and make admin
         invite_data = {"teacher_first_name": "Adam", "teacher_last_name": "NotAdam", "teacher_email": "adam@adam.not"}
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
             field.send_keys(invite_data[key])
-        invite_button = WebDriverWait(self.selenium, WAIT_TIME).until(
-            EC.element_to_be_clickable((By.ID, "invite_teacher_button"))
-        )
-        invite_button.click()
 
-        banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
+        # check if invite text for a user has been generated
+        click_buttons_by_id(page, self, "invite_teacher_button")
+        banner = page.browser.find_element_by_id("messages")
         assert (
-            banner.text
-            == f"You have invited {invite_data['teacher_first_name']} {invite_data['teacher_last_name']} to your school."
+            f"You have invited {invite_data['teacher_first_name']} {invite_data['teacher_last_name']} to your school."
+            in banner.text
         )
-
-        # make admin
-        # page.browser.execute_script('document.getElementById("delete-invite").scrollIntoView()')
-        # Selenium seems to struggle with elements that are not present on the screen
-        # hence this is the way to scroll down to the element that is needed
-        element_to_find = self.selenium.find_element_by_id("make_admin_button_invite")
-        actions = ActionChains(self.selenium)
-        actions.move_to_element(element_to_find).perform()
-        make_admin_button = WebDriverWait(self.selenium, WAIT_TIME).until(
-            EC.element_to_be_clickable((By.ID, "make_admin_button_invite"))
-        )
-        make_admin_button.click()
-        # handle popup
-        element_to_find = self.selenium.find_element_by_id("add_admin_button")
-        actions = ActionChains(self.selenium)
-        actions.move_to_element(element_to_find).perform()
-        confirm_button = WebDriverWait(self.selenium, WAIT_TIME).until(
-            EC.element_to_be_clickable((By.ID, "add_admin_button"))
-        )
-        confirm_button.click()
 
         # check if popup message appears and if the invite is changed to admin
-        banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
-        assert banner.text == "Administrator invite status has been given successfully"
+        sleep(1)  # this HAS to be there because of the animation :/
+        click_buttons_by_id(page, self, ["make_admin_button_invite", "add_admin_button"])
         invite = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0]
         assert invite.invited_teacher_is_admin
+        banner = page.browser.find_element_by_id("messages")
+        assert "Administrator invite status has been given successfully" in banner.text
 
         # revoke admin
-        make_admin_button = WebDriverWait(self.selenium, WAIT_TIME).until(
-            EC.element_to_be_clickable((By.ID, "make_non_admin_button_invite"))
-        )
-        make_admin_button.click()
+        click_buttons_by_id(page, self, "make_non_admin_button_invite")
 
-        banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
-        assert banner.text == "Administrator invite status has been revoked successfully"
+        banner = page.browser.find_element_by_id("messages")
+        assert "Administrator invite status has been revoked successfully" in banner.text
 
     def test_delete_invite(self):
         teacher_email, teacher_password = signup_teacher_directly()
@@ -274,8 +251,8 @@ class TestTeacherInviteActions(BaseTest):
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
             field.send_keys(invite_data[key])
-        invite_button = page.browser.find_element_by_name("invite_teacher_button")
-        invite_button.click()
+
+        click_buttons_by_id(page, self, "invite_teacher_button")
 
         banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
         assert (
@@ -284,10 +261,7 @@ class TestTeacherInviteActions(BaseTest):
         )
 
         # resend an invite
-        resend_invite = WebDriverWait(self.selenium, WAIT_TIME).until(
-            EC.element_to_be_clickable((By.ID, "resend-invite"))
-        )
-        resend_invite.click()
+        click_buttons_by_id(page, self, "resend-invite")
 
         # check if invite was updated by 30 days (used 29 for rounding errors)
         new_invite_expiry = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0].expiry

@@ -7,9 +7,7 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots[
-    "test_banner 1"
-] = """<div class="banner banner--teacher">
+snapshots['test_banner 1'] = '''<div class="banner banner--teacher">
     <div class="container">
         <div class="row">
             <div class="col-sm-12 d-flex">
@@ -37,11 +35,9 @@ snapshots[
         </div>
     </div>
 </div>
-"""
+'''
 
-snapshots[
-    "test_benefits 1"
-] = """
+snapshots['test_benefits 1'] = '''
 
 <div class="grid-benefits col-sm-8 col-center">
     
@@ -81,11 +77,9 @@ snapshots[
         </div>
     
 </div>
-"""
+'''
 
-snapshots[
-    "test_card_list 1"
-] = """
+snapshots['test_card_list 1'] = '''
 
 
 <script type="text/javascript" src="/static/portal/js/carouselCards.js"></script>
@@ -180,11 +174,9 @@ snapshots[
 <script>
     setUpCarouselCards(5)
 </script>
-"""
+'''
 
-snapshots[
-    "test_character_list 1"
-] = """
+snapshots['test_character_list 1'] = '''
 
 
 <div class="grid grid-characters grid__fit">
@@ -208,19 +200,275 @@ snapshots[
         </div>
     
 </div>
-"""
+'''
 
-snapshots[
-    "test_headline 1"
-] = """<section>
+snapshots['test_character_list[0] 1'] = '''
+
+
+<div class="grid grid-characters grid__fit">
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Xian.png" alt="Illustration of Xian">
+            <h5 class="grid-character-title">Xian</h5>
+            <p>Fun, active, will dance to just about anything that produces a beat. Has great memory, always a joke at hand, might try to introduce memes in Ancient Greece. Scored gold in a track race once and will take any opportunity to bring that up.</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Jools.png" alt="Illustration of Jools">
+            <h5 class="grid-character-title">Jools</h5>
+            <p>A quick-witted kid who wasn&#x27;t expecting to embark in a time-warping journey but can&#x27;t say no to a challenge. Someone has to keep the rest of the group in check, after all!</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Zayed.png" alt="Illustration of Zayed">
+            <h5 class="grid-character-title">Zayed</h5>
+            <p>A pretty chill, curious soul that prefers practice to theory. Always ready to jump into an adventure if it looks interesting enough; not so much otherwise. Probably the one who accidentally turned the time machine on in the first place.</p>
+        </div>
+    
+</div>
+'''
+
+snapshots['test_character_list[1] 1'] = '''
+
+
+<div class="grid grid-characters grid__fit">
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Xian.png" alt="Illustration of Xian">
+            <h5 class="grid-character-title">Xian</h5>
+            <p>Fun, active, will dance to just about anything that produces a beat. Has great memory, always a joke at hand, might try to introduce memes in Ancient Greece. Scored gold in a track race once and will take any opportunity to bring that up.</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Jools.png" alt="Illustration of Jools">
+            <h5 class="grid-character-title">Jools</h5>
+            <p>A quick-witted kid who wasn&#x27;t expecting to embark in a time-warping journey but can&#x27;t say no to a challenge. Someone has to keep the rest of the group in check, after all!</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Zayed.png" alt="Illustration of Zayed">
+            <h5 class="grid-character-title">Zayed</h5>
+            <p>A pretty chill, curious soul that prefers practice to theory. Always ready to jump into an adventure if it looks interesting enough; not so much otherwise. Probably the one who accidentally turned the time machine on in the first place.</p>
+        </div>
+    
+</div>
+'''
+
+snapshots['test_character_list[2] 1'] = '''
+
+
+<div class="grid grid-characters grid__fit">
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Xian.png" alt="Illustration of Xian">
+            <h5 class="grid-character-title">Xian</h5>
+            <p>Fun, active, will dance to just about anything that produces a beat. Has great memory, always a joke at hand, might try to introduce memes in Ancient Greece. Scored gold in a track race once and will take any opportunity to bring that up.</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Jools.png" alt="Illustration of Jools">
+            <h5 class="grid-character-title">Jools</h5>
+            <p>A quick-witted kid who wasn&#x27;t expecting to embark in a time-warping journey but can&#x27;t say no to a challenge. Someone has to keep the rest of the group in check, after all!</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Zayed.png" alt="Illustration of Zayed">
+            <h5 class="grid-character-title">Zayed</h5>
+            <p>A pretty chill, curious soul that prefers practice to theory. Always ready to jump into an adventure if it looks interesting enough; not so much otherwise. Probably the one who accidentally turned the time machine on in the first place.</p>
+        </div>
+    
+</div>
+'''
+
+snapshots['test_character_list[3] 1'] = '''
+
+
+<div class="grid grid-characters grid__fit">
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Xian.png" alt="Illustration of Xian">
+            <h5 class="grid-character-title">Xian</h5>
+            <p>Fun, active, will dance to just about anything that produces a beat. Has great memory, always a joke at hand, might try to introduce memes in Ancient Greece. Scored gold in a track race once and will take any opportunity to bring that up.</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Jools.png" alt="Illustration of Jools">
+            <h5 class="grid-character-title">Jools</h5>
+            <p>A quick-witted kid who wasn&#x27;t expecting to embark in a time-warping journey but can&#x27;t say no to a challenge. Someone has to keep the rest of the group in check, after all!</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Zayed.png" alt="Illustration of Zayed">
+            <h5 class="grid-character-title">Zayed</h5>
+            <p>A pretty chill, curious soul that prefers practice to theory. Always ready to jump into an adventure if it looks interesting enough; not so much otherwise. Probably the one who accidentally turned the time machine on in the first place.</p>
+        </div>
+    
+</div>
+'''
+
+snapshots['test_character_list[4] 1'] = '''
+
+
+<div class="grid grid-characters grid__fit">
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Xian.png" alt="Illustration of Xian">
+            <h5 class="grid-character-title">Xian</h5>
+            <p>Fun, active, will dance to just about anything that produces a beat. Has great memory, always a joke at hand, might try to introduce memes in Ancient Greece. Scored gold in a track race once and will take any opportunity to bring that up.</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Jools.png" alt="Illustration of Jools">
+            <h5 class="grid-character-title">Jools</h5>
+            <p>A quick-witted kid who wasn&#x27;t expecting to embark in a time-warping journey but can&#x27;t say no to a challenge. Someone has to keep the rest of the group in check, after all!</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Zayed.png" alt="Illustration of Zayed">
+            <h5 class="grid-character-title">Zayed</h5>
+            <p>A pretty chill, curious soul that prefers practice to theory. Always ready to jump into an adventure if it looks interesting enough; not so much otherwise. Probably the one who accidentally turned the time machine on in the first place.</p>
+        </div>
+    
+</div>
+'''
+
+snapshots['test_character_list[5] 1'] = '''
+
+
+<div class="grid grid-characters grid__fit">
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Xian.png" alt="Illustration of Xian">
+            <h5 class="grid-character-title">Xian</h5>
+            <p>Fun, active, will dance to just about anything that produces a beat. Has great memory, always a joke at hand, might try to introduce memes in Ancient Greece. Scored gold in a track race once and will take any opportunity to bring that up.</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Jools.png" alt="Illustration of Jools">
+            <h5 class="grid-character-title">Jools</h5>
+            <p>A quick-witted kid who wasn&#x27;t expecting to embark in a time-warping journey but can&#x27;t say no to a challenge. Someone has to keep the rest of the group in check, after all!</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Zayed.png" alt="Illustration of Zayed">
+            <h5 class="grid-character-title">Zayed</h5>
+            <p>A pretty chill, curious soul that prefers practice to theory. Always ready to jump into an adventure if it looks interesting enough; not so much otherwise. Probably the one who accidentally turned the time machine on in the first place.</p>
+        </div>
+    
+</div>
+'''
+
+snapshots['test_character_list[6] 1'] = '''
+
+
+<div class="grid grid-characters grid__fit">
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Xian.png" alt="Illustration of Xian">
+            <h5 class="grid-character-title">Xian</h5>
+            <p>Fun, active, will dance to just about anything that produces a beat. Has great memory, always a joke at hand, might try to introduce memes in Ancient Greece. Scored gold in a track race once and will take any opportunity to bring that up.</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Jools.png" alt="Illustration of Jools">
+            <h5 class="grid-character-title">Jools</h5>
+            <p>A quick-witted kid who wasn&#x27;t expecting to embark in a time-warping journey but can&#x27;t say no to a challenge. Someone has to keep the rest of the group in check, after all!</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Zayed.png" alt="Illustration of Zayed">
+            <h5 class="grid-character-title">Zayed</h5>
+            <p>A pretty chill, curious soul that prefers practice to theory. Always ready to jump into an adventure if it looks interesting enough; not so much otherwise. Probably the one who accidentally turned the time machine on in the first place.</p>
+        </div>
+    
+</div>
+'''
+
+snapshots['test_character_list[7] 1'] = '''
+
+
+<div class="grid grid-characters grid__fit">
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Xian.png" alt="Illustration of Xian">
+            <h5 class="grid-character-title">Xian</h5>
+            <p>Fun, active, will dance to just about anything that produces a beat. Has great memory, always a joke at hand, might try to introduce memes in Ancient Greece. Scored gold in a track race once and will take any opportunity to bring that up.</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Jools.png" alt="Illustration of Jools">
+            <h5 class="grid-character-title">Jools</h5>
+            <p>A quick-witted kid who wasn&#x27;t expecting to embark in a time-warping journey but can&#x27;t say no to a challenge. Someone has to keep the rest of the group in check, after all!</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Zayed.png" alt="Illustration of Zayed">
+            <h5 class="grid-character-title">Zayed</h5>
+            <p>A pretty chill, curious soul that prefers practice to theory. Always ready to jump into an adventure if it looks interesting enough; not so much otherwise. Probably the one who accidentally turned the time machine on in the first place.</p>
+        </div>
+    
+</div>
+'''
+
+snapshots['test_character_list[8] 1'] = '''
+
+
+<div class="grid grid-characters grid__fit">
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Xian.png" alt="Illustration of Xian">
+            <h5 class="grid-character-title">Xian</h5>
+            <p>Fun, active, will dance to just about anything that produces a beat. Has great memory, always a joke at hand, might try to introduce memes in Ancient Greece. Scored gold in a track race once and will take any opportunity to bring that up.</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Jools.png" alt="Illustration of Jools">
+            <h5 class="grid-character-title">Jools</h5>
+            <p>A quick-witted kid who wasn&#x27;t expecting to embark in a time-warping journey but can&#x27;t say no to a challenge. Someone has to keep the rest of the group in check, after all!</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Zayed.png" alt="Illustration of Zayed">
+            <h5 class="grid-character-title">Zayed</h5>
+            <p>A pretty chill, curious soul that prefers practice to theory. Always ready to jump into an adventure if it looks interesting enough; not so much otherwise. Probably the one who accidentally turned the time machine on in the first place.</p>
+        </div>
+    
+</div>
+'''
+
+snapshots['test_character_list[9] 1'] = '''
+
+
+<div class="grid grid-characters grid__fit">
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Xian.png" alt="Illustration of Xian">
+            <h5 class="grid-character-title">Xian</h5>
+            <p>Fun, active, will dance to just about anything that produces a beat. Has great memory, always a joke at hand, might try to introduce memes in Ancient Greece. Scored gold in a track race once and will take any opportunity to bring that up.</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Jools.png" alt="Illustration of Jools">
+            <h5 class="grid-character-title">Jools</h5>
+            <p>A quick-witted kid who wasn&#x27;t expecting to embark in a time-warping journey but can&#x27;t say no to a challenge. Someone has to keep the rest of the group in check, after all!</p>
+        </div>
+    
+        <div>
+            <img class="grid-character-image" src="https://storage.googleapis.com/codeforlife-assets/images/aimmo_characters/Zayed.png" alt="Illustration of Zayed">
+            <h5 class="grid-character-title">Zayed</h5>
+            <p>A pretty chill, curious soul that prefers practice to theory. Always ready to jump into an adventure if it looks interesting enough; not so much otherwise. Probably the one who accidentally turned the time machine on in the first place.</p>
+        </div>
+    
+</div>
+'''
+
+snapshots['test_headline 1'] = '''<section>
     <h4>Test title</h4>
 </section>
 <p class="container">Test description</p>
-"""
+'''
 
-snapshots[
-    "test_hero_card 1"
-] = """
+snapshots['test_hero_card 1'] = '''
 
 
 <div class="card activated-card">
@@ -239,4 +487,4 @@ snapshots[
         </div>
     </div>
 </div>
-"""
+'''
