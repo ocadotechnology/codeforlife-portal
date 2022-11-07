@@ -721,7 +721,6 @@ class TestTeacherFrontend(BaseTest):
 
         # Delete the invite and check if the form invite with
         # admin checked also makes a popup
-        # time.sleep(1)  # let the page scroll down
 
         for key in invite_data.keys():
             field = page.browser.find_element_by_name(key)
