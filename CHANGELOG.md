@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.24.2 (2022-11-07)
+### Fix
+* Fix most common flaky tests #1 ([#1958](https://github.com/ocadotechnology/codeforlife-portal/issues/1958)) ([`c6de9d6`](https://github.com/ocadotechnology/codeforlife-portal/commit/c6de9d67728767b5df7f03ba5aef6d62e5b96ed6))
+
 ## v6.24.1 (2022-10-28)
 ### Fix
 * Added autocompelte='off' ([#1956](https://github.com/ocadotechnology/codeforlife-portal/issues/1956)) ([`9676cc4`](https://github.com/ocadotechnology/codeforlife-portal/commit/9676cc4a8cb3ab8aeb1bbcd3b50896b506d9c2d4))
