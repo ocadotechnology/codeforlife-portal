@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import reverse
 from django.template.context import RequestContext
 from django.template.defaultfilters import stringfilter
+
 from portal import __version__, beta
 
 register = template.Library()
@@ -29,11 +30,7 @@ def has_2FA(u):
 
 @register.filter(name="is_logged_in")
 def is_logged_in(u):
-    return (
-        u
-        and u.is_authenticated
-        and (not using_two_factor(u) or (hasattr(u, "is_verified") and u.is_verified()))
-    )
+    return u and u.is_authenticated and (not using_two_factor(u) or (hasattr(u, "is_verified") and u.is_verified()))
 
 
 @register.filter
@@ -118,10 +115,7 @@ def is_independent_student(u):
 @register.filter(name="has_teacher_finished_onboarding")
 def has_teacher_finished_onboarding(u):
     teacher = u.userprofile.teacher
-    return (
-        is_logged_in_as_teacher(u)
-        and teacher.has_school()
-    )
+    return is_logged_in_as_teacher(u) and teacher.has_school()
 
 
 @register.filter(name="is_logged_in_as_school_user")
@@ -130,10 +124,7 @@ def is_logged_in_as_school_user(u):
         is_logged_in(u)
         and u.userprofile
         and (
-            (
-                hasattr(u.userprofile, "student")
-                and u.userprofile.student.class_field != None
-            )
+            (hasattr(u.userprofile, "student") and u.userprofile.student.class_field != None)
             or hasattr(u.userprofile, "teacher")
         )
     )
@@ -176,3 +167,8 @@ def url_for_aimmo_dashboard(context: RequestContext):
         return reverse("teacher_aimmo_dashboard")
     else:
         return reverse("student_aimmo_dashboard")
+
+
+@register.filter
+def get_dict_item(dictionary, key):
+    return dictionary[key]
