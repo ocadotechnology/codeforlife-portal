@@ -1,18 +1,9 @@
-import time
+from django.test import Client
 from django.urls import reverse
-import pytest
-
 from portal.tests.base_test import BaseTest
 from portal.tests.pageObjects.portal.teacher_login_page import TeacherLoginPage
 from portal.views import admin
-from django.test import Client, TestCase
-
-from common.tests.utils.user import create_user_directly, get_superuser
-from rest_framework.test import APITestCase
-from portal.admin import export_as_csv
-from random import randint
-
-from django.contrib.auth.models import User
+import pytest
 
 
 class TestAdmin(BaseTest):
