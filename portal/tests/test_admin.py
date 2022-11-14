@@ -1,5 +1,6 @@
 import time
 from django.urls import reverse
+import pytest
 
 from portal.tests.base_test import BaseTest
 from portal.tests.pageObjects.portal.teacher_login_page import TeacherLoginPage
@@ -29,9 +30,6 @@ class TestAdmin(BaseTest):
     # Checks all admin pages goes to admin_login when user is not logged in
     def test_navigate_to_admin_login(self):
         self.navigate_to_admin_login()
-
-
-import pytest
 
 
 @pytest.mark.django_db
