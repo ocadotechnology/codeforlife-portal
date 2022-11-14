@@ -354,6 +354,7 @@ def process_level_control_form(request, klass, blockly_episodes, python_episodes
     mark_levels_to_lock_in_episodes(request, blockly_episodes, levels_to_lock_ids)
     mark_levels_to_lock_in_episodes(request, python_episodes, levels_to_lock_ids)
 
+    klass.locked_levels.clear()
     [klass.locked_levels.add(levels_to_lock_id) for levels_to_lock_id in levels_to_lock_ids]
 
     messages.success(request, "Your level preferences have been saved.")

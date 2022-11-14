@@ -8,6 +8,7 @@ from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from django.test import Client, TestCase
 from django.urls import reverse
+from game.models import Level
 
 from .base_test import BaseTest
 from .pageObjects.portal.teach.class_page import TeachClassPage
@@ -137,6 +138,108 @@ class TestClass(TestCase):
         assert klass.name == new_class_name
         assert klass.classmates_data_viewable
         assert klass.always_accept_requests
+
+    def test_level_control(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+        klass1, _, access_code1 = create_class_directly(email)
+        klass2, _, access_code2 = create_class_directly(email)
+
+        c = Client()
+
+        url = reverse("teacher_edit_class", kwargs={"access_code": access_code1})
+        # POST request data for locking only the first level
+        data = {
+            "Getting Started": ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+            "Shortest Route": ["13", "14", "15", "16", "17", "18"],
+            "Loops and Repetitions": ["19", "20", "21", "22", "23", "24", "25", "26", "27", "28"],
+            "Loops with Conditions": ["29", "30", "31", "32"],
+            "If... Only": ["33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43"],
+            "Traffic Lights": ["44", "45", "46", "47", "48", "49", "50"],
+            "Limited Blocks": ["53", "78", "79", "80", "81", "82", "83", "84", "54", "55"],
+            "Procedures": ["85", "52", "60", "86", "62", "87", "61"],
+            "Blockly Brain Teasers": ["56", "57", "58", "59", "88", "91", "90", "89", "110", "111", "112", "92"],
+            "Introduction to Python": ["93", "63", "64", "65", "94", "66", "67", "68", "95", "69", "96", "97"],
+            "Python": [
+                "98",
+                "70",
+                "71",
+                "73",
+                "72",
+                "99",
+                "74",
+                "75",
+                "100",
+                "101",
+                "102",
+                "103",
+                "104",
+                "105",
+                "106",
+                "107",
+                "108",
+                "109",
+            ],
+            "level_control_submit": "",
+        }
+
+        c.login(username=email, password=password)
+
+        response = c.post(url, data)
+
+        assert response.status_code == 302
+
+        level1 = Level.objects.get(name=1)
+
+        assert klass1 in level1.locked_for_class.all()
+        assert klass2 not in level1.locked_for_class.all()
+        messages = list(response.wsgi_request._messages)
+        assert len(messages) == 1
+        assert str(messages[0]) == "Your level preferences have been saved."
+
+        # Resubmitting to unlock level 1
+        data = {
+            "Getting Started": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+            "Shortest Route": ["13", "14", "15", "16", "17", "18"],
+            "Loops and Repetitions": ["19", "20", "21", "22", "23", "24", "25", "26", "27", "28"],
+            "Loops with Conditions": ["29", "30", "31", "32"],
+            "If... Only": ["33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43"],
+            "Traffic Lights": ["44", "45", "46", "47", "48", "49", "50"],
+            "Limited Blocks": ["53", "78", "79", "80", "81", "82", "83", "84", "54", "55"],
+            "Procedures": ["85", "52", "60", "86", "62", "87", "61"],
+            "Blockly Brain Teasers": ["56", "57", "58", "59", "88", "91", "90", "89", "110", "111", "112", "92"],
+            "Introduction to Python": ["93", "63", "64", "65", "94", "66", "67", "68", "95", "69", "96", "97"],
+            "Python": [
+                "98",
+                "70",
+                "71",
+                "73",
+                "72",
+                "99",
+                "74",
+                "75",
+                "100",
+                "101",
+                "102",
+                "103",
+                "104",
+                "105",
+                "106",
+                "107",
+                "108",
+                "109",
+            ],
+            "level_control_submit": "",
+        }
+
+        response = c.post(url, data)
+
+        assert response.status_code == 302
+
+        level1 = Level.objects.get(name=1)
+
+        assert klass1 not in level1.locked_for_class.all()
+        assert klass2 not in level1.locked_for_class.all()
 
     def test_transfer_class(self):
         email1, password1 = signup_teacher_directly()
