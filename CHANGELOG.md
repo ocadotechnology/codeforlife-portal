@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.27.0 (2022-11-15)
+### Feature
+* Remove fake accounts ([#1966](https://github.com/ocadotechnology/codeforlife-portal/issues/1966)) ([`e279909`](https://github.com/ocadotechnology/codeforlife-portal/commit/e2799096687dab3ef88bc3d1f70ccbf99a20c5d9))
+
 ## v6.26.0 (2022-11-15)
 ### Feature
 * Level access control form ([#1965](https://github.com/ocadotechnology/codeforlife-portal/issues/1965)) ([`1e98cf4`](https://github.com/ocadotechnology/codeforlife-portal/commit/1e98cf4b11adbee8c1346361bc6593ca8b92a874))
