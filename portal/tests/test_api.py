@@ -206,7 +206,7 @@ class APITests(APITestCase):
         # First two accounts should be deleted
         # Third account should be omitted because first and last name is different
         # Fourth account should be omitted because it is verified
-        random_fake_users = [
+        random_accounts = [
             {
                 "username": "hiya",
                 "first_name": "name",
@@ -241,23 +241,21 @@ class APITests(APITestCase):
             },
         ]
 
-        for random_fake_user in random_fake_users:
-            print(random_fake_user)
+        for random_account in random_accounts:
             signup_teacher_directly(
-                preverified=random_fake_user["verified"],
-                username=random_fake_user["username"],
-                email=random_fake_user["email"],
-                first_name=random_fake_user["first_name"],
-                last_name=random_fake_user["last_name"],
+                preverified=random_account["verified"],
+                username=random_account["username"],
+                email=random_account["email"],
+                first_name=random_account["first_name"],
+                last_name=random_account["last_name"],
             )
 
-        assert len(User.objects.all()) == len(random_fake_users) + initial_users_length
+        assert len(User.objects.all()) == len(random_accounts) + initial_users_length
 
         client.login(username=admin_username, password=admin_password)
         response = client.post(reverse("remove_fake_accounts"))
         assert response.status_code == 204
         # check if after deletion all the users are still there
-        [print(f"{user} - {user.first_name} ; {user.last_name}") for user in User.objects.all()]
         assert len(User.objects.all()) == initial_users_length + 2  # mentioned in the fake_accounts description
 
 
