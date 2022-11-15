@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.26.0 (2022-11-15)
+### Feature
+* Level access control form ([#1965](https://github.com/ocadotechnology/codeforlife-portal/issues/1965)) ([`1e98cf4`](https://github.com/ocadotechnology/codeforlife-portal/commit/1e98cf4b11adbee8c1346361bc6593ca8b92a874))
+
 ## v6.25.0 (2022-11-14)
 ### Feature
 * Export user data ([#1957](https://github.com/ocadotechnology/codeforlife-portal/issues/1957)) ([`8961d74`](https://github.com/ocadotechnology/codeforlife-portal/commit/8961d748faa23cc50224d6264fb56c5297c8ee7b))
