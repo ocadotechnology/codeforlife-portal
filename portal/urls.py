@@ -7,7 +7,6 @@ from django.views.generic.base import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from game.views.level import play_default_level
 from two_factor.views import BackupTokensView, ProfileView, QRGeneratorView, SetupCompleteView
-from common.remove_fake_accounts import remove_fake_accounts
 
 from portal.helpers.decorators import ratelimit
 from portal.helpers.ratelimit import RATELIMIT_LOGIN_GROUP, RATELIMIT_METHOD, RATELIMIT_LOGIN_RATE
@@ -19,6 +18,7 @@ from portal.views.aimmo.dashboard import StudentAimmoDashboard, TeacherAimmoDash
 from portal.views.api import (
     AnonymiseOrphanSchoolsView,
     InactiveUsersView,
+    RemoveFakeAccounts,
     last_connected_since,
     number_users_per_country,
     registered_users,
@@ -312,5 +312,5 @@ urlpatterns = [
     url(r"^reactTestSpace/", reactTestSpace, name="reactTestSpace"),
     url(r"^codingClub/$", coding_club, name="codingClub"),
     url(r"^codingClub/(?P<student_pack_type>[3-4])/", download_student_pack, name="download_student_pack"),
-    url(r"^removeFakeAccounts/", remove_fake_accounts),
+    url(r"^removeFakeAccounts/", RemoveFakeAccounts.as_view(), name="remove_fake_accounts"),
 ]

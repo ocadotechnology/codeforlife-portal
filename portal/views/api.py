@@ -2,7 +2,7 @@ import datetime
 import logging
 import uuid
 
-from common.models import Class, School, Student, Teacher
+from common.models import Class, School, Student, Teacher, EmailVerification
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Exists, OuterRef
@@ -150,6 +150,31 @@ class InactiveUsersView(generics.ListAPIView):
         for user in inactive_users:
             anonymise(user)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class RemoveFakeAccounts(generics.ListAPIView):
+    """
+    This API endpoint will delete fake accounts that have
+    the same first and last name, as well as if they are not
+    verified
+    """
+
+    authentication_classes = (SessionAuthentication,)
+    serializer_class = InactiveUserSerializer
+    permission_classes = (IsAdminOrGoogleAppEngine,)
+
+    def post(self, request):
+        email_verifications = EmailVerification.objects.filter(verified=False)
+
+        for email_verification in email_verifications:
+            current_user_first_name = email_verification.user.first_name
+            current_user_last_name = email_verification.user.last_name
+
+            if current_user_last_name == current_user_first_name:
+                current_user = email_verification.user
+                current_user.delete()
+
+        return HttpResponse(status=204)
 
 
 class AnonymiseOrphanSchoolsView(generics.ListAPIView):
