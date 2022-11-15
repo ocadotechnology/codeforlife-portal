@@ -163,7 +163,7 @@ class RemoveFakeAccounts(generics.ListAPIView):
     serializer_class = InactiveUserSerializer
     permission_classes = (IsAdminOrGoogleAppEngine,)
 
-    def post(self, request):
+    def get(self, request):
         email_verifications = EmailVerification.objects.filter(verified=False)
 
         for email_verification in email_verifications:
