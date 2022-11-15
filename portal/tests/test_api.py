@@ -255,6 +255,7 @@ class APITests(APITestCase):
         client.login(username=admin_username, password=admin_password)
         response = client.get(reverse("remove_fake_accounts"))
         assert response.status_code == 204
+
         # check if after deletion all the users are still there
         assert len(User.objects.all()) == initial_users_length + 2  # mentioned in the fake_accounts description
 
