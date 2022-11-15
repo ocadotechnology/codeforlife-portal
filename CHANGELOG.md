@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.25.0 (2022-11-14)
+### Feature
+* Export user data ([#1957](https://github.com/ocadotechnology/codeforlife-portal/issues/1957)) ([`8961d74`](https://github.com/ocadotechnology/codeforlife-portal/commit/8961d748faa23cc50224d6264fb56c5297c8ee7b))
+
 ## v6.24.3 (2022-11-07)
 ### Fix
 * **deps:** Bump django from 3.2.15 to 3.2.16 ([#1962](https://github.com/ocadotechnology/codeforlife-portal/issues/1962)) ([`322310f`](https://github.com/ocadotechnology/codeforlife-portal/commit/322310fcd4e29092f7370ab77124d337b1ebe8c9))
