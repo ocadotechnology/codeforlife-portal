@@ -47,6 +47,7 @@ setup(
         "django-preventconcurrentlogins==0.8.2",
         "django-csp==3.7",
         "setuptools==62.1.0",
+        "django-import-export",
     ],
     classifiers=[
         "Programming Language :: Python",

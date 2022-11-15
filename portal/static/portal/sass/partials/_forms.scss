@@ -84,6 +84,38 @@ form {
     padding: 0;
     text-align: left;
   }
+
+  #episodes {
+    p {
+      @include _padding(10px, 0px, 10px, 0px);
+    }
+  }
+
+  .panel {
+    @include _margin-bottom(5px);
+  }
+
+  .panel-intro,
+  .panel-header {
+    label {
+      @include _margin-right(9px);
+    }
+
+    input[type="checkbox"] {
+      height: 20px;
+      width: 20px;
+    }
+  }
+
+  .panel-body {
+    label {
+      @include _margin-right(11px);
+    }
+
+    input[type="checkbox"] {
+      height: 10px;
+    }
+  }
 }
 
 .form--login {
