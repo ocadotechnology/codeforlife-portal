@@ -10,15 +10,11 @@ class AddGameForm(ModelForm):
         super(AddGameForm, self).__init__(*args, **kwargs)
         self.fields["game_class"].queryset = classes
 
-    game_class = ModelChoiceField(
-        queryset=None, widget=Select, label="Class", required=True
-    )
+    game_class = ModelChoiceField(queryset=None, widget=Select, label="Class", required=True)
 
     class Meta:
         model = Game
-        fields = [
-            "game_class",
-        ]
+        fields = ["game_class"]
 
     def clean(self):
         super(AddGameForm, self).clean()

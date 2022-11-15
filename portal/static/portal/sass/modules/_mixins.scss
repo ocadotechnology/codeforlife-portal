@@ -32,6 +32,14 @@
   margin-bottom: calculate-rem($margin-bottom);
 }
 
+@mixin _margin-right($margin-right) {
+  margin-right: calculate-rem($margin-right);
+}
+
+@mixin _margin-left($margin-left) {
+  margin-left: calculate-rem($margin-left);
+}
+
 @mixin _top($top) {
   top: calculate-rem($top);
 }

@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import reverse
 from django.template.context import RequestContext
 from django.template.defaultfilters import stringfilter
+
 from portal import __version__, beta
 
 register = template.Library()
@@ -19,27 +20,27 @@ register = template.Library()
 @register.filter(name="emaildomain")
 @stringfilter
 def emaildomain(email):
-    return "*********" + email[email.find("@") :]
+    return "*********" + email[email.find("@"):]
 
 
 @register.filter(name="has_2FA")
-def has_2FA(u):
-    return using_two_factor(u)
+def has_2FA(user):
+    return using_two_factor(user)
 
 
 @register.filter(name="is_logged_in")
-def is_logged_in(u):
+def is_logged_in(user):
     return (
-        u
-        and u.is_authenticated
-        and (not using_two_factor(u) or (hasattr(u, "is_verified") and u.is_verified()))
+        user
+        and user.is_authenticated
+        and (not using_two_factor(user) or (hasattr(user, "is_verified") and user.is_verified()))
     )
 
 
 @register.filter
-def is_verified(u: User) -> bool:
+def is_verified(user: User) -> bool:
     try:
-        verifications = EmailVerification.objects.filter(user=u)
+        verifications = EmailVerification.objects.filter(user=user)
         latest_verification = verifications.latest("user")
     except ObjectDoesNotExist:
         return False
@@ -48,8 +49,8 @@ def is_verified(u: User) -> bool:
 
 
 @register.filter
-def is_developer(u):
-    return not u.is_anonymous and u.userprofile.developer
+def is_developer(user):
+    return not user.is_anonymous and user.userprofile.developer
 
 
 @register.filter
@@ -74,89 +75,83 @@ def games_table(context, base_url):
 
 
 @register.filter(name="make_into_username")
-def make_into_username(u):
+def make_into_username(user):
     username = ""
-    if hasattr(u, "userprofile"):
-        if hasattr(u.userprofile, "student"):
-            username = u.first_name
-        elif hasattr(u.userprofile, "teacher"):
-            username = u.first_name + " " + u.last_name
+    if hasattr(user, "userprofile"):
+        if hasattr(user.userprofile, "student"):
+            username = user.first_name
+        elif hasattr(user.userprofile, "teacher"):
+            username = user.first_name + " " + user.last_name
 
     return username
 
 
 @register.filter(name="is_logged_in_as_teacher")
-def is_logged_in_as_teacher(u):
-    return is_logged_in(u) and u.userprofile and hasattr(u.userprofile, "teacher")
+def is_logged_in_as_teacher(user):
+    return is_logged_in(user) and user.userprofile and hasattr(user.userprofile, "teacher")
 
 
 @register.filter(name="is_logged_in_as_admin_teacher")
-def is_logged_in_as_admin_teacher(u):
-    return is_logged_in_as_teacher(u) and u.userprofile.teacher.is_admin
+def is_logged_in_as_admin_teacher(user):
+    return is_logged_in_as_teacher(user) and user.userprofile.teacher.is_admin
 
 
 @register.filter(name="is_logged_in_as_student")
-def is_logged_in_as_student(u):
+def is_logged_in_as_student(user):
     return (
-        is_logged_in(u)
-        and u.userprofile
-        and hasattr(u.userprofile, "student")
-        and u.userprofile.student.class_field != None
+        is_logged_in(user)
+        and user.userprofile
+        and hasattr(user.userprofile, "student")
+        and user.userprofile.student.class_field is not None
     )
 
 
 @register.filter(name="is_independent_student")
-def is_independent_student(u):
+def is_independent_student(user):
     return (
-        is_logged_in(u)
-        and u.userprofile
-        and hasattr(u.userprofile, "student")
-        and u.userprofile.student.is_independent()
+        is_logged_in(user)
+        and user.userprofile
+        and hasattr(user.userprofile, "student")
+        and user.userprofile.student.is_independent()
     )
 
 
 @register.filter(name="has_teacher_finished_onboarding")
-def has_teacher_finished_onboarding(u):
-    teacher = u.userprofile.teacher
-    return (
-        is_logged_in_as_teacher(u)
-        and teacher.has_school()
-    )
+def has_teacher_finished_onboarding(user):
+    teacher = user.userprofile.teacher
+    return is_logged_in_as_teacher(user) and teacher.has_school()
 
 
 @register.filter(name="is_logged_in_as_school_user")
-def is_logged_in_as_school_user(u):
+def is_logged_in_as_school_user(user):
     return (
-        is_logged_in(u)
-        and u.userprofile
+        is_logged_in(user)
+        and user.userprofile
         and (
-            (
-                hasattr(u.userprofile, "student")
-                and u.userprofile.student.class_field != None
-            )
-            or hasattr(u.userprofile, "teacher")
+            (hasattr(user.userprofile, "student") and user.userprofile.student.class_field is not None)
+            or hasattr(user.userprofile, "teacher")
         )
     )
 
 
 @register.filter(name="get_user_status")
-def get_user_status(u):
-    if is_logged_in_as_school_user(u):
-        if is_logged_in_as_teacher(u):
+def get_user_status(user):
+    if is_logged_in_as_school_user(user):
+        if is_logged_in_as_teacher(user):
             return "TEACHER"
         else:
             return "SCHOOL_STUDENT"
-    elif is_logged_in(u):
+    elif is_logged_in(user):
         return "INDEPENDENT_STUDENT"
     else:
         return "UNTRACKED"
 
 
 @register.filter(name="make_title_caps")
-def make_title_caps(s):
-    if len(s) > 0:
-        s = s[0].upper() + s[1:]
-    return s
+def make_title_caps(string):
+    if len(string) > 0:
+        string = string[0].upper() + string[1:]
+    return string
 
 
 @register.filter(name="cloud_storage")
@@ -176,3 +171,8 @@ def url_for_aimmo_dashboard(context: RequestContext):
         return reverse("teacher_aimmo_dashboard")
     else:
         return reverse("student_aimmo_dashboard")
+
+
+@register.filter
+def get_dict_item(dictionary, key):
+    return dictionary[key]

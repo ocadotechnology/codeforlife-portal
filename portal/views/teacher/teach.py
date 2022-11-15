@@ -1,7 +1,6 @@
 from __future__ import division
 
 import csv
-from http.client import FORBIDDEN
 import json
 from datetime import datetime, timedelta
 from enum import Enum
@@ -11,7 +10,7 @@ from uuid import uuid4
 from aimmo.models import Game
 from common.helpers.emails import send_verification_email
 from common.helpers.generators import generate_access_code, generate_login_id, generate_password, get_hashed_login_id
-from common.models import Class, DailyActivity, JoinReleaseStudent, School, Student, Teacher
+from common.models import Class, DailyActivity, JoinReleaseStudent, Student, Teacher
 from common.permissions import check_teacher_authorised, logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -19,17 +18,23 @@ from django.contrib.auth.models import User
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.forms.formsets import formset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
+from game.views.level_selection import get_blockly_episodes, get_python_episodes
 from past.utils import old_div
+from reportlab.lib.colors import black, red
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen import canvas
 
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
     BaseTeacherMoveStudentsDisambiguationFormSet,
     ClassCreationForm,
     ClassEditForm,
+    ClassLevelControlForm,
     ClassMoveForm,
     StudentCreationForm,
     TeacherDismissStudentsForm,
@@ -38,10 +43,6 @@ from portal.forms.teach import (
     TeacherMoveStudentsDestinationForm,
     TeacherSetStudentPass,
 )
-from reportlab.lib.colors import black, red
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.utils import ImageReader
-from reportlab.pdfgen import canvas
 
 STUDENT_PASSWORD_LENGTH = 6
 REMINDER_CARDS_PDF_ROWS = 8
@@ -66,14 +67,10 @@ def teacher_onboarding_create_class(request):
         if form.is_valid():
             created_class = create_class(form, teacher)
             messages.success(
-                request,
-                "The class '{className}' has been created successfully.".format(className=created_class.name),
+                request, "The class '{className}' has been created successfully.".format(className=created_class.name)
             )
             return HttpResponseRedirect(
-                reverse_lazy(
-                    "onboarding-class",
-                    kwargs={"access_code": created_class.access_code},
-                )
+                reverse_lazy("onboarding-class", kwargs={"access_code": created_class.access_code})
             )
     else:
         form = ClassCreationForm(teacher=teacher)
@@ -81,9 +78,7 @@ def teacher_onboarding_create_class(request):
     classes = Class.objects.filter(teacher=teacher)
 
     return render(
-        request,
-        "portal/teach/onboarding_classes.html",
-        {"form": form, "classes": classes, "requests": requests},
+        request, "portal/teach/onboarding_classes.html", {"form": form, "classes": classes, "requests": requests}
     )
 
 
@@ -101,10 +96,7 @@ def create_class(form, class_teacher, class_creator=None):
 
 def generate_student_url(request, student, login_id):
     return request.build_absolute_uri(
-        reverse(
-            "student_direct_login",
-            kwargs={"user_id": student.new_user.id, "login_id": login_id},
-        )
+        reverse("student_direct_login", kwargs={"user_id": student.new_user.id, "login_id": login_id})
     )
 
 
@@ -129,20 +121,12 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                 login_id, hashed_login_id = generate_login_id()
 
                 new_student = Student.objects.schoolFactory(
-                    klass=klass,
-                    name=name,
-                    password=password,
-                    login_id=hashed_login_id,
+                    klass=klass, name=name, password=password, login_id=hashed_login_id
                 )
 
                 login_url = generate_student_url(request, new_student, login_id)
                 students_info.append(
-                    {
-                        "id": new_student.new_user.id,
-                        "name": name,
-                        "password": password,
-                        "login_url": login_url,
-                    }
+                    {"id": new_student.new_user.id, "name": name, "password": password, "login_url": login_url}
                 )
 
             return render(
@@ -183,10 +167,7 @@ def teacher_onboarding_edit_class(request, access_code):
     Adding students to a class during the onboarding process
     """
     return process_edit_class(
-        request,
-        access_code,
-        onboarding_done=False,
-        next_url="portal/teach/onboarding_students.html",
+        request, access_code, onboarding_done=False, next_url="portal/teach/onboarding_students.html"
     )
 
 
@@ -211,8 +192,7 @@ def teacher_delete_class(request, access_code):
 
     if Student.objects.filter(class_field=klass, new_user__is_active=True).exists():
         messages.info(
-            request,
-            "This class still has students, please remove or delete them all before deleting the class.",
+            request, "This class still has students, please remove or delete them all before deleting the class."
         )
         return HttpResponseRedirect(reverse_lazy("view_class", kwargs={"access_code": access_code}))
 
@@ -263,7 +243,10 @@ def teacher_delete_students(request, access_code):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_edit_class(request, access_code):
     """
-    Editing class details
+    Editing additional class details. Provides functionality for:
+    - Editing the class name, sharing and joining settings
+    - Locking or unlocking specific Rapid Router levels
+    - Transferring the class to another teacher
     """
     klass = get_object_or_404(Class, access_code=access_code)
     old_teacher = klass.teacher
@@ -274,12 +257,14 @@ def teacher_edit_class(request, access_code):
 
     external_requests_message = klass.get_requests_message()
 
-    form = ClassEditForm(
-        initial={
-            "name": klass.name,
-            "classmate_progress": klass.classmates_data_viewable,
-        }
-    )
+    blockly_episodes = get_blockly_episodes(request)
+    python_episodes = get_python_episodes(request)
+
+    locked_levels = klass.locked_levels.all()
+    locked_levels_ids = [locked_level.id for locked_level in locked_levels]
+
+    form = ClassEditForm(initial={"name": klass.name, "classmate_progress": klass.classmates_data_viewable})
+    level_control_form = ClassLevelControlForm()
     class_move_form = ClassMoveForm(other_teachers)
 
     if request.method == "POST":
@@ -287,6 +272,10 @@ def teacher_edit_class(request, access_code):
             form = ClassEditForm(request.POST)
             if form.is_valid():
                 return process_edit_class_form(request, klass, form)
+        elif "level_control_submit" in request.POST:
+            level_control_form = ClassLevelControlForm(request.POST)
+            if level_control_form.is_valid():
+                return process_level_control_form(request, klass, blockly_episodes, python_episodes)
         elif "class_move_submit" in request.POST:
             class_move_form = ClassMoveForm(other_teachers, request.POST)
             if class_move_form.is_valid():
@@ -298,6 +287,10 @@ def teacher_edit_class(request, access_code):
         {
             "form": form,
             "class_move_form": class_move_form,
+            "level_control_form": level_control_form,
+            "blockly_episodes": blockly_episodes,
+            "python_episodes": python_episodes,
+            "locked_levels": locked_levels_ids,
             "class": klass,
             "external_requests_message": external_requests_message,
         },
@@ -316,10 +309,7 @@ def process_edit_class_form(request, klass, form):
             # Setting to off
             klass.always_accept_requests = False
             klass.accept_requests_until = None
-            messages.info(
-                request,
-                "Class set successfully to never receive requests from external students.",
-            )
+            messages.info(request, "Class set successfully to never receive requests from external students.")
 
         elif hours < 1000:
             # Setting to number of hours
@@ -338,8 +328,7 @@ def process_edit_class_form(request, klass, form):
             klass.always_accept_requests = True
             klass.accept_requests_until = None
             messages.info(
-                request,
-                "Class set successfully to always receive requests from external students (not recommended)",
+                request, "Class set successfully to always receive requests from external students (not recommended)"
             )
 
     klass.name = name
@@ -351,6 +340,49 @@ def process_edit_class_form(request, klass, form):
     return HttpResponseRedirect(reverse_lazy("view_class", kwargs={"access_code": klass.access_code}))
 
 
+def process_level_control_form(request, klass, blockly_episodes, python_episodes):
+    """
+    Find the levels that the user wants to lock and lock them for the specific class.
+    :param request: The request sent by the user submitting the form.
+    :param klass: The class for which the levels are being locked / unlocked.
+    :param blockly_episodes: The set of Blockly Episodes in the game.
+    :param python_episodes: The set of Python Episodes in the game.
+    :return: A redirect to the teacher dashboard with a success message.
+    """
+    levels_to_lock_ids = []
+
+    mark_levels_to_lock_in_episodes(request, blockly_episodes, levels_to_lock_ids)
+    mark_levels_to_lock_in_episodes(request, python_episodes, levels_to_lock_ids)
+
+    klass.locked_levels.clear()
+    [klass.locked_levels.add(levels_to_lock_id) for levels_to_lock_id in levels_to_lock_ids]
+
+    messages.success(request, "Your level preferences have been saved.")
+    return HttpResponseRedirect(reverse_lazy("dashboard"))
+
+
+def mark_levels_to_lock_in_episodes(request, episodes, levels_to_lock_ids):
+    """
+    For a given set of Episodes, find which Levels are to be locked. This is done by checking the POST request data.
+    If a Level ID is missing from the request.POST, it means it needs to be locked, and if the entire Episode is missing
+    from the request.POST, it means all the Levels under that Episode need to be locked.
+    :param request: The request sent by the user submitting the form.
+    :param episodes: The set of Episodes, in this case either the Blockly Episodes or the Python Episodes.
+    :param levels_to_lock_ids: A list of Level IDs marked to be locked.
+    """
+    for episode in episodes:
+        episode_name = episode["name"]
+        episode_levels = episode["levels"]
+        if episode_name in request.POST:
+            [
+                levels_to_lock_ids.append(episode_level["id"])
+                for episode_level in episode_levels
+                if str(episode_level["id"]) not in request.POST.getlist(episode_name)
+            ]
+        else:
+            [levels_to_lock_ids.append(episode_level["id"]) for episode_level in episode_levels]
+
+
 def process_move_class_form(request, klass, form):
     new_teacher_id = form.cleaned_data["new_teacher"]
     new_teacher = get_object_or_404(Teacher, id=new_teacher_id)
@@ -358,10 +390,7 @@ def process_move_class_form(request, klass, form):
     klass.teacher = new_teacher
     klass.save()
 
-    messages.success(
-        request,
-        "The class has been successfully assigned to a different teacher.",
-    )
+    messages.success(request, "The class has been successfully assigned to a different teacher.")
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
@@ -391,10 +420,7 @@ def teacher_edit_student(request, pk):
                 messages.success(request, "The student's details have been changed successfully.")
 
                 return HttpResponseRedirect(
-                    reverse_lazy(
-                        "view_class",
-                        kwargs={"access_code": student.class_field.access_code},
-                    )
+                    reverse_lazy("view_class", kwargs={"access_code": student.class_field.access_code})
                 )
 
         else:
@@ -424,13 +450,7 @@ def process_reset_password_form(request, student, password_form):
         uuidstr = uuid4().hex
         login_id = get_hashed_login_id(uuidstr)
         login_url = request.build_absolute_uri(
-            reverse(
-                "student_direct_login",
-                kwargs={
-                    "user_id": student.new_user.id,
-                    "login_id": uuidstr,
-                },
-            )
+            reverse("student_direct_login", kwargs={"user_id": student.new_user.id, "login_id": uuidstr})
         )
 
         students_info = [
@@ -456,10 +476,7 @@ def process_reset_password_form(request, student, password_form):
                 "onboarding_done": True,
                 "query_data": json.dumps(students_info),
                 "class_url": request.build_absolute_uri(
-                    reverse(
-                        "student_login",
-                        kwargs={"access_code": student.class_field.access_code},
-                    )
+                    reverse("student_login", kwargs={"access_code": student.class_field.access_code})
                 ),
             },
         )
@@ -492,11 +509,7 @@ def teacher_dismiss_students(request, access_code):
 
     else:
         initial_data = [
-            {
-                "orig_name": student.new_user.first_name,
-                "name": student.new_user.first_name,
-                "email": "",
-            }
+            {"orig_name": student.new_user.first_name, "name": student.new_user.first_name, "email": ""}
             for student in students
         ]
 
@@ -665,10 +678,7 @@ def teacher_move_students_to_class(request, access_code):
     else:
         # format the students for the form
         initial_data = [
-            {
-                "orig_name": student.new_user.first_name,
-                "name": student.new_user.first_name,
-            }
+            {"orig_name": student.new_user.first_name, "name": student.new_user.first_name}
             for student in transfer_students
         ]
 
@@ -707,9 +717,7 @@ def process_move_students_form(request, formset, old_class, new_class):
 
     for name_update in formset.cleaned_data:
         student = get_object_or_404(
-            Student,
-            class_field=old_class,
-            new_user__first_name__iexact=name_update["orig_name"],
+            Student, class_field=old_class, new_user__first_name__iexact=name_update["orig_name"]
         )
         student.class_field = new_class
         student.new_user.first_name = name_update["name"]
@@ -803,22 +811,10 @@ def teacher_print_reminder_cards(request, access_code):
             f"Class code: {klass.access_code} at {student_login_link}",
         )
         p.setFont("Helvetica-BoldOblique", 12)
-        p.drawString(
-            text_left,
-            inner_bottom + CARD_INNER_HEIGHT * 0.6,
-            "OR",
-        )
+        p.drawString(text_left, inner_bottom + CARD_INNER_HEIGHT * 0.6, "OR")
         p.setFont("Helvetica", 12)
-        p.drawString(
-            text_left + 22,
-            inner_bottom + CARD_INNER_HEIGHT * 0.6,
-            f"class link: {class_login_link}",
-        )
-        p.drawString(
-            text_left,
-            inner_bottom + CARD_INNER_HEIGHT * 0.3,
-            f"Name: {student['name']}",
-        )
+        p.drawString(text_left + 22, inner_bottom + CARD_INNER_HEIGHT * 0.6, f"class link: {class_login_link}")
+        p.drawString(text_left, inner_bottom + CARD_INNER_HEIGHT * 0.3, f"Name: {student['name']}")
         p.drawString(text_left, inner_bottom, f"Password: {student['password']}")
 
         x = (x + 1) % NUM_X
