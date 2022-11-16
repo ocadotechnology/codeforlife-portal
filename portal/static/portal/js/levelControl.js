@@ -12,7 +12,15 @@ $(document).ready(function () {
     const episodeName = blocklyEpisodeCheckbox.getAttribute("value")
     const selector = `[id^="id_${episodeName}_"]`
     blocklyEpisodeCheckbox.addEventListener("click", () => {
+      // check all sub-checkboxes
       $(selector).prop("checked", blocklyEpisodeCheckbox.checked);
+      // handler for each sub-checkbox. Checks parent checkbox if all sub-boxes are checked, otherwise unchecks it.
+      $(selector).on("click", () => {
+        blocklyEpisodeCheckbox.checked = $(`${selector}:checked`).length === $(selector).length
+        $("#select-all-blockly-levels").prop("checked",
+          $('[id^="select-all-blockly-levels-"]:checked').length === $('[id^="select-all-blockly-levels-"]').length);
+      })
+      // same logic as above but for the all Blockly episode checkbox
       $("#select-all-blockly-levels").prop("checked",
         $('[id^="select-all-blockly-levels-"]:checked').length === $('[id^="select-all-blockly-levels-"]').length);
     })
@@ -25,6 +33,11 @@ $(document).ready(function () {
     const selector = `[id^="id_${episodeName}_"]`
     pythonEpisodeCheckbox.addEventListener("click", () => {
       $(selector).prop("checked", pythonEpisodeCheckbox.checked);
+      $(selector).on("click", () => {
+        pythonEpisodeCheckbox.checked = $(`${selector}:checked`).length === $(selector).length
+        $("#select-all-python-levels").prop("checked",
+          $('[id^="select-all-python-levels-"]:checked').length === $('[id^="select-all-python-levels-"]').length);
+      })
       $("#select-all-python-levels").prop("checked",
         $('[id^="select-all-python-levels-"]:checked').length === $('[id^="select-all-python-levels-"]').length);
     })
@@ -35,11 +48,21 @@ $(document).ready(function () {
 
   // handlers for the checkboxes which control all the Blockly Episodes and all the Python Episodes
   allBlocklyCheckbox.on("click", () => {
-    $('[id^="select-all-blockly-levels-"]').click()
+    if(allBlocklyCheckbox.is(":checked")) {
+      $('[id^="select-all-blockly-levels-"]:not(:checked)').click()
+    }
+    else {
+      $('[id^="select-all-blockly-levels-"]:checked').click()
+    }
   })
 
   allPythonCheckbox.on("click", () => {
-    $('[id^="select-all-python-levels-"]').click()
+    if(allPythonCheckbox.is(":checked")) {
+      $('[id^="select-all-python-levels-"]:not(:checked)').click()
+    }
+    else {
+      $('[id^="select-all-python-levels-"]:checked').click()
+    }
   })
 
   // Stops the accordion when ticking the checkboxes
