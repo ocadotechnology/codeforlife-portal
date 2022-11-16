@@ -197,6 +197,68 @@ class APITests(APITestCase):
         # Check that the fifth school is anonymised
         assert not School.objects.filter(name=school5.name, postcode=school5.postcode).exists()
 
+    def test_remove_fake_accounts(self):
+        client = APIClient()
+        initial_users_length = len(User.objects.all())
+        admin_username = "portaladmin"
+        admin_password = "abc123"
+
+        # First two accounts should be deleted
+        # Third account should be omitted because first and last name is different
+        # Fourth account should be omitted because it is verified
+        random_accounts = [
+            {
+                "username": "hiya",
+                "first_name": "name",
+                "last_name": "name",
+                "email": "eml@email.email",
+                "password": '!QAZXSW"3edc',
+                "verified": False,
+            },
+            {
+                "username": "goodbye",
+                "first_name": "hello",
+                "last_name": "hello",
+                "email": "el@email.email",
+                "password": '!QAZXSW"3edc',
+                "verified": False,
+            },
+            {
+                "username": "different",
+                "first_name": "nope",
+                "last_name": "maybe",
+                "email": "eail@email.email",
+                "password": '!QAZXSW"3edc',
+                "verified": False,
+            },
+            {
+                "username": "same",
+                "first_name": "lastname",
+                "last_name": "lastname",
+                "email": "eail@email.email",
+                "password": '!QAZXSW"3edc',
+                "verified": True,
+            },
+        ]
+
+        for random_account in random_accounts:
+            signup_teacher_directly(
+                preverified=random_account["verified"],
+                username=random_account["username"],
+                email=random_account["email"],
+                first_name=random_account["first_name"],
+                last_name=random_account["last_name"],
+            )
+
+        assert len(User.objects.all()) == len(random_accounts) + initial_users_length
+
+        client.login(username=admin_username, password=admin_password)
+        response = client.get(reverse("remove_fake_accounts"))
+        assert response.status_code == 204
+
+        # check if after deletion all the users are still there
+        assert len(User.objects.all()) == initial_users_length + 2  # mentioned in the fake_accounts description
+
 
 def has_status_code(status_code):
     return HasStatusCode(status_code)
