@@ -23,7 +23,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: monitor
+          command: monitor --file=portal_frontend/package.json --package-manager=npm
       - name: Setup python-version
         uses: actions/setup-python@v2
         with:
