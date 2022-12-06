@@ -29,10 +29,6 @@ jobs:
         with:
           python-version: "3.7"
           architecture: "x64"
-      - name: Install dependencies
-        run: |
-          pip install pipenv
-          pip install --dev --system
       - name: Run Snyk to check for vulnerabilities in Python
         uses: snyk/actions/python-3.7@master
         env:
