@@ -10,13 +10,25 @@ jobs:
     env:
       LANG: C.UTF-8
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
       - name: Run Snyk to check for vulnerabilities in Node.js
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: monitor
+      - name: Setup python-version
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.7"
+          architecture: "x64"
       - name: Run Snyk to check for vulnerabilities in Python
         uses: snyk/actions/python@master
         env:
