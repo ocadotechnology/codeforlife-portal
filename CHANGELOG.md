@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v6.27.3 (2022-12-02)
+### Fix
+* Dummy formatting commit to bump version ([`cbdb329`](https://github.com/ocadotechnology/codeforlife-portal/commit/cbdb3299f25fb0df5979f6226aeee0e69a02ca2e))
+
+## v6.27.2 (2022-11-23)
+### Fix
+* Improve admin panel usability ([#1973](https://github.com/ocadotechnology/codeforlife-portal/issues/1973)) ([`0076abb`](https://github.com/ocadotechnology/codeforlife-portal/commit/0076abb66c2f35097d93048e4e8536e09da027b6))
+
 ## v6.27.1 (2022-11-16)
 ### Fix
 * Fix level control checkbox logic ([#1969](https://github.com/ocadotechnology/codeforlife-portal/issues/1969)) ([`ca53bb8`](https://github.com/ocadotechnology/codeforlife-portal/commit/ca53bb8de70355b672153d8e855c08973ad5364f))

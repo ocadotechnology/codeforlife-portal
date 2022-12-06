@@ -96,7 +96,7 @@ class TeacherModelManager(models.Manager):
 class Teacher(models.Model):
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     new_user = models.OneToOneField(User, related_name="new_teacher", null=True, blank=True, on_delete=models.CASCADE)
-    school = models.ForeignKey(School, related_name="teacher_school", null=True, on_delete=models.SET_NULL)
+    school = models.ForeignKey(School, related_name="teacher_school", null=True, blank=True, on_delete=models.SET_NULL)
     is_admin = models.BooleanField(default=False)
     blocked_time = models.DateTimeField(null=True, blank=True)
     invited_by = models.ForeignKey(
@@ -266,13 +266,15 @@ class StudentModelManager(models.Manager):
 
 
 class Student(models.Model):
-    class_field = models.ForeignKey(Class, related_name="students", null=True, on_delete=models.CASCADE)
+    class_field = models.ForeignKey(Class, related_name="students", null=True, blank=True, on_delete=models.CASCADE)
     # hashed uuid used for the unique direct login url
     login_id = models.CharField(max_length=64, null=True)
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     new_user = models.OneToOneField(User, related_name="new_student", null=True, blank=True, on_delete=models.CASCADE)
-    pending_class_request = models.ForeignKey(Class, related_name="class_request", null=True, on_delete=models.SET_NULL)
-    blocked_time = models.DateTimeField(null=True)
+    pending_class_request = models.ForeignKey(
+        Class, related_name="class_request", null=True, blank=True, on_delete=models.SET_NULL
+    )
+    blocked_time = models.DateTimeField(null=True, blank=True)
 
     objects = StudentModelManager()
 
@@ -334,8 +336,11 @@ class DailyActivity(models.Model):
     primary_coding_club_downloads = models.PositiveIntegerField(default=0)
     python_coding_club_downloads = models.PositiveIntegerField(default=0)
 
+    class Meta:
+        verbose_name_plural = "Daily activities"
+
     def __str__(self):
-        return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}"
+        return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}, primary pack downloads: {self.primary_coding_club_downloads}, python pack downloads: {self.python_coding_club_downloads}"
 
 
 class DynamicElement(models.Model):
