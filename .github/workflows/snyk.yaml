@@ -17,7 +17,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: monitor
-      - name: Run Snyk to check for vulnerabilities in Node.js
+      - name: Run Snyk to check for vulnerabilities in Python
         uses: snyk/actions/python@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
