@@ -34,7 +34,7 @@ jobs:
           pip install pipenv
           pip install --dev --system
       - name: Run Snyk to check for vulnerabilities in Python
-        uses: snyk/actions/python3.7@master
+        uses: snyk/actions/python-3.7@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
