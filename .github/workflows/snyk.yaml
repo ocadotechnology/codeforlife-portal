@@ -1,0 +1,19 @@
+name: Snyk
+on:
+  release:
+    types: [published]
+  pull_request:
+jobs:
+  security:
+    name: Run Snyk
+    runs-on: ubuntu-20.04
+    env:
+      LANG: C.UTF-8
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
