@@ -1,8 +1,0 @@
-{
-  "projectId": "hcq23q",
-  "baseUrl": "http://localhost:8000",
-  "integrationFolder": "portal/tests/",
-  "testFiles": "**/*.spec.js",
-  "supportFile": "portal/tests/cypress/support/index.js",
-  "videoUploadOnPasses": false
-}
