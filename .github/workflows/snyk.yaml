@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 16.x
       - name: Install Node dependencies
-        run: npm install portal_frontend/package.json
+        run: npm install --prefix portal_frontend
       - name: Run Snyk to check for vulnerabilities in Node.js
         uses: snyk/actions/node@master
         env:
