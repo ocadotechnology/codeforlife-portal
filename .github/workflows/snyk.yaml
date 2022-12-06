@@ -18,6 +18,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
+      - name: Install Node dependencies
         run: npm install portal_frontend/package.json
       - name: Run Snyk to check for vulnerabilities in Node.js
         uses: snyk/actions/node@master
@@ -30,7 +31,7 @@ jobs:
         with:
           python-version: "3.7"
           architecture: "x64"
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
           pip install pipenv
           pipenv install --dev --system
