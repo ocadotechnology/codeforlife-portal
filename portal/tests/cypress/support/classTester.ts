@@ -36,7 +36,8 @@ export function goToClassSettings() {
 }
 
 export function editClassSettings(className, isProgressShared, externalRequestsValue) {
-  cy.get('#id_name').clear().type(className);
+  cy.get('#id_name').clear();
+  cy.get('#id_name').type(className);
 
   if(isProgressShared) {
     cy.get('#id_classmate_progress').check();
