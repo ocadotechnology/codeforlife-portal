@@ -16,6 +16,11 @@ from .utils.classes import create_class
 from .utils.messages import is_class_created_message_showing
 
 
+from common.models import DailyActivity
+
+from datetime import timedelta, datetime
+
+
 class TestClass(TestCase):
     def test_class_deletion_deletes_game(self):
         email, password = signup_teacher_directly()
@@ -146,6 +151,9 @@ class TestClass(TestCase):
         klass2, _, access_code2 = create_class_directly(email)
 
         c = Client()
+        old_date = datetime.now() - timedelta(days=1)
+        old_daily_activity = DailyActivity(date=old_date)
+        old_daily_activity.save()
 
         url = reverse("teacher_edit_class", kwargs={"access_code": access_code1})
         # POST request data for locking only the first level
@@ -196,6 +204,11 @@ class TestClass(TestCase):
         messages = list(response.wsgi_request._messages)
         assert len(messages) == 1
         assert str(messages[0]) == "Your level preferences have been saved."
+
+        # test the analytic
+        assert DailyActivity.objects.get(date=datetime.now()).rapid_router_access_settings == 1
+
+        response = c.post(url, data)
 
         # Resubmitting to unlock level 1
         data = {

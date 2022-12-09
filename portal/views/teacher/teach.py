@@ -274,7 +274,9 @@ def teacher_edit_class(request, access_code):
                 return process_edit_class_form(request, klass, form)
         elif "level_control_submit" in request.POST:
             level_control_form = ClassLevelControlForm(request.POST)
+            print("outside")
             if level_control_form.is_valid():
+                print("inside")
                 return process_level_control_form(request, klass, blockly_episodes, python_episodes)
         elif "class_move_submit" in request.POST:
             class_move_form = ClassMoveForm(other_teachers, request.POST)
@@ -358,9 +360,11 @@ def process_level_control_form(request, klass, blockly_episodes, python_episodes
     [klass.locked_levels.add(levels_to_lock_id) for levels_to_lock_id in levels_to_lock_ids]
 
     messages.success(request, "Your level preferences have been saved.")
+    print(DailyActivity.objects.all())
     activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
     activity_today.rapid_router_access_settings += 1
     activity_today.save()
+    print(activity_today)
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
