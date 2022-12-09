@@ -1,15 +1,15 @@
-from .base_test import BaseTest
-from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+
 from common.models import DailyActivity
 
 from datetime import timedelta, datetime
+from portal.tests.base_test import BaseTest
 
 
-class TestCodingClubs(BaseTest):
+class TestDailyActivities(BaseTest):
     def test_coding_club_increment(self):
 
         # first create dailyActivity one day before datetime.now()
