@@ -205,10 +205,9 @@ class TestClass(TestCase):
         assert len(messages) == 1
         assert str(messages[0]) == "Your level preferences have been saved."
 
-        # test the analytic
-        assert DailyActivity.objects.get(date=datetime.now()).rapid_router_access_settings == 1
-
-        response = c.post(url, data)
+        # test the old analytic stays the same and the new one is incremented
+        assert DailyActivity.objects.get(date=old_date).level.control_submits == 0
+        assert DailyActivity.objects.get(date=datetime.now()).level_control_submits == 1
 
         # Resubmitting to unlock level 1
         data = {
