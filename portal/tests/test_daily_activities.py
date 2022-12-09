@@ -67,4 +67,4 @@ class TestDailyActivities(BaseTest):
         print(old_daily_activity.rapid_router_access_settings)
         assert old_day_data.rapid_router_access_settings == 0
         # check if the other have been incremented
-        assert DailyActivity.objects.get(date=datetime.now()) == 1
+        assert DailyActivity.objects.get(date=datetime.now()).rapid_router_access_settings == 1
