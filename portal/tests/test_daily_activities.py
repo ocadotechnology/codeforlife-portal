@@ -8,9 +8,10 @@ from django.test import Client, TestCase
 from common.models import DailyActivity
 
 from datetime import timedelta, datetime
+from portal.tests.base_test import BaseTest
 
 
-class TestDailyActivities(TestCase):
+class TestDailyActivities(BaseTest):
     def test_coding_club_increment(self):
 
         # first create dailyActivity one day before datetime.now()
