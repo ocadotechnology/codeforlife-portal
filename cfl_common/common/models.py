@@ -335,6 +335,7 @@ class DailyActivity(models.Model):
     login_cards_click_count = models.PositiveIntegerField(default=0)
     primary_coding_club_downloads = models.PositiveIntegerField(default=0)
     python_coding_club_downloads = models.PositiveIntegerField(default=0)
+    rapid_router_access_settings = models.PositiveBigIntegerField(default=0)
 
     class Meta:
         verbose_name_plural = "Daily activities"
