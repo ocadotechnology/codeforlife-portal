@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.27.4 (2022-12-09)
+### Fix
+* Added a edit class anaytic ([#1981](https://github.com/ocadotechnology/codeforlife-portal/issues/1981)) ([`5f19f6a`](https://github.com/ocadotechnology/codeforlife-portal/commit/5f19f6a1356a8eff333ef6919b72585ec53b6f1d))
+
 ## v6.27.3 (2022-12-02)
 ### Fix
 * Dummy formatting commit to bump version ([`cbdb329`](https://github.com/ocadotechnology/codeforlife-portal/commit/cbdb3299f25fb0df5979f6226aeee0e69a02ca2e))
