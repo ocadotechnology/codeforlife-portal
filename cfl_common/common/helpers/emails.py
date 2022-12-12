@@ -73,9 +73,10 @@ def generate_token(user, email="", preverified=False):
     )
 
 
-def send_verification_email(request, user, new_email=None, age=None):
+def send_verification_email(request, user, new_email=None, age=None, data=None):
     """Send an email prompting the user to verify their email address."""
 
+    _newsletter_ticked = lambda form_data: form_data["newsletter_ticked"]
     if not new_email:  # verifying first email address
         user.email_verifications.all().delete()
 
@@ -85,6 +86,8 @@ def send_verification_email(request, user, new_email=None, age=None):
             message = parentsEmailVerificationNeededEmail(request, user, verification.token)
             send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
         else:
+            if _newsletter_ticked(data):
+                add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
             message = emailVerificationNeededEmail(request, verification.token)
             send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
 
