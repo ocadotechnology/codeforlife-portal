@@ -21,6 +21,7 @@ from django.utils import timezone
 from requests import post, get, put, delete
 from requests.exceptions import RequestException
 
+
 NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
 VERIFICATION_EMAIL = "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
 PASSWORD_RESET_EMAIL = "Code For Life Password Reset <" + app_settings.EMAIL_ADDRESS + ">"
@@ -73,10 +74,15 @@ def generate_token(user, email="", preverified=False):
     )
 
 
+def _newsletter_ticked(data):
+    return data["newsletter_ticked"]
+
+
 def send_verification_email(request, user, new_email=None, age=None, data=None):
     """Send an email prompting the user to verify their email address."""
 
-    _newsletter_ticked = lambda form_data: form_data["newsletter_ticked"]
+    for i in range(20):
+        print(data)
     if not new_email:  # verifying first email address
         user.email_verifications.all().delete()
 
@@ -86,7 +92,7 @@ def send_verification_email(request, user, new_email=None, age=None, data=None):
             message = parentsEmailVerificationNeededEmail(request, user, verification.token)
             send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
         else:
-            if _newsletter_ticked(data):
+            if data is not None and _newsletter_ticked(data):
                 add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
             message = emailVerificationNeededEmail(request, verification.token)
             send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
