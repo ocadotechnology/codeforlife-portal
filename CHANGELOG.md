@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.27.5 (2022-12-13)
+### Fix
+* Broken newsletter for indy students ([#1984](https://github.com/ocadotechnology/codeforlife-portal/issues/1984)) ([`4aa55fb`](https://github.com/ocadotechnology/codeforlife-portal/commit/4aa55fbff0116a257f0303f2d3833b681bc8a761))
+
 ## v6.27.4 (2022-12-09)
 ### Fix
 * Added a edit class anaytic ([#1981](https://github.com/ocadotechnology/codeforlife-portal/issues/1981)) ([`5f19f6a`](https://github.com/ocadotechnology/codeforlife-portal/commit/5f19f6a1356a8eff333ef6919b72585ec53b6f1d))
