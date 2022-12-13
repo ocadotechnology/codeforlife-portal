@@ -81,8 +81,6 @@ def _newsletter_ticked(data):
 def send_verification_email(request, user, new_email=None, age=None, data=None):
     """Send an email prompting the user to verify their email address."""
 
-    for i in range(20):
-        print(data)
     if not new_email:  # verifying first email address
         user.email_verifications.all().delete()
 
@@ -93,7 +91,7 @@ def send_verification_email(request, user, new_email=None, age=None, data=None):
             send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
         else:
             if data is not None and _newsletter_ticked(data):
-                add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
+                add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.STUDENT)
             message = emailVerificationNeededEmail(request, verification.token)
             send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
 
