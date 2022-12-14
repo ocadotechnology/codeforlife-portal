@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.27.7 (2022-12-14)
+### Fix
+* Fixed the typo ([#1986](https://github.com/ocadotechnology/codeforlife-portal/issues/1986)) ([`0a3b566`](https://github.com/ocadotechnology/codeforlife-portal/commit/0a3b5669565b0204f84de12dd4365184095156f0))
+
 ## v6.27.6 (2022-12-14)
 ### Fix
 * Added a coding clubs link to learning/teaching resources ([#1985](https://github.com/ocadotechnology/codeforlife-portal/issues/1985)) ([`637ef60`](https://github.com/ocadotechnology/codeforlife-portal/commit/637ef6003a20fd56612577cc1cfeb2ed0e288a20))
