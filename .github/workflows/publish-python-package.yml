@@ -9,20 +9,20 @@ on:
 jobs:
   publish-pypi-packages:
     name: Publish PyPi Packages
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: "3.7"
           architecture: "x64"
       - name: Setup nodejs
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
       - name: Install pip requirements
@@ -48,14 +48,14 @@ jobs:
           python setup.py sdist bdist_wheel
           popd
       - name: Publish cfl-common package to PyPi
-        uses: pypa/gh-action-pypi-publish@master
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}
           packages_dir: cfl_common/dist/
           skip_existing: true
       - name: Trigger staging deployment
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
           script: |
