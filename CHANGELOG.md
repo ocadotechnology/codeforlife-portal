@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.27.6 (2022-12-14)
+### Fix
+* Added a coding clubs link to learning/teaching resources ([#1985](https://github.com/ocadotechnology/codeforlife-portal/issues/1985)) ([`637ef60`](https://github.com/ocadotechnology/codeforlife-portal/commit/637ef6003a20fd56612577cc1cfeb2ed0e288a20))
+
 ## v6.27.5 (2022-12-13)
 ### Fix
 * Broken newsletter for indy students ([#1984](https://github.com/ocadotechnology/codeforlife-portal/issues/1984)) ([`4aa55fb`](https://github.com/ocadotechnology/codeforlife-portal/commit/4aa55fbff0116a257f0303f2d3833b681bc8a761))
