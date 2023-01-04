@@ -12,5 +12,5 @@ jobs:
               with:
                   username: ${{ secrets.SAUCE_USERNAME }}
                   accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
-                  tunnelName: OSP-core	
-                  #configFile: ${{ github.workspace }}/sc-configuration/config.yaml
+                  tunnelName: OSP-core
+                  configFile: ./config.yaml

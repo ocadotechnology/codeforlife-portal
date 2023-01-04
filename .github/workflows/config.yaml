@@ -1,0 +1,7 @@
+region: 'eu-central'
+user: ${{ secrets.SAUCE_USERNAME }}
+api-key: ${{ secrets.SAUCE_ACCESS_KEY }}
+# this is my log file for SC I use for Mac OS tests.
+logfile: '/tmp/sc-mac.log'
+# this is the tunnel I use for Mac OS tests
+# tunnel-identifier: 'my-macos'
