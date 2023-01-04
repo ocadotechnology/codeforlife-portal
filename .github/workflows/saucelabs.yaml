@@ -1,3 +1,8 @@
+name: Saucelabs
+on:
+    release:
+        types: [published]
+    pull_request:
 jobs:
     test:
         runs-on: ubuntu-latest
