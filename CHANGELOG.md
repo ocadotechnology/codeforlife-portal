@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.27.8 (2022-12-30)
+### Fix
+* Made the the page open in the same window ([#1993](https://github.com/ocadotechnology/codeforlife-portal/issues/1993)) ([`ad4c035`](https://github.com/ocadotechnology/codeforlife-portal/commit/ad4c0357d369e94d4b6b15914f05d05d98a2a2a1))
+
 ## v6.27.7 (2022-12-14)
 ### Fix
 * Fixed the typo ([#1986](https://github.com/ocadotechnology/codeforlife-portal/issues/1986)) ([`0a3b566`](https://github.com/ocadotechnology/codeforlife-portal/commit/0a3b5669565b0204f84de12dd4365184095156f0))
