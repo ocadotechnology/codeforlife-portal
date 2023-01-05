@@ -1,4 +1,4 @@
-name: Snyk
+name: Snyk Vulnerabilities Check
 on:
   release:
     types: [published]
