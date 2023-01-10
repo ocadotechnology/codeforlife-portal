@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 
 def privacy_policy(request):
-    return render(request, "portal/privacy_policy.html", {"last_updated": "1st December 2022"})
+    return render(request, "portal/privacy_policy.html", {"last_updated": "6th January 2023"})
 
 
 def terms(request):
