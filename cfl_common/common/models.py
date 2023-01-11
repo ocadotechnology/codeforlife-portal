@@ -336,6 +336,8 @@ class DailyActivity(models.Model):
     primary_coding_club_downloads = models.PositiveIntegerField(default=0)
     python_coding_club_downloads = models.PositiveIntegerField(default=0)
     level_control_submits = models.PositiveBigIntegerField(default=0)
+    teacher_reset_passwords = models.PositiveIntegerField(default=0)
+    indy_student_reset_passwords = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name_plural = "Daily activities"

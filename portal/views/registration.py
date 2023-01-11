@@ -50,6 +50,18 @@ def student_password_reset(request):
     )
 
 
+def handle_reset_password_tracking(request, user_type):
+    activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
+    if user_type == "TEACHER":
+
+        activity_today.primary_coding_club_downloads += 1
+    elif DownloadType(student_pack_type) == DownloadType.PYTHON_PACK:
+        activity_today.python_coding_club_downloads += 1
+    else:
+        raise Exception("Unknown download type")
+    activity_today.save()
+
+
 @user_passes_test(not_fully_logged_in, login_url=reverse_lazy("teacher_login"))
 def teacher_password_reset(request):
     usertype = "TEACHER"

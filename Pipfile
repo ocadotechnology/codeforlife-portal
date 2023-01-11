@@ -23,6 +23,7 @@ pyvirtualdisplay = "*"
 pytest-mock = "*"
 PyPDF2 = "==1.27.9"
 black = "*"
+saucebindings = "*"
 importlib-metadata = "<5"
 
 [requires]
