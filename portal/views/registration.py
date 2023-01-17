@@ -97,6 +97,7 @@ def password_reset(
     html_email_template_name=None,
 ):
     if request.method == "POST":
+        handle_reset_password_tracking(request, usertype)
         form = password_reset_form(request.POST)
         if not captcha.CAPTCHA_ENABLED:
             remove_captcha_from_form(form)
