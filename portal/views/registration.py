@@ -1,6 +1,6 @@
 from common.email_messages import accountDeletionEmail
 import pytz
-import django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from datetime import timedelta, datetime
 from common.helpers.emails import (
     delete_contact,
@@ -61,10 +61,14 @@ def handle_reset_password_tracking(request, user_type):
         reset_password_user = Teacher.objects.get(new_user=requested_user)
     elif user_type == "INDEP_STUDENT":
         reset_password_user = Student.objects.get(new_user=requested_user)
-    if (reset_password_user.blocked_time and pytz.UTC.localize(datetime.now() - timedelta(days=1)) <= reset_password_user.blocked):
+    if (
+        reset_password_user.blocked_time
+        and pytz.UTC.localize(datetime.now() - timedelta(days=1)) <= reset_password_user.blocked
+    ):
         activity_today.daily_teacher_lockout_reset += 1 if user_type == "TEACHER" else 0
         activity_today.daily_indy_lockout_reset += 1 if user_type == "INDEP_STUDENT" else 0
         activity_today.save()
+
 
 @user_passes_test(not_fully_logged_in, login_url=reverse_lazy("teacher_login"))
 def teacher_password_reset(request):
