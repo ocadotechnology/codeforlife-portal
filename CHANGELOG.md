@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.27.9 (2023-01-10)
+### Fix
+* Updates to privacy policy ([#1997](https://github.com/ocadotechnology/codeforlife-portal/issues/1997)) ([`f818a75`](https://github.com/ocadotechnology/codeforlife-portal/commit/f818a7563a4ce4c896dd8bfc778f6c881f31814e))
+
 ## v6.27.8 (2022-12-30)
 ### Fix
 * Made the the page open in the same window ([#1993](https://github.com/ocadotechnology/codeforlife-portal/issues/1993)) ([`ad4c035`](https://github.com/ocadotechnology/codeforlife-portal/commit/ad4c0357d369e94d4b6b15914f05d05d98a2a2a1))
