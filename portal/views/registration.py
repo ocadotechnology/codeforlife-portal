@@ -1,11 +1,14 @@
 from common.email_messages import accountDeletionEmail
+import pytz
+from django.contrib.auth.models import User
+from datetime import datetime, timedelta
 from common.helpers.emails import (
     delete_contact,
     NOTIFICATION_EMAIL,
     PASSWORD_RESET_EMAIL,
     send_email,
 )
-from common.models import Teacher, Student
+from common.models import Teacher, Student, DailyActivity
 from common.permissions import not_logged_in, not_fully_logged_in
 
 from django.contrib import messages as messages
@@ -52,13 +55,20 @@ def student_password_reset(request):
 
 def handle_reset_password_tracking(request, user_type):
     activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
+    password_reset_email = request.POST.get("email", "")
+    requested_user = User.objects.get(email=password_reset_email)
     if user_type == "TEACHER":
-
-        activity_today.primary_coding_club_downloads += 1
-    elif DownloadType(student_pack_type) == DownloadType.PYTHON_PACK:
-        activity_today.python_coding_club_downloads += 1
-    else:
-        raise Exception("Unknown download type")
+        reset_password_user = Teacher.objects.get(new_user=requested_user)
+    elif user_type == "INDEP_STUDENT":
+        reset_password_user = Student.objects.get(user=requested_user)
+    print(reset_password_user)
+    print(reset_password_user.blocked_time)
+    if (
+        reset_password_user.blocked_time
+        and pytz.UTC.localize(datetime.now() - timedelta(days=1)) <= reset_password_user.blocked_time
+    ):
+        activity_today.daily_teacher_lockout_reset += 1 if user_type == "TEACHER" else 0
+        activity_today.daily_indy_lockout_reset += 1 if user_type == "INDEP_STUDENT" else 0
     activity_today.save()
 
 
@@ -89,6 +99,7 @@ def password_reset(
     html_email_template_name=None,
 ):
     if request.method == "POST":
+        handle_reset_password_tracking(request, usertype)
         form = password_reset_form(request.POST)
         if not captcha.CAPTCHA_ENABLED:
             remove_captcha_from_form(form)
