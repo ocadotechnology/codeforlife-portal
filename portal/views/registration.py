@@ -1,8 +1,8 @@
 from common.email_messages import accountDeletionEmail
 from portal.views.login import has_user_lockout_expired
-import pytz
+
 from django.contrib.auth.models import User
-from datetime import timedelta, datetime
+from datetime import datetime
 from common.helpers.emails import (
     delete_contact,
     NOTIFICATION_EMAIL,

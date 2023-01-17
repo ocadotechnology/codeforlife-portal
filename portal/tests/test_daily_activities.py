@@ -1,6 +1,7 @@
 from datetime import timedelta, datetime
 
 import pytz
+
 from common.models import Teacher, Student, DailyActivity
 from common.tests.utils.organisation import create_organisation_directly
 from common.tests.utils.teacher import signup_teacher_directly
@@ -71,15 +72,16 @@ class TestLockout(TestRatelimit):
         # check teacher response for resetting password
         url = reverse_lazy("teacher_password_reset")
         data = {"email": email}
+
         c = Client()
 
         response = c.post(url, data=data)
-        old_daily_activity = DailyActivity.objects.get(daily_teacher_lockout_reset=0).daily_teacher_lockout_reset
-        current_daily_activity = DailyActivity.objects.get(daily_teacher_lockout_reset=1).daily_teacher_lockout_reset
+        old_daily_activity = DailyActivity.objects.get(date=old_date)
+        current_daily_activity = DailyActivity.objects.get(date=datetime.now())
 
         assert response.status_code == 200
-        assert old_daily_activity == 0
-        assert current_daily_activity == 1
+        assert old_daily_activity.daily_teacher_lockout_reset == 0
+        assert current_daily_activity.daily_teacher_lockout_reset == 1
         # now check the indy student
         login_response = self._student_login(indy_email, indy_password)
 
@@ -88,9 +90,9 @@ class TestLockout(TestRatelimit):
         c = Client()
 
         response = c.post(url, data=data)
-        old_daily_activity = DailyActivity.objects.get(daily_indy_lockout_reset=0).daily_indy_lockout_reset
-        current_daily_activity = DailyActivity.objects.get(daily_indy_lockout_reset=1).daily_indy_lockout_reset
+        old_daily_activity = DailyActivity.objects.get(date=old_date)
+        current_daily_activity = DailyActivity.objects.get(date=datetime.now())
 
         assert response.status_code == 200
-        assert old_daily_activity == 0
-        assert current_daily_activity == 1
+        assert old_daily_activity.daily_indy_lockout_reset == 0
+        assert current_daily_activity.daily_indy_lockout_reset == 1
