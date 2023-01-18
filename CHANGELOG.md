@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.28.0 (2023-01-18)
+### Feature
+* Added tracking reset passwords ([#2008](https://github.com/ocadotechnology/codeforlife-portal/issues/2008)) ([`aeefbc8`](https://github.com/ocadotechnology/codeforlife-portal/commit/aeefbc80574cacdbedf8174a633ec35774f4e190))
+
 ## v6.27.10 (2023-01-18)
 ### Fix
 * Reverting setuptools back to 62.1.0 ([#2009](https://github.com/ocadotechnology/codeforlife-portal/issues/2009)) ([`1425a2d`](https://github.com/ocadotechnology/codeforlife-portal/commit/1425a2d6a1ea50d5f8507df6264639faa9354add))
