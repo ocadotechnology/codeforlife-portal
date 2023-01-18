@@ -300,15 +300,10 @@ class TestRatelimit(TestCase):
         email, password = signup_teacher_directly()
         indy_email, indy_password, student = create_independent_student_directly()
         create_organisation_directly(email)
-        new_user = User.objects.get(email=email)
-        new_teacher = Teacher.objects.get(new_user=new_user)
-        new_teacher.blocked_time = pytz.UTC.localize(datetime.now())
-        new_teacher.save()
 
         self._block_user(Teacher, email)
         self._block_user(Student, indy_email)
 
-        login_response = self._teacher_login(email, password)
         # check teacher response for resetting password
         url = reverse_lazy("teacher_password_reset")
         data = {"email": email}
@@ -323,7 +318,6 @@ class TestRatelimit(TestCase):
         assert old_daily_activity.daily_teacher_lockout_reset == 0
         assert current_daily_activity.daily_teacher_lockout_reset == 1
         # now check the indy student
-        login_response = self._student_login(indy_email, indy_password)
 
         url = reverse_lazy("student_password_reset")
         data = {"email": indy_email}
