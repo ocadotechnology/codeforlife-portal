@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.27.10 (2023-01-18)
+### Fix
+* Reverting setuptools back to 62.1.0 ([#2009](https://github.com/ocadotechnology/codeforlife-portal/issues/2009)) ([`1425a2d`](https://github.com/ocadotechnology/codeforlife-portal/commit/1425a2d6a1ea50d5f8507df6264639faa9354add))
+
 ## v6.27.9 (2023-01-10)
 ### Fix
 * Updates to privacy policy ([#1997](https://github.com/ocadotechnology/codeforlife-portal/issues/1997)) ([`f818a75`](https://github.com/ocadotechnology/codeforlife-portal/commit/f818a7563a4ce4c896dd8bfc778f6c881f31814e))
