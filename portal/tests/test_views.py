@@ -681,7 +681,7 @@ class TestViews(TestCase):
     def test_legal_pages_load(self):
         c = Client()
 
-        assert c.get(reverse("privacy_policy")).status_code == 200
+        assert c.get(reverse("privacy_notice")).status_code == 200
         assert c.get(reverse("terms")).status_code == 200
 
     def test_logged_in_as_admin_check(self):

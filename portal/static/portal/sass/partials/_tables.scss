@@ -44,10 +44,6 @@ th + th {
   border-left: 2px solid $color-background-secondary;
 }
 
-tr + tr {
-  border-top: 2px solid $color-background-secondary;
-}
-
 .header-primary {
   th:not(.no-bg) {
     background-color: $color-table-header-primary;
@@ -57,6 +53,10 @@ tr + tr {
 .data-primary {
   td:not(.no-bg) {
     background-color: $color-background-tint-primary;
+  }
+
+  tr + tr {
+    border-top: 2px solid $color-background-secondary;
   }
 }
 

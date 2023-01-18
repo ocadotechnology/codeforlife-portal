@@ -16,32 +16,32 @@ def resetEmailPasswordMessage(request, domain, uid, token, protocol):
 
 def emailVerificationNeededEmail(request, token):
     url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))}"
-    privacy_policy_url = f"{request.build_absolute_uri(reverse('privacy_policy'))}"
+    privacy_notice_url = f"{request.build_absolute_uri(reverse('privacy_notice'))}"
     terms_url = f"{request.build_absolute_uri(reverse('terms'))}"
     return {
         "subject": f"Email verification ",
         "message": (
             f"Please go to {url} to verify your email address.\n\nBy activating the account you confirm that you have "
-            f"read and agreed to our terms ({terms_url}) and our privacy policy ({privacy_policy_url})."
+            f"read and agreed to our terms ({terms_url}) and our privacy notice ({privacy_notice_url})."
         ),
     }
 
 
 def parentsEmailVerificationNeededEmail(request, user, token):
     url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))}"
-    privacy_policy_url = f"{request.build_absolute_uri(reverse('privacy_policy'))}"
+    privacy_notice_url = f"{request.build_absolute_uri(reverse('privacy_notice'))}"
     terms_url = f"{request.build_absolute_uri(reverse('terms'))}"
     return {
         "subject": f"Code for Life account request",
         "message": (
             f"{user.first_name} has requested to create a Code for Life account so that they can learn how to code for "
             f"FREE! 🎉\n\n"
-            f"{user.first_name} provided your email address as a guardian that is able to read the privacy policy "
+            f"{user.first_name} provided your email address as a guardian that is able to read the privacy notice "
             f"documents and agree to the terms and conditions related to our website on their behalf.\n\n"
             f"If you also wish to receive communication from us, you can sign up for newsletters on our website here. 📧\n\n"
             f"Please activate the account for {user.first_name} by following this link: {url}.\n\nBy activating the "
-            f"account you confirm that you have read and agreed to our terms ({terms_url}) and our privacy policy "
-            f"({privacy_policy_url})."
+            f"account you confirm that you have read and agreed to our terms ({terms_url}) and our privacy notice "
+            f"({privacy_notice_url})."
         ),
     }
 
