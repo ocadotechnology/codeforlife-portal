@@ -85,7 +85,7 @@ class TestRatelimit(TestCase):
     def _reset_password(self, url, new_password):
         return self.client.post(url, {"new_password1": new_password, "new_password2": new_password})
 
-    def _is_user_blocked(self, model: Teacher or Student, username: str) -> bool:
+    def _is_user_blocked(self, model: Teacher or Student, username: str, access_code: str = None) -> bool:
         """
         Checks if a Teacher or a Student object is blocked, by checking if they
         have a blocked_time value, and if so, if it the lockout has expired or not.
@@ -93,8 +93,11 @@ class TestRatelimit(TestCase):
         :param username: The username of the Teacher or Student.
         :return: Whether or not the model object is marked as blocked.
         """
-        user = model.objects.get(new_user__username=username)
-        print(user)
+        user = (
+            model.objects.get(new_user__username=username)
+            if not access_code
+            else model.objects.get(new_user__first_name=username, class_field__access_code=access_code)
+        )
         if user.blocked_time:
             return not has_user_lockout_expired(user)
         else:
@@ -139,18 +142,15 @@ class TestRatelimit(TestCase):
         klass, klass_name, klass_access_code = create_class_directly(teacher_email)
         student_name, student_password, student = create_school_student_directly(klass_access_code)
 
-        print(Student.objects.all())
         student_username = student.new_user.username
         for i in range(5):
-            print(student_name)
             response = self._student_school_login(klass_access_code, student_name, "bad_password")
-            print(response)
 
-            assert not self._is_user_blocked(Student, student_username)
+            assert not self._is_user_blocked(Student, student_name, klass_access_code)
 
         _ = self._student_school_login(klass_access_code, student_name, "bad_password")
 
-        assert self._is_user_blocked(Student, student_username)
+        assert self._is_user_blocked(Student, student_name, klass_access_code)
 
     def test_independent_student_login_ratelimit(self):
         """

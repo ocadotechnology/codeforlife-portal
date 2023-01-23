@@ -102,9 +102,12 @@ class StudentLoginView(LoginView):
         account, this redirects the user to the locked out page. However, if the lockout
         time is more than 24 hours before this is executed, the account is unlocked.
         """
-        email = request.POST.get("username")
-        if Student.objects.filter(new_user__email=email).exists():
-            student = Student.objects.get(new_user__email=email)
+        username = request.POST.get("username")
+
+        # get access code from the current url
+        access_code = request.get_full_path().split("/student/")[1].split("/classform/")[0].replace("/", "")
+        if Student.objects.filter(new_user__first_name=username, class_field__access_code=access_code).exists():
+            student = Student.objects.get(new_user__first_name=username, class_field__access_code=access_code)
 
             if student.blocked_time is not None:
                 if has_user_lockout_expired(student):

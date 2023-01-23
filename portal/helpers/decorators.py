@@ -15,9 +15,7 @@ from portal.templatetags.app_tags import is_logged_in
 __all__ = ["ratelimit"]
 
 
-def ratelimit(
-    group=None, key=None, rate=None, method=ALL, block=False, is_teacher=True
-):
+def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teacher=True):
     """
     Ratelimit decorator, adding custom functionality to django-ratelimit's default
     decorator. On block, the user is logged out, redirected to the "locked out" page,
@@ -55,11 +53,15 @@ def ratelimit(
                     else:
                         username = data.get("username")
 
+                    access_code = request.get_full_path().split("/student/")[1].split("/classform/")[0].replace("/", "")
                     if model.objects.filter(new_user__username=username).exists():
                         user = model.objects.get(new_user__username=username)
+                    elif model.objects.filter(
+                        new_user__first_name=username, class_field__access_code=access_code
+                    ).exists():
+                        user = model.objects.get(new_user__first_name=username, class_field__access_code=access_code)
                 else:
                     user = model.objects.get(new_user=request.user)
-
                 if user:
                     user.blocked_time = datetime.datetime.now(tz=pytz.utc)
                     user.save()
