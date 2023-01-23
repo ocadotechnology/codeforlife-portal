@@ -13,6 +13,7 @@ from django.utils.html import escape
 from portal.forms.play import StudentLoginForm, StudentClassCodeForm
 
 import logging
+import re
 
 LOGGER = logging.getLogger(__name__)
 
@@ -105,7 +106,7 @@ class StudentLoginView(LoginView):
         username = request.POST.get("username")
 
         # get access code from the current url
-        access_code = request.get_full_path().split("/student/")[1].split("/classform/")[0].replace("/", "")
+        access_code = re.search("(/login/student/(.+?)($))|(/login/student/(.+?)/)", request.get_full_path()).group(1)
         if Student.objects.filter(new_user__first_name=username, class_field__access_code=access_code).exists():
             student = Student.objects.get(new_user__first_name=username, class_field__access_code=access_code)
 

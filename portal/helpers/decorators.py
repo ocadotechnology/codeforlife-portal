@@ -2,11 +2,13 @@ from __future__ import absolute_import
 
 import datetime
 import pytz
-from functools import wraps
+import re
+
 
 from common.models import Teacher, Student
 from django.contrib.auth import logout
 from django.shortcuts import render
+from functools import wraps
 from ratelimit import ALL, UNSAFE
 
 from portal.helpers.ratelimit import is_ratelimited
@@ -53,7 +55,9 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                     else:
                         username = data.get("username")
 
-                    access_code = request.get_full_path().split("/student/")[1].split("/classform/")[0].replace("/", "")
+                    access_code = re.search(
+                        "(/login/student/(.+?)($))|(/login/student/(.+?)/)", request.get_full_path()
+                    ).group(1)
                     if model.objects.filter(new_user__username=username).exists():
                         user = model.objects.get(new_user__username=username)
                     elif model.objects.filter(
