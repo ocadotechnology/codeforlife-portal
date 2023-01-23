@@ -152,7 +152,11 @@ class TestRatelimit(TestCase):
         _ = self._student_school_login(klass_access_code, student_name, "bad_password")
 
         assert self._is_user_blocked(Student, student_name, klass_access_code)
-        student.blocked_time = student.blocked_time - timedelta(days=1)
+        current_student = Student.objects.get(
+            new_user__first_name=student_name, class_field__access_code=klass_access_code
+        )
+        current_student.blocked_time = current_student.blocked_time - timedelta(days=1)
+        current_student.save()
         assert not self._is_user_blocked(Student, student_name, klass_access_code)
 
     def test_independent_student_login_ratelimit(self):
