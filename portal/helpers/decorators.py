@@ -55,13 +55,18 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                     else:
                         username = data.get("username")
 
-                    access_code = re.search("/login/student/(\w+)", request.get_full_path()).group(1)
+                    access_code_re = re.search("/login/student/(\w+)", request.get_full_path())
                     if model.objects.filter(new_user__username=username).exists():
                         user = model.objects.get(new_user__username=username)
-                    elif model.objects.filter(
-                        new_user__first_name=username, class_field__access_code=access_code
-                    ).exists():
-                        user = model.objects.get(new_user__first_name=username, class_field__access_code=access_code)
+                    elif (
+                        access_code_re is not None
+                        and model.objects.filter(
+                            new_user__first_name=username, class_field__access_code=access_code_re.group(1)
+                        ).exists()
+                    ):
+                        user = model.objects.get(
+                            new_user__first_name=username, class_field__access_code=access_code_re.group(1)
+                        )
                 else:
                     user = model.objects.get(new_user=request.user)
                 if user:
