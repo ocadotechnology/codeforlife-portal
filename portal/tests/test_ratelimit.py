@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 import pytest
 import pytz
-from common.models import Teacher, Student
+from common.models import Teacher, Student, DailyActivity
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly
 from common.tests.utils.student import (
@@ -15,10 +15,11 @@ from common.tests.utils.student import (
     generate_independent_student_details,
 )
 from common.tests.utils.teacher import signup_teacher_directly, generate_details
+from django.contrib.auth.models import User
 from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
-
+from django.urls import reverse_lazy
 from portal.helpers.ratelimit import get_ratelimit_count_for_user
 from portal.views.login import has_user_lockout_expired
 
@@ -324,6 +325,44 @@ class TestRatelimit(TestCase):
 
         assert login_response.status_code == 302
         assert not self._is_user_blocked(Teacher, email)
+
+    def test_lockout_reset_tracking(self):
+        old_date = datetime.now() - timedelta(days=1)
+        old_daily_activity = DailyActivity(date=old_date)
+        old_daily_activity.save()
+        email, password = signup_teacher_directly()
+        indy_email, indy_password, student = create_independent_student_directly()
+        create_organisation_directly(email)
+
+        self._block_user(Teacher, email)
+        self._block_user(Student, indy_email)
+
+        # check teacher response for resetting password
+        url = reverse_lazy("teacher_password_reset")
+        data = {"email": email}
+
+        c = Client()
+
+        response = c.post(url, data=data)
+        old_daily_activity = DailyActivity.objects.get(date=old_date)
+        current_daily_activity = DailyActivity.objects.get(date=datetime.now())
+
+        assert response.status_code == 200
+        assert old_daily_activity.daily_teacher_lockout_reset == 0
+        assert current_daily_activity.daily_teacher_lockout_reset == 1
+        # now check the indy student
+
+        url = reverse_lazy("student_password_reset")
+        data = {"email": indy_email}
+        c = Client()
+
+        response = c.post(url, data=data)
+        old_daily_activity = DailyActivity.objects.get(date=old_date)
+        current_daily_activity = DailyActivity.objects.get(date=datetime.now())
+
+        assert response.status_code == 200
+        assert old_daily_activity.daily_indy_lockout_reset == 0
+        assert current_daily_activity.daily_indy_lockout_reset == 1
 
 
 @pytest.mark.django_db
