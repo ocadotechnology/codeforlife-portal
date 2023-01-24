@@ -6,7 +6,8 @@ on:
 jobs:
   test:
     name: Run tests
-    runs-on: ubuntu-20.04-16core
+    runs-on:
+      group: ubuntu-20.04-16core
     env:
       LANG: C.UTF-8
     steps:
