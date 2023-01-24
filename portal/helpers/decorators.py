@@ -46,7 +46,7 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                 else:
                     model = Student
 
-                user_lockout = None
+                user_to_lockout = None
 
                 lockout_template = "portal/locked_out.html"
 
@@ -65,7 +65,7 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                     # move on to another try block
                     # similar logic followed afterwards
                     try:
-                        user_lockout = model_finder(
+                        user_to_lockout = model_finder(
                             new_user__first_name=username,
                             class_field__access_code=access_code_re.group(1),  # extract the found text from regex
                         )[0]
@@ -74,14 +74,15 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                         pass
                     # look for indy student or teacher
                     try:
-                        user_lockout = model_finder(new_user__username=username)[0]
+                        user_to_lockout = model_finder(new_user__username=username)[0]
                     except IndexError:
                         pass
                 else:
-                    user_lockout = model.objects.get(new_user=request.user)
-                if user_lockout:
-                    user_lockout.blocked_time = datetime.datetime.now(tz=pytz.utc)
-                    user_lockout.save()
+                    user_to_lockout = model.objects.get(new_user=request.user)
+
+                if user_to_lockout:
+                    user_to_lockout.blocked_time = datetime.datetime.now(tz=pytz.utc)
+                    user_to_lockout.save()
 
                     if is_logged_in(request.user):
                         logout(request)
