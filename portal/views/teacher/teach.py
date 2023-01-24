@@ -1,5 +1,3 @@
-from __future__ import division
-
 import csv
 import json
 from datetime import datetime, timedelta
@@ -23,7 +21,6 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from game.views.level_selection import get_blockly_episodes, get_python_episodes
-from past.utils import old_div
 from reportlab.lib.colors import black, red
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
@@ -750,16 +747,16 @@ def teacher_print_reminder_cards(request, access_code):
 
     # Define constants that determine the look of the cards
     PAGE_WIDTH, PAGE_HEIGHT = A4
-    PAGE_MARGIN = old_div(PAGE_WIDTH, 16)
-    INTER_CARD_MARGIN = old_div(PAGE_WIDTH, 64)
-    CARD_PADDING = old_div(PAGE_WIDTH, 48)
+    PAGE_MARGIN = PAGE_WIDTH // 16
+    INTER_CARD_MARGIN = PAGE_WIDTH // 64
+    CARD_PADDING = PAGE_WIDTH // 48
 
     # rows and columns on page
     NUM_X = REMINDER_CARDS_PDF_COLUMNS
     NUM_Y = REMINDER_CARDS_PDF_ROWS
 
-    CARD_WIDTH = old_div(PAGE_WIDTH - PAGE_MARGIN * 2, NUM_X)
-    CARD_HEIGHT = old_div(PAGE_HEIGHT - PAGE_MARGIN * 4, NUM_Y)
+    CARD_WIDTH = (PAGE_WIDTH - PAGE_MARGIN * 2) // NUM_X
+    CARD_HEIGHT = (PAGE_HEIGHT - PAGE_MARGIN * 4) // NUM_Y
 
     CARD_INNER_HEIGHT = CARD_HEIGHT - CARD_PADDING * 2
 
