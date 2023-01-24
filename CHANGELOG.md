@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.28.1 (2023-01-24)
+### Fix
+* Update privacy notice and fix styling issues ([#2011](https://github.com/ocadotechnology/codeforlife-portal/issues/2011)) ([`493a4d3`](https://github.com/ocadotechnology/codeforlife-portal/commit/493a4d3b21f65bb245c86f933de0b64764790b3e))
+
 ## v6.28.0 (2023-01-18)
 ### Feature
 * Added tracking reset passwords ([#2008](https://github.com/ocadotechnology/codeforlife-portal/issues/2008)) ([`aeefbc8`](https://github.com/ocadotechnology/codeforlife-portal/commit/aeefbc80574cacdbedf8174a633ec35774f4e190))
