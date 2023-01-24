@@ -46,7 +46,9 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                 else:
                     model = Student
 
-                user = None
+                user_lockout = None
+
+                lockout_template = "portal/locked_out.html"
 
                 if request.user.is_anonymous:
                     data = request.POST
@@ -56,29 +58,37 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                         username = data.get("username")
 
                     access_code_re = re.search("/login/student/(\w+)", request.get_full_path())
-                    if model.objects.filter(new_user__username=username).exists():
-                        user = model.objects.get(new_user__username=username)
-                    elif (
-                        access_code_re is not None
-                        and model.objects.filter(
-                            new_user__first_name=username, class_field__access_code=access_code_re.group(1)
-                        ).exists()
-                    ):
-                        user = model.objects.get(
-                            new_user__first_name=username, class_field__access_code=access_code_re.group(1)
-                        )
+                    model_finder = model.objects.filter
+                    # look for school student
+                    # if access code not found (AttributeError)
+                    # if student not found (IndexError)
+                    # move on to another try block
+                    # similar logic followed afterwards
+                    try:
+                        user_lockout = model_finder(
+                            new_user__first_name=username,
+                            class_field__access_code=access_code_re.group(1),  # extract the found text from regex
+                        )[0]
+                        lockout_template = "portal/locked_out_school_student.html"
+                    except (AttributeError, IndexError):
+                        pass
+                    # look for indy student or teacher
+                    try:
+                        user_lockout = model_finder(new_user__username=username)[0]
+                    except IndexError:
+                        pass
                 else:
-                    user = model.objects.get(new_user=request.user)
-                if user:
-                    user.blocked_time = datetime.datetime.now(tz=pytz.utc)
-                    user.save()
+                    user_lockout = model.objects.get(new_user=request.user)
+                if user_lockout:
+                    user_lockout.blocked_time = datetime.datetime.now(tz=pytz.utc)
+                    user_lockout.save()
 
                     if is_logged_in(request.user):
                         logout(request)
 
                     return render(
                         request,
-                        "portal/locked_out.html",
+                        lockout_template,
                         {"is_teacher": is_teacher},
                     )
 

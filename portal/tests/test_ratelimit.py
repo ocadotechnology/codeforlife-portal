@@ -144,7 +144,7 @@ class TestRatelimit(TestCase):
         student_name, student_password, student = create_school_student_directly(klass_access_code)
 
         student_username = student.new_user.username
-        for i in range(5):
+        for i in range(10):
             response = self._student_school_login(klass_access_code, student_name, "bad_password")
 
             assert not self._is_user_blocked(Student, student_name, klass_access_code)

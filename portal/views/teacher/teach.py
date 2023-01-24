@@ -2,6 +2,7 @@ from __future__ import division
 
 import csv
 import json
+import pytz
 from datetime import datetime, timedelta
 from enum import Enum
 from functools import partial, wraps
@@ -469,6 +470,7 @@ def process_reset_password_form(request, student, password_form):
         student.new_user.set_password(new_password)
         student.new_user.save()
         student.login_id = login_id
+        student.blocked_time = datetime.now(tz=pytz.utc) - timedelta(days=1)
         student.save()
 
         return render(
@@ -601,6 +603,7 @@ def teacher_class_password_reset(request, access_code):
         student.new_user.set_password(password)
         student.new_user.save()
         student.login_id = hashed_login_id
+        student.blocked_time = datetime.now(tz=pytz.utc) - timedelta(days=1)
         student.save()
 
     return render(
