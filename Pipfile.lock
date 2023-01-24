@@ -572,10 +572,10 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:7061c3363c51825c7c35488032ea27cc0eb0edc320583d986438352699295cc5",
-                "sha256:d63c0334ac9fba3a73627808401f6c7afd7017f8f90c2828978a626ea64f7fe4"
+                "sha256:021418b9d00e79016b782cd4ddcc54b80765f25b2dca555cd84fb218bd6bf646",
+                "sha256:23a78625da224a11b754b1f49bfccb128bbc8b65db9e57ba0efa20337b335c53"
             ],
-            "version": "==5.8.0"
+            "version": "==5.8.1"
         },
         "reportlab": {
             "hashes": [
