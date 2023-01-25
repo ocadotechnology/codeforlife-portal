@@ -143,7 +143,6 @@ class TestRatelimit(TestCase):
         klass, klass_name, klass_access_code = create_class_directly(teacher_email)
         student_name, student_password, student = create_school_student_directly(klass_access_code)
 
-        student_username = student.new_user.username
         for i in range(10):
             response = self._student_school_login(klass_access_code, student_name, "bad_password")
 
@@ -155,8 +154,25 @@ class TestRatelimit(TestCase):
         current_student = Student.objects.get(
             new_user__first_name=student_name, class_field__access_code=klass_access_code
         )
-        current_student.blocked_time = current_student.blocked_time - timedelta(days=1)
+        current_student_blocked_time = current_student.blocked_time
+        # now check if teacher can unlock it, both ways :)
+        url = reverse_lazy("teacher_class_password_reset", kwargs={"access_code": klass_access_code})
+        print(url)
+        data = {"transfer_students": [[current_student.id]]}
+        print(data)
+        c = Client()
+
+        c.login(username=teacher_email, password=teacher_password)
+        c.post(url, data)
+        assert not self._is_user_blocked(Student, student_name, klass_access_code)
+        # now block again and test the edit by student method
+        current_student.blocked_time = current_student_blocked_time
         current_student.save()
+        assert self._is_user_blocked(Student, student_name, klass_access_code)
+        url = reverse_lazy("teacher_edit_student", kwargs={"pk": current_student.id})
+        data = {"password": "password1", "confirm_password": "password1", "set_password": ""}
+
+        c.post(url, data)
         assert not self._is_user_blocked(Student, student_name, klass_access_code)
 
     def test_independent_student_login_ratelimit(self):
@@ -369,6 +385,40 @@ class TestRatelimit(TestCase):
         assert response.status_code == 200
         assert old_daily_activity.daily_indy_lockout_reset == 0
         assert current_daily_activity.daily_indy_lockout_reset == 1
+        # finally check the school student
+
+        # method 1
+        teacher_email, teacher_password = signup_teacher_directly()
+        _ = create_organisation_directly(teacher_email)
+        _, _, klass_access_code = create_class_directly(teacher_email)
+        _, _, student = create_school_student_directly(klass_access_code)
+
+        c = Client()
+        c.login(username=teacher_email, password=teacher_password)
+
+        url = reverse_lazy("teacher_edit_student", kwargs={"pk": student.id})
+        data = {"password": "password1", "confirm_password": "password1", "set_password": ""}
+        print(url, data)
+
+        response = c.post(url, data)
+        old_daily_activity = DailyActivity.objects.get(date=old_date)
+        current_daily_activity = DailyActivity.objects.get(date=datetime.now())
+
+        assert response.status_code == 200
+        assert old_daily_activity.daily_school_student_lockout_reset == 0
+        assert current_daily_activity.daily_school_student_lockout_reset == 1
+
+        # method 2
+        url = reverse_lazy("teacher_class_password_reset", kwargs={"access_code": klass_access_code})
+        data = {"transfer_students": [[student.id]]}
+
+        response = c.post(url, data)
+        old_daily_activity = DailyActivity.objects.get(date=old_date)
+        current_daily_activity = DailyActivity.objects.get(date=datetime.now())
+
+        assert response.status_code == 200
+        assert old_daily_activity.daily_school_student_lockout_reset == 0
+        assert current_daily_activity.daily_school_student_lockout_reset == 2
 
 
 @pytest.mark.django_db

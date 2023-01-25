@@ -54,16 +54,27 @@ def student_password_reset(request):
     )
 
 
-def handle_reset_password_tracking(request, user_type):
+def school_student_reset_password(request, activity_today):
+    if "transfer_students" in request.POST:
+        activity_today.daily_school_student_lockout_reset += len(request.POST.getlist("transfer_students"))
+    elif "set_password" in request.POST:
+        activity_today.daily_school_student_lockout_reset += 1
+    activity_today.save()
+
+
+def handle_reset_password_tracking(request, user_type, access_code=None, student_id=None):
     activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
-    password_reset_email = request.POST.get("email", "")
-    requested_user = User.objects.filter(email=password_reset_email).first()
-    if not requested_user:
+    # school student has 2 different ways of resetting password
+    # hence the function is extended
+    if user_type == "SCHOOL_STUDENT":
+        school_student_reset_password(request, activity_today)
         return
-    if user_type == "TEACHER":
-        reset_password_user = Teacher.objects.get(new_user=requested_user)
-    elif user_type == "INDEP_STUDENT":
-        reset_password_user = Student.objects.get(new_user=requested_user)
+    password_reset_email = request.POST.get("email", "")
+    reset_password_user = (
+        Teacher.objects.get(new_user__email=password_reset_email)
+        if user_type == "TEACHER"
+        else Student.objects.get(new_user__email=password_reset_email)
+    )
     if reset_password_user.blocked_time and not has_user_lockout_expired(reset_password_user):
         activity_today.daily_teacher_lockout_reset += 1 if user_type == "TEACHER" else 0
         activity_today.daily_indy_lockout_reset += 1 if user_type == "INDEP_STUDENT" else 0

@@ -338,6 +338,7 @@ class DailyActivity(models.Model):
     level_control_submits = models.PositiveBigIntegerField(default=0)
     daily_teacher_lockout_reset = models.PositiveIntegerField(default=0)
     daily_indy_lockout_reset = models.PositiveIntegerField(default=0)
+    daily_school_student_lockout_reset = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name_plural = "Daily activities"

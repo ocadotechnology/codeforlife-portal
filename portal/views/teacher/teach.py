@@ -25,6 +25,7 @@ from django.utils import timezone
 from django.views.decorators.http import require_POST
 from game.views.level_selection import get_blockly_episodes, get_python_episodes
 from past.utils import old_div
+from portal.views.registration import handle_reset_password_tracking
 from reportlab.lib.colors import black, red
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
@@ -472,6 +473,7 @@ def process_reset_password_form(request, student, password_form):
         student.login_id = login_id
         student.blocked_time = datetime.now(tz=pytz.utc) - timedelta(days=1)
         student.save()
+        handle_reset_password_tracking(request, "SCHOOL_STUDENT")
 
         return render(
             request,
@@ -604,6 +606,7 @@ def teacher_class_password_reset(request, access_code):
         student.new_user.save()
         student.login_id = hashed_login_id
         student.blocked_time = datetime.now(tz=pytz.utc) - timedelta(days=1)
+        handle_reset_password_tracking(request, "SCHOOL_STUDENT", access_code)
         student.save()
 
     return render(
