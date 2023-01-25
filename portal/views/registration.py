@@ -65,8 +65,8 @@ def handle_reset_password_tracking(request, user_type):
     elif user_type == "INDEP_STUDENT":
         reset_password_user = Student.objects.get(new_user=requested_user)
     if reset_password_user.blocked_time and not has_user_lockout_expired(reset_password_user):
-        activity_today.daily_teacher_lockout_reset += 1 if user_type == "TEACHER" else 0
-        activity_today.daily_indy_lockout_reset += 1 if user_type == "INDEP_STUDENT" else 0
+        activity_today.teacher_lockout_resets += 1 if user_type == "TEACHER" else 0
+        activity_today.indy_lockout_resets += 1 if user_type == "INDEP_STUDENT" else 0
         activity_today.save()
 
 

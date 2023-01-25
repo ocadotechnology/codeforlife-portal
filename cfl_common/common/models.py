@@ -336,14 +336,14 @@ class DailyActivity(models.Model):
     primary_coding_club_downloads = models.PositiveIntegerField(default=0)
     python_coding_club_downloads = models.PositiveIntegerField(default=0)
     level_control_submits = models.PositiveBigIntegerField(default=0)
-    daily_teacher_lockout_reset = models.PositiveIntegerField(default=0)
-    daily_indy_lockout_reset = models.PositiveIntegerField(default=0)
+    teacher_lockout_resets = models.PositiveIntegerField(default=0)
+    indy_lockout_resets = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name_plural = "Daily activities"
 
     def __str__(self):
-        return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}, primary pack downloads: {self.primary_coding_club_downloads}, python pack downloads: {self.python_coding_club_downloads}, level control submits: {self.level_control_submits}, teacher lockout reset: {self.daily_teacher_lockout_reset}, indy lockout reset: {self.daily_indy_lockout_reset}"
+        return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}, primary pack downloads: {self.primary_coding_club_downloads}, python pack downloads: {self.python_coding_club_downloads}, level control submits: {self.level_control_submits}, teacher lockout resets: {self.teacher_lockout_resets}, indy lockout resets: {self.indy_lockout_resets}"
 
 
 class DynamicElement(models.Model):

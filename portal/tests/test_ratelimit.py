@@ -315,8 +315,8 @@ class TestRatelimit(TestCase):
         current_daily_activity = DailyActivity.objects.get(date=datetime.now())
 
         assert response.status_code == 200
-        assert old_daily_activity.daily_teacher_lockout_reset == 0
-        assert current_daily_activity.daily_teacher_lockout_reset == 1
+        assert old_daily_activity.teacher_lockout_resets == 0
+        assert current_daily_activity.teacher_lockout_resets == 1
         # now check the indy student
 
         url = reverse_lazy("student_password_reset")
@@ -328,8 +328,8 @@ class TestRatelimit(TestCase):
         current_daily_activity = DailyActivity.objects.get(date=datetime.now())
 
         assert response.status_code == 200
-        assert old_daily_activity.daily_indy_lockout_reset == 0
-        assert current_daily_activity.daily_indy_lockout_reset == 1
+        assert old_daily_activity.indy_lockout_resets == 0
+        assert current_daily_activity.indy_lockout_resets == 1
 
 
 @pytest.mark.django_db
