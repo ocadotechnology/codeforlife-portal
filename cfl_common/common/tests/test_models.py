@@ -1,4 +1,4 @@
-from common.models import Student, Teacher
+from common.models import Student, Teacher, DailyActivity
 from django.test import TestCase
 from django.utils import timezone
 
@@ -67,3 +67,11 @@ class TestModels(TestCase):
         assert teacher1 in school.admins()
         assert teacher2 not in school.admins()
         assert teacher3 in school.admins()
+
+    def test_daily_activity_serializer(self):
+        daily_activity = DailyActivity()
+
+        assert (
+            str(daily_activity)
+            == f"Activity on {daily_activity.date}: CSV clicks: 0, login cards clicks: 0, primary pack downloads: 0, python pack downloads: 0, level control submits: 0, teacher lockout resets: 0, indy lockout resets: 0"
+        )
