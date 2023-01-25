@@ -5,7 +5,7 @@ def privacy_notice(request):
     return render(
         request,
         "portal/privacy_notice.html",
-        {"last_updated": "6th January 2023", "last_updated_children": "18th January 2023"},
+        {"last_updated": "25th January 2023", "last_updated_children": "25th January 2023"},
     )
 
 
