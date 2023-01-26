@@ -104,14 +104,20 @@ class TestRatelimit(TestCase):
         else:
             return False
 
-    def _block_user(self, model: Teacher or Student, username: str) -> None:
+    def _block_user(self, model: Teacher or Student, username: str, access_code=None) -> None:
         """
         Finds the Teacher or Student corresponding to the username, and sets it as
         blocked and sets the blocked date to now.
         :param model: The model Class to be checked against.
         :param username: The username of the Teacher or Student.
         """
-        user = model.objects.get(new_user__username=username)
+
+        user = (
+            model.objects.get(new_user__username=username)
+            if access_code is None
+            else model.objects.get(new_user__first_name=username, class_field__access_code=access_code)
+        )
+
         user.blocked_time = datetime.now(tz=pytz.utc)
         user.save()
 
@@ -154,20 +160,18 @@ class TestRatelimit(TestCase):
         current_student = Student.objects.get(
             new_user__first_name=student_name, class_field__access_code=klass_access_code
         )
-        current_student_blocked_time = current_student.blocked_time
+
         # now check if teacher can unlock it, both ways :)
         url = reverse_lazy("teacher_class_password_reset", kwargs={"access_code": klass_access_code})
-        print(url)
         data = {"transfer_students": [[current_student.id]]}
-        print(data)
         c = Client()
 
         c.login(username=teacher_email, password=teacher_password)
         c.post(url, data)
         assert not self._is_user_blocked(Student, student_name, klass_access_code)
+
         # now block again and test the edit by student method
-        current_student.blocked_time = current_student_blocked_time
-        current_student.save()
+        self._block_user(Student, student_name, klass_access_code)
         assert self._is_user_blocked(Student, student_name, klass_access_code)
         url = reverse_lazy("teacher_edit_student", kwargs={"pk": current_student.id})
         data = {"password": "password1", "confirm_password": "password1", "set_password": ""}
@@ -352,16 +356,16 @@ class TestRatelimit(TestCase):
         old_date = datetime.now() - timedelta(days=1)
         old_daily_activity = DailyActivity(date=old_date)
         old_daily_activity.save()
-        email, password = signup_teacher_directly()
+        teacher_email, teacher_password = signup_teacher_directly()
         indy_email, indy_password, student = create_independent_student_directly()
-        create_organisation_directly(email)
+        create_organisation_directly(teacher_email)
 
-        self._block_user(Teacher, email)
+        self._block_user(Teacher, teacher_email)
         self._block_user(Student, indy_email)
 
         # check teacher response for resetting password
         url = reverse_lazy("teacher_password_reset")
-        data = {"email": email}
+        data = {"email": teacher_email}
 
         c = Client()
 
@@ -388,17 +392,16 @@ class TestRatelimit(TestCase):
         # finally check the school student
 
         # method 1
-        teacher_email, teacher_password = signup_teacher_directly()
-        _ = create_organisation_directly(teacher_email)
         _, _, klass_access_code = create_class_directly(teacher_email)
-        _, _, student = create_school_student_directly(klass_access_code)
+        student_name, _, student = create_school_student_directly(klass_access_code)
+
+        self._block_user(Student, student_name, access_code=klass_access_code)
 
         c = Client()
         c.login(username=teacher_email, password=teacher_password)
 
         url = reverse_lazy("teacher_edit_student", kwargs={"pk": student.id})
         data = {"password": "password1", "confirm_password": "password1", "set_password": ""}
-        print(url, data)
 
         response = c.post(url, data)
         old_daily_activity = DailyActivity.objects.get(date=old_date)
@@ -409,6 +412,7 @@ class TestRatelimit(TestCase):
         assert current_daily_activity.daily_school_student_lockout_reset == 1
 
         # method 2
+        self._block_user(Student, student_name, access_code=klass_access_code)
         url = reverse_lazy("teacher_class_password_reset", kwargs={"access_code": klass_access_code})
         data = {"transfer_students": [[student.id]]}
 

@@ -1,3 +1,6 @@
+import ast
+import re
+
 from common.email_messages import accountDeletionEmail
 from portal.views.login import has_user_lockout_expired
 
@@ -54,31 +57,48 @@ def student_password_reset(request):
     )
 
 
-def school_student_reset_password(request, activity_today):
+def blocked_and_not_expired(user: Student or Teacher):
+    return user.blocked_time and not has_user_lockout_expired(user)
+
+
+def school_student_reset_password_tracker(request, activity_today):
+    print("CALL")
     if "transfer_students" in request.POST:
-        activity_today.daily_school_student_lockout_reset += len(request.POST.getlist("transfer_students"))
+        student_list = ast.literal_eval(request.POST.get("transfer_students", []))
+        for student_id in student_list:
+            print(student_id)
+            print(type(student_id))
+            current_student = Student.objects.get(id=student_id)
+            if blocked_and_not_expired(current_student):
+                print("increm")
+                activity_today.daily_school_student_lockout_reset += 1
     elif "set_password" in request.POST:
-        activity_today.daily_school_student_lockout_reset += 1
+        student_id = re.search("/(\d+)/", request.path).group(1)
+        if blocked_and_not_expired(Student.objects.get(id=student_id)):
+            activity_today.daily_school_student_lockout_reset += 1
     activity_today.save()
+
+
+def teacher_or_indy_reset_password_tracker(request, activity_today, email):
+    get_potential_user = Teacher.objects.filter(new_user__email=email) or Student.objects.filter(new_user__email=email)
+    user = get_potential_user[0]
+    if blocked_and_not_expired(user):
+        if "teacher" in request.path:
+            activity_today.daily_teacher_lockout_reset += 1
+        elif "student" in request.path:
+            activity_today.daily_indy_lockout_reset += 1
+        activity_today.save()
 
 
 def handle_reset_password_tracking(request, user_type, access_code=None, student_id=None):
     activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
     # school student has 2 different ways of resetting password
     # hence the function is extended
+    # check for indy student or teacher account
     if user_type == "SCHOOL_STUDENT":
-        school_student_reset_password(request, activity_today)
-        return
-    password_reset_email = request.POST.get("email", "")
-    reset_password_user = (
-        Teacher.objects.get(new_user__email=password_reset_email)
-        if user_type == "TEACHER"
-        else Student.objects.get(new_user__email=password_reset_email)
-    )
-    if reset_password_user.blocked_time and not has_user_lockout_expired(reset_password_user):
-        activity_today.daily_teacher_lockout_reset += 1 if user_type == "TEACHER" else 0
-        activity_today.daily_indy_lockout_reset += 1 if user_type == "INDEP_STUDENT" else 0
-        activity_today.save()
+        school_student_reset_password_tracker(request, activity_today)
+    elif "email" in request.POST:
+        teacher_or_indy_reset_password_tracker(request, activity_today, request.POST.get("email", ""))
 
 
 @user_passes_test(not_fully_logged_in, login_url=reverse_lazy("teacher_login"))

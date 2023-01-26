@@ -468,12 +468,12 @@ def process_reset_password_form(request, student, password_form):
             }
         ]
 
+        handle_reset_password_tracking(request, "SCHOOL_STUDENT")
         student.new_user.set_password(new_password)
         student.new_user.save()
         student.login_id = login_id
         student.blocked_time = datetime.now(tz=pytz.utc) - timedelta(days=1)
         student.save()
-        handle_reset_password_tracking(request, "SCHOOL_STUDENT")
 
         return render(
             request,
@@ -587,6 +587,7 @@ def teacher_class_password_reset(request, access_code):
     students = [get_object_or_404(Student, id=i, class_field=klass) for i in student_ids]
 
     students_info = []
+    handle_reset_password_tracking(request, "SCHOOL_STUDENT", access_code)
     for student in students:
         password = generate_password(STUDENT_PASSWORD_LENGTH)
 
@@ -606,7 +607,6 @@ def teacher_class_password_reset(request, access_code):
         student.new_user.save()
         student.login_id = hashed_login_id
         student.blocked_time = datetime.now(tz=pytz.utc) - timedelta(days=1)
-        handle_reset_password_tracking(request, "SCHOOL_STUDENT", access_code)
         student.save()
 
     return render(

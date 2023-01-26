@@ -344,7 +344,7 @@ class DailyActivity(models.Model):
         verbose_name_plural = "Daily activities"
 
     def __str__(self):
-        return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}, primary pack downloads: {self.primary_coding_club_downloads}, python pack downloads: {self.python_coding_club_downloads}, level control submits: {self.level_control_submits}, teacher lockout reset: {self.daily_teacher_lockout_reset}, indy lockout reset: {self.daily_indy_lockout_reset}"
+        return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}, primary pack downloads: {self.primary_coding_club_downloads}, python pack downloads: {self.python_coding_club_downloads}, level control submits: {self.level_control_submits}, teacher lockout reset: {self.daily_teacher_lockout_reset}, indy lockout reset: {self.daily_indy_lockout_reset}, school student lockout reset: {self.daily_school_student_lockout_reset}"
 
 
 class DynamicElement(models.Model):

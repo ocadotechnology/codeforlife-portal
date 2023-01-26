@@ -87,7 +87,6 @@ class StudentLoginView(LoginView):
 
     def form_valid(self, form):
         """Security check complete. Log the user in."""
-        self._add_logged_in_as_message(self.request)
 
         # Reset ratelimit cache upon successful login
         clear_ratelimit_cache_for_user(form.cleaned_data["username"])
@@ -99,7 +98,7 @@ class StudentLoginView(LoginView):
 
     def post(self, request, *args, **kwargs):
         """
-        If the first name  and access code found under the urlinputted in the form corresponds to that of a blocked
+        If the first name and access code found under the url inputted in the form corresponds to that of a blocked
         account, this redirects the user to the locked out page. However, if the lockout
         time is more than 24 hours before this is executed, the account is unlocked.
         """
