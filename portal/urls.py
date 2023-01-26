@@ -39,7 +39,7 @@ from portal.views.home import (
     register_view,
     reset_screentime_warning,
 )
-from portal.views.legal import privacy_policy, terms
+from portal.views.legal import privacy_notice, terms
 from portal.views.login import old_login_form_redirect
 from portal.views.login.independent_student import IndependentStudentLoginView
 from portal.views.login.student import StudentLoginView, StudentClassCodeView, student_direct_login
@@ -235,7 +235,8 @@ urlpatterns = [
     url(r"^getinvolved", getinvolved, name="getinvolved"),
     url(r"^contribute", contribute, name="contribute"),
     url(r"^terms", terms, name="terms"),
-    url(r"^privacy-policy/$", privacy_policy, name="privacy_policy"),
+    url(r"^privacy-notice/$", privacy_notice, name="privacy_notice"),
+    url(r"^privacy-policy/$", privacy_notice, name="privacy_policy"),  # Keeping this to route from old URL
     url(r"^teach/materials/$", materials, name="materials"),
     url(r"^teach/kurono_teaching_packs$", kurono_teaching_packs, name="kurono_packs"),
     url(r"^teach/resources/$", teacher_rapid_router_resources, name="teaching_resources"),
