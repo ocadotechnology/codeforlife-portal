@@ -35,5 +35,5 @@ node_modules
 # react frontend
 /portal/frontend
 
-# tunnel software,
+# tunnel software
 ngrok

@@ -62,15 +62,11 @@ def blocked_and_not_expired(user: Student or Teacher):
 
 
 def school_student_reset_password_tracker(request, activity_today):
-    print("CALL")
     if "transfer_students" in request.POST:
         student_list = ast.literal_eval(request.POST.get("transfer_students", []))
         for student_id in student_list:
-            print(student_id)
-            print(type(student_id))
             current_student = Student.objects.get(id=student_id)
             if blocked_and_not_expired(current_student):
-                print("increm")
                 activity_today.daily_school_student_lockout_reset += 1
     elif "set_password" in request.POST:
         student_id = re.search("/(\d+)/", request.path).group(1)
@@ -80,8 +76,8 @@ def school_student_reset_password_tracker(request, activity_today):
 
 
 def teacher_or_indy_reset_password_tracker(request, activity_today, email):
-    get_potential_user = Teacher.objects.filter(new_user__email=email) or Student.objects.filter(new_user__email=email)
-    user = get_potential_user[0]
+    get_user = Teacher.objects.filter(new_user__email=email) or Student.objects.filter(new_user__email=email)
+    user = get_user[0]
     if blocked_and_not_expired(user):
         if "teacher" in request.path:
             activity_today.daily_teacher_lockout_reset += 1
