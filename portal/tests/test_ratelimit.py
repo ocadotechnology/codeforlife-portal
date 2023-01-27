@@ -408,8 +408,8 @@ class TestRatelimit(TestCase):
         current_daily_activity = DailyActivity.objects.get(date=datetime.now())
 
         assert response.status_code == 200
-        assert old_daily_activity.daily_school_student_lockout_reset == 0
-        assert current_daily_activity.daily_school_student_lockout_reset == 1
+        assert old_daily_activity.school_student_lockout_resets == 0
+        assert current_daily_activity.school_student_lockout_resets == 1
 
         # method 2
         self._block_user(Student, student_name, access_code=klass_access_code)
@@ -421,8 +421,8 @@ class TestRatelimit(TestCase):
         current_daily_activity = DailyActivity.objects.get(date=datetime.now())
 
         assert response.status_code == 200
-        assert old_daily_activity.daily_school_student_lockout_reset == 0
-        assert current_daily_activity.daily_school_student_lockout_reset == 2
+        assert old_daily_activity.school_student_lockout_resets == 0
+        assert current_daily_activity.school_student_lockout_resets == 2
 
 
 @pytest.mark.django_db
