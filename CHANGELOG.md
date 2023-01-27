@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.28.5 (2023-01-27)
+### Fix
+* Rename daily lockout fields ([#2017](https://github.com/ocadotechnology/codeforlife-portal/issues/2017)) ([`eada5ee`](https://github.com/ocadotechnology/codeforlife-portal/commit/eada5eead62f5055c3b8b2c06ffc55738d3ce477))
+
 ## v6.28.4 (2023-01-26)
 ### Fix
 * Add ratelimit to student login ([#2013](https://github.com/ocadotechnology/codeforlife-portal/issues/2013)) ([`e9f355c`](https://github.com/ocadotechnology/codeforlife-portal/commit/e9f355ce2770c4c4cc1e3e4fc78d344910dac4b2))
