@@ -67,11 +67,11 @@ def school_student_reset_password_tracker(request, activity_today):
         for student_id in student_list:
             current_student = Student.objects.get(id=student_id)
             if blocked_and_not_expired(current_student):
-                activity_today.daily_school_student_lockout_reset += 1
+                activity_today.school_student_lockout_resets += 1
     elif "set_password" in request.POST:
         student_id = re.search("/(\d+)/", request.path).group(1)
         if blocked_and_not_expired(Student.objects.get(id=student_id)):
-            activity_today.daily_school_student_lockout_reset += 1
+            activity_today.school_student_lockout_resets += 1
     activity_today.save()
 
 
@@ -80,9 +80,9 @@ def teacher_or_indy_reset_password_tracker(request, activity_today, email):
     user = get_user[0]
     if blocked_and_not_expired(user):
         if "teacher" in request.path:
-            activity_today.daily_teacher_lockout_reset += 1
+            activity_today.teacher_lockout_resets += 1
         elif "student" in request.path:
-            activity_today.daily_indy_lockout_reset += 1
+            activity_today.indy_lockout_resets += 1
         activity_today.save()
 
 
