@@ -9,7 +9,12 @@ from game.views.level import play_default_level
 from two_factor.views import BackupTokensView, ProfileView, QRGeneratorView, SetupCompleteView
 
 from portal.helpers.decorators import ratelimit
-from portal.helpers.ratelimit import RATELIMIT_LOGIN_GROUP, RATELIMIT_METHOD, RATELIMIT_LOGIN_RATE
+from portal.helpers.ratelimit import (
+    RATELIMIT_LOGIN_GROUP,
+    RATELIMIT_METHOD,
+    RATELIMIT_LOGIN_RATE,
+    RATELIMIT_LOGIN_RATE_SCHOOL_STUDENT,
+)
 from portal.helpers.regexes import ACCESS_CODE_REGEX
 from portal.reactTestSpace import reactTestSpace
 from portal.views.about import about, getinvolved, contribute
@@ -140,7 +145,14 @@ urlpatterns = [
     ),
     url(
         rf"^login/student/(?P<access_code>{ACCESS_CODE_REGEX})/(?:(?P<login_type>classform)/)?$",
-        StudentLoginView.as_view(),
+        ratelimit(
+            group=RATELIMIT_LOGIN_GROUP,
+            key="post:username",
+            method=RATELIMIT_METHOD,
+            rate=RATELIMIT_LOGIN_RATE_SCHOOL_STUDENT,
+            block=True,
+            is_teacher=False,
+        )(StudentLoginView.as_view()),
         name="student_login",
     ),
     url(r"^login/student/$", StudentClassCodeView.as_view(), name="student_login_access_code"),

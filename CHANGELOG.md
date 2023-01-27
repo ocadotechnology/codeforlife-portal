@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.28.4 (2023-01-26)
+### Fix
+* Add ratelimit to student login ([#2013](https://github.com/ocadotechnology/codeforlife-portal/issues/2013)) ([`e9f355c`](https://github.com/ocadotechnology/codeforlife-portal/commit/e9f355ce2770c4c4cc1e3e4fc78d344910dac4b2))
+
 ## v6.28.3 (2023-01-25)
 ### Fix
 * Update PN section on personal data ([#2016](https://github.com/ocadotechnology/codeforlife-portal/issues/2016)) ([`08f8496`](https://github.com/ocadotechnology/codeforlife-portal/commit/08f8496c4227dc8d265223c26a5c9165e90c0fad))
