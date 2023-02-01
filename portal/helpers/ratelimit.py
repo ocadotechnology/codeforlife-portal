@@ -47,12 +47,14 @@ RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_RATE = "1/d"
 
 
 def get_ratelimit_cache_key_for_user(user: str):
-    _, period = _split_rate(rate=RATELIMIT_LOGIN_RATE)
+    # check for email quickly
+    user_rate = RATELIMIT_LOGIN_RATE if "@" in user else RATELIMIT_LOGIN_RATE_SCHOOL_STUDENT
+    _, period = _split_rate(rate=user_rate)
     window = _get_window(value=user, period=period)
     cache_key = _make_cache_key(
         group=RATELIMIT_LOGIN_GROUP,
         window=window,
-        rate=RATELIMIT_LOGIN_RATE,
+        rate=user_rate,
         value=user,
         methods=RATELIMIT_METHOD,
     )
@@ -60,12 +62,15 @@ def get_ratelimit_cache_key_for_user(user: str):
 
 
 def get_ratelimit_count_for_user(user: str):
+    print(user)
     cache_key = get_ratelimit_cache_key_for_user(user)
+    print(f"clearing: {cache.get(cache_key)}")
     return cache.get(cache_key)
 
 
 def clear_ratelimit_cache_for_user(user: str):
     cache_key = get_ratelimit_cache_key_for_user(user)
+    print(f"clear_rate_limit {get_ratelimit_count_for_user(user)}")
     cache.delete(cache_key)
 
 
@@ -170,6 +175,7 @@ def get_usage(request, group=None, fn=None, key=None, rate=None, method=ALL, inc
             count = cache.get(cache_key, initial_value)
 
     # Getting or setting the count from the cache failed
+    print(count)
     if count is None:
         if getattr(settings, "RATELIMIT_FAIL_OPEN", False):
             return None

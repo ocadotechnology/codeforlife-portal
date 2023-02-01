@@ -7,6 +7,7 @@ from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from portal.views.login import has_user_lockout_expired
+from portal.views.registration import _check_and_unblock_user
 
 from django.utils.html import escape
 
@@ -46,9 +47,11 @@ class StudentLoginView(LoginView):
     def get_form_kwargs(self):
         kwargs = super(StudentLoginView, self).get_form_kwargs()
         kwargs["access_code"] = self.kwargs["access_code"].upper()
+        print("get_form_kwargs")
         return kwargs
 
     def _add_logged_in_as_message(self, request):
+        print("add logged in as message")
         class_name = self.kwargs["access_code"].upper()
         messages.info(
             request,
@@ -57,6 +60,7 @@ class StudentLoginView(LoginView):
         )
 
     def get_success_url(self):
+        print("get success_url")
         redirect_url = self.get_redirect_url()
 
         if redirect_url:
@@ -67,6 +71,7 @@ class StudentLoginView(LoginView):
         return self.success_url
 
     def _add_login_data(self, form, login_type):
+        print("add login_data")
         # class and student have been validated by this point
         class_code = self.kwargs["access_code"]
         classes = Class.objects.filter(access_code__iexact=class_code)
@@ -90,6 +95,7 @@ class StudentLoginView(LoginView):
 
         # Reset ratelimit cache upon successful login
         clear_ratelimit_cache_for_user(form.cleaned_data["username"])
+        print(self.form_valid.__name__)
 
         login_type = self.kwargs.get("login_type", "classlink")  # default to "classlink" if not specified
 
@@ -103,6 +109,7 @@ class StudentLoginView(LoginView):
         time is more than 24 hours before this is executed, the account is unlocked.
         """
         username = request.POST.get("username")
+        print(self.post.__name__)
 
         # get access code from the current url
         access_code = re.search("/login/student/(\w+)", request.get_full_path()).group(1)

@@ -18,10 +18,12 @@ class IndependentStudentLoginView(LoginView):
     extra_context = {"usertype": "INDEP_STUDENT"}
 
     def get_success_url(self):
+        print("get success url")
         url = self.get_redirect_url()
         return url or self.success_url
 
     def _add_logged_in_as_message(self, request):
+        print("add logged in as message")
         messages.info(
             request,
             f"<strong>You are logged in as an independent student. If you want to join "
@@ -31,6 +33,7 @@ class IndependentStudentLoginView(LoginView):
         )
 
     def post(self, request, *args, **kwargs):
+        print("post")
         """
         If the email address inputted in the form corresponds to that of a blocked
         account, this redirects the user to the locked out page. However, if the lockout
@@ -54,6 +57,7 @@ class IndependentStudentLoginView(LoginView):
         return super(IndependentStudentLoginView, self).post(request, *args, **kwargs)
 
     def form_valid(self, form):
+        print("form valid")
         self._add_logged_in_as_message(self.request)
 
         # Reset ratelimit cache upon successful login

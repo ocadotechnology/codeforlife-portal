@@ -13,6 +13,9 @@ from ratelimit import ALL, UNSAFE
 
 from portal.helpers.ratelimit import is_ratelimited
 from portal.templatetags.app_tags import is_logged_in
+from portal.views.registration import blocked_and_not_expired
+from portal.views.login import has_user_lockout_expired
+from portal.helpers.ratelimit import get_ratelimit_count_for_user
 
 __all__ = ["ratelimit"]
 
@@ -29,6 +32,7 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
         @wraps(fn)
         def _wrapped(request, *args, **kw):
             old_limited = getattr(request, "limited", False)
+            print(f"{rate, group, key, key, fn, old_limited}")
             ratelimited = is_ratelimited(
                 request=request,
                 group=group,
@@ -39,7 +43,6 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                 increment=True,
             )
             request.limited = ratelimited or old_limited
-
             if ratelimited and block:
                 if is_teacher:
                     model = Teacher
@@ -73,14 +76,16 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                     except (AttributeError, IndexError):
                         pass
                     # look for indy student or teacher
-                    try:
-                        user_to_lockout = model_finder(new_user__username=username)[0]
-                    except IndexError:
-                        pass
+                    if user_to_lockout is None:
+                        try:
+                            user_to_lockout = model_finder(new_user__email=username)[0]
+                        except IndexError:
+                            pass
                 else:
                     user_to_lockout = model.objects.get(new_user=request.user)
 
                 if user_to_lockout:
+                    print("why are you here")
                     user_to_lockout.blocked_time = datetime.datetime.now(tz=pytz.utc)
                     user_to_lockout.save()
 
