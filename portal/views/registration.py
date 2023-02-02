@@ -125,7 +125,6 @@ def password_reset(
     html_email_template_name=None,
 ):
     if request.method == "POST":
-        print("HELP ME")
         handle_reset_password_tracking(request, usertype)
         form = password_reset_form(request.POST)
         if not captcha.CAPTCHA_ENABLED:
@@ -220,7 +219,6 @@ def password_reset_confirm(
                 # Reset ratelimit cache upon successful password reset
                 clear_ratelimit_cache_for_user(user.username)
 
-                print(user)
                 _check_and_unblock_user(user.username, usertype)
 
                 return render(request, "portal/reset_password_done.html", {"usertype": usertype})
@@ -244,10 +242,7 @@ def _check_and_unblock_user(username, usertype, access_code=None):
     elif usertype == "INDEP_STUDENT":
         user = Student.objects.get(new_user__username=username)
     elif usertype == "SCHOOL_STUDENT":
-        print("looking for user")
-        print(username, access_code)
         user = Student.objects.get(new_user__first_name=username, class_field__access_code=access_code)
-        print("user found ")
 
     if user.blocked_time is not None:
         user.blocked_time = None
