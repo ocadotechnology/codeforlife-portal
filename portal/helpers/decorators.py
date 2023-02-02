@@ -32,7 +32,6 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
         @wraps(fn)
         def _wrapped(request, *args, **kw):
             old_limited = getattr(request, "limited", False)
-            print(f"{rate, group, key, key, fn, old_limited}")
             ratelimited = is_ratelimited(
                 request=request,
                 group=group,
