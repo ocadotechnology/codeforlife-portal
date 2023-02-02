@@ -35,6 +35,7 @@ from ratelimit.core import (
     EXPIRATION_FUDGE,
     _make_cache_key,
 )
+import re
 
 
 RATELIMIT_LOGIN_GROUP = "login"
@@ -44,6 +45,11 @@ RATELIMIT_METHOD = "POST"
 
 RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP = "user_already_registered_email"
 RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_RATE = "1/d"
+
+
+def school_student_key(group, request):
+    access_code = re.search("/login/student/(\w+)", request.get_full_path()).group(1)
+    return f'{request.POST.get("username", "")},{access_code}'
 
 
 def get_ratelimit_cache_key_for_user(user: str):
@@ -137,15 +143,19 @@ def get_usage(request, group=None, fn=None, key=None, rate=None, method=ALL, inc
     if not key:
         raise ImproperlyConfigured("Ratelimit key must be specified")
     if callable(key):
+        print("key was called")
         value = key(group, request)
     elif key in _SIMPLE_KEYS:
+        print("simple keys")
         value = _SIMPLE_KEYS[key](request)
     elif ":" in key:
+        print(": was ting")
         accessor, k = key.split(":", 1)
         if accessor not in _ACCESSOR_KEYS:
             raise ImproperlyConfigured("Unknown ratelimit key: %s" % key)
         value = _ACCESSOR_KEYS[accessor](request, k)
     elif "." in key:
+        print("it was a dot")
         keyfn = import_string(key)
         value = keyfn(group, request)
     else:
@@ -176,6 +186,7 @@ def get_usage(request, group=None, fn=None, key=None, rate=None, method=ALL, inc
 
     # Getting or setting the count from the cache failed
     print(count)
+    print(f"value: {value}")
     if count is None:
         if getattr(settings, "RATELIMIT_FAIL_OPEN", False):
             return None

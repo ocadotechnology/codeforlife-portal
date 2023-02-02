@@ -85,7 +85,6 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                     user_to_lockout = model.objects.get(new_user=request.user)
 
                 if user_to_lockout:
-                    print("why are you here")
                     user_to_lockout.blocked_time = datetime.datetime.now(tz=pytz.utc)
                     user_to_lockout.save()
 
