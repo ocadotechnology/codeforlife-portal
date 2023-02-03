@@ -35,7 +35,7 @@ from ratelimit.core import (
     EXPIRATION_FUDGE,
     _make_cache_key,
 )
-from regexes import ACCESS_CODE_FROM_URL, EMAIL_REGEX
+from portal.helpers.regexes import ACCESS_CODE_FROM_URL, EMAIL_REGEX
 import re
 
 
