@@ -12,7 +12,7 @@ from portal.views.registration import _check_and_unblock_user
 from django.utils.html import escape
 
 from portal.forms.play import StudentLoginForm, StudentClassCodeForm
-from portal.helpers.regexes import ACCESS_CODE_FROM_URL
+from portal.helpers.misc import get_access_code_from_request
 
 import logging
 import re
@@ -107,7 +107,7 @@ class StudentLoginView(LoginView):
         username = request.POST.get("username")
 
         # get access code from the current url
-        access_code = ACCESS_CODE_FROM_URL(request.get_full_path()).group(1)
+        access_code = get_access_code_from_request(request)
         if Student.objects.filter(new_user__first_name=username, class_field__access_code=access_code).exists():
             student = Student.objects.get(new_user__first_name=username, class_field__access_code=access_code)
 

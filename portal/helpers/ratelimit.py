@@ -35,6 +35,7 @@ from ratelimit.core import (
     EXPIRATION_FUDGE,
     _make_cache_key,
 )
+from portal.helpers.misc import get_access_code_from_request
 from portal.helpers.regexes import ACCESS_CODE_FROM_URL, EMAIL_REGEX
 import re
 
@@ -49,7 +50,7 @@ RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_RATE = "1/d"
 
 
 def school_student_key(group, request):
-    access_code = ACCESS_CODE_FROM_URL(request.get_full_path()).group(1)
+    access_code = get_access_code_from_request(request)
     return f'{request.POST.get("username", "")},{access_code}'
 
 

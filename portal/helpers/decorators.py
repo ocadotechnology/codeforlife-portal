@@ -17,7 +17,7 @@ from portal.views.registration import blocked_and_not_expired
 from portal.views.login import has_user_lockout_expired
 from portal.helpers.ratelimit import get_ratelimit_count_for_user
 
-from portal.helpers.regexes import ACCESS_CODE_FROM_URL
+from portal.helpers.misc import get_access_code_from_request
 
 __all__ = ["ratelimit"]
 
@@ -61,27 +61,22 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                     else:
                         username = data.get("username")
 
-                    access_code_regex = ACCESS_CODE_FROM_URL.search(request.get_full_path())
+                    access_code = get_access_code_from_request(request)
                     model_finder = model.objects.get
                     # look for school student
                     # if access code not found (AttributeError)
                     # if student not found (IndexError)
                     # move on to another try block
                     # similar logic followed afterwards
-                    try:
+                    if access_code:
                         user_to_lockout = model_finder(
                             new_user__first_name=username,
-                            class_field__access_code=access_code_regex.group(1),  # extract the found text from regex
+                            class_field__access_code=access_code,  # extract the found text from regex
                         )
                         lockout_template = "portal/locked_out_school_student.html"
-                    except (model.DoesNotExist, IndexError):
-                        pass
                     # look for indy student or teacher
-                    if user_to_lockout is None:
-                        try:
-                            user_to_lockout = model_finder(new_user__username=username)
-                        except model.DoesNotExist:
-                            pass
+                    else:
+                        user_to_lockout = model_finder(new_user__username=username)
                 else:
                     user_to_lockout = model.objects.get(new_user=request.user)
 
