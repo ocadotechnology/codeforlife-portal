@@ -70,7 +70,8 @@ def school_student_reset_password_tracker(request, activity_today):
                 activity_today.school_student_lockout_resets += 1
     elif "set_password" in request.POST:
         student_id = re.search("/(\d+)/", request.path).group(1)
-        if blocked_and_not_expired(Student.objects.get(id=student_id)):
+        current_student = Student.objects.get(id=student_id)
+        if blocked_and_not_expired(current_student):
             activity_today.school_student_lockout_resets += 1
     activity_today.save()
 
@@ -235,11 +236,13 @@ def password_reset_confirm(
     return TemplateResponse(request, template_name, context)
 
 
-def _check_and_unblock_user(username, usertype):
+def _check_and_unblock_user(username, usertype, access_code=None):
     if usertype == "TEACHER":
         user = Teacher.objects.get(new_user__username=username)
-    else:
+    elif usertype == "INDEP_STUDENT":
         user = Student.objects.get(new_user__username=username)
+    elif usertype == "SCHOOL_STUDENT":
+        user = Student.objects.get(new_user__first_name=username, class_field__access_code=access_code)
 
     if user.blocked_time is not None:
         user.blocked_time = None

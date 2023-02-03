@@ -35,6 +35,9 @@ from ratelimit.core import (
     EXPIRATION_FUDGE,
     _make_cache_key,
 )
+from portal.helpers.request_handlers import get_access_code_from_request
+from portal.helpers.regexes import ACCESS_CODE_FROM_URL, EMAIL_REGEX
+import re
 
 
 RATELIMIT_LOGIN_GROUP = "login"
@@ -46,13 +49,21 @@ RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP = "user_already_registered_email"
 RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_RATE = "1/d"
 
 
+def school_student_key(group, request):
+    access_code = get_access_code_from_request(request)
+    return f'{request.POST.get("username", "")},{access_code}'
+
+
 def get_ratelimit_cache_key_for_user(user: str):
-    _, period = _split_rate(rate=RATELIMIT_LOGIN_RATE)
+    # check for email quickly
+
+    user_rate = RATELIMIT_LOGIN_RATE if EMAIL_REGEX.match(user) else RATELIMIT_LOGIN_RATE_SCHOOL_STUDENT
+    _, period = _split_rate(rate=user_rate)
     window = _get_window(value=user, period=period)
     cache_key = _make_cache_key(
         group=RATELIMIT_LOGIN_GROUP,
         window=window,
-        rate=RATELIMIT_LOGIN_RATE,
+        rate=user_rate,
         value=user,
         methods=RATELIMIT_METHOD,
     )

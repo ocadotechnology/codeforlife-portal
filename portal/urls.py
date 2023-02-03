@@ -95,6 +95,7 @@ from portal.views.teacher.teacher_resources import (
 )
 from portal.views.two_factor.core import CustomSetupView
 from portal.views.two_factor.profile import CustomDisableView
+from portal.helpers.ratelimit import school_student_key
 
 js_info_dict = {"packages": ("conf.locale",)}
 
@@ -147,7 +148,7 @@ urlpatterns = [
         rf"^login/student/(?P<access_code>{ACCESS_CODE_REGEX})/(?:(?P<login_type>classform)/)?$",
         ratelimit(
             group=RATELIMIT_LOGIN_GROUP,
-            key="post:username",
+            key=school_student_key,
             method=RATELIMIT_METHOD,
             rate=RATELIMIT_LOGIN_RATE_SCHOOL_STUDENT,
             block=True,

@@ -157,6 +157,7 @@ class TestRatelimit(TestCase):
         _ = self._student_school_login(klass_access_code, student_name, "bad_password")
 
         assert self._is_user_blocked(Student, student_name, klass_access_code)
+        student = Student.objects.get(id=student.id)
         current_student = Student.objects.get(
             new_user__first_name=student_name, class_field__access_code=klass_access_code
         )
@@ -177,6 +178,11 @@ class TestRatelimit(TestCase):
         data = {"password": "password1", "confirm_password": "password1", "set_password": ""}
 
         c.post(url, data)
+        assert not self._is_user_blocked(Student, student_name, klass_access_code)
+        c.logout()
+        student = Student.objects.get(id=student.id)
+        self._student_school_login(klass_access_code, student_name, "password1")
+        student = Student.objects.get(id=student.id)
         assert not self._is_user_blocked(Student, student_name, klass_access_code)
 
     def test_independent_student_login_ratelimit(self):

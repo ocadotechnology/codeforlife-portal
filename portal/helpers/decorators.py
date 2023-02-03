@@ -13,6 +13,11 @@ from ratelimit import ALL, UNSAFE
 
 from portal.helpers.ratelimit import is_ratelimited
 from portal.templatetags.app_tags import is_logged_in
+from portal.views.registration import blocked_and_not_expired
+from portal.views.login import has_user_lockout_expired
+from portal.helpers.ratelimit import get_ratelimit_count_for_user
+
+from portal.helpers.request_handlers import get_access_code_from_request
 
 __all__ = ["ratelimit"]
 
@@ -39,7 +44,6 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                 increment=True,
             )
             request.limited = ratelimited or old_limited
-
             if ratelimited and block:
                 if is_teacher:
                     model = Teacher
@@ -57,26 +61,22 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                     else:
                         username = data.get("username")
 
-                    access_code_re = re.search("/login/student/(\w+)", request.get_full_path())
-                    model_finder = model.objects.filter
+                    access_code = get_access_code_from_request(request)
+                    model_finder = model.objects.get
                     # look for school student
                     # if access code not found (AttributeError)
                     # if student not found (IndexError)
                     # move on to another try block
                     # similar logic followed afterwards
-                    try:
+                    if access_code:
                         user_to_lockout = model_finder(
                             new_user__first_name=username,
-                            class_field__access_code=access_code_re.group(1),  # extract the found text from regex
-                        )[0]
+                            class_field__access_code=access_code,  # extract the found text from regex
+                        )
                         lockout_template = "portal/locked_out_school_student.html"
-                    except (AttributeError, IndexError):
-                        pass
                     # look for indy student or teacher
-                    try:
-                        user_to_lockout = model_finder(new_user__username=username)[0]
-                    except IndexError:
-                        pass
+                    else:
+                        user_to_lockout = model_finder(new_user__username=username)
                 else:
                     user_to_lockout = model.objects.get(new_user=request.user)
 

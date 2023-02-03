@@ -27,6 +27,7 @@ from reportlab.lib.colors import black, red
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
+from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
@@ -469,6 +470,7 @@ def process_reset_password_form(request, student, password_form):
         student.new_user.set_password(new_password)
         student.new_user.save()
         student.login_id = login_id
+        clear_ratelimit_cache_for_user(f"{student.new_user.first_name},{student.class_field.access_code}")
         student.blocked_time = datetime.now(tz=pytz.utc) - timedelta(days=1)
         student.save()
 
@@ -603,6 +605,7 @@ def teacher_class_password_reset(request, access_code):
         student.new_user.set_password(password)
         student.new_user.save()
         student.login_id = hashed_login_id
+        clear_ratelimit_cache_for_user(f"{student.new_user.first_name},{access_code}")
         student.blocked_time = datetime.now(tz=pytz.utc) - timedelta(days=1)
         student.save()
 
