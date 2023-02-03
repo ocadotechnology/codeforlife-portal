@@ -12,7 +12,7 @@ from portal.views.registration import _check_and_unblock_user
 from django.utils.html import escape
 
 from portal.forms.play import StudentLoginForm, StudentClassCodeForm
-from portal.helpers.misc import get_access_code_from_request
+from portal.helpers.request_handlers import get_access_code_from_request
 
 import logging
 import re

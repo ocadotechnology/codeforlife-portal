@@ -17,7 +17,7 @@ from portal.views.registration import blocked_and_not_expired
 from portal.views.login import has_user_lockout_expired
 from portal.helpers.ratelimit import get_ratelimit_count_for_user
 
-from portal.helpers.misc import get_access_code_from_request
+from portal.helpers.request_handlers import get_access_code_from_request
 
 __all__ = ["ratelimit"]
 
