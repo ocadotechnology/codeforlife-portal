@@ -35,6 +35,7 @@ from ratelimit.core import (
     EXPIRATION_FUDGE,
     _make_cache_key,
 )
+from regexes import ACCESS_CODE_FROM_URL, EMAIL_REGEX
 import re
 
 
@@ -48,13 +49,14 @@ RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_RATE = "1/d"
 
 
 def school_student_key(group, request):
-    access_code = re.search("/login/student/(\w+)", request.get_full_path()).group(1)
+    access_code = ACCESS_CODE_FROM_URL(request.get_full_path()).group(1)
     return f'{request.POST.get("username", "")},{access_code}'
 
 
 def get_ratelimit_cache_key_for_user(user: str):
     # check for email quickly
-    user_rate = RATELIMIT_LOGIN_RATE if "@" in user else RATELIMIT_LOGIN_RATE_SCHOOL_STUDENT
+
+    user_rate = RATELIMIT_LOGIN_RATE if EMAIL_REGEX.match(user) else RATELIMIT_LOGIN_RATE_SCHOOL_STUDENT
     _, period = _split_rate(rate=user_rate)
     window = _get_window(value=user, period=period)
     cache_key = _make_cache_key(

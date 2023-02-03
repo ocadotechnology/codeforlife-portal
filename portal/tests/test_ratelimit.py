@@ -158,7 +158,6 @@ class TestRatelimit(TestCase):
 
         assert self._is_user_blocked(Student, student_name, klass_access_code)
         student = Student.objects.get(id=student.id)
-        print(student.blocked_time)
         current_student = Student.objects.get(
             new_user__first_name=student_name, class_field__access_code=klass_access_code
         )
@@ -181,15 +180,9 @@ class TestRatelimit(TestCase):
         c.post(url, data)
         assert not self._is_user_blocked(Student, student_name, klass_access_code)
         c.logout()
-        student_login_url = reverse_lazy("student_login", kwargs={"access_code": klass_access_code})
-        student_login_data = {"username": student_name, "password": "password1"}
-        print("-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
         student = Student.objects.get(id=student.id)
-        print(student.blocked_time)
         self._student_school_login(klass_access_code, student_name, "password1")
         student = Student.objects.get(id=student.id)
-        print(student.blocked_time)
-        print("-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
         assert not self._is_user_blocked(Student, student_name, klass_access_code)
 
     def test_independent_student_login_ratelimit(self):
