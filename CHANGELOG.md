@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v6.29.1 (2023-02-06)
+### Fix
+* Version bump with new semantic-release ([`8f5c00b`](https://github.com/ocadotechnology/codeforlife-portal/commit/8f5c00b459a51cfa055b1660423bc40bbb982eae))
+* Version bump ([`183100c`](https://github.com/ocadotechnology/codeforlife-portal/commit/183100c734082b791852e9a9e1b7022ea069e45c))
+* **deps:** Bump django from 3.2.16 to 3.2.17 ([#2022](https://github.com/ocadotechnology/codeforlife-portal/issues/2022)) ([`c4071be`](https://github.com/ocadotechnology/codeforlife-portal/commit/c4071bebb7147f1d0150535c3c46a0bfda511706))
+
 ## v6.29.0 (2023-02-03)
 ### Feature
 * Student rate limit in progress ([#2019](https://github.com/ocadotechnology/codeforlife-portal/issues/2019)) ([`845028b`](https://github.com/ocadotechnology/codeforlife-portal/commit/845028b717ef7cad20bef7b512673473c951d63e))

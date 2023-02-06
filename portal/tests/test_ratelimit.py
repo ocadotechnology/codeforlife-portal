@@ -1,5 +1,4 @@
 from __future__ import absolute_import
-import inspect
 
 import re
 from datetime import datetime, timedelta
@@ -15,11 +14,11 @@ from common.tests.utils.student import (
     generate_independent_student_details,
 )
 from common.tests.utils.teacher import signup_teacher_directly, generate_details
-from django.contrib.auth.models import User
 from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.urls import reverse_lazy
+
 from portal.helpers.ratelimit import get_ratelimit_count_for_user
 from portal.views.login import has_user_lockout_expired
 

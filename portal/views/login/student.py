@@ -1,21 +1,18 @@
+import logging
+
 from common.models import UserSession, Student, Class
-from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView, FormView
-from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from portal.views.login import has_user_lockout_expired
-from portal.views.registration import _check_and_unblock_user
-
 from django.utils.html import escape
 
 from portal.forms.play import StudentLoginForm, StudentClassCodeForm
+from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.helpers.request_handlers import get_access_code_from_request
-
-import logging
-import re
+from portal.views.login import has_user_lockout_expired
 
 LOGGER = logging.getLogger(__name__)
 
