@@ -2,6 +2,28 @@
 
 <!--next-version-placeholder-->
 
+## v6.29.1 (2023-02-06)
+### Fix
+* Version bump with new semantic-release ([`8f5c00b`](https://github.com/ocadotechnology/codeforlife-portal/commit/8f5c00b459a51cfa055b1660423bc40bbb982eae))
+* Version bump ([`183100c`](https://github.com/ocadotechnology/codeforlife-portal/commit/183100c734082b791852e9a9e1b7022ea069e45c))
+* **deps:** Bump django from 3.2.16 to 3.2.17 ([#2022](https://github.com/ocadotechnology/codeforlife-portal/issues/2022)) ([`c4071be`](https://github.com/ocadotechnology/codeforlife-portal/commit/c4071bebb7147f1d0150535c3c46a0bfda511706))
+
+## v6.29.0 (2023-02-03)
+### Feature
+* Student rate limit in progress ([#2019](https://github.com/ocadotechnology/codeforlife-portal/issues/2019)) ([`845028b`](https://github.com/ocadotechnology/codeforlife-portal/commit/845028b717ef7cad20bef7b512673473c951d63e))
+
+## v6.28.5 (2023-01-27)
+### Fix
+* Rename daily lockout fields ([#2017](https://github.com/ocadotechnology/codeforlife-portal/issues/2017)) ([`eada5ee`](https://github.com/ocadotechnology/codeforlife-portal/commit/eada5eead62f5055c3b8b2c06ffc55738d3ce477))
+
+## v6.28.4 (2023-01-26)
+### Fix
+* Add ratelimit to student login ([#2013](https://github.com/ocadotechnology/codeforlife-portal/issues/2013)) ([`e9f355c`](https://github.com/ocadotechnology/codeforlife-portal/commit/e9f355ce2770c4c4cc1e3e4fc78d344910dac4b2))
+
+## v6.28.3 (2023-01-25)
+### Fix
+* Update PN section on personal data ([#2016](https://github.com/ocadotechnology/codeforlife-portal/issues/2016)) ([`08f8496`](https://github.com/ocadotechnology/codeforlife-portal/commit/08f8496c4227dc8d265223c26a5c9165e90c0fad))
+
 ## v6.28.2 (2023-01-24)
 ### Fix
 * Update old divs ([#2015](https://github.com/ocadotechnology/codeforlife-portal/issues/2015)) ([`68b862b`](https://github.com/ocadotechnology/codeforlife-portal/commit/68b862bb121ff1927e7ee934f5f2819b0b6e3e8e))

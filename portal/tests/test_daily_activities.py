@@ -1,10 +1,11 @@
 from datetime import timedelta, datetime
 
 from common.models import DailyActivity
-from portal.tests.base_test import BaseTest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+
+from portal.tests.base_test import BaseTest
 
 
 class TestDailyActivities(BaseTest):
