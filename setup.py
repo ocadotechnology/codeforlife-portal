@@ -38,7 +38,7 @@ setup(
         "sqlparse==0.4.2",
         "libsass==0.21.0",
         "phonenumbers==8.12.12",
-        "more-itertools==8.6.0",
+        "more-itertools==8.7.0",
         f"cfl-common=={version}",
         "django-ratelimit==3.0.1",
         "django-preventconcurrentlogins==0.8.2",
