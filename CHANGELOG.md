@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v6.29.3 (2023-02-16)
+### Fix
+* **deps:** Bump django from 3.2.17 to 3.2.18 ([#2030](https://github.com/ocadotechnology/codeforlife-portal/issues/2030)) ([`72b1285`](https://github.com/ocadotechnology/codeforlife-portal/commit/72b1285facf80573ff3e518f09b33d4856462a27))
+
+## v6.29.2 (2023-02-10)
+### Fix
+* Update lockfile properly ([#2028](https://github.com/ocadotechnology/codeforlife-portal/issues/2028)) ([`f3d9272`](https://github.com/ocadotechnology/codeforlife-portal/commit/f3d9272472900126b0c89cb7a19eef2878455c2d))
+
 ## v6.29.1 (2023-02-06)
 ### Fix
 * Version bump with new semantic-release ([`8f5c00b`](https://github.com/ocadotechnology/codeforlife-portal/commit/8f5c00b459a51cfa055b1660423bc40bbb982eae))
