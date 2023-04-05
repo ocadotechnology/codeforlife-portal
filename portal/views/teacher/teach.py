@@ -557,7 +557,7 @@ def process_dismiss_student_form(request, formset, klass, access_code):
         joinrelease = JoinReleaseStudent.objects.create(student=student, action_type=JoinReleaseStudent.RELEASE)
         joinrelease.save()
 
-        send_verification_email(request, student.new_user)
+        send_verification_email(request, student.new_user, data)
 
     if not failed_users:
         messages.success(request, "The students have been released successfully from the class.")
