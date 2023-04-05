@@ -241,7 +241,7 @@ def dashboard_teacher_view(request, is_admin):
     rate=_get_update_account_rate,
     block=True,
 )
-def dashboard_account_teacher_view(request, is_admin):
+def dashboard_teacher_account_view(request):
     teacher = request.user.new_teacher
 
     update_account_form = TeacherEditAccountForm(request.user)
@@ -379,8 +379,7 @@ def dashboard_manage(request):
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def dashboard_manage_account(request):
-    teacher = request.user.new_teacher
-    return dashboard_account_teacher_view(request, teacher.is_admin)
+    return dashboard_teacher_account_view(request)
 
 
 def check_teacher_is_authorised(teacher, user):
