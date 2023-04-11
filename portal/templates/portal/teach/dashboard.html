@@ -31,7 +31,11 @@
 <section class="banner banner--teacher">
     <h1 class="banner__text--primary">Welcome back, {{ user|make_into_username }}</h1>
 </section>
+{% if teacher.school %}
 <div class="sticky-subnav sub-nav sub-nav--teacher">
+{% else %}
+<div class="sticky-subnav sub-nav sub-nav--teacher" style="display: none;">
+{% endif %}
     <ul class="nav is-flex" role="tablist">
         <li class="active"><a id="tab-school" class="button button--secondary button--secondary--light" data-toggle="tab" href="#school">Your school</a></li>
         <li><a id="tab-classes" class="button button--secondary button--secondary--light" data-toggle="tab" href="#classes">Your classes</a></li>
