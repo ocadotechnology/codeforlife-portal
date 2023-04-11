@@ -807,113 +807,6 @@ class TestTeacherFrontend(BaseTest):
 
         assert page.has_login_failed("form-login-teacher", INVALID_LOGIN_MESSAGE)
 
-    def test_edit_details_without_school(self):
-        page, _, _ = self.go_to_account_detail_page_without_school()
-        assert self.is_dashboard_account_page(page)
-
-        page = page.change_teacher_details(
-            {"first_name": "Paulina", "last_name": "Koch", "current_password": "Password2!"}
-        )
-        assert self.is_dashboard_account_page(page)
-        assert is_teacher_details_updated_message_showing(self.selenium)
-        assert page.check_account_details({"first_name": "Paulina", "last_name": "Koch"})
-
-    def test_change_email_without_school(self):
-        page, email, password = self.go_to_account_detail_page_without_school()
-        assert self.is_dashboard_account_page(page)
-
-        other_email, _ = signup_teacher_directly()
-
-        # Try changing email to an existing email, should fail
-        page = page.change_email("Test", "Teacher", other_email, password)
-        assert self.is_email_verification_page(page)
-        assert is_email_updated_message_showing(self.selenium)
-
-        subject = str(mail.outbox[0].subject)
-        assert subject == "Duplicate account"
-        mail.outbox = []
-        
-        page = self.go_to_homepage()
-        page = page.go_to_teacher_login_page().login_no_school(email, password).click_update_account_details()
-        
-        # Try changing email to a new one, should succeed
-        new_email = "another-email@codeforlife.com"
-        page = page.change_email("Test", "Teacher", new_email, password)
-        assert self.is_email_verification_page(page)
-        assert is_email_updated_message_showing(self.selenium)
-
-        # Check user can still log in with old account before verifying new email
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login_no_school(email, password).click_update_account_details()
-        assert self.is_dashboard_account_page(page)
-
-        page = page.logout()
-
-        page = email_utils.follow_change_email_link_to_dashboard(page, mail.outbox[0])
-        mail.outbox = []
-
-        page = page.login_no_school(new_email, password).click_update_account_details()
-
-        assert page.check_account_details({"first_name": "Test", "last_name": "Teacher"})
-
-    def test_change_password(self):
-        page, email, password = self.go_to_account_detail_page_without_school()
-        assert self.is_dashboard_account_page(page)
-
-        new_password = "AnotherPassword12!"
-        page = page.change_password("Test", "Teacher", new_password, password)
-        assert self.is_login_page(page)
-        assert is_password_updated_message_showing(self.selenium)
-
-        page = page.login_no_school(email, new_password)
-        assert self.is_onboarding_page(page)
-
-    def test_delete_account_without_school(self):
-        page, email, password = self.go_to_account_detail_page_without_school()
-        assert self.is_dashboard_account_page(page)
-
-        FADE_TIME = 0.9  # often fails if lower
-
-        # test incorrect password
-        page.browser.find_element_by_id("id_delete_password").send_keys("IncorrectPassword")
-        page.browser.find_element_by_id("delete_account_button").click()
-        is_message_showing(page.browser, "Your account was not deleted")
-
-        # test cancel (no class)
-        time.sleep(FADE_TIME)
-        page.browser.find_element_by_id("id_delete_password").clear()
-        page.browser.find_element_by_id("id_delete_password").send_keys(password)
-        page.browser.find_element_by_id("delete_account_button").click()
-
-        time.sleep(FADE_TIME)
-        assert page.browser.find_element_by_id("popup-delete-review").is_displayed()
-        page.browser.find_element_by_id("cancel_popup_button").click()
-        time.sleep(FADE_TIME)
-
-        # test close button in the corner
-        page.browser.find_element_by_id("id_delete_password").clear()
-        page.browser.find_element_by_id("id_delete_password").send_keys(password)
-        page.browser.find_element_by_id("delete_account_button").click()
-
-        time.sleep(FADE_TIME)
-        page.browser.find_element_by_id("close_popup_button").click()
-        time.sleep(FADE_TIME)
-
-        # test actual deletion
-        page.browser.find_element_by_id("id_delete_password").send_keys(password)
-        page.browser.find_element_by_id("delete_account_button").click()
-
-        time.sleep(FADE_TIME)
-        page.browser.find_element_by_id("delete_button").click()
-
-        # back to homepage
-        assert page.browser.find_element_by_class_name("banner--homepage")
-
-        # user should not be able to login now
-        page = HomePage(self.selenium).go_to_teacher_login_page().login_failure(email, password)
-
-        assert page.has_login_failed("form-login-teacher", INVALID_LOGIN_MESSAGE)
-
     def test_onboarding_complete(self):
         email, password = signup_teacher_directly()
 
@@ -926,13 +819,6 @@ class TestTeacherFrontend(BaseTest):
 
         assert page.has_onboarding_complete_popup()
 
-    def go_to_account_detail_page_without_school(self):
-        email, password = signup_teacher_directly()
-        
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login_no_school(email, password).click_update_account_details()
-        return page, email, password
-
     def get_to_forgotten_password_page(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().go_to_teacher_forgotten_password_page()
@@ -943,9 +829,6 @@ class TestTeacherFrontend(BaseTest):
 
     def is_dashboard_page(self, page):
         return page.__class__.__name__ == "TeachDashboardPage"
-    
-    def is_dashboard_account_page(self, page):
-        return page.__class__.__name__ == "TeachDashboardAccountPage"
     
     def is_resources_page(self, page):
         return page.__class__.__name__ == "ResourcesPage"

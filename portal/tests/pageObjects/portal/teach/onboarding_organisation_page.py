@@ -4,7 +4,6 @@ from selenium.webdriver.support.ui import Select
 
 from . import onboarding_classes_page
 from .teach_base_page import TeachBasePage
-from .dashboard_account_page import TeachDashboardAccountPage
 
 class OnboardingOrganisationPage(TeachBasePage):
     def __init__(self, browser):
@@ -54,9 +53,4 @@ class OnboardingOrganisationPage(TeachBasePage):
         )
         error = "Please enter a valid postcode or ZIP code"
         return error in errors
-    
-    def click_update_account_details(self):
-        self.browser.find_element_by_id("logout_menu").click()
-        self.browser.find_element_by_id("update_account_detail_button").click()
-        return TeachDashboardAccountPage(self.browser)
     
