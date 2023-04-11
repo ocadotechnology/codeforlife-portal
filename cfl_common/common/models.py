@@ -12,7 +12,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     developer = models.BooleanField(default=False)
 
-    awaiting_email_verification = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
 
     # Holds the user's earned kurono badges. This information has to be on the UserProfile as the Avatar objects are
     # deleted every time the Game gets deleted.

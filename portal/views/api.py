@@ -2,7 +2,7 @@ import datetime
 import logging
 import uuid
 
-from common.models import Class, School, Student, Teacher, EmailVerification
+from common.models import Class, School, Student, Teacher, UserProfile
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Exists, OuterRef
@@ -164,15 +164,10 @@ class RemoveFakeAccounts(generics.ListAPIView):
     permission_classes = (IsAdminOrGoogleAppEngine,)
 
     def get(self, request):
-        email_verifications = EmailVerification.objects.filter(verified=False)
-
-        for email_verification in email_verifications:
-            current_user_first_name = email_verification.user.first_name
-            current_user_last_name = email_verification.user.last_name
-
-            if current_user_last_name == current_user_first_name:
-                current_user = email_verification.user
-                current_user.delete()
+        userprofiles = UserProfile.objects.filter(is_verified=False)
+        for userprofile in userprofiles:
+            if userprofile.user.first_name == userprofile.user.last_name:
+                userprofile.user.delete()
 
         return HttpResponse(status=204)
 

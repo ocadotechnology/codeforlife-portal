@@ -6,3 +6,4 @@ EMAIL_REGEX_PATTERN = """(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^
 EMAIL_REGEX = re.compile(EMAIL_REGEX_PATTERN)
 ACCESS_CODE_FROM_URL_PATTERN = "/login/student/(\w+)"
 ACCESS_CODE_FROM_URL = re.compile(ACCESS_CODE_FROM_URL_PATTERN)
+JWT_REGEX_PATTERN = """([a-zA-Z0-9_=]+)\.([a-zA-Z0-9_=]+)\.([a-zA-Z0-9_\-\+\/=]*)"""

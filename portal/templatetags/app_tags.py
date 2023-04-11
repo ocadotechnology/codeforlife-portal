@@ -1,7 +1,6 @@
 from aimmo.templatetags.players_utils import get_user_playable_games
 from aimmo.worksheets import get_complete_worksheets, get_incomplete_worksheets
 from common import app_settings as common_app_settings
-from common.models import EmailVerification
 from common.permissions import logged_in_as_teacher
 from common.utils import using_two_factor
 from django import template
@@ -20,7 +19,7 @@ register = template.Library()
 @register.filter(name="emaildomain")
 @stringfilter
 def emaildomain(email):
-    return "*********" + email[email.find("@"):]
+    return "*********" + email[email.find("@") :]
 
 
 @register.filter(name="has_2FA")
@@ -33,19 +32,8 @@ def is_logged_in(user):
     return (
         user
         and user.is_authenticated
-        and (not using_two_factor(user) or (hasattr(user, "is_verified") and user.is_verified()))
+        and (not using_two_factor(user) or (hasattr(user, "is_verified") and user.userprofile.is_verified))
     )
-
-
-@register.filter
-def is_verified(user: User) -> bool:
-    try:
-        verifications = EmailVerification.objects.filter(user=user)
-        latest_verification = verifications.latest("user")
-    except ObjectDoesNotExist:
-        return False
-
-    return latest_verification.verified
 
 
 @register.filter

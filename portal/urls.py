@@ -96,6 +96,7 @@ from portal.views.teacher.teacher_resources import (
 from portal.views.two_factor.core import CustomSetupView
 from portal.views.two_factor.profile import CustomDisableView
 from portal.helpers.ratelimit import school_student_key
+from portal.helpers.regexes import JWT_REGEX_PATTERN
 
 js_info_dict = {"packages": ("conf.locale",)}
 
@@ -179,7 +180,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="portal/email_verification_needed.html"),
         name="email_verification",
     ),
-    url(r"^verify_email/(?P<token>[0-9a-f]+)/$", verify_email, name="verify_email"),
+    url(rf"^verify_email/(?P<token>{JWT_REGEX_PATTERN})/$", verify_email, name="verify_email"),
     url(r"^user/password/reset/student/$", student_password_reset, name="student_password_reset"),
     url(r"^user/password/reset/teacher/$", teacher_password_reset, name="teacher_password_reset"),
     url(r"^user/password/reset/done/$", password_reset_done, name="reset_password_email_sent"),

@@ -12,12 +12,14 @@ from common.email_messages import (
     emailVerificationNeededEmail,
     parentsEmailVerificationNeededEmail,
 )
-from common.models import EmailVerification, Teacher, Student
+from common.models import Teacher, Student
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
 from django.http import HttpResponse
 from django.template import loader
 from django.utils import timezone
+import jwt
 from requests import post, get, put, delete
 from requests.exceptions import RequestException
 
@@ -44,7 +46,6 @@ def send_email(
     plaintext_template="email.txt",
     html_template="email.html",
 ):
-
     # add in template for templates to message
 
     # setup templates
@@ -64,13 +65,20 @@ def send_email(
     message.send()
 
 
-def generate_token(user, email="", preverified=False):
-    return EmailVerification.objects.create(
-        user=user,
-        email=email,
-        token=uuid4().hex[:30],
-        expiry=timezone.now() + datetime.timedelta(hours=1),
-        verified=preverified,
+def generate_token(user, new_email="", preverified=False):
+    if preverified:
+        user.userprofile.is_verified = preverified
+        user.userprofile.save()
+
+    return jwt.encode(
+        {
+            "email": user.email,
+            "new_email": new_email,
+            "email_verification_token": uuid4().hex[:30],
+            "expires": (timezone.now() + datetime.timedelta(hours=1)).timestamp(),
+        },
+        settings.SECRET_KEY,
+        algorithm="HS256",
     )
 
 
@@ -82,33 +90,25 @@ def send_verification_email(request, user, new_email=None, age=None, data=None):
     """Send an email prompting the user to verify their email address."""
 
     if not new_email:  # verifying first email address
-        user.email_verifications.all().delete()
-
         verification = generate_token(user)
 
         if age is not None and age < 13:
-            message = parentsEmailVerificationNeededEmail(request, user, verification.token)
+            message = parentsEmailVerificationNeededEmail(request, user, verification)
             send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
         else:
             if data is not None and _newsletter_ticked(data):
                 add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.STUDENT)
-            message = emailVerificationNeededEmail(request, verification.token)
+            message = emailVerificationNeededEmail(request, verification)
             send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
 
     else:  # verifying change of email address.
         verification = generate_token(user, new_email)
 
-        message = emailChangeVerificationEmail(request, verification.token)
+        message = emailChangeVerificationEmail(request, verification)
         send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
 
         message = emailChangeNotificationEmail(request, new_email)
         send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
-
-
-def is_verified(user):
-    """Check that a user has verified their email address."""
-    verifications = user.email_verifications.filter(verified=True)
-    return len(verifications) != 0
 
 
 def add_to_dotmailer(first_name: str, last_name: str, email: str, user_type: DotmailerUserType):
