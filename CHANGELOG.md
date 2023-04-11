@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.29.5 (2023-04-11)
+### Fix
+* 2067 link to account page ([#2071](https://github.com/ocadotechnology/codeforlife-portal/issues/2071)) ([`9adab9b`](https://github.com/ocadotechnology/codeforlife-portal/commit/9adab9b9c1bba7e66f7936bb8c7614a89d8c9dde))
+
 ## v6.29.4 (2023-03-14)
 ### Fix
 * Update Get Involved cards ([#2012](https://github.com/ocadotechnology/codeforlife-portal/issues/2012)) ([`20ca0fc`](https://github.com/ocadotechnology/codeforlife-portal/commit/20ca0fce9a9438cb41deaf00d15dc9eee214089e))
