@@ -79,17 +79,22 @@ def _get_update_account_ratelimit_key(group, request):
 def dashboard_teacher_view(request, is_admin):
     teacher = request.user.new_teacher
     school = teacher.school
+    
+    coworkers = None
+    sent_invites = []
+    update_school_form = None
+
+    if school:
+        coworkers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
+
+        sent_invites = SchoolTeacherInvitation.objects.filter(school=school) if teacher.is_admin else []
+
+        update_school_form = OrganisationForm(user=request.user, current_school=school)
+        update_school_form.fields["name"].initial = school.name
+        update_school_form.fields["postcode"].initial = school.postcode
+        update_school_form.fields["country"].initial = school.country
 
     invite_teacher_form = InviteTeacherForm()
-
-    coworkers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
-
-    sent_invites = SchoolTeacherInvitation.objects.filter(school=school) if teacher.is_admin else []
-
-    update_school_form = OrganisationForm(user=request.user, current_school=school)
-    update_school_form.fields["name"].initial = school.name
-    update_school_form.fields["postcode"].initial = school.postcode
-    update_school_form.fields["country"].initial = school.country
 
     create_class_form = ClassCreationForm(teacher=teacher)
 
@@ -232,70 +237,6 @@ def dashboard_teacher_view(request, is_admin):
     )
 
 
-@login_required(login_url=reverse_lazy("teacher_login"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
-@ratelimit(
-    group=RATELIMIT_LOGIN_GROUP,
-    key=_get_update_account_ratelimit_key,
-    method=RATELIMIT_METHOD,
-    rate=_get_update_account_rate,
-    block=True,
-)
-def dashboard_teacher_account_view(request):
-    teacher = request.user.new_teacher
-
-    update_account_form = TeacherEditAccountForm(request.user)
-    update_account_form.fields["first_name"].initial = request.user.first_name
-    update_account_form.fields["last_name"].initial = request.user.last_name
-
-    delete_account_form = DeleteAccountForm(request.user)
-    delete_account_confirm = False
-
-    anchor = ""
-
-    backup_tokens = check_backup_tokens(request)
-
-    if request.method == "POST":
-        if "delete_account" in request.POST:
-            delete_account_form = DeleteAccountForm(request.user, request.POST)
-            if not delete_account_form.is_valid():
-                messages.warning(request, "Your account was not deleted due to incorrect password.")
-            else:
-                delete_account_confirm = True
-        else:
-            anchor = "account"
-            update_account_form = TeacherEditAccountForm(request.user, request.POST)
-            (changing_email, new_email, changing_password, anchor) = process_update_account_form(
-                request, teacher, anchor
-            )
-            if changing_email:
-                logout(request)
-                messages.success(
-                    request,
-                    "Your email will be changed once you have verified it, until then "
-                    "you can still log in with your old email.",
-                )
-                return render(request, "portal/email_verification_needed.html", {"usertype": "TEACHER"})
-
-            if changing_password:
-                logout(request)
-                messages.success(request, "Please login using your new password.")
-                return HttpResponseRedirect(reverse_lazy("teacher_login"))
-
-    return render(
-        request,
-        "portal/teach/dashboard_account.html",
-        {
-            "teacher": teacher,
-            "update_account_form": update_account_form,
-            "delete_account_form": delete_account_form,
-            "delete_account_confirm": delete_account_confirm,
-            "anchor": anchor,
-            "backup_tokens": backup_tokens,
-        },
-    )
-
-
 def can_process_update_school_form(request, is_admin):
     return "update_school" in request.POST and is_admin
 
@@ -370,16 +311,10 @@ def process_update_account_form(request, teacher, old_anchor):
 def dashboard_manage(request):
     teacher = request.user.new_teacher
 
-    if teacher.school:
+    if teacher.school or request.GET.get('account') == 'true':
         return dashboard_teacher_view(request, teacher.is_admin)
     else:
         return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))
-
-
-@login_required(login_url=reverse_lazy("teacher_login"))
-@user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
-def dashboard_manage_account(request):
-    return dashboard_teacher_account_view(request)
 
 
 def check_teacher_is_authorised(teacher, user):

@@ -62,7 +62,6 @@ from portal.views.student.play import SchoolStudentDashboard, IndependentStudent
 from portal.views.teach import teach
 from portal.views.teacher.dashboard import (
     dashboard_manage,
-    dashboard_manage_account,
     organisation_kick,
     invite_toggle_admin,
     organisation_toggle_admin,
@@ -244,7 +243,6 @@ urlpatterns = [
     url(r"^teach/resources/$", teacher_rapid_router_resources, name="teaching_resources"),
     url(r"^teach/kurono_resources/$", teacher_kurono_resources, name="kurono_teaching_resources"),
     url(r"^teach/dashboard/$", dashboard_manage, name="dashboard"),
-    url(r"^teach/dashboard/account", dashboard_manage_account, name="dashboard_account"),
     url(r"^teach/dashboard/kick/(?P<pk>[0-9]+)/$", organisation_kick, name="organisation_kick"),
     url(r"^teach/dashboard/toggle_admin/(?P<pk>[0-9]+)/$", organisation_toggle_admin, name="organisation_toggle_admin"),
     url(r"^teach/dashboard/disable_2FA/(?P<pk>[0-9]+)/$", teacher_disable_2FA, name="teacher_disable_2FA"),
