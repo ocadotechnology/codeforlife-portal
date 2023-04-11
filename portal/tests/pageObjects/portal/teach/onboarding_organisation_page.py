@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import Select
 from . import onboarding_classes_page
 from .teach_base_page import TeachBasePage
 
+
 class OnboardingOrganisationPage(TeachBasePage):
     def __init__(self, browser):
         super(OnboardingOrganisationPage, self).__init__(browser)
@@ -53,4 +54,3 @@ class OnboardingOrganisationPage(TeachBasePage):
         )
         error = "Please enter a valid postcode or ZIP code"
         return error in errors
-    

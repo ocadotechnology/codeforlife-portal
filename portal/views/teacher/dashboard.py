@@ -79,7 +79,7 @@ def _get_update_account_ratelimit_key(group, request):
 def dashboard_teacher_view(request, is_admin):
     teacher = request.user.new_teacher
     school = teacher.school
-    
+
     coworkers = None
     sent_invites = []
     update_school_form = None
@@ -311,7 +311,7 @@ def process_update_account_form(request, teacher, old_anchor):
 def dashboard_manage(request):
     teacher = request.user.new_teacher
 
-    if teacher.school or request.GET.get('account') == 'true':
+    if teacher.school or request.GET.get("account") == "true":
         return dashboard_teacher_view(request, teacher.is_admin)
     else:
         return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))

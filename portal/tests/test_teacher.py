@@ -829,7 +829,7 @@ class TestTeacherFrontend(BaseTest):
 
     def is_dashboard_page(self, page):
         return page.__class__.__name__ == "TeachDashboardPage"
-    
+
     def is_resources_page(self, page):
         return page.__class__.__name__ == "ResourcesPage"
 
