@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.29.6 (2023-04-12)
+### Fix
+* Improve verification logic + send verification before newsletter email ([#2070](https://github.com/ocadotechnology/codeforlife-portal/issues/2070)) ([`cb93011`](https://github.com/ocadotechnology/codeforlife-portal/commit/cb93011f4e07f1aeaea13091582bb1bc44644d1a))
+
 ## v6.29.5 (2023-04-11)
 ### Fix
 * 2067 link to account page ([#2071](https://github.com/ocadotechnology/codeforlife-portal/issues/2071)) ([`9adab9b`](https://github.com/ocadotechnology/codeforlife-portal/commit/9adab9b9c1bba7e66f7936bb8c7614a89d8c9dde))

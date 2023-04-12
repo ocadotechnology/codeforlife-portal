@@ -23,7 +23,6 @@ import jwt
 from requests import post, get, put, delete
 from requests.exceptions import RequestException
 
-
 NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
 VERIFICATION_EMAIL = "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
 PASSWORD_RESET_EMAIL = "Code For Life Password Reset <" + app_settings.EMAIL_ADDRESS + ">"
@@ -42,7 +41,6 @@ def send_email(
     subject,
     text_content,
     title,
-    html_content=None,
     plaintext_template="email.txt",
     html_template="email.html",
 ):
@@ -83,11 +81,12 @@ def generate_token(user, new_email="", preverified=False):
 
 
 def _newsletter_ticked(data):
-    return data["newsletter_ticked"]
+    return "newsletter_ticked" in data and data["newsletter_ticked"]
 
 
-def send_verification_email(request, user, new_email=None, age=None, data=None):
-    """Send an email prompting the user to verify their email address."""
+def send_verification_email(request, user, data, new_email=None, age=None):
+    """
+    Sends emails relating to email address verification.
 
     if not new_email:  # verifying first email address
         verification = generate_token(user)
@@ -99,9 +98,48 @@ def send_verification_email(request, user, new_email=None, age=None, data=None):
             if data is not None and _newsletter_ticked(data):
                 add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.STUDENT)
             message = emailVerificationNeededEmail(request, verification)
+    On registration:
+    - if the user is under 13, send a verification email addressed to the parent / guardian
+    - if the user is over 13, send a regular verification email
+    - if the user is a student who has requested to sign up to the newsletter, handle their Dotmailer subscription
+
+    On email address update:
+    - sends an email to the old address alerting the user that an email change request has occurred
+    - sends an email to the new address requesting email address verification
+
+    :param request: The Django form request
+    :param user: The user object concerned with the email verification
+    :param data: The data inputted by the user in the Django form.
+    :param new_email: New email the user wants to associate to their account - if not provided, it means the user is
+    registering a new account
+    :param age: The user's age (collected only for the purposes of this function and if the user is an independent
+    student)
+    """
+
+    # verifying first email address (registration)
+    if not new_email:
+        verification = generate_token(user)
+
+        # if the user is a teacher
+        if age is None:
+            message = emailVerificationNeededEmail(request, verification)
             send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
 
-    else:  # verifying change of email address.
+            if _newsletter_ticked(data):
+                add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
+        # if the user is an independent student
+        else:
+            if age < 13:
+                message = parentsEmailVerificationNeededEmail(request, user, verification)
+                send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
+            else:
+                message = emailVerificationNeededEmail(request, verification.token)
+                send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
+
+            if _newsletter_ticked(data):
+                add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.STUDENT)
+    # verifying change of email address.
+    else:
         verification = generate_token(user, new_email)
 
         message = emailChangeVerificationEmail(request, verification)
@@ -228,7 +266,7 @@ def update_indy_email(user, request, data):
             )
         else:
             # new email to set and verify
-            send_verification_email(request, user, new_email)
+            send_verification_email(request, user, data, new_email)
     return changing_email, new_email
 
 
@@ -251,5 +289,5 @@ def update_email(user: Teacher or Student, request, data):
             )
         else:
             # new email to set and verify
-            send_verification_email(request, user.new_user, new_email)
+            send_verification_email(request, user.new_user, data, new_email)
     return changing_email, new_email
