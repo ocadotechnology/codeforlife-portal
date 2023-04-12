@@ -154,11 +154,7 @@ def process_signup_form(request, data):
             password=data["teacher_password"],
         )
 
-        if _newsletter_ticked(data):
-            user = teacher.user.user
-            add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
-
-        send_verification_email(request, teacher.user.user)
+        send_verification_email(request, teacher.user.user, data)
 
     return render(request, "portal/email_verification_needed.html", {"usertype": "TEACHER"}, status=302)
 
@@ -196,7 +192,7 @@ def process_independent_student_signup_form(request, data):
     age_in_days = timezone.now().date() - dob
     age = math.floor(age_in_days.days / 365.25)
 
-    send_verification_email(request, student.new_user, age=age, data=data)
+    send_verification_email(request, student.new_user, data, age=age)
 
     return render(request, "portal/email_verification_needed.html", {"usertype": "INDEP_STUDENT"}, status=302)
 

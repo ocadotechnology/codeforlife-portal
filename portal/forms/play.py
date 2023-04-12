@@ -264,7 +264,7 @@ class IndependentStudentLoginForm(AuthenticationForm):
             self.show_invalid_login_message()
 
         if not is_verified(user):
-            send_verification_email(self.request, user)
+            send_verification_email(self.request, user, self.data)
             self.show_invalid_login_message()
 
     def get_invalid_login_error(self):
