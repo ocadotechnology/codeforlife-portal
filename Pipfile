@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 codeforlife-portal = {path = ".", editable = true}
+jwt = "2.3.0"
 cfl-common = {editable = true, path = "./cfl_common"}
 
 [dev-packages]
