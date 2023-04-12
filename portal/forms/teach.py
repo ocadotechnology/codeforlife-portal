@@ -174,7 +174,7 @@ class TeacherLoginForm(AuthenticationForm):
             self.show_invalid_login_message()
 
         if not user.userprofile.is_verified:
-            send_verification_email(self.request, user)
+            send_verification_email(self.request, user, self.data)
             self.show_invalid_login_message()
 
         if not user.is_active:
