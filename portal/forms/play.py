@@ -261,13 +261,8 @@ class IndependentStudentLoginForm(AuthenticationForm):
         if not logged_in_as_independent_student(user):
             self.show_invalid_login_message()
 
-<<<<<<< HEAD
         if not user.userprofile.is_verified:
             send_verification_email(self.request, user)
-=======
-        if not is_verified(user):
-            send_verification_email(self.request, user, self.data)
->>>>>>> master
             self.show_invalid_login_message()
 
     def get_invalid_login_error(self):
