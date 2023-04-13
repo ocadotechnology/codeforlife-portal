@@ -28,17 +28,6 @@ class UserProfile(models.Model):
         return now - timedelta(days=7) <= self.user.date_joined
 
 
-class EmailVerification(models.Model):
-    user = models.ForeignKey(User, related_name="email_verifications", null=True, blank=True, on_delete=models.CASCADE)
-    token = models.CharField(max_length=30)
-    email = models.CharField(max_length=200, null=True, default=None, blank=True)
-    expiry = models.DateTimeField()
-    verified = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"Email verification for {self.user.username}, ({self.email})"
-
-
 class SchoolModelManager(models.Manager):
     # Filter out inactive schools by default
     def get_queryset(self):

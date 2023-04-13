@@ -154,20 +154,19 @@ class InactiveUsersView(generics.ListAPIView):
 
 class RemoveFakeAccounts(generics.ListAPIView):
     """
-    This API endpoint will delete fake accounts that have
-    the same first and last name, as well as if they are not
-    verified
+    This API endpoint will delete suspicious accounts that have the same first and last name and who are not verified
     """
-
     authentication_classes = (SessionAuthentication,)
     serializer_class = InactiveUserSerializer
     permission_classes = (IsAdminOrGoogleAppEngine,)
 
     def get(self, request):
         userprofiles = UserProfile.objects.filter(is_verified=False)
-        for userprofile in userprofiles:
-            if userprofile.user.first_name == userprofile.user.last_name:
-                userprofile.user.delete()
+        [
+            userprofile.user.delete()
+            for userprofile in userprofiles
+            if userprofile.user.first_name == userprofile.user.last_name
+        ]
 
         return HttpResponse(status=204)
 

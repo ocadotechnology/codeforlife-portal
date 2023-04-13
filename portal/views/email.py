@@ -1,8 +1,10 @@
 from datetime import timedelta
 
+import jwt
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email
-from common.models import School, Student, Teacher, UserProfile
+from common.models import School, Student, Teacher
 from common.permissions import logged_in_as_independent_student
+from django.conf import settings
 from django.contrib import messages as messages
 from django.contrib.auth.models import User
 from django.db.models import Count
@@ -11,10 +13,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django_countries import countries
-import jwt
-from django.conf import settings
+
 from portal.app_settings import CONTACT_FORM_EMAILS
-from django.contrib.auth.models import User
 
 
 def verify_email(request, token):

@@ -88,16 +88,6 @@ def send_verification_email(request, user, data, new_email=None, age=None):
     """
     Sends emails relating to email address verification.
 
-    if not new_email:  # verifying first email address
-        verification = generate_token(user)
-
-        if age is not None and age < 13:
-            message = parentsEmailVerificationNeededEmail(request, user, verification)
-            send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
-        else:
-            if data is not None and _newsletter_ticked(data):
-                add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.STUDENT)
-            message = emailVerificationNeededEmail(request, verification)
     On registration:
     - if the user is under 13, send a verification email addressed to the parent / guardian
     - if the user is over 13, send a regular verification email
