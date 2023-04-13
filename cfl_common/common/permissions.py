@@ -8,9 +8,7 @@ from rest_framework import permissions
 
 
 def has_completed_auth_setup(user):
-    return (not using_two_factor(user)) or (
-        user.userprofile.is_verified and using_two_factor(user.userprofile.is_verified)
-    )
+    return (not using_two_factor(user)) or (user.userprofile.is_verified and using_two_factor(user))
 
 
 class LoggedInAsTeacher(permissions.BasePermission):
