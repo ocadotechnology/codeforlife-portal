@@ -3,6 +3,7 @@ import json
 from enum import Enum, auto
 from uuid import uuid4
 
+import jwt
 from common import app_settings
 from common.app_settings import domain
 from common.email_messages import (
@@ -13,13 +14,12 @@ from common.email_messages import (
     parentsEmailVerificationNeededEmail,
 )
 from common.models import Teacher, Student
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
-from django.conf import settings
 from django.http import HttpResponse
 from django.template import loader
 from django.utils import timezone
-import jwt
 from requests import post, get, put, delete
 from requests.exceptions import RequestException
 
@@ -133,7 +133,7 @@ def send_verification_email(request, user, data, new_email=None, age=None):
                 message = parentsEmailVerificationNeededEmail(request, user, verification)
                 send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
             else:
-                message = emailVerificationNeededEmail(request, verification.token)
+                message = emailVerificationNeededEmail(request, verification)
                 send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
 
             if _newsletter_ticked(data):
