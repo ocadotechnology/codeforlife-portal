@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.30.0 (2023-04-18)
+### Feature
+* Implemented jwt as an email authentication ([#2073](https://github.com/ocadotechnology/codeforlife-portal/issues/2073)) ([`623e50d`](https://github.com/ocadotechnology/codeforlife-portal/commit/623e50d9510088d6787f273c66b8dea77e815780))
+
 ## v6.29.6 (2023-04-12)
 ### Fix
 * Improve verification logic + send verification before newsletter email ([#2070](https://github.com/ocadotechnology/codeforlife-portal/issues/2070)) ([`cb93011`](https://github.com/ocadotechnology/codeforlife-portal/commit/cb93011f4e07f1aeaea13091582bb1bc44644d1a))
