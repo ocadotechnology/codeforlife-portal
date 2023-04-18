@@ -14,7 +14,6 @@ from django.utils import timezone
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.helpers.password import PasswordStrength, form_clean_password
 from portal.helpers.regexes import ACCESS_CODE_PATTERN
-from portal.templatetags.app_tags import is_verified
 
 
 class StudentClassCodeForm(forms.Form):
@@ -52,7 +51,6 @@ class StudentLoginForm(AuthenticationForm):
         password = self.cleaned_data.get("password", None)
 
         if name and self.access_code and password:
-
             student, user = self.check_for_errors(name, self.access_code, password)
 
             self.student = student
@@ -263,7 +261,7 @@ class IndependentStudentLoginForm(AuthenticationForm):
         if not logged_in_as_independent_student(user):
             self.show_invalid_login_message()
 
-        if not is_verified(user):
+        if not user.userprofile.is_verified:
             send_verification_email(self.request, user, self.data)
             self.show_invalid_login_message()
 

@@ -15,11 +15,9 @@ from game.models import Episode
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.helpers.password import PasswordStrength, form_clean_password
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
-from portal.templatetags.app_tags import is_verified
 
 
 class InvitedTeacherForm(forms.Form):
-
     teacher_password = forms.CharField(
         help_text="Enter a password",
         widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
@@ -48,7 +46,6 @@ class InvitedTeacherForm(forms.Form):
 
 
 class TeacherSignupForm(InvitedTeacherForm):
-
     teacher_first_name = forms.CharField(
         help_text="Enter your first name",
         max_length=100,
@@ -68,7 +65,6 @@ class TeacherSignupForm(InvitedTeacherForm):
 
 
 class TeacherEditAccountForm(forms.Form):
-
     first_name = forms.CharField(
         max_length=100,
         widget=forms.TextInput(attrs={"placeholder": "First name", "class": "fName"}),
@@ -139,7 +135,6 @@ class TeacherLoginForm(AuthenticationForm):
         password = self.cleaned_data.get("password", None)
 
         if email and password:
-
             # Check it's a teacher and not a student using the same email address
             user = None
 
@@ -178,7 +173,7 @@ class TeacherLoginForm(AuthenticationForm):
         if user is None:
             self.show_invalid_login_message()
 
-        if not is_verified(user):
+        if not user.userprofile.is_verified:
             send_verification_email(self.request, user, self.data)
             self.show_invalid_login_message()
 
