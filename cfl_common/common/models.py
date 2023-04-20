@@ -12,7 +12,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     developer = models.BooleanField(default=False)
 
-    awaiting_email_verification = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
 
     # Holds the user's earned kurono badges. This information has to be on the UserProfile as the Avatar objects are
     # deleted every time the Game gets deleted.
@@ -26,17 +26,6 @@ class UserProfile(models.Model):
     def joined_recently(self):
         now = timezone.now()
         return now - timedelta(days=7) <= self.user.date_joined
-
-
-class EmailVerification(models.Model):
-    user = models.ForeignKey(User, related_name="email_verifications", null=True, blank=True, on_delete=models.CASCADE)
-    token = models.CharField(max_length=30)
-    email = models.CharField(max_length=200, null=True, default=None, blank=True)
-    expiry = models.DateTimeField()
-    verified = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"Email verification for {self.user.username}, ({self.email})"
 
 
 class SchoolModelManager(models.Manager):
@@ -336,12 +325,15 @@ class DailyActivity(models.Model):
     primary_coding_club_downloads = models.PositiveIntegerField(default=0)
     python_coding_club_downloads = models.PositiveIntegerField(default=0)
     level_control_submits = models.PositiveBigIntegerField(default=0)
+    teacher_lockout_resets = models.PositiveIntegerField(default=0)
+    indy_lockout_resets = models.PositiveIntegerField(default=0)
+    school_student_lockout_resets = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name_plural = "Daily activities"
 
     def __str__(self):
-        return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}, primary pack downloads: {self.primary_coding_club_downloads}, python pack downloads: {self.python_coding_club_downloads}, level control submits: {self.level_control_submits}"
+        return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}, primary pack downloads: {self.primary_coding_club_downloads}, python pack downloads: {self.python_coding_club_downloads}, level control submits: {self.level_control_submits}, teacher lockout resets: {self.teacher_lockout_resets}, indy lockout resets: {self.indy_lockout_resets}, school student lockout resets: {self.school_student_lockout_resets}"
 
 
 class DynamicElement(models.Model):

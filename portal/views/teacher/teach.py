@@ -1,7 +1,6 @@
-from __future__ import division
-
 import csv
 import json
+import pytz
 from datetime import datetime, timedelta
 from enum import Enum
 from functools import partial, wraps
@@ -23,11 +22,12 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from game.views.level_selection import get_blockly_episodes, get_python_episodes
-from past.utils import old_div
+from portal.views.registration import handle_reset_password_tracking
 from reportlab.lib.colors import black, red
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
+from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
@@ -466,9 +466,12 @@ def process_reset_password_form(request, student, password_form):
             }
         ]
 
+        handle_reset_password_tracking(request, "SCHOOL_STUDENT")
         student.new_user.set_password(new_password)
         student.new_user.save()
         student.login_id = login_id
+        clear_ratelimit_cache_for_user(f"{student.new_user.first_name},{student.class_field.access_code}")
+        student.blocked_time = datetime.now(tz=pytz.utc) - timedelta(days=1)
         student.save()
 
         return render(
@@ -554,7 +557,7 @@ def process_dismiss_student_form(request, formset, klass, access_code):
         joinrelease = JoinReleaseStudent.objects.create(student=student, action_type=JoinReleaseStudent.RELEASE)
         joinrelease.save()
 
-        send_verification_email(request, student.new_user)
+        send_verification_email(request, student.new_user, data)
 
     if not failed_users:
         messages.success(request, "The students have been released successfully from the class.")
@@ -583,6 +586,7 @@ def teacher_class_password_reset(request, access_code):
     students = [get_object_or_404(Student, id=i, class_field=klass) for i in student_ids]
 
     students_info = []
+    handle_reset_password_tracking(request, "SCHOOL_STUDENT", access_code)
     for student in students:
         password = generate_password(STUDENT_PASSWORD_LENGTH)
 
@@ -601,6 +605,8 @@ def teacher_class_password_reset(request, access_code):
         student.new_user.set_password(password)
         student.new_user.save()
         student.login_id = hashed_login_id
+        clear_ratelimit_cache_for_user(f"{student.new_user.first_name},{access_code}")
+        student.blocked_time = datetime.now(tz=pytz.utc) - timedelta(days=1)
         student.save()
 
     return render(
@@ -750,16 +756,16 @@ def teacher_print_reminder_cards(request, access_code):
 
     # Define constants that determine the look of the cards
     PAGE_WIDTH, PAGE_HEIGHT = A4
-    PAGE_MARGIN = old_div(PAGE_WIDTH, 16)
-    INTER_CARD_MARGIN = old_div(PAGE_WIDTH, 64)
-    CARD_PADDING = old_div(PAGE_WIDTH, 48)
+    PAGE_MARGIN = PAGE_WIDTH // 16
+    INTER_CARD_MARGIN = PAGE_WIDTH // 64
+    CARD_PADDING = PAGE_WIDTH // 48
 
     # rows and columns on page
     NUM_X = REMINDER_CARDS_PDF_COLUMNS
     NUM_Y = REMINDER_CARDS_PDF_ROWS
 
-    CARD_WIDTH = old_div(PAGE_WIDTH - PAGE_MARGIN * 2, NUM_X)
-    CARD_HEIGHT = old_div(PAGE_HEIGHT - PAGE_MARGIN * 4, NUM_Y)
+    CARD_WIDTH = (PAGE_WIDTH - PAGE_MARGIN * 2) // NUM_X
+    CARD_HEIGHT = (PAGE_HEIGHT - PAGE_MARGIN * 4) // NUM_Y
 
     CARD_INNER_HEIGHT = CARD_HEIGHT - CARD_PADDING * 2
 

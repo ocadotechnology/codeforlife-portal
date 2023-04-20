@@ -9,8 +9,14 @@ from game.views.level import play_default_level
 from two_factor.views import BackupTokensView, ProfileView, QRGeneratorView, SetupCompleteView
 
 from portal.helpers.decorators import ratelimit
-from portal.helpers.ratelimit import RATELIMIT_LOGIN_GROUP, RATELIMIT_METHOD, RATELIMIT_LOGIN_RATE
-from portal.helpers.regexes import ACCESS_CODE_REGEX
+from portal.helpers.ratelimit import (
+    RATELIMIT_LOGIN_GROUP,
+    RATELIMIT_METHOD,
+    RATELIMIT_LOGIN_RATE,
+    RATELIMIT_LOGIN_RATE_SCHOOL_STUDENT,
+)
+from portal.helpers.ratelimit import school_student_key
+from portal.helpers.regexes import ACCESS_CODE_REGEX, JWT_REGEX
 from portal.reactTestSpace import reactTestSpace
 from portal.views.about import about, getinvolved, contribute
 from portal.views.admin import AdminChangePasswordDoneView, AdminChangePasswordView
@@ -34,7 +40,7 @@ from portal.views.home import (
     register_view,
     reset_screentime_warning,
 )
-from portal.views.legal import privacy_policy, terms
+from portal.views.legal import privacy_notice, terms
 from portal.views.login import old_login_form_redirect
 from portal.views.login.independent_student import IndependentStudentLoginView
 from portal.views.login.student import StudentLoginView, StudentClassCodeView, student_direct_login
@@ -140,7 +146,14 @@ urlpatterns = [
     ),
     url(
         rf"^login/student/(?P<access_code>{ACCESS_CODE_REGEX})/(?:(?P<login_type>classform)/)?$",
-        StudentLoginView.as_view(),
+        ratelimit(
+            group=RATELIMIT_LOGIN_GROUP,
+            key=school_student_key,
+            method=RATELIMIT_METHOD,
+            rate=RATELIMIT_LOGIN_RATE_SCHOOL_STUDENT,
+            block=True,
+            is_teacher=False,
+        )(StudentLoginView.as_view()),
         name="student_login",
     ),
     url(r"^login/student/$", StudentClassCodeView.as_view(), name="student_login_access_code"),
@@ -166,7 +179,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="portal/email_verification_needed.html"),
         name="email_verification",
     ),
-    url(r"^verify_email/(?P<token>[0-9a-f]+)/$", verify_email, name="verify_email"),
+    url(rf"^verify_email/(?P<token>{JWT_REGEX})/$", verify_email, name="verify_email"),
     url(r"^user/password/reset/student/$", student_password_reset, name="student_password_reset"),
     url(r"^user/password/reset/teacher/$", teacher_password_reset, name="teacher_password_reset"),
     url(r"^user/password/reset/done/$", password_reset_done, name="reset_password_email_sent"),
@@ -223,7 +236,8 @@ urlpatterns = [
     url(r"^getinvolved", getinvolved, name="getinvolved"),
     url(r"^contribute", contribute, name="contribute"),
     url(r"^terms", terms, name="terms"),
-    url(r"^privacy-policy/$", privacy_policy, name="privacy_policy"),
+    url(r"^privacy-notice/$", privacy_notice, name="privacy_notice"),
+    url(r"^privacy-policy/$", privacy_notice, name="privacy_policy"),  # Keeping this to route from old URL
     url(r"^teach/materials/$", materials, name="materials"),
     url(r"^teach/kurono_teaching_packs$", kurono_teaching_packs, name="kurono_packs"),
     url(r"^teach/resources/$", teacher_rapid_router_resources, name="teaching_resources"),

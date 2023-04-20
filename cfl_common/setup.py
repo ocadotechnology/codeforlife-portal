@@ -13,10 +13,11 @@ setup(
     version=version,
     include_package_data=True,
     install_requires=[
-        "django==3.2.16",
+        "django==3.2.18",
         "djangorestframework==3.13.1",
         "django-two-factor-auth==1.13.2",
         "django-countries==7.3.1",
+        "pyjwt==2.6.0",
     ],
     tests_require=[],
     test_suite="tests",

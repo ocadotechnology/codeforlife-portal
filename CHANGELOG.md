@@ -2,6 +2,72 @@
 
 <!--next-version-placeholder-->
 
+## v6.30.0 (2023-04-18)
+### Feature
+* Implemented jwt as an email authentication ([#2073](https://github.com/ocadotechnology/codeforlife-portal/issues/2073)) ([`623e50d`](https://github.com/ocadotechnology/codeforlife-portal/commit/623e50d9510088d6787f273c66b8dea77e815780))
+
+## v6.29.6 (2023-04-12)
+### Fix
+* Improve verification logic + send verification before newsletter email ([#2070](https://github.com/ocadotechnology/codeforlife-portal/issues/2070)) ([`cb93011`](https://github.com/ocadotechnology/codeforlife-portal/commit/cb93011f4e07f1aeaea13091582bb1bc44644d1a))
+
+## v6.29.5 (2023-04-11)
+### Fix
+* 2067 link to account page ([#2071](https://github.com/ocadotechnology/codeforlife-portal/issues/2071)) ([`9adab9b`](https://github.com/ocadotechnology/codeforlife-portal/commit/9adab9b9c1bba7e66f7936bb8c7614a89d8c9dde))
+
+## v6.29.4 (2023-03-14)
+### Fix
+* Update Get Involved cards ([#2012](https://github.com/ocadotechnology/codeforlife-portal/issues/2012)) ([`20ca0fc`](https://github.com/ocadotechnology/codeforlife-portal/commit/20ca0fce9a9438cb41deaf00d15dc9eee214089e))
+
+## v6.29.3 (2023-02-16)
+### Fix
+* **deps:** Bump django from 3.2.17 to 3.2.18 ([#2030](https://github.com/ocadotechnology/codeforlife-portal/issues/2030)) ([`72b1285`](https://github.com/ocadotechnology/codeforlife-portal/commit/72b1285facf80573ff3e518f09b33d4856462a27))
+
+## v6.29.2 (2023-02-10)
+### Fix
+* Update lockfile properly ([#2028](https://github.com/ocadotechnology/codeforlife-portal/issues/2028)) ([`f3d9272`](https://github.com/ocadotechnology/codeforlife-portal/commit/f3d9272472900126b0c89cb7a19eef2878455c2d))
+
+## v6.29.1 (2023-02-06)
+### Fix
+* Version bump with new semantic-release ([`8f5c00b`](https://github.com/ocadotechnology/codeforlife-portal/commit/8f5c00b459a51cfa055b1660423bc40bbb982eae))
+* Version bump ([`183100c`](https://github.com/ocadotechnology/codeforlife-portal/commit/183100c734082b791852e9a9e1b7022ea069e45c))
+* **deps:** Bump django from 3.2.16 to 3.2.17 ([#2022](https://github.com/ocadotechnology/codeforlife-portal/issues/2022)) ([`c4071be`](https://github.com/ocadotechnology/codeforlife-portal/commit/c4071bebb7147f1d0150535c3c46a0bfda511706))
+
+## v6.29.0 (2023-02-03)
+### Feature
+* Student rate limit in progress ([#2019](https://github.com/ocadotechnology/codeforlife-portal/issues/2019)) ([`845028b`](https://github.com/ocadotechnology/codeforlife-portal/commit/845028b717ef7cad20bef7b512673473c951d63e))
+
+## v6.28.5 (2023-01-27)
+### Fix
+* Rename daily lockout fields ([#2017](https://github.com/ocadotechnology/codeforlife-portal/issues/2017)) ([`eada5ee`](https://github.com/ocadotechnology/codeforlife-portal/commit/eada5eead62f5055c3b8b2c06ffc55738d3ce477))
+
+## v6.28.4 (2023-01-26)
+### Fix
+* Add ratelimit to student login ([#2013](https://github.com/ocadotechnology/codeforlife-portal/issues/2013)) ([`e9f355c`](https://github.com/ocadotechnology/codeforlife-portal/commit/e9f355ce2770c4c4cc1e3e4fc78d344910dac4b2))
+
+## v6.28.3 (2023-01-25)
+### Fix
+* Update PN section on personal data ([#2016](https://github.com/ocadotechnology/codeforlife-portal/issues/2016)) ([`08f8496`](https://github.com/ocadotechnology/codeforlife-portal/commit/08f8496c4227dc8d265223c26a5c9165e90c0fad))
+
+## v6.28.2 (2023-01-24)
+### Fix
+* Update old divs ([#2015](https://github.com/ocadotechnology/codeforlife-portal/issues/2015)) ([`68b862b`](https://github.com/ocadotechnology/codeforlife-portal/commit/68b862bb121ff1927e7ee934f5f2819b0b6e3e8e))
+
+## v6.28.1 (2023-01-24)
+### Fix
+* Update privacy notice and fix styling issues ([#2011](https://github.com/ocadotechnology/codeforlife-portal/issues/2011)) ([`493a4d3`](https://github.com/ocadotechnology/codeforlife-portal/commit/493a4d3b21f65bb245c86f933de0b64764790b3e))
+
+## v6.28.0 (2023-01-18)
+### Feature
+* Added tracking reset passwords ([#2008](https://github.com/ocadotechnology/codeforlife-portal/issues/2008)) ([`aeefbc8`](https://github.com/ocadotechnology/codeforlife-portal/commit/aeefbc80574cacdbedf8174a633ec35774f4e190))
+
+## v6.27.10 (2023-01-18)
+### Fix
+* Reverting setuptools back to 62.1.0 ([#2009](https://github.com/ocadotechnology/codeforlife-portal/issues/2009)) ([`1425a2d`](https://github.com/ocadotechnology/codeforlife-portal/commit/1425a2d6a1ea50d5f8507df6264639faa9354add))
+
+## v6.27.9 (2023-01-10)
+### Fix
+* Updates to privacy policy ([#1997](https://github.com/ocadotechnology/codeforlife-portal/issues/1997)) ([`f818a75`](https://github.com/ocadotechnology/codeforlife-portal/commit/f818a7563a4ce4c896dd8bfc778f6c881f31814e))
+
 ## v6.27.8 (2022-12-30)
 ### Fix
 * Made the the page open in the same window ([#1993](https://github.com/ocadotechnology/codeforlife-portal/issues/1993)) ([`ad4c035`](https://github.com/ocadotechnology/codeforlife-portal/commit/ad4c0357d369e94d4b6b15914f05d05d98a2a2a1))

@@ -80,16 +80,21 @@ def dashboard_teacher_view(request, is_admin):
     teacher = request.user.new_teacher
     school = teacher.school
 
+    coworkers = None
+    sent_invites = []
+    update_school_form = None
+
+    if school:
+        coworkers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
+
+        sent_invites = SchoolTeacherInvitation.objects.filter(school=school) if teacher.is_admin else []
+
+        update_school_form = OrganisationForm(user=request.user, current_school=school)
+        update_school_form.fields["name"].initial = school.name
+        update_school_form.fields["postcode"].initial = school.postcode
+        update_school_form.fields["country"].initial = school.country
+
     invite_teacher_form = InviteTeacherForm()
-
-    coworkers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
-
-    sent_invites = SchoolTeacherInvitation.objects.filter(school=school) if teacher.is_admin else []
-
-    update_school_form = OrganisationForm(user=request.user, current_school=school)
-    update_school_form.fields["name"].initial = school.name
-    update_school_form.fields["postcode"].initial = school.postcode
-    update_school_form.fields["country"].initial = school.country
 
     create_class_form = ClassCreationForm(teacher=teacher)
 
@@ -306,7 +311,7 @@ def process_update_account_form(request, teacher, old_anchor):
 def dashboard_manage(request):
     teacher = request.user.new_teacher
 
-    if teacher.school:
+    if teacher.school or request.GET.get("account") == "true":
         return dashboard_teacher_view(request, teacher.is_admin)
     else:
         return HttpResponseRedirect(reverse_lazy("onboarding-organisation"))

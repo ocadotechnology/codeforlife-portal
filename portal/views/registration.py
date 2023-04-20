@@ -1,11 +1,18 @@
+import ast
+import re
+
 from common.email_messages import accountDeletionEmail
+from portal.views.login import has_user_lockout_expired
+
+from django.contrib.auth.models import User
+from datetime import datetime
 from common.helpers.emails import (
     delete_contact,
     NOTIFICATION_EMAIL,
     PASSWORD_RESET_EMAIL,
     send_email,
 )
-from common.models import Teacher, Student
+from common.models import Teacher, Student, DailyActivity
 from common.permissions import not_logged_in, not_fully_logged_in
 
 from django.contrib import messages as messages
@@ -50,6 +57,47 @@ def student_password_reset(request):
     )
 
 
+def blocked_and_not_expired(user: Student or Teacher):
+    return user.blocked_time and not has_user_lockout_expired(user)
+
+
+def school_student_reset_password_tracker(request, activity_today):
+    if "transfer_students" in request.POST:
+        student_list = ast.literal_eval(request.POST.get("transfer_students", []))
+        for student_id in student_list:
+            current_student = Student.objects.get(id=student_id)
+            if blocked_and_not_expired(current_student):
+                activity_today.school_student_lockout_resets += 1
+    elif "set_password" in request.POST:
+        student_id = re.search("/(\d+)/", request.path).group(1)
+        current_student = Student.objects.get(id=student_id)
+        if blocked_and_not_expired(current_student):
+            activity_today.school_student_lockout_resets += 1
+    activity_today.save()
+
+
+def teacher_or_indy_reset_password_tracker(request, activity_today, email):
+    get_user = Teacher.objects.filter(new_user__email=email) or Student.objects.filter(new_user__email=email)
+    user = get_user[0]
+    if blocked_and_not_expired(user):
+        if "teacher" in request.path:
+            activity_today.teacher_lockout_resets += 1
+        elif "student" in request.path:
+            activity_today.indy_lockout_resets += 1
+        activity_today.save()
+
+
+def handle_reset_password_tracking(request, user_type, access_code=None, student_id=None):
+    activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
+    # school student has 2 different ways of resetting password
+    # hence the function is extended
+    # check for indy student or teacher account
+    if user_type == "SCHOOL_STUDENT":
+        school_student_reset_password_tracker(request, activity_today)
+    elif "email" in request.POST:
+        teacher_or_indy_reset_password_tracker(request, activity_today, request.POST.get("email", ""))
+
+
 @user_passes_test(not_fully_logged_in, login_url=reverse_lazy("teacher_login"))
 def teacher_password_reset(request):
     usertype = "TEACHER"
@@ -77,6 +125,7 @@ def password_reset(
     html_email_template_name=None,
 ):
     if request.method == "POST":
+        handle_reset_password_tracking(request, usertype)
         form = password_reset_form(request.POST)
         if not captcha.CAPTCHA_ENABLED:
             remove_captcha_from_form(form)
@@ -187,11 +236,13 @@ def password_reset_confirm(
     return TemplateResponse(request, template_name, context)
 
 
-def _check_and_unblock_user(username, usertype):
+def _check_and_unblock_user(username, usertype, access_code=None):
     if usertype == "TEACHER":
         user = Teacher.objects.get(new_user__username=username)
-    else:
+    elif usertype == "INDEP_STUDENT":
         user = Student.objects.get(new_user__username=username)
+    elif usertype == "SCHOOL_STUDENT":
+        user = Student.objects.get(new_user__first_name=username, class_field__access_code=access_code)
 
     if user.blocked_time is not None:
         user.blocked_time = None

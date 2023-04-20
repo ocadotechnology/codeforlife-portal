@@ -1,8 +1,12 @@
 from django.shortcuts import render
 
 
-def privacy_policy(request):
-    return render(request, "portal/privacy_policy.html", {"last_updated": "1st December 2022"})
+def privacy_notice(request):
+    return render(
+        request,
+        "portal/privacy_notice.html",
+        {"last_updated": "25th January 2023", "last_updated_children": "25th January 2023"},
+    )
 
 
 def terms(request):

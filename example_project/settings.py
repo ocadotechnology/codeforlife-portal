@@ -27,6 +27,8 @@ SECRET_KEY = "not-a-secret"
 
 ROOT_URLCONF = "urls"
 
+ALLOWED_HOSTS = ["*"]
+
 WSGI_APPLICATION = "wsgi.application"
 
 LOGIN_REDIRECT_URL = "/teach/dashboard/"

@@ -124,8 +124,8 @@
                         {% if user|has_teacher_finished_onboarding %}
                             <li class="dropdown-menu__option">
                                 {# if the current page is teacher dashboard, trigger a tab change instead #}
-                                <a class="button--regular" aria-labelledby="Update account details"
-                                href="{% url 'dashboard' %}#account" {% if request.resolver_match.view_name == 'dashboard' %}onclick="$('#tab-account').click();"{% endif %}>
+                                <a class="button--regular" aria-labelledby="Update account details" id="update_account_detail_button"
+                                href="{% url 'dashboard' %}?account=true#account" {% if request.resolver_match.view_name == 'dashboard' %}onclick="$('#tab-account').click();"{% endif %}>
                                     <div class="dropdown-menu__option__text">Update account details</div>
                                     <span class="material-icons-outlined">manage_accounts</span></a>
                             </li>
@@ -262,7 +262,7 @@
             <span class="material-icons-outlined md-32">chevron_right</span></a>
         <a class="button button--menu__item optanon-toggle-display">Cookie settings
             <span class="material-icons-outlined md-32">chevron_right</span></a>
-        <a class="button button--menu__item" href="{% url 'privacy_policy' %}">Privacy policy
+        <a class="button button--menu__item" href="{% url 'privacy_notice' %}">Privacy notice
             <span class="material-icons-outlined md-32">chevron_right</span></a>
         <a class="button button--menu__item" href="{% url 'terms' %}">Terms of use
             <span class="material-icons-outlined md-32">chevron_right</span></a>
