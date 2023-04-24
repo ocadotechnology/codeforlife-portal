@@ -35,7 +35,7 @@ setup(
         "django-treebeard==4.3.1",
         "django-sekizai==2.0.0",
         "django-classy-tags==2.0.0",
-        "sqlparse==0.4.2",
+        "sqlparse==0.4.4",
         "libsass==0.22.0",
         "phonenumbers==8.12.12",
         "more-itertools==8.7.0",
