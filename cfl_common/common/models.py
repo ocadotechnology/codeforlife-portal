@@ -12,7 +12,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     developer = models.BooleanField(default=False)
 
-    awaiting_email_verification = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
 
     # Holds the user's earned kurono badges. This information has to be on the UserProfile as the Avatar objects are
     # deleted every time the Game gets deleted.
@@ -26,17 +26,6 @@ class UserProfile(models.Model):
     def joined_recently(self):
         now = timezone.now()
         return now - timedelta(days=7) <= self.user.date_joined
-
-
-class EmailVerification(models.Model):
-    user = models.ForeignKey(User, related_name="email_verifications", null=True, blank=True, on_delete=models.CASCADE)
-    token = models.CharField(max_length=30)
-    email = models.CharField(max_length=200, null=True, default=None, blank=True)
-    expiry = models.DateTimeField()
-    verified = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"Email verification for {self.user.username}, ({self.email})"
 
 
 class SchoolModelManager(models.Manager):
