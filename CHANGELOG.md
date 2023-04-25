@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.30.2 (2023-04-25)
+### Fix
+* Reimplement JWTs and add reverse code to migration 0037 ([#2081](https://github.com/ocadotechnology/codeforlife-portal/issues/2081)) ([`44dcf3a`](https://github.com/ocadotechnology/codeforlife-portal/commit/44dcf3a1a038a840e068af9194ce647bb2293138))
+
 ## v6.30.1 (2023-04-25)
 ### Fix
 * Revert JWT tokens ([#2079](https://github.com/ocadotechnology/codeforlife-portal/issues/2079)) ([`b069472`](https://github.com/ocadotechnology/codeforlife-portal/commit/b069472e9886cce73fa26cfeba06151d60906c64))
