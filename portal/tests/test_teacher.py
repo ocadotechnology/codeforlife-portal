@@ -1,10 +1,6 @@
 from __future__ import absolute_import
 
-
-from datetime import timedelta
 import re
-import jwt
-from uuid import uuid4
 import time
 
 from aimmo.models import Game
@@ -19,10 +15,8 @@ from common.tests.utils.teacher import (
     signup_teacher_directly,
     verify_email,
 )
-from django.conf import settings
 from django.core import mail
 from django.test import Client, TestCase
-from django.utils import timezone
 from django.urls import reverse
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -365,17 +359,7 @@ class TestTeacher(TestCase):
         assert len(mail.outbox) == 1
 
         # Try verification URL with a fake token
-        fake_token = jwt.encode(
-            {
-                "email": "fake_email",
-                "new_email": "",
-                "email_verification_token": uuid4().hex[:30],
-                "expires": (timezone.now() + timedelta(hours=1)).timestamp(),
-            },
-            settings.SECRET_KEY,
-            algorithm="HS256",
-        )
-        bad_url = reverse("verify_email", kwargs={"token": fake_token})
+        bad_url = reverse("verify_email", kwargs={"token": "abcdef"})
         bad_verification_response = c.get(bad_url)
 
         # Assert response isn't a redirect (get failure)

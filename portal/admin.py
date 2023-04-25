@@ -2,6 +2,7 @@ import csv
 
 from common.models import (
     Class,
+    EmailVerification,
     School,
     SchoolTeacherInvitation,
     Student,
@@ -82,6 +83,12 @@ class UserProfileAdmin(admin.ModelAdmin, ExportActionMixin):
     readonly_fields = ["user"]
 
 
+class EmailVerificationAdmin(admin.ModelAdmin, ExportActionMixin):
+    search_fields = ["user__first_name", "user__last_name", "user__username", "user__date_joined"]
+    list_display = ["__str__", "user", "verified"]
+    readonly_fields = ["user", "token"]
+
+
 class SchoolTeacherInvitationAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
         "from_teacher__new_user__first_name",
@@ -108,6 +115,7 @@ def anonymise_user(user_admin, request, queryset):
 
 
 def export_as_csv(self, request, queryset):
+
     meta = self.model._meta
     field_names = [field.name for field in meta.fields if field.name != "password"]
 
@@ -141,6 +149,7 @@ admin.site.register(School, SchoolAdmin)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(EmailVerification, EmailVerificationAdmin)
 admin.site.register(SchoolTeacherInvitation, SchoolTeacherInvitationAdmin)
 admin.site.register(DynamicElement, DynamicElementAdmin)
 admin.site.register(DailyActivity)

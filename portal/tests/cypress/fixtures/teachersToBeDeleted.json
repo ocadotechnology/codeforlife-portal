@@ -58,12 +58,34 @@
     }
   },
   {
+    "model": "common.emailverification",
+    "pk": 1001,
+    "fields": {
+      "user": 1001,
+      "token": "da3b1201ac724169b0049bb785fd0c",
+      "email": "",
+      "expiry": "2022-04-02T20:48:52.883Z",
+      "verified": true
+    }
+  },
+  {
+    "model": "common.emailverification",
+    "pk": 1002,
+    "fields": {
+      "user": 1002,
+      "token": "da3b1201ac724169b0049bb785fd0c",
+      "email": "",
+      "expiry": "2022-04-02T20:48:52.883Z",
+      "verified": true
+    }
+  },
+  {
     "model": "common.userprofile",
     "pk": 1001,
     "fields": {
       "user": 1001,
       "developer": false,
-      "is_verified": true
+      "awaiting_email_verification": false
     }
   },
   {
@@ -72,7 +94,7 @@
     "fields": {
       "user": 1002,
       "developer": false,
-      "is_verified": true
+      "awaiting_email_verification": false
     }
   }
 ]
