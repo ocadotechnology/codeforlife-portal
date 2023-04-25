@@ -200,7 +200,7 @@ class APITests(APITestCase):
     def test_remove_fake_accounts(self):
         client = APIClient()
         initial_users_length = len(User.objects.all())
-        admin_username = "portaladmin"
+        admin_username = "codeforlife-portal@ocado.com"
         admin_password = "abc123"
 
         # First two accounts should be deleted
