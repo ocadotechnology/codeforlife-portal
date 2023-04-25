@@ -6,7 +6,6 @@ local_settings.py
 /env/
 *.iml
 *~
-settings.json
 
 __pycache__
 .settings
@@ -26,6 +25,7 @@ example_project/static/
 codeforlife_portal.egg-info
 *.egg-info/
 build/
+.vscode/
 dist/
 node_modules
 
