@@ -17,7 +17,6 @@ setup(
         "djangorestframework==3.13.1",
         "django-two-factor-auth==1.13.2",
         "django-countries==7.3.1",
-        "pyjwt==2.6.0",
     ],
     tests_require=[],
     test_suite="tests",
