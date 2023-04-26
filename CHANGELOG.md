@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.30.3 (2023-04-26)
+### Fix
+* Copy email over to username field ([#2082](https://github.com/ocadotechnology/codeforlife-portal/issues/2082)) ([`6ab0dcc`](https://github.com/ocadotechnology/codeforlife-portal/commit/6ab0dcc6d268852c95ad5052d8bf0a39000e29d5))
+
 ## v6.30.2 (2023-04-25)
 ### Fix
 * Reimplement JWTs and add reverse code to migration 0037 ([#2081](https://github.com/ocadotechnology/codeforlife-portal/issues/2081)) ([`44dcf3a`](https://github.com/ocadotechnology/codeforlife-portal/commit/44dcf3a1a038a840e068af9194ce647bb2293138))
