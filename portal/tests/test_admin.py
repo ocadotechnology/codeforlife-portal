@@ -25,7 +25,7 @@ class TestAdmin(BaseTest):
 
 @pytest.mark.django_db
 def test_export_user_data():
-    admin_username = "portaladmin"
+    admin_username = "codeforlife-portal@ocado.com"
     admin_password = "abc123"
     expected_data = ["indianajones@codeforlife.com", "Indiana", "Jones", "indianajones@codeforlife.com"]
 
