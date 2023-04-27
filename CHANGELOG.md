@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.30.4 (2023-04-27)
+### Fix
+* Add details about admin features in Terms of Use ([#2078](https://github.com/ocadotechnology/codeforlife-portal/issues/2078)) ([`2dbd369`](https://github.com/ocadotechnology/codeforlife-portal/commit/2dbd3692b09f3c10e1ce51a367801e75fcf7e43f))
+
 ## v6.30.3 (2023-04-26)
 ### Fix
 * Copy email over to username field ([#2082](https://github.com/ocadotechnology/codeforlife-portal/issues/2082)) ([`6ab0dcc`](https://github.com/ocadotechnology/codeforlife-portal/commit/6ab0dcc6d268852c95ad5052d8bf0a39000e29d5))
