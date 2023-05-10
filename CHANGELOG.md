@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.30.5 (2023-05-10)
+### Fix
+* Bump up version commit ([`1f762ef`](https://github.com/ocadotechnology/codeforlife-portal/commit/1f762eff66890a9d0ca4967d6daec395f9d0935b))
+
 ## v6.30.4 (2023-04-27)
 ### Fix
 * Add details about admin features in Terms of Use ([#2078](https://github.com/ocadotechnology/codeforlife-portal/issues/2078)) ([`2dbd369`](https://github.com/ocadotechnology/codeforlife-portal/commit/2dbd3692b09f3c10e1ce51a367801e75fcf7e43f))
