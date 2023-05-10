@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 codeforlife-portal = {path = ".", editable = true}
-cfl-common = {editable = true, path = "./cfl_common"}
+cfl-common = {path = "./cfl_common", editable = true}
 
 [dev-packages]
 django-selenium-clean = "==0.3.3"
