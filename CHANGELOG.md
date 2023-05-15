@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.30.6 (2023-05-15)
+### Fix
+* Remove old arg from School admin ([#2087](https://github.com/ocadotechnology/codeforlife-portal/issues/2087)) ([`a75ab10`](https://github.com/ocadotechnology/codeforlife-portal/commit/a75ab103854de4221d00badd00aabbe2c3708d04))
+
 ## v6.30.5 (2023-05-10)
 ### Fix
 * Bump up version commit ([`1f762ef`](https://github.com/ocadotechnology/codeforlife-portal/commit/1f762eff66890a9d0ca4967d6daec395f9d0935b))
