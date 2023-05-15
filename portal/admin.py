@@ -30,7 +30,7 @@ class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
 
 
 class SchoolAdmin(admin.ModelAdmin, ExportActionMixin):
-    search_fields = ["name", "country", "postcode", "town"]
+    search_fields = ["name", "country", "postcode"]
     list_filter = ["postcode", "country"]
     list_display = ["__str__", "postcode", "country", "number_of_teachers", "number_of_classes"]
 

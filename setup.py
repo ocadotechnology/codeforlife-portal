@@ -26,6 +26,7 @@ setup(
         "django-pipeline==2.0.8",
         "django-recaptcha==2.0.6",
         "pyyaml==5.4.1",
+        "importlib-metadata==4.13.0",
         "rapid-router>=4",
         "aimmo>=2",
         "reportlab==3.6.1",

@@ -23,7 +23,6 @@ pyvirtualdisplay = "*"
 pytest-mock = "*"
 PyPDF2 = "==2.10.6"
 black = "*"
-importlib-metadata = "<5"
 
 [requires]
 python_version = "3.7"
