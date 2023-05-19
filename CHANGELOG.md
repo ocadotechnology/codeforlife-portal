@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.30.7 (2023-05-16)
+### Fix
+* Script loading ([#2089](https://github.com/ocadotechnology/codeforlife-portal/issues/2089)) ([`a3bb0e8`](https://github.com/ocadotechnology/codeforlife-portal/commit/a3bb0e81e48dd24ef69ed6977222e7264ff1d41b))
+
 ## v6.30.6 (2023-05-15)
 ### Fix
 * Remove old arg from School admin ([#2087](https://github.com/ocadotechnology/codeforlife-portal/issues/2087)) ([`a75ab10`](https://github.com/ocadotechnology/codeforlife-portal/commit/a75ab103854de4221d00badd00aabbe2c3708d04))
