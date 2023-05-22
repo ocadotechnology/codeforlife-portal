@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.30.8 (2023-05-22)
+### Fix
+* Handle cases where School has no classes ([#2088](https://github.com/ocadotechnology/codeforlife-portal/issues/2088)) ([`7832b2d`](https://github.com/ocadotechnology/codeforlife-portal/commit/7832b2d8443b5766be239c3d881ac91b2fa5f6ad))
+
 ## v6.30.7 (2023-05-16)
 ### Fix
 * Script loading ([#2089](https://github.com/ocadotechnology/codeforlife-portal/issues/2089)) ([`a3bb0e8`](https://github.com/ocadotechnology/codeforlife-portal/commit/a3bb0e81e48dd24ef69ed6977222e7264ff1d41b))
