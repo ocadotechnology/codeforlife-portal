@@ -38,7 +38,7 @@ class SchoolAdmin(admin.ModelAdmin, ExportActionMixin):
         return len(obj.teacher_school.all())
 
     def number_of_classes(self, obj):
-        return len(obj.classes())
+        return len(obj.classes()) if obj.classes() else 0
 
 
 class StudentAdmin(admin.ModelAdmin, ExportActionMixin):
