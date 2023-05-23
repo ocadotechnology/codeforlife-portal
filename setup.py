@@ -32,7 +32,7 @@ setup(
         "reportlab==3.6.1",
         "django-formtools==2.2",
         "django-otp==1.0.2",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
-        "requests==2.25.0",
+        "requests==2.31.0",
         "django-treebeard==4.3.1",
         "django-sekizai==2.0.0",
         "django-classy-tags==2.0.0",
