@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.30.10 (2023-05-23)
+### Fix
+* Upgrade JS libraries ([#2090](https://github.com/ocadotechnology/codeforlife-portal/issues/2090)) ([`96551bb`](https://github.com/ocadotechnology/codeforlife-portal/commit/96551bbef8777bc185203a7de2547c711ca8b0bc))
+
 ## v6.30.9 (2023-05-23)
 ### Fix
 * Bump up version ([`87b1646`](https://github.com/ocadotechnology/codeforlife-portal/commit/87b1646512acd1e2442f67e40d9eb62c17e6eb62))
