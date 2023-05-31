@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.30.11 (2023-05-31)
+### Fix
+* Bring back Riveted ([#2096](https://github.com/ocadotechnology/codeforlife-portal/issues/2096)) ([`44724af`](https://github.com/ocadotechnology/codeforlife-portal/commit/44724af961b7493bef73a428d6f2f12943fe8e36))
+
 ## v6.30.10 (2023-05-23)
 ### Fix
 * Upgrade JS libraries ([#2090](https://github.com/ocadotechnology/codeforlife-portal/issues/2090)) ([`96551bb`](https://github.com/ocadotechnology/codeforlife-portal/commit/96551bbef8777bc185203a7de2547c711ca8b0bc))
