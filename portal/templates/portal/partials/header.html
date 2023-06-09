@@ -45,10 +45,10 @@
                             class="button--menu button--menu--secondary button--menu--enabled">
                             Teaching Resources <span class="material-icons-outlined md-32">arrow_drop_down</span></a>
                         <div class="dropdown-content">
-                            <a id="rapid_router_resources_button" href="{% url 'teaching_resources' %}">
-                                <small>Rapid Router</small></a>
-                            <a id="kurono_resources_button" href="{% url 'kurono_teaching_resources' %}">
-                                <small>Kurono</small></a>
+                            <a id="rapid_router_resources_button" href="https://code-for-life.gitbook.io/teaching-resources/">
+                                <small>Rapid Router</small> <span class="iconify" data-icon="mdi:open-in-new"></span></a>
+                            <a id="kurono_resources_button" href="https://code-for-life.gitbook.io/teaching-resources/v/kurono-teaching-resources/">
+                                <small>Kurono</small> <span class="iconify" data-icon="mdi:open-in-new"></span></a>
                             <a href="{% url 'codingClub' %}"><small>Coding Clubs</small></a>
                         </div>
                     </div>
@@ -196,9 +196,9 @@
                     button--menu__item--sub-header" data-toggle="collapse" data-target="#resources-tabs">Teaching Resources</button>
                     <div id="resources-tabs" class="collapse">
                         <a class="button button--menu__item button--menu__item__sub__sub"
-                          href="{% url 'teaching_resources' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
+                          href="https://code-for-life.gitbook.io/teaching-resources/">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
                         <a class="button button--menu__item button--menu__item__sub__sub"
-                          href="{% url 'kurono_teaching_resources' %}">Kurono<span class="material-icons-outlined md-32">chevron_right</span></a>
+                          href="https://code-for-life.gitbook.io/teaching-resources/v/kurono-teaching-resources/">Kurono<span class="material-icons-outlined md-32">chevron_right</span></a>
                     </div>
                 </div>
             {% else %}

@@ -473,26 +473,6 @@ class TestTeacherFrontend(BaseTest):
         page = page.login_no_school(email, password)
         assert self.is_onboarding_page(page)
 
-    def test_view_resources(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        _, _, access_code = create_class_directly(email)
-        create_school_student_directly(access_code)
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium)
-        page = page.go_to_teacher_login_page()
-        page = page.login(email, password)
-
-        assert self.is_dashboard_page(page)
-
-        page = page.go_to_rapid_router_resources_page()
-
-        assert self.is_resources_page(page)
-
-        page = page.go_to_kurono_resources_page()
-
-        assert self.is_resources_page(page)
-
     def test_edit_details(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
