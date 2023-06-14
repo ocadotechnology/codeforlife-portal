@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v6.31.0 (2023-06-14)
+### Feature
+* Remove intermediate pages and go direct to gitbook resources ([#2098](https://github.com/ocadotechnology/codeforlife-portal/issues/2098)) ([`2c6cb61`](https://github.com/ocadotechnology/codeforlife-portal/commit/2c6cb61b9753ecaa610e0d3d479ac5cf3eaf7210))
+
 ## v6.30.11 (2023-05-31)
 ### Fix
 * Bring back Riveted ([#2096](https://github.com/ocadotechnology/codeforlife-portal/issues/2096)) ([`44724af`](https://github.com/ocadotechnology/codeforlife-portal/commit/44724af961b7493bef73a428d6f2f12943fe8e36))
