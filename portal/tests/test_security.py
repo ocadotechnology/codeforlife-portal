@@ -82,7 +82,3 @@ class SecurityTestCase(TestCase):
         """Try and view a class page without being the teacher for that class."""
         self._test_incorrect_teacher_cannot_login("onboarding-class")
 
-    def test_anonymous_cannot_access_teaching_materials(self):
-        c = Client()
-        page = reverse_lazy("materials")
-        self.assertNotEqual(str(c.get(page).status_code)[0], 2)

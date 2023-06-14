@@ -120,6 +120,11 @@
   width: 100%;
   z-index: $hover-content-level;
 
+  svg {
+    opacity: 0.5;
+    margin-left: 0.3rem;
+  }
+
   a {
     color: $color-text-tertiary;
     display: block;
