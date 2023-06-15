@@ -1,5 +1,6 @@
 from django.urls import reverse, reverse_lazy
 
+
 def resetEmailPasswordMessage(request, domain, uid, token, protocol):
     password_reset_uri = reverse_lazy("password_reset_check_and_confirm", kwargs={"uidb64": uid, "token": token})
     url = f"{protocol}://{domain}{password_reset_uri}"

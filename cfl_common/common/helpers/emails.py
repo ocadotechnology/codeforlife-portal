@@ -62,7 +62,7 @@ def send_email(
     if replace_url:
         verify_url = replace_url["verify_url"]
         verify_replace_url = re.sub(f'(.*/verify_email/)(.*)', f'\\1', verify_url)
-        html_body = re.sub(f'({replace_url["verify_url"]})(.*){replace_url["verify_url"]}', f'\\1\\2{verify_replace_url}', original_html_body)
+        html_body = re.sub(f'({verify_url})(.*){verify_url}', f'\\1\\2{verify_replace_url}', original_html_body)
 
     # make message using templates
     message = EmailMultiAlternatives(subject, plaintext_body, sender, recipients)
