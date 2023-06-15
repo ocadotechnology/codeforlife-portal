@@ -88,12 +88,7 @@ from portal.views.teacher.teach import (
     teacher_download_csv,
     teacher_view_class,
 )
-from portal.views.teacher.teacher_resources import (
-    teacher_kurono_resources,
-    teacher_rapid_router_resources,
-    kurono_teaching_packs,
-    materials,
-)
+
 from portal.views.two_factor.core import CustomSetupView
 from portal.views.two_factor.profile import CustomDisableView
 
@@ -238,10 +233,6 @@ urlpatterns = [
     url(r"^terms", terms, name="terms"),
     url(r"^privacy-notice/$", privacy_notice, name="privacy_notice"),
     url(r"^privacy-policy/$", privacy_notice, name="privacy_policy"),  # Keeping this to route from old URL
-    url(r"^teach/materials/$", materials, name="materials"),
-    url(r"^teach/kurono_teaching_packs$", kurono_teaching_packs, name="kurono_packs"),
-    url(r"^teach/resources/$", teacher_rapid_router_resources, name="teaching_resources"),
-    url(r"^teach/kurono_resources/$", teacher_kurono_resources, name="kurono_teaching_resources"),
     url(r"^teach/dashboard/$", dashboard_manage, name="dashboard"),
     url(r"^teach/dashboard/kick/(?P<pk>[0-9]+)/$", organisation_kick, name="organisation_kick"),
     url(r"^teach/dashboard/toggle_admin/(?P<pk>[0-9]+)/$", organisation_toggle_admin, name="organisation_toggle_admin"),
