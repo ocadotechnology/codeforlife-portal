@@ -1,5 +1,6 @@
 import datetime
 import json
+import re
 from enum import Enum, auto
 from uuid import uuid4
 
@@ -41,6 +42,7 @@ def send_email(
     subject,
     text_content,
     title,
+    replace_url=None,
     plaintext_template="email.txt",
     html_template="email.html",
 ):
@@ -54,7 +56,13 @@ def send_email(
 
     # render templates
     plaintext_body = plaintext.render(plaintext_email_context)
-    html_body = html.render(html_email_context)
+    original_html_body = html.render(html_email_context)
+    html_body = original_html_body
+
+    if replace_url:
+        verify_url = replace_url["verify_url"]
+        verify_replace_url = re.sub(f'(.*/verify_email/)(.*)', f'\\1', verify_url)
+        html_body = re.sub(f'({replace_url["verify_url"]})(.*){replace_url["verify_url"]}', f'\\1\\2{verify_replace_url}', original_html_body)
 
     # make message using templates
     message = EmailMultiAlternatives(subject, plaintext_body, sender, recipients)
@@ -113,7 +121,7 @@ def send_verification_email(request, user, data, new_email=None, age=None):
         # if the user is a teacher
         if age is None:
             message = emailVerificationNeededEmail(request, verification)
-            send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
+            send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"], replace_url=message["url"])
 
             if _newsletter_ticked(data):
                 add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
@@ -124,7 +132,7 @@ def send_verification_email(request, user, data, new_email=None, age=None):
                 send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
             else:
                 message = emailVerificationNeededEmail(request, verification)
-                send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
+                send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"], replace_url=message["url"])
 
             if _newsletter_ticked(data):
                 add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.STUDENT)

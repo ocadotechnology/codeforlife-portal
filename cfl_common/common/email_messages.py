@@ -24,6 +24,7 @@ def emailVerificationNeededEmail(request, token):
             f"Please go to {url} to verify your email address.\n\nBy activating the account you confirm that you have "
             f"read and agreed to our terms ({terms_url}) and our privacy notice ({privacy_notice_url})."
         ),
+        "url": {"verify_url": url},
     }
 
 
