@@ -129,7 +129,7 @@ def send_verification_email(request, user, data, new_email=None, age=None):
         else:
             if age < 13:
                 message = parentsEmailVerificationNeededEmail(request, user, verification)
-                send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
+                send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"], replace_url=message["url"])
             else:
                 message = emailVerificationNeededEmail(request, verification)
                 send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"], replace_url=message["url"])
@@ -141,7 +141,7 @@ def send_verification_email(request, user, data, new_email=None, age=None):
         verification = generate_token(user, new_email)
 
         message = emailChangeVerificationEmail(request, verification)
-        send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
+        send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"], replace_url=message["url"])
 
         message = emailChangeNotificationEmail(request, new_email)
         send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
