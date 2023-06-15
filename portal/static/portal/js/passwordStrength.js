@@ -66,9 +66,37 @@ function updatePasswordStrength(isTeacher) {
     });
 }
 
+
+
+const getPwnedStatus = async (password) => {
+  const sha1Hash = (password) =>
+    CryptoJS.SHA1(password).toString().toUpperCase();
+
+  const checkIfHashExists = (data, suffix) => data.includes(suffix);
+
+  try {
+    const hashedPassword = sha1Hash(password);
+    const prefix = hashedPassword.substring(0, 5);
+    const suffix = hashedPassword.substring(5);
+    const url = `https://api.pwnedpasswords.com/range/${prefix}`;
+
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Request failed with status code: ${response.status}`);
+    }
+
+    const data = await response.text();
+    const found = checkIfHashExists(data, suffix);
+    console.log(`Password ${found ? 'is pwned' : 'is not pwned'}`);
+  } catch (error) {
+    console.error(`Request failed with error: ${error.message}`);
+  }
+};
+
 function isPasswordStrong(password, isTeacher) {
+    const isPasswordBreached = getPwnedStatus(password);
     if (isTeacher) {
-        return password.length >= 10 && !(password.search(/[A-Z]/) === -1 || password.search(/[a-z]/) === -1 || password.search(/[0-9]/) === -1 || password.search(/[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]/) === -1)
+        return password.length >= 10 && !(isPasswordBreached || password.search(/[A-Z]/) === -1 || password.search(/[a-z]/) === -1 || password.search(/[0-9]/) === -1 || password.search(/[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]/) === -1)
     }
     else {
         return password.length >= 8 && !(password.search(/[A-Z]/) === -1 || password.search(/[a-z]/) === -1 || password.search(/[0-9]/) === -1)
