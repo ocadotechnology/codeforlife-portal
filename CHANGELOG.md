@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v6.31.2 (2023-06-16)
+
+### Fix
+
+* Allow more scripts from GTM in CSP ([#2103](https://github.com/ocadotechnology/codeforlife-portal/issues/2103)) ([`eb074d5`](https://github.com/ocadotechnology/codeforlife-portal/commit/eb074d521f03470aaa28293790302e2559884763))
+
 ## v6.31.1 (2023-06-16)
 
 ### Fix
