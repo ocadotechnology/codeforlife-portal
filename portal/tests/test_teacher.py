@@ -1,11 +1,19 @@
 from __future__ import absolute_import
-
-
 from datetime import timedelta
 import re
-import jwt
-from uuid import uuid4
 import time
+from uuid import uuid4
+
+import jwt
+from django.conf import settings
+from django.core import mail
+from django.test import Client, TestCase
+from django.urls import reverse
+from django.utils import timezone
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
 from aimmo.models import Game
 from common.models import Class, Student, Teacher
@@ -19,16 +27,8 @@ from common.tests.utils.teacher import (
     signup_teacher_directly,
     verify_email,
 )
-from django.conf import settings
-from django.core import mail
-from django.test import Client, TestCase
-from django.utils import timezone
-from django.urls import reverse
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
-
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
+from portal.tests.base_test import click_buttons_by_id
 from portal.tests.test_invite_teacher import FADE_TIME
 from portal.tests.test_invite_teacher import WAIT_TIME
 from .base_test import BaseTest
@@ -40,10 +40,6 @@ from .utils.messages import (
     is_email_updated_message_showing,
     is_password_updated_message_showing,
 )
-
-from selenium.webdriver.common.action_chains import ActionChains
-
-from portal.tests.base_test import click_buttons_by_id
 
 
 class TestTeacher(TestCase):
@@ -292,21 +288,46 @@ class TestTeacher(TestCase):
     def test_signup_common_password_fails(self):
         c = Client()
 
-        response = c.post(
-            reverse("register"),
-            {
-                "teacher_signup-teacher_first_name": "Test Name",
-                "teacher_signup-teacher_last_name": "Test Last Name",
-                "teacher_signup-teacher_email": "test@email.com",
-                "teacher_signup-consent_ticked": "on",
-                "teacher_signup-teacher_password": "Password1",
-                "teacher_signup-teacher_confirm_password": "Password1",
-                "g-recaptcha-response": "something",
-            },
-        )
+        common_passwords = ["Password1", "qwerty", "123456", "Admin123"]
+        passwords_with_distance_2 = [
+            "Bassword1",
+            "Pqssword1",
+            "Pasaword1",
+            "Passwords",
+            "Password2",
+            "ewerty",
+            "qwertyu",
+            "qwedty",
+            "qwrty",
+            "qwertr",
+            "023456",
+            "133456",
+            "123450",
+            "123476",
+            "123457",
+            "Badmin123",
+            "Aemin123",
+            "Admun123",
+            "Admin124",
+            "Admin113",
+        ]
 
-        # Assert response isn't a redirect (submit failure)
-        assert response.status_code == 200
+        for password in common_passwords + passwords_with_distance_2:
+            response = c.post(
+                reverse("register"),
+                {
+                    "teacher_signup-teacher_first_name": "Test Name",
+                    "teacher_signup-teacher_last_name": "Test Last Name",
+                    "teacher_signup-teacher_email": "test@email.com",
+                    "teacher_signup-consent_ticked": "on",
+                    "teacher_signup-teacher_password": password,
+                    "teacher_signup-teacher_confirm_password": password,
+                    "g-recaptcha-response": "something",
+                },
+            )
+
+            # Assert response isn't a redirect (submit failure)
+            assert response.status_code == 200
 
     def test_signup_passwords_do_not_match_fails(self):
         c = Client()
