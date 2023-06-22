@@ -24,6 +24,7 @@ def emailVerificationNeededEmail(request, token):
             f"Please go to {url} to verify your email address.\n\nBy activating the account you confirm that you have "
             f"read and agreed to our terms ({terms_url}) and our privacy notice ({privacy_notice_url})."
         ),
+        "url": {"verify_url": url},
     }
 
 
@@ -43,18 +44,21 @@ def parentsEmailVerificationNeededEmail(request, user, token):
             f"account you confirm that you have read and agreed to our terms ({terms_url}) and our privacy notice "
             f"({privacy_notice_url})."
         ),
+        "url": {"verify_url": url},
     }
 
 
 def emailChangeVerificationEmail(request, token):
+    url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))}"
     return {
         "subject": f"Email verification needed",
         "message": (
             f"You are changing your email, please go to "
-            f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))} "
+            f"{url} "
             f"to verify your new email address. If you are not part of Code for Life "
             f"then please ignore this email."
         ),
+        "url": {"verify_url": url},
     }
 
 

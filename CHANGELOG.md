@@ -2,6 +2,21 @@
 
 <!--next-version-placeholder-->
 
+## v6.31.2 (2023-06-16)
+
+### Fix
+
+* Allow more scripts from GTM in CSP ([#2103](https://github.com/ocadotechnology/codeforlife-portal/issues/2103)) ([`eb074d5`](https://github.com/ocadotechnology/codeforlife-portal/commit/eb074d521f03470aaa28293790302e2559884763))
+
+## v6.31.1 (2023-06-16)
+
+### Fix
+
+* Correct repo name ([`a85994d`](https://github.com/ocadotechnology/codeforlife-portal/commit/a85994dbd8a30bd18df76523f381ac3a8290e19a))
+* Go back to actual semantic release repo ([`c12eb7e`](https://github.com/ocadotechnology/codeforlife-portal/commit/c12eb7ec47328f401407a2116b0e349632bfabba))
+* 1454 shorten url in aws emails ([#2101](https://github.com/ocadotechnology/codeforlife-portal/issues/2101)) ([`5f4d68c`](https://github.com/ocadotechnology/codeforlife-portal/commit/5f4d68c0604611cb271fcadc9d2a173bc9db1496))
+* Update Gtag reference to new GA4 ([#2099](https://github.com/ocadotechnology/codeforlife-portal/issues/2099)) ([`ee50987`](https://github.com/ocadotechnology/codeforlife-portal/commit/ee50987efb571d2e9bc721e89da17e7be5213963))
+
 ## v6.31.0 (2023-06-14)
 ### Feature
 * Remove intermediate pages and go direct to gitbook resources ([#2098](https://github.com/ocadotechnology/codeforlife-portal/issues/2098)) ([`2c6cb61`](https://github.com/ocadotechnology/codeforlife-portal/commit/2c6cb61b9753ecaa610e0d3d479ac5cf3eaf7210))
