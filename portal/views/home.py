@@ -1,5 +1,7 @@
 import logging
 import math
+import hashlib
+import requests
 
 from common import email_messages
 from common.helpers.emails import (

@@ -69,7 +69,7 @@ function hideScreentimePopup() {
   setTimeout(showScreentimePopup, 3600000);
 }
 
-let interval;
+let timeInterval;
 
 function showSessionPopup() {
   $("#session-popup").addClass("popup--fade");
@@ -95,7 +95,7 @@ function hideSessionPopup() {
 
 function startTimer(duration, minutesDisplay, secondsDisplay) {
   let timer = duration, minutes, seconds;
-  interval = setInterval(function () {
+  timeInterval = setInterval(function () {
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
 
@@ -112,7 +112,7 @@ function startTimer(duration, minutesDisplay, secondsDisplay) {
 }
 
 function resetTimer(minutesDisplay, secondsDisplay) {
-  clearInterval(interval);
+  clearInterval(timeInterval);
   minutesDisplay.text("2");
   secondsDisplay.text("00");
 }

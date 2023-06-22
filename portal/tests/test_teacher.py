@@ -28,6 +28,7 @@ from common.tests.utils.teacher import (
     verify_email,
 )
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
+from portal.helpers.password import generate_strong_password
 from portal.tests.base_test import click_buttons_by_id
 from portal.tests.test_invite_teacher import FADE_TIME
 from portal.tests.test_invite_teacher import WAIT_TIME
@@ -339,8 +340,8 @@ class TestTeacher(TestCase):
                 "teacher_signup-teacher_last_name": "Test Last Name",
                 "teacher_signup-teacher_email": "test@email.com",
                 "teacher_signup-consent_ticked": "on",
-                "teacher_signup-teacher_password": "StrongPassword1!",
-                "teacher_signup-teacher_confirm_password": "StrongPassword2!",
+                "teacher_signup-teacher_password": generate_strong_password(),
+                "teacher_signup-teacher_confirm_password": generate_strong_password(),
                 "g-recaptcha-response": "something",
             },
         )
@@ -357,8 +358,8 @@ class TestTeacher(TestCase):
                 "teacher_signup-teacher_first_name": "Test Name",
                 "teacher_signup-teacher_last_name": "Test Last Name",
                 "teacher_signup-teacher_email": "test@email.com",
-                "teacher_signup-teacher_password": "StrongPassword1!",
-                "teacher_signup-teacher_confirm_password": "StrongPassword1!",
+                "teacher_signup-teacher_password": generate_strong_password(),
+                "teacher_signup-teacher_confirm_password": generate_strong_password(),
                 "g-recaptcha-response": "something",
             },
         )
@@ -376,8 +377,8 @@ class TestTeacher(TestCase):
                 "teacher_signup-teacher_last_name": "Test Last Name",
                 "teacher_signup-teacher_email": "test@email.com",
                 "teacher_signup-consent_ticked": "on",
-                "teacher_signup-teacher_password": "StrongPassword1!",
-                "teacher_signup-teacher_confirm_password": "StrongPassword1!",
+                "teacher_signup-teacher_password": generate_strong_password(),
+                "teacher_signup-teacher_confirm_password": generate_strong_password(),
                 "g-recaptcha-response": "something",
             },
         )
@@ -503,9 +504,7 @@ class TestTeacherFrontend(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password).open_account_tab()
 
-        page = page.change_teacher_details(
-            {"first_name": "Paulina", "last_name": "Koch", "current_password": "Password2!"}
-        )
+        page = page.change_teacher_details({"first_name": "Paulina", "last_name": "Koch", "current_password": password})
         assert self.is_dashboard_page(page)
         assert is_teacher_details_updated_message_showing(self.selenium)
 
@@ -525,7 +524,7 @@ class TestTeacherFrontend(BaseTest):
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_2, password_2).open_account_tab()
 
         page = page.change_teacher_details(
-            {"first_name": "Florian", "last_name": "Aucomte", "current_password": "Password2!"}
+            {"first_name": "Florian", "last_name": "Aucomte", "current_password": password_2}
         )
         assert self.is_dashboard_page(page)
         assert is_teacher_details_updated_message_showing(self.selenium)

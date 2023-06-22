@@ -169,18 +169,23 @@ class TestRatelimit(TestCase):
         c.login(username=teacher_email, password=teacher_password)
         c.post(url, data)
         assert not self._is_user_blocked(Student, student_name, klass_access_code)
+        from portal.helpers.password import generate_strong_password
 
         # now block again and test the edit by student method
         self._block_user(Student, student_name, klass_access_code)
         assert self._is_user_blocked(Student, student_name, klass_access_code)
         url = reverse_lazy("teacher_edit_student", kwargs={"pk": current_student.id})
-        data = {"password": "password1", "confirm_password": "password1", "set_password": ""}
+        data = {
+            "password": generate_strong_password(),
+            "confirm_password": generate_strong_password(),
+            "set_password": "",
+        }
 
         c.post(url, data)
         assert not self._is_user_blocked(Student, student_name, klass_access_code)
         c.logout()
         student = Student.objects.get(id=student.id)
-        self._student_school_login(klass_access_code, student_name, "password1")
+        self._student_school_login(klass_access_code, student_name, generate_strong_password())
         student = Student.objects.get(id=student.id)
         assert not self._is_user_blocked(Student, student_name, klass_access_code)
 

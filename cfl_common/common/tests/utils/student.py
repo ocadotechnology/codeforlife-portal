@@ -5,6 +5,7 @@ from common.helpers.emails import generate_token
 from common.helpers.generators import generate_login_id
 from common.models import Class, Student
 from django.core import mail
+from portal.helpers.password import generate_strong_password
 
 from . import email
 
@@ -91,7 +92,7 @@ def generate_independent_student_details():
     name = "Independent Student %d" % generate_independent_student_details.next_id
     email_address = "student%d@codeforlife.com" % generate_independent_student_details.next_id
     username = email_address
-    password = "Password2"
+    password = generate_strong_password()
 
     generate_independent_student_details.next_id += 1
 

@@ -4,6 +4,7 @@ import sys
 from common.helpers.emails import generate_token
 from common.models import Teacher
 from django.core import mail
+from portal.helpers.password import generate_strong_password
 
 from . import email
 
@@ -13,7 +14,7 @@ def generate_details(**kwargs):
     first_name = kwargs.get("first_name", "Test")
     last_name = kwargs.get("last_name", f"Teacher {random_int}")
     email_address = kwargs.get("email_address", f"testteacher{random_int}@codeforlife.com")
-    password = kwargs.get("password", "Password2!")
+    password = kwargs.get("password", generate_strong_password())
 
     return first_name, last_name, email_address, password
 

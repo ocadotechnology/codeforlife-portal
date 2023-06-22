@@ -1,10 +1,35 @@
 import re
+import hashlib
+import requests
+import secrets
+import string
 from enum import Enum, auto
 
 from django import forms
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.hashers import PBKDF2PasswordHasher as ph
 from django.core.exceptions import ValidationError
+
+
+def generate_strong_password(password_length=12):
+    if password_length < 4:
+        print("Password length should be at least 4.")
+        return None
+
+    # The password will contain at least one lowercase, one uppercase, one digit, and one special character.
+    all_possible_characters = string.ascii_letters + string.digits + string.punctuation
+
+    while True:
+        generated_password = "".join(secrets.choice(all_possible_characters) for i in range(password_length))
+        if (
+            any(character.islower() for character in generated_password)
+            and any(character.isupper() for character in generated_password)
+            and any(character.isdigit() for character in generated_password)
+            and any(character in string.punctuation for character in generated_password)
+        ):
+            break
+
+    return generated_password
 
 
 class PasswordStrength(Enum):
@@ -106,3 +131,25 @@ def check_update_password(form, user, request, data):
         update_session_auth_hash(request, form.user)
 
     return changing_password
+
+
+def check_pwned_password(password):
+    # Create SHA1 hash of the password
+    sha1_hash = hashlib.sha1(password.encode()).hexdigest()
+    prefix = sha1_hash[:5]  # Take the first 5 characters of the hash as the prefix
+
+    # Make a request to the Pwned Passwords API
+    url = f"https://api.pwnedpasswords.com/range/{prefix}"
+    response = requests.get(url)
+
+    if response.status_code != 200:
+        return True  # backend ignore this and frontend tells the user
+        # that we cannot verify this at the moment
+
+    # Check if the password's hash is found in the response body
+    hash_suffixes = response.text.split("\r\n")
+    for suffix in hash_suffixes:
+        if sha1_hash[5:].upper() == suffix[:35].upper():
+            raise forms.ValidationError("Your current password is too common")
+
+    return True

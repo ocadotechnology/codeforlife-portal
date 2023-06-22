@@ -17,12 +17,19 @@
   -ms-transition: visibility 0s linear $fade-time, opacity $fade-time ease-out;
   transition: visibility 0s linear $fade-time, opacity $fade-time ease-out;
 
+  .popup-box__buttons > a {
+    color: black;
+  }
+
   .popup-box {
     background-color: $color-background-secondary;
     box-shadow: 0 0 4 * $spacing $color-background-box-shadow;
     margin: 20% auto 0;
     overflow: hidden;
     width: 460px;
+    > * {
+      color: black;
+    }
 
     .popup-box__msg {
       @include _padding(0px, 5 * $spacing, 5 * $spacing, 5 * $spacing);

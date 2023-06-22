@@ -5,12 +5,14 @@ from builtins import map, range, str
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
 from common.helpers.emails import send_verification_email
+from portal.helpers.password import check_pwned_password
 from common.models import Student, stripStudentName, UserSession, Teacher
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from game.models import Episode
+
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.helpers.password import PasswordStrength, form_clean_password
@@ -39,7 +41,7 @@ class InvitedTeacherForm(forms.Form):
 
         password = self.cleaned_data.get("teacher_password", None)
         confirm_password = self.cleaned_data.get("teacher_confirm_password", None)
-
+        check_pwned_password(password)
         check_passwords(password, confirm_password)
 
         return self.cleaned_data
@@ -114,6 +116,7 @@ class TeacherEditAccountForm(forms.Form):
         return self.cleaned_data
 
     def check_password_errors(self, password, confirm_password, current_password):
+        check_pwned_password(password)
         check_passwords(password, confirm_password)
 
         if not self.user.check_password(current_password):

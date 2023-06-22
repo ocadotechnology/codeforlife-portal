@@ -1,187 +1,230 @@
 {% extends 'portal/base.html' %}
 {% load static %}
 {% load app_tags %}
-
 {% block content %}
-<div id="signup_page"></div>
-
-<div id="register-forms" class="container registration">
-    <div class="form--register--text form--register form--register--teacher is-flex-item col-sm-6">
-        <div class="form-div form">
-            <h4>Teacher/Tutor</h4>
-            <div class="row form--row">
-                <p class="semi-bold">Register below to create your school or club.</p>
-                <small class="semi-bold">You will have access to teaching resources, progress tracking and lesson plans
+    <div id="signup_page"></div>
+    <div id="register-forms" class="container registration">
+        <div class="form--register--text form--register form--register--teacher is-flex-item col-sm-6">
+            <div class="form-div form">
+                <h4>Teacher/Tutor</h4>
+                <div class="row form--row">
+                    <p class="semi-bold">Register below to create your school or club.</p>
+                    <small class="semi-bold">You will have access to teaching resources, progress tracking and lesson plans
                     for both Rapid Router and Kurono.</small>
-            </div>
-            <form class="d-flex flex-column" method="post" id="form-reg-teacher" autocomplete="off">
-
-                {% csrf_token %}
-
-                {{ teacher_signup_form.non_field_errors }}
-                <div class="row form--row">
-                    <label for="id_teacher_signup-teacher_first_name"></label>
-                    {{ teacher_signup_form.teacher_first_name }}
-                    <small>{{ teacher_signup_form.teacher_first_name.help_text }}</small>
-                    {{ teacher_signup_form.teacher_first_name.errors }}
                 </div>
-                <div class="row form--row">
-                    <label for="id_teacher_signup-teacher_last_name"></label>
-                    {{ teacher_signup_form.teacher_last_name }}
-                    <small>{{ teacher_signup_form.teacher_last_name.help_text }}</small>
-                    {{ teacher_signup_form.teacher_last_name.errors }}
-                </div>
-                <div class="row form--row">
-                    <label for="id_teacher_signup-teacher_email"></label>
-                    {{ teacher_signup_form.teacher_email }}
-                    <small>{{ teacher_signup_form.teacher_email.help_text }}</small>
-                    {{ teacher_signup_form.teacher_email.errors }}
-                </div>
-                <div class="row form--row">
-                    <div class="form__checkbox">
-                        <div class="form__checkbox-input">
-                            {{ teacher_signup_form.consent_ticked }}
-                        </div>
-                        <p class="semi-bold">I am over 18 years old have read and understood the
-                            <a href="{% url 'terms' %}" target="_blank">Terms of use</a> and the
-                            <a href="{% url 'privacy_notice' %}" target="_blank">Privacy notice</a>.</p>
-                    </div>
-                </div>
-                <div class="row form--row">
-                    {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=teacher_signup_form.newsletter_ticked %}
-                </div>
-                <div class="row form--row">
-                    <label for="id_teacher_signup-teacher_password"></label>
-                    <div class="input--icon">
-                        {{ teacher_signup_form.teacher_password }}<span class="iconify" data-icon="mdi:security"></span>
-                    </div>
-                    <small>{{ teacher_signup_form.teacher_password.help_text }}</small>
-                    {{ teacher_signup_form.teacher_password.errors }}
-                </div>
-                <div class="row form--row">
-                    <label for="id_teacher_signup-teacher_confirm_password"></label>
-                    <div class="input--icon">
-                        {{ teacher_signup_form.teacher_confirm_password }}<span class="iconify" data-icon="mdi:security"></span>
-                    </div>
-                    <small>{{ teacher_signup_form.teacher_confirm_password.help_text }}</small>
-                    {{ teacher_signup_form.teacher_confirm_password.errors }}
-                </div>
-
-                <div class="row--under">
-                    <div class="password-strength-container">
-                        <div id="teacher-password-sign" class="password-strength-sign"></div>
-                        <div id="teacher-password-text" class="password-strength-text"></div>
-                    </div>
-                </div>
-
-                <div class="row">{{ teacher_signup_form.captcha }}</div>
-                <div class="d-flex justify-content-end row">
-                    <button class="button button--home button--primary teacher--home--button button--icon" type="submit"
-                            name="teacher_signup">Register<span class="iconify" data-icon="mdi:chevron-right"></span></button>
-                </div>
-            </form>
-
-        </div>
-    </div>
-
-    <div class="form--register--text form--register form--register--indep-student is-flex-item col-sm-6">
-        <div class="form-div">
-            <h4>Independent learner</h4>
-            <div class="row form--row">
-                <p class="semi-bold">Register below if you are not part of a school or club and wish to set up a home
-                    learning account.</p>
-                <small class="semi-bold">You will have access to learning resources for Rapid Router.</small>
-            </div>
-
-            <form id="form-signup-independent-student" method="post" autocomplete="off" class="d-flex flex-column">
-
-                {% csrf_token %}
-
-                <div class="row form--row">
-                    <small class="semi-bold mb-4">{{ independent_student_signup_form.date_of_birth.help_text }}</small>
-                    <div class="form__dob-input">
-                        {{ independent_student_signup_form.date_of_birth }}
-                    </div>
-                </div>
-                {{ independent_student_signup_form.date_of_birth.errors }}
-
-                <div id="form-fields">
-                    {{ independent_student_signup_form.non_field_errors }}
+                <form class="d-flex flex-column"
+                      method="post"
+                      id="form-reg-teacher"
+                      onsubmit="handleRegisterSubmit(event)"
+                      autocomplete="off">
+                    {% csrf_token %}
+                    {{ teacher_signup_form.non_field_errors }}
                     <div class="row form--row">
-                        <label for="id_{{ independent_student_signup_form.name.html_name }}"></label>
-                        {{ independent_student_signup_form.name }}
-                        <small>{{ independent_student_signup_form.name.help_text }}</small>
-                        {{ independent_student_signup_form.name.errors }}
+                        <label for="id_teacher_signup-teacher_first_name"></label>
+                        {{ teacher_signup_form.teacher_first_name }}
+                        <small>{{ teacher_signup_form.teacher_first_name.help_text }}</small>
+                        {{ teacher_signup_form.teacher_first_name.errors }}
                     </div>
                     <div class="row form--row">
-                        <label for="id_{{ independent_student_signup_form.email.html_name }}"></label>
-                        {{ independent_student_signup_form.email }}
-                        <small id="independent-email-help-text">{{ independent_student_signup_form.email.help_text }}</small>
-                        {{ independent_student_signup_form.email.errors }}
+                        <label for="id_teacher_signup-teacher_last_name"></label>
+                        {{ teacher_signup_form.teacher_last_name }}
+                        <small>{{ teacher_signup_form.teacher_last_name.help_text }}</small>
+                        {{ teacher_signup_form.teacher_last_name.errors }}
                     </div>
-                    <div id="independent-consent" class="row form--row">
+                    <div class="row form--row">
+                        <label for="id_teacher_signup-teacher_email"></label>
+                        {{ teacher_signup_form.teacher_email }}
+                        <small>{{ teacher_signup_form.teacher_email.help_text }}</small>
+                        {{ teacher_signup_form.teacher_email.errors }}
+                    </div>
+                    <div class="row form--row">
                         <div class="form__checkbox">
-                            <div class="form__checkbox-input">
-                                {{ independent_student_signup_form.consent_ticked }}
-                            </div>
-                            <p id="independent-adult-legal" class="semi-bold">I have read and understood the
+                            <div class="form__checkbox-input">{{ teacher_signup_form.consent_ticked }}</div>
+                            <p class="semi-bold">
+                                I am over 18 years old have read and understood the
                                 <a href="{% url 'terms' %}" target="_blank">Terms of use</a> and the
-                                <a href="{% url 'privacy_notice' %}" target="_blank">Privacy notice</a>.</p>
-                            <p id="independent-child-legal" class="semi-bold">I have read and understood the
-                                <a href="{% url 'terms' %}#terms-children" target="_blank">Terms of use</a> and the
-                                <a href="{% url 'privacy_notice' %}#privacy-children" target="_blank">Privacy notice</a>.</p>
+                                <a href="{% url 'privacy_notice' %}" target="_blank">Privacy notice</a>.
+                            </p>
                         </div>
                     </div>
-                    <div id="independent-newsletter" class="row form--row">
-                        {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=independent_student_signup_form.newsletter_ticked %}
-                    </div>
-
-                    <div id="independent-parent-notification" class="row form--row">
-                        <small><strong>We will send your parent/guardian an email to ask them to activate the account
-                            for you. Once they've done this you'll be able to log in using your name and password.</strong></small>
-                    </div>
-
                     <div class="row form--row">
-                        <label for="id_{{ independent_student_signup_form.password.html_name }}"></label>
-                        <div class="input--icon">
-                            {{ independent_student_signup_form.password }} <span class="iconify" data-icon="mdi:security"></span>
-                        </div>
-                        <small>{{ independent_student_signup_form.password.help_text }}</small>
-                        {{ independent_student_signup_form.password.errors }}
+                        {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=teacher_signup_form.newsletter_ticked %}
                     </div>
-
                     <div class="row form--row">
-                        <label for="id_{{ independent_student_signup_form.confirm_password.html_name }}"></label>
+                        <label for="id_teacher_signup-teacher_password"></label>
                         <div class="input--icon">
-                            {{ independent_student_signup_form.confirm_password }}<span class="iconify" data-icon="mdi:security"></span>
+                            {{ teacher_signup_form.teacher_password }}<span class="iconify" data-icon="mdi:security"></span>
                         </div>
-                        <small>{{ independent_student_signup_form.confirm_password.help_text }}</small>
-                        {{ independent_student_signup_form.confirm_password.errors }}
+                        <small>{{ teacher_signup_form.teacher_password.help_text }}</small>
+                        {{ teacher_signup_form.teacher_password.errors }}
                     </div>
-
+                    <div class="row form--row">
+                        <label for="id_teacher_signup-teacher_confirm_password"></label>
+                        <div class="input--icon">
+                            {{ teacher_signup_form.teacher_confirm_password }}<span class="iconify" data-icon="mdi:security"></span>
+                        </div>
+                        <small>{{ teacher_signup_form.teacher_confirm_password.help_text }}</small>
+                        {{ teacher_signup_form.teacher_confirm_password.errors }}
+                    </div>
                     <div class="row--under">
                         <div class="password-strength-container">
-                            <div id="student-password-sign" class="password-strength-sign"></div>
-                            <div id="student-password-text" class="password-strength-text"></div>
+                            <div id="teacher-password-sign" class="password-strength-sign"></div>
+                            <div id="teacher-password-text" class="password-strength-text"></div>
                         </div>
                     </div>
-
-                    <div class="row">{{ independent_student_signup_form.captcha }}</div>
+                    <div class="row">{{ teacher_signup_form.captcha }}</div>
+                    {% block popup %}
+                        {% include "portal/partials/popup.html" %}
+                    {% endblock popup %}
                     <div class="d-flex justify-content-end row">
-                        <button type="submit" name="independent_student_signup" class="button button--home button--icon"
-                                value="Register">Register<span class="iconify" data-icon="mdi:chevron-right"></span></button>
+                        <button class="button button--home button--primary teacher--home--button button--icon"
+                                type="submit"
+                                name="teacher_signup">
+                            Register<span class="iconify" data-icon="mdi:chevron-right"></span>
+                        </button>
                     </div>
+                </form>
+            </div>
+        </div>
+        <div class="form--register--text form--register form--register--indep-student is-flex-item col-sm-6">
+            <div class="form-div">
+                <h4>Independent learner</h4>
+                <div class="row form--row">
+                    <p class="semi-bold">
+                        Register below if you are not part of a school or club and wish to set up a home
+                        learning account.
+                    </p>
+                    <small class="semi-bold">You will have access to learning resources for Rapid Router.</small>
                 </div>
-            </form>
+                <form id="form-signup-independent-student"
+                      method="post"
+                      autocomplete="off"
+                      class="d-flex flex-column">
+                    {% csrf_token %}
+                    <div class="row form--row">
+                        <small class="semi-bold mb-4">{{ independent_student_signup_form.date_of_birth.help_text }}</small>
+                        <div class="form__dob-input">
+                            {{ independent_student_signup_form.date_of_birth }}
+                        </div>
+                    </div>
+                    {{ independent_student_signup_form.date_of_birth.errors }}
+                    <div id="form-fields">
+                        {{ independent_student_signup_form.non_field_errors }}
+                        <div class="row form--row">
+                            <label for="id_{{ independent_student_signup_form.name.html_name }}">
+                            </label>
+                            {{ independent_student_signup_form.name }}
+                            <small>{{ independent_student_signup_form.name.help_text }}</small>
+                            {{ independent_student_signup_form.name.errors }}
+                        </div>
+                        <div class="row form--row">
+                            <label for="id_{{ independent_student_signup_form.email.html_name }}">
+                            </label>
+                            {{ independent_student_signup_form.email }}
+                            <small id="independent-email-help-text">{{ independent_student_signup_form.email.help_text }}</small>
+                            {{ independent_student_signup_form.email.errors }}
+                        </div>
+                        <div id="independent-consent" class="row form--row">
+                            <div class="form__checkbox">
+                                <div class="form__checkbox-input">
+                                    {{ independent_student_signup_form.consent_ticked }}
+                                </div>
+                                <p id="independent-adult-legal" class="semi-bold">
+                                    I have read and understood the
+                                    <a href="{% url 'terms' %}" target="_blank">Terms of use</a> and the
+                                    <a href="{% url 'privacy_notice' %}" target="_blank">Privacy notice</a>.
+                                </p>
+                                <p id="independent-child-legal" class="semi-bold">
+                                    I have read and understood the
+                                    <a href="{% url 'terms' %}#terms-children" target="_blank">Terms of use</a> and the
+                                    <a href="{% url 'privacy_notice' %}#privacy-children" target="_blank">Privacy notice</a>.
+                                </p>
+                            </div>
+                        </div>
+                        <div id="independent-newsletter" class="row form--row">
+                            {% include 'portal/partials/register_newsletter_tickbox.html' with newsletter_ticked=independent_student_signup_form.newsletter_ticked %}
+                        </div>
+                        <div id="independent-parent-notification" class="row form--row">
+                            <small><strong>We will send your parent/guardian an email to ask them to activate the account
+                            for you. Once they've done this you'll be able to log in using your name and password.</strong></small>
+                        </div>
+                        <div class="row form--row">
+                            <label for="id_{{ independent_student_signup_form.password.html_name }}">
+                            </label>
+                            <div class="input--icon">
+                                {{ independent_student_signup_form.password }} <span class="iconify" data-icon="mdi:security"></span>
+                            </div>
+                            <small>{{ independent_student_signup_form.password.help_text }}</small>
+                            {{ independent_student_signup_form.password.errors }}
+                        </div>
+                        <div class="row form--row">
+                            <label for="id_{{ independent_student_signup_form.confirm_password.html_name }}">
+                            </label>
+                            <div class="input--icon">
+                                {{ independent_student_signup_form.confirm_password }}<span class="iconify" data-icon="mdi:security"></span>
+                            </div>
+                            <small>{{ independent_student_signup_form.confirm_password.help_text }}</small>
+                            {{ independent_student_signup_form.confirm_password.errors }}
+                        </div>
+                        <div class="row--under">
+                            <div class="password-strength-container">
+                                <div id="student-password-sign" class="password-strength-sign">
+                                </div>
+                                <div id="student-password-text" class="password-strength-text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            {{ independent_student_signup_form.captcha }}
+                        </div>
+                        <div class="d-flex justify-content-end row">
+                            <button type="submit"
+                                    name="independent_student_signup"
+                                    class="button button--home button--icon"
+                                    value="Register">
+                                Register<span class="iconify" data-icon="mdi:chevron-right"></span>
+                            </button>
+                        </div>
+                        title
+                        message
+                        Cancel Confirm
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
-<script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
-<script type="text/javascript" src="{% static 'portal/js/independentRegistration.js' %}"></script>
-<script>
+    <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'portal/js/passwordStrength.js' %}"></script>
+    <script type="text/javascript"
+            src="{% static 'portal/js/independentRegistration.js' %}"></script>
+    <script>
     var TEACHER_PASSWORD_FIELD_ID = '{{ teacher_signup_form.teacher_password.auto_id }}';
     var INDEP_STUDENT_PASSWORD_FIELD_ID = '{{ independent_student_signup_form.password.auto_id }}';
-</script>
+    async function isPwnedPasswordApiAvailable(url) {
+        try {
+            const response = await fetch(url, {metheod: 'GET'})
+            return response.ok;
+        }
+        catch (error) {
+            console.error(error)
+            return false;
+        }
+    }
+    async function handlePwnedPasswordApiAvailability() {
+        const url = 'https://api.pwnedpasswords.com/range/00000';
+        const isAvailable = await isPwnedPasswordApiAvailable(url);
+        const errorTitle = 'Password Leak Verification Unavailable';
+        const errorMessage = "We were unable to verify if the password you entered was involved in any known password leaks. For your account's security, please ensure that you choose a strong and unique password, avoiding commonly used passwords.";
+        if (!isAvailable) {
+            showPopupConfirmation(errorTitle, errorMessage, 'hidePopupConfirmation()')
+        }
+    }
+    handlePwnedPasswordApiAvailability()
+    handlePasswordStrength(); // the password strength text is updated dynamically hence this is the initial first call
+    $(document).ready(function() {
+    $('#id_teacher_signup-teacher_password, #id_independent_student_signup-password').on('input change focus blur', handlePasswordStrength);
 
+});
+    </script>
 {% endblock content %}

@@ -12,7 +12,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
-from portal.helpers.password import PasswordStrength, form_clean_password
+from portal.helpers.password import PasswordStrength, form_clean_password, check_pwned_password
 from portal.helpers.regexes import ACCESS_CODE_PATTERN
 
 
@@ -238,6 +238,7 @@ class IndependentStudentSignupForm(forms.Form):
         password = self.cleaned_data.get("password", None)
         confirm_password = self.cleaned_data.get("confirm_password", None)
 
+        check_pwned_password(password)
         if password and confirm_password and password != confirm_password:
             raise forms.ValidationError("Your passwords do not match")
 
