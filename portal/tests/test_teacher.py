@@ -759,8 +759,8 @@ class TestTeacherFrontend(BaseTest):
 
         assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
 
-    def test_delete_account(self):
         FADE_TIME = 0.9  # often fails if lower
+    def test_delete_account(self):
 
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
@@ -817,6 +817,7 @@ class TestTeacherFrontend(BaseTest):
         page.browser.find_element_by_id("delete_button").click()
 
         # back to homepage
+        time.sleep(FADE_TIME)
         assert page.browser.find_element_by_class_name("banner--homepage")
 
         # user should not be able to login now
