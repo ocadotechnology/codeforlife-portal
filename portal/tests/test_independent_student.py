@@ -144,8 +144,8 @@ class TestIndependentStudentFrontend(BaseTest):
         delete_button_confirm.click()
 
         # check if can still login to the account
-        time.sleep(0.9)
         page = self.go_to_homepage()
+        time.sleep(0.9)
         assert page.go_to_independent_student_login_page().independent_student_login_failure(email, password)
 
         # now check if anonymised
