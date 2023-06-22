@@ -370,6 +370,7 @@ class TestTeacher(TestCase):
     def test_signup_email_verification(self):
         c = Client()
 
+        strong_password = generate_strong_password()
         response = c.post(
             reverse("register"),
             {
@@ -377,8 +378,8 @@ class TestTeacher(TestCase):
                 "teacher_signup-teacher_last_name": "Test Last Name",
                 "teacher_signup-teacher_email": "test@email.com",
                 "teacher_signup-consent_ticked": "on",
-                "teacher_signup-teacher_password": generate_strong_password(),
-                "teacher_signup-teacher_confirm_password": generate_strong_password(),
+                "teacher_signup-teacher_password": strong_password,
+                "teacher_signup-teacher_confirm_password": strong_password,
                 "g-recaptcha-response": "something",
             },
         )
