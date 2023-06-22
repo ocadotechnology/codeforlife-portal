@@ -17,6 +17,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
+from portal.helpers.password import generate_strong_password
 from portal.tests.base_test import BaseTest, click_buttons_by_id
 
 FADE_TIME = 0.9
@@ -36,7 +37,7 @@ class TestInviteTeacher(TestCase):
         invited_teacher_first_name = "Valid"
         invited_teacher_last_name = "Name"
         invited_teacher_email = "valid_email@example.com"
-        invited_teacher_password = "Password1!"
+        invited_teacher_password = generate_strong_password()
 
         # Invite another teacher to school and check they got an email
         dashboard_url = reverse("dashboard")

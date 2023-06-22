@@ -107,6 +107,9 @@ def render_signup_form(request):
             if independent_student_signup_form.is_valid():
                 data = independent_student_signup_form.cleaned_data
                 return process_independent_student_signup_form(request, data)
+            else:
+                for field, errors in independent_student_signup_form.errors.items():
+                    print(f"{field}: {', '.join(errors)}")
 
     res = render(
         request,

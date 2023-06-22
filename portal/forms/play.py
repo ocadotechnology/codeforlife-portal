@@ -235,7 +235,7 @@ class IndependentStudentSignupForm(forms.Form):
         return form_clean_password(self, "password", PasswordStrength.INDEPENDENT)
 
     def clean(self):
-        password = self.cleaned_data.get("password", None)
+        password = self.cleaned_data.get("password", "")
         confirm_password = self.cleaned_data.get("confirm_password", None)
 
         check_pwned_password(password)

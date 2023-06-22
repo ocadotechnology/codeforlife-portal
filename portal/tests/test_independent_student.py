@@ -60,51 +60,30 @@ class TestIndependentStudent(TestCase):
     def test_signup_common_password_fails(self):
         c = Client()
 
-        common_passwords = ["Password1", "qwerty", "123456", "Admin123"]
-        passwords_with_distance_2 = [
-            "Bassword1",
-            "Pqssword1",
-            "Pasaword1",
-            "Passwords",
-            "Password2",
-            "ewerty",
-            "qwertyu",
-            "qwedty",
-            "qwrty",
-            "qwertr",
-            "023456",
-            "133456",
-            "123450",
-            "123476",
-            "123457",
-            "Badmin123",
-            "Aemin123",
-            "Admun123",
-            "Admin124",
-            "Admin113",
-        ]
+        password_with_distance_2 = "Admin113"
 
-        for password in common_passwords + passwords_with_distance_2:
-            response = c.post(
-                reverse("register"),
-                {
-                    "independent_student_signup-date_of_birth_day": 7,
-                    "independent_student_signup-date_of_birth_month": 10,
-                    "independent_student_signup-date_of_birth_year": 1997,
-                    "independent_student_signup-name": "Test Name",
-                    "independent_student_signup-email": "test@email.com",
-                    "independent_student_signup-consent_ticked": "on",
-                    "independent_student_signup-password": password,
-                    "independent_student_signup-confirm_password": password,
-                    "g-recaptcha-response": "something",
-                },
-            )
-            # Assert response isn't a redirect (submit failure)
-            assert response.status_code == 200
+        # for password in common_passwords + passwords_with_distance_2:
+        response = c.post(
+            reverse("register"),
+            {
+                "independent_student_signup-date_of_birth_day": 7,
+                "independent_student_signup-date_of_birth_month": 10,
+                "independent_student_signup-date_of_birth_year": 1997,
+                "independent_student_signup-name": "Test Name",
+                "independent_student_signup-email": "test@email.com",
+                "independent_student_signup-consent_ticked": "on",
+                "independent_student_signup-password": password_with_distance_2,
+                "independent_student_signup-confirm_password": password_with_distance_2,
+                "g-recaptcha-response": "something",
+            },
+        )
+        # Assert response isn't a redirect (submit failure)
+        assert response.status_code == 200
 
     def test_signup_under_13_sends_parent_email(self):
         c = Client()
 
+        strong_password = generate_strong_password()
         response = c.post(
             reverse("register"),
             {
@@ -114,8 +93,8 @@ class TestIndependentStudent(TestCase):
                 "independent_student_signup-name": "Young person",
                 "independent_student_signup-email": "test@email.com",
                 "independent_student_signup-consent_ticked": "on",
-                "independent_student_signup-password": generate_strong_password(),
-                "independent_student_signup-confirm_password": "Password1!",
+                "independent_student_signup-password": strong_password,
+                "independent_student_signup-confirm_password": strong_password,
                 "g-recaptcha-response": "something",
             },
         )

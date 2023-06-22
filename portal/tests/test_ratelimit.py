@@ -20,6 +20,7 @@ from django.urls import reverse
 from django.urls import reverse_lazy
 
 from portal.helpers.ratelimit import get_ratelimit_count_for_user
+from portal.helpers.password import generate_strong_password
 from portal.views.login import has_user_lockout_expired
 
 
@@ -169,15 +170,15 @@ class TestRatelimit(TestCase):
         c.login(username=teacher_email, password=teacher_password)
         c.post(url, data)
         assert not self._is_user_blocked(Student, student_name, klass_access_code)
-        from portal.helpers.password import generate_strong_password
 
         # now block again and test the edit by student method
         self._block_user(Student, student_name, klass_access_code)
         assert self._is_user_blocked(Student, student_name, klass_access_code)
         url = reverse_lazy("teacher_edit_student", kwargs={"pk": current_student.id})
+        student_password = generate_strong_password()
         data = {
-            "password": generate_strong_password(),
-            "confirm_password": generate_strong_password(),
+            "password": student_password,
+            "confirm_password": student_password,
             "set_password": "",
         }
 
