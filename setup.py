@@ -47,6 +47,6 @@ setup(
         "setuptools==62.1.0",  # upgrading this causes an error when publishing the cfl_common package to PyPI for some reason, see https://github.com/ocadotechnology/codeforlife-portal/actions/runs/3883963564/jobs/6625894054
         "django-import-export",
     ],
-    classifiers=["Programming Language :: Python", "Programming Language :: Python :: 3.7", "Framework :: Django"],
+    classifiers=["Programming Language :: Python", "Programming Language :: Python :: 3.8", "Framework :: Django"],
     zip_safe=False,
 )

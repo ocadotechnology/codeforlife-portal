@@ -25,4 +25,4 @@ PyPDF2 = "==2.10.6"
 black = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
