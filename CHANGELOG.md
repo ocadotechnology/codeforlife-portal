@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v6.32.0 (2023-06-23)
+
+### Feature
+
+* Upgrade Python to 3.8 ([#2104](https://github.com/ocadotechnology/codeforlife-portal/issues/2104)) ([`41fe95b`](https://github.com/ocadotechnology/codeforlife-portal/commit/41fe95b6fba639076ae262717ed179e9bf17c204))
+
 ## v6.31.2 (2023-06-16)
 
 ### Fix
