@@ -16,10 +16,10 @@ describe("Independent student", () => {
     testRegistration(cy.signupAsIndependentStudent,["Test Name", "test@email.com", "pass", "pass"],
         false, PASSWORD_TOO_WEAK_MESSAGE);
 
-    testRegistration(cy.signupAsIndependentStudent,["Test Name", "test@email.com", "Password1!", "Password2!"],
+    testRegistration(cy.signupAsIndependentStudent,["Test Name", "test@email.com", "£EDCVFR$5tgb", "%TGBNHY^7ujm"],
         false, PASSWORD_DO_NOT_MATCH_MESSAGE);
 
-    testRegistration(cy.signupAsIndependentStudent,["///", "test@email.com", "Password1!", "Password1!"],
+    testRegistration(cy.signupAsIndependentStudent,["///", "test@email.com", "£EDCVFR$5tgb", "£EDCVFR$5tgb"],
         false, INVALID_NAME_MESSAGE);
   });
 });
