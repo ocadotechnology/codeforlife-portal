@@ -103,7 +103,9 @@ class TestSchoolStudent(BaseTest):
         )
         assert self.is_dashboard(page)
 
-        page = page.go_to_account_page().update_password_failure("NewPassword", "NewPassword", "WrongPassword")
+        page = page.go_to_account_page().update_password_failure(
+            "£EDCVFR$5tgb", "£EDCVFR$5tgb", "Wrong_123$£$3_Password"
+        )
         assert self.is_account_page(page)
         assert page.was_form_invalid("student_account_form", "Your current password was incorrect")
 
@@ -122,7 +124,7 @@ class TestSchoolStudent(BaseTest):
         )
         assert self.is_dashboard(page)
 
-        page = page.go_to_account_page().update_password_failure("NewPassword1", "OtherPassword1", student_password)
+        page = page.go_to_account_page().update_password_failure("£EDECVFR$5tgb", "%TGBNHY^&ujm,ki8", student_password)
         assert self.is_account_page(page)
         assert page.was_form_invalid("student_account_form", "Your new passwords do not match")
 
@@ -163,7 +165,7 @@ class TestSchoolStudent(BaseTest):
         )
         assert self.is_dashboard(page)
 
-        new_password = "NewPassword"
+        new_password = "£EDCVFR$%TGBhny6"
 
         page = page.go_to_account_page().update_password_success(new_password, student_password)
         assert is_student_details_updated_message_showing(self.selenium)

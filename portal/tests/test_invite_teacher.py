@@ -36,7 +36,7 @@ class TestInviteTeacher(TestCase):
         invited_teacher_first_name = "Valid"
         invited_teacher_last_name = "Name"
         invited_teacher_email = "valid_email@example.com"
-        invited_teacher_password = "Password1!"
+        invited_teacher_password = "$RRFVBGT%^yhnmju7"
 
         # Invite another teacher to school and check they got an email
         dashboard_url = reverse("dashboard")

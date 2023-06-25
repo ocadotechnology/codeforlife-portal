@@ -352,7 +352,7 @@ class TestTeacherStudentFrontend(BaseTest):
 
         assert page.is_student_name(name)
 
-        new_student_password = "New_password1"
+        new_student_password = "£EDCVFR$5tgb"
 
         page = page.type_student_password(new_student_password)
         page = page.click_set_password_button()
