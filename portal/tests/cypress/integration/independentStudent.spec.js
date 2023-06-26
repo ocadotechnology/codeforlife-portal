@@ -29,7 +29,7 @@ describe('Independent student', () => {
     );
     testRegistration(
       cy.signupAsIndependentStudent,
-      ['Test Name', 'Password123$', 'Password123$'],
+      ['Test Name','test@email.com', 'Password123$', 'Password123$'],
       false,
       PASSWORD_TOO_COMMON_MESSAGE
     );
