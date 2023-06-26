@@ -2,9 +2,7 @@
 {% load static %}
 {% load app_tags %}
 {% block content %}
-    {% include "portal/partials/popup.html" %}
-    {% include "portal/partials/delete_popup.html" %}
-    {% include "portal/partials/invite_admin_teacher.html" %}
+    {% include "portal/partials/service_unavailable_popup.html" %}
     <div id="signup_page"></div>
     <div id="register-forms" class="container registration">
         <div class="form--register--text form--register form--register--teacher is-flex-item col-sm-6">
@@ -209,10 +207,10 @@
     async function handlePwnedPasswordApiAvailability() {
         const url = 'https://api.pwnedpasswords.com/range/00000';
         const isAvailable = await isPwnedPasswordApiAvailable(url);
-        const errorTitle = 'Password Leak Verification Unavailable';
-        const errorMessage = "We were unable to verify if the password you entered was involved in any known password leaks. For your account's security, please ensure that you choose a strong and unique password, avoiding commonly used passwords.";
+        const errorTitle = 'Password Vulnerability Check Unavailable';
+        const errorMessage = "We are currently unable to check your password vulnerability. Please ensure that you are using a strong password.If you are happy to continue, please confirm.";
         if (!isAvailable) {
-            showPopupConfirmation(errorTitle, errorMessage, 'hidePopupConfirmation()')
+            showServiceUnavailable(errorTitle, errorMessage)
         }
     }
     handlePwnedPasswordApiAvailability()
