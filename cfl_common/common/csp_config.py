@@ -6,6 +6,7 @@ CSP_DEFAULT_SRC = ("self",)
 CSP_CONNECT_SRC = (
     "'self'",
     "https://*.onetrust.com/",
+    "https://api.pwnedpasswords.com",
     "https://euc-widget.freshworks.com/",
     "https://codeforlife.freshdesk.com/",
     "https://api.iconify.design/",
@@ -14,7 +15,7 @@ CSP_CONNECT_SRC = (
     "https://www.google-analytics.com/",
     "https://pyodide-cdn2.iodide.io/v0.15.0/full/",
     "https://crowdin.com/",
-    f"wss://{MODULE_NAME}-aimmo.codeforlife.education/",
+    "" f"wss://{MODULE_NAME}-aimmo.codeforlife.education/",
     f"https://{MODULE_NAME}-aimmo.codeforlife.education/",
 )
 CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com/", "https://fonts.googleapis.com/", "https://use.typekit.net/")
@@ -22,6 +23,7 @@ CSP_SCRIPT_SRC = (
     "'self'",
     "'unsafe-inline'",
     "'unsafe-eval'",
+    "https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js",
     "https://cdn.crowdin.com/",
     "https://*.onetrust.com/",
     "https://code.jquery.com/",

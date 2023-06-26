@@ -54,9 +54,7 @@ class PasswordStrength(Enum):
                     f"Password not strong enough, consider using at least {minimum_password_length} characters and making it hard to guess."
                 )
             if is_password_pwned(password):
-                raise forms.ValidationError(
-                    "Password has been found in a data breach, please choose a different password."
-                )
+                raise forms.ValidationError("Password is too common, consider using a different password.")
 
         elif self is PasswordStrength.INDEPENDENT:
             minimum_password_length = 8
@@ -73,9 +71,7 @@ class PasswordStrength(Enum):
                     "upper and lower case letters, and numbers and making it hard to guess."
                 )
             if is_password_pwned(password):
-                raise forms.ValidationError(
-                    "Password has been found in a data breach, please choose a different password."
-                )
+                raise forms.ValidationError("Password is too common, consider using a different password.")
         else:
             minimum_password_length = 10
             if password and not password_strength_test(
@@ -91,9 +87,7 @@ class PasswordStrength(Enum):
                     "upper and lower case letters, numbers, special characters and making it hard to guess."
                 )
             if is_password_pwned(password):
-                raise forms.ValidationError(
-                    "Password has been found in a data breach, please choose a different password."
-                )
+                raise forms.ValidationError("Password is too common, consider using a different password.")
 
         return password
 
