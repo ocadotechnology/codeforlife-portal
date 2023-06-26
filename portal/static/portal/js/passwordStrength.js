@@ -45,27 +45,6 @@ const getPwnedStatus = async (password) => {
 
   const doesSuffixExist = (data, suffix) => data.includes(suffix);
 
-  const calculateLevenshteinDistance = async (a, b) => {
-    if (a.length === 0) return b.length;
-    if (b.length === 0) return a.length;
-
-    const matrix = Array.from({ length: a.length + 1 }, (_, i) => [i]);
-    for (let j = 1; j <= b.length; j++) matrix[0][j] = j;
-
-    for (let i = 1; i <= a.length; i++) {
-      for (let j = 1; j <= b.length; j++) {
-        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-        matrix[i][j] = Math.min(
-          matrix[i - 1][j] + 1, // deletion
-          matrix[i][j - 1] + 1, // insertion
-          matrix[i - 1][j - 1] + cost // substitution
-        );
-      }
-    }
-
-    return matrix[a.length][b.length];
-  };
-
   try {
     const hashedPassword = computeSHA1Hash(password);
     const prefix = hashedPassword.substring(0, 5);
@@ -83,21 +62,6 @@ const getPwnedStatus = async (password) => {
 
     if (doesSuffixExist(data, suffix)) {
       return false;
-    }
-
-    const similarPasswords = data
-      .split('\n')
-      .map((line) => line.split(':'))
-      .filter(
-        ([hashSuffix]) => calculateLevenshteinDistance(suffix, hashSuffix) <= 2
-      );
-
-    if (similarPasswords.length > 0) {
-      similarPasswords.forEach(([hashSuffix, count]) =>
-        console.log(`Hash: ${hashSuffix}, Occurrences: ${count}`)
-      );
-    } else {
-      return true;
     }
     return true;
   } catch (error) {
