@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v6.33.0 (2023-06-27)
+
+### Feature
+
+* Added the backend feature of pwned passwords ([#2106](https://github.com/ocadotechnology/codeforlife-portal/issues/2106)) ([`d09d0c0`](https://github.com/ocadotechnology/codeforlife-portal/commit/d09d0c05057677207fe93f51a567b28564806fe3))
+
 ## v6.32.0 (2023-06-23)
 
 ### Feature
