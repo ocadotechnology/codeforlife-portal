@@ -181,25 +181,6 @@ class TestTeacher(TestCase):
         # Check that teacher 2 can access game 1
         assert game1.can_user_play(teacher2.new_user)
 
-    def test_password_too_common(self):
-        email, _ = signup_teacher_directly()
-        create_organisation_directly(email)
-        _, _, access_code = create_class_directly(email)
-        student_name, student_password, _ = create_school_student_directly(access_code)
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_student_login_page()
-            .student_input_access_code(access_code)
-            .student_login(student_name, student_password)
-        )
-        assert self.is_dashboard(page)
-
-        page = page.go_to_account_page().update_password_failure("tiny", "tiny", student_password)
-        assert self.is_account_page(page)
-        assert page.was_form_invalid("form-reg-teacher", "Password is too common, consider using a different password.")
-
     def test_moved_student_has_access_to_only_new_teacher_games(self):
         """
         Given a student in a class,
@@ -435,6 +416,25 @@ class TestTeacher(TestCase):
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
 class TestTeacherFrontend(BaseTest):
+    def test_password_too_common(self):
+        email, _ = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        student_name, student_password, _ = create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = (
+            HomePage(self.selenium)
+            .go_to_student_login_page()
+            .student_input_access_code(access_code)
+            .student_login(student_name, student_password)
+        )
+        assert self.is_dashboard(page)
+
+        page = page.go_to_account_page().update_password_failure("tiny", "tiny", student_password)
+        assert self.is_account_page(page)
+        assert page.was_form_invalid("form-reg-teacher", "Password is too common, consider using a different password.")
+
     def test_signup_without_newsletter(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
