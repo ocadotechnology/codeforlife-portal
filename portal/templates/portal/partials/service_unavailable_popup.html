@@ -1,0 +1,17 @@
+{% load static %}
+{# A screen-time warning popup with a Continue button. #}
+<section id="service-unavailable-popup" class="popup-wrapper">
+  <div class="popup-box">
+    <div class="popup-box__title flex-column justify-content-center">
+      <div class="popup-box__title">
+        <h5 class="mt-1"></h5>
+      </div>
+      <div class="popup-box__msg"></div>
+      <div class="popup-box__buttons mt-0">
+        <a id="screentime_continue_button"
+           class='button button--primary'
+           onclick="hideServiceUnavailable()"
+           aria-labelledby="screentime_continue_button">Confirm</a>
+      </div>
+    </div>
+  </section>

@@ -174,7 +174,8 @@ class TestRatelimit(TestCase):
         self._block_user(Student, student_name, klass_access_code)
         assert self._is_user_blocked(Student, student_name, klass_access_code)
         url = reverse_lazy("teacher_edit_student", kwargs={"pk": current_student.id})
-        data = {"password": "password1", "confirm_password": "password1", "set_password": ""}
+        strong_password = "£EDCVFR$5tgbnhy6"
+        data = {"password": strong_password, "confirm_password": strong_password, "set_password": ""}
 
         c.post(url, data)
         assert not self._is_user_blocked(Student, student_name, klass_access_code)
@@ -406,7 +407,8 @@ class TestRatelimit(TestCase):
         c.login(username=teacher_email, password=teacher_password)
 
         url = reverse_lazy("teacher_edit_student", kwargs={"pk": student.id})
-        data = {"password": "password1", "confirm_password": "password1", "set_password": ""}
+        strong_password = "£EDCVFR$5tgb"
+        data = {"password": strong_password, "confirm_password": strong_password, "set_password": ""}
 
         response = c.post(url, data)
         old_daily_activity = DailyActivity.objects.get(date=old_date)

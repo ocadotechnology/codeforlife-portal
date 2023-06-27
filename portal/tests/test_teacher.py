@@ -308,6 +308,22 @@ class TestTeacher(TestCase):
         # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
 
+        response = c.post(
+            reverse("register"),
+            {
+                "independent_student_signup-date_of_birth_day": 7,
+                "independent_student_signup-date_of_birth_month": 10,
+                "independent_student_signup-date_of_birth_year": 1997,
+                "independent_student_signup-name": "Test Name",
+                "independent_student_signup-email": "test@email.com",
+                "independent_student_signup-consent_ticked": "on",
+                "independent_student_signup-password": "Password123$",
+                "independent_student_signup-confirm_password": "Password123$",
+                "g-recaptcha-response": "something",
+            },
+        )
+        assert response.status_code == 200
+
     def test_signup_passwords_do_not_match_fails(self):
         c = Client()
 
@@ -400,6 +416,20 @@ class TestTeacher(TestCase):
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
 class TestTeacherFrontend(BaseTest):
+    def test_password_too_common(self):
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_signup_page()
+        page = page.signup("first_name", "last_name", "e@ma.il", "Password123$", "Password123$", success=False)
+        try:
+            submit_button = WebDriverWait(self.selenium, 10).until(
+                EC.element_to_be_clickable((By.NAME, "teacher_signup"))
+            )
+            submit_button.click()
+        except:
+            assert page.was_form_invalid(
+                "form-reg-teacher", "Password is too common, consider using a different password."
+            )
+
     def test_signup_without_newsletter(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
@@ -483,7 +513,7 @@ class TestTeacherFrontend(BaseTest):
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password).open_account_tab()
 
         page = page.change_teacher_details(
-            {"first_name": "Paulina", "last_name": "Koch", "current_password": "Password2!"}
+            {"first_name": "Paulina", "last_name": "Koch", "current_password": "$RFVBGT%6yhn"}
         )
         assert self.is_dashboard_page(page)
         assert is_teacher_details_updated_message_showing(self.selenium)
@@ -504,7 +534,7 @@ class TestTeacherFrontend(BaseTest):
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_2, password_2).open_account_tab()
 
         page = page.change_teacher_details(
-            {"first_name": "Florian", "last_name": "Aucomte", "current_password": "Password2!"}
+            {"first_name": "Florian", "last_name": "Aucomte", "current_password": password_2}
         )
         assert self.is_dashboard_page(page)
         assert is_teacher_details_updated_message_showing(self.selenium)

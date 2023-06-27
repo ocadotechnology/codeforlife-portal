@@ -1,82 +1,126 @@
-var TEACHER_PASSWORD_FIELD_ID = '';
-var INDEP_STUDENT_PASSWORD_FIELD_ID = '';
-let teacher_password_field = '';
-let indep_student_password_field = '';
-let most_used_passwords = ['Abcd1234', 'Password1', 'Qwerty123'];
-
 let password_strengths = [
-    { name: 'No password!', colour: '#FF0000' },
-    { name: 'Password too weak!', colour: '#DBA901' },
-    { name: 'Strong password!', colour: '#088A08' },
-    { name: 'Password too common!', colour: '#DBA901' }
+  { name: 'No password!', colour: '#FF0000' },
+  { name: 'Password too weak!', colour: '#DBA901' },
+  { name: 'Password too common!', colour: '#DBA901' },
+  { name: 'Strong password!', colour: '#088A08' }
 ];
 
-$(function() {
+async function handlePasswordStrength() {
+  const teacherPwd = $('#id_teacher_signup-teacher_password').val();
+  const studentPwd = $('#id_independent_student_signup-password').val();
 
-    teacher_password_field = $('#' + TEACHER_PASSWORD_FIELD_ID);
-    indep_student_password_field = $('#' + INDEP_STUDENT_PASSWORD_FIELD_ID);
+  const isTeacherPwdTyped = teacherPwd.length > 0;
+  const isStudentPwdTyped = studentPwd.length > 0;
 
-    setUpDynamicUpdates(teacher_password_field, true);
-    setUpDynamicUpdates(indep_student_password_field, false);
+  const isTeacherPwdStrong =
+    isTeacherPwdTyped && isPasswordStrong(teacherPwd, true);
+  const isStudentPwdStrong =
+    isStudentPwdTyped && isPasswordStrong(studentPwd, false);
 
-    updatePasswordStrength(true);
-    updatePasswordStrength(false);
-});
+  const isTeacherPwdSafe =
+    isTeacherPwdStrong && (await !isPasswordPwned(teacherPwd));
+  const isStudentPwdSafe =
+    isStudentPwdStrong && (await !isPasswordPwned(studentPwd));
 
-function setUpDynamicUpdates(password_field, isTeacher) {
-    password_field.on('keyup', function(){
-        updatePasswordStrength(isTeacher)
-    });
-    password_field.on('paste', function(){
-        updatePasswordStrength(isTeacher)
-    });
-    password_field.on('cut', function(){
-        updatePasswordStrength(isTeacher)
-    });
+  const teacherPwdStrength = [
+    isTeacherPwdTyped,
+    isTeacherPwdStrong,
+    isTeacherPwdSafe
+  ].filter(Boolean).length;
+  const studentPwdStrength = [
+    isStudentPwdTyped,
+    isStudentPwdStrong,
+    isStudentPwdSafe
+  ].filter(Boolean).length;
+
+  $('#teacher-password-sign').css(
+    'background-color',
+    password_strengths[teacherPwdStrength].colour
+  );
+  $('#teacher-password-text').html(password_strengths[teacherPwdStrength].name);
+  $('#student-password-sign').css(
+    'background-color',
+    password_strengths[studentPwdStrength].colour
+  );
+  $('#student-password-text').html(password_strengths[studentPwdStrength].name);
 }
 
-function updatePasswordStrength(isTeacher) {
-    // The reason for the timeout is that if we just got $('#...').val() we'd get the
-    // old value before the keypress / change. Apparently even jQuery itself implements
-    // things this way, so maybe there is no better workaround.
+const isPasswordPwned = async (password) => {
+  const computeSHA1Hash = (password) =>
+    CryptoJS.SHA1(password).toString().toUpperCase();
 
-    setTimeout(function() {
-        let password;
+  try {
+    const hashedPassword = computeSHA1Hash(password);
+    const prefix = hashedPassword.substring(0, 5);
+    const suffix = hashedPassword.substring(5);
+    const apiUrl = `https://api.pwnedpasswords.com/range/${prefix}`;
 
-        if (isTeacher) {
-            password = $('#' + TEACHER_PASSWORD_FIELD_ID).val();
-        }
-        else {
-            password = $('#' + INDEP_STUDENT_PASSWORD_FIELD_ID).val();
-        }
+    const response = await fetch(apiUrl);
 
-        let strength = 0;
-        if (password.length > 0) { strength++; }
-        if (isPasswordStrong(password, isTeacher)) { strength++; }
+    if (!response.ok) {
+      return false; // ignore the check if the server is down as the popup warns
+      // the user that we cannot check the password
+    }
 
-        if ($.inArray(password, most_used_passwords) >= 0 && strength == 2) { strength = 3; }
+    const data = await response.text();
 
-        if (isTeacher) {
-            updatePasswordCSS('#teacher-password-sign', '#teacher-password-text', strength);
-        }
-        else {
-            updatePasswordCSS('#student-password-sign', '#student-password-text', strength);
-        }
-
-    });
-}
+    if (data.includes(suffix)) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error(`Request failed with error: ${error.message}`);
+    return false;
+  }
+};
 
 function isPasswordStrong(password, isTeacher) {
-    if (isTeacher) {
-        return password.length >= 10 && !(password.search(/[A-Z]/) === -1 || password.search(/[a-z]/) === -1 || password.search(/[0-9]/) === -1 || password.search(/[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]/) === -1)
-    }
-    else {
-        return password.length >= 8 && !(password.search(/[A-Z]/) === -1 || password.search(/[a-z]/) === -1 || password.search(/[0-9]/) === -1)
-    }
+  if (isTeacher) {
+    return (
+      password.length >= 10 &&
+      !(
+        password.search(/[A-Z]/) === -1 ||
+        password.search(/[a-z]/) === -1 ||
+        password.search(/[0-9]/) === -1 ||
+        password.search(/[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]/) === -1
+      )
+    );
+  } else {
+    return (
+      password.length >= 8 &&
+      !(
+        password.search(/[A-Z]/) === -1 ||
+        password.search(/[a-z]/) === -1 ||
+        password.search(/[0-9]/) === -1
+      )
+    );
+  }
 }
 
-function updatePasswordCSS(passwordStrengthSign, passwordStrengthText, strength) {
-    $(passwordStrengthSign).css('background-color', password_strengths[strength].colour);
-    $(passwordStrengthText).html(password_strengths[strength].name);
+async function isPwnedPasswordApiAvailable(url) {
+  try {
+    const response = await fetch(url, { metheod: 'GET' });
+    return response.ok;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+async function handlePwnedPasswordApiAvailability() {
+  const url = 'https://api.pwnedpasswords.com/range/00000';
+  const isAvailable = await isPwnedPasswordApiAvailable(url);
+  const errorTitle = 'Password Vulnerability Check Unavailable';
+  const errorMessage =
+    'We are currently unable to check your password vulnerability. Please ensure that you are using a strong password. If you are happy to continue, please confirm.';
+  if (!isAvailable) {
+    showServiceUnavailable(errorTitle, errorMessage);
+  }
 }
 
+$(document).ready(function () {
+  handlePasswordStrength(); // the password strength text is updated dynamically hence this is the initial first call
+  handlePwnedPasswordApiAvailability();
+  $(
+    '#id_teacher_signup-teacher_password, #id_independent_student_signup-password'
+  ).on('input change focus blur', handlePasswordStrength);
+});

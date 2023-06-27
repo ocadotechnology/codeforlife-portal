@@ -103,7 +103,9 @@ class TestSchoolStudent(BaseTest):
         )
         assert self.is_dashboard(page)
 
-        page = page.go_to_account_page().update_password_failure("NewPassword", "NewPassword", "WrongPassword")
+        page = page.go_to_account_page().update_password_failure(
+            "£EDCVFR$5tgb", "£EDCVFR$5tgb", "Wrong_123$£$3_Password"
+        )
         assert self.is_account_page(page)
         assert page.was_form_invalid("student_account_form", "Your current password was incorrect")
 
@@ -122,7 +124,7 @@ class TestSchoolStudent(BaseTest):
         )
         assert self.is_dashboard(page)
 
-        page = page.go_to_account_page().update_password_failure("NewPassword1", "OtherPassword1", student_password)
+        page = page.go_to_account_page().update_password_failure("£EDECVFR$5tgb", "%TGBNHY^&ujm,ki8", student_password)
         assert self.is_account_page(page)
         assert page.was_form_invalid("student_account_form", "Your new passwords do not match")
 
@@ -148,6 +150,27 @@ class TestSchoolStudent(BaseTest):
             "Password not strong enough, consider using at least 6 characters and making it hard to guess.",
         )
 
+    def test_update_password_too_common(self):
+        email, _ = signup_teacher_directly()
+        create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        student_name, student_password, _ = create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = (
+            HomePage(self.selenium)
+            .go_to_student_login_page()
+            .student_input_access_code(access_code)
+            .student_login(student_name, student_password)
+        )
+        assert self.is_dashboard(page)
+
+        page = page.go_to_account_page().update_password_failure("Password123$", "Password123$", student_password)
+        assert self.is_account_page(page)
+        assert page.was_form_invalid(
+            "student_account_form", "Password is too common, consider using a different password."
+        )
+
     def test_update_password_success(self):
         email, _ = signup_teacher_directly()
         create_organisation_directly(email)
@@ -163,7 +186,7 @@ class TestSchoolStudent(BaseTest):
         )
         assert self.is_dashboard(page)
 
-        new_password = "NewPassword"
+        new_password = "£EDCVFR$%TGBhny6"
 
         page = page.go_to_account_page().update_password_success(new_password, student_password)
         assert is_student_details_updated_message_showing(self.selenium)

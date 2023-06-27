@@ -12,7 +12,16 @@ class SignupPage(BasePage):
 
         assert self.on_correct_page("signup_page")
 
-    def signup(self, first_name, last_name, email, password, confirm_password, success=True, newsletter=False):
+    def signup(
+        self,
+        first_name,
+        last_name,
+        email,
+        password,
+        confirm_password,
+        success=True,
+        newsletter=False,
+    ):
         self.browser.find_element_by_id("id_teacher_signup-teacher_first_name").send_keys(first_name)
         self.browser.find_element_by_id("id_teacher_signup-teacher_last_name").send_keys(last_name)
         self.browser.find_element_by_id("id_teacher_signup-teacher_email").send_keys(email)

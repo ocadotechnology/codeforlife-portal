@@ -38,11 +38,31 @@ function hidePopupConfirmation() {
   $("#popup").find(".popup-text").remove();
 }
 
+
+/**
+
+Show a service unavailable popup with a close button in the top-right corner.
+@param {String} title The title of the popup.
+@param {String} text The message of the popup.
+*/
+
+function showServiceUnavailable(title, text) {
+  let popup = $("#service-unavailable-popup");
+  popup.find(".popup-box__title > h5").text(title);
+  popup.find(".popup-box__msg").append(text);
+
+  popup.addClass("popup--fade");
+}
+
+function hideServiceUnavailable() {
+  $("#service-unavailable-popup").removeClass("popup--fade");
+}
 /**
  * Show an info popup with a close button in the top-right corner.
  * @param {String} title The title of the popup.
  * @param {String} text The message of the popup.
  */
+
 function showInfoPopup(title, text) {
   let popup = $("#info-popup");
   popup.find(".popup-box__title > h5").text(title);

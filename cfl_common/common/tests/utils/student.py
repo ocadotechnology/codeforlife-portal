@@ -91,7 +91,7 @@ def generate_independent_student_details():
     name = "Independent Student %d" % generate_independent_student_details.next_id
     email_address = "student%d@codeforlife.com" % generate_independent_student_details.next_id
     username = email_address
-    password = "Password2"
+    password = "$RFVBGT%^YHNmju7"
 
     generate_independent_student_details.next_id += 1
 

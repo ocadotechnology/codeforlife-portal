@@ -7,6 +7,34 @@ from django.contrib.auth.hashers import PBKDF2PasswordHasher as ph
 from django.core.exceptions import ValidationError
 
 
+import hashlib
+import requests
+
+
+def is_password_pwned(password):
+    # Create SHA1 hash of the password
+    sha1_hash = hashlib.sha1(password.encode()).hexdigest()
+    prefix = sha1_hash[:5]  # Take the first 5 characters of the hash as the prefix
+
+    # Make a request to the Pwned Passwords API
+    url = f"https://api.pwnedpasswords.com/range/{prefix}"
+    response = requests.get(url)
+
+    if response.status_code != 200:
+        return False  # backend ignore this and frontend tells the user
+        # that we cannot verify this at the moment
+
+    # Check if the password's hash is found in the response body
+    hash_suffixes = response.text.split("\r\n")
+    for suffix in hash_suffixes:
+        # Compare the suffix from the hash to the api response
+        # api response is using the format of suffix:count hence
+        # we need to get rid of the ending count number
+        if sha1_hash[5:].upper() == suffix[:35].upper():
+            return True
+    return False
+
+
 class PasswordStrength(Enum):
     STUDENT = auto()
     INDEPENDENT = auto()
@@ -28,6 +56,9 @@ class PasswordStrength(Enum):
                 raise forms.ValidationError(
                     f"Password not strong enough, consider using at least {minimum_password_length} characters and making it hard to guess."
                 )
+            if is_password_pwned(password):
+                raise forms.ValidationError("Password is too common, consider using a different password.")
+
         elif self is PasswordStrength.INDEPENDENT:
             minimum_password_length = 8
             if password and not password_strength_test(
@@ -42,6 +73,8 @@ class PasswordStrength(Enum):
                     f"Password not strong enough, consider using at least {minimum_password_length} characters, "
                     "upper and lower case letters, and numbers and making it hard to guess."
                 )
+            if is_password_pwned(password):
+                raise forms.ValidationError("Password is too common, consider using a different password.")
         else:
             minimum_password_length = 10
             if password and not password_strength_test(
@@ -56,6 +89,9 @@ class PasswordStrength(Enum):
                     f"Password not strong enough, consider using at least {minimum_password_length} characters, "
                     "upper and lower case letters, numbers, special characters and making it hard to guess."
                 )
+            if is_password_pwned(password):
+                raise forms.ValidationError("Password is too common, consider using a different password.")
+
         return password
 
 

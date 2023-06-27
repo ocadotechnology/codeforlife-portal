@@ -77,6 +77,22 @@ class TestIndependentStudent(TestCase):
         # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
 
+        response = c.post(
+            reverse("register"),
+            {
+                "independent_student_signup-date_of_birth_day": 7,
+                "independent_student_signup-date_of_birth_month": 10,
+                "independent_student_signup-date_of_birth_year": 1997,
+                "independent_student_signup-name": "Test Name",
+                "independent_student_signup-email": "test@email.com",
+                "independent_student_signup-consent_ticked": "on",
+                "independent_student_signup-password": "Password123$",
+                "independent_student_signup-confirm_password": "Password123$",
+                "g-recaptcha-response": "something",
+            },
+        )
+        assert response.status_code == 200
+
     def test_signup_passwords_do_not_match_fails(self):
         c = Client()
 
@@ -110,8 +126,8 @@ class TestIndependentStudent(TestCase):
                 "independent_student_signup-name": "///",
                 "independent_student_signup-email": "test@email.com",
                 "independent_student_signup-consent_ticked": "on",
-                "independent_student_signup-password": "Password1!",
-                "independent_student_signup-confirm_password": "Password1!",
+                "independent_student_signup-password": "$RRFVBGT%6yhnmju7",
+                "independent_student_signup-confirm_password": "$RRFVBGT%6yhnmju7",
                 "g-recaptcha-response": "something",
             },
         )
@@ -131,8 +147,8 @@ class TestIndependentStudent(TestCase):
                 "independent_student_signup-name": "Young person",
                 "independent_student_signup-email": "test@email.com",
                 "independent_student_signup-consent_ticked": "on",
-                "independent_student_signup-password": "Password1!",
-                "independent_student_signup-confirm_password": "Password1!",
+                "independent_student_signup-password": "$RRFVBGT%6yhnmju7",
+                "independent_student_signup-confirm_password": "$RRFVBGT%6yhnmju7",
                 "g-recaptcha-response": "something",
             },
         )
@@ -215,8 +231,9 @@ class TestIndependentStudentFrontend(BaseTest):
         page = self.go_to_homepage()
         page = page.go_to_signup_page()
 
+        strong_password = "£EDCVFR$5tgbnhy6"
         page = page.independent_student_signup(
-            "indy", teacher_email, password="Password1!", confirm_password="Password1!"
+            "indy", teacher_email, password=strong_password, confirm_password=strong_password
         )
 
         page.return_to_home_page()
