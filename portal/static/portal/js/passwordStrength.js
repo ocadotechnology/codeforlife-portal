@@ -22,7 +22,7 @@ async function handlePasswordStrength() {
   const isStudentPwdSafe =
     isStudentPwdStrong && (await !isPasswordPwned(studentPwd));
 
-  const teacherPwdStr = [
+  const teacherPwdStrength = [
     isTeacherPwdTyped,
     isTeacherPwdStrong,
     isTeacherPwdSafe
@@ -35,9 +35,9 @@ async function handlePasswordStrength() {
 
   $('#teacher-password-sign').css(
     'background-color',
-    password_strengths[teacherPwdStr].colour
+    password_strengths[teacherPwdStrength].colour
   );
-  $('#teacher-password-text').html(password_strengths[teacherPwdStr].name);
+  $('#teacher-password-text').html(password_strengths[teacherPwdStrength].name);
   $('#student-password-sign').css(
     'background-color',
     password_strengths[studentPwdStrength].colour
@@ -70,7 +70,7 @@ const isPasswordPwned = async (password) => {
     return false;
   } catch (error) {
     console.error(`Request failed with error: ${error.message}`);
-    return true;
+    return false;
   }
 };
 
@@ -116,3 +116,11 @@ async function handlePwnedPasswordApiAvailability() {
     showServiceUnavailable(errorTitle, errorMessage);
   }
 }
+
+$(document).ready(function () {
+  handlePasswordStrength(); // the password strength text is updated dynamically hence this is the initial first call
+  handlePwnedPasswordApiAvailability();
+  $(
+    '#id_teacher_signup-teacher_password, #id_independent_student_signup-password'
+  ).on('input change focus blur', handlePasswordStrength);
+});

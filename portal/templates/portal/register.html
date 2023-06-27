@@ -191,14 +191,4 @@
             src="{% static 'portal/js/passwordStrength.js' %}"></script>
     <script type="text/javascript"
             src="{% static 'portal/js/independentRegistration.js' %}"></script>
-    <script>
-    var TEACHER_PASSWORD_FIELD_ID = '{{ teacher_signup_form.teacher_password.auto_id }}';
-    var INDEP_STUDENT_PASSWORD_FIELD_ID = '{{ independent_student_signup_form.password.auto_id }}';
-    $(document).ready(function() {
-    handlePasswordStrength(); // the password strength text is updated dynamically hence this is the initial first call
-    handlePwnedPasswordApiAvailability();
-    $('#id_teacher_signup-teacher_password, #id_independent_student_signup-password').on('input change focus blur', handlePasswordStrength);
-
-});
-    </script>
 {% endblock content %}

@@ -31,8 +31,8 @@ def is_password_pwned(password):
         # api response is using the format of suffix:count hence
         # we need to get rid of the ending count number
         if sha1_hash[5:].upper() == suffix[:35].upper():
-            return False
-    return True
+            return True
+    return False
 
 
 class PasswordStrength(Enum):
@@ -56,7 +56,7 @@ class PasswordStrength(Enum):
                 raise forms.ValidationError(
                     f"Password not strong enough, consider using at least {minimum_password_length} characters and making it hard to guess."
                 )
-            if not is_password_pwned(password):
+            if is_password_pwned(password):
                 raise forms.ValidationError("Password is too common, consider using a different password.")
 
         elif self is PasswordStrength.INDEPENDENT:
@@ -73,7 +73,7 @@ class PasswordStrength(Enum):
                     f"Password not strong enough, consider using at least {minimum_password_length} characters, "
                     "upper and lower case letters, and numbers and making it hard to guess."
                 )
-            if not is_password_pwned(password):
+            if is_password_pwned(password):
                 raise forms.ValidationError("Password is too common, consider using a different password.")
         else:
             minimum_password_length = 10
@@ -89,7 +89,7 @@ class PasswordStrength(Enum):
                     f"Password not strong enough, consider using at least {minimum_password_length} characters, "
                     "upper and lower case letters, numbers, special characters and making it hard to guess."
                 )
-            if not is_password_pwned(password):
+            if is_password_pwned(password):
                 raise forms.ValidationError("Password is too common, consider using a different password.")
 
         return password
