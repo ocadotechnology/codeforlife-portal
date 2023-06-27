@@ -6,42 +6,48 @@ let password_strengths = [
 ];
 
 async function handlePasswordStrength() {
-  const tPwd = $('#id_teacher_signup-teacher_password').val();
-  const sPwd = $('#id_independent_student_signup-password').val();
+  const teacherPwd = $('#id_teacher_signup-teacher_password').val();
+  const studentPwd = $('#id_independent_student_signup-password').val();
 
-  const isTPwdEmpty = tPwd.length > 0;
-  const isSPwdEmpty = sPwd.length > 0;
+  const isTeacherPwdTyped = teacherPwd.length > 0;
+  const isStudentPwdTyped = studentPwd.length > 0;
 
-  const isTPwdStrong = isTPwdEmpty && isPasswordStrong(tPwd, true);
-  const isSPwdStrong = isSPwdEmpty && isPasswordStrong(sPwd, false);
+  const isTeacherPwdStrong =
+    isTeacherPwdTyped && isPasswordStrong(teacherPwd, true);
+  const isStudentPwdStrong =
+    isStudentPwdTyped && isPasswordStrong(studentPwd, false);
 
-  const isTPwdSafe = isTPwdStrong && (await getPwnedStatus(tPwd));
-  const isSPwdSafe = isSPwdStrong && (await getPwnedStatus(sPwd));
+  const isTeacherPwdSafe =
+    isTeacherPwdStrong && (await !isPasswordPwned(teacherPwd));
+  const isStudentPwdSafe =
+    isStudentPwdStrong && (await !isPasswordPwned(studentPwd));
 
-  const tPwdStr = [isTPwdEmpty, isTPwdStrong, isTPwdSafe].filter(
-    Boolean
-  ).length;
-  const sPwdStr = [isSPwdEmpty, isSPwdStrong, isSPwdSafe].filter(
-    Boolean
-  ).length;
+  const teacherPwdStr = [
+    isTeacherPwdTyped,
+    isTeacherPwdStrong,
+    isTeacherPwdSafe
+  ].filter(Boolean).length;
+  const studentPwdStrength = [
+    isStudentPwdTyped,
+    isStudentPwdStrong,
+    isStudentPwdSafe
+  ].filter(Boolean).length;
 
   $('#teacher-password-sign').css(
     'background-color',
-    password_strengths[tPwdStr].colour
+    password_strengths[teacherPwdStr].colour
   );
-  $('#teacher-password-text').html(password_strengths[tPwdStr].name);
+  $('#teacher-password-text').html(password_strengths[teacherPwdStr].name);
   $('#student-password-sign').css(
     'background-color',
-    password_strengths[sPwdStr].colour
+    password_strengths[studentPwdStrength].colour
   );
-  $('#student-password-text').html(password_strengths[sPwdStr].name);
+  $('#student-password-text').html(password_strengths[studentPwdStrength].name);
 }
 
-const getPwnedStatus = async (password) => {
+const isPasswordPwned = async (password) => {
   const computeSHA1Hash = (password) =>
     CryptoJS.SHA1(password).toString().toUpperCase();
-
-  const doesSuffixExist = (data, suffix) => data.includes(suffix);
 
   try {
     const hashedPassword = computeSHA1Hash(password);
@@ -52,19 +58,19 @@ const getPwnedStatus = async (password) => {
     const response = await fetch(apiUrl);
 
     if (!response.ok) {
-      return true; // ignore the check if the server is down as the popup warns
+      return false; // ignore the check if the server is down as the popup warns
       // the user that we cannot check the password
     }
 
     const data = await response.text();
 
-    if (doesSuffixExist(data, suffix)) {
-      return false;
+    if (data.includes(suffix)) {
+      return true;
     }
-    return true;
+    return false;
   } catch (error) {
     console.error(`Request failed with error: ${error.message}`);
-    return false;
+    return true;
   }
 };
 
@@ -88,5 +94,25 @@ function isPasswordStrong(password, isTeacher) {
         password.search(/[0-9]/) === -1
       )
     );
+  }
+}
+
+async function isPwnedPasswordApiAvailable(url) {
+  try {
+    const response = await fetch(url, { metheod: 'GET' });
+    return response.ok;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+async function handlePwnedPasswordApiAvailability() {
+  const url = 'https://api.pwnedpasswords.com/range/00000';
+  const isAvailable = await isPwnedPasswordApiAvailable(url);
+  const errorTitle = 'Password Vulnerability Check Unavailable';
+  const errorMessage =
+    'We are currently unable to check your password vulnerability. Please ensure that you are using a strong password. If you are happy to continue, please confirm.';
+  if (!isAvailable) {
+    showServiceUnavailable(errorTitle, errorMessage);
   }
 }

@@ -533,7 +533,6 @@ class TestTeacherFrontend(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_2, password_2).open_account_tab()
 
-        strong_password = "$RFV`bgt%6yhn"
         page = page.change_teacher_details(
             {"first_name": "Florian", "last_name": "Aucomte", "current_password": password_2}
         )

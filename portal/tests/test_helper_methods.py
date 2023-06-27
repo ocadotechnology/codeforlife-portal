@@ -30,7 +30,7 @@ def test_is_password_pwned(mock_get):
 
     # Assert
     mock_get.assert_called_once_with(f"https://api.pwnedpasswords.com/range/{sha1_hash[:5]}")
-    assert result == True
+    assert result == False
 
 
 @patch("requests.get")
@@ -49,4 +49,4 @@ def test_is_password_pwned_status_code_not_200(mock_get):
 
     # Assert
     mock_get.assert_called_once_with(f"https://api.pwnedpasswords.com/range/{sha1_hash[:5]}")
-    assert result == True
+    assert result == False

@@ -194,28 +194,9 @@
     <script>
     var TEACHER_PASSWORD_FIELD_ID = '{{ teacher_signup_form.teacher_password.auto_id }}';
     var INDEP_STUDENT_PASSWORD_FIELD_ID = '{{ independent_student_signup_form.password.auto_id }}';
-    async function isPwnedPasswordApiAvailable(url) {
-        try {
-            const response = await fetch(url, {metheod: 'GET'})
-            return response.ok;
-        }
-        catch (error) {
-            console.error(error)
-            return false;
-        }
-    }
-    async function handlePwnedPasswordApiAvailability() {
-        const url = 'https://api.pwnedpasswords.com/range/00000';
-        const isAvailable = await isPwnedPasswordApiAvailable(url);
-        const errorTitle = 'Password Vulnerability Check Unavailable';
-        const errorMessage = "We are currently unable to check your password vulnerability. Please ensure that you are using a strong password.If you are happy to continue, please confirm.";
-        if (!isAvailable) {
-            showServiceUnavailable(errorTitle, errorMessage)
-        }
-    }
-    handlePwnedPasswordApiAvailability()
-    handlePasswordStrength(); // the password strength text is updated dynamically hence this is the initial first call
     $(document).ready(function() {
+    handlePasswordStrength(); // the password strength text is updated dynamically hence this is the initial first call
+    handlePwnedPasswordApiAvailability();
     $('#id_teacher_signup-teacher_password, #id_independent_student_signup-password').on('input change focus blur', handlePasswordStrength);
 
 });
