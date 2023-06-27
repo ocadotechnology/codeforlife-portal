@@ -6,38 +6,36 @@ let password_strengths = [
 ];
 
 async function handlePasswordStrength() {
-  const teacherPassword = $('#id_teacher_signup-teacher_password').val();
-  const independentStudentPassword = $(
-    '#id_independent_student_signup-password'
-  ).val();
+  const tPwd = $('#id_teacher_signup-teacher_password').val();
+  const sPwd = $('#id_independent_student_signup-password').val();
 
-  const isTeacherPasswordNonEmpty = teacherPassword.length > 0;
-  const isIndependentStudentPasswordNonEmpty = independentStudentPassword.length > 0;
+  const isTPwdEmpty = tPwd.length > 0;
+  const isSPwdEmpty = sPwd.length > 0;
 
-  const isTeacherPasswordComplex = isPasswordStrong(teacherPassword, true) && isTeacherPasswordNonEmpty;
-  const isIndependentStudentPasswordComplex = isPasswordStrong(independentStudentPassword, false) && isIndependentStudentPasswordNonEmpty;
+  const isTPwdStrong = isTPwdEmpty && isPasswordStrong(tPwd, true);
+  const isSPwdStrong = isSPwdEmpty && isPasswordStrong(sPwd, false);
 
-  const isTeacherPasswordNotPwned = await getPwnedStatus(teacherPassword) && isTeacherPasswordComplex;
-  const isIndependentStudentPasswordNotPwned = await getPwnedStatus(independentStudentPassword) && isIndependentStudentPasswordComplex;
+  const isTPwdSafe = isTPwdStrong && (await getPwnedStatus(tPwd));
+  const isSPwdSafe = isSPwdStrong && (await getPwnedStatus(sPwd));
 
-  const teacherPasswordStrength = [isTeacherPasswordNonEmpty, isTeacherPasswordComplex, isTeacherPasswordNotPwned].filter(value => value).length;
-  const independentStudentPasswordStrength = [isIndependentStudentPasswordNonEmpty, isIndependentStudentPasswordComplex, isIndependentStudentPasswordNotPwned].filter(value => value).length;
+  const tPwdStr = [isTPwdEmpty, isTPwdStrong, isTPwdSafe].filter(
+    Boolean
+  ).length;
+  const sPwdStr = [isSPwdEmpty, isSPwdStrong, isSPwdSafe].filter(
+    Boolean
+  ).length;
 
-    console.log(teacherPasswordStrength, independentStudentPasswordStrength)
-    console.log(password_strengths)
-
-    $('#teacher-password-sign').css(
-      'background-color',
-      password_strengths[teacherPasswordStrength].colour
-    );
-    $('#teacher-password-text').html(password_strengths[teacherPasswordStrength].name);
-    $('#student-password-sign').css(
-      'background-color',
-      password_strengths[independentStudentPasswordStrength].colour
-    );
-    $('#student-password-text').html(password_strengths[independentStudentPasswordStrength].name);
+  $('#teacher-password-sign').css(
+    'background-color',
+    password_strengths[tPwdStr].colour
+  );
+  $('#teacher-password-text').html(password_strengths[tPwdStr].name);
+  $('#student-password-sign').css(
+    'background-color',
+    password_strengths[sPwdStr].colour
+  );
+  $('#student-password-text').html(password_strengths[sPwdStr].name);
 }
-
 
 const getPwnedStatus = async (password) => {
   const computeSHA1Hash = (password) =>
@@ -59,6 +57,7 @@ const getPwnedStatus = async (password) => {
     }
 
     const data = await response.text();
+    console.log(data);
 
     if (doesSuffixExist(data, suffix)) {
       return false;

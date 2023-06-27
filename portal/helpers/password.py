@@ -27,6 +27,9 @@ def is_password_pwned(password):
     # Check if the password's hash is found in the response body
     hash_suffixes = response.text.split("\r\n")
     for suffix in hash_suffixes:
+        # Compare the suffix from the hash to the api response
+        # api response is using the format of suffix:count hence
+        # we need to get rid of the ending count number
         if sha1_hash[5:].upper() == suffix[:35].upper():
             return True
     return False

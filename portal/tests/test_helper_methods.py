@@ -4,11 +4,12 @@ from unittest.mock import patch, Mock
 import hashlib
 
 
-def test_is_password_pwned():
-    weak_password = "Password123$"
-    strong_password = "£EDCVFR$%TGBnhy667ujm"
-    assert is_password_pwned(weak_password)
-    assert not is_password_pwned(strong_password)
+class TestClass:
+    def test_is_password_pwned(self):
+        weak_password = "Password123$"
+        strong_password = "£EDCVFR$%TGBnhy667ujm"
+        assert is_password_pwned(weak_password)
+        assert not is_password_pwned(strong_password)
 
 
 # This is your pytest test
