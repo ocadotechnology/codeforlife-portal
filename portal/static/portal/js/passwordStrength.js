@@ -57,7 +57,6 @@ const getPwnedStatus = async (password) => {
     }
 
     const data = await response.text();
-    console.log(data);
 
     if (doesSuffixExist(data, suffix)) {
       return false;
