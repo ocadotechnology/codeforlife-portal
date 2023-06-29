@@ -60,6 +60,7 @@ CSP_FRAME_SRC = (
     f"{domain()}/static/game/image/",
 )
 CSP_IMG_SRC = (
+    "'self'",
     "https://storage.googleapis.com/codeforlife-assets/images/",
     "https://cdn-ukwest.onetrust.com/",
     "https://p.typekit.net/",
