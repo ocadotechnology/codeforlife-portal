@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v6.33.1 (2023-06-29)
+
+### Fix
+
+* Self hosted images ([`8769345`](https://github.com/ocadotechnology/codeforlife-portal/commit/87693451607a08fc10111e24b59fb84ab78f49b8))
+
 ## v6.33.0 (2023-06-27)
 
 ### Feature
