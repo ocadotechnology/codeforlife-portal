@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v6.33.2 (2023-07-06)
+
+### Fix
+
+* Dummy commit to bump version ([`255f457`](https://github.com/ocadotechnology/codeforlife-portal/commit/255f457e63f38c9c505d0ee3b3879c4496636fb1))
+
 ## v6.33.1 (2023-06-29)
 
 ### Fix
