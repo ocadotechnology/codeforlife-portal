@@ -19,7 +19,6 @@ async function handlePasswordStrength() {
 
   const isTeacherPwdSafe =
     isTeacherPwdStrong && !(await isPasswordPwned(teacherPwd));
-
   const isStudentPwdSafe =
     isStudentPwdStrong && !(await isPasswordPwned(studentPwd));
 
