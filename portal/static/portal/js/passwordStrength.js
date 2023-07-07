@@ -18,9 +18,10 @@ async function handlePasswordStrength() {
     isStudentPwdTyped && isPasswordStrong(studentPwd, false);
 
   const isTeacherPwdSafe =
-    isTeacherPwdStrong && (await !isPasswordPwned(teacherPwd));
+    isTeacherPwdStrong && !(await isPasswordPwned(teacherPwd));
+
   const isStudentPwdSafe =
-    isStudentPwdStrong && (await !isPasswordPwned(studentPwd));
+    isStudentPwdStrong && !(await isPasswordPwned(studentPwd));
 
   const teacherPwdStrength = [
     isTeacherPwdTyped,
@@ -64,10 +65,7 @@ const isPasswordPwned = async (password) => {
 
     const data = await response.text();
 
-    if (data.includes(suffix)) {
-      return true;
-    }
-    return false;
+    return data.includes(suffix);
   } catch (error) {
     console.error(`Request failed with error: ${error.message}`);
     return false;
