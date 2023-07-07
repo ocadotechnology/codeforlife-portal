@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v6.33.3 (2023-07-07)
+
+### Fix
+
+* Fix logic of frontend password strength check ([#2117](https://github.com/ocadotechnology/codeforlife-portal/issues/2117)) ([`031d6de`](https://github.com/ocadotechnology/codeforlife-portal/commit/031d6de507e4f4a81f7d0f7f5d70144fae3f63da))
+
 ## v6.33.2 (2023-07-06)
 
 ### Fix
