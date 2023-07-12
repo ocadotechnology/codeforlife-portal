@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v6.33.4 (2023-07-12)
+
+### Fix
+
+* Build(deps): Bump semver from 6.3.0 to 6.3.1 in /portal_frontend ([`c9e625e`](https://github.com/ocadotechnology/codeforlife-portal/commit/c9e625e995c9f9319f67c1d1ee2f1d66b3d46912))
+
 ## v6.33.3 (2023-07-07)
 
 ### Fix
