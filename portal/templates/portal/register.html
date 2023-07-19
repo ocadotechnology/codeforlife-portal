@@ -187,8 +187,13 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript"
-            src="{% static 'portal/js/passwordStrength.js' %}"></script>
-    <script type="text/javascript"
-            src="{% static 'portal/js/independentRegistration.js' %}"></script>
+<script>
+    var TEACHER_PASSWORD_FIELD_ID = '{{ teacher_signup_form.teacher_password.auto_id }}';
+    var INDEP_STUDENT_PASSWORD_FIELD_ID = '{{ independent_student_signup_form.password.auto_id }}';
+</script>
+<script type="text/javascript"
+        src="{% static 'portal/js/passwordStrength.js' %}"></script>
+<script type="text/javascript"
+        src="{% static 'portal/js/independentRegistration.js' %}"></script>
+
 {% endblock content %}
