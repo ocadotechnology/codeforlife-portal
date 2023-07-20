@@ -5,18 +5,10 @@ EMAIL_ADDRESS = getattr(settings, "EMAIL_ADDRESS", "no-reply@codeforlife.educati
 
 # Dotmailer URLs for adding users to the newsletter address book
 DOTMAILER_CREATE_CONTACT_URL = getattr(settings, "DOTMAILER_CREATE_CONTACT_URL", "")
-DOTMAILER_MAIN_ADDRESS_BOOK_URL = getattr(
-    settings, "DOTMAILER_MAIN_ADDRESS_BOOK_URL", ""
-)
-DOTMAILER_TEACHER_ADDRESS_BOOK_URL = getattr(
-    settings, "DOTMAILER_TEACHER_ADDRESS_BOOK_URL", ""
-)
-DOTMAILER_STUDENT_ADDRESS_BOOK_URL = getattr(
-    settings, "DOTMAILER_STUDENT_ADDRESS_BOOK_URL", ""
-)
-DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = getattr(
-    settings, "DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", ""
-)
+DOTMAILER_MAIN_ADDRESS_BOOK_URL = getattr(settings, "DOTMAILER_MAIN_ADDRESS_BOOK_URL", "")
+DOTMAILER_TEACHER_ADDRESS_BOOK_URL = getattr(settings, "DOTMAILER_TEACHER_ADDRESS_BOOK_URL", "")
+DOTMAILER_STUDENT_ADDRESS_BOOK_URL = getattr(settings, "DOTMAILER_STUDENT_ADDRESS_BOOK_URL", "")
+DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = getattr(settings, "DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", "")
 
 # Dotmailer username for API authentication
 DOTMAILER_USER = getattr(settings, "DOTMAILER_USER", "")
@@ -48,9 +40,7 @@ DOTMAILER_PUT_CONSENT_DATA_URL = getattr(settings, "DOTMAILER_PUT_CONSENT_DATA_U
 DOTMAILER_SEND_CAMPAIGN_URL = getattr(settings, "DOTMAILER_SEND_CAMPAIGN_URL", "")
 
 # ID of the "Thanks for staying!" campaign in Dotmailer
-DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = getattr(
-    settings, "DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", ""
-)
+DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = getattr(settings, "DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", "")
 
 # The name of the google app engine service the application is running on, local otherwise
 MODULE_NAME = getattr(settings, "MODULE_NAME", "local")
