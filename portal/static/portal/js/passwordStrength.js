@@ -1,3 +1,6 @@
+const TEACHER_PASSWORD_FIELD = $(`#${TEACHER_PASSWORD_FIELD_ID}`);
+const INDEP_STUDENT_PASSWORD_FIELD = $(`#${INDEP_STUDENT_PASSWORD_FIELD_ID}`);
+
 let password_strengths = [
   { name: 'No password!', colour: '#FF0000' },
   { name: 'Password too weak!', colour: '#DBA901' },
@@ -6,8 +9,8 @@ let password_strengths = [
 ];
 
 async function handlePasswordStrength() {
-  const teacherPwd = $('#id_teacher_signup-teacher_password').val();
-  const studentPwd = $('#id_independent_student_signup-password').val();
+  const teacherPwd = TEACHER_PASSWORD_FIELD.val();
+  const studentPwd = INDEP_STUDENT_PASSWORD_FIELD.val();
 
   const isTeacherPwdTyped = teacherPwd.length > 0;
   const isStudentPwdTyped = studentPwd.length > 0;
@@ -118,6 +121,6 @@ $(document).ready(function () {
   handlePasswordStrength(); // the password strength text is updated dynamically hence this is the initial first call
   handlePwnedPasswordApiAvailability();
   $(
-    '#id_teacher_signup-teacher_password, #id_independent_student_signup-password'
+    `#${TEACHER_PASSWORD_FIELD_ID}, #${INDEP_STUDENT_PASSWORD_FIELD_ID}`
   ).on('input change focus blur', handlePasswordStrength);
 });
