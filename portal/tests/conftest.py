@@ -48,4 +48,4 @@ def aimmo_game1(db, class1) -> Game:
 @pytest.fixture(autouse=True)
 def mock_game_manager(monkeypatch):
     """Mock GameManager for all tests."""
-    monkeypatch.setattr("aimmo.game_creator.GameManager", MagicMock())
+    monkeypatch.setattr("aimmo.models.GameManager", MagicMock())

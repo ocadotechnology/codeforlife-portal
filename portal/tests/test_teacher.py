@@ -1,12 +1,11 @@
 from __future__ import absolute_import
 
-
-from datetime import timedelta
 import re
-import jwt
-from uuid import uuid4
 import time
+from datetime import timedelta
+from uuid import uuid4
 
+import jwt
 from aimmo.models import Game
 from common.models import Class, Student, Teacher
 from common.tests.utils import email as email_utils
@@ -22,14 +21,14 @@ from common.tests.utils.teacher import (
 from django.conf import settings
 from django.core import mail
 from django.test import Client, TestCase
-from django.utils import timezone
 from django.urls import reverse
+from django.utils import timezone
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
-from portal.tests.test_invite_teacher import FADE_TIME
+from portal.tests.base_test import click_buttons_by_id
 from portal.tests.test_invite_teacher import WAIT_TIME
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
@@ -40,10 +39,6 @@ from .utils.messages import (
     is_email_updated_message_showing,
     is_password_updated_message_showing,
 )
-
-from selenium.webdriver.common.action_chains import ActionChains
-
-from portal.tests.base_test import click_buttons_by_id
 
 
 class TestTeacher(TestCase):
