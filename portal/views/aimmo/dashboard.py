@@ -1,14 +1,12 @@
 from typing import Any, Dict, List, Optional
 
-from aimmo.game_creator import create_game
 from aimmo.models import Game
-from common.models import Class
 from aimmo.worksheets import WORKSHEETS, Worksheet, get_worksheets_excluding_id
+from common.models import Class
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import LoginRequiredNoErrorMixin
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import QuerySet
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
@@ -36,7 +34,9 @@ class TeacherAimmoDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Crea
         return form_class(classes, **self.get_form_kwargs())
 
     def form_valid(self, form):
-        create_game(self.request.user, form)
+        form.instance = Game(
+            game_class=form.cleaned_data["game_class"], created_by=self.request.user.userprofile.teacher
+        )
         return super().form_valid(form)
 
     def form_invalid(self, form: AddGameForm):

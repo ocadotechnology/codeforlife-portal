@@ -24,7 +24,7 @@ from datetime import timedelta, datetime
 class TestClass(TestCase):
     def test_class_deletion_deletes_game(self):
         email, password = signup_teacher_directly()
-        school = create_organisation_directly(email)
+        create_organisation_directly(email)
         klass, _, access_code = create_class_directly(email, "class 1")
         teacher: Teacher = Teacher.objects.get(new_user__email=email)
         c = Client()
