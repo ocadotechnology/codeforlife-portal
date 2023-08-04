@@ -1,7 +1,8 @@
-from portal.helpers.password import is_password_pwned
-import pytest
-from unittest.mock import patch, Mock
 import hashlib
+from unittest.mock import patch, Mock
+
+from portal.helpers.password import is_password_pwned
+from portal.helpers.organisation import sanitise_uk_postcode
 
 
 class TestClass:
@@ -11,8 +12,16 @@ class TestClass:
         assert is_password_pwned(weak_password)
         assert not is_password_pwned(strong_password)
 
+    def test_sanitise_uk_postcode(self):
+        postcode_with_space = "AL10 9NE"
+        postcode_without_space = "AL109UL"
+        invalid_postcode = "123"
 
-# This is your pytest test
+        assert sanitise_uk_postcode(postcode_with_space) == "AL10 9NE"  # Check it stays the same
+        assert sanitise_uk_postcode(postcode_without_space) == "AL10 9UL"  # Check a space is added
+        assert sanitise_uk_postcode(invalid_postcode) == "123"  # Check nothing happens
+
+
 @patch("requests.get")
 def test_is_password_pwned(mock_get):
     # Arrange
@@ -30,7 +39,7 @@ def test_is_password_pwned(mock_get):
 
     # Assert
     mock_get.assert_called_once_with(f"https://api.pwnedpasswords.com/range/{sha1_hash[:5]}")
-    assert result == True
+    assert result
 
 
 @patch("requests.get")
@@ -49,4 +58,4 @@ def test_is_password_pwned_status_code_not_200(mock_get):
 
     # Assert
     mock_get.assert_called_once_with(f"https://api.pwnedpasswords.com/range/{sha1_hash[:5]}")
-    assert result == False
+    assert not result

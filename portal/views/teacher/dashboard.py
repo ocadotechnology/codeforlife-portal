@@ -1,6 +1,7 @@
 from datetime import timedelta
 from uuid import uuid4
 
+import pgeocode
 from common import email_messages
 from common.helpers.emails import (
     INVITE_FROM,
@@ -37,6 +38,7 @@ from portal.forms.teach import (
     TeacherEditAccountForm,
 )
 from portal.helpers.decorators import ratelimit
+from portal.helpers.organisation import sanitise_uk_postcode
 from portal.helpers.password import check_update_password
 from portal.helpers.ratelimit import (
     RATELIMIT_LOGIN_GROUP,
@@ -260,10 +262,16 @@ def process_update_school_form(request, school, old_anchor):
         name = data.get("name", "")
         postcode = data.get("postcode", "")
         country = data.get("country", "")
+        county = school.county
+
+        if country == "GB":
+            nomi = pgeocode.Nominatim(country)
+            county = nomi.query_postal_code(sanitise_uk_postcode(postcode)).county_name
 
         school.name = name
         school.postcode = postcode
         school.country = country
+        school.county = county
         school.save()
 
         anchor = "#"

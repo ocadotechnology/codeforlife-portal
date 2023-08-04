@@ -1,4 +1,5 @@
 import common.permissions as permissions
+import pgeocode
 from common.models import School, Teacher, Class
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -7,6 +8,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 
 from portal.forms.organisation import OrganisationForm
+from portal.helpers.organisation import sanitise_uk_postcode
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
@@ -24,8 +26,13 @@ def organisation_create(request):
             name = data.get("name", "")
             postcode = data.get("postcode", "").upper()
             country = data.get("country", "")
+            county = ""
 
-            school = School.objects.create(name=name, postcode=postcode, country=country)
+            if country == "GB":
+                nomi = pgeocode.Nominatim(country)
+                county = nomi.query_postal_code(sanitise_uk_postcode(postcode)).county_name
+
+            school = School.objects.create(name=name, postcode=postcode, country=country, county=county)
 
             teacher.school = school
             teacher.is_admin = True

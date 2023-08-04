@@ -38,6 +38,7 @@ class School(models.Model):
     name = models.CharField(max_length=200)
     postcode = models.CharField(max_length=10, null=True)
     country = CountryField(blank_label="(select country)")
+    county = models.CharField(max_length=50, blank=True, null=True)
     creation_time = models.DateTimeField(default=timezone.now, null=True)
     is_active = models.BooleanField(default=True)
 
