@@ -30,9 +30,9 @@ class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
 
 
 class SchoolAdmin(admin.ModelAdmin, ExportActionMixin):
-    search_fields = ["name", "country", "postcode"]
-    list_filter = ["postcode", "country"]
-    list_display = ["__str__", "postcode", "country", "number_of_teachers", "number_of_classes"]
+    search_fields = ["name", "country", "postcode", "county"]
+    list_filter = ["county", "postcode", "country"]
+    list_display = ["__str__", "country", "county", "postcode", "number_of_teachers", "number_of_classes"]
 
     def number_of_teachers(self, obj):
         return len(obj.teacher_school.all())
