@@ -1,3 +1,4 @@
+import pgeocode
 import re
 from datetime import timedelta
 from uuid import uuid4
@@ -6,6 +7,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django_countries.fields import CountryField
+
+from portal.helpers.organisation import sanitise_uk_postcode
 
 
 class UserProfile(models.Model):
@@ -38,6 +41,7 @@ class School(models.Model):
     name = models.CharField(max_length=200)
     postcode = models.CharField(max_length=10, null=True)
     country = CountryField(blank_label="(select country)")
+    # TODO: Create an Address model to house address details
     county = models.CharField(max_length=50, blank=True, null=True)
     creation_time = models.DateTimeField(default=timezone.now, null=True)
     is_active = models.BooleanField(default=True)
@@ -66,6 +70,16 @@ class School(models.Model):
         self.postcode = ""
         self.is_active = False
         self.save()
+
+    def save(self, **kwargs):
+        county = ""
+
+        if self.country == "GB" and self.postcode != "":
+            nomi = pgeocode.Nominatim("GB")
+            county = nomi.query_postal_code(sanitise_uk_postcode(self.postcode)).county_name
+
+        self.county = county
+        super(School, self).save(**kwargs)
 
 
 class TeacherModelManager(models.Manager):

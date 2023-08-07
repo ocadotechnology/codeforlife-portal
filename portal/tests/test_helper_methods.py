@@ -13,7 +13,7 @@ class TestClass:
         assert not is_password_pwned(strong_password)
 
     @patch("requests.get")
-    def test_is_password_pwned_status_code_not_200(self, mock_get):
+    def test_is_password_pwned__status_code_not_200(self, mock_get):
         # Arrange
         password = "password123"
         sha1_hash = hashlib.sha1(password.encode()).hexdigest()
