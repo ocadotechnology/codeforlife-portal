@@ -25,7 +25,7 @@ example_project/static/
 codeforlife_portal.egg-info
 *.egg-info/
 build/
-.vscode/
+# .vscode/
 dist/
 node_modules
 

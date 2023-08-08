@@ -75,10 +75,13 @@ def generate_token(user, new_email="", preverified=False):
     if preverified:
         user.userprofile.is_verified = preverified
         user.userprofile.save()
+    
+    return generate_token_for_email(user.email, new_email)
 
+def generate_token_for_email(email: str, new_email: str = ""):
     return jwt.encode(
         {
-            "email": user.email,
+            "email": email,
             "new_email": new_email,
             "email_verification_token": uuid4().hex[:30],
             "expires": (timezone.now() + datetime.timedelta(hours=1)).timestamp(),
