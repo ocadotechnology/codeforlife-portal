@@ -136,7 +136,3 @@ class DeleteUnverifiedAccounts(APIView):
         logging.info(f"{user_count} unverified users deleted.")
 
         return Response()
-
-
-# All times are 1pm
-# Mon(joined), Tues, Wed, Thur(now), Fri, Sat, Sun
