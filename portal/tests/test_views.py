@@ -2,6 +2,7 @@ import csv
 import io
 import json
 from datetime import timedelta, date
+from unittest.mock import patch, Mock, ANY
 
 import PyPDF2
 import pytest
@@ -15,6 +16,7 @@ from common.tests.utils.student import (
     create_independent_student_directly,
 )
 from common.tests.utils.teacher import signup_teacher_directly
+from cfl_common.common.helpers.emails import NOTIFICATION_EMAIL
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -706,3 +708,55 @@ class TestViews(TestCase):
         assert not is_logged_in_as_admin_teacher(teacher2.new_user)
 
         c.logout()
+
+
+class TestCronUserViews(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.client = Client()
+        return super().setUpClass()
+
+    @patch("cfl_common.common.helpers.emails.send_email")
+    def test_first_verify_email_reminder_view(self, send_email: Mock):
+        user = User.objects.get(id=1)
+        user.date_joined = timezone.now() - timedelta(days=7, hours=12)
+        user.userprofile.is_verified = False
+        user.save()
+
+        self.client.get(reverse("first-verify-email-reminder"))
+
+        send_email.assert_called_once_with(
+            sender=NOTIFICATION_EMAIL,
+            recipients=[user.email],
+            subject=ANY,
+            title=ANY,
+            text_content=ANY,
+        )
+
+    @patch("cfl_common.common.helpers.emails.send_email")
+    def test_second_verify_email_reminder_view(self, send_email: Mock):
+        user = User.objects.get(id=1)
+        user.date_joined = timezone.now() - timedelta(days=14, hours=12)
+        user.userprofile.is_verified = False
+        user.save()
+
+        self.client.get(reverse("second-verify-email-reminder"))
+
+        send_email.assert_called_once_with(
+            sender=NOTIFICATION_EMAIL,
+            recipients=[user.email],
+            subject=ANY,
+            title=ANY,
+            text_content=ANY,
+        )
+
+    def test_delete_unverified_accounts_view(self):
+        user = User.objects.get(id=1)
+        user.date_joined = timezone.now() - timedelta(days=19, hours=12)
+        user.userprofile.is_verified = False
+        user.save()
+
+        self.client.get(reverse("delete-unverified-accounts"))
+
+        with self.assertRaises(User.DoesNotExist):
+            User.objects.get(id=user.id)
