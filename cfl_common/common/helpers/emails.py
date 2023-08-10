@@ -75,7 +75,7 @@ def generate_token(user, new_email="", preverified=False):
     if preverified:
         user.userprofile.is_verified = preverified
         user.userprofile.save()
-    
+
     return generate_token_for_email(user.email, new_email)
 
 def generate_token_for_email(email: str, new_email: str = ""):
