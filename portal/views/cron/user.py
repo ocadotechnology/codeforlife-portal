@@ -2,17 +2,18 @@ import logging
 from datetime import timedelta
 
 from django.contrib.auth.models import User
-from django.utils import timezone
 from django.urls import reverse
-from rest_framework.request import Request
+from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from cfl_common.common.helpers.emails import (
     NOTIFICATION_EMAIL,
-    send_email,
     generate_token_for_email,
+    send_email,
 )
+
+from ...mixins import CronMixin
 
 # TODO: move email templates to DotDigital.
 USER_1ST_VERIFY_EMAIL_REMINDER_DAYS = 7
@@ -36,8 +37,8 @@ USER_2ND_VERIFY_EMAIL_REMINDER_TEXT = (
 USER_DELETE_UNVERIFIED_ACCOUNT_DAYS = 19
 
 
-class FirstVerifyEmailReminderView(APIView):
-    def get(self, request: Request):
+class FirstVerifyEmailReminderView(CronMixin, APIView):
+    def get(self, request):
         now = timezone.now()
 
         emails = User.objects.filter(
@@ -81,8 +82,8 @@ class FirstVerifyEmailReminderView(APIView):
         return Response()
 
 
-class SecondVerifyEmailReminderView(APIView):
-    def get(self, request: Request):
+class SecondVerifyEmailReminderView(CronMixin, APIView):
+    def get(self, request):
         now = timezone.now()
 
         emails = User.objects.filter(
@@ -126,8 +127,8 @@ class SecondVerifyEmailReminderView(APIView):
         return Response()
 
 
-class DeleteUnverifiedAccounts(APIView):
-    def get(self, request: Request):
+class DeleteUnverifiedAccounts(CronMixin, APIView):
+    def get(self, request):
         user_count, _ = User.objects.filter(
             userprofile__is_verified=False,
             date_joined__lte=timezone.now() - timedelta(days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS),
