@@ -96,6 +96,9 @@ class TeacherModelManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(new_user__is_active=True)
 
+    def do_not_ignore_inactive(self):
+        return super().get_queryset()
+
 
 class Teacher(models.Model):
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
