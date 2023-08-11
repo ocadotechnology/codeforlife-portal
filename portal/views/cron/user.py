@@ -88,8 +88,8 @@ class SecondVerifyEmailReminderView(CronMixin, APIView):
 
         emails = User.objects.filter(
             userprofile__is_verified=False,
-            date_joined__gte=now - timedelta(days=USER_2ND_VERIFY_EMAIL_REMINDER_DAYS),
-            date_joined__lt=now - timedelta(days=USER_2ND_VERIFY_EMAIL_REMINDER_DAYS + 1),
+            date_joined__lte=now - timedelta(days=USER_2ND_VERIFY_EMAIL_REMINDER_DAYS),
+            date_joined__gt=now - timedelta(days=USER_2ND_VERIFY_EMAIL_REMINDER_DAYS + 1),
         ).values_list("email", flat=True)
 
         logging.info(f"{len(emails)} emails unverified.")
