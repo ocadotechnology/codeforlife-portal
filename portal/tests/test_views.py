@@ -7,7 +7,7 @@ from unittest.mock import patch, Mock, ANY
 import PyPDF2
 import pytest
 from aimmo.models import Game
-from common.models import Teacher, UserSession, Student, Class, DailyActivity, School
+from common.models import Teacher, UserSession, Student, Class, DailyActivity, School, UserProfile
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.student import (
@@ -24,6 +24,7 @@ from django.utils import timezone
 from game.models import Level
 from game.tests.utils.attempt import create_attempt
 from game.tests.utils.level import create_save_level
+from rest_framework.test import APIClient, APITestCase
 
 from portal.templatetags.app_tags import is_logged_in_as_admin_teacher
 
@@ -710,24 +711,54 @@ class TestViews(TestCase):
         c.logout()
 
 
-class TestCronUserViews(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.client = Client()
-        return super().setUpClass()
+# CRON view tests
+
+
+class CronTestClient(APIClient):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs, HTTP_X_APPENGINE_CRON="true")
+
+    def generic(
+        self,
+        method,
+        path,
+        data="",
+        content_type="application/octet-stream",
+        secure=False,
+        **extra,
+    ):
+        wsgi_response = super().generic(method, path, data, content_type, secure, **extra)
+        assert 200 <= wsgi_response.status_code < 300, f"Response has error status code: {wsgi_response.status_code}"
+
+        return wsgi_response
+
+
+class CronTestCase(APITestCase):
+    client_class = CronTestClient
+
+
+class TestUser(CronTestCase):
+    # TODO: use fixtures
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="johndoe",
+            email="john.doe@codeforlife.com",
+            password="password",
+            first_name="John",
+            last_name="Doe",
+        )
+        self.user_profile = UserProfile.objects.create(user=self.user)
 
     @patch("cfl_common.common.helpers.emails.send_email")
     def test_first_verify_email_reminder_view(self, send_email: Mock):
-        user = User.objects.get(id=1)
-        user.date_joined = timezone.now() - timedelta(days=7, hours=12)
-        user.userprofile.is_verified = False
-        user.save()
+        self.user.date_joined = timezone.now() - timedelta(days=7, hours=12)
+        self.user.save()
 
         self.client.get(reverse("first-verify-email-reminder"))
 
         send_email.assert_called_once_with(
             sender=NOTIFICATION_EMAIL,
-            recipients=[user.email],
+            recipients=[self.user.email],
             subject=ANY,
             title=ANY,
             text_content=ANY,
@@ -735,28 +766,24 @@ class TestCronUserViews(TestCase):
 
     @patch("cfl_common.common.helpers.emails.send_email")
     def test_second_verify_email_reminder_view(self, send_email: Mock):
-        user = User.objects.get(id=1)
-        user.date_joined = timezone.now() - timedelta(days=14, hours=12)
-        user.userprofile.is_verified = False
-        user.save()
+        self.user.date_joined = timezone.now() - timedelta(days=14, hours=12)
+        self.user.save()
 
         self.client.get(reverse("second-verify-email-reminder"))
 
         send_email.assert_called_once_with(
             sender=NOTIFICATION_EMAIL,
-            recipients=[user.email],
+            recipients=[self.user.email],
             subject=ANY,
             title=ANY,
             text_content=ANY,
         )
 
     def test_delete_unverified_accounts_view(self):
-        user = User.objects.get(id=1)
-        user.date_joined = timezone.now() - timedelta(days=19, hours=12)
-        user.userprofile.is_verified = False
-        user.save()
+        self.user.date_joined = timezone.now() - timedelta(days=19, hours=12)
+        self.user.save()
 
         self.client.get(reverse("delete-unverified-accounts"))
 
         with self.assertRaises(User.DoesNotExist):
-            User.objects.get(id=user.id)
+            User.objects.get(id=self.user.id)
