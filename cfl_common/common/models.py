@@ -72,14 +72,14 @@ class School(models.Model):
         self.save()
 
     def save(self, **kwargs):
+        self.county = ""
+
         if self.country == "GB":
             if self.postcode.replace(" ", "") == "":
                 self.county = "nan"
             else:
                 nomi = pgeocode.Nominatim("GB")
                 self.county = nomi.query_postal_code(sanitise_uk_postcode(self.postcode)).county_name
-        else:
-            self.county = ""
 
         super(School, self).save(**kwargs)
 
