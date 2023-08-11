@@ -16,7 +16,10 @@ class Migration(migrations.Migration):
         nomi = pgeocode.Nominatim("GB")
 
         for school in gb_schools:
-            if school.postcode.replace(" ", "") != "":
+            if school.postcode.replace(" ", "") == "":
+                school.county = "nan"
+                school.save()
+            else:
                 county = nomi.query_postal_code(sanitise_uk_postcode(school.postcode)).county_name
                 school.county = county
                 school.save()

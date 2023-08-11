@@ -72,13 +72,15 @@ class School(models.Model):
         self.save()
 
     def save(self, **kwargs):
-        county = ""
+        if self.country == "GB":
+            if self.postcode.replace(" ", "") == "":
+                self.county = "nan"
+            else:
+                nomi = pgeocode.Nominatim("GB")
+                self.county = nomi.query_postal_code(sanitise_uk_postcode(self.postcode)).county_name
+        else:
+            self.county = ""
 
-        if self.country == "GB" and self.postcode.replace(" ", "") != "":
-            nomi = pgeocode.Nominatim("GB")
-            county = nomi.query_postal_code(sanitise_uk_postcode(self.postcode)).county_name
-
-        self.county = county
         super(School, self).save(**kwargs)
 
 

@@ -68,6 +68,28 @@ class TestModels(TestCase):
         assert teacher2 not in school.admins()
         assert teacher3 in school.admins()
 
+    def test_school_postcode(self):
+        """
+        Test that the school's county field gets populated according to country and postcode.
+        """
+        # Check that the county is found correctly (create school helper function uses Herts postcode)
+        teacher_email, _ = signup_teacher_directly()
+        school = create_organisation_directly(teacher_email)
+
+        assert school.county == "Hertfordshire"
+
+        # Check that an empty postcode outputs "nan" as county and doesn't throw an exception
+        school.postcode = " "
+        school.save()
+
+        assert school.county == "nan"
+
+        # Check that changing the country to something other than "GB" clears the county field
+        school.country = "FR"
+        school.save()
+
+        assert school.county == ""
+
     def test_daily_activity_serializer(self):
         daily_activity = DailyActivity()
 
