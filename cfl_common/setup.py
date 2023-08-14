@@ -19,6 +19,7 @@ setup(
         "django-two-factor-auth==1.13.2",
         "django-countries==7.3.1",
         "pyjwt==2.6.0",
+        "pgeocode==0.4.0",
     ],
     tests_require=[],
     test_suite="tests",
