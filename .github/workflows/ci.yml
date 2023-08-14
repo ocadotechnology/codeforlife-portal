@@ -27,8 +27,6 @@ jobs:
         run: |
           pip install pipenv
           pipenv install --dev --system
-          pip uninstall aimmo -y
-          pip install git+https://github.com/ocadotechnology/aimmo@max_games_limit#egg=aimmo
           yarn --frozen-lockfile
       - name: Build frontend
         run: |
