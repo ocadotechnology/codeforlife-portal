@@ -16,7 +16,6 @@ from common.tests.utils.student import (
     create_independent_student_directly,
 )
 from common.tests.utils.teacher import signup_teacher_directly
-from cfl_common.common.helpers.emails import NOTIFICATION_EMAIL
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -26,9 +25,9 @@ from game.tests.utils.attempt import create_attempt
 from game.tests.utils.level import create_save_level
 from rest_framework.test import APIClient, APITestCase
 
-from portal.templatetags.app_tags import is_logged_in_as_admin_teacher
-
+from cfl_common.common.helpers.emails import NOTIFICATION_EMAIL
 from deploy import captcha
+from portal.templatetags.app_tags import is_logged_in_as_admin_teacher
 from portal.views.api import anonymise
 from portal.views.teacher.teach import (
     REMINDER_CARDS_PDF_ROWS,
@@ -740,14 +739,19 @@ class CronTestCase(APITestCase):
 class TestUser(CronTestCase):
     # TODO: use fixtures
     def setUp(self):
-        self.user = User.objects.create_user(
-            username="johndoe",
-            email="john.doe@codeforlife.com",
-            password="password",
-            first_name="John",
-            last_name="Doe",
-        )
-        self.user_profile = UserProfile.objects.create(user=self.user)
+        teacher_email, _ = signup_teacher_directly(preverified=False)
+        create_organisation_directly(teacher_email)
+        _, _, access_code = create_class_directly(teacher_email)
+        _, _, student = create_school_student_directly(access_code)
+        indy_email, _, _ = create_independent_student_directly()
+
+        self.teacher_user = User.objects.get(email=teacher_email)
+        self.teacher_user_profile = UserProfile.objects.get(user=self.teacher_user)
+
+        self.indy_user = User.objects.get(email=indy_email)
+        self.indy_user_profile = UserProfile.objects.get(user=self.indy_user)
+
+        self.student_user = student.new_user
 
     def send_verify_email_reminder(
         self,
@@ -757,23 +761,42 @@ class TestUser(CronTestCase):
         send_email: Mock,
         assert_called: bool,
     ):
-        self.user.date_joined = timezone.now() - timedelta(days=days, hours=12)
-        self.user.save()
-        self.user_profile.is_verified = is_verified
-        self.user_profile.save()
+        self.teacher_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
+        self.teacher_user.save()
+        self.student_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
+        self.student_user.save()
+        self.indy_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
+        self.indy_user.save()
+
+        self.teacher_user_profile.is_verified = is_verified
+        self.teacher_user_profile.save()
+        self.indy_user_profile.is_verified = is_verified
+        self.indy_user_profile.save()
 
         self.client.get(reverse(view_name))
 
         if assert_called:
-            send_email.assert_called_once_with(
+            send_email.assert_any_call(
                 sender=NOTIFICATION_EMAIL,
-                recipients=[self.user.email],
+                recipients=[self.teacher_user.email],
                 subject=ANY,
                 title=ANY,
                 text_content=ANY,
             )
+
+            send_email.assert_any_call(
+                sender=NOTIFICATION_EMAIL,
+                recipients=[self.indy_user.email],
+                subject=ANY,
+                title=ANY,
+                text_content=ANY,
+            )
+
+            # Check only two emails are sent - the student should never be included.
+            assert send_email.call_count == 2
         else:
             send_email.assert_not_called()
+
         send_email.reset_mock()
 
     @patch("portal.views.cron.user.send_email")
@@ -844,13 +867,27 @@ class TestUser(CronTestCase):
             is_verified: bool,
             assert_exists: bool,
         ):
-            self.user.date_joined = timezone.now() - timedelta(days=days, hours=12)
-            self.user.save()
-            self.user_profile.is_verified = is_verified
+            self.teacher_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
+            self.teacher_user.save()
+            self.student_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
+            self.student_user.save()
+            self.indy_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
+            self.indy_user.save()
+
+            self.teacher_user_profile.is_verified = is_verified
+            self.teacher_user_profile.save()
+            self.indy_user_profile.is_verified = is_verified
+            self.indy_user_profile.save()
 
             self.client.get(reverse("delete-unverified-accounts"))
 
-            (self.assertTrue if assert_exists else self.assertFalse)(User.objects.filter(id=self.user.id).exists())
+            (self.assertTrue if assert_exists else self.assertFalse)(
+                User.objects.filter(id=self.teacher_user.id).exists()
+            )
+            (self.assertTrue if assert_exists else self.assertFalse)(User.objects.filter(id=self.indy_user.id).exists())
+
+            # Assert the student didn't get deleted
+            assert User.objects.filter(id=self.student_user.id).exists()
 
         delete_unverified_users(
             days=18,

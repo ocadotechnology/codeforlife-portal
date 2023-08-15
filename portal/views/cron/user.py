@@ -1,6 +1,8 @@
 import logging
 from datetime import timedelta
+from itertools import chain
 
+from common.models import Teacher, Student
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
@@ -12,7 +14,6 @@ from cfl_common.common.helpers.emails import (
     generate_token_for_email,
     send_email,
 )
-
 from ...mixins import CronMixin
 
 # TODO: move email templates to DotDigital.
@@ -37,15 +38,30 @@ USER_2ND_VERIFY_EMAIL_REMINDER_TEXT = (
 USER_DELETE_UNVERIFIED_ACCOUNT_DAYS = 19
 
 
+def get_unverified_emails(days: int):
+    now = timezone.now()
+
+    teacher_emails = Teacher.objects.filter(
+        user__is_verified=False,
+        new_user__date_joined__lte=now - timedelta(days=days),
+        new_user__date_joined__gt=now - timedelta(days=days + 1),
+    ).values_list("new_user__email", flat=True)
+
+    student_emails = Student.objects.filter(
+        user__is_verified=False,
+        class_field=None,
+        new_user__date_joined__lte=now - timedelta(days=days),
+        new_user__date_joined__gt=now - timedelta(days=days + 1),
+    ).values_list("new_user__email", flat=True)
+
+    return list(chain(teacher_emails, student_emails))
+
+
 class FirstVerifyEmailReminderView(CronMixin, APIView):
     def get(self, request):
-        now = timezone.now()
+        emails = get_unverified_emails(USER_1ST_VERIFY_EMAIL_REMINDER_DAYS)
 
-        emails = User.objects.filter(
-            userprofile__is_verified=False,
-            date_joined__lte=now - timedelta(days=USER_1ST_VERIFY_EMAIL_REMINDER_DAYS),
-            date_joined__gt=now - timedelta(days=USER_1ST_VERIFY_EMAIL_REMINDER_DAYS + 1),
-        ).values_list("email", flat=True)
+        print(emails)
 
         logging.info(f"{len(emails)} emails unverified.")
 
@@ -84,13 +100,7 @@ class FirstVerifyEmailReminderView(CronMixin, APIView):
 
 class SecondVerifyEmailReminderView(CronMixin, APIView):
     def get(self, request):
-        now = timezone.now()
-
-        emails = User.objects.filter(
-            userprofile__is_verified=False,
-            date_joined__lte=now - timedelta(days=USER_2ND_VERIFY_EMAIL_REMINDER_DAYS),
-            date_joined__gt=now - timedelta(days=USER_2ND_VERIFY_EMAIL_REMINDER_DAYS + 1),
-        ).values_list("email", flat=True)
+        emails = get_unverified_emails(USER_2ND_VERIFY_EMAIL_REMINDER_DAYS)
 
         logging.info(f"{len(emails)} emails unverified.")
 
@@ -129,11 +139,22 @@ class SecondVerifyEmailReminderView(CronMixin, APIView):
 
 class DeleteUnverifiedAccounts(CronMixin, APIView):
     def get(self, request):
-        user_count, _ = User.objects.filter(
-            userprofile__is_verified=False,
-            date_joined__lte=timezone.now() - timedelta(days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS),
-        ).delete()
+        unverified_teachers = Teacher.objects.filter(
+            user__is_verified=False,
+            new_user__date_joined__lte=timezone.now() - timedelta(days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS),
+        ).values_list("new_user__email", flat=True)
 
-        logging.info(f"{user_count} unverified users deleted.")
+        unverified_students = Student.objects.filter(
+            user__is_verified=False,
+            class_field=None,
+            new_user__date_joined__lte=timezone.now() - timedelta(days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS),
+        ).values_list("new_user__email", flat=True)
+
+        unverified_emails = list(chain(unverified_teachers, unverified_students))
+
+        for email in unverified_emails:
+            User.objects.get(email=email).delete()
+
+        logging.info(f"{len(unverified_emails)} unverified users deleted.")
 
         return Response()
