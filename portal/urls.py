@@ -146,7 +146,7 @@ urlpatterns = [
         AdminChangePasswordDoneView.as_view(),
         name="administration_password_change_done",
     ),
-    url(r"^mail/weekly", send_new_users_report, name="send_new_users_report"),
+    url(r"^mail/weekly/", send_new_users_report, name="send_new_users_report"),
     url(r"^users/inactive/", InactiveUsersView.as_view(), name="inactive_users"),
     url(r"^locked_out/$", TemplateView.as_view(template_name="portal/locked_out.html"), name="locked_out"),
     url(r"^", include((two_factor_patterns, "two_factor"), namespace="two_factor")),
