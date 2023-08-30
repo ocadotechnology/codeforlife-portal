@@ -61,8 +61,6 @@ class FirstVerifyEmailReminderView(CronMixin, APIView):
     def get(self, request):
         emails = get_unverified_emails(USER_1ST_VERIFY_EMAIL_REMINDER_DAYS)
 
-        print(emails)
-
         logging.info(f"{len(emails)} emails unverified.")
 
         if emails:
@@ -151,10 +149,10 @@ class DeleteUnverifiedAccounts(CronMixin, APIView):
         ).values_list("new_user__email", flat=True)
 
         unverified_emails = list(chain(unverified_teachers, unverified_students))
+        unverified_emails_count = len(unverified_emails)
 
-        for email in unverified_emails:
-            User.objects.get(email=email).delete()
+        User.objects.filter(email__in=unverified_emails).delete()
 
-        logging.info(f"{len(unverified_emails)} unverified users deleted.")
+        logging.info(f"{unverified_emails_count} unverified users deleted.")
 
         return Response()

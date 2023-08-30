@@ -741,7 +741,7 @@ class TestUser(CronTestCase):
     def setUp(self):
         teacher_email, _ = signup_teacher_directly(preverified=False)
         create_organisation_directly(teacher_email)
-        _, _, access_code = create_class_directly(teacher_email)
+        self.klass, _, access_code = create_class_directly(teacher_email)
         _, _, student = create_school_student_directly(access_code)
         indy_email, _, _ = create_independent_student_directly()
 
@@ -867,27 +867,30 @@ class TestUser(CronTestCase):
             is_verified: bool,
             assert_exists: bool,
         ):
-            self.teacher_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
-            self.teacher_user.save()
-            self.student_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
-            self.student_user.save()
-            self.indy_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
-            self.indy_user.save()
+            teacher_email, _ = signup_teacher_directly(preverified=is_verified)
+            indy_email, _, _ = create_independent_student_directly(preverified=is_verified)
+            _, _, student = create_school_student_directly(self.klass.access_code)
 
-            self.teacher_user_profile.is_verified = is_verified
-            self.teacher_user_profile.save()
-            self.indy_user_profile.is_verified = is_verified
-            self.indy_user_profile.save()
+            teacher_user = User.objects.get(email=teacher_email)
+            indy_user = User.objects.get(email=indy_email)
+            student_user = student.new_user
+
+            teacher_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
+            teacher_user.save()
+            indy_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
+            indy_user.save()
+            student_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
+            student_user.save()
 
             self.client.get(reverse("delete-unverified-accounts"))
 
             (self.assertTrue if assert_exists else self.assertFalse)(
-                User.objects.filter(id=self.teacher_user.id).exists()
+                User.objects.filter(id=teacher_user.id).exists()
             )
-            (self.assertTrue if assert_exists else self.assertFalse)(User.objects.filter(id=self.indy_user.id).exists())
+            (self.assertTrue if assert_exists else self.assertFalse)(User.objects.filter(id=indy_user.id).exists())
 
             # Assert the student didn't get deleted
-            assert User.objects.filter(id=self.student_user.id).exists()
+            assert User.objects.filter(id=student_user.id).exists()
 
         delete_unverified_users(
             days=18,
@@ -907,5 +910,5 @@ class TestUser(CronTestCase):
         delete_unverified_users(
             days=20,
             is_verified=False,
-            assert_exists=True,
+            assert_exists=False,
         )
