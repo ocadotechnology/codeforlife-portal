@@ -148,11 +148,12 @@ class DeleteUnverifiedAccounts(CronMixin, APIView):
             new_user__date_joined__lte=timezone.now() - timedelta(days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS),
         ).values_list("new_user__email", flat=True)
 
-        unverified_emails = list(chain(unverified_teachers, unverified_students))
-        unverified_emails_count = len(unverified_emails)
+        unverified_teachers_count = unverified_teachers.count()
+        unverified_students_count = unverified_students.count()
 
-        User.objects.filter(email__in=unverified_emails).delete()
+        unverified_teachers.delete()
+        unverified_students.delete()
 
-        logging.info(f"{unverified_emails_count} unverified users deleted.")
+        logging.info(f"{unverified_teachers_count + unverified_students_count} unverified users deleted.")
 
         return Response()
