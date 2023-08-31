@@ -760,14 +760,12 @@ class TestUser(CronTestCase):
         indy_user = User.objects.get(email=indy_email)
         indy_user_profile = UserProfile.objects.get(user=indy_user)
 
-        student_user = student.new_user
-
         return (
             teacher_user,
             teacher_user_profile,
             indy_user,
             indy_user_profile,
-            student_user.new_user,
+            student.new_user,
         )
 
     def send_verify_email_reminder(
