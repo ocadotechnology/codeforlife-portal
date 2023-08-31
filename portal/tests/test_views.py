@@ -956,22 +956,22 @@ class TestUser(CronTestCase):
                 student_user.delete()
 
         delete_unverified_users(
-            days=18,
+            days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS - 1,
             is_verified=False,
             assert_exists=True,
         )
         delete_unverified_users(
-            days=19,
+            days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS,
             is_verified=False,
             assert_exists=False,
         )
         delete_unverified_users(
-            days=19,
+            days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS,
             is_verified=True,
             assert_exists=True,
         )
         delete_unverified_users(
-            days=20,
+            days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS + 1,
             is_verified=False,
             assert_exists=False,
         )
