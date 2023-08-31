@@ -137,23 +137,23 @@ class SecondVerifyEmailReminderView(CronMixin, APIView):
 
 class DeleteUnverifiedAccounts(CronMixin, APIView):
     def get(self, request):
-        unverified_teachers = Teacher.objects.filter(
-            user__is_verified=False,
-            new_user__date_joined__lte=timezone.now() - timedelta(days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS),
+        user_count = User.objects.count()
+        user_queryset = User.objects.filter(
+            date_joined__lte=timezone.now() - timedelta(days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS),
+            userprofile__is_verified=False,
         )
 
-        unverified_students = Student.objects.filter(
-            user__is_verified=False,
-            class_field=None,
-            new_user__date_joined__lte=timezone.now() - timedelta(days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS),
-        )
+        # Delete teachers.
+        user_queryset.filter(
+            new_teacher__isnull=False,
+            new_student__isnull=True,
+        ).delete()
+        # Delete independent students.
+        user_queryset.filter(
+            new_teacher__isnull=True,
+            new_student__class_field__isnull=True,
+        ).delete()
 
-        unverified_teachers_count = unverified_teachers.count()
-        unverified_students_count = unverified_students.count()
-
-        unverified_teachers.delete()
-        unverified_students.delete()
-
-        logging.info(f"{unverified_teachers_count + unverified_students_count} unverified users deleted.")
+        logging.info(f"{user_count - User.objects.count()} unverified users deleted.")
 
         return Response()

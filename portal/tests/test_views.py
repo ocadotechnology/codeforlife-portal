@@ -35,6 +35,7 @@ from portal.views.teacher.teach import (
     REMINDER_CARDS_PDF_WARNING_TEXT,
     count_student_details_click,
 )
+from portal.views.cron.user import USER_DELETE_UNVERIFIED_ACCOUNT_DAYS
 
 
 class TestTeacherViews(TestCase):
@@ -739,34 +740,19 @@ class CronTestCase(APITestCase):
 class TestUser(CronTestCase):
     # TODO: use fixtures
     def setUp(self):
-        (
-            self.teacher_user,
-            self.teacher_user_profile,
-            self.indy_user,
-            self.indy_user_profile,
-            self.student_user,
-        ) = self.create_users()
-
-    def create_users(self):
         teacher_email, _ = signup_teacher_directly(preverified=False)
         create_organisation_directly(teacher_email)
         _, _, access_code = create_class_directly(teacher_email)
         _, _, student = create_school_student_directly(access_code)
         indy_email, _, _ = create_independent_student_directly()
 
-        teacher_user = User.objects.get(email=teacher_email)
-        teacher_user_profile = UserProfile.objects.get(user=teacher_user)
+        self.teacher_user = User.objects.get(email=teacher_email)
+        self.teacher_user_profile = UserProfile.objects.get(user=self.teacher_user)
 
-        indy_user = User.objects.get(email=indy_email)
-        indy_user_profile = UserProfile.objects.get(user=indy_user)
+        self.indy_user = User.objects.get(email=indy_email)
+        self.indy_user_profile = UserProfile.objects.get(user=self.indy_user)
 
-        return (
-            teacher_user,
-            teacher_user_profile,
-            indy_user,
-            indy_user_profile,
-            student.new_user,
-        )
+        self.student_user: User = student.new_user
 
     def send_verify_email_reminder(
         self,
@@ -877,36 +863,87 @@ class TestUser(CronTestCase):
         )
 
     def test_delete_unverified_accounts_view(self):
+        now = timezone.now()
+
+        for user in [self.teacher_user, self.indy_user, self.student_user]:
+            user.date_joined = now - timedelta(days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS + 1)
+            user.save()
+
+        for user_profile in [self.teacher_user_profile, self.indy_user_profile]:
+            user_profile.is_verified = True
+            user_profile.save()
+
         def delete_unverified_users(
             days: int,
             is_verified: bool,
             assert_exists: bool,
         ):
-            (
-                teacher_user,
-                teacher_user_profile,
-                indy_user,
-                indy_user_profile,
-                student_user,
-            ) = self.create_users()
+            date_joined = now - timedelta(days=days, hours=12)
 
-            teacher_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
-            teacher_user.save()
-            student_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
-            student_user.save()
-            indy_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
-            indy_user.save()
+            # Create teacher.
+            teacher_user = User.objects.create(
+                first_name="Unverified",
+                last_name="Teacher",
+                username="unverified.teacher@codeforlife.com",
+                email="unverified.teacher@codeforlife.com",
+                date_joined=date_joined,
+            )
+            teacher_user_profile = UserProfile.objects.create(
+                user=teacher_user,
+                is_verified=is_verified,
+            )
+            Teacher.objects.create(
+                user=teacher_user_profile,
+                new_user=teacher_user,
+                school=self.teacher_user.new_teacher.school,
+            )
 
-            teacher_user_profile.is_verified = is_verified
-            teacher_user_profile.save()
-            indy_user_profile.is_verified = is_verified
-            indy_user_profile.save()
+            # Create dependent student.
+            student_user = User.objects.create(
+                first_name="Unverified",
+                last_name="DependentStudent",
+                username="unverified.dependentstudent@codeforlife.com",
+                email="unverified.dependentstudent@codeforlife.com",
+                date_joined=date_joined,
+            )
+            student_user_profile = UserProfile.objects.create(
+                user=student_user,
+                is_verified=is_verified,
+            )
+            Student.objects.create(
+                user=student_user_profile,
+                new_user=student_user,
+                class_field=self.student_user.new_student.class_field,
+            )
+
+            # Create independent student.
+            indy_user = User.objects.create(
+                first_name="Unverified",
+                last_name="IndependentStudent",
+                username="unverified.independentstudent@codeforlife.com",
+                email="unverified.independentstudent@codeforlife.com",
+                date_joined=date_joined,
+            )
+            indy_user_profile = UserProfile.objects.create(
+                user=indy_user,
+                is_verified=is_verified,
+            )
+            Student.objects.create(
+                user=indy_user_profile,
+                new_user=indy_user,
+            )
 
             self.client.get(reverse("delete-unverified-accounts"))
+
+            # Assert the verified users and teach
+            self.assertTrue(User.objects.filter(id=self.teacher_user.id).exists())
+            self.assertTrue(User.objects.filter(id=self.student_user.id).exists())
+            self.assertTrue(User.objects.filter(id=self.indy_user.id).exists())
 
             teacher_user_exists = User.objects.filter(id=teacher_user.id).exists()
             indy_user_exists = User.objects.filter(id=indy_user.id).exists()
             student_user_exists = User.objects.filter(id=student_user.id).exists()
+
             (self.assertTrue if assert_exists else self.assertFalse)(teacher_user_exists)
             (self.assertTrue if assert_exists else self.assertFalse)(indy_user_exists)
             self.assertTrue(student_user_exists)
