@@ -1,6 +1,7 @@
 from aimmo.urls import HOMEPAGE_REGEX
 from common.permissions import teacher_verified
 from django.conf.urls import include, url
+from django.urls import path
 from django.http import HttpResponse
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
@@ -88,6 +89,7 @@ from portal.views.teacher.teach import (
     teacher_download_csv,
     teacher_view_class,
 )
+from portal.views import cron
 
 from portal.views.two_factor.core import CustomSetupView
 from portal.views.two_factor.profile import CustomDisableView
@@ -105,6 +107,35 @@ two_factor_patterns = [
 
 
 urlpatterns = [
+    path(
+        "cron/",
+        include(
+            [
+                path(
+                    "user/",
+                    include(
+                        [
+                            path(
+                                "unverified/send-first-reminder/",
+                                cron.user.FirstVerifyEmailReminderView.as_view(),
+                                name="first-verify-email-reminder",
+                            ),
+                            path(
+                                "unverified/send-second-reminder/",
+                                cron.user.SecondVerifyEmailReminderView.as_view(),
+                                name="second-verify-email-reminder",
+                            ),
+                            path(
+                                "unverified/delete/",
+                                cron.user.DeleteUnverifiedAccounts.as_view(),
+                                name="delete-unverified-accounts",
+                            ),
+                        ]
+                    ),
+                ),
+            ]
+        ),
+    ),
     url(HOMEPAGE_REGEX, include("aimmo.urls")),
     url(r"^teach/kurono/dashboard/$", TeacherAimmoDashboard.as_view(), name="teacher_aimmo_dashboard"),
     url(r"^play/kurono/dashboard/$", StudentAimmoDashboard.as_view(), name="student_aimmo_dashboard"),
@@ -115,7 +146,7 @@ urlpatterns = [
         AdminChangePasswordDoneView.as_view(),
         name="administration_password_change_done",
     ),
-    url(r"^mail/weekly", send_new_users_report, name="send_new_users_report"),
+    url(r"^mail/weekly/", send_new_users_report, name="send_new_users_report"),
     url(r"^users/inactive/", InactiveUsersView.as_view(), name="inactive_users"),
     url(r"^locked_out/$", TemplateView.as_view(template_name="portal/locked_out.html"), name="locked_out"),
     url(r"^", include((two_factor_patterns, "two_factor"), namespace="two_factor")),
