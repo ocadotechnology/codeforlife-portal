@@ -902,13 +902,11 @@ class TestUser(CronTestCase):
             student_user = User.objects.create(
                 first_name="Unverified",
                 last_name="DependentStudent",
-                username="unverified.dependentstudent@codeforlife.com",
-                email="unverified.dependentstudent@codeforlife.com",
+                username="UnverifiedDependentStudent",
                 date_joined=date_joined,
             )
             student_user_profile = UserProfile.objects.create(
                 user=student_user,
-                is_verified=is_verified,
             )
             Student.objects.create(
                 user=student_user_profile,
@@ -936,17 +934,17 @@ class TestUser(CronTestCase):
             self.client.get(reverse("delete-unverified-accounts"))
 
             # Assert the verified users and teach
-            self.assertTrue(User.objects.filter(id=self.teacher_user.id).exists())
-            self.assertTrue(User.objects.filter(id=self.student_user.id).exists())
-            self.assertTrue(User.objects.filter(id=self.indy_user.id).exists())
+            assert User.objects.filter(id=self.teacher_user.id).exists()
+            assert User.objects.filter(id=self.student_user.id).exists()
+            assert User.objects.filter(id=self.indy_user.id).exists()
 
             teacher_user_exists = User.objects.filter(id=teacher_user.id).exists()
             indy_user_exists = User.objects.filter(id=indy_user.id).exists()
             student_user_exists = User.objects.filter(id=student_user.id).exists()
 
-            (self.assertTrue if assert_exists else self.assertFalse)(teacher_user_exists)
-            (self.assertTrue if assert_exists else self.assertFalse)(indy_user_exists)
-            self.assertTrue(student_user_exists)
+            assert teacher_user_exists == assert_exists
+            assert indy_user_exists == assert_exists
+            assert student_user_exists
 
             if teacher_user_exists:
                 teacher_user.delete()
