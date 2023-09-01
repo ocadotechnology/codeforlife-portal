@@ -101,7 +101,7 @@ class FirstVerifyEmailReminderView(CronMixin, APIView):
                             terms_url=terms_url,
                             privacy_notice_url=privacy_notice_url,
                         ),
-                        replace_url=email_verification_url,
+                        replace_url={"verify_url": email_verification_url},
                     )
 
                     sent_email_count += 1
@@ -144,7 +144,7 @@ class SecondVerifyEmailReminderView(CronMixin, APIView):
                             terms_url=terms_url,
                             privacy_notice_url=privacy_notice_url,
                         ),
-                        replace_url=email_verification_url,
+                        replace_url={"verify_url": email_verification_url},
                     )
 
                     sent_email_count += 1
