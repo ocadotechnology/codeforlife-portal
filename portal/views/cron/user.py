@@ -58,11 +58,12 @@ def get_unverified_emails(days: int) -> List[str]:
     return list(chain(teacher_emails, student_emails))
 
 
-def replace_protocol_and_app_in_link(url: str) -> str:
+def build_absolute_google_uri(request, location: str) -> str:
     """
     This is needed specifically for emails sent by cron jobs as the protocol for cron jobs is HTTP
     and the service name is wrongly parsed.
     """
+    url = request.build_absolute_uri(location)
     url = url.replace("http", "https")
     url = url.replace(".decent", "-dot-decent")
 
@@ -76,8 +77,8 @@ class FirstVerifyEmailReminderView(CronMixin, APIView):
         logging.info(f"{len(emails)} emails unverified.")
 
         if emails:
-            terms_url = request.build_absolute_uri(reverse("terms"))
-            privacy_notice_url = request.build_absolute_uri(reverse("privacy_notice"))
+            terms_url = build_absolute_google_uri(request, reverse("terms"))
+            privacy_notice_url = build_absolute_google_uri(request, reverse("privacy_notice"))
 
             sent_email_count = 0
             for email in emails:
@@ -88,16 +89,15 @@ class FirstVerifyEmailReminderView(CronMixin, APIView):
                         subject="Awaiting verification",
                         title="Awaiting verification",
                         text_content=USER_1ST_VERIFY_EMAIL_REMINDER_TEXT.format(
-                            email_verification_url=replace_protocol_and_app_in_link(
-                                request.build_absolute_uri(
-                                    reverse(
-                                        "verify_email",
-                                        kwargs={"token": generate_token_for_email(email)},
-                                    )
-                                )
+                            email_verification_url=build_absolute_google_uri(
+                                request,
+                                reverse(
+                                    "verify_email",
+                                    kwargs={"token": generate_token_for_email(email)},
+                                ),
                             ),
-                            terms_url=replace_protocol_and_app_in_link(terms_url),
-                            privacy_notice_url=replace_protocol_and_app_in_link(privacy_notice_url),
+                            terms_url=terms_url,
+                            privacy_notice_url=privacy_notice_url,
                         ),
                     )
 
@@ -117,8 +117,8 @@ class SecondVerifyEmailReminderView(CronMixin, APIView):
         logging.info(f"{len(emails)} emails unverified.")
 
         if emails:
-            terms_url = request.build_absolute_uri(reverse("terms"))
-            privacy_notice_url = request.build_absolute_uri(reverse("privacy_notice"))
+            terms_url = build_absolute_google_uri(request, reverse("terms"))
+            privacy_notice_url = build_absolute_google_uri(request, reverse("privacy_notice"))
 
             sent_email_count = 0
             for email in emails:
@@ -129,16 +129,15 @@ class SecondVerifyEmailReminderView(CronMixin, APIView):
                         subject="Your account needs verification",
                         title="Your account needs verification",
                         text_content=USER_2ND_VERIFY_EMAIL_REMINDER_TEXT.format(
-                            email_verification_url=replace_protocol_and_app_in_link(
-                                request.build_absolute_uri(
-                                    reverse(
-                                        "verify_email",
-                                        kwargs={"token": generate_token_for_email(email)},
-                                    )
-                                )
+                            email_verification_url=build_absolute_google_uri(
+                                request,
+                                reverse(
+                                    "verify_email",
+                                    kwargs={"token": generate_token_for_email(email)},
+                                ),
                             ),
-                            terms_url=replace_protocol_and_app_in_link(terms_url),
-                            privacy_notice_url=replace_protocol_and_app_in_link(privacy_notice_url),
+                            terms_url=terms_url,
+                            privacy_notice_url=privacy_notice_url,
                         ),
                     )
 
