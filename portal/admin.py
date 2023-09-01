@@ -78,7 +78,7 @@ class TeacherAdmin(admin.ModelAdmin, ExportActionMixin):
 class UserProfileAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = ["user__first_name", "user__last_name", "user__username", "user__date_joined"]
     list_filter = ["user__date_joined"]
-    list_display = ["user", "__str__"]
+    list_display = ["user", "__str__", "is_verified"]
     readonly_fields = ["user"]
 
 

@@ -31,7 +31,7 @@ USER_2ND_VERIFY_EMAIL_REMINDER_DAYS = 14
 USER_2ND_VERIFY_EMAIL_REMINDER_TEXT = (
     "Please go to the link below to verify your email address:"
     "\n{email_verification_url}."
-    "You will not be able to use your account until it is verified."
+    "\nYou will not be able to use your account until it is verified."
     "\n\nBy activating the account you confirm that you have read and agreed to"
     " our terms ({terms_url}) and our privacy notice ({privacy_notice_url}). If"
     " your account is not verified within 5 days we will delete it."
