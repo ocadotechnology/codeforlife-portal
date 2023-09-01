@@ -783,6 +783,7 @@ class TestUser(CronTestCase):
                 subject=ANY,
                 title=ANY,
                 text_content=ANY,
+                replace_url=ANY,
             )
 
             send_email.assert_any_call(
@@ -791,6 +792,7 @@ class TestUser(CronTestCase):
                 subject=ANY,
                 title=ANY,
                 text_content=ANY,
+                replace_url=ANY,
             )
 
             # Check only two emails are sent - the student should never be included.
