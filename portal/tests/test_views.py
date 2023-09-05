@@ -7,7 +7,7 @@ from unittest.mock import patch, Mock, ANY
 import PyPDF2
 import pytest
 from aimmo.models import Game
-from common.models import Teacher, UserSession, Student, Class, DailyActivity, School, UserProfile
+from common.models import Teacher, UserSession, Student, Class, DailyActivity, School, UserProfile, TotalActivity
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.student import (
@@ -709,6 +709,65 @@ class TestViews(TestCase):
         assert not is_logged_in_as_admin_teacher(teacher2.new_user)
 
         c.logout()
+
+    def test_registrations_increment_data(self):
+        c = Client()
+
+        total_activity = TotalActivity.objects.get(id=1)
+        registration_count = total_activity.registrations
+
+        response = c.post(
+            reverse("register"),
+            {
+                "teacher_signup-teacher_first_name": "Test Name",
+                "teacher_signup-teacher_last_name": "Test Last Name",
+                "teacher_signup-teacher_email": "test@email.com",
+                "teacher_signup-consent_ticked": "on",
+                "teacher_signup-teacher_password": "$RFVBGT%6yhn",
+                "teacher_signup-teacher_confirm_password": "$RFVBGT%6yhn",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        assert response.status_code == 302
+
+        total_activity = TotalActivity.objects.get(id=1)
+
+        assert total_activity.registrations == registration_count + 1
+
+        response = c.post(
+            reverse("register"),
+            {
+                "independent_student_signup-date_of_birth_day": 7,
+                "independent_student_signup-date_of_birth_month": 10,
+                "independent_student_signup-date_of_birth_year": 1997,
+                "independent_student_signup-name": "Test Name",
+                "independent_student_signup-email": "test@indy-email.com",
+                "independent_student_signup-consent_ticked": "on",
+                "independent_student_signup-password": "$RFVBGT%6yhn",
+                "independent_student_signup-confirm_password": "$RFVBGT%6yhn",
+                "g-recaptcha-response": "something",
+            },
+        )
+
+        assert response.status_code == 302
+
+        total_activity = TotalActivity.objects.get(id=1)
+
+        assert total_activity.registrations == registration_count + 2
+
+        teacher_email, teacher_password = signup_teacher_directly()
+        create_organisation_directly(teacher_email)
+        _, _, access_code = create_class_directly(teacher_email)
+
+        c.login(username=teacher_email, password=teacher_password)
+        c.post(reverse("view_class", kwargs={"access_code": access_code}), {"names": "Student 1, Student 2, Student 3"})
+
+        assert response.status_code == 302
+
+        total_activity = TotalActivity.objects.get(id=1)
+
+        assert total_activity.registrations == registration_count + 5
 
 
 # CRON view tests

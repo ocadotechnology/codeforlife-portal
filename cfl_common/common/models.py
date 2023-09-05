@@ -353,6 +353,21 @@ class DailyActivity(models.Model):
         return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}, primary pack downloads: {self.primary_coding_club_downloads}, python pack downloads: {self.python_coding_club_downloads}, level control submits: {self.level_control_submits}, teacher lockout resets: {self.teacher_lockout_resets}, indy lockout resets: {self.indy_lockout_resets}, school student lockout resets: {self.school_student_lockout_resets}"
 
 
+class TotalActivity(models.Model):
+    """
+    A model to record total activity. Meant to only have one entry which records all total activity.
+    An example of this is total ever registrations.
+    """
+
+    registrations = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural = "Total activity"
+
+    def __str__(self):
+        return "Total activity"
+
+
 class DynamicElement(models.Model):
     """
     This model is meant to allow us to quickly update some elements dynamically on the website without having to

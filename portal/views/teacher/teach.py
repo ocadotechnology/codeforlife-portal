@@ -9,7 +9,7 @@ from uuid import uuid4
 from aimmo.models import Game
 from common.helpers.emails import send_verification_email
 from common.helpers.generators import generate_access_code, generate_login_id, generate_password, get_hashed_login_id
-from common.models import Class, DailyActivity, JoinReleaseStudent, Student, Teacher
+from common.models import Class, DailyActivity, JoinReleaseStudent, Student, Teacher, TotalActivity
 from common.permissions import check_teacher_authorised, logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -123,6 +123,10 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                 new_student = Student.objects.schoolFactory(
                     klass=klass, name=name, password=password, login_id=hashed_login_id
                 )
+
+                total_activity = TotalActivity.objects.get(id=1)
+                total_activity.registrations += 1
+                total_activity.save()
 
                 login_url = generate_student_url(request, new_student, login_id)
                 students_info.append(
