@@ -14,6 +14,7 @@ from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import F
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
@@ -154,9 +155,7 @@ def process_signup_form(request, data):
 
         send_verification_email(request, teacher.user.user, data)
 
-        total_activity = TotalActivity.objects.get(id=1)
-        total_activity.registrations += 1
-        total_activity.save()
+        TotalActivity.objects.update(registrations=F("registrations") + 1)
 
     return render(request, "portal/email_verification_needed.html", {"usertype": "TEACHER"}, status=302)
 
@@ -196,9 +195,7 @@ def process_independent_student_signup_form(request, data):
 
     send_verification_email(request, student.new_user, data, age=age)
 
-    total_activity = TotalActivity.objects.get(id=1)
-    total_activity.registrations += 1
-    total_activity.save()
+    TotalActivity.objects.update(registrations=F("registrations") + 1)
 
     return render(request, "portal/email_verification_needed.html", {"usertype": "INDEP_STUDENT"}, status=302)
 

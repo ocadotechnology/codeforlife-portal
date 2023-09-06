@@ -15,6 +15,7 @@ from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.db.models import F
 from django.forms.formsets import formset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -124,9 +125,7 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                     klass=klass, name=name, password=password, login_id=hashed_login_id
                 )
 
-                total_activity = TotalActivity.objects.get(id=1)
-                total_activity.registrations += 1
-                total_activity.save()
+                TotalActivity.objects.update(registrations=F("registrations") + 1)
 
                 login_url = generate_student_url(request, new_student, login_id)
                 students_info.append(
