@@ -9,6 +9,7 @@ from common.models import (
     UserProfile,
     DynamicElement,
     DailyActivity,
+    TotalActivity,
 )
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
@@ -102,6 +103,14 @@ class DynamicElementAdmin(admin.ModelAdmin, ExportActionMixin):
         return False
 
 
+class TotalActivityAdmin(admin.ModelAdmin, ExportActionMixin):
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
 def anonymise_user(user_admin, request, queryset):
     for user in queryset:
         anonymise(user)
@@ -144,3 +153,4 @@ admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(SchoolTeacherInvitation, SchoolTeacherInvitationAdmin)
 admin.site.register(DynamicElement, DynamicElementAdmin)
 admin.site.register(DailyActivity)
+admin.site.register(TotalActivity, TotalActivityAdmin)

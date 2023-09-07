@@ -4,18 +4,17 @@ import math
 from common import email_messages
 from common.helpers.emails import (
     NOTIFICATION_EMAIL,
-    DotmailerUserType,
-    add_to_dotmailer,
     send_email,
     send_verification_email,
 )
-from common.models import Student, Teacher, DynamicElement
+from common.models import Student, Teacher, DynamicElement, TotalActivity
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import _using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import F
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
@@ -156,6 +155,8 @@ def process_signup_form(request, data):
 
         send_verification_email(request, teacher.user.user, data)
 
+        TotalActivity.objects.update(teacher_registrations=F("teacher_registrations") + 1)
+
     return render(request, "portal/email_verification_needed.html", {"usertype": "TEACHER"}, status=302)
 
 
@@ -193,6 +194,8 @@ def process_independent_student_signup_form(request, data):
     age = math.floor(age_in_days.days / 365.25)
 
     send_verification_email(request, student.new_user, data, age=age)
+
+    TotalActivity.objects.update(independent_registrations=F("independent_registrations") + 1)
 
     return render(request, "portal/email_verification_needed.html", {"usertype": "INDEP_STUDENT"}, status=302)
 

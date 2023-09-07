@@ -9,12 +9,13 @@ from uuid import uuid4
 from aimmo.models import Game
 from common.helpers.emails import send_verification_email
 from common.helpers.generators import generate_access_code, generate_login_id, generate_password, get_hashed_login_id
-from common.models import Class, DailyActivity, JoinReleaseStudent, Student, Teacher
+from common.models import Class, DailyActivity, JoinReleaseStudent, Student, Teacher, TotalActivity
 from common.permissions import check_teacher_authorised, logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.db.models import F
 from django.forms.formsets import formset_factory
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -123,6 +124,8 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                 new_student = Student.objects.schoolFactory(
                     klass=klass, name=name, password=password, login_id=hashed_login_id
                 )
+
+                TotalActivity.objects.update(student_registrations=F("student_registrations") + 1)
 
                 login_url = generate_student_url(request, new_student, login_id)
                 students_info.append(
