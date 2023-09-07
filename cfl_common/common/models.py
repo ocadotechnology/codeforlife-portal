@@ -359,7 +359,9 @@ class TotalActivity(models.Model):
     An example of this is total ever registrations.
     """
 
-    registrations = models.PositiveIntegerField(default=0)
+    teacher_registrations = models.PositiveIntegerField(default=0)
+    student_registrations = models.PositiveIntegerField(default=0)
+    independent_registrations = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name_plural = "Total activity"

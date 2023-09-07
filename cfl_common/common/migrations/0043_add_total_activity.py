@@ -7,8 +7,13 @@ def add_total_activity(apps, schema_editor):
     Initialises it with the total number of registrations at the time of the migration.
     """
     TotalActivity = apps.get_model("common", "TotalActivity")
-    User = apps.get_model("auth", "User")
-    TotalActivity.objects.create(registrations=User.objects.all().count())
+    Teacher = apps.get_model("common", "Teacher")
+    Student = apps.get_model("common", "Student")
+    TotalActivity.objects.create(
+        teacher_registrations=Teacher.objects.all().count(),
+        student_registrations=Student.objects.filter(class_field__isnull=False).count(),
+        independent_registrations=Student.objects.filter(class_field__isnull=True).count(),
+    )
 
 
 def remove_total_activity(apps, schema_editor):
@@ -19,9 +24,7 @@ def remove_total_activity(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0042_totalactivity'),
+        ("common", "0042_totalactivity"),
     ]
 
-    operations = [
-        migrations.RunPython(add_total_activity, remove_total_activity)
-    ]
+    operations = [migrations.RunPython(add_total_activity, remove_total_activity)]

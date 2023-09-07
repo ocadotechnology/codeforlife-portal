@@ -714,7 +714,9 @@ class TestViews(TestCase):
         c = Client()
 
         total_activity = TotalActivity.objects.get(id=1)
-        registration_count = total_activity.registrations
+        teacher_registration_count = total_activity.teacher_registrations
+        student_registration_count = total_activity.student_registrations
+        independent_registration_count = total_activity.independent_registrations
 
         response = c.post(
             reverse("register"),
@@ -733,7 +735,7 @@ class TestViews(TestCase):
 
         total_activity = TotalActivity.objects.get(id=1)
 
-        assert total_activity.registrations == registration_count + 1
+        assert total_activity.teacher_registrations == teacher_registration_count + 1
 
         response = c.post(
             reverse("register"),
@@ -754,7 +756,7 @@ class TestViews(TestCase):
 
         total_activity = TotalActivity.objects.get(id=1)
 
-        assert total_activity.registrations == registration_count + 2
+        assert total_activity.independent_registrations == independent_registration_count + 1
 
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
@@ -767,7 +769,7 @@ class TestViews(TestCase):
 
         total_activity = TotalActivity.objects.get(id=1)
 
-        assert total_activity.registrations == registration_count + 5
+        assert total_activity.student_registrations == student_registration_count + 3
 
 
 # CRON view tests

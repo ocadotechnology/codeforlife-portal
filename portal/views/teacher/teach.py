@@ -125,7 +125,7 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                     klass=klass, name=name, password=password, login_id=hashed_login_id
                 )
 
-                TotalActivity.objects.update(registrations=F("registrations") + 1)
+                TotalActivity.objects.update(student_registrations=F("student_registrations") + 1)
 
                 login_url = generate_student_url(request, new_student, login_id)
                 students_info.append(

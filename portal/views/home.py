@@ -155,7 +155,7 @@ def process_signup_form(request, data):
 
         send_verification_email(request, teacher.user.user, data)
 
-        TotalActivity.objects.update(registrations=F("registrations") + 1)
+        TotalActivity.objects.update(teacher_registrations=F("teacher_registrations") + 1)
 
     return render(request, "portal/email_verification_needed.html", {"usertype": "TEACHER"}, status=302)
 
@@ -195,7 +195,7 @@ def process_independent_student_signup_form(request, data):
 
     send_verification_email(request, student.new_user, data, age=age)
 
-    TotalActivity.objects.update(registrations=F("registrations") + 1)
+    TotalActivity.objects.update(independent_registrations=F("independent_registrations") + 1)
 
     return render(request, "portal/email_verification_needed.html", {"usertype": "INDEP_STUDENT"}, status=302)
 
