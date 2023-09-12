@@ -16,7 +16,7 @@ jobs:
             const creator = context.payload.sender.login
             const result = await github.rest.teams.getMembershipForUserInOrg({
               org: context.repo.owner,
-              team_slug: 'my-cool-team',
+              team_slug: 'codeforlife',
               username: creator
             })
             console.log(creator, result) // do whatever you want
