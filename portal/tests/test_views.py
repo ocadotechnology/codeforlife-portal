@@ -1,13 +1,23 @@
 import csv
 import io
 import json
-from datetime import timedelta, date
+from datetime import timedelta, date, datetime
 from unittest.mock import patch, Mock, ANY
 
 import PyPDF2
 import pytest
 from aimmo.models import Game
-from common.models import Teacher, UserSession, Student, Class, DailyActivity, School, UserProfile, TotalActivity
+from common.helpers.emails import NOTIFICATION_EMAIL
+from common.models import (
+    Teacher,
+    UserSession,
+    Student,
+    Class,
+    DailyActivity,
+    School,
+    UserProfile,
+    TotalActivity,
+)
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.student import (
@@ -25,17 +35,16 @@ from game.tests.utils.attempt import create_attempt
 from game.tests.utils.level import create_save_level
 from rest_framework.test import APIClient, APITestCase
 
-from cfl_common.common.helpers.emails import NOTIFICATION_EMAIL
 from deploy import captcha
 from portal.templatetags.app_tags import is_logged_in_as_admin_teacher
 from portal.views.api import anonymise
+from portal.views.cron.user import USER_DELETE_UNVERIFIED_ACCOUNT_DAYS
 from portal.views.teacher.teach import (
     REMINDER_CARDS_PDF_ROWS,
     REMINDER_CARDS_PDF_COLUMNS,
     REMINDER_CARDS_PDF_WARNING_TEXT,
     count_student_details_click,
 )
-from portal.views.cron.user import USER_DELETE_UNVERIFIED_ACCOUNT_DAYS
 
 
 class TestTeacherViews(TestCase):
@@ -994,6 +1003,14 @@ class TestUser(CronTestCase):
                 new_user=indy_user,
             )
 
+            activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
+            daily_teacher_count = activity_today.deleted_unverified_teachers
+            daily_indy_count = activity_today.deleted_unverified_independents
+
+            total_activity = TotalActivity.objects.get(id=1)
+            total_teacher_count = total_activity.deleted_unverified_teachers
+            total_indy_count = total_activity.deleted_unverified_independents
+
             self.client.get(reverse("delete-unverified-accounts"))
 
             # Assert the verified users and teach
@@ -1009,10 +1026,19 @@ class TestUser(CronTestCase):
             assert indy_user_exists == assert_exists
             assert student_user_exists
 
+            activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
+            total_activity = TotalActivity.objects.get(id=1)
+
             if teacher_user_exists:
                 teacher_user.delete()
+            else:
+                assert activity_today.deleted_unverified_teachers == daily_teacher_count + 1
+                assert total_activity.deleted_unverified_teachers == total_teacher_count + 1
             if indy_user_exists:
                 indy_user.delete()
+            else:
+                assert activity_today.deleted_unverified_independents == daily_teacher_count + 1
+                assert total_activity.deleted_unverified_independents == total_indy_count + 1
             if student_user_exists:
                 student_user.delete()
 

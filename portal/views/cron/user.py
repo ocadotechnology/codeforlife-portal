@@ -1,18 +1,19 @@
 import logging
-from datetime import timedelta
+from datetime import timedelta, datetime
 
+from common.helpers.emails import (
+    NOTIFICATION_EMAIL,
+    generate_token_for_email,
+    send_email,
+)
+from common.models import DailyActivity, TotalActivity
 from django.contrib.auth.models import User
+from django.db.models import F
 from django.db.models.query import QuerySet
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from cfl_common.common.helpers.emails import (
-    NOTIFICATION_EMAIL,
-    generate_token_for_email,
-    send_email,
-)
 
 from ...mixins import CronMixin
 
@@ -38,7 +39,7 @@ USER_2ND_VERIFY_EMAIL_REMINDER_TEXT = (
 USER_DELETE_UNVERIFIED_ACCOUNT_DAYS = 19
 
 
-def get_unverified_users(days: int, same_day: bool) -> QuerySet[User]:
+def get_unverified_users(days: int, same_day: bool) -> (int, int, QuerySet[User]):
     now = timezone.now()
 
     # All expired unverified users.
@@ -58,7 +59,11 @@ def get_unverified_users(days: int, same_day: bool) -> QuerySet[User]:
         new_student__class_field__isnull=True,
     )
 
-    return teacher_queryset.union(independent_student_queryset)
+    return (
+        teacher_queryset.count(),
+        independent_student_queryset.count(),
+        teacher_queryset.union(independent_student_queryset),
+    )
 
 
 def build_absolute_google_uri(request, location: str) -> str:
@@ -75,7 +80,7 @@ def build_absolute_google_uri(request, location: str) -> str:
 
 class FirstVerifyEmailReminderView(CronMixin, APIView):
     def get(self, request):
-        user_queryset = get_unverified_users(
+        _, _, user_queryset = get_unverified_users(
             USER_1ST_VERIFY_EMAIL_REMINDER_DAYS,
             same_day=True,
         )
@@ -122,7 +127,7 @@ class FirstVerifyEmailReminderView(CronMixin, APIView):
 
 class SecondVerifyEmailReminderView(CronMixin, APIView):
     def get(self, request):
-        user_queryset = get_unverified_users(
+        _, _, user_queryset = get_unverified_users(
             USER_2ND_VERIFY_EMAIL_REMINDER_DAYS,
             same_day=True,
         )
@@ -171,7 +176,7 @@ class DeleteUnverifiedAccounts(CronMixin, APIView):
     def get(self, request):
         user_count = User.objects.count()
 
-        user_queryset = get_unverified_users(
+        teacher_count, indy_count, user_queryset = get_unverified_users(
             USER_DELETE_UNVERIFIED_ACCOUNT_DAYS,
             same_day=False,
         )
@@ -185,5 +190,15 @@ class DeleteUnverifiedAccounts(CronMixin, APIView):
 
         user_count -= User.objects.count()
         logging.info(f"{user_count} unverified users deleted.")
+
+        activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
+        activity_today.deleted_unverified_teachers = teacher_count
+        activity_today.deleted_unverified_independents = indy_count
+        activity_today.save()
+
+        TotalActivity.objects.update(
+            deleted_unverified_teachers=F("deleted_unverified_teachers") + teacher_count,
+            deleted_unverified_independents=F("deleted_unverified_independents") + indy_count,
+        )
 
         return Response()
