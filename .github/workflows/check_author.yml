@@ -1,0 +1,12 @@
+name: Check PR author
+
+on:
+  pull_request:
+
+jobs:
+  check-author:
+    name: Check author
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check email
+        run: echo "This PR is opened by ${{ github.event.pull_request.user.login }}."
