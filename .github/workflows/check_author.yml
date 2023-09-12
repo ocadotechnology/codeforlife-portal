@@ -8,5 +8,15 @@ jobs:
     name: Check author
     runs-on: ubuntu-20.04
     steps:
-      - name: Check email
-        run: echo "This PR is opened by ${{ github.event.pull_request.user.email }}."
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            // If user is member of my_team team do nothing else do something
+            // See: https://octokit.github.io/rest.js/v18#teams
+            const creator = context.payload.sender.login
+            const result = await github.rest.teams.getMembershipForUserInOrg({
+              org: context.repo.owner,
+              team_slug: 'my-cool-team',
+              username: creator
+            })
+            console.log(creator, result) // do whatever you want
