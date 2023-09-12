@@ -95,5 +95,5 @@ class TestModels(TestCase):
 
         assert (
             str(daily_activity)
-            == f"Activity on {daily_activity.date}: CSV clicks: 0, login cards clicks: 0, primary pack downloads: 0, python pack downloads: 0, level control submits: 0, teacher lockout resets: 0, indy lockout resets: 0, school student lockout resets: 0"
+            == f"Activity on {daily_activity.date}: CSV clicks: 0, login cards clicks: 0, primary pack downloads: 0, python pack downloads: 0, level control submits: 0, teacher lockout resets: 0, indy lockout resets: 0, school student lockout resets: 0, unverified teachers deleted: 0, unverified independents deleted: 0"
         )
