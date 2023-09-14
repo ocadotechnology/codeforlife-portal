@@ -7,7 +7,7 @@ from common.helpers.emails import (
     send_email,
     send_verification_email,
 )
-from common.models import Student, Teacher, DynamicElement, TotalActivity
+from common.models import Student, Teacher, DynamicElement, TotalActivity, UserProfile
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import _using_two_factor
 from django.contrib import messages as messages
@@ -238,8 +238,11 @@ def home(request):
         pass
 
     unverified_teachers, unverified_indies = get_unverified_users(0, False)
+    all_users = User.objects.count()
+    all_userprofiles = UserProfile.objects.count()
+    unverified_userprofiles = UserProfile.objects.filter(is_verified=False).count()
 
-    data = f"There are {unverified_teachers.count()} unverified teachers and {unverified_indies.count()} unverified indies."
+    data = f"There are {unverified_teachers.count()} unverified teachers and {unverified_indies.count()} unverified indies. There are {all_users} overall users and {all_userprofiles} overall userprofiles, of which {unverified_userprofiles} are unverified."
 
     """
     This view is where we can add any messages to be shown upon loading the home page.
