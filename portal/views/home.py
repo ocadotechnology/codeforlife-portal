@@ -34,8 +34,8 @@ from portal.helpers.ratelimit import (
 from portal.strings.coding_club import CODING_CLUB_BANNER
 from portal.strings.home_learning import HOME_LEARNING_BANNER
 from portal.templatetags.app_tags import cloud_storage
-from portal.views.teacher.teach import DownloadType
-from portal.views.teacher.teach import count_student_pack_downloads_click
+from portal.views.teacher.teach import DownloadType, count_student_pack_downloads_click
+from portal.views.cron.user import get_unverified_users
 
 LOGGER = logging.getLogger(__name__)
 
@@ -237,6 +237,10 @@ def home(request):
     except ObjectDoesNotExist:
         pass
 
+    unverified_teachers, unverified_indies = get_unverified_users(0, False)
+
+    data = f"There are {unverified_teachers.count()} unverified teachers and {unverified_indies.count()} unverified indies."
+
     """
     This view is where we can add any messages to be shown upon loading the home page.
     Following this format:
@@ -247,7 +251,7 @@ def home(request):
     sub banner (right under the page header). Other functions can be used to indicate a
     warning, an error or a simple information.
     """
-    return render(request, "portal/home.html")
+    return render(request, "portal/home.html", {"data": data})
 
 
 def coding_club(request):

@@ -13,6 +13,7 @@ from cfl_common.common.helpers.emails import (
     generate_token_for_email,
     send_email,
 )
+from common.models import Teacher, Student
 
 from ...mixins import CronMixin
 
@@ -38,7 +39,7 @@ USER_2ND_VERIFY_EMAIL_REMINDER_TEXT = (
 USER_DELETE_UNVERIFIED_ACCOUNT_DAYS = 19
 
 
-def get_unverified_users(days: int, same_day: bool) -> QuerySet[User]:
+def get_unverified_users(days: int, same_day: bool) -> (QuerySet[Teacher], QuerySet[Student]):
     now = timezone.now()
 
     # All expired unverified users.
@@ -58,7 +59,7 @@ def get_unverified_users(days: int, same_day: bool) -> QuerySet[User]:
         new_student__class_field__isnull=True,
     )
 
-    return teacher_queryset.union(independent_student_queryset)
+    return teacher_queryset, independent_student_queryset
 
 
 def build_absolute_google_uri(request, location: str) -> str:
@@ -75,10 +76,11 @@ def build_absolute_google_uri(request, location: str) -> str:
 
 class FirstVerifyEmailReminderView(CronMixin, APIView):
     def get(self, request):
-        user_queryset = get_unverified_users(
+        teachers, indies = get_unverified_users(
             USER_1ST_VERIFY_EMAIL_REMINDER_DAYS,
             same_day=True,
         )
+        user_queryset = teachers.union(indies)
         user_count = user_queryset.count()
 
         logging.info(f"{user_count} emails unverified.")
@@ -122,10 +124,11 @@ class FirstVerifyEmailReminderView(CronMixin, APIView):
 
 class SecondVerifyEmailReminderView(CronMixin, APIView):
     def get(self, request):
-        user_queryset = get_unverified_users(
+        teachers, indies = get_unverified_users(
             USER_2ND_VERIFY_EMAIL_REMINDER_DAYS,
             same_day=True,
         )
+        user_queryset = teachers.union(indies)
         user_count = user_queryset.count()
 
         logging.info(f"{user_count} emails unverified.")
@@ -171,11 +174,12 @@ class DeleteUnverifiedAccounts(CronMixin, APIView):
     def get(self, request):
         user_count = User.objects.count()
 
-        user_queryset = get_unverified_users(
+        teachers, indies = get_unverified_users(
             USER_DELETE_UNVERIFIED_ACCOUNT_DAYS,
             same_day=False,
         )
 
+        user_queryset = teachers.union(indies)
         for user in user_queryset.iterator(chunk_size=100):
             try:
                 user.delete()
