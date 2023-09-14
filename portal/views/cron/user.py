@@ -14,6 +14,7 @@ from django.urls import reverse
 from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from portal.views.api import anonymise
 
 from ...mixins import CronMixin
 
@@ -170,9 +171,9 @@ class SecondVerifyEmailReminderView(CronMixin, APIView):
         return Response()
 
 
-class DeleteUnverifiedAccounts(CronMixin, APIView):
+class AnonymiseUnverifiedAccounts(CronMixin, APIView):
     def get(self, request):
-        user_count = User.objects.count()
+        user_count = User.objects.filter(is_active=True).count()
 
         teacher_queryset, independent_student_queryset = get_unverified_users(
             USER_DELETE_UNVERIFIED_ACCOUNT_DAYS,
@@ -185,22 +186,22 @@ class DeleteUnverifiedAccounts(CronMixin, APIView):
 
         for user in user_queryset.iterator(chunk_size=100):
             try:
-                user.delete()
+                anonymise(user)
             except Exception as ex:
-                logging.error(f"Failed to delete user with id: {user.id}")
+                logging.error(f"Failed to anonymise user with id: {user.id}")
                 logging.exception(ex)
 
-        user_count -= User.objects.count()
-        logging.info(f"{user_count} unverified users deleted.")
+        user_count -= User.objects.filter(is_active=True).count()
+        logging.info(f"{user_count} unverified users anonymised.")
 
         activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
-        activity_today.deleted_unverified_teachers = teacher_count
-        activity_today.deleted_unverified_independents = indy_count
+        activity_today.anonymised_unverified_teachers = teacher_count
+        activity_today.anonymised_unverified_independents = indy_count
         activity_today.save()
 
         TotalActivity.objects.update(
-            deleted_unverified_teachers=F("deleted_unverified_teachers") + teacher_count,
-            deleted_unverified_independents=F("deleted_unverified_independents") + indy_count,
+            anonymised_unverified_teachers=F("anonymised_unverified_teachers") + teacher_count,
+            anonymised_unverified_independents=F("anonymised_unverified_independents") + indy_count,
         )
 
         return Response()

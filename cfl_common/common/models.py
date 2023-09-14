@@ -345,14 +345,14 @@ class DailyActivity(models.Model):
     teacher_lockout_resets = models.PositiveIntegerField(default=0)
     indy_lockout_resets = models.PositiveIntegerField(default=0)
     school_student_lockout_resets = models.PositiveIntegerField(default=0)
-    deleted_unverified_teachers = models.PositiveIntegerField(default=0)
-    deleted_unverified_independents = models.PositiveIntegerField(default=0)
+    anonymised_unverified_teachers = models.PositiveIntegerField(default=0)
+    anonymised_unverified_independents = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name_plural = "Daily activities"
 
     def __str__(self):
-        return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}, primary pack downloads: {self.primary_coding_club_downloads}, python pack downloads: {self.python_coding_club_downloads}, level control submits: {self.level_control_submits}, teacher lockout resets: {self.teacher_lockout_resets}, indy lockout resets: {self.indy_lockout_resets}, school student lockout resets: {self.school_student_lockout_resets}, unverified teachers deleted: {self.deleted_unverified_teachers}, unverified independents deleted: {self.deleted_unverified_independents}"
+        return f"Activity on {self.date}: CSV clicks: {self.csv_click_count}, login cards clicks: {self.login_cards_click_count}, primary pack downloads: {self.primary_coding_club_downloads}, python pack downloads: {self.python_coding_club_downloads}, level control submits: {self.level_control_submits}, teacher lockout resets: {self.teacher_lockout_resets}, indy lockout resets: {self.indy_lockout_resets}, school student lockout resets: {self.school_student_lockout_resets}, unverified teachers anonymised: {self.anonymised_unverified_teachers}, unverified independents anonymised: {self.anonymised_unverified_independents}"
 
 
 class TotalActivity(models.Model):
@@ -364,8 +364,8 @@ class TotalActivity(models.Model):
     teacher_registrations = models.PositiveIntegerField(default=0)
     student_registrations = models.PositiveIntegerField(default=0)
     independent_registrations = models.PositiveIntegerField(default=0)
-    deleted_unverified_teachers = models.PositiveIntegerField(default=0)
-    deleted_unverified_independents = models.PositiveIntegerField(default=0)
+    anonymised_unverified_teachers = models.PositiveIntegerField(default=0)
+    anonymised_unverified_independents = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name_plural = "Total activity"

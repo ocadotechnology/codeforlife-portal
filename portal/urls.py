@@ -127,8 +127,8 @@ urlpatterns = [
                             ),
                             path(
                                 "unverified/delete/",
-                                cron.user.DeleteUnverifiedAccounts.as_view(),
-                                name="delete-unverified-accounts",
+                                cron.user.AnonymiseUnverifiedAccounts.as_view(),
+                                name="anonymise-unverified-accounts",
                             ),
                         ]
                     ),
