@@ -237,12 +237,13 @@ def home(request):
     except ObjectDoesNotExist:
         pass
 
-    unverified_teachers, unverified_indies = get_unverified_users(0, False)
+    unverified_teachers, unverified_indies = get_unverified_users(28, False)
     all_users = User.objects.count()
     all_userprofiles = UserProfile.objects.count()
     unverified_userprofiles = UserProfile.objects.filter(is_verified=False).count()
+    students_of_unverified = Student.objects.filter(class_field__teacher__in=unverified_teachers).count()
 
-    data = f"There are {unverified_teachers.count()} unverified teachers and {unverified_indies.count()} unverified indies. There are {all_users} overall users and {all_userprofiles} overall userprofiles, of which {unverified_userprofiles} are unverified."
+    data = f"There are {unverified_teachers.count()} unverified teachers and {unverified_indies.count()} unverified indies, and {students_of_unverified} students are of unverified teachers. There are {all_users} overall users and {all_userprofiles} overall userprofiles, of which {unverified_userprofiles} are unverified."
 
     """
     This view is where we can add any messages to be shown upon loading the home page.
