@@ -237,7 +237,7 @@ def home(request):
     except ObjectDoesNotExist:
         pass
 
-    unverified_teachers, unverified_indies = get_unverified_users(28, False)
+    unverified_teachers, unverified_indies = get_unverified_users(19, False)
     all_users = User.objects.count()
     all_userprofiles = UserProfile.objects.count()
     unverified_userprofiles = UserProfile.objects.filter(is_verified=False).count()
