@@ -20,3 +20,8 @@ jobs:
       - name: Print whether member exists
         run: |
           echo "Does member exists: ${{ steps.check-member.outputs.exists-in-team }}"
+
+      - name: Trigger verification workflow if user is not member
+        if: ${{ steps.teamAffiliation.outputs.isTeamMember == false }}
+        run: | # or 'uses' if using an action
+        # Trigger verification workflow
