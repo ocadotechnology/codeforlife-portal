@@ -4,19 +4,19 @@ on:
   pull_request:
 
 jobs:
-  check-user:
-    name: Team affiliation
+  check-member:
     runs-on: ubuntu-latest
+    name: Check if an user exists
     steps:
-      - name: Check user for team affiliation
-        uses: tspascoal/get-user-teams-membership@v2
-        id: teamAffiliation
+      - name: Check if member exists
+        id: check-member
+        uses: bryantson/check-member-exists-in-team-actions@1.0
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          username: ${{ github.actor }}
-          team: codeforlife
-      - name: Stop workflow if user is no member
-        if: ${{ steps.teamAffiliation.outputs.isTeamMember == false }}
+          team_slug: codeforlife
+          org_slug: ocadotechnology
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ github.event.pull_request.user.login }}
+
+      - name: Print whether member exists
         run: |
-          echo "You have no rights to trigger this job."
-          exit 1
+          echo "Does member exists: ${{ steps.check-member.outputs.exists-in-team }}"
