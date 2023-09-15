@@ -4,19 +4,19 @@ on:
   pull_request:
 
 jobs:
-  check-author:
-    name: Check author
-    runs-on: ubuntu-20.04
+  check-user:
+    name: Team affiliation
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
+      - name: Check user for team affiliation
+        uses: tspascoal/get-user-teams-membership@v2
+        id: teamAffiliation
         with:
-          script: |
-            // If user is member of my_team team do nothing else do something
-            // See: https://octokit.github.io/rest.js/v18#teams
-            const creator = context.payload.sender.login
-            const result = await github.rest.teams.getMembershipForUserInOrg({
-              org: context.repo.owner,
-              team_slug: 'codeforlife',
-              username: creator
-            })
-            console.log(creator, result) // do whatever you want
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          username: ${{ github.actor }}
+          team: codeforlife
+      - name: Stop workflow if user is no member
+        if: ${{ steps.teamAffiliation.outputs.isTeamMember == false }}
+        run: |
+          echo "You have no rights to trigger this job."
+          exit 1
