@@ -156,12 +156,12 @@ def get_usage(request, group=None, fn=None, key=None, rate=None, method=ALL, inc
     else:
         raise ImproperlyConfigured("Could not understand ratelimit key: %s" % key)
 
-    window = _get_window(value, period)
+    window = _get_window(value=value or request.session["auth-username"], period=period)
     initial_value = 1 if increment else 0
 
     cache_name = getattr(settings, "RATELIMIT_USE_CACHE", "default")
     cache = caches[cache_name]
-    cache_key = _make_cache_key(group, window, rate, value or request.session.get("auth-username", ""), method)
+    cache_key = _make_cache_key(group, window, rate, value, method)
 
     count = None
     added = cache.add(cache_key, initial_value, period + EXPIRATION_FUDGE)
