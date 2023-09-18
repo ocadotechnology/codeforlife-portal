@@ -85,7 +85,7 @@ def is_ratelimited(request, group=None, fn=None, key=None, rate=None, method=ALL
     the custom cache_key functionality.
     """
     usage = get_usage(request, group, fn, key, rate, method, increment)
-    if usage is None or key == "" or key is None:
+    if usage is None:
         return False
 
     return usage["should_limit"]
@@ -161,7 +161,16 @@ def get_usage(request, group=None, fn=None, key=None, rate=None, method=ALL, inc
 
     cache_name = getattr(settings, "RATELIMIT_USE_CACHE", "default")
     cache = caches[cache_name]
-    cache_key = _make_cache_key(group, window, rate, value, method)
+
+    if value == "":
+        return {
+            "count": 0,
+            "limit": 0,
+            "should_limit": False,
+            "time_left": -1,
+        }
+    else:
+        cache_key = _make_cache_key(group, window, rate, value, method)
 
     count = None
     added = cache.add(cache_key, initial_value, period + EXPIRATION_FUDGE)
