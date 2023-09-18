@@ -85,7 +85,7 @@ def is_ratelimited(request, group=None, fn=None, key=None, rate=None, method=ALL
     the custom cache_key functionality.
     """
     usage = get_usage(request, group, fn, key, rate, method, increment)
-    if usage is None:
+    if usage is None or key == "" or key is None:
         return False
 
     return usage["should_limit"]
