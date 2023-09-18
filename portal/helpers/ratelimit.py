@@ -161,7 +161,7 @@ def get_usage(request, group=None, fn=None, key=None, rate=None, method=ALL, inc
 
     cache_name = getattr(settings, "RATELIMIT_USE_CACHE", "default")
     cache = caches[cache_name]
-    cache_key = _make_cache_key(group, window, rate, request.session.get("auth-username", ""), method)
+    cache_key = _make_cache_key(group, window, rate, value or request.session.get("auth-username", ""), method)
 
     count = None
     added = cache.add(cache_key, initial_value, period + EXPIRATION_FUDGE)
