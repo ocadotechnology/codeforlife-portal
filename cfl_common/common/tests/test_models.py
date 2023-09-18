@@ -6,7 +6,7 @@ from .utils.classes import create_class_directly
 from .utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from .utils.student import create_independent_student_directly
 from .utils.teacher import signup_teacher_directly
-from ..models import sanitise_uk_postcode
+from ..helpers.organisation import sanitise_uk_postcode
 
 
 class TestModels(TestCase):
