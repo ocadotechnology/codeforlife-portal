@@ -57,7 +57,8 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                 if request.user.is_anonymous:
                     data = request.POST
                     if is_teacher:
-                        username = data.get("auth-username")
+                        # if 2fa enabled get username from session
+                        username = data.get("auth-username") or request.session.get("auth-username")
                     else:
                         username = data.get("username")
 

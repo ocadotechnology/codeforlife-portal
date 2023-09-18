@@ -1,4 +1,5 @@
 from common.models import Teacher
+from django_otp.plugins.otp_totp.models import TOTPDevice
 from django.shortcuts import render
 from two_factor.views import LoginView
 from two_factor.forms import AuthenticationTokenForm, BackupTokenForm
@@ -35,7 +36,9 @@ class TeacherLoginView(LoginView):
             email = request.POST.get("auth-username")
             if Teacher.objects.filter(new_user__email=email).exists():
                 teacher = Teacher.objects.get(new_user__email=email)
-
+                does_teacher_have_2fa = TOTPDevice.objects.filter(user=teacher.new_user).exists()
+                if does_teacher_have_2fa:
+                    request.session["auth-username"] = email
                 if teacher.blocked_time is not None:
                     if has_user_lockout_expired(teacher):
                         teacher.blocked_time = None
