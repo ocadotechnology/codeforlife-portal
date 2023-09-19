@@ -162,15 +162,15 @@ def get_usage(request, group=None, fn=None, key=None, rate=None, method=ALL, inc
     cache_name = getattr(settings, "RATELIMIT_USE_CACHE", "default")
     cache = caches[cache_name]
 
-    if value == "":
-        return {
-            "count": 0,
-            "limit": 0,
-            "should_limit": False,
-            "time_left": -1,
-        }
-    else:
-        cache_key = _make_cache_key(group, window, rate, value, method)
+    # if value == "":
+    #     return {
+    #         "count": 0,
+    #         "limit": 0,
+    #         "should_limit": False,
+    #         "time_left": -1,
+    #     }
+    # else:
+    cache_key = _make_cache_key(group, window, rate, value, method)
 
     count = None
     added = cache.add(cache_key, initial_value, period + EXPIRATION_FUDGE)
