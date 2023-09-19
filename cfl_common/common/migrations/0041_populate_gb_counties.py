@@ -1,7 +1,7 @@
 import pgeocode
 from django.db import migrations
 
-from portal.helpers.organisation import sanitise_uk_postcode
+from ..helpers.organisation import sanitise_uk_postcode
 
 
 class Migration(migrations.Migration):
