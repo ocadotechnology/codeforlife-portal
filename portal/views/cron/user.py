@@ -40,7 +40,7 @@ USER_2ND_VERIFY_EMAIL_REMINDER_TEXT = (
 USER_DELETE_UNVERIFIED_ACCOUNT_DAYS = 19
 
 
-def get_unverified_users(days: int, same_day: bool) -> (int, int, QuerySet[User]):
+def get_unverified_users(days: int, same_day: bool) -> (QuerySet[User], QuerySet[User]):
     now = timezone.now()
 
     # All expired unverified users.
