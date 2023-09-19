@@ -2,7 +2,6 @@ import hashlib
 from unittest.mock import patch, Mock
 
 from portal.helpers.password import is_password_pwned
-from portal.helpers.organisation import sanitise_uk_postcode
 
 
 class TestClass:
@@ -29,12 +28,3 @@ class TestClass:
         # Assert
         mock_get.assert_called_once_with(f"https://api.pwnedpasswords.com/range/{sha1_hash[:5]}")
         assert not result
-
-    def test_sanitise_uk_postcode(self):
-        postcode_with_space = "AL10 9NE"
-        postcode_without_space = "AL109UL"
-        invalid_postcode = "123"
-
-        assert sanitise_uk_postcode(postcode_with_space) == "AL10 9NE"  # Check it stays the same
-        assert sanitise_uk_postcode(postcode_without_space) == "AL10 9UL"  # Check a space is added
-        assert sanitise_uk_postcode(invalid_postcode) == "123"  # Check nothing happens

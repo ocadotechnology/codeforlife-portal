@@ -6,6 +6,7 @@ from .utils.classes import create_class_directly
 from .utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from .utils.student import create_independent_student_directly
 from .utils.teacher import signup_teacher_directly
+from ..helpers.organisation import sanitise_uk_postcode
 
 
 class TestModels(TestCase):
@@ -89,6 +90,15 @@ class TestModels(TestCase):
         school.save()
 
         assert school.county == ""
+
+    def test_sanitise_uk_postcode(self):
+        postcode_with_space = "AL10 9NE"
+        postcode_without_space = "AL109UL"
+        invalid_postcode = "123"
+
+        assert sanitise_uk_postcode(postcode_with_space) == "AL10 9NE"  # Check it stays the same
+        assert sanitise_uk_postcode(postcode_without_space) == "AL10 9UL"  # Check a space is added
+        assert sanitise_uk_postcode(invalid_postcode) == "123"  # Check nothing happens
 
     def test_daily_activity_serializer(self):
         daily_activity = DailyActivity()
