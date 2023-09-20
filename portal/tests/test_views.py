@@ -1,13 +1,23 @@
 import csv
 import io
 import json
-from datetime import timedelta, date
+from datetime import timedelta, date, datetime
 from unittest.mock import patch, Mock, ANY
 
 import PyPDF2
 import pytest
 from aimmo.models import Game
-from common.models import Teacher, UserSession, Student, Class, DailyActivity, School, UserProfile, TotalActivity
+from common.helpers.emails import NOTIFICATION_EMAIL
+from common.models import (
+    Teacher,
+    UserSession,
+    Student,
+    Class,
+    DailyActivity,
+    School,
+    UserProfile,
+    TotalActivity,
+)
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.student import (
@@ -25,17 +35,16 @@ from game.tests.utils.attempt import create_attempt
 from game.tests.utils.level import create_save_level
 from rest_framework.test import APIClient, APITestCase
 
-from cfl_common.common.helpers.emails import NOTIFICATION_EMAIL
 from deploy import captcha
 from portal.templatetags.app_tags import is_logged_in_as_admin_teacher
 from portal.views.api import anonymise
+from portal.views.cron.user import USER_DELETE_UNVERIFIED_ACCOUNT_DAYS
 from portal.views.teacher.teach import (
     REMINDER_CARDS_PDF_ROWS,
     REMINDER_CARDS_PDF_COLUMNS,
     REMINDER_CARDS_PDF_WARNING_TEXT,
     count_student_details_click,
 )
-from portal.views.cron.user import USER_DELETE_UNVERIFIED_ACCOUNT_DAYS
 
 
 class TestTeacherViews(TestCase):
@@ -925,7 +934,7 @@ class TestUser(CronTestCase):
             assert_called=False,
         )
 
-    def test_delete_unverified_accounts_view(self):
+    def test_anonymise_unverified_accounts_view(self):
         now = timezone.now()
 
         for user in [self.teacher_user, self.indy_user, self.student_user]:
@@ -936,10 +945,10 @@ class TestUser(CronTestCase):
             user_profile.is_verified = True
             user_profile.save()
 
-        def delete_unverified_users(
+        def anonymise_unverified_users(
             days: int,
             is_verified: bool,
-            assert_exists: bool,
+            assert_active: bool,
         ):
             date_joined = now - timedelta(days=days, hours=12)
 
@@ -994,45 +1003,61 @@ class TestUser(CronTestCase):
                 new_user=indy_user,
             )
 
-            self.client.get(reverse("delete-unverified-accounts"))
+            activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
+            daily_teacher_count = activity_today.anonymised_unverified_teachers
+            daily_indy_count = activity_today.anonymised_unverified_independents
 
-            # Assert the verified users and teach
-            assert User.objects.filter(id=self.teacher_user.id).exists()
-            assert User.objects.filter(id=self.student_user.id).exists()
-            assert User.objects.filter(id=self.indy_user.id).exists()
+            total_activity = TotalActivity.objects.get(id=1)
+            total_teacher_count = total_activity.anonymised_unverified_teachers
+            total_indy_count = total_activity.anonymised_unverified_independents
 
-            teacher_user_exists = User.objects.filter(id=teacher_user.id).exists()
-            indy_user_exists = User.objects.filter(id=indy_user.id).exists()
-            student_user_exists = User.objects.filter(id=student_user.id).exists()
+            self.client.get(reverse("anonymise-unverified-accounts"))
 
-            assert teacher_user_exists == assert_exists
-            assert indy_user_exists == assert_exists
-            assert student_user_exists
+            # Assert the verified users exist
+            assert User.objects.get(id=self.teacher_user.id).is_active
+            assert User.objects.get(id=self.student_user.id).is_active
+            assert User.objects.get(id=self.indy_user.id).is_active
 
-            if teacher_user_exists:
-                teacher_user.delete()
-            if indy_user_exists:
-                indy_user.delete()
-            if student_user_exists:
-                student_user.delete()
+            teacher_user_active = User.objects.get(id=teacher_user.id).is_active
+            indy_user_active = User.objects.get(id=indy_user.id).is_active
+            student_user_active = User.objects.get(id=student_user.id).is_active
 
-        delete_unverified_users(
+            assert teacher_user_active == assert_active
+            assert indy_user_active == assert_active
+            assert student_user_active
+
+            activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
+            total_activity = TotalActivity.objects.get(id=1)
+
+            if not teacher_user_active:
+                assert activity_today.anonymised_unverified_teachers == daily_teacher_count + 1
+                assert total_activity.anonymised_unverified_teachers == total_teacher_count + 1
+
+            if not indy_user_active:
+                assert activity_today.anonymised_unverified_independents == daily_indy_count + 1
+                assert total_activity.anonymised_unverified_independents == total_indy_count + 1
+
+            teacher_user.delete()
+            indy_user.delete()
+            student_user.delete()
+
+        anonymise_unverified_users(
             days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS - 1,
             is_verified=False,
-            assert_exists=True,
+            assert_active=True,
         )
-        delete_unverified_users(
+        anonymise_unverified_users(
             days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS,
             is_verified=False,
-            assert_exists=False,
+            assert_active=False,
         )
-        delete_unverified_users(
+        anonymise_unverified_users(
             days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS,
             is_verified=True,
-            assert_exists=True,
+            assert_active=True,
         )
-        delete_unverified_users(
+        anonymise_unverified_users(
             days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS + 1,
             is_verified=False,
-            assert_exists=False,
+            assert_active=False,
         )
