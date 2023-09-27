@@ -13,8 +13,10 @@ from .helpers.organisation import sanitise_uk_postcode
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    developer = models.BooleanField(default=False)
 
+    otp_secret = models.CharField(max_length=40, null=True, blank=True)
+    last_otp_for_time = models.DateTimeField(null=True, blank=True)
+    developer = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
 
     # Holds the user's earned kurono badges. This information has to be on the UserProfile as the Avatar objects are
