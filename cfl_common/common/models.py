@@ -12,14 +12,10 @@ from .helpers.organisation import sanitise_uk_postcode
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(
-        User,
-        related_name="profile",
-        on_delete=models.CASCADE,
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    otp_secret = models.CharField(max_length=40, null=True)
-    last_otp_for_time = models.DateTimeField(null=True)
+    otp_secret = models.CharField(max_length=40, null=True, blank=True)
+    last_otp_for_time = models.DateTimeField(null=True, blank=True)
     developer = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
 
