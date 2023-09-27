@@ -5,7 +5,9 @@ from setuptools import find_packages, setup
 
 with open("../portal/__init__.py", "r") as fd:
     version = re.search(
-        r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', fd.read(), re.MULTILINE
+        r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
+        fd.read(),
+        re.MULTILINE,
     ).group(1)
 
 setup(
@@ -20,6 +22,7 @@ setup(
         "django-countries==7.3.1",
         "pyjwt==2.6.0",
         "pgeocode==0.4.0",
+        "pyotp==2.9.0",
     ],
     tests_require=[],
     test_suite="tests",
