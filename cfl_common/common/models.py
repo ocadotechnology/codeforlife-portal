@@ -3,7 +3,6 @@ from datetime import timedelta
 from uuid import uuid4
 
 import pgeocode
-import pyotp
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
@@ -19,7 +18,7 @@ class UserProfile(models.Model):
         on_delete=models.CASCADE,
     )
 
-    otp_secret = models.CharField(max_length=40, default=pyotp.random_base32)
+    otp_secret = models.CharField(max_length=40, null=True)
     last_otp_for_time = models.DateTimeField(null=True)
     developer = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
