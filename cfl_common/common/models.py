@@ -12,9 +12,14 @@ from .helpers.organisation import sanitise_uk_postcode
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    developer = models.BooleanField(default=False)
+    user = models.OneToOneField(
+        User,
+        related_name="profile",
+        on_delete=models.CASCADE,
+    )
 
+    enabled_auth_factor_csv = models.TextField(default="")
+    developer = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
 
     # Holds the user's earned kurono badges. This information has to be on the UserProfile as the Avatar objects are
