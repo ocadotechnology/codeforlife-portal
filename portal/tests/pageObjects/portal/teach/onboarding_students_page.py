@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+from selenium.webdriver.common.by import By
+
 from . import onboarding_student_list_page
 from .teach_base_page import TeachBasePage
 
@@ -26,8 +28,8 @@ class OnboardingStudentsPage(TeachBasePage):
         return self
 
     def _click_create_students(self):
-        self.browser.find_element_by_name("new_students").click()
+        self.browser.find_element(By.NAME, "new_students").click()
 
     def type_student_name(self, name):
-        self.browser.find_element_by_id("id_names").send_keys(name + "\n")
+        self.browser.find_element(By.ID, "id_names").send_keys(name + "\n")
         return self

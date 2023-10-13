@@ -17,6 +17,7 @@ from django.contrib.auth.models import User
 from django.test import Client
 from django.urls import reverse
 from selenium.webdriver.common.alert import Alert
+from selenium.webdriver.common.by import By
 
 from portal.tests.pageObjects.portal.home_page import HomePage
 from .base_test import BaseTest
@@ -226,7 +227,7 @@ class TestTeacherStudentFrontend(BaseTest):
         login_url = page.get_first_login_url()
         page.browser.get(login_url)
         assert page.on_correct_page("play_dashboard_page")
-        assert new_student_name in page.browser.find_element_by_xpath("//div[@class='header']").text
+        assert new_student_name in page.browser.find_element(By.XPATH, "//div[@class='header']").text
 
     def test_update_student_name(self):
         email, password = signup_teacher_directly()

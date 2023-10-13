@@ -1,3 +1,5 @@
+from selenium.webdriver.common.by import By
+
 from .teach_base_page import TeachBasePage
 
 
@@ -8,7 +10,7 @@ class TeachClassPage(TeachBasePage):
         assert self.on_correct_page("teach_class_page")
 
     def type_student_name(self, name):
-        self.browser.find_element_by_id("id_names").send_keys(name + "\n")
+        self.browser.find_element(By.ID, "id_names").send_keys(name + "\n")
         return self
 
     def create_students(self):
@@ -19,14 +21,14 @@ class TeachClassPage(TeachBasePage):
         return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
 
     def click_create_students(self):
-        self.browser.find_element_by_name("new_students").click()
+        self.browser.find_element(By.NAME, "new_students").click()
         return self
 
     def adding_students_failed(self):
         if not self.element_exists_by_css(".errorlist"):
             return False
 
-        error_list = self.browser.find_element_by_id("form-create-students").find_element_by_class_name("errorlist")
+        error_list = self.browser.find_element(By.ID, "form-create-students").find_element(By.CLASS_NAME, "errorlist")
 
         return error_list.text
 
@@ -34,35 +36,35 @@ class TeachClassPage(TeachBasePage):
         if not self.element_exists_by_css(".errorlist"):
             return False
 
-        errors = self.browser.find_element_by_id("form-create-students").find_element_by_class_name("errorlist").text
+        errors = self.browser.find_element(By.ID, "form-create-students").find_element(By.CLASS_NAME, "errorlist").text
         error = "You cannot add more than one student called '{0}'".format(name)
         return error in errors
 
     def student_exists(self, name):
-        return name in self.browser.find_element_by_id("student_table").text
+        return name in self.browser.find_element(By.ID, "student_table").text
 
     def delete_students(self):
-        self.browser.find_element_by_id("deleteSelectedStudents").click()
+        self.browser.find_element(By.ID, "deleteSelectedStudents").click()
         return self
 
     def reset_passwords(self):
-        self.browser.find_element_by_id("resetSelectedStudents").click()
+        self.browser.find_element(By.ID, "resetSelectedStudents").click()
         return self
 
     def move_students(self):
-        self.browser.find_element_by_id("moveSelectedStudents").click()
+        self.browser.find_element(By.ID, "moveSelectedStudents").click()
 
         import portal.tests.pageObjects.portal.teach.move_students_page as move_students_page
 
         return move_students_page.TeachMoveStudentsPage(self.browser)
 
     def move_students_none_selected(self):
-        self.browser.find_element_by_id("moveSelectedStudents").click()
+        self.browser.find_element(By.ID, "moveSelectedStudents").click()
 
         return self
 
     def dismiss_students(self):
-        self.browser.find_element_by_id("dismissSelectedStudents").click()
+        self.browser.find_element(By.ID, "dismissSelectedStudents").click()
 
         import portal.tests.pageObjects.portal.teach.dismiss_students_page as dismiss_students_page
 
@@ -81,25 +83,25 @@ class TeachClassPage(TeachBasePage):
         return onboarding_student_list_page.OnboardingStudentListPage(self.browser)
 
     def toggle_select_student(self):
-        self.browser.find_element_by_id("student_checkbox").click()
+        self.browser.find_element(By.ID, "student_checkbox").click()
         return self
 
     def toggle_all_students(self):
-        self.browser.find_element_by_id("selectedStudentsListToggle").click()
+        self.browser.find_element(By.ID, "selectedStudentsListToggle").click()
         return self
 
     def has_students(self):
         return self.element_exists_by_id("student_table")
 
     def go_to_edit_student_page(self):
-        self.browser.find_element_by_id("edit_student_button").click()
+        self.browser.find_element(By.ID, "edit_student_button").click()
 
         import portal.tests.pageObjects.portal.teach.edit_student_page as edit_student_page
 
         return edit_student_page.EditStudentPage(self.browser)
 
     def go_to_dashboard(self):
-        self.browser.find_element_by_id("return_to_classes_button").click()
+        self.browser.find_element(By.ID, "return_to_classes_button").click()
         # stop scrolling animation and scroll to top as the classes page will scroll to classes by default
         self.browser.execute_script("$('html,body').stop();window.scrollTo(0, 0)")
 

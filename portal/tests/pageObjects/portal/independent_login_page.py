@@ -1,3 +1,5 @@
+from selenium.webdriver.common.by import By
+
 from .base_page import BasePage
 from .password_reset_page import PasswordResetPage
 from .play import dashboard_page
@@ -19,14 +21,14 @@ class IndependentStudentLoginPage(BasePage):
         return self
 
     def _independent_student_login(self, email, password):
-        self.browser.find_element_by_id("id_username").send_keys(email)
-        self.browser.find_element_by_id("id_password").send_keys(password)
-        self.browser.find_element_by_name("independent_student_login").click()
+        self.browser.find_element(By.ID, "id_username").send_keys(email)
+        self.browser.find_element(By.ID, "id_password").send_keys(password)
+        self.browser.find_element(By.NAME, "independent_student_login").click()
 
     def go_to_indep_forgotten_password_page(self):
-        self.browser.find_element_by_id("student_forgotten_password_button").click()
+        self.browser.find_element(By.ID, "student_forgotten_password_button").click()
         return PasswordResetPage(self.browser)
 
     def has_login_failed(self, form_id, error):
-        errors = self.browser.find_element_by_id(form_id).find_element_by_class_name("errorlist").text
+        errors = self.browser.find_element(By.ID, form_id).find_element(By.CLASS_NAME, "errorlist").text
         return error in errors

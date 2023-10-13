@@ -1,3 +1,5 @@
+from selenium.webdriver.common.by import By
+
 from .base_page import BasePage
 from .play import dashboard_page
 
@@ -18,10 +20,10 @@ class StudentLoginPage(BasePage):
         return self
 
     def _student_login(self, name, password):
-        self.browser.find_element_by_id("id_username").send_keys(name)
-        self.browser.find_element_by_id("id_password").send_keys(password)
-        self.browser.find_element_by_name("school_login").click()
+        self.browser.find_element(By.ID, "id_username").send_keys(name)
+        self.browser.find_element(By.ID, "id_password").send_keys(password)
+        self.browser.find_element(By.NAME, "school_login").click()
 
     def has_login_failed(self, form_id, error):
-        errors = self.browser.find_element_by_id(form_id).find_element_by_class_name("errorlist").text
+        errors = self.browser.find_element(By.ID, form_id).find_element(By.CLASS_NAME, "errorlist").text
         return error in errors

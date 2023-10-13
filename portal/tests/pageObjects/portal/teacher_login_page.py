@@ -1,7 +1,8 @@
+from selenium.webdriver.common.by import By
+
 from .base_page import BasePage
 from .password_reset_page import PasswordResetPage
 from .teach import dashboard_page as teach_dashboard_page
-from .teach import onboarding_classes_page, onboarding_students_page
 
 
 class TeacherLoginPage(BasePage):
@@ -15,9 +16,9 @@ class TeacherLoginPage(BasePage):
         return teach_dashboard_page.TeachDashboardPage(self.browser)
 
     def _login(self, email, password):
-        self.browser.find_element_by_id("id_auth-username").send_keys(email)
-        self.browser.find_element_by_id("id_auth-password").send_keys(password)
-        self.browser.find_element_by_name("login_view").click()
+        self.browser.find_element(By.ID, "id_auth-username").send_keys(email)
+        self.browser.find_element(By.ID, "id_auth-password").send_keys(password)
+        self.browser.find_element(By.NAME, "login_view").click()
 
     def login_no_school(self, email, password):
         self._login(email, password)
@@ -40,9 +41,9 @@ class TeacherLoginPage(BasePage):
         return self
 
     def has_login_failed(self, form_id, error):
-        errors = self.browser.find_element_by_id(form_id).find_element_by_class_name("errorlist").text
+        errors = self.browser.find_element(By.ID, form_id).find_element(By.CLASS_NAME, "errorlist").text
         return error in errors
 
     def go_to_teacher_forgotten_password_page(self):
-        self.browser.find_element_by_id("teacher_forgotten_password_button").click()
+        self.browser.find_element(By.ID, "teacher_forgotten_password_button").click()
         return PasswordResetPage(self.browser)

@@ -2,6 +2,8 @@ from __future__ import absolute_import
 
 import time
 
+from selenium.webdriver.common.by import By
+
 from portal.tests.pageObjects.portal.base_page import BasePage
 
 
@@ -11,7 +13,7 @@ class PlayBasePage(BasePage):
 
     def logout(self):
         self.open_user_options_box()
-        self.browser.find_element_by_id("logout_button").click()
+        self.browser.find_element(By.ID, "logout_button").click()
 
         from portal.tests.pageObjects.portal.home_page import HomePage
 
@@ -19,12 +21,12 @@ class PlayBasePage(BasePage):
 
     def go_to_account_page(self):
         self.open_user_options_box()
-        self.browser.find_element_by_id("student_edit_account_button").click()
+        self.browser.find_element(By.ID, "student_edit_account_button").click()
 
         from .account_page import PlayAccountPage
 
         return PlayAccountPage(self.browser)
 
     def open_user_options_box(self):
-        self.browser.find_element_by_id("logout_menu").click()
+        self.browser.find_element(By.ID, "logout_menu").click()
         time.sleep(1)

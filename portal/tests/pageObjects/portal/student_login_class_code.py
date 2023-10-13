@@ -1,6 +1,7 @@
-from .base_page import BasePage
+from selenium.webdriver.common.by import By
+
 from . import student_login_page
-import time
+from .base_page import BasePage
 
 
 class StudentLoginClassCodePage(BasePage):
@@ -19,9 +20,9 @@ class StudentLoginClassCodePage(BasePage):
         return self
 
     def _student_input_access_code(self, access_code):
-        self.browser.find_element_by_id("id_access_code").send_keys(access_code)
-        self.browser.find_element_by_name("school_login_class_code").click()
+        self.browser.find_element(By.ID, "id_access_code").send_keys(access_code)
+        self.browser.find_element(By.NAME, "school_login_class_code").click()
 
     def has_access_code_input_failed(self, form_id, error):
-        errors = self.browser.find_element_by_id(form_id).find_element_by_class_name("errorlist").text
+        errors = self.browser.find_element(By.ID, form_id).find_element(By.CLASS_NAME, "errorlist").text
         return error in errors
