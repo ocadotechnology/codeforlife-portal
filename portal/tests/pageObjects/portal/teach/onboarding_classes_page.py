@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+from selenium.webdriver.common.by import By
+
 from . import onboarding_students_page
 from .teach_base_page import TeachBasePage
 
@@ -11,9 +13,9 @@ class OnboardingClassesPage(TeachBasePage):
         assert self.on_correct_page("onboarding_classes_page")
 
     def create_class(self, name, classmate_progress):
-        self.browser.find_element_by_id("id_class_name").send_keys(name)
+        self.browser.find_element(By.ID, "id_class_name").send_keys(name)
         if classmate_progress:
-            self.browser.find_element_by_id("id_classmate_progress").click()
+            self.browser.find_element(By.ID, "id_classmate_progress").click()
 
         self._click_create_class_button()
 
@@ -25,7 +27,7 @@ class OnboardingClassesPage(TeachBasePage):
         return self
 
     def _click_create_class_button(self):
-        self.browser.find_element_by_id("create_class_button").click()
+        self.browser.find_element(By.ID, "create_class_button").click()
 
     def does_not_have_classes(self):
         return self.element_does_not_exist_by_id("add_students")

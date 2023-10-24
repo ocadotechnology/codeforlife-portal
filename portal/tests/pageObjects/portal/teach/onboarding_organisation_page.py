@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
 from . import onboarding_classes_page
@@ -28,29 +29,29 @@ class OnboardingOrganisationPage(TeachBasePage):
         return self
 
     def _create_organisation(self, name, password, postcode, country):
-        self.browser.find_element_by_id("id_name").send_keys(name)
-        self.browser.find_element_by_id("id_postcode").send_keys(postcode)
-        country_element = self.browser.find_element_by_id("id_country")
+        self.browser.find_element(By.ID, "id_name").send_keys(name)
+        self.browser.find_element(By.ID, "id_postcode").send_keys(postcode)
+        country_element = self.browser.find_element(By.ID, "id_country")
         select = Select(country_element)
         select.select_by_value(country)
         self._click_create_school_button()
 
     def _click_create_school_button(self):
-        self.browser.find_element_by_name("create_organisation").click()
+        self.browser.find_element(By.NAME, "create_organisation").click()
 
     def has_creation_failed(self):
         if not self.element_exists_by_css(".errorlist"):
             return False
 
         errors = (
-            self.browser.find_element_by_id("form-create-organisation").find_element_by_class_name("errorlist").text
+            self.browser.find_element(By.ID, "form-create-organisation").find_element(By.CLASS_NAME, "errorlist").text
         )
         error = "There is already a school or club registered with that name and postcode"
         return error in errors
 
     def was_postcode_invalid(self):
         errors = (
-            self.browser.find_element_by_id("form-create-organisation").find_element_by_class_name("errorlist").text
+            self.browser.find_element(By.ID, "form-create-organisation").find_element(By.CLASS_NAME, "errorlist").text
         )
         error = "Please enter a valid postcode or ZIP code"
         return error in errors

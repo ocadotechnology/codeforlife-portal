@@ -12,7 +12,6 @@ from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -182,12 +181,12 @@ class TestTeacherInviteActions(BaseTest):
         # Generate an invite and make admin
         invite_data = {"teacher_first_name": "Adam", "teacher_last_name": "NotAdam", "teacher_email": "adam@adam.not"}
         for key in invite_data.keys():
-            field = page.browser.find_element_by_name(key)
+            field = page.browser.find_element(By.NAME, key)
             field.send_keys(invite_data[key])
 
         # check if invite text for a user has been generated
         click_buttons_by_id(page, self, "invite_teacher_button")
-        banner = page.browser.find_element_by_id("messages")
+        banner = page.browser.find_element(By.ID, "messages")
         assert (
             f"You have invited {invite_data['teacher_first_name']} {invite_data['teacher_last_name']} to your school."
             in banner.text
@@ -198,13 +197,13 @@ class TestTeacherInviteActions(BaseTest):
         click_buttons_by_id(page, self, ["make_admin_button_invite", "add_admin_button"])
         invite = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0]
         assert invite.invited_teacher_is_admin
-        banner = page.browser.find_element_by_id("messages")
+        banner = page.browser.find_element(By.ID, "messages")
         assert "Administrator invite status has been given successfully" in banner.text
 
         # revoke admin
         click_buttons_by_id(page, self, "make_non_admin_button_invite")
 
-        banner = page.browser.find_element_by_id("messages")
+        banner = page.browser.find_element(By.ID, "messages")
         assert "Administrator invite status has been revoked successfully" in banner.text
 
     def test_delete_invite(self):
@@ -219,9 +218,9 @@ class TestTeacherInviteActions(BaseTest):
         # Generate an invite
         invite_data = {"teacher_first_name": "Adam", "teacher_last_name": "NotAdam", "teacher_email": "adam@adam.not"}
         for key in invite_data.keys():
-            field = page.browser.find_element_by_name(key)
+            field = page.browser.find_element(By.NAME, key)
             field.send_keys(invite_data[key])
-        invite_button = page.browser.find_element_by_name("invite_teacher_button")
+        invite_button = page.browser.find_element(By.NAME, "invite_teacher_button")
         invite_button.click()
 
         # check object was created
@@ -249,12 +248,12 @@ class TestTeacherInviteActions(BaseTest):
         # Generate an invite
         invite_data = {"teacher_first_name": "Adam", "teacher_last_name": "NotAdam", "teacher_email": "adam@adam.not"}
         for key in invite_data.keys():
-            field = page.browser.find_element_by_name(key)
+            field = page.browser.find_element(By.NAME, key)
             field.send_keys(invite_data[key])
 
         click_buttons_by_id(page, self, "invite_teacher_button")
 
-        banner = page.browser.find_element_by_xpath('//*[@id="messages"]/div/div/div/div/div/p')
+        banner = page.browser.find_element(By.XPATH, '//*[@id="messages"]/div/div/div/div/div/p')
         assert (
             banner.text
             == f"You have invited {invite_data['teacher_first_name']} {invite_data['teacher_last_name']} to your school."

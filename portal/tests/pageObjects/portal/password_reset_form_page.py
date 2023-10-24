@@ -1,8 +1,9 @@
 from __future__ import absolute_import
 
-from .base_page import BasePage
-
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
+
+from .base_page import BasePage
 
 
 class PasswordResetPage(BasePage):
@@ -15,7 +16,7 @@ class PasswordResetPage(BasePage):
         self.clear_and_fill("new_password1", new_password)
         self.clear_and_fill("new_password2", new_password)
 
-        self.browser.find_element_by_id("teacher_update_button").click()
+        self.browser.find_element(By.ID, "teacher_update_button").click()
 
         self.wait_for_element_by_id("reset_password_done_page")
 
@@ -25,7 +26,7 @@ class PasswordResetPage(BasePage):
         self.clear_and_fill("new_password1", new_password)
         self.clear_and_fill("new_password2", new_password)
 
-        self.browser.find_element_by_id("student_update_button").click()
+        self.browser.find_element(By.ID, "student_update_button").click()
 
         self.wait_for_element_by_id("reset_password_done_page")
 
@@ -36,14 +37,14 @@ class PasswordResetPage(BasePage):
         self.clear_and_fill("new_password2", new_password)
 
         try:
-            update_button = self.browser.find_element_by_id("teacher_update_button")
+            update_button = self.browser.find_element(By.ID, "teacher_update_button")
         except NoSuchElementException:
-            update_button = self.browser.find_element_by_id("student_update_button")
+            update_button = self.browser.find_element(By.ID, "student_update_button")
 
         update_button.click()
 
         return self
 
     def clear_and_fill(self, field, value):
-        self.browser.find_element_by_id("id_" + field).clear()
-        self.browser.find_element_by_id("id_" + field).send_keys(value)
+        self.browser.find_element(By.ID, "id_" + field).clear()
+        self.browser.find_element(By.ID, "id_" + field).send_keys(value)

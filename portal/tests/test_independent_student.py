@@ -19,6 +19,7 @@ from django.contrib.auth.models import User
 from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
@@ -171,30 +172,30 @@ class TestIndependentStudentFrontend(BaseTest):
         user_id = user.id
 
         # first check if a wrong password triggers the error
-        unsubscribe_newsletter_checkbox = page.browser.find_element_by_name("unsubscribe_newsletter")
+        unsubscribe_newsletter_checkbox = page.browser.find_element(By.NAME, "unsubscribe_newsletter")
         unsubscribe_newsletter_checkbox.click()
 
-        delete_account_form = page.browser.find_element_by_name("delete_password")
+        delete_account_form = page.browser.find_element(By.NAME, "delete_password")
         delete_account_form.send_keys("123")  # wrong password
 
-        delete_account_button = page.browser.find_element_by_id("delete_account_button")
+        delete_account_button = page.browser.find_element(By.ID, "delete_account_button")
         delete_account_button.click()
         assert (
-            page.browser.find_element_by_css_selector("#form-delete-indy-account > ul > li").text
+            page.browser.find_element(By.CSS_SELECTOR, "#form-delete-indy-account > ul > li").text
             == "Incorrect password"
         )
 
         # now delete the account
-        unsubscribe_newsletter_checkbox = page.browser.find_element_by_name("unsubscribe_newsletter")
+        unsubscribe_newsletter_checkbox = page.browser.find_element(By.NAME, "unsubscribe_newsletter")
         unsubscribe_newsletter_checkbox.click()
 
-        delete_account_form = page.browser.find_element_by_name("delete_password")
+        delete_account_form = page.browser.find_element(By.NAME, "delete_password")
         delete_account_form.send_keys(password)
 
-        delete_account_button = page.browser.find_element_by_id("delete_account_button")
+        delete_account_button = page.browser.find_element(By.ID, "delete_account_button")
         delete_account_button.click()
 
-        delete_button_confirm = page.browser.find_element_by_id("delete_button")
+        delete_button_confirm = page.browser.find_element(By.ID, "delete_button")
         delete_button_confirm.click()
 
         # check if can still login to the account

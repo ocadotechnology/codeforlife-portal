@@ -648,7 +648,7 @@ class TestTeacherFrontend(BaseTest):
 
         page.reset_password_fail(password)
 
-        message = page.browser.find_element_by_class_name("errorlist")
+        message = page.browser.find_element(By.CLASS_NAME, "errorlist")
         assert "Please choose a password that you haven't used before" in message.text
 
     def test_reset_password_fail(self):
@@ -684,7 +684,7 @@ class TestTeacherFrontend(BaseTest):
         join_teacher_to_organisation(admin_email, school.name, school.postcode, is_admin=True)
 
         page = self.go_to_homepage().go_to_teacher_login_page().login(admin_email, admin_password).open_classes_tab()
-        class_code_field = page.browser.find_element_by_id(f"class-code-{access_code}")
+        class_code_field = page.browser.find_element(By.ID, f"class-code-{access_code}")
         assert class_code_field.text == access_code
 
     def test_admin_student_edit(self):
@@ -711,7 +711,7 @@ class TestTeacherFrontend(BaseTest):
         )
         edit_student_button.click()
 
-        title = page.browser.find_element_by_id("student_details")
+        title = page.browser.find_element(By.ID, "student_details")
         assert title.text == f"Edit student details for {student_name} from class {klass} ({access_code})"
 
     def test_make_admin_popup(self):
@@ -723,10 +723,10 @@ class TestTeacherFrontend(BaseTest):
         invite_data = {"teacher_first_name": "Real", "teacher_last_name": "Name", "teacher_email": "ren@me.me"}
 
         for key in invite_data.keys():
-            field = page.browser.find_element_by_name(key)
+            field = page.browser.find_element(By.NAME, key)
             field.send_keys(invite_data[key])
 
-        invite_button = page.browser.find_element_by_name("invite_teacher_button")
+        invite_button = page.browser.find_element(By.NAME, "invite_teacher_button")
         invite_button.click()
 
         # Once invite sent test the make admin button
@@ -744,9 +744,9 @@ class TestTeacherFrontend(BaseTest):
         # admin checked also makes a popup
 
         for key in invite_data.keys():
-            field = page.browser.find_element_by_name(key)
+            field = page.browser.find_element(By.NAME, key)
             field.send_keys(invite_data[key])
-        checkbox = page.browser.find_element_by_name("make_admin_ticked")
+        checkbox = page.browser.find_element(By.NAME, "make_admin_ticked")
         checkbox.click()
 
         button_ids = ["invite_teacher_button", "cancel_admin_popup_button"]
@@ -773,28 +773,28 @@ class TestTeacherFrontend(BaseTest):
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password).open_account_tab()
 
         # test incorrect password
-        page.browser.find_element_by_id("id_delete_password").send_keys("IncorrectPassword")
-        page.browser.find_element_by_id("delete_account_button").click()
+        page.browser.find_element(By.ID, "id_delete_password").send_keys("IncorrectPassword")
+        page.browser.find_element(By.ID, "delete_account_button").click()
         is_message_showing(page.browser, "Your account was not deleted")
 
         # test cancel (no class)
         time.sleep(FADE_TIME)
-        page.browser.find_element_by_id("id_delete_password").clear()
-        page.browser.find_element_by_id("id_delete_password").send_keys(password)
-        page.browser.find_element_by_id("delete_account_button").click()
+        page.browser.find_element(By.ID, "id_delete_password").clear()
+        page.browser.find_element(By.ID, "id_delete_password").send_keys(password)
+        page.browser.find_element(By.ID, "delete_account_button").click()
 
         time.sleep(FADE_TIME)
-        assert page.browser.find_element_by_id("popup-delete-review").is_displayed()
-        page.browser.find_element_by_id("cancel_popup_button").click()
+        assert page.browser.find_element(By.ID, "popup-delete-review").is_displayed()
+        page.browser.find_element(By.ID, "cancel_popup_button").click()
         time.sleep(FADE_TIME)
 
         # test close button in the corner
-        page.browser.find_element_by_id("id_delete_password").clear()
-        page.browser.find_element_by_id("id_delete_password").send_keys(password)
-        page.browser.find_element_by_id("delete_account_button").click()
+        page.browser.find_element(By.ID, "id_delete_password").clear()
+        page.browser.find_element(By.ID, "id_delete_password").send_keys(password)
+        page.browser.find_element(By.ID, "delete_account_button").click()
 
         time.sleep(FADE_TIME)
-        page.browser.find_element_by_id("close_popup_button").click()
+        page.browser.find_element(By.ID, "close_popup_button").click()
         time.sleep(FADE_TIME)
 
         # create class
@@ -802,26 +802,26 @@ class TestTeacherFrontend(BaseTest):
         create_school_student_directly(access_code)
 
         # delete then review classes
-        page.browser.find_element_by_id("id_delete_password").send_keys(password)
-        page.browser.find_element_by_id("delete_account_button").click()
+        page.browser.find_element(By.ID, "id_delete_password").send_keys(password)
+        page.browser.find_element(By.ID, "delete_account_button").click()
 
         time.sleep(FADE_TIME)
-        assert page.browser.find_element_by_id("popup-delete-review").is_displayed()
-        page.browser.find_element_by_id("review_button").click()
+        assert page.browser.find_element(By.ID, "popup-delete-review").is_displayed()
+        page.browser.find_element(By.ID, "review_button").click()
         time.sleep(FADE_TIME)
 
         assert page.has_classes()
         page = page.open_account_tab()
 
         # test actual deletion
-        page.browser.find_element_by_id("id_delete_password").send_keys(password)
-        page.browser.find_element_by_id("delete_account_button").click()
+        page.browser.find_element(By.ID, "id_delete_password").send_keys(password)
+        page.browser.find_element(By.ID, "delete_account_button").click()
 
         time.sleep(FADE_TIME)
-        page.browser.find_element_by_id("delete_button").click()
+        page.browser.find_element(By.ID, "delete_button").click()
 
         # back to homepage
-        assert page.browser.find_element_by_class_name("banner--homepage")
+        assert page.browser.find_element(By.CLASS_NAME, "banner--homepage")
 
         # user should not be able to login now
         page = HomePage(self.selenium).go_to_teacher_login_page().login_failure(email, password)

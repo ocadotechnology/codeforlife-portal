@@ -11,6 +11,7 @@ from common.tests.utils.organisation import (
 )
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
+from selenium.webdriver.common.by import By
 
 from portal.tests.pageObjects.portal.base_page import BasePage
 from portal.tests.pageObjects.portal.home_page import HomePage
@@ -146,7 +147,7 @@ class TestOrganisation(BaseTest, BasePage):
 
         page = page.click_make_admin_button()
         time.sleep(FADE_TIME)
-        popup_make_admin_button = page.browser.find_element_by_id("add_admin_button")
+        popup_make_admin_button = page.browser.find_element(By.ID, "add_admin_button")
         assert popup_make_admin_button.text == "Add as admin"
         popup_make_admin_button.click()
 
@@ -172,7 +173,7 @@ class TestOrganisation(BaseTest, BasePage):
         page = page.click_make_admin_button()
         # check if the new popup appears
         time.sleep(FADE_TIME)
-        make_admin_button = page.browser.find_element_by_id("add_admin_button")
+        make_admin_button = page.browser.find_element(By.ID, "add_admin_button")
         assert make_admin_button.text == "Add as admin"
         make_admin_button.click()
 

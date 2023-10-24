@@ -8,10 +8,10 @@ codeforlife-portal = {path = ".", editable = true}
 cfl-common = {path = "./cfl_common", editable = true}
 
 [dev-packages]
-django-selenium-clean = "==0.3.3"
+django-selenium-clean = "==1.0.0"
 django-test-migrations = "==1.2.0"
 responses = "==0.18.0"
-selenium = "==3.141.0"
+selenium = "==4.9.0"
 snapshottest = "==0.6.0"
 pytest-django = "==4.5.2"
 pytest = "==7.*"

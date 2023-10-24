@@ -25,20 +25,20 @@ class GamePage(BasePage):
 
     def dismiss_dialog(self, button_id):
         self.wait_for_element_to_be_clickable((By.ID, button_id))
-        self.browser.find_element_by_id(button_id).click()
+        self.browser.find_element(By.ID, button_id).click()
         self.wait_for_element_to_be_invisible((By.ID, button_id))
 
     def load_solution(self, workspace_id):
-        self.browser.find_element_by_id("load_tab").click()
+        self.browser.find_element(By.ID, "load_tab").click()
         selector = "#loadWorkspaceTable tr[value='" + str(workspace_id) + "']"
         self.wait_for_element_to_be_clickable((By.CSS_SELECTOR, selector))
-        self.browser.find_element_by_css_selector(selector).click()
-        self.browser.find_element_by_id("loadWorkspace").click()
+        self.browser.find_element(By.CSS_SELECTOR, selector).click()
+        self.browser.find_element(By.ID, "loadWorkspace").click()
         time.sleep(1)
         return self
 
     def clear(self):
-        self.browser.find_element_by_id("clear_tab").click()
+        self.browser.find_element(By.ID, "clear_tab").click()
         return self
 
     def try_again(self):
@@ -46,7 +46,7 @@ class GamePage(BasePage):
         return self
 
     def step(self):
-        self.browser.find_element_by_id("step_tab").click()
+        self.browser.find_element(By.ID, "step_tab").click()
         return self
 
     def assert_is_green_light(self, traffic_light_index):
@@ -56,12 +56,12 @@ class GamePage(BasePage):
         self._assert_light_is_on(traffic_light_index, "red")
 
     def _assert_light_is_on(self, traffic_light_index, colour):
-        image = self.browser.find_element_by_id("trafficLight_%s_%s" % (traffic_light_index, colour))
+        image = self.browser.find_element(By.ID, "trafficLight_%s_%s" % (traffic_light_index, colour))
 
         assert_that(image.get_attribute("opacity"), equal_to("1"))
 
     def run_program(self, wait_for_element_id="algorithmScore"):
-        self.browser.find_element_by_id("fast_tab").click()
+        self.browser.find_element(By.ID, "fast_tab").click()
 
         try:
             self.wait_for_element_to_be_clickable((By.ID, wait_for_element_id), 45)
@@ -84,12 +84,12 @@ class GamePage(BasePage):
 
     def _run_failing_program(self, text):
         self.run_program("try_again_button")
-        error_message = self.browser.find_element_by_id("myModal-lead").text
+        error_message = self.browser.find_element(By.ID, "myModal-lead").text
         assert_that(error_message, contains_string(text))
         return self
 
     def _assert_score(self, element_id, score):
-        route_score = self.browser.find_element_by_id(element_id).text
+        route_score = self.browser.find_element(By.ID, element_id).text
         assert_that(route_score, equal_to(score))
         return self
 

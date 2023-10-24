@@ -1,13 +1,13 @@
 from __future__ import absolute_import
 
-from builtins import object
 import time
+from builtins import object
 
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.action_chains import ActionChains
 
 FADE_TIME = 0.5
 
@@ -74,27 +74,27 @@ class BasePage(object):
         return self.element_exists_by_id(pageName)
 
     def hover_over_resources_dropdown(self):
-        resources_dropdown = self.browser.find_element_by_id("teaching_resources_button")
+        resources_dropdown = self.browser.find_element(By.ID, "teaching_resources_button")
         hover = ActionChains(self.browser).move_to_element(resources_dropdown)
         hover.perform()
 
     def go_to_rapid_router_resources_page(self):
         self.hover_over_resources_dropdown()
-        self.browser.find_element_by_id("rapid_router_resources_button").click()
+        self.browser.find_element(By.ID, "rapid_router_resources_button").click()
         from .resources_page import ResourcesPage
 
         return ResourcesPage(self.browser)
 
     def go_to_kurono_resources_page(self):
         self.hover_over_resources_dropdown()
-        self.browser.find_element_by_id("kurono_resources_button").click()
+        self.browser.find_element(By.ID, "kurono_resources_button").click()
         from .resources_page import ResourcesPage
 
         return ResourcesPage(self.browser)
 
     def go_to_kurono_teacher_dashboard_page(self):
-        self.browser.find_element_by_id("games_button").click()
-        self.browser.find_element_by_id("teacher_kurono_dashboard_button").click()
+        self.browser.find_element(By.ID, "games_button").click()
+        self.browser.find_element(By.ID, "teacher_kurono_dashboard_button").click()
         from .kurono_teacher_dashboard_page import KuronoTeacherDashboardPage
 
         return KuronoTeacherDashboardPage(self.browser)
@@ -112,19 +112,19 @@ class BasePage(object):
         return self.on_correct_page("403_forbidden")
 
     def was_form_invalid(self, formID, error):
-        errors = self.browser.find_element_by_id(formID).find_element_by_class_name("errorlist").text
+        errors = self.browser.find_element(By.ID, formID).find_element(By.CLASS_NAME, "errorlist").text
         return error in errors
 
     def is_dialog_showing(self):
         time.sleep(FADE_TIME)
-        return self.browser.find_element_by_id("popup").is_displayed()
+        return self.browser.find_element(By.ID, "popup").is_displayed()
 
     def confirm_dialog(self):
-        self.browser.find_element_by_id("confirm_button").click()
+        self.browser.find_element(By.ID, "confirm_button").click()
         time.sleep(FADE_TIME)
         return self
 
     def cancel_dialog(self):
-        self.browser.find_element_by_id("cancel_button").click()
+        self.browser.find_element(By.ID, "cancel_button").click()
         time.sleep(FADE_TIME)
         return self
