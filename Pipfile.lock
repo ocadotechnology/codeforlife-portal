@@ -708,10 +708,10 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:6816a9a6cd384d83bf449188b0496389099e421ad7272df2bbe92e61212ac1fe",
-                "sha256:7429bd4c6d4221a9078cc8ecf5a47da1aa716aa32c662eb95ec23d00066cba0f"
+                "sha256:241275613342bc9052b03a27494ee5e0f2beaee0fc1bde4600c4220aa94c928b",
+                "sha256:6435e8b157566071085003569189932ad8a4bf7a6f2d300e3a9359be9a37f794"
             ],
-            "version": "==5.14.0"
+            "version": "==5.14.1"
         },
         "reportlab": {
             "hashes": [

@@ -1,13 +1,10 @@
-from typing import Any, Dict, Optional, List
+from typing import Any, Dict, List, Optional
 
 from aimmo.models import Game
 from common import email_messages
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 from common.models import Student
-from common.permissions import (
-    logged_in_as_independent_student,
-    logged_in_as_school_student,
-)
+from common.permissions import logged_in_as_independent_student, logged_in_as_school_student
 from common.utils import LoginRequiredNoErrorMixin
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -17,11 +14,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
-from game.models import Level, Attempt
+from django.views.generic.edit import FormView
+from game.models import Attempt, Level
 
 from portal.forms.play import StudentJoinOrganisationForm
-
-from django.views.generic.edit import FormView
 
 
 class SchoolStudentDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView):
@@ -144,7 +140,6 @@ def username_labeller(request):
     login_url=reverse_lazy("independent_student_login"),
 )
 def student_join_organisation(request):
-
     student = request.user.new_student
     request_form = StudentJoinOrganisationForm()
 

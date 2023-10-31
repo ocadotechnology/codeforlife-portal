@@ -13,7 +13,7 @@ const RapidRouterScores = () => {
       </Typography>
       <Typography variant="h4">You have 0 top scores!</Typography>
       <Typography variant="h4">
-        You have a score of 0. There are 2070 available points.
+        You have a score of 0. There are 2320 available points.
       </Typography>
     </StyledBox>
   );

@@ -1,29 +1,20 @@
 import csv
 import io
 import json
-from datetime import timedelta, date, datetime
-from unittest.mock import patch, Mock, ANY
+from datetime import date, datetime, timedelta
+from unittest.mock import ANY, Mock, patch
 
 import PyPDF2
 import pytest
 from aimmo.models import Game
 from common.helpers.emails import NOTIFICATION_EMAIL
-from common.models import (
-    Teacher,
-    UserSession,
-    Student,
-    Class,
-    DailyActivity,
-    School,
-    UserProfile,
-    TotalActivity,
-)
+from common.models import Class, DailyActivity, School, Student, Teacher, TotalActivity, UserProfile, UserSession
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.student import (
+    create_independent_student_directly,
     create_school_student_directly,
     create_student_with_direct_login,
-    create_independent_student_directly,
 )
 from common.tests.utils.teacher import signup_teacher_directly
 from django.contrib.auth.models import User
@@ -40,8 +31,8 @@ from portal.templatetags.app_tags import is_logged_in_as_admin_teacher
 from portal.views.api import anonymise
 from portal.views.cron.user import USER_DELETE_UNVERIFIED_ACCOUNT_DAYS
 from portal.views.teacher.teach import (
-    REMINDER_CARDS_PDF_ROWS,
     REMINDER_CARDS_PDF_COLUMNS,
+    REMINDER_CARDS_PDF_ROWS,
     REMINDER_CARDS_PDF_WARNING_TEXT,
     count_student_details_click,
 )
@@ -457,7 +448,7 @@ class TestViews(TestCase):
             "num_completed": 0,
             "num_top_scores": 0,
             "total_score": 0,
-            "total_available_score": 2070,
+            "total_available_score": 2320,
         }
 
         # Expected context data when a student has attempted some RR levels
@@ -465,7 +456,7 @@ class TestViews(TestCase):
             "num_completed": 2,
             "num_top_scores": 1,
             "total_score": 39,
-            "total_available_score": 2070,
+            "total_available_score": 2320,
         }
 
         # Expected context data when a student has also attempted some custom RR levels
@@ -473,7 +464,7 @@ class TestViews(TestCase):
             "num_completed": 2,
             "num_top_scores": 1,
             "total_score": 39,
-            "total_available_score": 2070,
+            "total_available_score": 2320,
             "total_custom_score": 10,
             "total_custom_available_score": 20,
         }
@@ -483,7 +474,7 @@ class TestViews(TestCase):
             "num_completed": 2,
             "num_top_scores": 1,
             "total_score": 39,
-            "total_available_score": 2070,
+            "total_available_score": 2320,
             "total_custom_score": 10,
             "total_custom_available_score": 20,
             "worksheet_id": 3,
