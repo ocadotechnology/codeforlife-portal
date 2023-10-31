@@ -148,7 +148,12 @@
                 </label>
             </div>
             {% for episode in python_episodes %}
-                <div class="panel">
+                <div 
+                    class="panel"
+                    {% if "coming soon" in episode.name %}
+                        style="pointer-events:none;"
+                    {% endif %}
+                >
                     <div class="panel-header bg--{{ episode.difficulty }}" id="episode-{{episode.id}}">
                         <div class="d-flex align-items-center justify-content-end" data-toggle="collapse"
                              data-target="#collapse-{{episode.id}}" aria-expanded="false"
@@ -158,9 +163,11 @@
                             <div class="episode_range_text collapsed d-flex align-items-center justify-content-end"
                                  data-toggle="collapse" data-target="#collapse-{{episode.id}}"
                                  aria-expanded="false" aria-controls="collapse-{{episode.id}}" data-parent="#episodes">
-                                <label id="episode-label-{{ episode.id }}" class="mb-0" for="select-all-episode-levels">
-                                    <input type="checkbox" value="{{ episode.name }}" id="select-all-python-levels-{{ episode.id }}">
-                                </label>
+                                 {% if "coming soon" not in episode.name %}
+                                    <label id="episode-label-{{ episode.id }}" class="mb-0" for="select-all-episode-levels">
+                                        <input type="checkbox" value="{{ episode.name }}" id="select-all-python-levels-{{ episode.id }}">
+                                    </label>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
