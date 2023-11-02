@@ -117,10 +117,56 @@ async function handlePwnedPasswordApiAvailability() {
   }
 }
 
+function onClickPasswordVisibility(
+  formId,
+  passwordIconId,
+  confirmPasswordIconId,
+  passwordId,
+  confirmPasswordId
+) {
+  // Delegate event listeners.
+  $(formId).on('click', '[data-icon^="material-symbols:visibility"]', function () {
+    // Get icons and input types.
+    let inputType;
+    let dataIcon;
+    if ($(this).attr('data-icon') === 'material-symbols:visibility') {
+      inputType = 'password';
+      dataIcon = 'material-symbols:visibility-off';
+    } else {
+      inputType = 'text';
+      dataIcon = 'material-symbols:visibility';
+    }
+
+    // Set icons.
+    $(passwordIconId).attr('data-icon', dataIcon);
+    $(confirmPasswordIconId).attr('data-icon', dataIcon);
+
+    // Set input types.
+    $(passwordId).attr('type', inputType);
+    $(confirmPasswordId).attr('type', inputType);
+  })
+}
+
 $(document).ready(function () {
   handlePasswordStrength(); // the password strength text is updated dynamically hence this is the initial first call
   handlePwnedPasswordApiAvailability();
   $(
     `#${TEACHER_PASSWORD_FIELD_ID}, #${INDEP_STUDENT_PASSWORD_FIELD_ID}`
   ).on('input change focus blur', handlePasswordStrength);
+
+  onClickPasswordVisibility(
+    '#teacher-register-form',
+    '#teacher-password-field-icon',
+    '#teacher-confirm-password-field-icon',
+    '#id_teacher_signup-teacher_password',
+    '#id_teacher_signup-teacher_confirm_password'
+  );
+
+  onClickPasswordVisibility(
+    '#independent-student-register-form',
+    '#independent-student-password-field-icon',
+    '#independent-student-confirm-password-field-icon',
+    '#id_independent_student_signup-password',
+    '#id_independent_student_signup-confirm_password'
+  );
 });
