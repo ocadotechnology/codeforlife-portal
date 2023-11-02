@@ -91,7 +91,7 @@ function hideDeleteAccountPopup() {
 }
 
 $(document).ready(() => {
-  $('#edit_account_details_password').on(
+  $('#edit_account_details_password, #student_account_form').on(
     'click',
     '#password-field-icon, #confirm-password-field-icon',
     () => {
@@ -107,9 +107,28 @@ $(document).ready(() => {
 
       $('#id_password').attr('type', inputType);
       $('#id_confirm_password').attr('type', inputType);
-      
+
       $('#password-field-icon').attr('data-icon', dataIcon);
       $('#confirm-password-field-icon').attr('data-icon', dataIcon);
+    }
+  );
+
+  $('#edit_account_details_password, #student_account_form').on(
+    'click',
+    '#current-password-field-icon',
+    () => {
+      let inputType;
+      let dataIcon = $('#current-password-field-icon').attr('data-icon');
+      if (dataIcon === 'material-symbols:visibility') {
+        inputType = 'password';
+        dataIcon = 'material-symbols:visibility-off';
+      } else {
+        inputType = 'text';
+        dataIcon = 'material-symbols:visibility';
+      }
+
+      $('#id_current_password').attr('type', inputType);
+      $('#current-password-field-icon').attr('data-icon', dataIcon);
     }
   );
 });
