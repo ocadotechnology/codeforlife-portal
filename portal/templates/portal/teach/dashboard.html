@@ -444,7 +444,7 @@
                     <div class="form--row__input col-sm-6 col-md-4">
                         <div class="input--icon">
                             {{ update_account_form.password }}
-                            <span class="iconify" data-icon="mdi:security"></span>
+                            <span id="password-field-icon" class="iconify" data-icon="material-symbols:visibility-off"></span>
                         </div>
                         <small>{{ update_account_form.password.help_text }}</small>
                         {{ update_account_form.password.errors }}
@@ -452,6 +452,7 @@
                     <div class="form--row__input col-sm-6 col-md-4">
                         <div class="input--icon">
                             {{ update_account_form.confirm_password }}
+                            <span id="confirm-password-field-icon" class="iconify" data-icon="material-symbols:visibility-off"></span>
                         </div>
                         <small>{{ update_account_form.confirm_password.help_text }}</small>
                         {{ update_account_form.confirm_password.errors }}
@@ -459,7 +460,7 @@
                     <div class="form--row__input col-sm-6 col-md-4">
                         <div class="input--icon">
                             {{ update_account_form.current_password }}
-                            <span class="iconify" data-icon="mdi:lock-outline"></span>
+                            <span id="current-password-field-icon" class="iconify" data-icon="material-symbols:visibility-off"></span>
                         </div>
                         <small>{{ update_account_form.current_password.help_text }}</small>
                         {{ update_account_form.current_password.errors }}
@@ -528,7 +529,7 @@
                     <div class="form--row__input col-sm-6 col-md-4">
                         <div class="input--icon">
                             {{ delete_account_form.delete_password }}
-                            <span class="iconify" data-icon="mdi:security"></span>
+                            <span id="delete-password-field-icon" class="iconify" data-icon="material-symbols:visibility-off"></span>
                         </div>
                         <small>{{ delete_account_form.delete_password.help_text }}</small>
                         {{ delete_account_form.delete_password.errors }}

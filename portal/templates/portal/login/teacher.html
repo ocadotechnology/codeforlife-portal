@@ -39,8 +39,10 @@
                         {{ form.username.errors }}
                     </div>
 
-                    <div class="form__input">
-                        {{ form.password }}
+                    <div class="form--row">
+                        <div class="input--icon">
+                            {{ form.password }} <span id="password-field-icon" class="iconify" data-icon="material-symbols:visibility-off"></span>
+                        </div>
                         <small>{{ form.password.help_text }}</small>
                         {{ form.password.errors }}
                     </div>
@@ -65,5 +67,7 @@
 {% else %}
     {% include "two_factor/core/login.html" %}
 {% endif %}
+
+<script type="text/javascript" src="{% static 'portal/js/teacherLogin.js' %}"></script>
 
 {% endblock content %}

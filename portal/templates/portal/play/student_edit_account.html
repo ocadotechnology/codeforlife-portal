@@ -80,20 +80,23 @@
             <div class="form--row__input col-md-4">
                 <div class="input--icon">
                     {{ form.password }}
-                    <span class="iconify" data-icon="mdi:security"></span>
+                    <span id="password-field-icon" class="iconify" data-icon="material-symbols:visibility-off"></span>
                 </div>
                 <small>{{ form.password.help_text }}</small>
                 {{ form.password.errors }}
             </div>
             <div class="form--row__input col-md-4">
-                {{ form.confirm_password }}
+                <div class="input--icon">
+                    {{ form.confirm_password }}
+                    <span id="confirm-password-field-icon" class="iconify" data-icon="material-symbols:visibility-off"></span>
+                </div>
                 <small>{{ form.confirm_password.help_text }}</small>
                 {{ form.confirm_password.errors }}
             </div>
             <div class="form--row__input col-md-4">
                 <div class="input--icon">
                     {{ form.current_password }}
-                    <span class="iconify" data-icon="mdi:security"></span>
+                    <span id="current-password-field-icon" class="iconify" data-icon="material-symbols:visibility-off"></span>
                 </div>
                 <small>{{ form.current_password.help_text }}</small>
                 {{ form.current_password.errors }}
@@ -147,8 +150,8 @@
         <div class="row form--row">
             <div class="form--row__input col-sm-6 col-md-4">
                 <div class="input--icon">
-                         {{ delete_account_form.delete_password }}
-                    <span class="iconify" data-icon="mdi:security"></span>
+                    {{ delete_account_form.delete_password }}
+                    <span id="delete-password-field-icon" class="iconify" data-icon="material-symbols:visibility-off"></span>
                 </div>
                 <small>{{ delete_account_form.delete_password.help_text }}</small>
                 {{ delete_account_form.delete_password.errors }}

@@ -18,8 +18,10 @@
             {{ form.username.errors }}
         </div>
 
-        <div class="form__input">
-            {{ form.password }}
+        <div class="form--row">
+            <div class="input--icon">
+                {{ form.password }} <span id="password-field-icon" class="iconify" data-icon="material-symbols:visibility-off"></span>
+            </div>
             <small>{{ form.password.help_text }}</small>
             {{ form.password.errors }}
         </div>
@@ -29,4 +31,5 @@
                 Log in</button>
         </div>
     </form>
+    <script type="text/javascript" src="{% static 'portal/js/studentLogin.js' %}"></script>
 {% endblock form_content %}
