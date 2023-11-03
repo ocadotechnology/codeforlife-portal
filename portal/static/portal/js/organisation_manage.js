@@ -131,4 +131,23 @@ $(document).ready(() => {
       $('#current-password-field-icon').attr('data-icon', dataIcon);
     }
   );
+
+  $('#delete-account, #delete-indy-account').on(
+    'click',
+    '#delete-password-field-icon',
+    () => {
+      let inputType;
+      let dataIcon = $('#delete-password-field-icon').attr('data-icon');
+      if (dataIcon === 'material-symbols:visibility') {
+        inputType = 'password';
+        dataIcon = 'material-symbols:visibility-off';
+      } else {
+        inputType = 'text';
+        dataIcon = 'material-symbols:visibility';
+      }
+
+      $('#id_delete_password').attr('type', inputType);
+      $('#delete-password-field-icon').attr('data-icon', dataIcon);
+    }
+  );
 });

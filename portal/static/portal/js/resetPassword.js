@@ -15,7 +15,7 @@ $(document).ready(() => {
 
       $('#id_new_password1').attr('type', inputType);
       $('#id_new_password2').attr('type', inputType);
-      
+
       $('#password-field-icon').attr('data-icon', dataIcon);
       $('#confirm-password-field-icon').attr('data-icon', dataIcon);
     }
