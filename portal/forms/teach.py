@@ -323,12 +323,12 @@ class TeacherSetStudentPass(forms.Form):
     password = forms.CharField(
         label="New password",
         help_text="Enter new password",
-        widget=forms.PasswordInput(attrs={"placeholder": "Enter new password"}),
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Enter new password"}),
     )
     confirm_password = forms.CharField(
         label="Confirm new password",
         help_text="Confirm new password",
-        widget=forms.PasswordInput(attrs={"placeholder": "Confirm new password"}),
+        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Confirm new password"}),
     )
 
     def clean_password(self):
