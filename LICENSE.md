@@ -1,3 +1,3 @@
 # License
 
-Learn about what you can and can't do with our source code [here](https://github.com/ocadotechnology/codeforlife-workspace/blob/main/LICENSE.md).
+Find our license [here](https://github.com/ocadotechnology/codeforlife-workspace/blob/main/LICENSE.md).
