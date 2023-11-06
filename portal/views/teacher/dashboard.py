@@ -13,7 +13,7 @@ from common.helpers.emails import (
 )
 from common.helpers.generators import get_random_username
 from common.models import Class, JoinReleaseStudent, SchoolTeacherInvitation, Student, Teacher
-from common.permissions import logged_in_as_teacher, check_teacher_authorised
+from common.permissions import check_teacher_authorised, logged_in_as_teacher
 from common.utils import using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
@@ -44,6 +44,7 @@ from portal.helpers.ratelimit import (
     RATELIMIT_METHOD,
     clear_ratelimit_cache_for_user,
 )
+
 from .teach import create_class
 
 
@@ -259,7 +260,7 @@ def process_update_school_form(request, school, old_anchor):
         data = update_school_form.cleaned_data
         name = data.get("name", "")
         postcode = data.get("postcode", "")
-        country = data.get("country", "")
+        country = data.get("country")
         county = school.county
 
         school.name = name
