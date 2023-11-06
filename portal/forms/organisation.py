@@ -9,7 +9,6 @@ from django_countries.widgets import CountrySelectWidget
 
 class OrganisationForm(forms.ModelForm):
     class Meta(object):
-
         model = School
         fields = ["name", "postcode", "country"]
         widgets = {
@@ -17,7 +16,11 @@ class OrganisationForm(forms.ModelForm):
             "postcode": forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Postcode / Zipcode"}),
             "country": CountrySelectWidget(layout="{widget}"),
         }
-        help_texts = {"name": "Name of school or club", "postcode": "Postcode / Zipcode", "country": "Country"}
+        help_texts = {
+            "name": "Name of school or club",
+            "postcode": "Postcode / Zipcode",
+            "country": "Country (optional)",
+        }
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user", None)

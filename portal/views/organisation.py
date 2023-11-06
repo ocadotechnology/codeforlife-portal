@@ -1,9 +1,9 @@
 import common.permissions as permissions
-from common.models import School, Teacher, Class
+from common.models import Class, School, Teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 
 from portal.forms.organisation import OrganisationForm
@@ -12,7 +12,6 @@ from portal.forms.organisation import OrganisationForm
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(permissions.logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def organisation_create(request):
-
     teacher = request.user.new_teacher
 
     create_form = OrganisationForm(user=request.user)
@@ -23,7 +22,7 @@ def organisation_create(request):
             data = create_form.cleaned_data
             name = data.get("name", "")
             postcode = data.get("postcode", "").upper()
-            country = data.get("country", "")
+            country = data.get("country")
 
             school = School.objects.create(name=name, postcode=postcode, country=country)
 
