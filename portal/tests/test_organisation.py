@@ -41,7 +41,7 @@ class TestOrganisation(BaseTest, BasePage):
             HomePage(self.selenium)
             .go_to_teacher_login_page()
             .login_no_school(email_2, password_2)
-            .create_organisation_failure(school.name, password_2, school.postcode)
+            .create_organisation_failure(school.name, password_2)
         )
 
         assert page.has_creation_failed()
@@ -62,7 +62,7 @@ class TestOrganisation(BaseTest, BasePage):
         _, _, access_code = create_class_directly(email_1)
         create_school_student_directly(access_code)
 
-        join_teacher_to_organisation(email_2, school.name, school.postcode)
+        join_teacher_to_organisation(email_2, school.name)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_1, password_1)
@@ -86,7 +86,7 @@ class TestOrganisation(BaseTest, BasePage):
         _, _, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
-        join_teacher_to_organisation(email_2, school.name, school.postcode)
+        join_teacher_to_organisation(email_2, school.name)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_1, password_1)
@@ -114,7 +114,7 @@ class TestOrganisation(BaseTest, BasePage):
         _, class_name_2, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
-        join_teacher_to_organisation(email_2, school.name, school.postcode)
+        join_teacher_to_organisation(email_2, school.name)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_2, password_2)
@@ -139,7 +139,7 @@ class TestOrganisation(BaseTest, BasePage):
         school = create_organisation_directly(email_1)
         _, _, access_code = create_class_directly(email_1)
         create_school_student_directly(access_code)
-        join_teacher_to_organisation(email_2, school.name, school.postcode)
+        join_teacher_to_organisation(email_2, school.name)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_1, password_1)
@@ -164,7 +164,7 @@ class TestOrganisation(BaseTest, BasePage):
         school = create_organisation_directly(email_1)
         _, _, access_code = create_class_directly(email_1)
         create_school_student_directly(access_code)
-        join_teacher_to_organisation(email_2, school.name, school.postcode)
+        join_teacher_to_organisation(email_2, school.name)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_1, password_1)
@@ -193,7 +193,7 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
 
-        assert page.check_organisation_details({"name": school.name, "postcode": school.postcode})
+        assert page.check_organisation_details({"name": school.name})
 
         new_name = "new " + school.name
         new_postcode = "OX2 6LE"
@@ -214,8 +214,8 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_2, password_2)
 
-        assert not page.check_organisation_details({"name": school1.name, "postcode": school1.postcode})
+        assert not page.check_organisation_details({"name": school1.name})
 
-        page = page.change_organisation_details({"name": school1.name, "postcode": school1.postcode})
+        page = page.change_organisation_details({"name": school1.name})
 
         assert page.has_edit_failed()

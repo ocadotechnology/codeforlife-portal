@@ -23,15 +23,16 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
+
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils.messages import (
+    is_email_updated_message_showing,
     is_email_verified_message_showing,
     is_indep_student_join_request_received_message_showing,
     is_indep_student_join_request_revoked_message_showing,
-    is_student_details_updated_message_showing,
-    is_email_updated_message_showing,
     is_password_updated_message_showing,
+    is_student_details_updated_message_showing,
 )
 
 
@@ -558,7 +559,7 @@ class TestIndependentStudentFrontend(BaseTest):
         admin_email, admin_password1 = signup_teacher_directly()
         standard_email, _ = signup_teacher_directly()
         school = create_organisation_directly(admin_email)
-        join_teacher_to_organisation(standard_email, school.name, school.postcode, is_admin=False)
+        join_teacher_to_organisation(standard_email, school.name, is_admin=False)
 
         # Create class for standard teacher which always accepts external requests
         klass, class_name, access_code = create_class_directly(standard_email)

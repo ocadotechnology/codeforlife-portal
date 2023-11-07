@@ -59,7 +59,7 @@
     <div id="school" class="tab-pane active">
         <div class="background container">
             <section>
-                <h4>Your school: {% if user.new_teacher.school %} {{ user.new_teacher.school.name }} ({{ user.new_teacher.school.postcode }}){% endif %}</h4>
+                <h4>Your school: {% if user.new_teacher.school %} {{ user.new_teacher.school.name }}{% endif %}</h4>
             </section>
             {% if is_admin %}
                 <p>

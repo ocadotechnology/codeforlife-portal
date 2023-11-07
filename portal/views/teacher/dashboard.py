@@ -92,8 +92,8 @@ def dashboard_teacher_view(request, is_admin):
 
         update_school_form = OrganisationForm(user=request.user, current_school=school)
         update_school_form.fields["name"].initial = school.name
-        update_school_form.fields["postcode"].initial = school.postcode
         update_school_form.fields["country"].initial = school.country
+        update_school_form.fields["county"].initial = school.county
 
     invite_teacher_form = InviteTeacherForm()
 

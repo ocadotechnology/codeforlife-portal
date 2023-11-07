@@ -13,13 +13,13 @@ class OnboardingOrganisationPage(TeachBasePage):
 
         assert self.on_correct_page("onboarding_organisation_page")
 
-    def create_organisation(self, name, password, postcode, country="GB"):
-        self._create_organisation(name, password, postcode, country)
+    def create_organisation(self, name, password, country="GB"):
+        self._create_organisation(name, password, country)
 
         return onboarding_classes_page.OnboardingClassesPage(self.browser)
 
-    def create_organisation_failure(self, name, password, postcode, country="GB"):
-        self._create_organisation(name, password, postcode, country)
+    def create_organisation_failure(self, name, password, country="GB"):
+        self._create_organisation(name, password, country)
 
         return self
 
@@ -28,9 +28,8 @@ class OnboardingOrganisationPage(TeachBasePage):
 
         return self
 
-    def _create_organisation(self, name, password, postcode, country):
+    def _create_organisation(self, name, password, country):
         self.browser.find_element(By.ID, "id_name").send_keys(name)
-        self.browser.find_element(By.ID, "id_postcode").send_keys(postcode)
         country_element = self.browser.find_element(By.ID, "id_country")
         select = Select(country_element)
         select.select_by_value(country)
