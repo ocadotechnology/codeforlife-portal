@@ -1,7 +1,9 @@
 from __future__ import absolute_import
 
+from datetime import datetime, timedelta
+
 from aimmo.models import Game
-from common.models import Class, Teacher
+from common.models import Class, DailyActivity, Teacher
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.student import create_school_student_directly
@@ -14,11 +16,6 @@ from .base_test import BaseTest
 from .pageObjects.portal.teach.class_page import TeachClassPage
 from .utils.classes import create_class
 from .utils.messages import is_class_created_message_showing
-
-
-from common.models import DailyActivity
-
-from datetime import timedelta, datetime
 
 
 class TestClass(TestCase):
@@ -257,7 +254,7 @@ class TestClass(TestCase):
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
         school = create_organisation_directly(email1)
-        join_teacher_to_organisation(email2, school.name, school.postcode)
+        join_teacher_to_organisation(email2, school.name)
         klass1, _, access_code1 = create_class_directly(email1)
         klass2, _, access_code2 = create_class_directly(email2)
         _, _, student1 = create_school_student_directly(access_code1)

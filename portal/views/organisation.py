@@ -21,10 +21,9 @@ def organisation_create(request):
         if create_form.is_valid():
             data = create_form.cleaned_data
             name = data.get("name", "")
-            postcode = data.get("postcode", "").upper()
             country = data.get("country")
 
-            school = School.objects.create(name=name, postcode=postcode, country=country)
+            school = School.objects.create(name=name, country=country)
 
             teacher.school = school
             teacher.is_admin = True

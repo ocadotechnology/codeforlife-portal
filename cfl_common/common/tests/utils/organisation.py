@@ -1,22 +1,21 @@
-from common.models import Teacher, School
+from common.models import School, Teacher
 
 
 def generate_details(**kwargs):
     name = kwargs.get("name", "School %d" % generate_details.next_id)
-    postcode = kwargs.get("postcode", "Al10 9NE")
 
     generate_details.next_id += 1
 
-    return name, postcode
+    return name
 
 
 generate_details.next_id = 1
 
 
 def create_organisation_directly(teacher_email, **kwargs):
-    name, postcode = generate_details(**kwargs)
+    name = generate_details(**kwargs)
 
-    school = School.objects.create(name=name, postcode=postcode, country="GB")
+    school = School.objects.create(name=name, country="GB")
 
     teacher = Teacher.objects.get(new_user__email=teacher_email)
     teacher.school = school
@@ -26,9 +25,9 @@ def create_organisation_directly(teacher_email, **kwargs):
     return school
 
 
-def join_teacher_to_organisation(teacher_email, org_name, postcode, is_admin=False):
+def join_teacher_to_organisation(teacher_email, org_name, is_admin=False):
     teacher = Teacher.objects.get(new_user__email=teacher_email)
-    school = School.objects.get(name=org_name, postcode=postcode)
+    school = School.objects.get(name=org_name)
 
     teacher.school = school
     teacher.is_admin = is_admin
@@ -36,8 +35,7 @@ def join_teacher_to_organisation(teacher_email, org_name, postcode, is_admin=Fal
 
 
 def create_organisation(page, password):
+    name = generate_details()
+    page = page.create_organisation(name, password)
 
-    name, postcode = generate_details()
-    page = page.create_organisation(name, password, postcode)
-
-    return page, name, postcode
+    return page, name

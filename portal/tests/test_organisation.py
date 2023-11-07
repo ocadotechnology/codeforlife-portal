@@ -16,6 +16,7 @@ from selenium.webdriver.common.by import By
 from portal.tests.pageObjects.portal.base_page import BasePage
 from portal.tests.pageObjects.portal.home_page import HomePage
 from portal.tests.test_invite_teacher import FADE_TIME
+
 from .base_test import BaseTest
 from .utils.messages import is_organisation_created_message_showing
 
@@ -27,7 +28,7 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login_no_school(email, password)
 
-        page, name, postcode = create_organisation(page, password)
+        page, name = create_organisation(page, password)
         assert is_organisation_created_message_showing(self.selenium, name)
 
     def test_create_clash(self):

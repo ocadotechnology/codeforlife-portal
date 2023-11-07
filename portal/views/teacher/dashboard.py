@@ -259,12 +259,10 @@ def process_update_school_form(request, school, old_anchor):
     if update_school_form.is_valid():
         data = update_school_form.cleaned_data
         name = data.get("name", "")
-        postcode = data.get("postcode", "")
         country = data.get("country")
         county = school.county
 
         school.name = name
-        school.postcode = postcode
         school.country = country
         school.save()
 
