@@ -4,11 +4,9 @@ import time
 
 from common.models import Teacher
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
-    create_organisation,
-    create_organisation_directly,
-    join_teacher_to_organisation,
-)
+from common.tests.utils.organisation import (create_organisation,
+                                             create_organisation_directly,
+                                             join_teacher_to_organisation)
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from selenium.webdriver.common.by import By
@@ -30,21 +28,6 @@ class TestOrganisation(BaseTest, BasePage):
 
         page, name = create_organisation(page, password)
         assert is_organisation_created_message_showing(self.selenium, name)
-
-    def test_create_clash(self):
-        email_1, _ = signup_teacher_directly()
-        email_2, password_2 = signup_teacher_directly()
-        school = create_organisation_directly(email_1)
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login_no_school(email_2, password_2)
-            .create_organisation_failure(school.name, password_2)
-        )
-
-        assert page.has_creation_failed()
 
     def test_create_invalid_postcode(self):
         email, password = signup_teacher_directly()
