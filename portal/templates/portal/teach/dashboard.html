@@ -235,10 +235,10 @@
                         {{ update_school_form.non_field_errors }}
                         <div class="row form--row">
                             {% for field in update_school_form %}
-                                <div class="form--row__input col-sm-6 col-md-4">
+                                <div id="form-row-{{ field.name }}" class="form--row__input col-sm-6 col-md-4">
                                     <div class="input--icon">
                                         {{ field }}
-                                        {% if not field == update_school_form.country %}
+                                        {% if not field == update_school_form.country and not field == update_school_form.county %}
                                             <span class="iconify" data-icon="mdi:domain"></span>
                                         {% endif %}
                                     </div>
@@ -552,5 +552,8 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript"
+        src="{% static 'portal/js/school.js' %}"></script>
 
 {% endblock content %}
