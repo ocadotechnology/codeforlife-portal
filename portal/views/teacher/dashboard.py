@@ -2,17 +2,12 @@ from datetime import timedelta
 from uuid import uuid4
 
 from common import email_messages
-from common.helpers.emails import (
-    INVITE_FROM,
-    NOTIFICATION_EMAIL,
-    DotmailerUserType,
-    add_to_dotmailer,
-    generate_token,
-    send_email,
-    update_email,
-)
+from common.helpers.emails import (INVITE_FROM, NOTIFICATION_EMAIL,
+                                   DotmailerUserType, add_to_dotmailer,
+                                   generate_token, send_email, update_email)
 from common.helpers.generators import get_random_username
-from common.models import Class, JoinReleaseStudent, SchoolTeacherInvitation, Student, Teacher
+from common.models import (Class, JoinReleaseStudent, SchoolTeacherInvitation,
+                           Student, Teacher)
 from common.permissions import check_teacher_authorised, logged_in_as_teacher
 from common.utils import using_two_factor
 from django.contrib import messages as messages
@@ -30,20 +25,14 @@ from two_factor.utils import devices_for_user
 from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.organisation import OrganisationForm
 from portal.forms.registration import DeleteAccountForm
-from portal.forms.teach import (
-    ClassCreationForm,
-    InvitedTeacherForm,
-    TeacherAddExternalStudentForm,
-    TeacherEditAccountForm,
-)
+from portal.forms.teach import (ClassCreationForm, InvitedTeacherForm,
+                                TeacherAddExternalStudentForm,
+                                TeacherEditAccountForm)
 from portal.helpers.decorators import ratelimit
 from portal.helpers.password import check_update_password
-from portal.helpers.ratelimit import (
-    RATELIMIT_LOGIN_GROUP,
-    RATELIMIT_LOGIN_RATE,
-    RATELIMIT_METHOD,
-    clear_ratelimit_cache_for_user,
-)
+from portal.helpers.ratelimit import (RATELIMIT_LOGIN_GROUP,
+                                      RATELIMIT_LOGIN_RATE, RATELIMIT_METHOD,
+                                      clear_ratelimit_cache_for_user)
 
 from .teach import create_class
 
