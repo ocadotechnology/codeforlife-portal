@@ -10,6 +10,7 @@ from django_countries.widgets import CountrySelectWidget
 class OrganisationForm(forms.ModelForm):
     county = forms.ChoiceField(
         choices=[
+            (None, "(select county)"),
             # England
             ("Avon", "Avon"),
             ("Bath and North East Somerset", "Bath and North East Somerset"),
@@ -200,6 +201,7 @@ class OrganisationForm(forms.ModelForm):
             ("Wrexham", "Wrexham"),
         ],
         required=False,
+        help_text="County (optional)",
     )
 
     class Meta(object):
@@ -208,12 +210,10 @@ class OrganisationForm(forms.ModelForm):
         widgets = {
             "name": forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Name of school or club"}),
             "country": CountrySelectWidget(layout="{widget}"),
-            "county": forms.ChoiceWidget(choices=["a", "b"]),
         }
         help_texts = {
             "name": "Name of school or club",
             "country": "Country (optional)",
-            "county": "County (optional)",
         }
 
     def __init__(self, *args, **kwargs):
