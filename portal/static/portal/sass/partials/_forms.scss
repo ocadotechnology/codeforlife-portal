@@ -177,9 +177,9 @@ form {
   color: $color-text-secondary;
   background-color: $color-primary-400;
 
-  a,
-  a:hover,
-  a:focus {
+  a:not(.button--home),
+  a:not(.button--home):hover,
+  a:not(.button--home):focus {
     color: $color-text-secondary;
   }
 
