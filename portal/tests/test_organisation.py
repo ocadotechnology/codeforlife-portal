@@ -29,15 +29,6 @@ class TestOrganisation(BaseTest, BasePage):
         page, name = create_organisation(page, password)
         assert is_organisation_created_message_showing(self.selenium, name)
 
-    def test_create_invalid_postcode(self):
-        email, password = signup_teacher_directly()
-
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login_no_school(email, password)
-
-        page = page.create_organisation_failure("School", password, "   ")
-        assert page.was_postcode_invalid()
-
     def test_kick(self):
         email_1, password_1 = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()
@@ -179,10 +170,9 @@ class TestOrganisation(BaseTest, BasePage):
         assert page.check_organisation_details({"name": school.name})
 
         new_name = "new " + school.name
-        new_postcode = "OX2 6LE"
 
-        page.change_organisation_details({"name": new_name, "postcode": new_postcode})
-        assert page.check_organisation_details({"name": new_name, "postcode": new_postcode})
+        page.change_organisation_details({"name": new_name})
+        assert page.check_organisation_details({"name": new_name})
 
     def test_edit_clash(self):
         email_1, _ = signup_teacher_directly()
