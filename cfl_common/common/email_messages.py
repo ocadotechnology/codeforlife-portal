@@ -72,16 +72,6 @@ def emailChangeNotificationEmail(request, new_email_address):
     }
 
 
-def emailChangeDuplicateNotificationEmail(request, email):
-    return {
-        "subject": f"Duplicate account",
-        "message": (
-            f"A user is already registered with this email address: {email}.\n"
-            f"Please change your email address to something else."
-        ),
-    }
-
-
 def userAlreadyRegisteredEmail(request, email, is_independent_student=False):
     if is_independent_student:
         login_url = reverse("independent_student_login")
