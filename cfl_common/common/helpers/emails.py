@@ -10,6 +10,7 @@ from common.app_settings import domain
 from common.email_messages import (
     emailChangeNotificationEmail,
     emailChangeVerificationEmail,
+    emailChangeDuplicateNotificationEmail,
     emailVerificationNeededEmail,
     parentsEmailVerificationNeededEmail,
 )
@@ -60,8 +61,8 @@ def send_email(
 
     if replace_url:
         verify_url = replace_url["verify_url"]
-        verify_replace_url = re.sub(f"(.*/verify_email/)(.*)", f"\\1", verify_url)
-        html_body = re.sub(f"({verify_url})(.*){verify_url}", f"\\1\\2{verify_replace_url}", original_html_body)
+        verify_replace_url = re.sub(f'(.*/verify_email/)(.*)', f'\\1', verify_url)
+        html_body = re.sub(f'({verify_url})(.*){verify_url}', f'\\1\\2{verify_replace_url}', original_html_body)
 
     # make message using templates
     message = EmailMultiAlternatives(subject, plaintext_body, sender, recipients)
@@ -76,7 +77,6 @@ def generate_token(user, new_email="", preverified=False):
         user.userprofile.save()
 
     return generate_token_for_email(user.email, new_email)
-
 
 def generate_token_for_email(email: str, new_email: str = ""):
     return jwt.encode(
@@ -124,14 +124,7 @@ def send_verification_email(request, user, data, new_email=None, age=None):
         # if the user is a teacher
         if age is None:
             message = emailVerificationNeededEmail(request, verification)
-            send_email(
-                VERIFICATION_EMAIL,
-                [user.email],
-                message["subject"],
-                message["message"],
-                message["subject"],
-                replace_url=message["url"],
-            )
+            send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"], replace_url=message["url"])
 
             if _newsletter_ticked(data):
                 add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
@@ -139,24 +132,10 @@ def send_verification_email(request, user, data, new_email=None, age=None):
         else:
             if age < 13:
                 message = parentsEmailVerificationNeededEmail(request, user, verification)
-                send_email(
-                    VERIFICATION_EMAIL,
-                    [user.email],
-                    message["subject"],
-                    message["message"],
-                    message["subject"],
-                    replace_url=message["url"],
-                )
+                send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"], replace_url=message["url"])
             else:
                 message = emailVerificationNeededEmail(request, verification)
-                send_email(
-                    VERIFICATION_EMAIL,
-                    [user.email],
-                    message["subject"],
-                    message["message"],
-                    message["subject"],
-                    replace_url=message["url"],
-                )
+                send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"], replace_url=message["url"])
 
             if _newsletter_ticked(data):
                 add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.STUDENT)
@@ -165,14 +144,10 @@ def send_verification_email(request, user, data, new_email=None, age=None):
         verification = generate_token(user, new_email)
 
         message = emailChangeVerificationEmail(request, verification)
-        send_email(
-            VERIFICATION_EMAIL,
-            [new_email],
-            message["subject"],
-            message["message"],
-            message["subject"],
-            replace_url=message["url"],
-        )
+        send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"], replace_url=message["url"])
+
+        message = emailChangeNotificationEmail(request, new_email)
+        send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
 
 
 def add_to_dotmailer(first_name: str, last_name: str, email: str, user_type: DotmailerUserType):
@@ -280,12 +255,17 @@ def update_indy_email(user, request, data):
     if new_email != "" and new_email != user.email:
         changing_email = True
         users_with_email = User.objects.filter(email=new_email)
-
-        message = emailChangeNotificationEmail(request, new_email)
-        send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
-
-        # email is available
-        if not users_with_email.exists():
+        # email is already taken
+        if users_with_email.exists():
+            email_message = emailChangeDuplicateNotificationEmail(request, new_email)
+            send_email(
+                NOTIFICATION_EMAIL,
+                [user.email],
+                email_message["subject"],
+                email_message["message"],
+                email_message["subject"],
+            )
+        else:
             # new email to set and verify
             send_verification_email(request, user, data, new_email)
     return changing_email, new_email
@@ -298,14 +278,17 @@ def update_email(user: Teacher or Student, request, data):
     if new_email != "" and new_email != user.new_user.email:
         changing_email = True
         users_with_email = User.objects.filter(email=new_email)
-
-        message = emailChangeNotificationEmail(request, new_email)
-        send_email(
-            VERIFICATION_EMAIL, [user.new_user.email], message["subject"], message["message"], message["subject"]
-        )
-
-        # email is available
-        if not users_with_email.exists():
+        # email is already taken
+        if users_with_email.exists():
+            email_message = emailChangeDuplicateNotificationEmail(request, new_email)
+            send_email(
+                NOTIFICATION_EMAIL,
+                [user.new_user.email],
+                email_message["subject"],
+                email_message["message"],
+                email_message["subject"],
+            )
+        else:
             # new email to set and verify
             send_verification_email(request, user.new_user, data, new_email)
     return changing_email, new_email
