@@ -3,11 +3,12 @@ from __future__ import absolute_import
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
-from .add_independent_student_to_class_page import AddIndependentStudentToClassPage
+from ..email_verification_needed_page import EmailVerificationNeededPage
+from .add_independent_student_to_class_page import \
+    AddIndependentStudentToClassPage
 from .class_page import TeachClassPage
 from .move_classes_page import TeachMoveClassesPage
 from .teach_base_page import TeachBasePage
-from ..email_verification_needed_page import EmailVerificationNeededPage
 
 
 class TeachDashboardPage(TeachBasePage):
@@ -54,7 +55,7 @@ class TeachDashboardPage(TeachBasePage):
     def has_edit_failed(self):
         self.wait_for_element_by_id("edit_form")
         errorlist = self.browser.find_element(By.ID, "edit_form").find_element(By.CLASS_NAME, "errorlist").text
-        error = "There is already a school or club registered with that name and postcode"
+        error = "There is already a school or club registered with that name"
         return error in errorlist
 
     def create_class(self, name, classmate_progress, teacher_id=None):
@@ -92,7 +93,8 @@ class TeachDashboardPage(TeachBasePage):
             }
         )
 
-        from portal.tests.pageObjects.portal.teacher_login_page import TeacherLoginPage
+        from portal.tests.pageObjects.portal.teacher_login_page import \
+            TeacherLoginPage
 
         return TeacherLoginPage(self.browser)
 
