@@ -8,8 +8,6 @@ from django.db import models
 from django.utils import timezone
 from django_countries.fields import CountryField
 
-from .helpers.organisation import sanitise_uk_postcode
-
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -40,8 +38,7 @@ class SchoolModelManager(models.Manager):
 
 
 class School(models.Model):
-    name = models.CharField(max_length=200)
-    postcode = models.CharField(max_length=10, null=True)
+    name = models.CharField(max_length=200, unique=True)
     country = CountryField(blank_label="(select country)", null=True, blank=True)
     # TODO: Create an Address model to house address details
     county = models.CharField(max_length=50, blank=True, null=True)
@@ -69,21 +66,8 @@ class School(models.Model):
 
     def anonymise(self):
         self.name = uuid4().hex
-        self.postcode = ""
         self.is_active = False
         self.save()
-
-    def save(self, **kwargs):
-        self.county = ""
-
-        if self.country == "GB":
-            if self.postcode.replace(" ", "") == "":
-                self.county = "nan"
-            else:
-                nomi = pgeocode.Nominatim("GB")
-                self.county = nomi.query_postal_code(sanitise_uk_postcode(self.postcode)).county_name
-
-        super(School, self).save(**kwargs)
 
 
 class TeacherModelManager(models.Manager):

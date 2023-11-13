@@ -30,14 +30,15 @@ from selenium.webdriver.support.wait import WebDriverWait
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.tests.base_test import click_buttons_by_id
 from portal.tests.test_invite_teacher import WAIT_TIME
+
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils.messages import (
-    is_message_showing,
-    is_email_verified_message_showing,
-    is_teacher_details_updated_message_showing,
     is_email_updated_message_showing,
+    is_email_verified_message_showing,
+    is_message_showing,
     is_password_updated_message_showing,
+    is_teacher_details_updated_message_showing,
 )
 
 
@@ -107,7 +108,7 @@ class TestTeacher(TestCase):
 
         # Create teacher 2 -> class 2 -> student 2
         email2, password2 = signup_teacher_directly()
-        join_teacher_to_organisation(email2, school.name, school.postcode)
+        join_teacher_to_organisation(email2, school.name)
         klass2, _, access_code2 = create_class_directly(email2, "Class 2")
         create_school_student_directly(access_code2)
 
@@ -189,7 +190,7 @@ class TestTeacher(TestCase):
         create_school_student_directly(access_code1)
 
         email2, password2 = signup_teacher_directly()
-        join_teacher_to_organisation(email2, school.name, school.postcode)
+        join_teacher_to_organisation(email2, school.name)
         klass2, _, access_code2 = create_class_directly(email2, "Class 2")
         create_school_student_directly(access_code2)
 
@@ -521,7 +522,7 @@ class TestTeacherFrontend(BaseTest):
         school = create_organisation_directly(email_1)
         _, _, access_code_1 = create_class_directly(email_1)
         create_school_student_directly(access_code_1)
-        join_teacher_to_organisation(email_2, school.name, school.postcode)
+        join_teacher_to_organisation(email_2, school.name)
         _, _, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
@@ -553,7 +554,7 @@ class TestTeacherFrontend(BaseTest):
         assert is_email_updated_message_showing(self.selenium)
 
         subject = str(mail.outbox[0].subject)
-        assert subject == "Duplicate account"
+        assert subject == "Email address update"
         mail.outbox = []
 
         # Try changing email to an existing indy student's email, should fail
@@ -566,7 +567,7 @@ class TestTeacherFrontend(BaseTest):
         assert is_email_updated_message_showing(self.selenium)
 
         subject = str(mail.outbox[0].subject)
-        assert subject == "Duplicate account"
+        assert subject == "Email address update"
         mail.outbox = []
 
         page = self.go_to_homepage()
@@ -585,7 +586,10 @@ class TestTeacherFrontend(BaseTest):
 
         page = page.logout()
 
-        page = email_utils.follow_change_email_link_to_dashboard(page, mail.outbox[0])
+        subject = str(mail.outbox[0].subject)
+        assert subject == "Email address update"
+
+        page = email_utils.follow_change_email_link_to_dashboard(page, mail.outbox[1])
         mail.outbox = []
 
         page = page.login(new_email, password).open_account_tab()
@@ -668,7 +672,7 @@ class TestTeacherFrontend(BaseTest):
         # create non_admin account to join the school
         # check if they cannot see classes
         standard_email, standard_password = signup_teacher_directly()
-        join_teacher_to_organisation(standard_email, school.name, school.postcode)
+        join_teacher_to_organisation(standard_email, school.name)
 
         page = (
             self.go_to_homepage().go_to_teacher_login_page().login(standard_email, standard_password).open_classes_tab()
@@ -681,7 +685,7 @@ class TestTeacherFrontend(BaseTest):
         # if the teacher can see the classes
 
         admin_email, admin_password = signup_teacher_directly()
-        join_teacher_to_organisation(admin_email, school.name, school.postcode, is_admin=True)
+        join_teacher_to_organisation(admin_email, school.name, is_admin=True)
 
         page = self.go_to_homepage().go_to_teacher_login_page().login(admin_email, admin_password).open_classes_tab()
         class_code_field = page.browser.find_element(By.ID, f"class-code-{access_code}")
@@ -695,7 +699,7 @@ class TestTeacherFrontend(BaseTest):
         student_name, student_password, student_student = create_school_student_directly(access_code)
 
         joining_email, joining_password = signup_teacher_directly()
-        join_teacher_to_organisation(joining_email, school.name, school.postcode, is_admin=True)
+        join_teacher_to_organisation(joining_email, school.name, is_admin=True)
 
         page = (
             self.go_to_homepage().go_to_teacher_login_page().login(joining_email, joining_password).open_classes_tab()
@@ -755,7 +759,7 @@ class TestTeacherFrontend(BaseTest):
 
         # Non admin teacher joined - make admin should also make a popup
 
-        join_teacher_to_organisation(joining_email, school.name, school.postcode)
+        join_teacher_to_organisation(joining_email, school.name)
 
         # refresh the page and scroll to the buttons
         page.browser.execute_script("location.reload()")

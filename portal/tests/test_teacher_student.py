@@ -20,6 +20,7 @@ from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.by import By
 
 from portal.tests.pageObjects.portal.home_page import HomePage
+
 from .base_test import BaseTest
 
 
@@ -473,7 +474,7 @@ class TestTeacherStudentFrontend(BaseTest):
         old_teacher_email, password_1 = signup_teacher_directly()
         email_2, _ = signup_teacher_directly()
         school = create_organisation_directly(old_teacher_email)
-        join_teacher_to_organisation(email_2, school.name, school.postcode)
+        join_teacher_to_organisation(email_2, school.name)
         _, _, access_code_1 = create_class_directly(old_teacher_email)
         create_class_directly(email_2)
         student_name, _, _ = create_school_student_directly(access_code_1)
@@ -498,7 +499,7 @@ class TestTeacherStudentFrontend(BaseTest):
         email_1, password_1 = signup_teacher_directly()
         email_2, password_2 = signup_teacher_directly()
         school = create_organisation_directly(email_1)
-        join_teacher_to_organisation(email_2, school.name, school.postcode)
+        join_teacher_to_organisation(email_2, school.name)
         _, _, access_code_1 = create_class_directly(email_1)
         create_class_directly(email_2)
         student_name_1, _, _ = create_school_student_directly(access_code_1)

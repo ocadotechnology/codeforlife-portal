@@ -4,11 +4,9 @@ import time
 
 from common.models import Teacher
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
-    create_organisation,
-    create_organisation_directly,
-    join_teacher_to_organisation,
-)
+from common.tests.utils.organisation import (create_organisation,
+                                             create_organisation_directly,
+                                             join_teacher_to_organisation)
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from selenium.webdriver.common.by import By
@@ -16,6 +14,7 @@ from selenium.webdriver.common.by import By
 from portal.tests.pageObjects.portal.base_page import BasePage
 from portal.tests.pageObjects.portal.home_page import HomePage
 from portal.tests.test_invite_teacher import FADE_TIME
+
 from .base_test import BaseTest
 from .utils.messages import is_organisation_created_message_showing
 
@@ -27,32 +26,8 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login_no_school(email, password)
 
-        page, name, postcode = create_organisation(page, password)
+        page, name = create_organisation(page, password)
         assert is_organisation_created_message_showing(self.selenium, name)
-
-    def test_create_clash(self):
-        email_1, _ = signup_teacher_directly()
-        email_2, password_2 = signup_teacher_directly()
-        school = create_organisation_directly(email_1)
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login_no_school(email_2, password_2)
-            .create_organisation_failure(school.name, password_2, school.postcode)
-        )
-
-        assert page.has_creation_failed()
-
-    def test_create_invalid_postcode(self):
-        email, password = signup_teacher_directly()
-
-        self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login_no_school(email, password)
-
-        page = page.create_organisation_failure("School", password, "   ")
-        assert page.was_postcode_invalid()
 
     def test_kick(self):
         email_1, password_1 = signup_teacher_directly()
@@ -61,7 +36,7 @@ class TestOrganisation(BaseTest, BasePage):
         _, _, access_code = create_class_directly(email_1)
         create_school_student_directly(access_code)
 
-        join_teacher_to_organisation(email_2, school.name, school.postcode)
+        join_teacher_to_organisation(email_2, school.name)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_1, password_1)
@@ -85,7 +60,7 @@ class TestOrganisation(BaseTest, BasePage):
         _, _, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
-        join_teacher_to_organisation(email_2, school.name, school.postcode)
+        join_teacher_to_organisation(email_2, school.name)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_1, password_1)
@@ -113,7 +88,7 @@ class TestOrganisation(BaseTest, BasePage):
         _, class_name_2, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
-        join_teacher_to_organisation(email_2, school.name, school.postcode)
+        join_teacher_to_organisation(email_2, school.name)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_2, password_2)
@@ -138,7 +113,7 @@ class TestOrganisation(BaseTest, BasePage):
         school = create_organisation_directly(email_1)
         _, _, access_code = create_class_directly(email_1)
         create_school_student_directly(access_code)
-        join_teacher_to_organisation(email_2, school.name, school.postcode)
+        join_teacher_to_organisation(email_2, school.name)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_1, password_1)
@@ -163,7 +138,7 @@ class TestOrganisation(BaseTest, BasePage):
         school = create_organisation_directly(email_1)
         _, _, access_code = create_class_directly(email_1)
         create_school_student_directly(access_code)
-        join_teacher_to_organisation(email_2, school.name, school.postcode)
+        join_teacher_to_organisation(email_2, school.name)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_1, password_1)
@@ -192,13 +167,12 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
 
-        assert page.check_organisation_details({"name": school.name, "postcode": school.postcode})
+        assert page.check_organisation_details({"name": school.name})
 
         new_name = "new " + school.name
-        new_postcode = "OX2 6LE"
 
-        page.change_organisation_details({"name": new_name, "postcode": new_postcode})
-        assert page.check_organisation_details({"name": new_name, "postcode": new_postcode})
+        page.change_organisation_details({"name": new_name})
+        assert page.check_organisation_details({"name": new_name})
 
     def test_edit_clash(self):
         email_1, _ = signup_teacher_directly()
@@ -213,8 +187,8 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_2, password_2)
 
-        assert not page.check_organisation_details({"name": school1.name, "postcode": school1.postcode})
+        assert not page.check_organisation_details({"name": school1.name})
 
-        page = page.change_organisation_details({"name": school1.name, "postcode": school1.postcode})
+        page = page.change_organisation_details({"name": school1.name})
 
         assert page.has_edit_failed()

@@ -2,17 +2,12 @@ from datetime import timedelta
 from uuid import uuid4
 
 from common import email_messages
-from common.helpers.emails import (
-    INVITE_FROM,
-    NOTIFICATION_EMAIL,
-    DotmailerUserType,
-    add_to_dotmailer,
-    generate_token,
-    send_email,
-    update_email,
-)
+from common.helpers.emails import (INVITE_FROM, NOTIFICATION_EMAIL,
+                                   DotmailerUserType, add_to_dotmailer,
+                                   generate_token, send_email, update_email)
 from common.helpers.generators import get_random_username
-from common.models import Class, JoinReleaseStudent, SchoolTeacherInvitation, Student, Teacher
+from common.models import (Class, JoinReleaseStudent, SchoolTeacherInvitation,
+                           Student, Teacher)
 from common.permissions import check_teacher_authorised, logged_in_as_teacher
 from common.utils import using_two_factor
 from django.contrib import messages as messages
@@ -30,20 +25,14 @@ from two_factor.utils import devices_for_user
 from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.organisation import OrganisationForm
 from portal.forms.registration import DeleteAccountForm
-from portal.forms.teach import (
-    ClassCreationForm,
-    InvitedTeacherForm,
-    TeacherAddExternalStudentForm,
-    TeacherEditAccountForm,
-)
+from portal.forms.teach import (ClassCreationForm, InvitedTeacherForm,
+                                TeacherAddExternalStudentForm,
+                                TeacherEditAccountForm)
 from portal.helpers.decorators import ratelimit
 from portal.helpers.password import check_update_password
-from portal.helpers.ratelimit import (
-    RATELIMIT_LOGIN_GROUP,
-    RATELIMIT_LOGIN_RATE,
-    RATELIMIT_METHOD,
-    clear_ratelimit_cache_for_user,
-)
+from portal.helpers.ratelimit import (RATELIMIT_LOGIN_GROUP,
+                                      RATELIMIT_LOGIN_RATE, RATELIMIT_METHOD,
+                                      clear_ratelimit_cache_for_user)
 
 from .teach import create_class
 
@@ -92,8 +81,8 @@ def dashboard_teacher_view(request, is_admin):
 
         update_school_form = OrganisationForm(user=request.user, current_school=school)
         update_school_form.fields["name"].initial = school.name
-        update_school_form.fields["postcode"].initial = school.postcode
         update_school_form.fields["country"].initial = school.country
+        update_school_form.fields["county"].initial = school.county
 
     invite_teacher_form = InviteTeacherForm()
 
@@ -259,12 +248,10 @@ def process_update_school_form(request, school, old_anchor):
     if update_school_form.is_valid():
         data = update_school_form.cleaned_data
         name = data.get("name", "")
-        postcode = data.get("postcode", "")
         country = data.get("country")
         county = school.county
 
         school.name = name
-        school.postcode = postcode
         school.country = country
         school.save()
 

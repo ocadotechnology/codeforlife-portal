@@ -1,7 +1,9 @@
 from __future__ import absolute_import
 
+from datetime import datetime, timedelta
+
 from aimmo.models import Game
-from common.models import Class, Teacher
+from common.models import Class, DailyActivity, Teacher
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.student import create_school_student_directly
@@ -14,11 +16,6 @@ from .base_test import BaseTest
 from .pageObjects.portal.teach.class_page import TeachClassPage
 from .utils.classes import create_class
 from .utils.messages import is_class_created_message_showing
-
-
-from common.models import DailyActivity
-
-from datetime import timedelta, datetime
 
 
 class TestClass(TestCase):
@@ -257,7 +254,7 @@ class TestClass(TestCase):
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
         school = create_organisation_directly(email1)
-        join_teacher_to_organisation(email2, school.name, school.postcode)
+        join_teacher_to_organisation(email2, school.name)
         klass1, _, access_code1 = create_class_directly(email1)
         klass2, _, access_code2 = create_class_directly(email2)
         _, _, student1 = create_school_student_directly(access_code1)
@@ -312,7 +309,7 @@ class TestClassFrontend(BaseTest):
         email2, password2 = signup_teacher_directly()
         teacher2 = Teacher.objects.get(new_user__email=email2)
         school = create_organisation_directly(email1)
-        join_teacher_to_organisation(email2, school.name, school.postcode)
+        join_teacher_to_organisation(email2, school.name)
 
         # Check teacher 2 doesn't have any classes
         page = self.go_to_homepage().go_to_teacher_login_page().login(email2, password2).open_classes_tab()
@@ -348,7 +345,7 @@ class TestClassFrontend(BaseTest):
         school = create_organisation_directly(email_1)
         klass_1, class_name_1, access_code_1 = create_class_directly(email_1)
         create_school_student_directly(access_code_1)
-        join_teacher_to_organisation(email_2, school.name, school.postcode)
+        join_teacher_to_organisation(email_2, school.name)
         klass_2, class_name_2, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 

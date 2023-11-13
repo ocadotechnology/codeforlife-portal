@@ -151,8 +151,8 @@ class TestTeacherViews(TestCase):
     def test_organisation_kick_has_correct_permissions(self):
         teacher2_email, _ = signup_teacher_directly()
         school = create_organisation_directly(self.email)
-        join_teacher_to_organisation(self.email, school.name, school.postcode, is_admin=True)
-        join_teacher_to_organisation(teacher2_email, school.name, school.postcode)
+        join_teacher_to_organisation(self.email, school.name, is_admin=True)
+        join_teacher_to_organisation(teacher2_email, school.name)
         teacher2_id = Teacher.objects.get(new_user__email=teacher2_email).id
 
         client = self.login()
@@ -599,12 +599,12 @@ class TestViews(TestCase):
         _, _, student = create_school_student_directly(access_code_1)
         student_user_id = student.new_user.id
 
-        join_teacher_to_organisation(email2, school.name, school.postcode)
+        join_teacher_to_organisation(email2, school.name)
         _, _, access_code_2 = create_class_directly(email2)
         create_school_student_directly(access_code_2)
 
-        join_teacher_to_organisation(email3, school.name, school.postcode)
-        join_teacher_to_organisation(email4, school.name, school.postcode)
+        join_teacher_to_organisation(email3, school.name)
+        join_teacher_to_organisation(email4, school.name)
 
         c = Client()
         url = reverse("teacher_login")
@@ -675,7 +675,6 @@ class TestViews(TestCase):
         # school should be anonymised
         school = School._base_manager.get(id=school_id)
         assert school.name != school_name
-        assert school.postcode == ""
         assert not school.is_active
 
         with pytest.raises(School.DoesNotExist):
@@ -691,7 +690,7 @@ class TestViews(TestCase):
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
         school = create_organisation_directly(email1)
-        join_teacher_to_organisation(email2, school.name, school.postcode)
+        join_teacher_to_organisation(email2, school.name)
 
         teacher1 = Teacher.objects.get(new_user__username=email1)
         teacher2 = Teacher.objects.get(new_user__username=email2)
