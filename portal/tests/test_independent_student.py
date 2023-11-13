@@ -355,7 +355,7 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_email_updated_message_showing(self.selenium)
 
         subject = str(mail.outbox[0].subject)
-        assert subject == "Duplicate account"
+        assert subject == "Email address update"
         mail.outbox = []
 
         # Try changing email to an existing teacher's email
@@ -373,7 +373,7 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_email_updated_message_showing(self.selenium)
 
         subject = str(mail.outbox[0].subject)
-        assert subject == "Duplicate account"
+        assert subject == "Email address update"
         mail.outbox = []
 
         page = (
@@ -402,7 +402,10 @@ class TestIndependentStudentFrontend(BaseTest):
 
         page = page.logout()
 
-        page = email_utils.follow_change_email_link_to_independent_dashboard(page, mail.outbox[0])
+        subject = str(mail.outbox[0].subject)
+        assert subject == "Email address update"
+
+        page = email_utils.follow_change_email_link_to_independent_dashboard(page, mail.outbox[1])
         mail.outbox = []
 
         page = page.independent_student_login(new_email, password)
