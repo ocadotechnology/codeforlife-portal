@@ -1,12 +1,12 @@
-from common.models import Student, Teacher, DailyActivity
+from common.models import DailyActivity, Student, Teacher
 from django.test import TestCase
 from django.utils import timezone
 
+from ..helpers.organisation import sanitise_uk_postcode
 from .utils.classes import create_class_directly
 from .utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from .utils.student import create_independent_student_directly
 from .utils.teacher import signup_teacher_directly
-from ..helpers.organisation import sanitise_uk_postcode
 
 
 class TestModels(TestCase):
@@ -57,8 +57,8 @@ class TestModels(TestCase):
         email2, password2 = signup_teacher_directly()
         email3, password3 = signup_teacher_directly()
         school = create_organisation_directly(email1)
-        join_teacher_to_organisation(email2, school.name, school.postcode)
-        join_teacher_to_organisation(email3, school.name, school.postcode, is_admin=True)
+        join_teacher_to_organisation(email2, school.name)
+        join_teacher_to_organisation(email3, school.name, is_admin=True)
 
         teacher1 = Teacher.objects.get(new_user__username=email1)
         teacher2 = Teacher.objects.get(new_user__username=email2)
@@ -68,28 +68,6 @@ class TestModels(TestCase):
         assert teacher1 in school.admins()
         assert teacher2 not in school.admins()
         assert teacher3 in school.admins()
-
-    def test_school_postcode(self):
-        """
-        Test that the school's county field gets populated according to country and postcode.
-        """
-        # Check that the county is found correctly (create school helper function uses Herts postcode)
-        teacher_email, _ = signup_teacher_directly()
-        school = create_organisation_directly(teacher_email)
-
-        assert school.county == "Hertfordshire"
-
-        # Check that an empty postcode outputs "nan" as county and doesn't throw an exception
-        school.postcode = " "
-        school.save()
-
-        assert school.county == "nan"
-
-        # Check that changing the country to something other than "GB" clears the county field
-        school.country = "FR"
-        school.save()
-
-        assert school.county == ""
 
     def test_sanitise_uk_postcode(self):
         postcode_with_space = "AL10 9NE"

@@ -37,3 +37,5 @@ node_modules
 
 # tunnel software
 ngrok
+
+.venv
