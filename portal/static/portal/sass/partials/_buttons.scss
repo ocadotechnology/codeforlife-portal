@@ -150,6 +150,17 @@ table {
   }
 }
 
+.button-email {
+  &:after {
+    content: "\e0be";
+    font-family: "Material Icons Outlined";
+    position: relative;
+    top: 2px;
+    left: 5px;
+    line-height: 0.9em;
+  }
+}
+
 .button--regular,
 .ui-dialog-buttonset button {
   @include _padding(10px, 15px, 10px, 15px);

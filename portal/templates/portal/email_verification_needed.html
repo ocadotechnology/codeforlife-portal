@@ -7,13 +7,11 @@
     <h4>We need to verify your email address</h4>
     <img class="background" title="Paper Plane" alt="Verification email sent" src="{% static 'portal/img/paper_plane.png' %}">
     <p class="text-left">An email has been sent to the address you provided.</p>
-    <p class="text-left">Please follow the link within the email to verify your details. This will expire in 1 hour.</p>
-    <p class="text-left">If you don't receive the email within the next few minutes, check your spam folder.</p>
+    <p class="text-left">Please follow the link within the email to verify your details. This will expire in one hour.</p>
+    <p class="text-left">If you don't receive the email within the next few minutes, please check your spam folder.</p>
     <div>
-        {% if usertype == "TEACHER" %}
-            <a id="home_button" href="{% url 'home' %}" class="button button--primary button--login">Back to homepage</a>
-        {% else %}
-            <a id="home_button" href="{% url 'home' %}" class="button button--home">Back to homepage</a>
-        {% endif %}
+        <a target="_blank" href="https://mail.google.com/mail/#search/from%3Ano-reply%40codeforlife.education+subject%3AEmail+Verification"
+           class="button button--home button-email">Open in Gmail</a>
     </div>
+    <p class="text-left"><a id="home_button" href="{% url 'home' %}">&lt; back to homepage</a></p>
 {% endblock form_content %}
