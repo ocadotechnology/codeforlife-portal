@@ -7,7 +7,7 @@ from common.helpers.emails import (
     send_email,
     send_verification_email,
 )
-from common.models import Student, Teacher, DynamicElement, TotalActivity
+from common.models import Student, Teacher, DynamicElement, TotalActivity, School
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import _using_two_factor
 from django.contrib import messages as messages
@@ -15,6 +15,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import F
+from django.db import models
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
@@ -266,7 +267,19 @@ def download_student_pack(request, student_pack_type):
 
 
 def home_learning(request):
-    return render(request, "portal/home_learning.html", {"HOME_LEARNING_BANNER": HOME_LEARNING_BANNER})
+    schools = School.objects.values("name").annotate(name_count=models.Count("name")).filter(name_count__gt=1)
+    school_names = []
+    school_ids = []
+    for school in schools:
+        schools = list(School.objects.filter(name=school["name"]).order_by("id"))
+        for index in range(school["name_count"]):
+            if index > 0:
+                school_names.append(school.name)
+                school_ids.append(school.id)
+                school = schools[index]
+                school.name += f" {index + 1}"
+                school.save()
+    return render(request, "portal/home_learning.html", {"HOME_LEARNING_BANNER": HOME_LEARNING_BANNER, "school_names": school_names, "school_ids": school_ids})
 
 
 def reset_screentime_warning(request):

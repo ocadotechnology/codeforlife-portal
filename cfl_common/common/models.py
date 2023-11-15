@@ -38,7 +38,7 @@ class SchoolModelManager(models.Manager):
 
 
 class School(models.Model):
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200, unique=False)
     country = CountryField(blank_label="(select country)", null=True, blank=True)
     # TODO: Create an Address model to house address details
     county = models.CharField(max_length=50, blank=True, null=True)
