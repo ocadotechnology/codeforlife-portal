@@ -19,14 +19,10 @@ def unique_school_names(apps: Apps, *args):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("common", "0046_alter_school_country"),
+        ("common", "0047_delete_school_postcode"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name="school",
-            name="postcode",
-        ),
         migrations.RunPython(code=unique_school_names, reverse_code=migrations.RunPython.noop),
         migrations.AlterField(
             model_name="school",
