@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
             model_name="school",
             name="postcode",
         ),
-        migrations.RunPython(code=unique_school_names),
+        migrations.RunPython(code=unique_school_names, reverse_code=migrations.RunPython.noop),
         migrations.AlterField(
             model_name="school",
             name="name",
