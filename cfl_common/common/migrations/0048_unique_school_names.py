@@ -7,14 +7,24 @@ from django.db import migrations, models
 def unique_school_names(apps: Apps, *args):
     School = apps.get_model("common", "School")
 
-    schools = School.objects.values("name").annotate(name_count=models.Count("name")).filter(name_count__gt=1)
-    for school in schools:
-        schools = list(School.objects.filter(name=school["name"]).order_by("id"))
-        for index in range(school["name_count"]):
-            if index > 0:
-                school = schools[index]
-                school.name += f" {index + 1}"
-                school.save()
+    def get_school_name(school_name: str, school_name_number: int):
+        return f"{school_name} {school_name_number}"
+
+    school_values = School.objects.values("name").annotate(name_count=models.Count("name")).filter(name_count__gt=1)
+    for school_value in school_values:
+        school_name = school_value["name"]
+        school_name_number = 1
+
+        schools = list(School.objects.filter(name=school_name).order_by("id"))
+        for index in range(1, len(schools)):
+            school = schools[index]
+
+            school.name = get_school_name(school_name, school_name_number)
+            while School.objects.filter(name=school.name).exists():
+                school_name_number += 1
+                school.name = get_school_name(school_name, school_name_number)
+
+            school.save()
 
 
 class Migration(migrations.Migration):
