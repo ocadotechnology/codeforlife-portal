@@ -44,7 +44,7 @@ setup(
         "django-ratelimit==3.0.1",
         "django-preventconcurrentlogins==0.8.2",
         "django-csp==3.7",
-        "setuptools==62.1.0",  # upgrading this causes an error when publishing the cfl_common package to PyPI for some reason, see https://github.com/ocadotechnology/codeforlife-portal/actions/runs/3883963564/jobs/6625894054
+        "setuptools==65.5.1",
         "django-import-export",
     ],
     classifiers=["Programming Language :: Python", "Programming Language :: Python :: 3.8", "Framework :: Django"],

@@ -21,7 +21,7 @@ TIME_ZONE = "Europe/London"
 LANGUAGE_CODE = "en-gb"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "portal/frontend/static"), os.path.join(BASE_DIR, "portal/static")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "portal/static")]
 MEDIA_ROOT = os.path.join(STATIC_ROOT, "email_media/")
 SECRET_KEY = "not-a-secret"
 
@@ -132,8 +132,7 @@ TEMPLATES = [
                 "common.context_processors.cookie_management_enabled",
                 "portal.context_processors.process_newsletter_form",
             ]
-        },
-        "DIRS": [os.path.join(BASE_DIR, "portal/frontend")],
+        }
     }
 ]
 
