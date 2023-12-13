@@ -27,13 +27,9 @@ codeforlife_portal.egg-info
 build/
 # .vscode/
 dist/
-node_modules
 
 # Cypress generated folder
 /cypress
-
-# react frontend
-/portal/frontend
 
 # tunnel software
 ngrok

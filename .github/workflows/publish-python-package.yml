@@ -21,20 +21,10 @@ jobs:
         with:
           python-version: "3.8"
           architecture: "x64"
-      - name: Setup nodejs
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
       - name: Install pip requirements
         run: |
           pip install pipenv
           pipenv install --dev --system
-      - name: "Install, build and move frontend"
-        run: |
-          cd portal_frontend
-          yarn --frozen-lockfile
-          yarn build
-          mv build ../portal/frontend
       - name: Release codeforlife-portal
         uses: relekang/python-semantic-release@v7.34.6
         with:

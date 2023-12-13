@@ -18,7 +18,6 @@ from portal.helpers.ratelimit import (
 )
 from portal.helpers.ratelimit import school_student_key
 from portal.helpers.regexes import ACCESS_CODE_REGEX, JWT_REGEX
-from portal.reactTestSpace import reactTestSpace
 from portal.views.about import about, getinvolved, contribute
 from portal.views.admin import AdminChangePasswordDoneView, AdminChangePasswordView
 from portal.views.aimmo.dashboard import StudentAimmoDashboard, TeacherAimmoDashboard
@@ -345,7 +344,6 @@ urlpatterns = [
             ]
         ),
     ),
-    url(r"^reactTestSpace/", reactTestSpace, name="reactTestSpace"),
     url(r"^codingClub/$", coding_club, name="codingClub"),
     url(r"^codingClub/(?P<student_pack_type>[3-4])/", download_student_pack, name="download_student_pack"),
     url(r"^removeFakeAccounts/", RemoveFakeAccounts.as_view(), name="remove_fake_accounts"),
