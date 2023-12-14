@@ -12,6 +12,7 @@ with open("../portal/__init__.py", "r") as fd:
 
 setup(
     name="cfl-common",
+    long_description="Common package for Code for Life",
     packages=find_packages(),
     version=version,
     include_package_data=True,
