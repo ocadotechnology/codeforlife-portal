@@ -12,6 +12,8 @@ with open("../portal/__init__.py", "r") as fd:
 
 setup(
     name="cfl-common",
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     packages=find_packages(),
     version=version,
     include_package_data=True,
