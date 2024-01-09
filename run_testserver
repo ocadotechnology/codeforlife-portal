@@ -3,4 +3,4 @@ set -e
 cd "${BASH_SOURCE%/*}"
 
 ./example_project/manage.py collectstatic --noinput --clear
-./example_project/manage.py testserver portal/tests/cypress/fixtures/teachersToBeDeleted.json
+./example_project/manage.py testserver portal/tests/cypress/fixtures/teachersToBeDeleted.json --settings="portal_test_settings"
