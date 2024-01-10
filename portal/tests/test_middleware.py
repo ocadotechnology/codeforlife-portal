@@ -118,7 +118,7 @@ class TestSecurityMiddleware(TestCase):
         assert response.headers["cache-control"] == "private"
         assert response.headers["x-content-type-options"] == "nosniff"
         assert response.headers["x-frame-options"] == "DENY"
-        assert response.headers["x-xss-protection"] == "0"
+        assert response.headers["x-xss-protection"] == "1"
 
 
 class TestSessionTimeoutMiddleware(TestCase):

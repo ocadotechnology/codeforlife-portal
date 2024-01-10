@@ -185,6 +185,7 @@ RAPID_ROUTER_EARLY_ACCESS_FUNCTION_NAME = "portal.beta.has_beta_access"
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+CSRF_USE_SESSIONS = False  # Setting to False to allow CSRF token to work in Cypress
 RECAPTCHA_DOMAIN = "www.recaptcha.net"
 AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend", "portal.backends.StudentLoginBackend"]
 USE_TZ = True
