@@ -34,4 +34,4 @@ dist/
 # tunnel software
 ngrok
 
-# .venv
+.venv
