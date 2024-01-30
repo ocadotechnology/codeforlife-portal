@@ -367,8 +367,8 @@ class TestTeacher(TestCase):
                 "teacher_signup-teacher_last_name": "Test Last Name",
                 "teacher_signup-teacher_email": "test@email.com",
                 "teacher_signup-consent_ticked": "on",
-                "teacher_signup-teacher_password": "StrongPassword1!",
-                "teacher_signup-teacher_confirm_password": "StrongPassword1!",
+                "teacher_signup-teacher_password": "czYuH)g0FbD_5E9/",
+                "teacher_signup-teacher_confirm_password": "czYuH)g0FbD_5E9/",
                 "g-recaptcha-response": "something",
             },
         )
