@@ -48,8 +48,8 @@ describe('Teacher', () => {
         'Test Name',
         'Test Last Name',
         'test@email.com',
-        'StrongPassword1!',
-        'StrongPassword2!'
+        'czYuH)g0FbD_5E9/',
+        'czYuH)g0FbD_5E9//'
       ],
       false,
       PASSWORD_DO_NOT_MATCH_MESSAGE
