@@ -104,6 +104,17 @@
   .form--row__input {
     flex: 1;
   }
+
+  .ten-yr-badge-desktop-or-tablet {
+    display: block;
+    position: static;
+    width: 45%;
+    margin: 50px 0 0 auto;
+  }
+
+  .ten-yr-badge-mobile {
+    display: none;
+  }
 }
 
 @media (max-width: $tablet-small-max-width) {
@@ -126,6 +137,17 @@
 
     .social-media a {
       @include _margin(0px, 10px, 0px, 10px);
+    }
+
+    .ten-yr-badge-desktop-or-tablet {
+      position: static;
+      display: block;
+      width: 60%;
+      margin: 15px auto 0 auto;
+    }
+
+    .ten-yr-badge-mobile {
+      display: none;
     }
   }
 }
@@ -151,6 +173,16 @@
 
     .landscape-logo {
       max-width: 60%;
+    }
+
+    .ten-yr-badge-desktop-or-tablet {
+      display: none;
+    }
+
+    .ten-yr-badge-mobile {
+      display: block;
+      position: static;
+      width: 20%;
     }
   }
 }
