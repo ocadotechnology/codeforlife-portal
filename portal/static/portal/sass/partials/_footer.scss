@@ -105,15 +105,11 @@
     flex: 1;
   }
 
-  .ten-yr-badge-desktop-or-tablet {
+  .ten-yr-badge {
     display: block;
     position: static;
     width: 45%;
     margin: 50px 0 0 auto;
-  }
-
-  .ten-yr-badge-mobile {
-    display: none;
   }
 }
 
@@ -139,15 +135,9 @@
       @include _margin(0px, 10px, 0px, 10px);
     }
 
-    .ten-yr-badge-desktop-or-tablet {
-      position: static;
-      display: block;
+    .ten-yr-badge {
       width: 60%;
       margin: 15px auto 0 auto;
-    }
-
-    .ten-yr-badge-mobile {
-      display: none;
     }
   }
 }
@@ -179,10 +169,9 @@
       display: none;
     }
 
-    .ten-yr-badge-mobile {
-      display: block;
-      position: static;
+    .ten-yr-badge {
       width: 20%;
+      margin: 0;
     }
   }
 }
