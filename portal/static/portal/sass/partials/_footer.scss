@@ -144,6 +144,7 @@
 
 @media (max-width: $tablet-small-max-width) and (min-width: $tablet-small-min-width) {
   .footer {
+
     .button,
     .external-links {
       margin: 0;
@@ -163,10 +164,6 @@
 
     .landscape-logo {
       max-width: 60%;
-    }
-
-    .ten-yr-badge-desktop-or-tablet {
-      display: none;
     }
 
     .ten-yr-badge {
