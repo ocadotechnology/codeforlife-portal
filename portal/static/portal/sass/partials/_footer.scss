@@ -104,6 +104,13 @@
   .form--row__input {
     flex: 1;
   }
+
+  .ten-yr-badge {
+    display: block;
+    position: static;
+    width: 45%;
+    margin: 50px 0 0 auto;
+  }
 }
 
 @media (max-width: $tablet-small-max-width) {
@@ -127,11 +134,17 @@
     .social-media a {
       @include _margin(0px, 10px, 0px, 10px);
     }
+
+    .ten-yr-badge {
+      width: 60%;
+      margin: 15px auto 0 auto;
+    }
   }
 }
 
 @media (max-width: $tablet-small-max-width) and (min-width: $tablet-small-min-width) {
   .footer {
+
     .button,
     .external-links {
       margin: 0;
@@ -151,6 +164,11 @@
 
     .landscape-logo {
       max-width: 60%;
+    }
+
+    .ten-yr-badge {
+      width: 20%;
+      margin: 0;
     }
   }
 }
