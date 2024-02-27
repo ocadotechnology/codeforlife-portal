@@ -1,10 +1,12 @@
 from typing import Any, Dict, List, Optional
 
-from aimmo.models import Game
 from common import email_messages
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 from common.models import Student
-from common.permissions import logged_in_as_independent_student, logged_in_as_school_student
+from common.permissions import (
+    logged_in_as_independent_student,
+    logged_in_as_school_student,
+)
 from common.utils import LoginRequiredNoErrorMixin
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -20,7 +22,9 @@ from game.models import Attempt, Level
 from portal.forms.play import StudentJoinOrganisationForm
 
 
-class SchoolStudentDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView):
+class SchoolStudentDashboard(
+    LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView
+):
     template_name = "portal/play/student_dashboard.html"
     login_url = reverse_lazy("student_login_access_code")
 
@@ -46,10 +50,16 @@ class SchoolStudentDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Tem
         custom_levels = student.new_user.shared.filter(owner=teacher)
 
         if custom_levels:
-            custom_levels_data = _compute_rapid_router_scores(student, custom_levels)
+            custom_levels_data = _compute_rapid_router_scores(
+                student, custom_levels
+            )
 
-            context_data["total_custom_score"] = custom_levels_data["total_score"]
-            context_data["total_custom_available_score"] = custom_levels_data["total_available_score"]
+            context_data["total_custom_score"] = custom_levels_data[
+                "total_score"
+            ]
+            context_data["total_custom_available_score"] = custom_levels_data[
+                "total_available_score"
+            ]
 
         # Get Kurono game info if the class has a game linked to it
         aimmo_game = klass.active_game
@@ -62,7 +72,9 @@ class SchoolStudentDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Tem
         return context_data
 
 
-class IndependentStudentDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView, FormView):
+class IndependentStudentDashboard(
+    LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView, FormView
+):
     template_name = "portal/play/independent_student_dashboard.html"
     login_url = reverse_lazy("independent_student_login")
 
@@ -79,7 +91,9 @@ class IndependentStudentDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin
         )
 
 
-def _compute_rapid_router_scores(student: Student, levels: List[Level] or QuerySet) -> Dict[str, int]:
+def _compute_rapid_router_scores(
+    student: Student, levels: List[Level] or QuerySet
+) -> Dict[str, int]:
     """
     Finds Rapid Router progress and score data for a specific student and a specific
     set of levels. This is used to show quick score data to the student on their
@@ -90,29 +104,43 @@ def _compute_rapid_router_scores(student: Student, levels: List[Level] or QueryS
     - num_completed: number of completed levels. A completed level is a level that has a
     successful attempt (van made it to the final house) regardless of the final score.
     - num_top_scores: number of levels that have been completed with a full final score
-    of either 10/10 or 20/20 (depending on whether the level has route score enabled)
+    of either 10/10 or 20/20 (depending on whether the level has route score
+    or algo score enabled)
     - total_score: the addition of all the completed levels' final scores
     - total_available_score: the addition of the maximum attainable score of all levels
     """
     num_completed = num_top_scores = total_available_score = 0
     total_score = 0.0
     # Get a QuerySet of best attempts for each level
-    best_attempts = Attempt.objects.filter(level__in=levels, student=student, is_best_attempt=True).select_related(
-        "level"
-    )
+    best_attempts = Attempt.objects.filter(
+        level__in=levels, student=student, is_best_attempt=True
+    ).select_related("level")
 
-    # Calculate total available score. A level has a max score of 20 by default unless
-    # its route score is disabled or it is a custom level (not in an episode)
-    for level in levels:
-        max_score = 10 if level.disable_route_score or not level.episode else 20
-        total_available_score += max_score
-
-    # For each level, compare best attempt's score with level's max score and increment
-    # variables as needed
+    # For each level, compare best attempt's score with level's max score and
+    # increment variables as needed
     if best_attempts:
-        attempts_dict = {best_attempt.level.id: best_attempt for best_attempt in best_attempts}
+        attempts_dict = {
+            best_attempt.level.id: best_attempt
+            for best_attempt in best_attempts
+        }
         for level in levels:
-            max_score = 10 if level.disable_route_score or not level.episode else 20
+            # Calculate total available score. A level has a max score of 20 by
+            # default unless its route score or algorithm score is disable or
+            # it is a custom level (not in an episode). Levels 1-12 have a
+            # max score of 20 even if the algo score is disabled.
+            max_score = (
+                10
+                if (
+                    level.id > 12
+                    and (
+                        level.disable_route_score
+                        or level.disable_algorithm_score
+                        or not level.episode
+                    )
+                )
+                else 20
+            )
+            total_available_score += max_score
             attempt = attempts_dict.get(level.id)
 
             if attempt and attempt.score:
@@ -199,9 +227,15 @@ def process_join_organisation_form(request_form, request, student):
             email_message["subject"],
         )
 
-        messages.success(request, "Your request to join a school has been received successfully.")
+        messages.success(
+            request,
+            "Your request to join a school has been received successfully.",
+        )
 
 
 def show_cancellation_message_if_student_not_in_class(student, request):
     if not student.class_field:
-        messages.success(request, "Your request to join a school has been cancelled successfully.")
+        messages.success(
+            request,
+            "Your request to join a school has been cancelled successfully.",
+        )
