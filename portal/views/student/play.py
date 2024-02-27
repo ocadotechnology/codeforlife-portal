@@ -116,10 +116,6 @@ def _compute_rapid_router_scores(
         level__in=levels, student=student, is_best_attempt=True
     ).select_related("level")
 
-    # Calculate total available score. A level has a max score of 20 by
-    # default unless its route score or algorithm score is disable or
-    # it is a custom level (not in an episode). Levels 1-12 have a
-    # max score of 20 even if the algo score is disabled.
     for level in levels:
         total_available_score += _get_max_score_for_level(level)
 
@@ -149,6 +145,14 @@ def _compute_rapid_router_scores(
 
 
 def _get_max_score_for_level(level: Level) -> int:
+    """
+    Calculate max score. A level has a max score of 20 by default unless its
+    route score or algorithm score is disable or it is a custom level (not in an
+    episode). Levels 1-12 have a max score of 20 even if the algo score is
+    disabled.
+    :param level: The Rapid Router level to get the max score for.
+    :return: the max score of the level.
+    """
     return (
         10
         if level.id > 12
