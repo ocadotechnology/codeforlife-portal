@@ -804,16 +804,21 @@ def teacher_print_reminder_cards(request, access_code):
         p.setStrokeColor(black)
         p.rect(left, bottom, CARD_WIDTH, CARD_HEIGHT)
 
+        adjusted_logo_height = CARD_HEIGHT - INTER_CARD_MARGIN * 2
+
         # logo
         p.drawImage(
             logo_image,
-            left,
+            left + INTER_CARD_MARGIN,
             bottom + INTER_CARD_MARGIN,
-            height=CARD_HEIGHT - INTER_CARD_MARGIN * 2,
+            height=adjusted_logo_height,
             preserveAspectRatio=True,
+            anchor="w",
         )
 
-        text_left = left + logo_image.getSize()[0]
+        text_left = (
+            left + INTER_CARD_MARGIN + (logo_image.getSize()[0] / logo_image.getSize()[1]) * adjusted_logo_height
+        )
 
         # student details
         p.setFillColor(black)
