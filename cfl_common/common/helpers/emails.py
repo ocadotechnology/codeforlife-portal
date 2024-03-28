@@ -7,13 +7,8 @@ from uuid import uuid4
 import jwt
 from common import app_settings
 from common.app_settings import domain
-from common.email_messages import (
-    emailChangeNotificationEmail,
-    emailChangeVerificationEmail,
-    emailVerificationNeededEmail,
-    parentsEmailVerificationNeededEmail,
-)
 from common.models import Teacher, Student
+from common.mail import send_dotdigital_email
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
@@ -123,14 +118,12 @@ def send_verification_email(request, user, data, new_email=None, age=None):
 
         # if the user is a teacher
         if age is None:
-            message = emailVerificationNeededEmail(request, verification)
-            send_email(
-                VERIFICATION_EMAIL,
+            url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
+
+            send_dotdigital_email(
+                1551577,
                 [user.email],
-                message["subject"],
-                message["message"],
-                message["subject"],
-                replace_url=message["url"],
+                personalization_values={"VERIFICATION_LINK": url}
             )
 
             if _newsletter_ticked(data):
@@ -138,24 +131,18 @@ def send_verification_email(request, user, data, new_email=None, age=None):
         # if the user is an independent student
         else:
             if age < 13:
-                message = parentsEmailVerificationNeededEmail(request, user, verification)
-                send_email(
-                    VERIFICATION_EMAIL,
+                url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
+                send_dotdigital_email(
+                    1551587,
                     [user.email],
-                    message["subject"],
-                    message["message"],
-                    message["subject"],
-                    replace_url=message["url"],
+                    personalization_values={"FIRST_NAME": user.first_name, "ACTIVATION_LINK": url}
                 )
             else:
-                message = emailVerificationNeededEmail(request, verification)
-                send_email(
-                    VERIFICATION_EMAIL,
+                url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
+                send_dotdigital_email(
+                    1551577,
                     [user.email],
-                    message["subject"],
-                    message["message"],
-                    message["subject"],
-                    replace_url=message["url"],
+                    personalization_values={"VERIFICATION_LINK": url}
                 )
 
             if _newsletter_ticked(data):
@@ -163,15 +150,11 @@ def send_verification_email(request, user, data, new_email=None, age=None):
     # verifying change of email address.
     else:
         verification = generate_token(user, new_email)
-
-        message = emailChangeVerificationEmail(request, verification)
-        send_email(
-            VERIFICATION_EMAIL,
+        url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
+        send_dotdigital_email(
+            1551594,
             [new_email],
-            message["subject"],
-            message["message"],
-            message["subject"],
-            replace_url=message["url"],
+            personalization_values={"VERIFICATION_LINK": url}
         )
 
 
@@ -281,8 +264,11 @@ def update_indy_email(user, request, data):
         changing_email = True
         users_with_email = User.objects.filter(email=new_email)
 
-        message = emailChangeNotificationEmail(request, new_email)
-        send_email(VERIFICATION_EMAIL, [user.email], message["subject"], message["message"], message["subject"])
+        send_dotdigital_email(
+            1551600,
+            [user.email],
+            personalization_values={"NEW_EMAIL_ADDRESS": new_email}
+        )
 
         # email is available
         if not users_with_email.exists():
@@ -299,9 +285,10 @@ def update_email(user: Teacher or Student, request, data):
         changing_email = True
         users_with_email = User.objects.filter(email=new_email)
 
-        message = emailChangeNotificationEmail(request, new_email)
-        send_email(
-            VERIFICATION_EMAIL, [user.new_user.email], message["subject"], message["message"], message["subject"]
+        send_dotdigital_email(
+            1551600,
+            [user.new_user.email],
+            personalization_values={"NEW_EMAIL_ADDRESS": new_email}
         )
 
         # email is available
