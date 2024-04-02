@@ -21,7 +21,6 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from unittest.mock import ANY
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 
@@ -138,8 +137,7 @@ class TestIndependentStudent(TestCase):
         # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
 
-    def test_signup_under_13_sends_parent_email(mocker):
-        mocked_send = mocker.patch("common.mail.send_dotdigital_email")
+    def test_signup_under_13_sends_parent_email(self):
         c = Client()
 
         response = c.post(
@@ -158,7 +156,8 @@ class TestIndependentStudent(TestCase):
         )
 
         assert response.status_code == 302
-        mocked_send.assert_called_once_with(1551587, ANY, ANY)
+        assert len(mail.outbox) == 1
+        assert mail.outbox[0].subject == "Code for Life account request"
 
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
