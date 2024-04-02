@@ -3,6 +3,7 @@ import re
 from datetime import timedelta
 from uuid import uuid4
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
@@ -80,8 +81,10 @@ class School(models.Model):
 
 class TeacherModelManager(models.Manager):
     def factory(self, first_name, last_name, email, password):
-        credentials = os.environ["APPENGINE_SERVICE_ACCOUNT_CREDENTIALS"]
-        key_uri = os.environ["GCP_KMS_URI"]
+        credentials = getattr(
+            settings, "APPENGINE_SERVICE_ACCOUNT_CREDENTIALS", ""
+        )
+        key_uri = getattr(settings, "GCP_KMS_URI", "")
 
         env_aead = init_tink_env_aead(key_uri, credentials)
 
