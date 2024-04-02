@@ -88,9 +88,9 @@ class TeacherModelManager(models.Manager):
 
         env_aead = init_tink_env_aead(key_uri, "")
 
-        encrypted_email = env_aead.encrypt(email.encode())
-        encrypted_first_name = env_aead.encrypt(first_name.encode())
-        encrypted_last_name = env_aead.encrypt(last_name.encode())
+        encrypted_email = env_aead.encrypt(email.encode(), b"ad")
+        encrypted_first_name = env_aead.encrypt(first_name.encode(), b"ad")
+        encrypted_last_name = env_aead.encrypt(last_name.encode(), b"ad")
 
         user = User.objects.create_user(
             username=encrypted_email,
