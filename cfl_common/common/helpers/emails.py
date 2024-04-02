@@ -4,6 +4,7 @@ import re
 from enum import Enum, auto
 from uuid import uuid4
 
+from django.urls import reverse
 import jwt
 from common import app_settings
 from common.app_settings import domain
@@ -120,11 +121,7 @@ def send_verification_email(request, user, data, new_email=None, age=None):
         if age is None:
             url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
 
-            send_dotdigital_email(
-                1551577,
-                [user.email],
-                personalization_values={"VERIFICATION_LINK": url}
-            )
+            send_dotdigital_email(1551577, [user.email], personalization_values={"VERIFICATION_LINK": url})
 
             if _newsletter_ticked(data):
                 add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
@@ -135,15 +132,11 @@ def send_verification_email(request, user, data, new_email=None, age=None):
                 send_dotdigital_email(
                     1551587,
                     [user.email],
-                    personalization_values={"FIRST_NAME": user.first_name, "ACTIVATION_LINK": url}
+                    personalization_values={"FIRST_NAME": user.first_name, "ACTIVATION_LINK": url},
                 )
             else:
                 url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
-                send_dotdigital_email(
-                    1551577,
-                    [user.email],
-                    personalization_values={"VERIFICATION_LINK": url}
-                )
+                send_dotdigital_email(1551577, [user.email], personalization_values={"VERIFICATION_LINK": url})
 
             if _newsletter_ticked(data):
                 add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.STUDENT)
@@ -151,11 +144,7 @@ def send_verification_email(request, user, data, new_email=None, age=None):
     else:
         verification = generate_token(user, new_email)
         url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
-        send_dotdigital_email(
-            1551594,
-            [new_email],
-            personalization_values={"VERIFICATION_LINK": url}
-        )
+        send_dotdigital_email(1551594, [new_email], personalization_values={"VERIFICATION_LINK": url})
 
 
 def add_to_dotmailer(first_name: str, last_name: str, email: str, user_type: DotmailerUserType):
@@ -264,11 +253,7 @@ def update_indy_email(user, request, data):
         changing_email = True
         users_with_email = User.objects.filter(email=new_email)
 
-        send_dotdigital_email(
-            1551600,
-            [user.email],
-            personalization_values={"NEW_EMAIL_ADDRESS": new_email}
-        )
+        send_dotdigital_email(1551600, [user.email], personalization_values={"NEW_EMAIL_ADDRESS": new_email})
 
         # email is available
         if not users_with_email.exists():
@@ -285,11 +270,7 @@ def update_email(user: Teacher or Student, request, data):
         changing_email = True
         users_with_email = User.objects.filter(email=new_email)
 
-        send_dotdigital_email(
-            1551600,
-            [user.new_user.email],
-            personalization_values={"NEW_EMAIL_ADDRESS": new_email}
-        )
+        send_dotdigital_email(1551600, [user.new_user.email], personalization_values={"NEW_EMAIL_ADDRESS": new_email})
 
         # email is available
         if not users_with_email.exists():

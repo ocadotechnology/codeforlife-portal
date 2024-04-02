@@ -6,4 +6,4 @@ build-backend = "setuptools.build_meta:__legacy__"
 line-length = 120
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "example_project.settings"
+DJANGO_SETTINGS_MODULE = "example_project.portal_test_settings"
