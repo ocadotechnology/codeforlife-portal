@@ -1,12 +1,14 @@
+import os
 import re
 from datetime import timedelta
 from uuid import uuid4
 
-import pgeocode
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django_countries.fields import CountryField
+
+from .cse.cloud_kms_env_aead import init_tink_env_aead
 
 
 class UserProfile(models.Model):
@@ -39,7 +41,9 @@ class SchoolModelManager(models.Manager):
 
 class School(models.Model):
     name = models.CharField(max_length=200, unique=True)
-    country = CountryField(blank_label="(select country)", null=True, blank=True)
+    country = CountryField(
+        blank_label="(select country)", null=True, blank=True
+    )
     # TODO: Create an Address model to house address details
     county = models.CharField(max_length=50, blank=True, null=True)
     creation_time = models.DateTimeField(default=timezone.now, null=True)
@@ -62,7 +66,11 @@ class School(models.Model):
 
     def admins(self):
         teachers = self.teacher_school.all()
-        return [teacher for teacher in teachers if teacher.is_admin] if teachers else None
+        return (
+            [teacher for teacher in teachers if teacher.is_admin]
+            if teachers
+            else None
+        )
 
     def anonymise(self):
         self.name = uuid4().hex
@@ -72,8 +80,21 @@ class School(models.Model):
 
 class TeacherModelManager(models.Manager):
     def factory(self, first_name, last_name, email, password):
+        credentials = os.environ["APPENGINE_SERVICE_ACCOUNT_CREDENTIALS"]
+        key_uri = os.environ["GCP_KMS_URI"]
+
+        env_aead = init_tink_env_aead(key_uri, credentials)
+
+        encrypted_email = env_aead.encrypt(email.encode())
+        encrypted_first_name = env_aead.encrypt(first_name.encode())
+        encrypted_last_name = env_aead.encrypt(last_name.encode())
+
         user = User.objects.create_user(
-            username=email, email=email, password=password, first_name=first_name, last_name=last_name
+            username=encrypted_email,
+            email=encrypted_email,
+            password=password,
+            first_name=encrypted_first_name,
+            last_name=encrypted_last_name,
         )
 
         user_profile = UserProfile.objects.create(user=user)
@@ -87,12 +108,28 @@ class TeacherModelManager(models.Manager):
 
 class Teacher(models.Model):
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-    new_user = models.OneToOneField(User, related_name="new_teacher", null=True, blank=True, on_delete=models.CASCADE)
-    school = models.ForeignKey(School, related_name="teacher_school", null=True, blank=True, on_delete=models.SET_NULL)
+    new_user = models.OneToOneField(
+        User,
+        related_name="new_teacher",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+    )
+    school = models.ForeignKey(
+        School,
+        related_name="teacher_school",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
     is_admin = models.BooleanField(default=False)
     blocked_time = models.DateTimeField(null=True, blank=True)
     invited_by = models.ForeignKey(
-        "self", related_name="invited_teachers", null=True, blank=True, on_delete=models.SET_NULL
+        "self",
+        related_name="invited_teachers",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
     )
 
     objects = TeacherModelManager()
@@ -100,7 +137,10 @@ class Teacher(models.Model):
     def teaches(self, userprofile):
         if hasattr(userprofile, "student"):
             student = userprofile.student
-            return not student.is_independent() and student.class_field.teacher == self
+            return (
+                not student.is_independent()
+                and student.class_field.teacher == self
+            )
 
     def has_school(self):
         return self.school is not (None or "")
@@ -120,10 +160,24 @@ class SchoolTeacherInvitationModelManager(models.Manager):
 
 class SchoolTeacherInvitation(models.Model):
     token = models.CharField(max_length=32)
-    school = models.ForeignKey(School, related_name="teacher_invitations", null=True, on_delete=models.SET_NULL)
-    from_teacher = models.ForeignKey(Teacher, related_name="school_invitations", null=True, on_delete=models.SET_NULL)
-    invited_teacher_first_name = models.CharField(max_length=150)  # Same as User model
-    invited_teacher_last_name = models.CharField(max_length=150)  # Same as User model
+    school = models.ForeignKey(
+        School,
+        related_name="teacher_invitations",
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+    from_teacher = models.ForeignKey(
+        Teacher,
+        related_name="school_invitations",
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+    invited_teacher_first_name = models.CharField(
+        max_length=150
+    )  # Same as User model
+    invited_teacher_last_name = models.CharField(
+        max_length=150
+    )  # Same as User model
     invited_teacher_email = models.EmailField()  # Same as User model
     invited_teacher_is_admin = models.BooleanField(default=False)
     expiry = models.DateTimeField()
@@ -169,7 +223,9 @@ class ClassModelManager(models.Manager):
 
 class Class(models.Model):
     name = models.CharField(max_length=200)
-    teacher = models.ForeignKey(Teacher, related_name="class_teacher", on_delete=models.CASCADE)
+    teacher = models.ForeignKey(
+        Teacher, related_name="class_teacher", on_delete=models.CASCADE
+    )
     access_code = models.CharField(max_length=5, null=True)
     classmates_data_viewable = models.BooleanField(default=False)
     always_accept_requests = models.BooleanField(default=False)
@@ -177,7 +233,11 @@ class Class(models.Model):
     creation_time = models.DateTimeField(default=timezone.now, null=True)
     is_active = models.BooleanField(default=True)
     created_by = models.ForeignKey(
-        Teacher, null=True, blank=True, related_name="created_classes", on_delete=models.SET_NULL
+        Teacher,
+        null=True,
+        blank=True,
+        related_name="created_classes",
+        on_delete=models.SET_NULL,
     )
 
     objects = ClassModelManager()
@@ -189,7 +249,9 @@ class Class(models.Model):
     def active_game(self):
         games = self.game_set.filter(game_class=self, is_archived=False)
         if len(games) >= 1:
-            assert len(games) == 1  # there should NOT be more than one active game
+            assert (
+                len(games) == 1
+            )  # there should NOT be more than one active game
             return games[0]
         return None
 
@@ -199,8 +261,13 @@ class Class(models.Model):
 
     def get_requests_message(self):
         if self.always_accept_requests:
-            external_requests_message = "This class is currently set to always accept requests."
-        elif self.accept_requests_until is not None and (self.accept_requests_until - timezone.now()) >= timedelta():
+            external_requests_message = (
+                "This class is currently set to always accept requests."
+            )
+        elif (
+            self.accept_requests_until is not None
+            and (self.accept_requests_until - timezone.now()) >= timedelta()
+        ):
             external_requests_message = (
                 "This class is accepting external requests until "
                 + self.accept_requests_until.strftime("%d-%m-%Y %H:%M")
@@ -208,7 +275,9 @@ class Class(models.Model):
                 + timezone.get_current_timezone_name()
             )
         else:
-            external_requests_message = "This class is not currently accepting external requests."
+            external_requests_message = (
+                "This class is not currently accepting external requests."
+            )
 
         return external_requests_message
 
@@ -230,7 +299,9 @@ class UserSession(models.Model):
     login_time = models.DateTimeField(default=timezone.now)
     school = models.ForeignKey(School, null=True, on_delete=models.SET_NULL)
     class_field = models.ForeignKey(Class, null=True, on_delete=models.SET_NULL)
-    login_type = models.CharField(max_length=100, null=True)  # for student login
+    login_type = models.CharField(
+        max_length=100, null=True
+    )  # for student login
 
     def __str__(self):
         return f"{self.user} login: {self.login_time} type: {self.login_type}"
@@ -244,13 +315,24 @@ class StudentModelManager(models.Manager):
                 return random_username
 
     def schoolFactory(self, klass, name, password, login_id=None):
-        user = User.objects.create_user(username=self.get_random_username(), password=password, first_name=name)
+        user = User.objects.create_user(
+            username=self.get_random_username(),
+            password=password,
+            first_name=name,
+        )
         user_profile = UserProfile.objects.create(user=user)
 
-        return Student.objects.create(class_field=klass, user=user_profile, new_user=user, login_id=login_id)
+        return Student.objects.create(
+            class_field=klass,
+            user=user_profile,
+            new_user=user,
+            login_id=login_id,
+        )
 
     def independentStudentFactory(self, name, email, password):
-        user = User.objects.create_user(username=email, email=email, password=password, first_name=name)
+        user = User.objects.create_user(
+            username=email, email=email, password=password, first_name=name
+        )
 
         user_profile = UserProfile.objects.create(user=user)
 
@@ -258,13 +340,29 @@ class StudentModelManager(models.Manager):
 
 
 class Student(models.Model):
-    class_field = models.ForeignKey(Class, related_name="students", null=True, blank=True, on_delete=models.CASCADE)
+    class_field = models.ForeignKey(
+        Class,
+        related_name="students",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+    )
     # hashed uuid used for the unique direct login url
     login_id = models.CharField(max_length=64, null=True)
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-    new_user = models.OneToOneField(User, related_name="new_student", null=True, blank=True, on_delete=models.CASCADE)
+    new_user = models.OneToOneField(
+        User,
+        related_name="new_student",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+    )
     pending_class_request = models.ForeignKey(
-        Class, related_name="class_request", null=True, blank=True, on_delete=models.SET_NULL
+        Class,
+        related_name="class_request",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
     )
     blocked_time = models.DateTimeField(null=True, blank=True)
 
@@ -310,7 +408,9 @@ class JoinReleaseStudent(models.Model):
     JOIN = "join"
     RELEASE = "release"
 
-    student = models.ForeignKey(Student, related_name="student", on_delete=models.CASCADE)
+    student = models.ForeignKey(
+        Student, related_name="student", on_delete=models.CASCADE
+    )
     # either "release" or "join"
     action_type = models.CharField(max_length=64)
     action_time = models.DateTimeField(default=timezone.now)

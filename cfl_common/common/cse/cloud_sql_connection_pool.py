@@ -1,0 +1,92 @@
+import sqlalchemy
+
+
+def init_tcp_connection_engine(
+    db_user: str, db_pass: str, db_name: str, db_host: str
+) -> sqlalchemy.engine.base.Engine:
+    """
+    Creates a connection to the database using tcp socket.
+    """
+    # Remember - storing secrets in plaintext is potentially unsafe. Consider using
+    # something like https://cloud.google.com/secret-manager/docs/overview to help keep
+    # secrets secret.
+
+    # Extract host and port from db_host
+    host_args = db_host.split(":")
+    db_hostname, db_port = host_args[0], int(host_args[1])
+
+    pool = sqlalchemy.create_engine(
+        # Equivalent URL:
+        # mysql+pymysql://<db_user>:<db_pass>@<db_host>:<db_port>/<db_name>
+        sqlalchemy.engine.url.URL.create(
+            drivername="mysql+pymysql",
+            username=db_user,  # e.g. "my-database-user"
+            password=db_pass,  # e.g. "my-database-password"
+            host=db_hostname,  # e.g. "127.0.0.1"
+            port=db_port,  # e.g. 3306
+            database=db_name,  # e.g. "my-database-name"
+        ),
+    )
+    print("Created TCP connection pool")
+    return pool
+
+
+def init_unix_connection_engine(
+    db_user: str,
+    db_pass: str,
+    db_name: str,
+    instance_connection_name: str,
+    db_socket_dir: str,
+) -> sqlalchemy.engine.base.Engine:
+    """
+    Creates a connection to the database using unix socket.
+    """
+    # Remember - storing secrets in plaintext is potentially unsafe. Consider using
+    # something like https://cloud.google.com/secret-manager/docs/overview to help keep
+    # secrets secret.
+
+    pool = sqlalchemy.create_engine(
+        # Equivalent URL:
+        # mysql+pymysql://<db_user>:<db_pass>@/<db_name>?unix_socket=<socket_path>/<cloud_sql_instance_name>
+        sqlalchemy.engine.url.URL.create(
+            drivername="mysql+pymysql",
+            username=db_user,  # e.g. "my-database-user"
+            password=db_pass,  # e.g. "my-database-password"
+            database=db_name,  # e.g. "my-database-name"
+            query={
+                "unix_socket": f"{db_socket_dir}/{instance_connection_name}"
+            },
+        ),
+    )
+    print("Created Unix socket connection pool")
+    return pool
+
+
+def init_db(
+    db_user: str,
+    db_pass: str,
+    db_name: str,
+    table_name: str,
+    instance_connection_name: str = None,
+    db_socket_dir: str = None,
+    db_host: str = None,
+) -> sqlalchemy.engine.base.Engine:
+    """Starts a connection to the database and creates voting table if it doesn't exist."""
+    if db_host:
+        db = init_tcp_connection_engine(db_user, db_pass, db_name, db_host)
+    else:
+        db = init_unix_connection_engine(
+            db_user, db_pass, db_name, instance_connection_name, db_socket_dir
+        )
+
+    # Create tables (if they don't already exist)
+    with db.connect() as conn:
+        conn.execute(
+            f"CREATE TABLE IF NOT EXISTS {table_name} "
+            "( vote_id SERIAL NOT NULL, time_cast timestamp NOT NULL, "
+            "team CHAR(6) NOT NULL, voter_email VARBINARY(255), "
+            "PRIMARY KEY (vote_id) );"
+        )
+
+    print(f"Created table {table_name} in db {db_name}")
+    return db
