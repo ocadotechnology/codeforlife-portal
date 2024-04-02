@@ -21,6 +21,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
+from unittest.mock import patch, ANY
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 
@@ -140,24 +141,24 @@ class TestIndependentStudent(TestCase):
     def test_signup_under_13_sends_parent_email(self):
         c = Client()
 
-        response = c.post(
-            reverse("register"),
-            {
-                "independent_student_signup-date_of_birth_day": datetime.date.today().day,
-                "independent_student_signup-date_of_birth_month": datetime.date.today().month,
-                "independent_student_signup-date_of_birth_year": datetime.date.today().year,
-                "independent_student_signup-name": "Young person",
-                "independent_student_signup-email": "test@email.com",
-                "independent_student_signup-consent_ticked": "on",
-                "independent_student_signup-password": "$RRFVBGT%6yhnmju7",
-                "independent_student_signup-confirm_password": "$RRFVBGT%6yhnmju7",
-                "g-recaptcha-response": "something",
-            },
-        )
+        with patch("common.mail.send_dotdigital_email") as mock_send_dotdigital_email:
+            response = c.post(
+                reverse("register"),
+                {
+                    "independent_student_signup-date_of_birth_day": datetime.date.today().day,
+                    "independent_student_signup-date_of_birth_month": datetime.date.today().month,
+                    "independent_student_signup-date_of_birth_year": datetime.date.today().year,
+                    "independent_student_signup-name": "Young person",
+                    "independent_student_signup-email": "test@email.com",
+                    "independent_student_signup-consent_ticked": "on",
+                    "independent_student_signup-password": "$RRFVBGT%6yhnmju7",
+                    "independent_student_signup-confirm_password": "$RRFVBGT%6yhnmju7",
+                    "g-recaptcha-response": "something",
+                },
+            )
 
         assert response.status_code == 302
-        assert len(mail.outbox) == 1
-        assert mail.outbox[0].subject == "Code for Life account request"
+        mock_send_dotdigital_email.assert_called_once_with(1551587, ANY, ANY)
 
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests

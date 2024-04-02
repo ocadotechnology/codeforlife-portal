@@ -104,8 +104,4 @@ def send_dotdigital_email(
         timeout=timeout,
     )
 
-    assert response.ok, (
-        "Failed to send email."
-        f" Reason: {response.reason}."
-        f" Text: {response.text}."
-    )
+    assert response.ok, "Failed to send email." f" Reason: {response.reason}." f" Text: {response.text}."
