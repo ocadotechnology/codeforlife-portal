@@ -138,24 +138,24 @@ class TestIndependentStudent(TestCase):
         # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
 
-    def test_signup_under_13_sends_parent_email(self):
+    @patch("common.mail.send_dotdigital_email")
+    def test_signup_under_13_sends_parent_email(self, mock_send_dotdigital_email):
         c = Client()
 
-        with patch("common.mail.send_dotdigital_email") as mock_send_dotdigital_email:
-            response = c.post(
-                reverse("register"),
-                {
-                    "independent_student_signup-date_of_birth_day": datetime.date.today().day,
-                    "independent_student_signup-date_of_birth_month": datetime.date.today().month,
-                    "independent_student_signup-date_of_birth_year": datetime.date.today().year,
-                    "independent_student_signup-name": "Young person",
-                    "independent_student_signup-email": "test@email.com",
-                    "independent_student_signup-consent_ticked": "on",
-                    "independent_student_signup-password": "$RRFVBGT%6yhnmju7",
-                    "independent_student_signup-confirm_password": "$RRFVBGT%6yhnmju7",
-                    "g-recaptcha-response": "something",
-                },
-            )
+        response = c.post(
+            reverse("register"),
+            {
+                "independent_student_signup-date_of_birth_day": datetime.date.today().day,
+                "independent_student_signup-date_of_birth_month": datetime.date.today().month,
+                "independent_student_signup-date_of_birth_year": datetime.date.today().year,
+                "independent_student_signup-name": "Young person",
+                "independent_student_signup-email": "test@email.com",
+                "independent_student_signup-consent_ticked": "on",
+                "independent_student_signup-password": "$RRFVBGT%6yhnmju7",
+                "independent_student_signup-confirm_password": "$RRFVBGT%6yhnmju7",
+                "g-recaptcha-response": "something",
+            },
+        )
 
         assert response.status_code == 302
         mock_send_dotdigital_email.assert_called_once_with(1551587, ANY, ANY)
