@@ -86,7 +86,7 @@ class TeacherModelManager(models.Manager):
         )
         key_uri = getattr(settings, "GCP_KMS_URI", "")
 
-        env_aead = init_tink_env_aead(key_uri, "")
+        env_aead = init_tink_env_aead(key_uri, credentials)
 
         encrypted_email = env_aead.encrypt(email.encode(), b"ad")
         encrypted_first_name = env_aead.encrypt(first_name.encode(), b"ad")
