@@ -264,7 +264,11 @@ class TestIndependentStudentFrontend(BaseTest):
         page = page.go_to_independent_student_login_page()
         page = page.independent_student_login_failure(username, password)
 
+        errors = page.has_login_failed("independent_student_login_form", INVALID_LOGIN_MESSAGE)
         assert page.has_login_failed("independent_student_login_form", INVALID_LOGIN_MESSAGE)
+        print(errors)
+
+        verify_email(page)
 
         assert is_email_verified_message_showing(self.selenium)
 
@@ -339,7 +343,8 @@ class TestIndependentStudentFrontend(BaseTest):
             "student_account_form", "Names may only contain letters, numbers, dashes, underscores, and spaces."
         )
 
-    def test_change_email(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_change_email(self, mock_send_dotdigital_email):
         homepage = self.go_to_homepage()
 
         _, _, _, student_email, password = create_independent_student(homepage)
@@ -353,9 +358,7 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_student_details_updated_message_showing(self.selenium)
         assert is_email_updated_message_showing(self.selenium)
 
-        subject = str(mail.outbox[0].subject)
-        assert subject == "Email address update"
-        mail.outbox = []
+        mock_send_dotdigital_email.assert_called_once_with(1551600, ANY, personalization_values=ANY)
 
         # Try changing email to an existing teacher's email
         teacher_email, _ = signup_teacher_directly()
