@@ -433,8 +433,8 @@ class TestRatelimit(TestCase):
         assert current_daily_activity.school_student_lockout_resets == 2
 
 
-@pytest.mark.django_db
 @patch("common.helpers.emails.send_dotdigital_email")
+@pytest.mark.django_db
 def test_teacher_already_registered_email(client, mock_send_dotdigital_email: Mock):
     first_name, last_name, email, password = generate_details()
     register_url = reverse("register")
@@ -461,8 +461,8 @@ def test_teacher_already_registered_email(client, mock_send_dotdigital_email: Mo
     assert len(mail.outbox) == 1
 
 
-@pytest.mark.django_db
 @patch("common.helpers.emails.send_dotdigital_email")
+@pytest.mark.django_db
 def test_independent_student_already_registered_email(client, mock_send_dotdigital_email: Mock):
     name, username, email_address, password = generate_independent_student_details()
     register_url = reverse("register")
