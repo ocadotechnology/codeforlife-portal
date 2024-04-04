@@ -405,7 +405,7 @@ class TestIndependentStudentFrontend(BaseTest):
 
         page = page.logout()
 
-        mock_send_dotdigital_email.assert_called_with(1551600, ANY, personalization_values=ANY)
+        mock_send_dotdigital_email.assert_called_with(1551594, ANY, personalization_values=ANY)
 
         page = email_utils.follow_change_email_link_to_independent_dashboard(page, mail.outbox[1])
 
