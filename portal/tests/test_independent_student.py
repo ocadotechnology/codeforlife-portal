@@ -158,7 +158,7 @@ class TestIndependentStudent(TestCase):
         )
 
         assert response.status_code == 302
-        mock_send_dotdigital_email.assert_called_once_with(1551587, ANY)
+        mock_send_dotdigital_email.assert_called_once_with(1551587, ANY, personalization_values=ANY)
 
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
