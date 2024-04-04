@@ -138,7 +138,7 @@ class TestIndependentStudent(TestCase):
         # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
 
-    @patch("common.emails.send_dotdigital_email")
+    @patch("common.helpers.emails.send_dotdigital_email")
     def test_signup_under_13_sends_parent_email(self, mock_send_dotdigital_email: Mock):
         c = Client()
 
