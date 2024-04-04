@@ -18,6 +18,7 @@ from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.urls import reverse_lazy
+from unittest.mock import patch, Mock, ANY
 
 from portal.helpers.ratelimit import get_ratelimit_count_for_user
 from portal.views.login import has_user_lockout_expired
@@ -433,7 +434,8 @@ class TestRatelimit(TestCase):
 
 
 @pytest.mark.django_db
-def test_teacher_already_registered_email(client):
+@patch("common.mail.send_dotdigital_email")
+def test_teacher_already_registered_email(client, mock_send_dotdigital_email: Mock):
     first_name, last_name, email, password = generate_details()
     register_url = reverse("register")
     data = {
@@ -448,19 +450,20 @@ def test_teacher_already_registered_email(client):
 
     # Register the teacher first time, there should be a registration email
     client.post(register_url, data)
-    assert len(mail.outbox) == 1
+    mock_send_dotdigital_email.assert_called_once_with(1551577, ANY, ANY)
 
     # Register with the same email again, there should also be an already registered email
     client.post(register_url, data)
-    assert len(mail.outbox) == 2
+    assert len(mail.outbox) == 1
 
     # Register with the same email one more time, there shouldn't be any new emails
     client.post(register_url, data)
-    assert len(mail.outbox) == 2
+    assert len(mail.outbox) == 1
 
 
 @pytest.mark.django_db
-def test_independent_student_already_registered_email(client):
+@patch("common.mail.send_dotdigital_email")
+def test_independent_student_already_registered_email(client, mock_send_dotdigital_email: Mock):
     name, username, email_address, password = generate_independent_student_details()
     register_url = reverse("register")
     data = {
@@ -477,12 +480,12 @@ def test_independent_student_already_registered_email(client):
 
     # Register the independent student first time, there should be a registration email
     client.post(register_url, data)
-    assert len(mail.outbox) == 1
+    mock_send_dotdigital_email.assert_called_once_with(1551577, ANY, ANY)
 
     # Register with the same email again, there should also be an already registered email
     client.post(register_url, data)
-    assert len(mail.outbox) == 2
+    assert len(mail.outbox) == 1
 
     # Reset mock and register with the same email one more time, there shouldn't be any new emails
     client.post(register_url, data)
-    assert len(mail.outbox) == 2
+    assert len(mail.outbox) == 1

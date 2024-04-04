@@ -21,7 +21,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from unittest.mock import patch, ANY
+from unittest.mock import patch, ANY, Mock
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 
@@ -139,7 +139,7 @@ class TestIndependentStudent(TestCase):
         assert response.status_code == 200
 
     @patch("common.mail.send_dotdigital_email")
-    def test_signup_under_13_sends_parent_email(self, mock_send_dotdigital_email):
+    def test_signup_under_13_sends_parent_email(self, mock_send_dotdigital_email: Mock):
         c = Client()
 
         response = c.post(
