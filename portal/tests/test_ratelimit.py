@@ -434,7 +434,6 @@ class TestRatelimit(TestCase):
 
 
 @patch("common.helpers.emails.send_dotdigital_email")
-@pytest.mark.django_db
 def test_teacher_already_registered_email(client, mock_send_dotdigital_email: Mock):
     first_name, last_name, email, password = generate_details()
     register_url = reverse("register")
@@ -449,7 +448,7 @@ def test_teacher_already_registered_email(client, mock_send_dotdigital_email: Mo
     }
 
     # Register the teacher first time, there should be a registration email
-    client.post(register_url, data)
+    client.post(register_url, data)x
     mock_send_dotdigital_email.assert_called_once_with(1551577, ANY, personalization_values=ANY)
 
     # Register with the same email again, there should also be an already registered email
@@ -462,7 +461,6 @@ def test_teacher_already_registered_email(client, mock_send_dotdigital_email: Mo
 
 
 @patch("common.helpers.emails.send_dotdigital_email")
-@pytest.mark.django_db
 def test_independent_student_already_registered_email(client, mock_send_dotdigital_email: Mock):
     name, username, email_address, password = generate_independent_student_details()
     register_url = reverse("register")
