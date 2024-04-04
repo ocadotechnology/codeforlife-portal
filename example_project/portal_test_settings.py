@@ -13,16 +13,11 @@ headless_chrome_options.add_argument("--disable-gpu")
 headless_chrome_options.add_argument("--no-sandbox")
 headless_chrome_options.add_argument("--disable-extensions")
 headless_chrome_options.add_argument("--disable-dev-shm-usage")
-headless_chrome_options.binary_location = "/usr/local/bin/chrome"
 
 SELENIUM_WEBDRIVERS = {
     "default": {"callable": webdriver.Chrome, "args": (), "kwargs": {}},
     "firefox": {"callable": webdriver.Firefox, "args": (), "kwargs": {}},
-    "chrome-headless": {
-        "callable": webdriver.Chrome,
-        "args": (),
-        "kwargs": {"options": headless_chrome_options, "executable_path": "/usr/local/bin/chromedriver"},
-    },
+    "chrome-headless": {"callable": webdriver.Chrome, "args": (), "kwargs": {"options": headless_chrome_options}},
 }
 
 SELENIUM_WIDTHS = [1624]
