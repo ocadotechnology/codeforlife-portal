@@ -62,7 +62,7 @@ def follow_reset_email_link(browser, email):
 
 
 def follow_change_email_link_to_dashboard(page, email):
-    _follow_change_email_link(page, email)
+    page.browser.get(email)
 
     return go_to_teacher_login_page(page.browser)
 

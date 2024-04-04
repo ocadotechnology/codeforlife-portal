@@ -542,7 +542,8 @@ class TestTeacherFrontend(BaseTest):
 
         assert page.check_account_details({"first_name": "Florian", "last_name": "Aucomte"})
 
-    def test_change_email(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_change_email(self, mock_send_dotdigital_email):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
@@ -558,9 +559,7 @@ class TestTeacherFrontend(BaseTest):
         assert self.is_email_verification_page(page)
         assert is_email_updated_message_showing(self.selenium)
 
-        subject = str(mail.outbox[0].subject)
-        assert subject == "Email address update"
-        mail.outbox = []
+        mock_send_dotdigital_email.assert_called_with(1551600, ANY, personalization_values=ANY)
 
         # Try changing email to an existing indy student's email, should fail
         indy_email, _, _ = create_independent_student_directly()
@@ -571,9 +570,7 @@ class TestTeacherFrontend(BaseTest):
         assert self.is_email_verification_page(page)
         assert is_email_updated_message_showing(self.selenium)
 
-        subject = str(mail.outbox[0].subject)
-        assert subject == "Email address update"
-        mail.outbox = []
+        mock_send_dotdigital_email.assert_called_with(1551600, ANY, personalization_values=ANY)
 
         page = self.go_to_homepage()
         page = page.go_to_teacher_login_page().login(email, password).open_account_tab()
@@ -591,11 +588,10 @@ class TestTeacherFrontend(BaseTest):
 
         page = page.logout()
 
-        subject = str(mail.outbox[0].subject)
-        assert subject == "Email address update"
+        mock_send_dotdigital_email.assert_called_with(1551594, ANY, personalization_values=ANY)
+        verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
 
-        page = email_utils.follow_change_email_link_to_dashboard(page, mail.outbox[1])
-        mail.outbox = []
+        page = email_utils.follow_change_email_link_to_dashboard(page, verification_url)
 
         page = page.login(new_email, password).open_account_tab()
 
