@@ -448,7 +448,7 @@ def test_teacher_already_registered_email(client, mock_send_dotdigital_email: Mo
     }
 
     # Register the teacher first time, there should be a registration email
-    client.post(register_url, data)x
+    client.post(register_url, data)
     mock_send_dotdigital_email.assert_called_once_with(1551577, ANY, personalization_values=ANY)
 
     # Register with the same email again, there should also be an already registered email
