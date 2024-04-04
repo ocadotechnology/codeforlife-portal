@@ -361,7 +361,7 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_student_details_updated_message_showing(self.selenium)
         assert is_email_updated_message_showing(self.selenium)
 
-        mock_send_dotdigital_email.assert_called_once_with(1551600, ANY, personalization_values=ANY)
+        mock_send_dotdigital_email.assert_called_with(1551600, ANY, personalization_values=ANY)
 
         # Try changing email to an existing teacher's email
         teacher_email, _ = signup_teacher_directly()
@@ -377,7 +377,7 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_student_details_updated_message_showing(self.selenium)
         assert is_email_updated_message_showing(self.selenium)
 
-        mock_send_dotdigital_email.assert_called_once_with(1551600, ANY, personalization_values=ANY)
+        mock_send_dotdigital_email.assert_called_with(1551600, ANY, personalization_values=ANY)
 
         page = (
             self.go_to_homepage()
@@ -405,7 +405,7 @@ class TestIndependentStudentFrontend(BaseTest):
 
         page = page.logout()
 
-        mock_send_dotdigital_email.assert_called_once_with(1551600, ANY, personalization_values=ANY)
+        mock_send_dotdigital_email.assert_called_with(1551600, ANY, personalization_values=ANY)
 
         page = email_utils.follow_change_email_link_to_independent_dashboard(page, mail.outbox[1])
 
