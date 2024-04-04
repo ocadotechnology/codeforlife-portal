@@ -7,6 +7,7 @@ from uuid import uuid4
 
 import jwt
 from aimmo.models import Game
+from common.mail import send_dotdigital_email
 from common.models import Class, Student, Teacher
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
@@ -26,6 +27,7 @@ from django.utils import timezone
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from unittest.mock import patch, Mock, ANY
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.tests.base_test import click_buttons_by_id
@@ -357,7 +359,8 @@ class TestTeacher(TestCase):
         # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
 
-    def test_signup_email_verification(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_signup_email_verification(self, mock_send_dotdigital_email: Mock):
         c = Client()
 
         response = c.post(
@@ -374,7 +377,7 @@ class TestTeacher(TestCase):
         )
 
         assert response.status_code == 302
-        assert len(mail.outbox) == 1
+        mock_send_dotdigital_email.assert_called_once_with(1551577, ANY, personalization_values=ANY)
 
         # Try verification URL with a fake token
         fake_token = jwt.encode(
@@ -393,9 +396,9 @@ class TestTeacher(TestCase):
         # Assert response isn't a redirect (get failure)
         assert bad_verification_response.status_code == 200
 
-        # Get verification link from email
-        message = str(mail.outbox[0].body)
-        verification_url = re.search("http.+/", message).group(0)
+        # Get verification link from function call
+        verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
+        print(verification_url)
 
         # Verify the email properly
         verification_response = c.get(verification_url)
