@@ -4,6 +4,7 @@ import sys
 from common.helpers.emails import generate_token
 from common.models import Teacher
 from django.core import mail
+from unittest.mock import patch
 
 from . import email
 
