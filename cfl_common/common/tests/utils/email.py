@@ -68,7 +68,7 @@ def follow_change_email_link_to_dashboard(page, email):
 
 
 def follow_change_email_link_to_independent_dashboard(page, email):
-    _follow_change_email_link(page, email)
+    page.browser.get(email)
 
     return go_to_independent_student_login_page(page.browser)
 
