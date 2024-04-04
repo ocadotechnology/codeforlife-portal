@@ -435,7 +435,7 @@ class TestRatelimit(TestCase):
 
 @patch("common.helpers.emails.send_dotdigital_email")
 @pytest.mark.django_db
-def test_teacher_already_registered_email(client, mock_send_dotdigital_email: Mock):
+def test_teacher_already_registered_email(mock_send_dotdigital_email: Mock, client):
     first_name, last_name, email, password = generate_details()
     register_url = reverse("register")
     data = {
@@ -463,7 +463,7 @@ def test_teacher_already_registered_email(client, mock_send_dotdigital_email: Mo
 
 @patch("common.helpers.emails.send_dotdigital_email")
 @pytest.mark.django_db
-def test_independent_student_already_registered_email(client, mock_send_dotdigital_email: Mock):
+def test_independent_student_already_registered_email(mock_send_dotdigital_email: Mock, client):
     name, username, email_address, password = generate_independent_student_details()
     register_url = reverse("register")
     data = {
