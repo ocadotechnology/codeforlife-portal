@@ -406,8 +406,9 @@ class TestIndependentStudentFrontend(BaseTest):
         page = page.logout()
 
         mock_send_dotdigital_email.assert_called_with(1551594, ANY, personalization_values=ANY)
+        verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
 
-        page = email_utils.follow_change_email_link_to_independent_dashboard(page, mail.outbox[1])
+        page = email_utils.follow_change_email_link_to_independent_dashboard(page, verification_url)
 
         page = page.independent_student_login(new_email, password)
 
