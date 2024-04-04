@@ -2,21 +2,14 @@ import re
 from builtins import str
 
 
-def follow_verify_email_link_to_onboarding(page, email):
-    _follow_verify_email_link(page, email)
+def follow_verify_email_link_to_onboarding(page, url):
+    page.browser.get(url)
 
     return go_to_teacher_login_page(page.browser)
 
 
-def follow_verify_email_link_to_teacher_dashboard(page, email):
-    _follow_verify_email_link(page, email)
-
-    return go_to_teacher_dashboard_page(page.browser)
-
-
-def follow_verify_email_link_to_login(page, email, user_type):
-    # _follow_verify_email_link(page, email)
-    page.browser.get(email)
+def follow_verify_email_link_to_login(page, url, user_type):
+    page.browser.get(url)
 
     if user_type == "teacher":
         return go_to_teacher_login_page(page.browser)
@@ -31,15 +24,6 @@ def follow_duplicate_account_link_to_login(page, email, user_type):
         return go_to_teacher_login_page(page.browser)
     elif user_type == "independent":
         return go_to_independent_student_login_page(page.browser)
-
-
-def _follow_verify_email_link(page, email):
-    message = str(email.message())
-    prefix = '<p>Please go to <a href="'
-    i = str.find(message, prefix) + len(prefix)
-    suffix = '" rel="nofollow">'
-    j = str.find(message, suffix, i)
-    page.browser.get(message[i:j])
 
 
 def _follow_duplicate_account_email_link(page, email):
@@ -61,25 +45,16 @@ def follow_reset_email_link(browser, email):
     return PasswordResetPage(browser)
 
 
-def follow_change_email_link_to_dashboard(page, email):
-    page.browser.get(email)
+def follow_change_email_link_to_dashboard(page, url):
+    page.browser.get(url)
 
     return go_to_teacher_login_page(page.browser)
 
 
-def follow_change_email_link_to_independent_dashboard(page, email):
-    page.browser.get(email)
+def follow_change_email_link_to_independent_dashboard(page, url):
+    page.browser.get(url)
 
     return go_to_independent_student_login_page(page.browser)
-
-
-def _follow_change_email_link(page, email):
-    message = str(email.message())
-    prefix = "please go to "
-    i = str.find(message, prefix) + len(prefix)
-    suffix = " to verify"
-    j = str.find(message, suffix, i)
-    page.browser.get(message[i:j])
 
 
 def go_to_teacher_login_page(browser):
