@@ -135,10 +135,7 @@ def create_independent_student(page, mock_send_dotdigital_email):
     return page, name, username, email_address, password
 
 
-def verify_email(page):
-    assert len(mail.outbox) > 0
-
-    page = email.follow_verify_email_link_to_login(page, mail.outbox[0], "independent")
-    mail.outbox = []
+def verify_email(page, verification_url):
+    page = email.follow_verify_email_link_to_login(page, verification_url, "independent")
 
     return page

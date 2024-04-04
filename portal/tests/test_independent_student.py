@@ -257,7 +257,8 @@ class TestIndependentStudentFrontend(BaseTest):
         page = page.independent_student_login(username, password)
         assert self.is_dashboard(page)
 
-    def test_login_not_verified(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_login_not_verified(self, mock_send_dotdigital_email):
         username, password, _ = create_independent_student_directly(preverified=False)
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
@@ -268,7 +269,9 @@ class TestIndependentStudentFrontend(BaseTest):
         assert page.has_login_failed("independent_student_login_form", INVALID_LOGIN_MESSAGE)
         print(errors)
 
-        verify_email(page)
+        verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
+
+        verify_email(page, verification_url)
 
         assert is_email_verified_message_showing(self.selenium)
 
@@ -374,9 +377,7 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_student_details_updated_message_showing(self.selenium)
         assert is_email_updated_message_showing(self.selenium)
 
-        subject = str(mail.outbox[0].subject)
-        assert subject == "Email address update"
-        mail.outbox = []
+        mock_send_dotdigital_email.assert_called_once_with(1551600, ANY, personalization_values=ANY)
 
         page = (
             self.go_to_homepage()
@@ -404,11 +405,9 @@ class TestIndependentStudentFrontend(BaseTest):
 
         page = page.logout()
 
-        subject = str(mail.outbox[0].subject)
-        assert subject == "Email address update"
+        mock_send_dotdigital_email.assert_called_once_with(1551600, ANY, personalization_values=ANY)
 
         page = email_utils.follow_change_email_link_to_independent_dashboard(page, mail.outbox[1])
-        mail.outbox = []
 
         page = page.independent_student_login(new_email, password)
 

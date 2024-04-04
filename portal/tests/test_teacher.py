@@ -474,7 +474,8 @@ class TestTeacherFrontend(BaseTest):
         page = page.login(email, password)
         assert self.is_dashboard_page(page)
 
-    def test_login_not_verified(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_login_not_verified(self, mock_send_dotdigital_email):
         email, password = signup_teacher_directly(preverified=False)
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
@@ -486,7 +487,9 @@ class TestTeacherFrontend(BaseTest):
 
         assert page.has_login_failed("form-login-teacher", INVALID_LOGIN_MESSAGE)
 
-        verify_email(page)
+        verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
+
+        verify_email(page, verification_url)
 
         assert is_email_verified_message_showing(self.selenium)
 
