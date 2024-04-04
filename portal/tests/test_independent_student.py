@@ -266,8 +266,6 @@ class TestIndependentStudentFrontend(BaseTest):
 
         assert page.has_login_failed("independent_student_login_form", INVALID_LOGIN_MESSAGE)
 
-        verify_email(page)
-
         assert is_email_verified_message_showing(self.selenium)
 
         page = page.independent_student_login(username, password)

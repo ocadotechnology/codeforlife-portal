@@ -15,7 +15,8 @@ def follow_verify_email_link_to_teacher_dashboard(page, email):
 
 
 def follow_verify_email_link_to_login(page, email, user_type):
-    _follow_verify_email_link(page, email)
+    # _follow_verify_email_link(page, email)
+    page.browser.get(email)
 
     if user_type == "teacher":
         return go_to_teacher_login_page(page.browser)

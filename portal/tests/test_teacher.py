@@ -398,7 +398,6 @@ class TestTeacher(TestCase):
 
         # Get verification link from function call
         verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
-        print(verification_url)
 
         # Verify the email properly
         verification_response = c.get(verification_url)
