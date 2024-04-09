@@ -8,21 +8,9 @@ import PyPDF2
 import pytest
 from aimmo.models import Game
 from common.helpers.emails import NOTIFICATION_EMAIL
-from common.models import (
-    Class,
-    DailyActivity,
-    School,
-    Student,
-    Teacher,
-    TotalActivity,
-    UserProfile,
-    UserSession,
-)
+from common.models import Class, DailyActivity, School, Student, Teacher, TotalActivity, UserProfile, UserSession
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
-    create_organisation_directly,
-    join_teacher_to_organisation,
-)
+from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.student import (
     create_independent_student_directly,
     create_school_student_directly,
@@ -55,9 +43,7 @@ class TestTeacherViews(TestCase):
     def setUpTestData(cls):
         cls.email, cls.password = signup_teacher_directly()
         _, _, cls.class_access_code = create_class_directly(cls.email)
-        _, _, cls.student = create_school_student_directly(
-            cls.class_access_code
-        )
+        _, _, cls.student = create_school_student_directly(cls.class_access_code)
 
     def login(self):
         c = Client()
@@ -66,9 +52,7 @@ class TestTeacherViews(TestCase):
 
     def test_reminder_cards(self):
         c = self.login()
-        url = reverse(
-            "teacher_print_reminder_cards", args=[self.class_access_code]
-        )
+        url = reverse("teacher_print_reminder_cards", args=[self.class_access_code])
 
         # First test with 2 dummy students
         NAME1 = "Test name"
@@ -102,9 +86,7 @@ class TestTeacherViews(TestCase):
         # page number
         students_per_page = REMINDER_CARDS_PDF_ROWS * REMINDER_CARDS_PDF_COLUMNS
         for _ in range(len(studentlist), students_per_page + 1):
-            studentlist.append(
-                {"name": NAME1, "password": PASSWORD1, "login_url": URL}
-            )
+            studentlist.append({"name": NAME1, "password": PASSWORD1, "login_url": URL})
 
         assert len(studentlist) == students_per_page + 1
 
@@ -143,9 +125,7 @@ class TestTeacherViews(TestCase):
         reader = csv.reader(io.StringIO(content))
 
         access_code = self.class_access_code
-        class_url = reverse(
-            "student_login", kwargs={"access_code": access_code}
-        )
+        class_url = reverse("student_login", kwargs={"access_code": access_code})
         row0 = next(reader)
         assert row0[0].strip() == access_code
         assert class_url in row0[1].strip()
@@ -184,9 +164,7 @@ class TestTeacherViews(TestCase):
 
     def test_daily_activity_student_details(self):
         c = self.login()
-        url = reverse(
-            "teacher_print_reminder_cards", args=[self.class_access_code]
-        )
+        url = reverse("teacher_print_reminder_cards", args=[self.class_access_code])
 
         data = {
             "data": json.dumps(
@@ -249,9 +227,7 @@ class TestLoginViews(TestCase):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
         _, _, class_access_code = create_class_directly(teacher_email)
-        student_name, student_password, _ = create_school_student_directly(
-            class_access_code
-        )
+        student_name, student_password, _ = create_school_student_directly(class_access_code)
 
         return (
             teacher_email,
@@ -284,16 +260,9 @@ class TestLoginViews(TestCase):
         _, _, name, password, class_access_code = self._set_up_test_data()
 
         if next_url:
-            url = (
-                reverse(
-                    "student_login", kwargs={"access_code": class_access_code}
-                )
-                + "?next=/"
-            )
+            url = reverse("student_login", kwargs={"access_code": class_access_code}) + "?next=/"
         else:
-            url = reverse(
-                "student_login", kwargs={"access_code": class_access_code}
-            )
+            url = reverse("student_login", kwargs={"access_code": class_access_code})
 
         c = Client()
         response = c.post(url, {"username": name, "password": password})
@@ -332,9 +301,7 @@ class TestLoginViews(TestCase):
 
     def _get_user_class(self, name, class_access_code):
         klass = Class.objects.get(access_code=class_access_code)
-        students = Student.objects.filter(
-            new_user__first_name__iexact=name, class_field=klass
-        )
+        students = Student.objects.filter(new_user__first_name__iexact=name, class_field=klass)
         assert len(students) == 1
         user = students[0].new_user
         return user, klass
@@ -376,9 +343,7 @@ class TestLoginViews(TestCase):
         _, _, name, password, class_access_code = self._set_up_test_data()
 
         c = Client()
-        url = reverse(
-            "student_login", kwargs={"access_code": class_access_code}
-        )
+        url = reverse("student_login", kwargs={"access_code": class_access_code})
         c.post(url, {"username": name, "password": password})
 
         # check if there's a UserSession data within the last 10 secs
@@ -399,9 +364,7 @@ class TestLoginViews(TestCase):
         randomname = "randomname"
 
         c = Client()
-        url = reverse(
-            "student_login", kwargs={"access_code": class_access_code}
-        )
+        url = reverse("student_login", kwargs={"access_code": class_access_code})
         c.post(url, {"username": randomname, "password": "xx"})
 
         # check if there's a UserSession data within the last 10 secs
@@ -427,9 +390,7 @@ class TestLoginViews(TestCase):
 
     def test_student_direct_login(self):
         _, _, _, _, class_access_code = self._set_up_test_data()
-        student, login_id, _, _ = create_student_with_direct_login(
-            class_access_code
-        )
+        student, login_id, _, _ = create_student_with_direct_login(class_access_code)
 
         c = Client()
         assert c.login(user_id=student.new_user.id, login_id=login_id) == True
@@ -551,9 +512,7 @@ class TestViews(TestCase):
         c = Client()
 
         # Login and check initial data
-        url = reverse(
-            "student_login", kwargs={"access_code": class_access_code}
-        )
+        url = reverse("student_login", kwargs={"access_code": class_access_code})
         c.post(url, {"username": student_name, "password": student_password})
 
         student_dashboard_url = reverse("student_details")
@@ -631,9 +590,7 @@ class TestViews(TestCase):
 
         # try again with the correct password
         url = reverse("delete_account")
-        response = c.post(
-            url, {"password": password, "unsubscribe_newsletter": "on"}
-        )
+        response = c.post(url, {"password": password, "unsubscribe_newsletter": "on"})
 
         assert response.status_code == 302
         assert response.url == reverse("home")
@@ -710,9 +667,7 @@ class TestViews(TestCase):
 
         school_id = school.id
         school_name = school.name
-        teachers = Teacher.objects.filter(school=school).order_by(
-            "new_user__last_name", "new_user__first_name"
-        )
+        teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
         assert len(teachers) == 3
 
         # one of the remaining teachers should be admin (the second in our case, as it's alphabetical)
@@ -742,9 +697,7 @@ class TestViews(TestCase):
         c.post(url, {"password": password3})
 
         # 2 teachers left
-        teachers = Teacher.objects.filter(school=school).order_by(
-            "new_user__last_name", "new_user__first_name"
-        )
+        teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
         assert len(teachers) == 2
 
         # teacher2 should still be admin, teacher4 is not passed admin role because there is teacher2
@@ -756,9 +709,7 @@ class TestViews(TestCase):
         # delete teacher4
         anonymise(user4)
 
-        teachers = Teacher.objects.filter(school=school).order_by(
-            "new_user__last_name", "new_user__first_name"
-        )
+        teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
         assert len(teachers) == 1
         u = User.objects.get(id=usrid2)
         assert u.new_teacher.is_admin
@@ -814,15 +765,14 @@ class TestViews(TestCase):
 
         c.logout()
 
-    def test_registrations_increment_data(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_registrations_increment_data(self, mock_send_dotdigital_email: Mock):
         c = Client()
 
         total_activity = TotalActivity.objects.get(id=1)
         teacher_registration_count = total_activity.teacher_registrations
         student_registration_count = total_activity.student_registrations
-        independent_registration_count = (
-            total_activity.independent_registrations
-        )
+        independent_registration_count = total_activity.independent_registrations
 
         response = c.post(
             reverse("register"),
@@ -838,13 +788,11 @@ class TestViews(TestCase):
         )
 
         assert response.status_code == 302
+        mock_send_dotdigital_email.assert_called_once()
 
         total_activity = TotalActivity.objects.get(id=1)
 
-        assert (
-            total_activity.teacher_registrations
-            == teacher_registration_count + 1
-        )
+        assert total_activity.teacher_registrations == teacher_registration_count + 1
 
         response = c.post(
             reverse("register"),
@@ -862,13 +810,11 @@ class TestViews(TestCase):
         )
 
         assert response.status_code == 302
+        mock_send_dotdigital_email.assert_called()
 
         total_activity = TotalActivity.objects.get(id=1)
 
-        assert (
-            total_activity.independent_registrations
-            == independent_registration_count + 1
-        )
+        assert total_activity.independent_registrations == independent_registration_count + 1
 
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
@@ -884,10 +830,7 @@ class TestViews(TestCase):
 
         total_activity = TotalActivity.objects.get(id=1)
 
-        assert (
-            total_activity.student_registrations
-            == student_registration_count + 3
-        )
+        assert total_activity.student_registrations == student_registration_count + 3
 
 
 # CRON view tests
@@ -906,12 +849,8 @@ class CronTestClient(APIClient):
         secure=False,
         **extra,
     ):
-        wsgi_response = super().generic(
-            method, path, data, content_type, secure, **extra
-        )
-        assert (
-            200 <= wsgi_response.status_code < 300
-        ), f"Response has error status code: {wsgi_response.status_code}"
+        wsgi_response = super().generic(method, path, data, content_type, secure, **extra)
+        assert 200 <= wsgi_response.status_code < 300, f"Response has error status code: {wsgi_response.status_code}"
 
         return wsgi_response
 
@@ -930,9 +869,7 @@ class TestUser(CronTestCase):
         indy_email, _, _ = create_independent_student_directly()
 
         self.teacher_user = User.objects.get(email=teacher_email)
-        self.teacher_user_profile = UserProfile.objects.get(
-            user=self.teacher_user
-        )
+        self.teacher_user_profile = UserProfile.objects.get(user=self.teacher_user)
 
         self.indy_user = User.objects.get(email=indy_email)
         self.indy_user_profile = UserProfile.objects.get(user=self.indy_user)
@@ -947,17 +884,11 @@ class TestUser(CronTestCase):
         send_email: Mock,
         assert_called: bool,
     ):
-        self.teacher_user.date_joined = timezone.now() - timedelta(
-            days=days, hours=12
-        )
+        self.teacher_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
         self.teacher_user.save()
-        self.student_user.date_joined = timezone.now() - timedelta(
-            days=days, hours=12
-        )
+        self.student_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
         self.student_user.save()
-        self.indy_user.date_joined = timezone.now() - timedelta(
-            days=days, hours=12
-        )
+        self.indy_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
         self.indy_user.save()
 
         self.teacher_user_profile.is_verified = is_verified
@@ -1059,9 +990,7 @@ class TestUser(CronTestCase):
         now = timezone.now()
 
         for user in [self.teacher_user, self.indy_user, self.student_user]:
-            user.date_joined = now - timedelta(
-                days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS + 1
-            )
+            user.date_joined = now - timedelta(days=USER_DELETE_UNVERIFIED_ACCOUNT_DAYS + 1)
             user.save()
 
         for user_profile in [self.teacher_user_profile, self.indy_user_profile]:
@@ -1126,9 +1055,7 @@ class TestUser(CronTestCase):
                 new_user=indy_user,
             )
 
-            activity_today = DailyActivity.objects.get_or_create(
-                date=datetime.now().date()
-            )[0]
+            activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
             daily_teacher_count = activity_today.anonymised_unverified_teachers
             daily_indy_count = activity_today.anonymised_unverified_independents
 
@@ -1151,30 +1078,16 @@ class TestUser(CronTestCase):
             assert indy_user_active == assert_active
             assert student_user_active
 
-            activity_today = DailyActivity.objects.get_or_create(
-                date=datetime.now().date()
-            )[0]
+            activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
             total_activity = TotalActivity.objects.get(id=1)
 
             if not teacher_user_active:
-                assert (
-                    activity_today.anonymised_unverified_teachers
-                    == daily_teacher_count + 1
-                )
-                assert (
-                    total_activity.anonymised_unverified_teachers
-                    == total_teacher_count + 1
-                )
+                assert activity_today.anonymised_unverified_teachers == daily_teacher_count + 1
+                assert total_activity.anonymised_unverified_teachers == total_teacher_count + 1
 
             if not indy_user_active:
-                assert (
-                    activity_today.anonymised_unverified_independents
-                    == daily_indy_count + 1
-                )
-                assert (
-                    total_activity.anonymised_unverified_independents
-                    == total_indy_count + 1
-                )
+                assert activity_today.anonymised_unverified_independents == daily_indy_count + 1
+                assert total_activity.anonymised_unverified_independents == total_indy_count + 1
 
             teacher_user.delete()
             indy_user.delete()
