@@ -1,11 +1,8 @@
 import logging
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 
-from common.helpers.emails import (
-    NOTIFICATION_EMAIL,
-    generate_token_for_email,
-    send_email,
-)
+from common.helpers.emails import NOTIFICATION_EMAIL, generate_token_for_email, send_email
+from common.mail import campaign_ids, send_dotdigital_email
 from common.models import DailyActivity, TotalActivity
 from django.contrib.auth.models import User
 from django.db.models import F
@@ -14,29 +11,14 @@ from django.urls import reverse
 from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from portal.views.api import anonymise
 
 from ...mixins import CronMixin
 
 # TODO: move email templates to DotDigital.
 USER_1ST_VERIFY_EMAIL_REMINDER_DAYS = 7
-USER_1ST_VERIFY_EMAIL_REMINDER_TEXT = (
-    "Please go to the link below to verify your email address:"
-    "\n{email_verification_url}."
-    "\nYou will not be able to use your account until it is verified."
-    "\n\nBy activating the account you confirm that you have read and agreed to"
-    " our terms ({terms_url}) and our privacy notice ({privacy_notice_url}). If"
-    " your account is not verified within 12 days we will delete it."
-)
 USER_2ND_VERIFY_EMAIL_REMINDER_DAYS = 14
-USER_2ND_VERIFY_EMAIL_REMINDER_TEXT = (
-    "Please go to the link below to verify your email address:"
-    "\n{email_verification_url}."
-    "\nYou will not be able to use your account until it is verified."
-    "\n\nBy activating the account you confirm that you have read and agreed to"
-    " our terms ({terms_url}) and our privacy notice ({privacy_notice_url}). If"
-    " your account is not verified within 5 days we will delete it."
-)
 USER_DELETE_UNVERIFIED_ACCOUNT_DAYS = 19
 
 
@@ -87,9 +69,6 @@ class FirstVerifyEmailReminderView(CronMixin, APIView):
         logging.info(f"{user_count} emails unverified.")
 
         if user_count > 0:
-            terms_url = build_absolute_google_uri(request, reverse("terms"))
-            privacy_notice_url = build_absolute_google_uri(request, reverse("privacy_notice"))
-
             sent_email_count = 0
             for email in user_queryset.values_list("email", flat=True).iterator(chunk_size=500):
                 email_verification_url = build_absolute_google_uri(
@@ -101,17 +80,10 @@ class FirstVerifyEmailReminderView(CronMixin, APIView):
                 )
 
                 try:
-                    send_email(
-                        sender=NOTIFICATION_EMAIL,
-                        recipients=[email],
-                        subject="Awaiting verification",
-                        title="Awaiting verification",
-                        text_content=USER_1ST_VERIFY_EMAIL_REMINDER_TEXT.format(
-                            email_verification_url=email_verification_url,
-                            terms_url=terms_url,
-                            privacy_notice_url=privacy_notice_url,
-                        ),
-                        replace_url={"verify_url": email_verification_url},
+                    send_dotdigital_email(
+                        campaign_ids["verify_new_user_first_reminder"],
+                        [email],
+                        personalization_values={"VERIFICATION_LINK": email_verification_url},
                     )
 
                     sent_email_count += 1
@@ -135,8 +107,6 @@ class SecondVerifyEmailReminderView(CronMixin, APIView):
         logging.info(f"{user_count} emails unverified.")
 
         if user_count > 0:
-            terms_url = build_absolute_google_uri(request, reverse("terms"))
-            privacy_notice_url = build_absolute_google_uri(request, reverse("privacy_notice"))
 
             sent_email_count = 0
             for email in user_queryset.values_list("email", flat=True).iterator(chunk_size=500):
@@ -149,17 +119,10 @@ class SecondVerifyEmailReminderView(CronMixin, APIView):
                 )
 
                 try:
-                    send_email(
-                        sender=NOTIFICATION_EMAIL,
-                        recipients=[email],
-                        subject="Your account needs verification",
-                        title="Your account needs verification",
-                        text_content=USER_2ND_VERIFY_EMAIL_REMINDER_TEXT.format(
-                            email_verification_url=email_verification_url,
-                            terms_url=terms_url,
-                            privacy_notice_url=privacy_notice_url,
-                        ),
-                        replace_url={"verify_url": email_verification_url},
+                    send_dotdigital_email(
+                        campaign_ids["verify_new_user_second_reminder"],
+                        [email],
+                        personalization_values={"VERIFICATION_LINK": email_verification_url},
                     )
 
                     sent_email_count += 1

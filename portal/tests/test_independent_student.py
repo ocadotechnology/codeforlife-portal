@@ -270,7 +270,6 @@ class TestIndependentStudentFrontend(BaseTest):
 
         errors = page.has_login_failed("independent_student_login_form", INVALID_LOGIN_MESSAGE)
         assert page.has_login_failed("independent_student_login_form", INVALID_LOGIN_MESSAGE)
-        print(errors)
 
         verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
 
