@@ -876,13 +876,14 @@ class TestUser(CronTestCase):
 
         self.student_user: User = student.new_user
 
+    @patch("common.helpers.emails.send_dotdigital_email")
     def send_verify_email_reminder(
         self,
         days: int,
         is_verified: bool,
         view_name: str,
-        send_email: Mock,
         assert_called: bool,
+        mock_send_dotdigital_email: Mock,
     ):
         self.teacher_user.date_joined = timezone.now() - timedelta(days=days, hours=12)
         self.teacher_user.save()
@@ -899,90 +900,66 @@ class TestUser(CronTestCase):
         self.client.get(reverse(view_name))
 
         if assert_called:
-            send_email.assert_any_call(
-                sender=NOTIFICATION_EMAIL,
-                recipients=[self.teacher_user.email],
-                subject=ANY,
-                title=ANY,
-                text_content=ANY,
-                replace_url=ANY,
-            )
+            mock_send_dotdigital_email.assert_any_call(ANY, [self.teacher_user.email], personalization_values=ANY)
 
-            send_email.assert_any_call(
-                sender=NOTIFICATION_EMAIL,
-                recipients=[self.indy_user.email],
-                subject=ANY,
-                title=ANY,
-                text_content=ANY,
-                replace_url=ANY,
-            )
+            mock_send_dotdigital_email.assert_any_call(ANY, [self.indy_user.email], personalization_values=ANY)
 
             # Check only two emails are sent - the student should never be included.
-            assert send_email.call_count == 2
+            assert mock_send_dotdigital_email.call_count == 2
         else:
-            send_email.assert_not_called()
+            mock_send_dotdigital_email.assert_not_called()
 
-        send_email.reset_mock()
+        mock_send_dotdigital_email.reset_mock()
 
-    @patch("common.helpers.emails.send_dotdigital_email")
-    def test_first_verify_email_reminder_view(self, send_email: Mock):
+    def test_first_verify_email_reminder_view(self):
         self.send_verify_email_reminder(
             days=6,
             is_verified=False,
             view_name="first-verify-email-reminder",
-            send_email=send_email,
             assert_called=False,
         )
         self.send_verify_email_reminder(
             days=7,
             is_verified=False,
             view_name="first-verify-email-reminder",
-            send_email=send_email,
             assert_called=True,
         )
         self.send_verify_email_reminder(
             days=7,
             is_verified=True,
             view_name="first-verify-email-reminder",
-            send_email=send_email,
             assert_called=False,
         )
         self.send_verify_email_reminder(
             days=8,
             is_verified=False,
             view_name="first-verify-email-reminder",
-            send_email=send_email,
             assert_called=False,
         )
 
-    @patch("common.helpers.emails.send_dotdigital_email")
-    def test_second_verify_email_reminder_view(self, send_email: Mock):
+    def test_second_verify_email_reminder_view(self):
         self.send_verify_email_reminder(
             days=13,
             is_verified=False,
             view_name="second-verify-email-reminder",
-            send_email=send_email,
             assert_called=False,
         )
         self.send_verify_email_reminder(
             days=14,
             is_verified=False,
             view_name="second-verify-email-reminder",
-            send_email=send_email,
             assert_called=True,
         )
         self.send_verify_email_reminder(
             days=14,
             is_verified=True,
             view_name="second-verify-email-reminder",
-            send_email=send_email,
             assert_called=False,
         )
         self.send_verify_email_reminder(
             days=15,
             is_verified=False,
             view_name="second-verify-email-reminder",
-            send_email=send_email,
             assert_called=False,
         )
 
