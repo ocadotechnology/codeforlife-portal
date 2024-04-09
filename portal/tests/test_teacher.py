@@ -3,11 +3,12 @@ from __future__ import absolute_import
 import re
 import time
 from datetime import timedelta
+from unittest.mock import ANY, Mock, patch
 from uuid import uuid4
 
 import jwt
 from aimmo.models import Game
-from common.mail import send_dotdigital_email
+from common.mail import campaign_ids, send_dotdigital_email
 from common.models import Class, Student, Teacher
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
@@ -27,7 +28,6 @@ from django.utils import timezone
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-from unittest.mock import patch, Mock, ANY
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.tests.base_test import click_buttons_by_id
@@ -377,7 +377,9 @@ class TestTeacher(TestCase):
         )
 
         assert response.status_code == 302
-        mock_send_dotdigital_email.assert_called_once_with(1551577, ANY, personalization_values=ANY)
+        mock_send_dotdigital_email.assert_called_once_with(
+            campaign_ids["verify_new_user"], ANY, personalization_values=ANY
+        )
 
         # Try verification URL with a fake token
         fake_token = jwt.encode(
@@ -559,7 +561,9 @@ class TestTeacherFrontend(BaseTest):
         assert self.is_email_verification_page(page)
         assert is_email_updated_message_showing(self.selenium)
 
-        mock_send_dotdigital_email.assert_called_with(1551600, ANY, personalization_values=ANY)
+        mock_send_dotdigital_email.assert_called_with(
+            campaign_ids["email_change_notification"], ANY, personalization_values=ANY
+        )
 
         # Try changing email to an existing indy student's email, should fail
         indy_email, _, _ = create_independent_student_directly()
@@ -570,7 +574,9 @@ class TestTeacherFrontend(BaseTest):
         assert self.is_email_verification_page(page)
         assert is_email_updated_message_showing(self.selenium)
 
-        mock_send_dotdigital_email.assert_called_with(1551600, ANY, personalization_values=ANY)
+        mock_send_dotdigital_email.assert_called_with(
+            campaign_ids["email_change_notification"], ANY, personalization_values=ANY
+        )
 
         page = self.go_to_homepage()
         page = page.go_to_teacher_login_page().login(email, password).open_account_tab()
@@ -588,7 +594,9 @@ class TestTeacherFrontend(BaseTest):
 
         page = page.logout()
 
-        mock_send_dotdigital_email.assert_called_with(1551594, ANY, personalization_values=ANY)
+        mock_send_dotdigital_email.assert_called_with(
+            campaign_ids["email_change_verification"], ANY, personalization_values=ANY
+        )
         verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
 
         page = email_utils.follow_change_email_link_to_dashboard(page, verification_url)

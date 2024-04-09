@@ -3,8 +3,14 @@ import typing as t
 from dataclasses import dataclass
 
 import requests
-
 from common import app_settings
+
+campaign_ids = {
+    "email_change_verification": 1551594,
+    "email_change_notification": 1551600,
+    "verify_new_user": 1551577,
+    "verify_new_user_via_parent": 1551587,
+}
 
 
 def add_contact(email: str):

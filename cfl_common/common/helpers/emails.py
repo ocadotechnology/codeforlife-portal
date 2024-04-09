@@ -4,19 +4,19 @@ import re
 from enum import Enum, auto
 from uuid import uuid4
 
-from django.urls import reverse
 import jwt
 from common import app_settings
 from common.app_settings import domain
-from common.models import Teacher, Student
-from common.mail import send_dotdigital_email
+from common.mail import campaign_ids, send_dotdigital_email
+from common.models import Student, Teacher
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponse
 from django.template import loader
+from django.urls import reverse
 from django.utils import timezone
-from requests import post, get, put, delete
+from requests import delete, get, post, put
 from requests.exceptions import RequestException
 
 NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
@@ -121,7 +121,9 @@ def send_verification_email(request, user, data, new_email=None, age=None):
         if age is None:
             url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
 
-            send_dotdigital_email(1551577, [user.email], personalization_values={"VERIFICATION_LINK": url})
+            send_dotdigital_email(
+                campaign_ids["verify_new_user"], [user.email], personalization_values={"VERIFICATION_LINK": url}
+            )
 
             if _newsletter_ticked(data):
                 add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
@@ -130,13 +132,15 @@ def send_verification_email(request, user, data, new_email=None, age=None):
             if age < 13:
                 url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
                 send_dotdigital_email(
-                    1551587,
+                    campaign_ids["verify_new_user_via_parent"],
                     [user.email],
                     personalization_values={"FIRST_NAME": user.first_name, "ACTIVATION_LINK": url},
                 )
             else:
                 url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
-                send_dotdigital_email(1551577, [user.email], personalization_values={"VERIFICATION_LINK": url})
+                send_dotdigital_email(
+                    campaign_ids["verify_new_user"], [user.email], personalization_values={"VERIFICATION_LINK": url}
+                )
 
             if _newsletter_ticked(data):
                 add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.STUDENT)
@@ -144,7 +148,9 @@ def send_verification_email(request, user, data, new_email=None, age=None):
     else:
         verification = generate_token(user, new_email)
         url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
-        send_dotdigital_email(1551594, [new_email], personalization_values={"VERIFICATION_LINK": url})
+        send_dotdigital_email(
+            campaign_ids["email_change_verification"], [new_email], personalization_values={"VERIFICATION_LINK": url}
+        )
 
 
 def add_to_dotmailer(first_name: str, last_name: str, email: str, user_type: DotmailerUserType):
@@ -253,7 +259,11 @@ def update_indy_email(user, request, data):
         changing_email = True
         users_with_email = User.objects.filter(email=new_email)
 
-        send_dotdigital_email(1551600, [user.email], personalization_values={"NEW_EMAIL_ADDRESS": new_email})
+        send_dotdigital_email(
+            campaign_ids["email_change_notification"],
+            [user.email],
+            personalization_values={"NEW_EMAIL_ADDRESS": new_email},
+        )
 
         # email is available
         if not users_with_email.exists():
@@ -270,7 +280,11 @@ def update_email(user: Teacher or Student, request, data):
         changing_email = True
         users_with_email = User.objects.filter(email=new_email)
 
-        send_dotdigital_email(1551600, [user.new_user.email], personalization_values={"NEW_EMAIL_ADDRESS": new_email})
+        send_dotdigital_email(
+            campaign_ids["email_change_notification"],
+            [user.new_user.email],
+            personalization_values={"NEW_EMAIL_ADDRESS": new_email},
+        )
 
         # email is available
         if not users_with_email.exists():

@@ -2,7 +2,9 @@ from __future__ import absolute_import
 
 import datetime
 import time
+from unittest.mock import ANY, Mock, patch
 
+from common.mail import campaign_ids
 from common.models import JoinReleaseStudent
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
@@ -21,7 +23,6 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from unittest.mock import patch, ANY, Mock
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 
@@ -158,7 +159,9 @@ class TestIndependentStudent(TestCase):
         )
 
         assert response.status_code == 302
-        mock_send_dotdigital_email.assert_called_once_with(1551587, ANY, personalization_values=ANY)
+        mock_send_dotdigital_email.assert_called_once_with(
+            campaign_ids["verify_new_user_via_parent"], ANY, personalization_values=ANY
+        )
 
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
@@ -361,7 +364,9 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_student_details_updated_message_showing(self.selenium)
         assert is_email_updated_message_showing(self.selenium)
 
-        mock_send_dotdigital_email.assert_called_with(1551600, ANY, personalization_values=ANY)
+        mock_send_dotdigital_email.assert_called_with(
+            campaign_ids["email_change_notification"], ANY, personalization_values=ANY
+        )
 
         # Try changing email to an existing teacher's email
         teacher_email, _ = signup_teacher_directly()
@@ -377,7 +382,9 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_student_details_updated_message_showing(self.selenium)
         assert is_email_updated_message_showing(self.selenium)
 
-        mock_send_dotdigital_email.assert_called_with(1551600, ANY, personalization_values=ANY)
+        mock_send_dotdigital_email.assert_called_with(
+            campaign_ids["email_change_notification"], ANY, personalization_values=ANY
+        )
 
         page = (
             self.go_to_homepage()
@@ -405,7 +412,9 @@ class TestIndependentStudentFrontend(BaseTest):
 
         page = page.logout()
 
-        mock_send_dotdigital_email.assert_called_with(1551594, ANY, personalization_values=ANY)
+        mock_send_dotdigital_email.assert_called_with(
+            campaign_ids["email_change_verification"], ANY, personalization_values=ANY
+        )
         verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
 
         page = email_utils.follow_change_email_link_to_independent_dashboard(page, verification_url)
