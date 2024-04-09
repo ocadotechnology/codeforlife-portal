@@ -70,7 +70,7 @@ def send_dotdigital_email(
     # pylint: enable=line-too-long
 
     if auth is None:
-        auth = os.environ["DOTDIGITAL_AUTH"]
+        auth = app_settings.DOTDIGITAL_AUTH
 
     body = {
         "campaignId": campaign_id,

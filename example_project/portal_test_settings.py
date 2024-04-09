@@ -35,7 +35,7 @@ if os.environ.get("SELENIUM_HEADLESS", None):
 ROOT_URLCONF = "example_project.urls"
 SECRET_KEY = "bad_test_secret"
 
-DOTDIGITAL_AUTH = os.environ.get("DOTDIGITAL_AUTH")
+DOTDIGITAL_AUTH = "dummy_dotdigital_auth"
 
 DOTMAILER_CREATE_CONTACT_URL = "https://test-create-contact/"
 DOTMAILER_DELETE_USER_BY_ID_URL = "https://test-delete-contact/"
