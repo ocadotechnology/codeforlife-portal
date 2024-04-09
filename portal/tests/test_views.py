@@ -912,56 +912,16 @@ class TestUser(CronTestCase):
         mock_send_dotdigital_email.reset_mock()
 
     def test_first_verify_email_reminder_view(self):
-        self.send_verify_email_reminder(
-            days=6,
-            is_verified=False,
-            view_name="first-verify-email-reminder",
-            assert_called=False,
-        )
-        self.send_verify_email_reminder(
-            days=7,
-            is_verified=False,
-            view_name="first-verify-email-reminder",
-            assert_called=True,
-        )
-        self.send_verify_email_reminder(
-            days=7,
-            is_verified=True,
-            view_name="first-verify-email-reminder",
-            assert_called=False,
-        )
-        self.send_verify_email_reminder(
-            days=8,
-            is_verified=False,
-            view_name="first-verify-email-reminder",
-            assert_called=False,
-        )
+        self.send_verify_email_reminder(6, False, "first-verify-email-reminder", False)
+        self.send_verify_email_reminder(7, False, "first-verify-email-reminder", True)
+        self.send_verify_email_reminder(7, True, "first-verify-email-reminder", False)
+        self.send_verify_email_reminder(8, False, "first-verify-email-reminder", False)
 
     def test_second_verify_email_reminder_view(self):
-        self.send_verify_email_reminder(
-            days=13,
-            is_verified=False,
-            view_name="second-verify-email-reminder",
-            assert_called=False,
-        )
-        self.send_verify_email_reminder(
-            days=14,
-            is_verified=False,
-            view_name="second-verify-email-reminder",
-            assert_called=True,
-        )
-        self.send_verify_email_reminder(
-            days=14,
-            is_verified=True,
-            view_name="second-verify-email-reminder",
-            assert_called=False,
-        )
-        self.send_verify_email_reminder(
-            days=15,
-            is_verified=False,
-            view_name="second-verify-email-reminder",
-            assert_called=False,
-        )
+        self.send_verify_email_reminder(13, False, "second-verify-email-reminder", False)
+        self.send_verify_email_reminder(14, False, "second-verify-email-reminder", True)
+        self.send_verify_email_reminder(14, True, "second-verify-email-reminder", False)
+        self.send_verify_email_reminder(15, False, "second-verify-email-reminder", False)
 
     def test_anonymise_unverified_accounts_view(self):
         now = timezone.now()
