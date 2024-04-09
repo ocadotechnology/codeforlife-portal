@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import json
+from unittest.mock import Mock, patch
 
 import pytest
 from common.models import JoinReleaseStudent
@@ -528,7 +529,8 @@ class TestTeacherStudentFrontend(BaseTest):
         page = page.logout().go_to_teacher_login_page().login(email_2, password_2).open_classes_tab().go_to_class_page()
         assert page.student_exists(student_name_1)
 
-    def test_dismiss(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_dismiss(self, mock_send_dotdigital_email: Mock):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
@@ -557,7 +559,10 @@ class TestTeacherStudentFrontend(BaseTest):
         assert len(logs) == 1
         assert logs[0].action_type == JoinReleaseStudent.RELEASE
 
-    def test_multiple_dismiss(self):
+        mock_send_dotdigital_email.assert_called()
+
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_multiple_dismiss(self, mock_send_dotdigital_email: Mock):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
@@ -597,3 +602,5 @@ class TestTeacherStudentFrontend(BaseTest):
 
         # student should still exist
         assert page.student_exists(student_name_2)
+
+        mock_send_dotdigital_email.assert_called()
