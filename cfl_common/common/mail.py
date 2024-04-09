@@ -4,6 +4,8 @@ from dataclasses import dataclass
 
 import requests
 
+from common import app_settings
+
 
 def add_contact(email: str):
     """Add a new contact to Dotdigital."""
@@ -62,7 +64,7 @@ def send_dotdigital_email(
     # pylint: enable=line-too-long
 
     if auth is None:
-        auth = os.environ["DOTDIGITAL_AUTH"]
+        auth = (app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD)
 
     body = {
         "campaignId": campaign_id,
