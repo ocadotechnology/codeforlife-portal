@@ -64,7 +64,7 @@ def send_dotdigital_email(
     # pylint: enable=line-too-long
 
     if auth is None:
-        auth = (app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD)
+        auth = os.environ["DOTDIGITAL_AUTH"]
 
     body = {
         "campaignId": campaign_id,
