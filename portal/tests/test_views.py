@@ -924,7 +924,7 @@ class TestUser(CronTestCase):
 
         send_email.reset_mock()
 
-    @patch("portal.views.cron.user.send_email")
+    @patch("common.helpers.emails.send_dotdigital_email")
     def test_first_verify_email_reminder_view(self, send_email: Mock):
         self.send_verify_email_reminder(
             days=6,
@@ -955,7 +955,7 @@ class TestUser(CronTestCase):
             assert_called=False,
         )
 
-    @patch("portal.views.cron.user.send_email")
+    @patch("common.helpers.emails.send_dotdigital_email")
     def test_second_verify_email_reminder_view(self, send_email: Mock):
         self.send_verify_email_reminder(
             days=13,
