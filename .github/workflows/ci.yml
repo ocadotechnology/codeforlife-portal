@@ -6,7 +6,7 @@ on:
 jobs:
   test:
     name: Run tests
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       LANG: C.UTF-8
     steps:
@@ -47,5 +47,10 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  coverage:
+    name: Upload coverage report
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
