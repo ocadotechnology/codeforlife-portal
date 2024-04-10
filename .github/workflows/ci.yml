@@ -7,8 +7,6 @@ jobs:
   test:
     name: Run tests
     runs-on: ubuntu-latest
-    outputs:
-      coverage-file: ${{ steps.run-python-tests.outputs }}
     env:
       LANG: C.UTF-8
     steps:
@@ -33,8 +31,7 @@ jobs:
       - name: Collect static
         run: python example_project/manage.py collectstatic --noinput --settings portal_test_settings
       - name: Run Python tests
-        id: run-python-tests
-        run: pytest -x --cov=. --cov-report=xml -vv -n auto >> "$GITHUB_OUTPUT"
+        run: pytest -x --cov=. --cov-report=xml -vv -n auto
         env:
           SELENIUM_WEBDRIVER: chrome-headless
           SELENIUM_HEADLESS: True
@@ -50,10 +47,18 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: ./coverage.xml
   coverage:
     name: Upload coverage report
     runs-on: ubuntu-latest
     needs: test
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Download artifact
+        uses: actions/download-artifact@v3
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
