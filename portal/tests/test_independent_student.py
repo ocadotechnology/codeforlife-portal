@@ -293,7 +293,7 @@ class TestIndependentStudentFrontend(BaseTest):
 
         page.reset_email_submit(username)
 
-        mock_send_dotdigital_email.assert_any_call()
+        mock_send_dotdigital_email.assert_called_with(campaign_ids["reset_password"], ANY, personalization_values=ANY)
 
         reset_password_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"][
             "RESET_PASSWORD_LINK"
