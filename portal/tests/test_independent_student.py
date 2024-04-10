@@ -284,7 +284,8 @@ class TestIndependentStudentFrontend(BaseTest):
 
         assert self.is_dashboard(page)
 
-    def test_reset_password(self):
+    @patch("portal.forms.registration.send_dotdigital_email")
+    def test_reset_password(self, mock_send_dotdigital_email: Mock):
         page = self.go_to_homepage()
 
         page, name, username, _, _ = create_independent_student(page)
@@ -292,9 +293,13 @@ class TestIndependentStudentFrontend(BaseTest):
 
         page.reset_email_submit(username)
 
-        self.wait_for_email()
+        mock_send_dotdigital_email.assert_any_call()
 
-        page = email_utils.follow_reset_email_link(self.selenium, mail.outbox[0])
+        reset_password_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"][
+            "RESET_PASSWORD_LINK"
+        ]
+
+        page = email_utils.follow_reset_email_link(self.selenium, reset_password_url)
 
         new_password = "AnotherPassword12"
 
@@ -312,14 +317,15 @@ class TestIndependentStudentFrontend(BaseTest):
         page = page.go_to_account_page()
         assert page.check_account_details({"name": name})
 
-    def test_reset_password_fail(self):
+    @patch("portal.forms.registration.send_dotdigital_email")
+    def test_reset_password_fail(self, mock_send_dotdigital_email: Mock):
         page = self.get_to_forgotten_password_page()
         fake_email = "fake_email@fakeemail.com"
         page.reset_email_submit(fake_email)
 
         time.sleep(5)
 
-        assert len(mail.outbox) == 0
+        mock_send_dotdigital_email.assert_not_called()
 
     def test_update_name_success(self):
         homepage = self.go_to_homepage()
