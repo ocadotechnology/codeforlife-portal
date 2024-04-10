@@ -7,6 +7,8 @@ jobs:
   test:
     name: Run tests
     runs-on: ubuntu-latest
+    outputs:
+      coverage-file: ${{ steps.run-python-tests.outputs }}
     env:
       LANG: C.UTF-8
     steps:
@@ -31,7 +33,8 @@ jobs:
       - name: Collect static
         run: python example_project/manage.py collectstatic --noinput --settings portal_test_settings
       - name: Run Python tests
-        run: pytest -x --cov=. --cov-report=xml -vv -n auto
+        id: run-python-tests
+        run: pytest -x --cov=. --cov-report=xml -vv -n auto >> "$GITHUB_OUTPUT"
         env:
           SELENIUM_WEBDRIVER: chrome-headless
           SELENIUM_HEADLESS: True
