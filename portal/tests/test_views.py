@@ -876,7 +876,7 @@ class TestUser(CronTestCase):
 
         self.student_user: User = student.new_user
 
-    @patch("common.helpers.emails.send_dotdigital_email")
+    @patch("portal.views.cron.user.send_dotdigital_email")
     def send_verify_email_reminder(
         self,
         days: int,
