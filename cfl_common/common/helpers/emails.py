@@ -113,7 +113,7 @@ def send_verification_email(request, user, data, new_email=None, age=None):
     student)
     """
 
-    # verify first email address (registration)
+    # verifying first email address (registration)
     if not new_email:
         verification = generate_token(user)
 
