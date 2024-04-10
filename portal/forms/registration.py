@@ -1,7 +1,5 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
-from common.email_messages import resetEmailPasswordMessage
-from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 from common.mail import campaign_ids, send_dotdigital_email
 from common.models import Student, Teacher
 from django import forms
