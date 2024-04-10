@@ -6,7 +6,10 @@ from unittest.mock import Mock, patch
 import pytest
 from common.models import JoinReleaseStudent
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
 from common.tests.utils.student import (
     create_many_school_students,
     create_school_student,

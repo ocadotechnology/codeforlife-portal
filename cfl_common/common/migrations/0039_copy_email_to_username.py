@@ -15,9 +15,4 @@ class Migration(migrations.Migration):
         ("common", "0038_delete_emailverification"),
     ]
 
-    operations = [
-        migrations.RunPython(
-            code=copy_email_to_username, reverse_code=migrations.RunPython.noop
-        )
-    ]
-
+    operations = [migrations.RunPython(code=copy_email_to_username, reverse_code=migrations.RunPython.noop)]

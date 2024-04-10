@@ -7,10 +7,21 @@ from unittest.mock import ANY, Mock, patch
 import PyPDF2
 import pytest
 from aimmo.models import Game
-from common.helpers.emails import NOTIFICATION_EMAIL
-from common.models import Class, DailyActivity, School, Student, Teacher, TotalActivity, UserProfile, UserSession
+from common.models import (
+    Class,
+    DailyActivity,
+    School,
+    Student,
+    Teacher,
+    TotalActivity,
+    UserProfile,
+    UserSession,
+)
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
 from common.tests.utils.student import (
     create_independent_student_directly,
     create_school_student_directly,

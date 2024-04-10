@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime, timedelta
 
-from common.helpers.emails import NOTIFICATION_EMAIL, generate_token_for_email, send_email
+from common.helpers.emails import generate_token_for_email
 from common.mail import campaign_ids, send_dotdigital_email
 from common.models import DailyActivity, TotalActivity
 from django.contrib.auth.models import User

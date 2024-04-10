@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0032_dailyactivity_level_control_submits'),
+        ("common", "0032_dailyactivity_level_control_submits"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='dailyactivity',
-            name='daily_indy_lockout_reset',
+            model_name="dailyactivity",
+            name="daily_indy_lockout_reset",
             field=models.PositiveIntegerField(default=0),
         ),
         migrations.AddField(
-            model_name='dailyactivity',
-            name='daily_teacher_lockout_reset',
+            model_name="dailyactivity",
+            name="daily_teacher_lockout_reset",
             field=models.PositiveIntegerField(default=0),
         ),
     ]

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0039_copy_email_to_username'),
+        ("common", "0039_copy_email_to_username"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='school',
-            name='county',
+            model_name="school",
+            name="county",
             field=models.CharField(blank=True, max_length=50, null=True),
         ),
     ]

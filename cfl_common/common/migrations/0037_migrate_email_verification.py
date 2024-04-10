@@ -7,13 +7,13 @@ class Migration(migrations.Migration):
     ]
 
     def forwards(apps, schema_editor):
-        """ Finds the users of verified Email Verification objects and sets their `is_verified` to True """
+        """Finds the users of verified Email Verification objects and sets their `is_verified` to True"""
         UserProfile = apps.get_model("common", "UserProfile")
         db_alias = schema_editor.connection.alias
         UserProfile.objects.using(db_alias).filter(user__email_verifications__verified=True).update(is_verified=True)
 
     def backwards(apps, schema_editor):
-        """ Finds the users of verified Email Verification objects and sets their `is_verified` to False """
+        """Finds the users of verified Email Verification objects and sets their `is_verified` to False"""
         UserProfile = apps.get_model("common", "UserProfile")
         db_alias = schema_editor.connection.alias
         UserProfile.objects.using(db_alias).filter(user__email_verifications__verified=True).update(is_verified=False)

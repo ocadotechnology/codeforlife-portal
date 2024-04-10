@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0022_school_cleanup'),
+        ("common", "0022_school_cleanup"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='school',
+            name="school",
             options={},
         ),
         migrations.AddField(
-            model_name='userprofile',
-            name='aimmo_badges',
+            model_name="userprofile",
+            name="aimmo_badges",
             field=models.CharField(blank=True, max_length=200, null=True),
         ),
     ]
