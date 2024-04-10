@@ -9,8 +9,4 @@ class Migration(migrations.Migration):
         ("aimmo", "0021_add_pdf_names_to_worksheet"),
     ]
 
-    operations = [
-        migrations.RunPython(
-            migrations.RunPython.noop, reverse_code=migrations.RunPython.noop
-        )
-    ]
+    operations = [migrations.RunPython(migrations.RunPython.noop, reverse_code=migrations.RunPython.noop)]

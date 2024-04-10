@@ -32,9 +32,7 @@ class Migration(migrations.Migration):
                         ("token", models.CharField(max_length=30)),
                         (
                             "email",
-                            models.CharField(
-                                blank=True, default=None, max_length=200, null=True
-                            ),
+                            models.CharField(blank=True, default=None, max_length=200, null=True),
                         ),
                         ("expiry", models.DateTimeField()),
                         ("verified", models.BooleanField(default=False)),

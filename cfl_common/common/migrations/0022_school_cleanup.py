@@ -6,24 +6,24 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0021_school_is_active'),
+        ("common", "0021_school_is_active"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='school',
-            name='latitude',
+            model_name="school",
+            name="latitude",
         ),
         migrations.RemoveField(
-            model_name='school',
-            name='longitude',
+            model_name="school",
+            name="longitude",
         ),
         migrations.RemoveField(
-            model_name='school',
-            name='town',
+            model_name="school",
+            name="town",
         ),
         migrations.RemoveField(
-            model_name='userprofile',
-            name='can_view_aggregated_data',
+            model_name="userprofile",
+            name="can_view_aggregated_data",
         ),
     ]

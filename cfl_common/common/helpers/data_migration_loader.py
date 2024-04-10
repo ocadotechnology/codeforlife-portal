@@ -10,7 +10,8 @@ def load_data_from_file(file_name) -> Callable:
     For use with migrations.RunPython
 
     Args:
-        file_name (str): The name of the file containing the data you want to load. Include `.json` at the end. The file must be in the fixtures directory.
+        file_name (str): The name of the file containing the data you want to load. Include `.json` at the end.
+        The file must be in the fixtures directory.
     """
     absolute_file_path = Path(__file__).resolve().parent.parent / "fixtures" / file_name
 
@@ -26,9 +27,7 @@ def load_data_from_file(file_name) -> Callable:
             try:
                 return apps.get_model(model_identifier)
             except (LookupError, TypeError):
-                raise base.DeserializationError(
-                    "Invalid model identifier: '%s'" % model_identifier
-                )
+                raise base.DeserializationError("Invalid model identifier: '%s'" % model_identifier)
 
         # Replace the _get_model() function on the module, so loaddata can utilize it.
         python._get_model = _get_model

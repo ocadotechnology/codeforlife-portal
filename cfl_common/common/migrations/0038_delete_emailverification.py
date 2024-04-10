@@ -6,11 +6,11 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0037_migrate_email_verification'),
+        ("common", "0037_migrate_email_verification"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='EmailVerification',
+            name="EmailVerification",
         ),
     ]

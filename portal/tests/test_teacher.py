@@ -1,6 +1,5 @@
 from __future__ import absolute_import
 
-import re
 import time
 from datetime import timedelta
 from unittest.mock import ANY, Mock, patch
@@ -8,12 +7,18 @@ from uuid import uuid4
 
 import jwt
 from aimmo.models import Game
-from common.mail import campaign_ids, send_dotdigital_email
+from common.mail import campaign_ids
 from common.models import Class, Student, Teacher
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
-from common.tests.utils.student import create_independent_student_directly, create_school_student_directly
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
+from common.tests.utils.student import (
+    create_independent_student_directly,
+    create_school_student_directly,
+)
 from common.tests.utils.teacher import (
     signup_duplicate_teacher_fail,
     signup_teacher,

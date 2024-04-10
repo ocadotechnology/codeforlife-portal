@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0028_coding_club_downloads'),
+        ("common", "0028_coding_club_downloads"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='DynamicElement',
+            name="DynamicElement",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=64, unique=True, editable=False)),
-                ('active', models.BooleanField(default=False)),
-                ('text', models.TextField(blank=True, null=True)),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("name", models.CharField(max_length=64, unique=True, editable=False)),
+                ("active", models.BooleanField(default=False)),
+                ("text", models.TextField(blank=True, null=True)),
             ],
         ),
     ]

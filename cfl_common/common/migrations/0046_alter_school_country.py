@@ -7,13 +7,13 @@ import django_countries.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0045_otp'),
+        ("common", "0045_otp"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='school',
-            name='country',
+            model_name="school",
+            name="country",
             field=django_countries.fields.CountryField(blank=True, max_length=2, null=True),
         ),
     ]

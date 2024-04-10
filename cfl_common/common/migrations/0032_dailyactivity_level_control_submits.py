@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0031_improve_admin_panel'),
+        ("common", "0031_improve_admin_panel"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='dailyactivity',
-            name='level_control_submits',
+            model_name="dailyactivity",
+            name="level_control_submits",
             field=models.PositiveBigIntegerField(default=0),
         ),
     ]
