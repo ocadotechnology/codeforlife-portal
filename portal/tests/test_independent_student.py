@@ -2,11 +2,16 @@ from __future__ import absolute_import
 
 import datetime
 import time
+from unittest.mock import ANY, Mock, patch
 
+from common.mail import campaign_ids
 from common.models import JoinReleaseStudent
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
 from common.tests.utils.student import (
     create_independent_student,
     create_independent_student_directly,
@@ -137,7 +142,8 @@ class TestIndependentStudent(TestCase):
         # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
 
-    def test_signup_under_13_sends_parent_email(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_signup_under_13_sends_parent_email(self, mock_send_dotdigital_email: Mock):
         c = Client()
 
         response = c.post(
@@ -156,8 +162,9 @@ class TestIndependentStudent(TestCase):
         )
 
         assert response.status_code == 302
-        assert len(mail.outbox) == 1
-        assert mail.outbox[0].subject == "Code for Life account request"
+        mock_send_dotdigital_email.assert_called_once_with(
+            campaign_ids["verify_new_user_via_parent"], ANY, personalization_values=ANY
+        )
 
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
@@ -256,16 +263,20 @@ class TestIndependentStudentFrontend(BaseTest):
         page = page.independent_student_login(username, password)
         assert self.is_dashboard(page)
 
-    def test_login_not_verified(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_login_not_verified(self, mock_send_dotdigital_email):
         username, password, _ = create_independent_student_directly(preverified=False)
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
         page = page.go_to_independent_student_login_page()
         page = page.independent_student_login_failure(username, password)
 
+        errors = page.has_login_failed("independent_student_login_form", INVALID_LOGIN_MESSAGE)
         assert page.has_login_failed("independent_student_login_form", INVALID_LOGIN_MESSAGE)
 
-        verify_email(page)
+        verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
+
+        verify_email(page, verification_url)
 
         assert is_email_verified_message_showing(self.selenium)
 
@@ -340,7 +351,8 @@ class TestIndependentStudentFrontend(BaseTest):
             "student_account_form", "Names may only contain letters, numbers, dashes, underscores, and spaces."
         )
 
-    def test_change_email(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_change_email(self, mock_send_dotdigital_email):
         homepage = self.go_to_homepage()
 
         _, _, _, student_email, password = create_independent_student(homepage)
@@ -354,9 +366,9 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_student_details_updated_message_showing(self.selenium)
         assert is_email_updated_message_showing(self.selenium)
 
-        subject = str(mail.outbox[0].subject)
-        assert subject == "Email address update"
-        mail.outbox = []
+        mock_send_dotdigital_email.assert_called_with(
+            campaign_ids["email_change_notification"], ANY, personalization_values=ANY
+        )
 
         # Try changing email to an existing teacher's email
         teacher_email, _ = signup_teacher_directly()
@@ -372,9 +384,9 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_student_details_updated_message_showing(self.selenium)
         assert is_email_updated_message_showing(self.selenium)
 
-        subject = str(mail.outbox[0].subject)
-        assert subject == "Email address update"
-        mail.outbox = []
+        mock_send_dotdigital_email.assert_called_with(
+            campaign_ids["email_change_notification"], ANY, personalization_values=ANY
+        )
 
         page = (
             self.go_to_homepage()
@@ -402,11 +414,12 @@ class TestIndependentStudentFrontend(BaseTest):
 
         page = page.logout()
 
-        subject = str(mail.outbox[0].subject)
-        assert subject == "Email address update"
+        mock_send_dotdigital_email.assert_called_with(
+            campaign_ids["email_change_verification"], ANY, personalization_values=ANY
+        )
+        verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
 
-        page = email_utils.follow_change_email_link_to_independent_dashboard(page, mail.outbox[1])
-        mail.outbox = []
+        page = email_utils.follow_change_email_link_to_independent_dashboard(page, verification_url)
 
         page = page.independent_student_login(new_email, password)
 

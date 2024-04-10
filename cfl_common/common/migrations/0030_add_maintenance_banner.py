@@ -22,6 +22,4 @@ class Migration(migrations.Migration):
 
     dependencies = [("common", "0029_dynamicelement")]
 
-    operations = [
-        migrations.RunPython(add_maintenance_banner, remove_maintenance_banner)
-    ]
+    operations = [migrations.RunPython(add_maintenance_banner, remove_maintenance_banner)]

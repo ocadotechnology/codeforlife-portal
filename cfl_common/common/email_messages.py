@@ -14,64 +14,6 @@ def resetEmailPasswordMessage(request, domain, uid, token, protocol):
     }
 
 
-def emailVerificationNeededEmail(request, token):
-    url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))}"
-    privacy_notice_url = f"{request.build_absolute_uri(reverse('privacy_notice'))}"
-    terms_url = f"{request.build_absolute_uri(reverse('terms'))}"
-    return {
-        "subject": f"Email verification ",
-        "message": (
-            f"Please go to {url} to verify your email address.\n\nBy activating the account you confirm that you have "
-            f"read and agreed to our terms ({terms_url}) and our privacy notice ({privacy_notice_url})."
-        ),
-        "url": {"verify_url": url},
-    }
-
-
-def parentsEmailVerificationNeededEmail(request, user, token):
-    url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))}"
-    privacy_notice_url = f"{request.build_absolute_uri(reverse('privacy_notice'))}"
-    terms_url = f"{request.build_absolute_uri(reverse('terms'))}"
-    return {
-        "subject": f"Code for Life account request",
-        "message": (
-            f"{user.first_name} has requested to create a Code for Life account so that they can learn how to code for "
-            f"FREE! 🎉\n\n"
-            f"{user.first_name} provided your email address as a guardian that is able to read the privacy notice "
-            f"documents and agree to the terms and conditions related to our website on their behalf.\n\n"
-            f"If you also wish to receive communication from us, you can sign up for newsletters on our website here. 📧\n\n"
-            f"Please activate the account for {user.first_name} by following this link: {url}.\n\nBy activating the "
-            f"account you confirm that you have read and agreed to our terms ({terms_url}) and our privacy notice "
-            f"({privacy_notice_url})."
-        ),
-        "url": {"verify_url": url},
-    }
-
-
-def emailChangeVerificationEmail(request, token):
-    url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))}"
-    return {
-        "subject": f"Email verification needed",
-        "message": (
-            f"You are changing your email, please go to "
-            f"{url} "
-            f"to verify your new email address. If you are not part of Code for Life "
-            f"then please ignore this email."
-        ),
-        "url": {"verify_url": url},
-    }
-
-
-def emailChangeNotificationEmail(request, new_email_address):
-    return {
-        "subject": f"Email address update",
-        "message": (
-            f"There is a request to change the email address of your account to "
-            f"{new_email_address}. If this was not you, please get in contact with us."
-        ),
-    }
-
-
 def userAlreadyRegisteredEmail(request, email, is_independent_student=False):
     if is_independent_student:
         login_url = reverse("independent_student_login")

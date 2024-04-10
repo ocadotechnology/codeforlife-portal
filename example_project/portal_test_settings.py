@@ -1,5 +1,7 @@
 """Django settings for example_project project."""
+
 import os
+
 from selenium import webdriver
 
 DEBUG = True
@@ -32,6 +34,8 @@ if os.environ.get("SELENIUM_HEADLESS", None):
 
 ROOT_URLCONF = "example_project.urls"
 SECRET_KEY = "bad_test_secret"
+
+DOTDIGITAL_AUTH = "dummy_dotdigital_auth"
 
 DOTMAILER_CREATE_CONTACT_URL = "https://test-create-contact/"
 DOTMAILER_DELETE_USER_BY_ID_URL = "https://test-delete-contact/"
@@ -169,7 +173,7 @@ TEMPLATES = [
                 "common.context_processors.cookie_management_enabled",
                 "portal.context_processors.process_newsletter_form",
             ]
-        }
+        },
     }
 ]
 

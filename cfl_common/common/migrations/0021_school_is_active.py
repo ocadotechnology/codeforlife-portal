@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0020_class_is_active_and_null_access_code'),
+        ("common", "0020_class_is_active_and_null_access_code"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='school',
-            name='is_active',
+            model_name="school",
+            name="is_active",
             field=models.BooleanField(default=True),
         ),
         migrations.AlterField(
-            model_name='school',
-            name='postcode',
+            model_name="school",
+            name="postcode",
             field=models.CharField(max_length=10, null=True),
         ),
         migrations.AlterField(
-            model_name='school',
-            name='town',
+            model_name="school",
+            name="town",
             field=models.CharField(max_length=200, null=True),
         ),
     ]

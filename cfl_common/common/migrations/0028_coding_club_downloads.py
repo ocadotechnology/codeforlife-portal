@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0027_class_created_by'),
+        ("common", "0027_class_created_by"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='dailyactivity',
-            name='primary_coding_club_downloads',
+            model_name="dailyactivity",
+            name="primary_coding_club_downloads",
             field=models.PositiveIntegerField(default=0),
         ),
         migrations.AddField(
-            model_name='dailyactivity',
-            name='python_coding_club_downloads',
+            model_name="dailyactivity",
+            name="python_coding_club_downloads",
             field=models.PositiveIntegerField(default=0),
         ),
     ]

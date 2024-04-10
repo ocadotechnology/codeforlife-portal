@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0033_password_reset_tracking_fields'),
+        ("common", "0033_password_reset_tracking_fields"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='dailyactivity',
-            name='daily_school_student_lockout_reset',
+            model_name="dailyactivity",
+            name="daily_school_student_lockout_reset",
             field=models.PositiveIntegerField(default=0),
         ),
     ]

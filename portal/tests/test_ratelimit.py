@@ -2,10 +2,12 @@ from __future__ import absolute_import
 
 import re
 from datetime import datetime, timedelta
+from unittest.mock import ANY, Mock, patch
 
 import pytest
 import pytz
-from common.models import Teacher, Student, DailyActivity
+from common.mail import campaign_ids
+from common.models import DailyActivity, Student, Teacher
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import create_organisation_directly
 from common.tests.utils.student import (
@@ -13,11 +15,10 @@ from common.tests.utils.student import (
     create_school_student_directly,
     generate_independent_student_details,
 )
-from common.tests.utils.teacher import signup_teacher_directly, generate_details
+from common.tests.utils.teacher import generate_details, signup_teacher_directly
 from django.core import mail
 from django.test import Client, TestCase
-from django.urls import reverse
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 
 from portal.helpers.ratelimit import get_ratelimit_count_for_user
 from portal.views.login import has_user_lockout_expired
@@ -432,8 +433,9 @@ class TestRatelimit(TestCase):
         assert current_daily_activity.school_student_lockout_resets == 2
 
 
+@patch("common.helpers.emails.send_dotdigital_email")
 @pytest.mark.django_db
-def test_teacher_already_registered_email(client):
+def test_teacher_already_registered_email(mock_send_dotdigital_email: Mock, client):
     first_name, last_name, email, password = generate_details()
     register_url = reverse("register")
     data = {
@@ -448,19 +450,20 @@ def test_teacher_already_registered_email(client):
 
     # Register the teacher first time, there should be a registration email
     client.post(register_url, data)
-    assert len(mail.outbox) == 1
+    mock_send_dotdigital_email.assert_called_once_with(campaign_ids["verify_new_user"], ANY, personalization_values=ANY)
 
     # Register with the same email again, there should also be an already registered email
     client.post(register_url, data)
-    assert len(mail.outbox) == 2
+    assert len(mail.outbox) == 1
 
     # Register with the same email one more time, there shouldn't be any new emails
     client.post(register_url, data)
-    assert len(mail.outbox) == 2
+    assert len(mail.outbox) == 1
 
 
+@patch("common.helpers.emails.send_dotdigital_email")
 @pytest.mark.django_db
-def test_independent_student_already_registered_email(client):
+def test_independent_student_already_registered_email(mock_send_dotdigital_email: Mock, client):
     name, username, email_address, password = generate_independent_student_details()
     register_url = reverse("register")
     data = {
@@ -477,12 +480,12 @@ def test_independent_student_already_registered_email(client):
 
     # Register the independent student first time, there should be a registration email
     client.post(register_url, data)
-    assert len(mail.outbox) == 1
+    mock_send_dotdigital_email.assert_called_once_with(campaign_ids["verify_new_user"], ANY, personalization_values=ANY)
 
     # Register with the same email again, there should also be an already registered email
     client.post(register_url, data)
-    assert len(mail.outbox) == 2
+    assert len(mail.outbox) == 1
 
     # Reset mock and register with the same email one more time, there shouldn't be any new emails
     client.post(register_url, data)
-    assert len(mail.outbox) == 2
+    assert len(mail.outbox) == 1
