@@ -7,6 +7,7 @@ from common import app_settings
 campaign_ids = {
     "email_change_notification": 1551600,
     "email_change_verification": 1551594,
+    "reset_password": 1557153,
     "verify_new_user": 1551577,
     "verify_new_user_first_reminder": 1557170,
     "verify_new_user_second_reminder": 1557173,

@@ -1,15 +1,16 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
-from common.email_messages import resetEmailPasswordMessage
-from common.helpers.emails import NOTIFICATION_EMAIL, send_email
+from common.mail import campaign_ids, send_dotdigital_email
 from common.models import Student, Teacher
 from django import forms
 from django.contrib.auth import forms as django_auth_forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+
 from portal.helpers.password import PasswordStrength, form_clean_password
 
 
@@ -74,30 +75,24 @@ class PasswordResetForm(forms.Form):
                     continue
                 if not domain_override:
                     current_site = get_current_site(request)
-                    site_name = current_site.name
                     domain = current_site.domain
                 else:
-                    site_name = domain = domain_override
-                context = {
-                    "email": user.email,
-                    "domain": domain,
-                    "site_name": site_name,
-                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                    "user": user,
-                    "token": token_generator.make_token(user),
-                    "protocol": self._compute_protocol(use_https),
-                }
+                    domain = domain_override
 
-                email_subject_content = resetEmailPasswordMessage(
-                    request, domain, context["uid"], context["token"], context["protocol"]
+                reset_password_uri = reverse_lazy(
+                    "password_reset_check_and_confirm",
+                    kwargs={
+                        "uidb64": urlsafe_base64_encode(force_bytes(user.pk)),
+                        "token": token_generator.make_token(user),
+                    },
                 )
+                protocol = self._compute_protocol(use_https)
+                reset_password_url = f"{protocol}://{domain}{reset_password_uri}"
 
-                send_email(
-                    NOTIFICATION_EMAIL,
+                send_dotdigital_email(
+                    campaign_ids["reset_password"],
                     [user.email],
-                    email_subject_content["subject"],
-                    email_subject_content["message"],
-                    email_subject_content["subject"],
+                    personalization_values={"RESET_PASSWORD_LINK": reset_password_url},
                 )
 
     def _compute_protocol(self, use_https):

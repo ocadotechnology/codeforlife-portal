@@ -628,7 +628,8 @@ class TestTeacherFrontend(BaseTest):
 
         assert self.is_dashboard_page(page)
 
-    def test_reset_password(self):
+    @patch("portal.forms.registration.send_dotdigital_email")
+    def test_reset_password(self, mock_send_dotdigital_email: Mock):
         email, _ = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
@@ -638,9 +639,13 @@ class TestTeacherFrontend(BaseTest):
 
         page.reset_email_submit(email)
 
-        self.wait_for_email()
+        mock_send_dotdigital_email.assert_called_with(campaign_ids["reset_password"], ANY, personalization_values=ANY)
 
-        page = email_utils.follow_reset_email_link(self.selenium, mail.outbox[0])
+        reset_password_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"][
+            "RESET_PASSWORD_LINK"
+        ]
+
+        page = email_utils.follow_reset_email_link(self.selenium, reset_password_url)
 
         new_password = "AnotherPassword12!"
 
@@ -650,7 +655,8 @@ class TestTeacherFrontend(BaseTest):
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email, new_password)
         assert self.is_dashboard_page(page)
 
-    def test_reset_with_same_password(self):
+    @patch("portal.forms.registration.send_dotdigital_email")
+    def test_reset_with_same_password(self, mock_send_dotdigital_email: Mock):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
@@ -660,23 +666,26 @@ class TestTeacherFrontend(BaseTest):
 
         page.reset_email_submit(email)
 
-        self.wait_for_email()
+        mock_send_dotdigital_email.assert_called_with(campaign_ids["reset_password"], ANY, personalization_values=ANY)
 
-        page = email_utils.follow_reset_email_link(self.selenium, mail.outbox[0])
+        reset_password_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"][
+            "RESET_PASSWORD_LINK"
+        ]
+
+        page = email_utils.follow_reset_email_link(self.selenium, reset_password_url)
 
         page.reset_password_fail(password)
 
         message = page.browser.find_element(By.CLASS_NAME, "errorlist")
         assert "Please choose a password that you haven't used before" in message.text
 
-    def test_reset_password_fail(self):
+    @patch("portal.forms.registration.send_dotdigital_email")
+    def test_reset_password_fail(self, mock_send_dotdigital_email: Mock):
         page = self.get_to_forgotten_password_page()
         fake_email = "fake_email@fakeemail.com"
         page.reset_email_submit(fake_email)
 
-        time.sleep(5)
-
-        assert len(mail.outbox) == 0
+        mock_send_dotdigital_email.assert_not_called()
 
     def test_admin_sees_all_school_classes(self):
         email, password = signup_teacher_directly()

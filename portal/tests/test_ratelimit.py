@@ -326,7 +326,8 @@ class TestRatelimit(TestCase):
 
         assert get_ratelimit_count_for_user(email) == 1
 
-    def test_teacher_reset_password_unblocks_user(self):
+    @patch("portal.forms.registration.send_dotdigital_email")
+    def test_teacher_reset_password_unblocks_user(self, mock_send_dotdigital_email: Mock):
         """
         Given a blocked teacher,
         When they reset they password,
@@ -344,15 +345,17 @@ class TestRatelimit(TestCase):
         # Ask for reset password link
         self._reset_password_request(email)
 
-        assert len(mail.outbox) == 1
+        mock_send_dotdigital_email.assert_called_once_with(
+            campaign_ids["reset_password"], ANY, personalization_values=ANY
+        )
 
-        # Get reset link from email
-        message = str(mail.outbox[0].body)
-        url = re.search("http.+/", message).group(0)
+        reset_password_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"][
+            "RESET_PASSWORD_LINK"
+        ]
 
         new_password = "AnotherPassword12!"
 
-        self._reset_password(url, new_password)
+        self._reset_password(reset_password_url, new_password)
 
         login_response = self._teacher_login(email, new_password)
 

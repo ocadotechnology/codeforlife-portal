@@ -1,17 +1,4 @@
-from django.urls import reverse, reverse_lazy
-
-
-def resetEmailPasswordMessage(request, domain, uid, token, protocol):
-    password_reset_uri = reverse_lazy("password_reset_check_and_confirm", kwargs={"uidb64": uid, "token": token})
-    url = f"{protocol}://{domain}{password_reset_uri}"
-    return {
-        "subject": f"Password reset request",
-        "message": (
-            f"You are receiving this email because you requested "
-            f"a password reset for your Code For Life user account.\n\n"
-            f"Please go to the following page and choose a new password: {url}"
-        ),
-    }
+from django.urls import reverse
 
 
 def userAlreadyRegisteredEmail(request, email, is_independent_student=False):
