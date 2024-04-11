@@ -1,4 +1,4 @@
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 
 
 def userAlreadyRegisteredEmail(request, email, is_independent_student=False):
