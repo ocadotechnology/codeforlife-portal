@@ -1,5 +1,6 @@
 from builtins import range
 from typing import Tuple
+from unittest.mock import patch
 
 from common.helpers.emails import generate_token
 from common.helpers.generators import generate_login_id
@@ -118,7 +119,8 @@ def signup_duplicate_independent_student_fail(page, duplicate_email=None):
     return page, name, username, email_address, password
 
 
-def create_independent_student(page):
+@patch("common.helpers.emails.send_dotdigital_email")
+def create_independent_student(page, mock_send_dotdigital_email):
     page = page.go_to_signup_page()
 
     name, username, email_address, password = generate_independent_student_details()
@@ -126,16 +128,14 @@ def create_independent_student(page):
 
     page = page.return_to_home_page()
 
-    page = email.follow_verify_email_link_to_login(page, mail.outbox[0], "independent")
-    mail.outbox = []
+    verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
+
+    page = email.follow_verify_email_link_to_login(page, verification_url, "independent")
 
     return page, name, username, email_address, password
 
 
-def verify_email(page):
-    assert len(mail.outbox) > 0
-
-    page = email.follow_verify_email_link_to_login(page, mail.outbox[0], "independent")
-    mail.outbox = []
+def verify_email(page, verification_url):
+    page = email.follow_verify_email_link_to_login(page, verification_url, "independent")
 
     return page

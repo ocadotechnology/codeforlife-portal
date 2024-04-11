@@ -8,8 +8,4 @@ class Migration(migrations.Migration):
         ("common", "0007_add_pdf_names_to_first_two_worksheets"),
     ]
 
-    operations = [
-        migrations.RunPython(
-            migrations.RunPython.noop, reverse_code=migrations.RunPython.noop
-        )
-    ]
+    operations = [migrations.RunPython(migrations.RunPython.noop, reverse_code=migrations.RunPython.noop)]

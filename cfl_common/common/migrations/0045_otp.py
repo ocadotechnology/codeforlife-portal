@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0044_update_activity_models'),
+        ("common", "0044_update_activity_models"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='userprofile',
-            name='last_otp_for_time',
+            model_name="userprofile",
+            name="last_otp_for_time",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='userprofile',
-            name='otp_secret',
+            model_name="userprofile",
+            name="otp_secret",
             field=models.CharField(blank=True, max_length=40, null=True),
         ),
     ]

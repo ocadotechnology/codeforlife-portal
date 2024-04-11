@@ -1,17 +1,24 @@
 from __future__ import absolute_import
 
-import re
 import time
 from datetime import timedelta
+from unittest.mock import ANY, Mock, patch
 from uuid import uuid4
 
 import jwt
 from aimmo.models import Game
+from common.mail import campaign_ids
 from common.models import Class, Student, Teacher
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
-from common.tests.utils.student import create_independent_student_directly, create_school_student_directly
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
+from common.tests.utils.student import (
+    create_independent_student_directly,
+    create_school_student_directly,
+)
 from common.tests.utils.teacher import (
     signup_duplicate_teacher_fail,
     signup_teacher,
@@ -357,7 +364,8 @@ class TestTeacher(TestCase):
         # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
 
-    def test_signup_email_verification(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_signup_email_verification(self, mock_send_dotdigital_email: Mock):
         c = Client()
 
         response = c.post(
@@ -374,7 +382,9 @@ class TestTeacher(TestCase):
         )
 
         assert response.status_code == 302
-        assert len(mail.outbox) == 1
+        mock_send_dotdigital_email.assert_called_once_with(
+            campaign_ids["verify_new_user"], ANY, personalization_values=ANY
+        )
 
         # Try verification URL with a fake token
         fake_token = jwt.encode(
@@ -393,9 +403,8 @@ class TestTeacher(TestCase):
         # Assert response isn't a redirect (get failure)
         assert bad_verification_response.status_code == 200
 
-        # Get verification link from email
-        message = str(mail.outbox[0].body)
-        verification_url = re.search("http.+/", message).group(0)
+        # Get verification link from function call
+        verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
 
         # Verify the email properly
         verification_response = c.get(verification_url)
@@ -472,7 +481,8 @@ class TestTeacherFrontend(BaseTest):
         page = page.login(email, password)
         assert self.is_dashboard_page(page)
 
-    def test_login_not_verified(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_login_not_verified(self, mock_send_dotdigital_email):
         email, password = signup_teacher_directly(preverified=False)
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
@@ -484,7 +494,9 @@ class TestTeacherFrontend(BaseTest):
 
         assert page.has_login_failed("form-login-teacher", INVALID_LOGIN_MESSAGE)
 
-        verify_email(page)
+        verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
+
+        verify_email(page, verification_url)
 
         assert is_email_verified_message_showing(self.selenium)
 
@@ -537,7 +549,8 @@ class TestTeacherFrontend(BaseTest):
 
         assert page.check_account_details({"first_name": "Florian", "last_name": "Aucomte"})
 
-    def test_change_email(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_change_email(self, mock_send_dotdigital_email):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
@@ -553,9 +566,9 @@ class TestTeacherFrontend(BaseTest):
         assert self.is_email_verification_page(page)
         assert is_email_updated_message_showing(self.selenium)
 
-        subject = str(mail.outbox[0].subject)
-        assert subject == "Email address update"
-        mail.outbox = []
+        mock_send_dotdigital_email.assert_called_with(
+            campaign_ids["email_change_notification"], ANY, personalization_values=ANY
+        )
 
         # Try changing email to an existing indy student's email, should fail
         indy_email, _, _ = create_independent_student_directly()
@@ -566,9 +579,9 @@ class TestTeacherFrontend(BaseTest):
         assert self.is_email_verification_page(page)
         assert is_email_updated_message_showing(self.selenium)
 
-        subject = str(mail.outbox[0].subject)
-        assert subject == "Email address update"
-        mail.outbox = []
+        mock_send_dotdigital_email.assert_called_with(
+            campaign_ids["email_change_notification"], ANY, personalization_values=ANY
+        )
 
         page = self.go_to_homepage()
         page = page.go_to_teacher_login_page().login(email, password).open_account_tab()
@@ -586,11 +599,12 @@ class TestTeacherFrontend(BaseTest):
 
         page = page.logout()
 
-        subject = str(mail.outbox[0].subject)
-        assert subject == "Email address update"
+        mock_send_dotdigital_email.assert_called_with(
+            campaign_ids["email_change_verification"], ANY, personalization_values=ANY
+        )
+        verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
 
-        page = email_utils.follow_change_email_link_to_dashboard(page, mail.outbox[1])
-        mail.outbox = []
+        page = email_utils.follow_change_email_link_to_dashboard(page, verification_url)
 
         page = page.login(new_email, password).open_account_tab()
 

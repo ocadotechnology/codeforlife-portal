@@ -1,6 +1,6 @@
+import hashlib
 import random
 import string
-import hashlib
 from builtins import range, str
 from uuid import uuid4
 

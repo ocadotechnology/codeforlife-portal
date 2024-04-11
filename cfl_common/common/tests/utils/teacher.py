@@ -1,5 +1,6 @@
 import random
 import sys
+from unittest.mock import patch
 
 from common.helpers.emails import generate_token
 from common.models import Teacher
@@ -47,7 +48,8 @@ def signup_duplicate_teacher_fail(page, duplicate_email):
     return page, email_address, password
 
 
-def signup_teacher(page, newsletter=False):
+@patch("common.helpers.emails.send_dotdigital_email")
+def signup_teacher(page, mock_send_dotdigital_email, newsletter=False):
     page = page.go_to_signup_page()
 
     first_name, last_name, email_address, password = generate_details()
@@ -57,16 +59,14 @@ def signup_teacher(page, newsletter=False):
 
     page = page.return_to_home_page()
 
-    page = email.follow_verify_email_link_to_onboarding(page, mail.outbox[0])
-    mail.outbox = []
+    verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
+
+    page = email.follow_verify_email_link_to_onboarding(page, verification_url)
 
     return page, email_address, password
 
 
-def verify_email(page):
-    assert len(mail.outbox) > 0
-
-    page = email.follow_verify_email_link_to_login(page, mail.outbox[0], "teacher")
-    mail.outbox = []
+def verify_email(page, verification_url):
+    page = email.follow_verify_email_link_to_login(page, verification_url, "teacher")
 
     return page

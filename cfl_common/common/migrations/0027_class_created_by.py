@@ -7,13 +7,19 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0026_teacher_remove_join_request'),
+        ("common", "0026_teacher_remove_join_request"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='class',
-            name='created_by',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='created_classes', to='common.teacher'),
+            model_name="class",
+            name="created_by",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="created_classes",
+                to="common.teacher",
+            ),
         ),
     ]

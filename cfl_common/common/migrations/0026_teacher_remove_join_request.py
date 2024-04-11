@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0025_schoolteacherinvitation'),
+        ("common", "0025_schoolteacherinvitation"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='teacher',
-            name='pending_join_request',
+            model_name="teacher",
+            name="pending_join_request",
         ),
         migrations.AlterField(
-            model_name='teacher',
-            name='blocked_time',
+            model_name="teacher",
+            name="blocked_time",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]
