@@ -75,24 +75,18 @@ class PasswordResetForm(forms.Form):
                     continue
                 if not domain_override:
                     current_site = get_current_site(request)
-                    site_name = current_site.name
                     domain = current_site.domain
                 else:
-                    site_name = domain = domain_override
-                context = {
-                    "email": user.email,
-                    "domain": domain,
-                    "site_name": site_name,
-                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                    "user": user,
-                    "token": token_generator.make_token(user),
-                    "protocol": self._compute_protocol(use_https),
-                }
+                    domain = domain_override
 
                 reset_password_uri = reverse_lazy(
-                    "password_reset_check_and_confirm", kwargs={"uidb64": context["uid"], "token": context["token"]}
+                    "password_reset_check_and_confirm",
+                    kwargs={
+                        "uidb64": urlsafe_base64_encode(force_bytes(user.pk)),
+                        "token": token_generator.make_token(user),
+                    },
                 )
-                protocol = context["protocol"]
+                protocol = self._compute_protocol(use_https)
                 reset_password_url = f"{protocol}://{domain}{reset_password_uri}"
 
                 send_dotdigital_email(
