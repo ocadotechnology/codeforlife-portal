@@ -323,8 +323,6 @@ class TestIndependentStudentFrontend(BaseTest):
         fake_email = "fake_email@fakeemail.com"
         page.reset_email_submit(fake_email)
 
-        time.sleep(5)
-
         mock_send_dotdigital_email.assert_not_called()
 
     def test_update_name_success(self):
