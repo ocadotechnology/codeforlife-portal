@@ -10,6 +10,7 @@
         </title>
         <meta name="msapplication-config" content="none"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <script type="text/javascript" src="{% static 'portal/js/lib/jquery.min.js' %}"></script>
         {% include "common/onetrust_cookies_consent_notice.html" %}
         {% block head %}
         {% endblock head %}
@@ -31,21 +32,14 @@
                   type="image/x-icon">
         {% endblock css %}
         {% include "portal/tag_manager/tag_manager_head.html" %}
-        <script type="text/javascript"
-                src="{% static 'portal/js/lib/jquery.min.js' %}"></script>
-        <script type="text/javascript"
-                src="{% static 'portal/js/lib/modernizr-build.js' %}"></script>
+
+        <script type="text/javascript" src="{% static 'portal/js/lib/modernizr-build.js' %}"></script>
         <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
-        <script type="text/javascript"
-                src="{% static 'portal/js/jquery.placeholder.js' %}"></script>
-        <script type="text/javascript"
-                src="{% static 'portal/js/lib/jquery.colorbox.js' %}"></script>
-        <script type="text/javascript"
-                src="{% static 'portal/js/lib/papaparse.min.js' %}"></script>
-        <script type="text/javascript"
-                src="{% static 'portal/js/sticky_subnav.js' %}"></script>
-        <script type="text/javascript"
-                src="{% static 'portal/js/bootstrap.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'portal/js/jquery.placeholder.js' %}"></script>
+        <script type="text/javascript" src="{% static 'portal/js/lib/jquery.colorbox.js' %}"></script>
+        <script type="text/javascript" src="{% static 'portal/js/lib/papaparse.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'portal/js/sticky_subnav.js' %}"></script>
+        <script type="text/javascript" src="{% static 'portal/js/bootstrap.min.js' %}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
         <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"
                 integrity="sha256-pRhh6noOilGT8GyGitRuoRwdp5k1p8QJW2lvyGz4B9M="
