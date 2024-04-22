@@ -17,37 +17,23 @@
             <link href="{% static 'portal.css' %}" type="text/css" rel="stylesheet">
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
-                  rel="stylesheet">
-            <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap"
-                  rel="stylesheet">
-            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-                  rel="stylesheet">
-            <link rel="shortcut icon"
-                  href="{% static 'portal/img/favicon.ico' %}"
-                  type="image/x-icon">
-            <link rel="icon"
-                  href="{% static 'portal/img/favicon.ico' %}"
-                  type="image/x-icon">
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+            <link rel="shortcut icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
+            <link rel="icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
         {% endblock css %}
         {% include "portal/tag_manager/tag_manager_head.html" %}
-        <script type="text/javascript"
-                src="{% static 'portal/js/lib/jquery.min.js' %}"></script>
-        <script type="text/javascript"
-                src="{% static 'portal/js/lib/modernizr-build.js' %}"></script>
-        <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
-        <script type="text/javascript"
-                src="{% static 'portal/js/jquery.placeholder.js' %}"></script>
-        <script type="text/javascript"
-                src="{% static 'portal/js/lib/jquery.colorbox.js' %}"></script>
-        <script type="text/javascript"
-                src="{% static 'portal/js/lib/papaparse.min.js' %}"></script>
-        <script type="text/javascript"
-                src="{% static 'portal/js/sticky_subnav.js' %}"></script>
-        <script type="text/javascript"
-                src="{% static 'portal/js/bootstrap.min.js' %}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
-        <script src="https://code.iconify.design/2/2.0.3/iconify.min.js"
+        <script defer type="text/javascript" src="{% static 'portal/js/lib/jquery.min.js' %}"></script>
+        <script defer type="text/javascript" src="{% static 'portal/js/lib/modernizr-build.js' %}"></script>
+        <script defer type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
+        <script defer type="text/javascript" src="{% static 'portal/js/jquery.placeholder.js' %}"></script>
+        <script defer type="text/javascript" src="{% static 'portal/js/lib/jquery.colorbox.js' %}"></script>
+        <script defer type="text/javascript" src="{% static 'portal/js/lib/papaparse.min.js' %}"></script>
+        <script defer type="text/javascript" src="{% static 'portal/js/sticky_subnav.js' %}"></script>
+        <script defer type="text/javascript" src="{% static 'portal/js/bootstrap.min.js' %}"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+        <script defer src="https://code.iconify.design/2/2.0.3/iconify.min.js"
                 integrity="sha256-pRhh6noOilGT8GyGitRuoRwdp5k1p8QJW2lvyGz4B9M="
                 crossorigin="anonymous"></script>
         {% block check_user_status %}
