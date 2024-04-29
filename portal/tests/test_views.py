@@ -572,7 +572,8 @@ class TestViews(TestCase):
         assert response.status_code == 200
         assert response.context_data == EXPECTED_DATA_WITH_KURONO_GAME
 
-    def test_delete_account(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_delete_account(self, mock_send_dotdigital_email: Mock):
         email, password = signup_teacher_directly()
         u = User.objects.get(email=email)
         usrid = u.id
@@ -593,7 +594,7 @@ class TestViews(TestCase):
         response = c.post(url, {"password": "wrongPassword"})
 
         assert response.status_code == 302
-        assert response.url == reverse("dashboard")
+        mock_send_dotdigital_email.assert_not_called()
 
         # user has not been anonymised
         u = User.objects.get(email=email)
@@ -604,6 +605,7 @@ class TestViews(TestCase):
         response = c.post(url, {"password": password, "unsubscribe_newsletter": "on"})
 
         assert response.status_code == 302
+        mock_send_dotdigital_email.assert_called_once()
         assert response.url == reverse("home")
 
         # user has been anonymised
@@ -611,7 +613,8 @@ class TestViews(TestCase):
         assert u.first_name == "Deleted"
         assert not u.is_active
 
-    def test_delete_account_admin(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_delete_account_admin(self, mock_send_dotdigital_email: Mock):
         """test the passing of admin role after deletion of an admin account"""
 
         email1, password1 = signup_teacher_directly()
@@ -666,6 +669,7 @@ class TestViews(TestCase):
         # delete teacher1 account
         url = reverse("delete_account")
         c.post(url, {"password": password1})
+        mock_send_dotdigital_email.assert_called_once()
 
         # user has been anonymised
         u = User.objects.get(id=usrid1)
@@ -706,6 +710,7 @@ class TestViews(TestCase):
         # now delete teacher3 account
         url = reverse("delete_account")
         c.post(url, {"password": password3})
+        self.assertEqual(mock_send_dotdigital_email.call_count, 2)
 
         # 2 teachers left
         teachers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
@@ -724,6 +729,7 @@ class TestViews(TestCase):
         assert len(teachers) == 1
         u = User.objects.get(id=usrid2)
         assert u.new_teacher.is_admin
+        self.assertEqual(mock_send_dotdigital_email.call_count, 3)
 
         # delete teacher2 (the last one left)
         url = reverse("teacher_login")
@@ -738,6 +744,7 @@ class TestViews(TestCase):
 
         url = reverse("delete_account")
         c.post(url, {"password": password2})
+        self.assertEqual(mock_send_dotdigital_email.call_count, 4)
 
         # school should be anonymised
         school = School._base_manager.get(id=school_id)
