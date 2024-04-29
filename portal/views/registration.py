@@ -1,24 +1,22 @@
 import ast
 import re
+from datetime import datetime
 
 from common.email_messages import accountDeletionEmail
-from portal.views.login import has_user_lockout_expired
-
-from django.contrib.auth.models import User
-from datetime import datetime
 from common.helpers.emails import (
-    delete_contact,
     NOTIFICATION_EMAIL,
     PASSWORD_RESET_EMAIL,
+    delete_contact,
     send_email,
 )
-from common.models import Teacher, Student, DailyActivity
-from common.permissions import not_logged_in, not_fully_logged_in
-
+from common.mail import campaign_ids, send_dotdigital_email
+from common.models import DailyActivity, Student, Teacher
+from common.permissions import not_fully_logged_in, not_logged_in
 from django.contrib import messages as messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -35,14 +33,15 @@ from django.views.decorators.http import require_POST
 from deploy import captcha
 from portal import app_settings
 from portal.forms.registration import (
-    TeacherPasswordResetForm,
-    TeacherPasswordResetSetPasswordForm,
     StudentPasswordResetForm,
     StudentPasswordResetSetPasswordForm,
+    TeacherPasswordResetForm,
+    TeacherPasswordResetSetPasswordForm,
 )
 from portal.helpers.captcha import remove_captcha_from_form
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.views.api import anonymise
+from portal.views.login import has_user_lockout_expired
 
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy("home"))
@@ -309,13 +308,6 @@ def delete_account(request):
         delete_contact(email)
 
     # send confirmation email
-    message = accountDeletionEmail(request)
-    send_email(
-        NOTIFICATION_EMAIL,
-        [email],
-        message["subject"],
-        message["message"],
-        message["title"],
-    )
+    send_dotdigital_email(campaign_ids["delete_account"], [email])
 
     return HttpResponseRedirect(reverse_lazy("home"))

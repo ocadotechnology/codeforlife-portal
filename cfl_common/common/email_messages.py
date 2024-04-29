@@ -105,16 +105,3 @@ def inviteTeacherEmail(request, schoolName, token, account_exists):
         )
 
     return {"subject": f"You've been invited to join Code for Life", "message": message}
-
-
-def accountDeletionEmail(request):
-    return {
-        "subject": f"We are sorry to see you go",
-        "title": "Your account was successfully deleted",
-        "message": (
-            f"If you have a moment before you leave us completely, please "
-            f"let us know the reason through our super short survey below."
-            f"\n\nGive feedback: https://usabi.li/do/d8e0313a31d7/5bef"
-            f"\n\nThank you for being part of the Code for Life community!"
-        ),
-    }
