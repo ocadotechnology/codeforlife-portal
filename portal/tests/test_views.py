@@ -572,7 +572,7 @@ class TestViews(TestCase):
         assert response.status_code == 200
         assert response.context_data == EXPECTED_DATA_WITH_KURONO_GAME
 
-    @patch("common.helpers.emails.send_dotdigital_email")
+    @patch("portal.forms.registration.send_dotdigital_email")
     def test_delete_account(self, mock_send_dotdigital_email: Mock):
         email, password = signup_teacher_directly()
         u = User.objects.get(email=email)
@@ -613,7 +613,7 @@ class TestViews(TestCase):
         assert u.first_name == "Deleted"
         assert not u.is_active
 
-    @patch("common.helpers.emails.send_dotdigital_email")
+    @patch("portal.forms.registration.send_dotdigital_email")
     def test_delete_account_admin(self, mock_send_dotdigital_email: Mock):
         """test the passing of admin role after deletion of an admin account"""
 
