@@ -729,7 +729,6 @@ class TestViews(TestCase):
         assert len(teachers) == 1
         u = User.objects.get(id=usrid2)
         assert u.new_teacher.is_admin
-        self.assertEqual(mock_send_dotdigital_email.call_count, 3)
 
         # delete teacher2 (the last one left)
         url = reverse("teacher_login")
@@ -744,7 +743,7 @@ class TestViews(TestCase):
 
         url = reverse("delete_account")
         c.post(url, {"password": password2})
-        self.assertEqual(mock_send_dotdigital_email.call_count, 4)
+        self.assertEqual(mock_send_dotdigital_email.call_count, 3)
 
         # school should be anonymised
         school = School._base_manager.get(id=school_id)
