@@ -2,7 +2,6 @@ import ast
 import re
 from datetime import datetime
 
-from common.email_messages import accountDeletionEmail
 from common.helpers.emails import (
     NOTIFICATION_EMAIL,
     PASSWORD_RESET_EMAIL,
