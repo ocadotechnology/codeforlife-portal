@@ -5,6 +5,8 @@ import requests
 from common import app_settings
 
 campaign_ids = {
+    "admin_given": 1569057,
+    "admin_revoked": 1569071,
     "email_change_notification": 1551600,
     "email_change_verification": 1551594,
     "reset_password": 1557153,
