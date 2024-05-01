@@ -400,7 +400,7 @@ def invite_toggle_admin(request, invite_id):
         messages.success(request, "Administrator invite status has been given successfully")
         send_dotdigital_email(
             campaign_ids["admin_given"],
-            [teacher.new_user.email],
+            [invite.invited_teacher_email],
             personalization_values={
                 "SCHOOL_CLUB_NAME": invite.school,
                 "MANAGEMENT_LINK": request.build_absolute_uri(reverse("dashboard")),
@@ -411,7 +411,7 @@ def invite_toggle_admin(request, invite_id):
         messages.success(request, "Administrator invite status has been revoked successfully")
         send_dotdigital_email(
             campaign_ids["admin_revoked"],
-            [teacher.new_user.email],
+            [invite.invited_teacher_email],
             personalization_values={"SCHOOL_CLUB_NAME": invite.school},
         )
 
