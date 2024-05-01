@@ -613,7 +613,7 @@ class TestViews(TestCase):
         assert u.first_name == "Deleted"
         assert not u.is_active
 
-        assert c.login(email, password) == False
+        assert c.login(username=email, password=password) == False
 
     @patch("portal.views.registration.send_dotdigital_email")
     def test_delete_account_admin(self, mock_send_dotdigital_email: Mock):
