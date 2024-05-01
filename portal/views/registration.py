@@ -308,5 +308,6 @@ def delete_account(request):
 
     # send confirmation email
     send_dotdigital_email(campaign_ids["delete_account"], [email])
+    print("does the program reach this point")
 
     return HttpResponseRedirect(reverse_lazy("home"))
