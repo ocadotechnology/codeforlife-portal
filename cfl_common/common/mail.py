@@ -116,3 +116,4 @@ def send_dotdigital_email(
     )
 
     assert response.ok, "Failed to send email." f" Reason: {response.reason}." f" Text: {response.text}."
+    return
