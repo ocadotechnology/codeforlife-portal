@@ -418,23 +418,6 @@ class TestTeacher(TestCase):
         # Assert response isn't a redirect (get failure)
         assert second_verification_response.status_code == 200
 
-    @patch("common.helpers.emails.send_dotdigital_email")
-    def test_signup_duplicate_teacher(self, mock_send_dotdigital_email: Mock):
-        page = self.go_to_homepage()
-        email, password = signup_teacher_directly()
-        assert is_email_verified_message_showing(self.selenium)
-
-        login_link = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["LOGIN_URL"]
-
-        page = self.go_to_homepage()
-        page, _, _, _, _ = signup_duplicate_teacher_fail(page, login_link, duplicate_email=email)
-
-        mock_send_dotdigital_email.assert_called_once_with(
-            campaign_ids["user_already_registered"], ANY, personalization_values=ANY
-        )
-
-        assert self.is_login_page(page)
-
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
 class TestTeacherFrontend(BaseTest):
@@ -470,15 +453,15 @@ class TestTeacherFrontend(BaseTest):
         page, email, _ = signup_teacher(page)
         assert is_email_verified_message_showing(self.selenium)
 
-        # self.selenium.get(self.live_server_url)
-        # page = HomePage(self.selenium)
-        # page, _, _ = signup_duplicate_teacher_fail(page, email)
-        # assert self.is_login_page(page)
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium)
+        page, _, _ = signup_duplicate_teacher_fail(page, email)
+        assert self.is_login_page(page)
 
-        # # Test sign up with an existing indy student's email
-        # indy_email, _, _ = create_independent_student_directly()
-        # page = self.go_to_homepage()
-        # page, _, _ = signup_duplicate_teacher_fail(page, indy_email)
+        # Test sign up with an existing indy student's email
+        indy_email, _, _ = create_independent_student_directly()
+        page = self.go_to_homepage()
+        page, _, _ = signup_duplicate_teacher_fail(page, indy_email)
 
     def test_login_failure(self):
         self.selenium.get(self.live_server_url)

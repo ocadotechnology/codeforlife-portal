@@ -34,7 +34,8 @@ def signup_teacher_directly(preverified=True, **kwargs):
     return email_address, password
 
 
-def signup_duplicate_teacher_fail(page, login_link, duplicate_email=None):
+@patch("common.helpers.emails.send_dotdigital_email")
+def signup_duplicate_teacher_fail(page, mock_send_dotdigital_email, duplicate_email=None):
     page = page.go_to_signup_page()
 
     first_name, last_name, email_address, password = generate_details()
@@ -42,8 +43,9 @@ def signup_duplicate_teacher_fail(page, login_link, duplicate_email=None):
 
     page = page.return_to_home_page()
 
+    login_link = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["LOGIN_URL"]
+
     page = email.follow_duplicate_account_link_to_login(page, login_link, "teacher")
-    mail.outbox = []
 
     return page, email_address, password
 
