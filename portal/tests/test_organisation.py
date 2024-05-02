@@ -4,9 +4,11 @@ import time
 
 from common.models import Teacher
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (create_organisation,
-                                             create_organisation_directly,
-                                             join_teacher_to_organisation)
+from common.tests.utils.organisation import (
+    create_organisation,
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from selenium.webdriver.common.by import By

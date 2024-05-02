@@ -3,8 +3,14 @@ from dataclasses import dataclass
 
 import requests
 from common import app_settings
+from common.app_settings import MODULE_NAME, domain
+from django.core.mail import EmailMultiAlternatives
+from django.template import loader
 
 campaign_ids = {
+    "delete_account": 1567477,
+    "admin_given": 1569057,
+    "admin_revoked": 1569071,
     "delete_account": 1567477,
     "email_change_notification": 1551600,
     "email_change_verification": 1551594,
@@ -33,6 +39,41 @@ class EmailAttachment:
     file_name: str
     mime_type: str
     content: str
+
+
+def django_send_email(
+    sender,
+    recipients,
+    subject,
+    text_content,
+    title,
+    replace_url=None,
+    plaintext_template="email.txt",
+    html_template="email.html",
+):
+    # add in template for templates to message
+
+    # setup templates
+    plaintext = loader.get_template(plaintext_template)
+    html = loader.get_template(html_template)
+    plaintext_email_context = {"content": text_content}
+    html_email_context = {"content": text_content, "title": title, "url_prefix": domain()}
+
+    # render templates
+    plaintext_body = plaintext.render(plaintext_email_context)
+    original_html_body = html.render(html_email_context)
+    html_body = original_html_body
+
+    if replace_url:
+        verify_url = replace_url["verify_url"]
+        verify_replace_url = re.sub(f"(.*/verify_email/)(.*)", f"\\1", verify_url)
+        html_body = re.sub(f"({verify_url})(.*){verify_url}", f"\\1\\2{verify_replace_url}", original_html_body)
+
+    # make message using templates
+    message = EmailMultiAlternatives(subject, plaintext_body, sender, recipients)
+    message.attach_alternative(html_body, "text/html")
+
+    message.send()
 
 
 # pylint: disable-next=too-many-arguments
@@ -72,47 +113,51 @@ def send_dotdigital_email(
     """
     # pylint: enable=line-too-long
 
-    if auth is None:
-        auth = app_settings.DOTDIGITAL_AUTH
+    # Dotdigital emails don't work locally, so if testing emails locally use Django to send a dummy email instead
+    if MODULE_NAME == "local":
+        django_send_email(from_address, to_addresses, "dummy_subject", "dummy_text_content", "dummy_title")
+    else:
+        if auth is None:
+            auth = app_settings.DOTDIGITAL_AUTH
 
-    body = {
-        "campaignId": campaign_id,
-        "toAddresses": to_addresses,
-    }
-    if cc_addresses is not None:
-        body["ccAddresses"] = cc_addresses
-    if bcc_addresses is not None:
-        body["bccAddresses"] = bcc_addresses
-    if from_address is not None:
-        body["fromAddress"] = from_address
-    if personalization_values is not None:
-        body["personalizationValues"] = [
-            {
-                "name": key,
-                "value": value,
-            }
-            for key, value in personalization_values.items()
-        ]
-    if metadata is not None:
-        body["metadata"] = metadata
-    if attachments is not None:
-        body["attachments"] = [
-            {
-                "fileName": attachment.file_name,
-                "mimeType": attachment.mime_type,
-                "content": attachment.content,
-            }
-            for attachment in attachments
-        ]
+        body = {
+            "campaignId": campaign_id,
+            "toAddresses": to_addresses,
+        }
+        if cc_addresses is not None:
+            body["ccAddresses"] = cc_addresses
+        if bcc_addresses is not None:
+            body["bccAddresses"] = bcc_addresses
+        if from_address is not None:
+            body["fromAddress"] = from_address
+        if personalization_values is not None:
+            body["personalizationValues"] = [
+                {
+                    "name": key,
+                    "value": value,
+                }
+                for key, value in personalization_values.items()
+            ]
+        if metadata is not None:
+            body["metadata"] = metadata
+        if attachments is not None:
+            body["attachments"] = [
+                {
+                    "fileName": attachment.file_name,
+                    "mimeType": attachment.mime_type,
+                    "content": attachment.content,
+                }
+                for attachment in attachments
+            ]
 
-    response = requests.post(
-        url=f"https://{region}-api.dotdigital.com/v2/email/triggered-campaign",
-        json=body,
-        headers={
-            "accept": "text/plain",
-            "authorization": auth,
-        },
-        timeout=timeout,
-    )
+        response = requests.post(
+            url=f"https://{region}-api.dotdigital.com/v2/email/triggered-campaign",
+            json=body,
+            headers={
+                "accept": "text/plain",
+                "authorization": auth,
+            },
+            timeout=timeout,
+        )
 
-    assert response.ok, "Failed to send email." f" Reason: {response.reason}." f" Text: {response.text}."
+        assert response.ok, "Failed to send email." f" Reason: {response.reason}." f" Text: {response.text}."
