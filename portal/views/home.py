@@ -1,7 +1,6 @@
 import logging
 import math
 
-from common import email_messages
 from common.helpers.emails import (
     NOTIFICATION_EMAIL,
     send_email,

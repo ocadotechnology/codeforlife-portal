@@ -1,7 +1,6 @@
 from datetime import timedelta
 from uuid import uuid4
 
-from common import email_messages
 from common.helpers.emails import (
     INVITE_FROM,
     NOTIFICATION_EMAIL,
