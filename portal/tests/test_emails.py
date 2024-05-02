@@ -59,6 +59,7 @@ def test_newsletter_calls_correct_requests(mocker, monkeypatch):
     mocked_add_to_address_book.assert_called_once()
 
 
+@pytest.mark.django_db
 def test_newsletter_get_not_allowed():
     c = Client()
 

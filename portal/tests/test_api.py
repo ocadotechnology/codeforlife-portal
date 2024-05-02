@@ -5,7 +5,10 @@ from unittest.mock import patch
 import pytest
 from common.models import Class, School, Student, Teacher
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from common.tests.utils.user import create_user_directly, get_superuser
@@ -19,7 +22,10 @@ from rest_framework.test import APIClient, APITestCase
 
 class APITests(APITestCase):
     def test_valid_date_registered(self):
-        url = reverse("registered-users", kwargs={"year": "2016", "month": "04", "day": "01"})
+        url = reverse(
+            "registered-users",
+            kwargs={"year": "2016", "month": "04", "day": "01"},
+        )
         superuser = get_superuser()
         self.client.force_authenticate(user=superuser)
         response = self.client.get(url)
@@ -27,14 +33,20 @@ class APITests(APITestCase):
         assert_that(isinstance(response.data, int))
 
     def test_invalid_date_registered(self):
-        url = reverse("registered-users", kwargs={"year": "2016", "month": "05", "day": "35"})
+        url = reverse(
+            "registered-users",
+            kwargs={"year": "2016", "month": "05", "day": "35"},
+        )
         superuser = get_superuser()
         self.client.force_authenticate(user=superuser)
         response = self.client.get(url)
         assert_that(response, has_status_code(status.HTTP_404_NOT_FOUND))
 
     def test_valid_date_lastconnectedsince(self):
-        url = reverse("last-connected-since", kwargs={"year": "2016", "month": "04", "day": "01"})
+        url = reverse(
+            "last-connected-since",
+            kwargs={"year": "2016", "month": "04", "day": "01"},
+        )
         superuser = get_superuser()
         self.client.force_authenticate(user=superuser)
         response = self.client.get(url)
@@ -42,7 +54,10 @@ class APITests(APITestCase):
         assert_that(isinstance(response.data, int))
 
     def test_invalid_date_lastconnectedsince(self):
-        url = reverse("last-connected-since", kwargs={"year": "2016", "month": "05", "day": "35"})
+        url = reverse(
+            "last-connected-since",
+            kwargs={"year": "2016", "month": "05", "day": "35"},
+        )
         superuser = get_superuser()
         self.client.force_authenticate(user=superuser)
         response = self.client.get(url)
@@ -67,7 +82,9 @@ class APITests(APITestCase):
         assert len(response.data) == 1
 
     @patch("portal.views.api.IS_CLOUD_SCHEDULER_FUNCTION", return_value=True)
-    def test_get_inactive_users_if_appengine(self, mock_is_cloud_scheduler_function):
+    def test_get_inactive_users_if_appengine(
+        self, mock_is_cloud_scheduler_function
+    ):
         client = APIClient()
         create_user_directly(active=False)
         create_user_directly(active=True)
@@ -86,7 +103,9 @@ class APITests(APITestCase):
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
     @patch("portal.views.api.IS_CLOUD_SCHEDULER_FUNCTION", return_value=True)
-    def test_delete_inactive_users_if_appengine(self, mock_is_cloud_scheduler_function):
+    def test_delete_inactive_users_if_appengine(
+        self, mock_is_cloud_scheduler_function
+    ):
         client = APIClient()
         create_user_directly(active=False)
         create_user_directly(active=False)
@@ -94,14 +113,25 @@ class APITests(APITestCase):
         response = client.get(url)
         users = response.data
         assert len(users) == 2
+
+        # NOTE: Migration 0049 causes user 34 (created via migration 0001) to
+        # be marked as inactive. Slightly tweaked this test so it still
+        # passes but takes into account this new anonymisation.
+        old_deleted_users = list(User.objects.filter(is_active=False))
+        assert len(old_deleted_users) == 1
+
         response = client.delete(url)
         assert mock_is_cloud_scheduler_function.called
         assert response.status_code == status.HTTP_204_NO_CONTENT
+
         for user in users:
             with pytest.raises(User.DoesNotExist):
                 User.objects.get(username=user["username"])
+
         deleted_users = list(User.objects.filter(is_active=False))
-        assert len(deleted_users) == 2
+        new_deleted_users_count = len(deleted_users) - len(old_deleted_users)
+        assert new_deleted_users_count == 2
+
         for user in deleted_users:
             assert user.first_name == "Deleted"
             assert user.last_name == "User"
@@ -112,27 +142,41 @@ class APITests(APITestCase):
         assert len(response.data) == 0
 
     @patch("portal.views.api.IS_CLOUD_SCHEDULER_FUNCTION", return_value=True)
-    def test_orphan_schools_and_classes_are_anonymised(self, mock_is_cloud_scheduler_function):
+    def test_orphan_schools_and_classes_are_anonymised(
+        self, mock_is_cloud_scheduler_function
+    ):
         client = APIClient()
         # Create a school with an active teacher
         school1_teacher1_email, _ = signup_teacher_directly()
         school1 = create_organisation_directly(school1_teacher1_email)
-        klass11, _, access_code11 = create_class_directly(school1_teacher1_email)
+        klass11, _, access_code11 = create_class_directly(
+            school1_teacher1_email
+        )
         _, _, student11 = create_school_student_directly(access_code11)
 
         # Create a school with one active non-admin teacher and one inactive admin teacher
         school2_teacher1_email, _ = signup_teacher_directly()
         school2_teacher2_email, _ = signup_teacher_directly()
         school2 = create_organisation_directly(school2_teacher1_email)
-        join_teacher_to_organisation(school2_teacher2_email, school2.name, is_admin=True)
-        klass21, _, access_code21 = create_class_directly(school2_teacher1_email)
+        join_teacher_to_organisation(
+            school2_teacher2_email, school2.name, is_admin=True
+        )
+        klass21, _, access_code21 = create_class_directly(
+            school2_teacher1_email
+        )
         _, _, student21 = create_school_student_directly(access_code21)
-        klass22, _, access_code22 = create_class_directly(school2_teacher2_email)
+        klass22, _, access_code22 = create_class_directly(
+            school2_teacher2_email
+        )
         _, _, student22 = create_school_student_directly(access_code22)
-        school2_teacher1 = Teacher.objects.get(new_user__email=school2_teacher1_email)
+        school2_teacher1 = Teacher.objects.get(
+            new_user__email=school2_teacher1_email
+        )
         school2_teacher1.is_admin = False
         school2_teacher1.save()
-        school2_teacher2 = Teacher.objects.get(new_user__email=school2_teacher2_email)
+        school2_teacher2 = Teacher.objects.get(
+            new_user__email=school2_teacher2_email
+        )
         school2_teacher2.new_user.is_active = False
         school2_teacher2.new_user.save()
 
@@ -141,28 +185,40 @@ class APITests(APITestCase):
         school3_teacher2_email, _ = signup_teacher_directly()
         school3 = create_organisation_directly(school3_teacher1_email)
         join_teacher_to_organisation(school3_teacher2_email, school3.name)
-        klass31, _, access_code31 = create_class_directly(school3_teacher1_email)
+        klass31, _, access_code31 = create_class_directly(
+            school3_teacher1_email
+        )
         _, _, student31 = create_school_student_directly(access_code31)
-        klass32, _, access_code32 = create_class_directly(school3_teacher2_email)
+        klass32, _, access_code32 = create_class_directly(
+            school3_teacher2_email
+        )
         _, _, student32 = create_school_student_directly(access_code32)
-        school3_teacher1 = Teacher.objects.get(new_user__email=school3_teacher1_email)
+        school3_teacher1 = Teacher.objects.get(
+            new_user__email=school3_teacher1_email
+        )
         school3_teacher1.new_user.is_active = False
         school3_teacher1.new_user.save()
-        school3_teacher2 = Teacher.objects.get(new_user__email=school3_teacher2_email)
+        school3_teacher2 = Teacher.objects.get(
+            new_user__email=school3_teacher2_email
+        )
         school3_teacher2.new_user.is_active = False
         school3_teacher2.new_user.save()
 
         # Create a school with no active teachers
         school4_teacher1_email, _ = signup_teacher_directly()
         school4 = create_organisation_directly(school4_teacher1_email)
-        school4_teacher1 = Teacher.objects.get(new_user__email=school4_teacher1_email)
+        school4_teacher1 = Teacher.objects.get(
+            new_user__email=school4_teacher1_email
+        )
         school4_teacher1.new_user.is_active = False
         school4_teacher1.new_user.save()
 
         # Create a school with no teachers
         school5_teacher1_email, _ = signup_teacher_directly()
         school5 = create_organisation_directly(school5_teacher1_email)
-        school5_teacher1 = Teacher.objects.get(new_user__email=school5_teacher1_email)
+        school5_teacher1 = Teacher.objects.get(
+            new_user__email=school5_teacher1_email
+        )
         school5_teacher1.delete()
 
         # Call the API
@@ -182,7 +238,9 @@ class APITests(APITestCase):
         assert Student.objects.filter(pk=student21.pk).exists()
         assert not Student.objects.get(pk=student22.pk).new_user.is_active
         # Also check the first teacher is now an admin
-        assert Teacher.objects.get(new_user__email=school2_teacher1_email).is_admin
+        assert Teacher.objects.get(
+            new_user__email=school2_teacher1_email
+        ).is_admin
 
         # Check the third school is anonymised together with its classes and students
         assert not School.objects.filter(name=school3.name).exists()
@@ -250,14 +308,19 @@ class APITests(APITestCase):
                 last_name=random_account["last_name"],
             )
 
-        assert len(User.objects.all()) == len(random_accounts) + initial_users_length
+        assert (
+            len(User.objects.all())
+            == len(random_accounts) + initial_users_length
+        )
 
         client.login(username=admin_username, password=admin_password)
         response = client.get(reverse("remove_fake_accounts"))
         assert response.status_code == 204
 
         # check if after deletion all the users are still there
-        assert len(User.objects.all()) == initial_users_length + 2  # mentioned in the fake_accounts description
+        assert (
+            len(User.objects.all()) == initial_users_length + 2
+        )  # mentioned in the fake_accounts description
 
 
 def has_status_code(status_code):
@@ -272,7 +335,11 @@ class HasStatusCode(BaseMatcher):
         return response.status_code == self.status_code
 
     def describe_to(self, description):
-        description.append_text("has status code ").append_text(self.status_code)
+        description.append_text("has status code ").append_text(
+            self.status_code
+        )
 
     def describe_mismatch(self, response, mismatch_description):
-        mismatch_description.append_text("had status code ").append_text(response.status_code)
+        mismatch_description.append_text("had status code ").append_text(
+            response.status_code
+        )

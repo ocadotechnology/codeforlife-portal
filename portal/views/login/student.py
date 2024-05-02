@@ -51,7 +51,8 @@ class StudentLoginView(LoginView):
         class_name = self.kwargs["access_code"].upper()
         messages.info(
             request,
-            f"<strong>You are logged in to class: " f"{escape(class_name)}</strong>",
+            f"<strong>You are logged in to class: "
+            f"{escape(class_name)}</strong>",
             extra_tags="safe message--student",
         )
 
@@ -72,7 +73,9 @@ class StudentLoginView(LoginView):
         klass = classes[0]
 
         name = form.cleaned_data.get("username")
-        students = Student.objects.filter(new_user__first_name__iexact=name, class_field=klass)
+        students = Student.objects.filter(
+            new_user__first_name__iexact=name, class_field=klass
+        )
         try:
             student = students[0]
         except IndexError:
@@ -81,32 +84,44 @@ class StudentLoginView(LoginView):
             raise Exception(msg)
 
         # Log the login time, class, and login type
-        session = UserSession(user=student.new_user, class_field=klass, login_type=login_type)
+        session = UserSession(
+            user=student.new_user, class_field=klass, login_type=login_type
+        )
         session.save()
+
+        student.user.is_verified = True
+        student.user.save()
 
     def form_valid(self, form):
         """Security check complete. Log the user in."""
-
         # Reset ratelimit cache upon successful login
         clear_ratelimit_cache_for_user(form.cleaned_data["username"])
 
-        login_type = self.kwargs.get("login_type", "classlink")  # default to "classlink" if not specified
+        login_type = self.kwargs.get(
+            "login_type", "classlink"
+        )  # default to "classlink" if not specified
 
         self._add_login_data(form, login_type)
         return super(StudentLoginView, self).form_valid(form)
 
     def post(self, request, *args, **kwargs):
         """
-        If the first name and access code found under the url inputted in the form corresponds to that of a blocked
-        account, this redirects the user to the locked out page. However, if the lockout
-        time is more than 24 hours before this is executed, the account is unlocked.
+        If the first name and access code found under the url inputted in the
+        form corresponds to that of a blocked account, this redirects the user
+        to the locked out page. However, if the lockout time is more than 24
+        hours before this is executed, the account is unlocked.
         """
         username = request.POST.get("username")
 
         # get access code from the current url
         access_code = get_access_code_from_request(request)
-        if Student.objects.filter(new_user__first_name=username, class_field__access_code=access_code).exists():
-            student = Student.objects.get(new_user__first_name=username, class_field__access_code=access_code)
+        if Student.objects.filter(
+            new_user__first_name=username, class_field__access_code=access_code
+        ).exists():
+            student = Student.objects.get(
+                new_user__first_name=username,
+                class_field__access_code=access_code,
+            )
 
             if student.blocked_time is not None:
                 if has_user_lockout_expired(student):
@@ -129,9 +144,15 @@ def student_direct_login(request, user_id, login_id):
     if user:
         # Log the login time and class
         student = Student.objects.get(new_user=user)
-        session = UserSession(user=user, class_field=student.class_field, login_type="direct")
+        session = UserSession(
+            user=user, class_field=student.class_field, login_type="direct"
+        )
         session.save()
 
         login(request, user)
+
+        student.user.is_verified = True
+        student.user.save()
+
         return HttpResponseRedirect(reverse_lazy("student_details"))
     return HttpResponseRedirect(reverse_lazy("home"))
