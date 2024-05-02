@@ -197,18 +197,14 @@ def process_join_organisation_form(request_form, request, student):
             },
         )
 
-        email_message = email_messages.studentJoinRequestNotifyEmail(
-            request,
-            student.new_user.username,
-            student.new_user.email,
-            student.pending_class_request.access_code,
-        )
-        send_email(
-            NOTIFICATION_EMAIL,
+        send_dotdigital_email(
+            campaign_ids["student_join_request_notification"],
             [student.pending_class_request.teacher.new_user.email],
-            email_message["subject"],
-            email_message["message"],
-            email_message["subject"],
+            personalization_values={
+                "USERNAME": student.new_user.username,
+                "EMAIL": student.new_user.email,
+                "ACCESS_CODE": student.pending_class_request.access_code,
+            },
         )
 
         messages.success(
