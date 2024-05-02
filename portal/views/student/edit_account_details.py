@@ -1,5 +1,9 @@
-from common.email_messages import accountDeletionEmail
-from common.helpers.emails import NOTIFICATION_EMAIL, delete_contact, send_email, update_indy_email
+from common.helpers.emails import (
+    NOTIFICATION_EMAIL,
+    delete_contact,
+    send_email,
+    update_indy_email,
+)
 from common.models import Student
 from common.permissions import logged_in_as_student
 from django.contrib import messages as messages
@@ -7,17 +11,15 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
-from django.shortcuts import render
 
-from portal.forms.play import StudentEditAccountForm, IndependentStudentEditAccountForm
+from portal.forms.play import IndependentStudentEditAccountForm, StudentEditAccountForm
 from portal.forms.registration import DeleteAccountForm
-
 from portal.helpers.password import check_update_password
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.views.api import anonymise
-from django.contrib import messages as messages
 
 
 def _get_form(self, form_class):

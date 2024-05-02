@@ -546,15 +546,13 @@ def teacher_reject_student_request(request, pk):
 
     check_student_request_can_be_handled(request, student)
 
-    emailMessage = email_messages.studentJoinRequestRejectedEmail(
-        request, student.pending_class_request.teacher.school.name, student.pending_class_request.access_code
-    )
-    send_email(
-        NOTIFICATION_EMAIL,
+    send_dotdigital_email(
+        campaign_ids["student_join_request_rejected"],
         [student.new_user.email],
-        emailMessage["subject"],
-        emailMessage["message"],
-        emailMessage["subject"],
+        personalization_values={
+            "SCHOOL_CLUB_NAME": student.pending_class_request.teacher.school.name,
+            "ACCESS_CODE": student.pending_class_request.access_code,
+        },
     )
 
     student.pending_class_request = None

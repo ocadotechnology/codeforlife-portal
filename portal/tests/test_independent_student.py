@@ -169,7 +169,8 @@ class TestIndependentStudent(TestCase):
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
 class TestIndependentStudentFrontend(BaseTest):
-    def test_delete_indy_account(self):
+    @patch("portal.views.registration.send_dotdigital_email")
+    def test_delete_indy_account(self, mock_send_dotdigital_email: Mock):
         page = self.go_to_homepage()
         page, _, _, email, password = create_independent_student(page)
         page = page.independent_student_login(email, password)
@@ -214,7 +215,7 @@ class TestIndependentStudentFrontend(BaseTest):
         assert not User.objects.get(id=user_id).is_active
 
         # check if email has been sent
-        assert len(mail.outbox) == 1
+        mock_send_dotdigital_email.assert_called_once_with(campaign_ids["delete_account"], ANY)
 
     def test_signup_without_newsletter(self):
         page = self.go_to_homepage()
