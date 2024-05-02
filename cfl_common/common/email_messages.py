@@ -29,39 +29,6 @@ def kickedEmail(request, schoolName):
     }
 
 
-def studentJoinRequestSentEmail(request, schoolName, accessCode):
-    return {
-        "subject": f"School or club join request sent",
-        "message": (
-            f"Your request to join the school or club '{schoolName}' in class "
-            f"{accessCode} has been sent to that class's teacher, who will either "
-            f"accept or deny your request."
-        ),
-    }
-
-
-def studentJoinRequestNotifyEmail(request, username, email, accessCode):
-    return {
-        "subject": f"School or club join request",
-        "message": (
-            f"There is a request waiting from student with username '{username}' and "
-            f"email {email} to join your class {accessCode}. "
-            f"Please log in to your dashboard to review the request."
-        ),
-    }
-
-
-def studentJoinRequestRejectedEmail(request, schoolName, accessCode):
-    return {
-        "subject": f"School or club join request rejected",
-        "message": (
-            f"Your request to join the school or club '{schoolName}' in class "
-            f"{accessCode} has been rejected. Speak to your teacher if you think this "
-            f"is an error."
-        ),
-    }
-
-
 def inviteTeacherEmail(request, schoolName, token, account_exists):
     url = f"{request.build_absolute_uri(reverse('invited_teacher', kwargs={'token': token}))} "
 
