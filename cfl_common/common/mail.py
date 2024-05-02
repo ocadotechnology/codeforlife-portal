@@ -10,6 +10,7 @@ from django.template import loader
 campaign_ids = {
     "admin_given": 1569057,
     "admin_revoked": 1569071,
+    "delete_account": 1567477,
     "email_change_notification": 1551600,
     "email_change_verification": 1551594,
     "reset_password": 1557153,
