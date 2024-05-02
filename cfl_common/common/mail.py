@@ -111,6 +111,7 @@ def send_dotdigital_email(
     """
     # pylint: enable=line-too-long
 
+    # Dotdigital emails don't work locally, so if testing emails locally use Django to send a dummy email instead
     if MODULE_NAME == "local":
         django_send_email(from_address, to_addresses, "dummy_subject", "dummy_text_content", "dummy_title")
     else:
