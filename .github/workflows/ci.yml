@@ -6,7 +6,7 @@ on:
 jobs:
   test:
     name: Run tests
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       LANG: C.UTF-8
       COVERAGE_REPORT: coverage.xml # NOTE: COVERAGE_FILE is reserved - do not use.
