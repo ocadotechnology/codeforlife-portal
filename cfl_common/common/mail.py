@@ -8,7 +8,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.template import loader
 
 campaign_ids = {
-    "delete_account": 1567477,
     "admin_given": 1569057,
     "admin_revoked": 1569071,
     "delete_account": 1567477,
