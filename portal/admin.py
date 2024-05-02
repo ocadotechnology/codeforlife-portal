@@ -17,23 +17,46 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from import_export.admin import ExportActionMixin
 
-from portal.forms.admin import AdminChangeUserPasswordForm, AdminUserCreationForm
+from portal.forms.admin import (
+    AdminChangeUserPasswordForm,
+    AdminUserCreationForm,
+)
 from portal.views.api import anonymise
 
 
 class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
-    search_fields = ["name", "teacher__new_user__first_name", "teacher__new_user__last_name", "teacher__school__name"]
-    list_display = ["__str__", "teacher", "teacher_school"]
+    search_fields = [
+        "name",
+        "teacher__new_user__first_name",
+        "teacher__new_user__last_name",
+        "teacher__school__name",
+    ]
+    list_display = [
+        "__str__",
+        "teacher",
+        "teacher_school",
+        "number_of_students",
+        "id",
+    ]
     autocomplete_fields = ["teacher"]
 
     def teacher_school(self, obj):
         return obj.teacher.school
 
+    def number_of_students(self, obj):
+        return len(obj.students.all())
+
 
 class SchoolAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = ["name", "country", "county"]
     list_filter = ["county", "country"]
-    list_display = ["__str__", "country", "county", "number_of_teachers", "number_of_classes"]
+    list_display = [
+        "__str__",
+        "country",
+        "county",
+        "number_of_teachers",
+        "number_of_classes",
+    ]
 
     def number_of_teachers(self, obj):
         return len(obj.teacher_school.all())
@@ -52,7 +75,13 @@ class StudentAdmin(admin.ModelAdmin, ExportActionMixin):
         "class_field__teacher__new_user__last_name",
         "class_field__teacher__school__name",
     ]
-    list_display = ["__str__", "class_field", "class_field_teacher", "class_field_school", "new_user"]
+    list_display = [
+        "__str__",
+        "class_field",
+        "class_field_teacher",
+        "class_field_school",
+        "new_user",
+    ]
     readonly_fields = ["user", "new_user", "login_id"]
     autocomplete_fields = ["class_field", "pending_class_request"]
 
@@ -70,17 +99,44 @@ class StudentAdmin(admin.ModelAdmin, ExportActionMixin):
 
 
 class TeacherAdmin(admin.ModelAdmin, ExportActionMixin):
-    search_fields = ["new_user__first_name", "new_user__last_name", "school__name", "new_user__username"]
-    list_display = ["__str__", "school", "new_user", "is_admin"]
+    search_fields = [
+        "new_user__first_name",
+        "new_user__last_name",
+        "school__name",
+        "new_user__username",
+    ]
+    list_display = [
+        "__str__",
+        "school",
+        "new_user",
+        "number_of_classes",
+        "is_admin",
+    ]
     readonly_fields = ["user", "new_user"]
     autocomplete_fields = ["school", "invited_by"]
 
+    def number_of_classes(self, obj):
+        return len(obj.class_teacher.all())
+
 
 class UserProfileAdmin(admin.ModelAdmin, ExportActionMixin):
-    search_fields = ["user__first_name", "user__last_name", "user__username", "user__date_joined"]
+    search_fields = [
+        "id",
+        "user__first_name",
+        "user__last_name",
+        "user__username",
+        "user__date_joined",
+    ]
     list_filter = ["user__date_joined"]
-    list_display = ["user", "__str__", "is_verified"]
+    list_display = ["user", "__str__", "is_verified", "type", "id"]
     readonly_fields = ["user"]
+
+    def type(self, obj):
+        if hasattr(obj, "student"):
+            if obj.student.class_field is None:
+                return "INDEPENDENT"
+            return "STUDENT"
+        return "TEACHER"
 
 
 class SchoolTeacherInvitationAdmin(admin.ModelAdmin, ExportActionMixin):
@@ -103,6 +159,11 @@ class DynamicElementAdmin(admin.ModelAdmin, ExportActionMixin):
         return False
 
 
+class DailyActivityAdmin(admin.ModelAdmin, ExportActionMixin):
+    search_fields = ["date"]
+    list_display = ["__str__", "date"]
+
+
 class TotalActivityAdmin(admin.ModelAdmin, ExportActionMixin):
     def has_add_permission(self, request):
         return False
@@ -118,7 +179,9 @@ def anonymise_user(user_admin, request, queryset):
 
 def export_as_csv(self, request, queryset):
     meta = self.model._meta
-    field_names = [field.name for field in meta.fields if field.name != "password"]
+    field_names = [
+        field.name for field in meta.fields if field.name != "password"
+    ]
 
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = "attachment; filename={}.csv".format(meta)
@@ -135,7 +198,7 @@ anonymise_user.short_description = "Anonymise selected users"
 export_as_csv.short_description = "Export selected users data as CSV"
 
 
-UserAdmin.list_display += ("date_joined",)
+UserAdmin.list_display += ("date_joined", "id")
 UserAdmin.list_filter += ("date_joined",)
 UserAdmin.add_form = AdminUserCreationForm
 UserAdmin.change_password_form = AdminChangeUserPasswordForm
@@ -152,5 +215,5 @@ admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(SchoolTeacherInvitation, SchoolTeacherInvitationAdmin)
 admin.site.register(DynamicElement, DynamicElementAdmin)
-admin.site.register(DailyActivity)
+admin.site.register(DailyActivity, DailyActivityAdmin)
 admin.site.register(TotalActivity, TotalActivityAdmin)
