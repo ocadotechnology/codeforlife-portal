@@ -29,30 +29,6 @@ def kickedEmail(request, schoolName):
     }
 
 
-def adminGivenEmail(request, schoolName):
-
-    url = request.build_absolute_uri(reverse("dashboard"))
-
-    return {
-        "subject": f"You have been made a school or club administrator",
-        "message": (
-            f"Administrator control of the school or club '{schoolName}' has been "
-            f"given to you. Go to {url} to start managing your school or club."
-        ),
-    }
-
-
-def adminRevokedEmail(request, schoolName):
-    return {
-        "subject": f"You are no longer a school or club administrator",
-        "message": (
-            f"Your administrator control of the school or club '{schoolName}' has been "
-            f"revoked. If you think this is an error, please contact one of the other "
-            f"administrators in your school or club."
-        ),
-    }
-
-
 def studentJoinRequestSentEmail(request, schoolName, accessCode):
     return {
         "subject": f"School or club join request sent",
