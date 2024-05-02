@@ -239,7 +239,8 @@ class TestIndependentStudentFrontend(BaseTest):
 
         assert self.is_login_page(page)
 
-    def test_signup_duplicate_email_with_teacher(self):
+    @patch("common.helpers.emails.send_dotdigital_email")
+    def test_signup_duplicate_email_with_teacher(self, mock_send_dotdigital_email: Mock):
         teacher_email, _ = signup_teacher_directly()
 
         page = self.go_to_homepage()
@@ -252,8 +253,9 @@ class TestIndependentStudentFrontend(BaseTest):
 
         page.return_to_home_page()
 
-        assert len(mail.outbox) == 1
-        assert mail.outbox[0].subject == "Duplicate account"
+        mock_send_dotdigital_email.assert_called_once_with(
+            campaign_ids["user_already_registered"], ANY, personalization_values=ANY
+        )
 
     def test_login_failure(self):
         page = self.go_to_homepage()
