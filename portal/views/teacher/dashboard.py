@@ -171,18 +171,17 @@ def dashboard_teacher_view(request, is_admin):
                     f"{request.build_absolute_uri(reverse('invited_teacher', kwargs={'token': token}))} "
                 )
 
-                if account_exists:
-                    send_dotdigital_email(
-                        campaign_ids["invite_teacher_with_account"],
-                        [invited_teacher_email],
-                        personalization_values={"SCHOOL_NAME": school.name, "REGISTRATION_LINK": registration_link},
-                    )
-                else:
-                    send_dotdigital_email(
-                        campaign_ids["invite_teacher_without_account"],
-                        [invited_teacher_email],
-                        personalization_values={"SCHOOL_NAME": school.name, "REGISTRATION_LINK": registration_link},
-                    )
+                campaign_id = (
+                    campaign_ids["invite_teacher_with_account"]
+                    if account_exists
+                    else campaign_ids["invite_teacher_without_account"]
+                )
+
+                send_dotdigital_email(
+                    campaign_id,
+                    [invited_teacher_email],
+                    personalization_values={"SCHOOL_NAME": school.name, "REGISTRATION_LINK": registration_link},
+                )
 
                 messages.success(
                     request,
@@ -600,18 +599,17 @@ def resend_invite_teacher(request, token):
 
         registration_link = f"{request.build_absolute_uri(reverse('invited_teacher', kwargs={'token': token}))} "
 
-        if invite.is_expired:
-            send_dotdigital_email(
-                campaign_ids["invite_teacher_without_account"],
-                [invite.invited_teacher_email],
-                personalization_values={"SCHOOL_NAME": invite.school, "REGISTRATION_LINK": registration_link},
-            )
-        else:
-            send_dotdigital_email(
-                campaign_ids["invite_teacher_with_account"],
-                [invite.invited_teacher_email],
-                personalization_values={"SCHOOL_NAME": invite.school, "REGISTRATION_LINK": registration_link},
-            )
+        campaign_id = (
+            campaign_ids["invite_teacher_without_account"]
+            if invite.is_expired
+            else campaign_ids["invite_teacher_with_account"]
+        )
+
+        send_dotdigital_email(
+            campaign_id,
+            [invite.invited_teacher_email],
+            personalization_values={"SCHOOL_NAME": invite.school, "REGISTRATION_LINK": registration_link},
+        )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
