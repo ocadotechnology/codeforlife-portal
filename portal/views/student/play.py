@@ -190,7 +190,7 @@ def process_join_organisation_form(request_form, request, student):
 
         send_dotdigital_email(
             campaign_ids["student_join_request_sent"],
-            [student.new_user_email],
+            [student.new_user.email],
             personalization_values={
                 "SCHOOL_CLUB_NAME": request_form.klass.teacher.school.name,
                 "ACCESS_CODE": request_form.klass.access_code,
