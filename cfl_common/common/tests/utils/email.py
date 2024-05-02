@@ -16,22 +16,13 @@ def follow_verify_email_link_to_login(page, url, user_type):
         return go_to_independent_student_login_page(page.browser)
 
 
-def follow_duplicate_account_link_to_login(page, email, user_type):
-    _follow_duplicate_account_email_link(page, email)
+def follow_duplicate_account_link_to_login(page, url, user_type):
+    page.browser.get(url)
 
     if user_type == "teacher":
         return go_to_teacher_login_page(page.browser)
     elif user_type == "independent":
         return go_to_independent_student_login_page(page.browser)
-
-
-def _follow_duplicate_account_email_link(page, email):
-    message = str(email.message())
-    prefix = 'please login: <a href="'
-    i = str.find(message, prefix) + len(prefix)
-    suffix = '" rel="nofollow">'
-    j = str.find(message, suffix, i)
-    page.browser.get(message[i:j])
 
 
 def follow_reset_email_link(browser, link):
