@@ -175,13 +175,13 @@ def dashboard_teacher_view(request, is_admin):
                 if account_exists:
                     send_dotdigital_email(
                         campaign_ids["invite_teacher_with_account"],
-                        invited_teacher_email,
+                        [invited_teacher_email],
                         personalization_values={"SCHOOL_NAME": school.name, "REGISTRATION_LINK": registration_link},
                     )
                 else:
                     send_dotdigital_email(
                         campaign_ids["invite_teacher_without_account"],
-                        invited_teacher_email,
+                        [invited_teacher_email],
                         personalization_values={"SCHOOL_NAME": school.name, "REGISTRATION_LINK": registration_link},
                     )
 
@@ -390,7 +390,7 @@ def organisation_kick(request, pk):
 
     send_dotdigital_email(
         campaign_ids["teacher_released"],
-        teacher.new_user.email,
+        [teacher.new_user.email],
         personalization_values={"SCHOOL_CLUB_NAME": user.school.name},
     )
 
@@ -604,13 +604,13 @@ def resend_invite_teacher(request, token):
         if invite.is_expired:
             send_dotdigital_email(
                 campaign_ids["invite_teacher_without_account"],
-                invite.invited_teacher_email,
+                [invite.invited_teacher_email],
                 personalization_values={"SCHOOL_NAME": invite.school, "REGISTRATION_LINK": registration_link},
             )
         else:
             send_dotdigital_email(
                 campaign_ids["invite_teacher_with_account"],
-                invite.invited_teacher_email,
+                [invite.invited_teacher_email],
                 personalization_values={"SCHOOL_NAME": invite.school, "REGISTRATION_LINK": registration_link},
             )
 

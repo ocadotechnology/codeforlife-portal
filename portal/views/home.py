@@ -162,7 +162,6 @@ def process_independent_student_signup_form(request, data):
     email = data["email"]
 
     if email and User.objects.filter(email=email).exists():
-        email_message = email_messages.userAlreadyRegisteredEmail(request, email, is_independent_student=True)
         is_email_ratelimited = is_ratelimited(
             request=request,
             group=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP,
