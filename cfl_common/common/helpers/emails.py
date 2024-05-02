@@ -6,14 +6,11 @@ from uuid import uuid4
 
 import jwt
 from common import app_settings
-from common.app_settings import domain
-from common.mail import campaign_ids, send_dotdigital_email
+from common.mail import campaign_ids, django_send_email, send_dotdigital_email
 from common.models import Student, Teacher
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponse
-from django.template import loader
 from django.urls import reverse
 from django.utils import timezone
 from requests import delete, get, post, put
@@ -29,41 +26,6 @@ class DotmailerUserType(Enum):
     TEACHER = auto()
     STUDENT = auto()
     NO_ACCOUNT = auto()
-
-
-def send_email(
-    sender,
-    recipients,
-    subject,
-    text_content,
-    title,
-    replace_url=None,
-    plaintext_template="email.txt",
-    html_template="email.html",
-):
-    # add in template for templates to message
-
-    # setup templates
-    plaintext = loader.get_template(plaintext_template)
-    html = loader.get_template(html_template)
-    plaintext_email_context = {"content": text_content}
-    html_email_context = {"content": text_content, "title": title, "url_prefix": domain()}
-
-    # render templates
-    plaintext_body = plaintext.render(plaintext_email_context)
-    original_html_body = html.render(html_email_context)
-    html_body = original_html_body
-
-    if replace_url:
-        verify_url = replace_url["verify_url"]
-        verify_replace_url = re.sub(f"(.*/verify_email/)(.*)", f"\\1", verify_url)
-        html_body = re.sub(f"({verify_url})(.*){verify_url}", f"\\1\\2{verify_replace_url}", original_html_body)
-
-    # make message using templates
-    message = EmailMultiAlternatives(subject, plaintext_body, sender, recipients)
-    message.attach_alternative(html_body, "text/html")
-
-    message.send()
 
 
 def generate_token(user, new_email="", preverified=False):
@@ -89,6 +51,19 @@ def generate_token_for_email(email: str, new_email: str = ""):
 
 def _newsletter_ticked(data):
     return "newsletter_ticked" in data and data["newsletter_ticked"]
+
+
+def send_email(
+    sender,
+    recipients,
+    subject,
+    text_content,
+    title,
+    replace_url=None,
+    plaintext_template="email.txt",
+    html_template="email.html",
+):
+    django_send_email(sender, recipients, subject, text_content, title, replace_url, plaintext_template, html_template)
 
 
 def send_verification_email(request, user, data, new_email=None, age=None):
