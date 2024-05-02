@@ -167,10 +167,23 @@ def dashboard_teacher_view(request, is_admin):
                 )
 
                 account_exists = User.objects.filter(email=invited_teacher_email).exists()
-                message = email_messages.inviteTeacherEmail(request, school.name, token, account_exists)
-                send_email(
-                    INVITE_FROM, [invited_teacher_email], message["subject"], message["message"], message["subject"]
+
+                registration_link = (
+                    f"{request.build_absolute_uri(reverse('invited_teacher', kwargs={'token': token}))} "
                 )
+
+                if account_exists:
+                    send_dotdigital_email(
+                        campaign_ids["invite_teacher_with_account"],
+                        invited_teacher_email,
+                        personalization_values={"SCHOOL_NAME": school.name, "REGISTRATION_LINK": registration_link},
+                    )
+                else:
+                    send_dotdigital_email(
+                        campaign_ids["invite_teacher_without_account"],
+                        invited_teacher_email,
+                        personalization_values={"SCHOOL_NAME": school.name, "REGISTRATION_LINK": registration_link},
+                    )
 
                 messages.success(
                     request,
@@ -375,14 +388,10 @@ def organisation_kick(request, pk):
 
     messages.success(request, success_message)
 
-    emailMessage = email_messages.kickedEmail(request, user.school.name)
-
-    send_email(
-        NOTIFICATION_EMAIL,
-        [teacher.new_user.email],
-        emailMessage["subject"],
-        emailMessage["message"],
-        emailMessage["subject"],
+    send_dotdigital_email(
+        campaign_ids["teacher_released"],
+        teacher.new_user.email,
+        personalization_values={"SCHOOL_CLUB_NAME": user.school.name},
     )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
@@ -591,10 +600,22 @@ def resend_invite_teacher(request, token):
         teacher = Teacher.objects.filter(id=invite.from_teacher.id)[0]
 
         messages.success(request, "Teacher re-invited!")
-        message = email_messages.inviteTeacherEmail(request, invite.school, token, not (invite.is_expired))
-        send_email(
-            INVITE_FROM, [invite.invited_teacher_email], message["subject"], message["message"], message["subject"]
-        )
+
+        registration_link = f"{request.build_absolute_uri(reverse('invited_teacher', kwargs={'token': token}))} "
+
+        if invite.is_expired:
+            send_dotdigital_email(
+                campaign_ids["invite_teacher_without_account"],
+                invite.invited_teacher_email,
+                personalization_values={"SCHOOL_NAME": invite.school, "REGISTRATION_LINK": registration_link},
+            )
+        else:
+            send_dotdigital_email(
+                campaign_ids["invite_teacher_with_account"],
+                invite.invited_teacher_email,
+                personalization_values={"SCHOOL_NAME": invite.school, "REGISTRATION_LINK": registration_link},
+            )
+
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
