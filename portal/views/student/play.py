@@ -2,6 +2,7 @@ from typing import Any, Dict, List, Optional
 
 from common import email_messages
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email
+from common.mail import campaign_ids, send_dotdigital_email
 from common.models import Student
 from common.permissions import (
     logged_in_as_independent_student,
@@ -22,9 +23,7 @@ from game.models import Attempt, Level
 from portal.forms.play import StudentJoinOrganisationForm
 
 
-class SchoolStudentDashboard(
-    LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView
-):
+class SchoolStudentDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView):
     template_name = "portal/play/student_dashboard.html"
     login_url = reverse_lazy("student_login_access_code")
 
@@ -50,16 +49,10 @@ class SchoolStudentDashboard(
         custom_levels = student.new_user.shared.filter(owner=teacher)
 
         if custom_levels:
-            custom_levels_data = _compute_rapid_router_scores(
-                student, custom_levels
-            )
+            custom_levels_data = _compute_rapid_router_scores(student, custom_levels)
 
-            context_data["total_custom_score"] = custom_levels_data[
-                "total_score"
-            ]
-            context_data["total_custom_available_score"] = custom_levels_data[
-                "total_available_score"
-            ]
+            context_data["total_custom_score"] = custom_levels_data["total_score"]
+            context_data["total_custom_available_score"] = custom_levels_data["total_available_score"]
 
         # Get Kurono game info if the class has a game linked to it
         aimmo_game = klass.active_game
@@ -72,9 +65,7 @@ class SchoolStudentDashboard(
         return context_data
 
 
-class IndependentStudentDashboard(
-    LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView, FormView
-):
+class IndependentStudentDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView, FormView):
     template_name = "portal/play/independent_student_dashboard.html"
     login_url = reverse_lazy("independent_student_login")
 
@@ -91,9 +82,7 @@ class IndependentStudentDashboard(
         )
 
 
-def _compute_rapid_router_scores(
-    student: Student, levels: List[Level] or QuerySet
-) -> Dict[str, int]:
+def _compute_rapid_router_scores(student: Student, levels: List[Level] or QuerySet) -> Dict[str, int]:
     """
     Finds Rapid Router progress and score data for a specific student and a specific
     set of levels. This is used to show quick score data to the student on their
@@ -112,9 +101,9 @@ def _compute_rapid_router_scores(
     num_completed = num_top_scores = total_available_score = 0
     total_score = 0.0
     # Get a QuerySet of best attempts for each level
-    best_attempts = Attempt.objects.filter(
-        level__in=levels, student=student, is_best_attempt=True
-    ).select_related("level")
+    best_attempts = Attempt.objects.filter(level__in=levels, student=student, is_best_attempt=True).select_related(
+        "level"
+    )
 
     for level in levels:
         total_available_score += _get_max_score_for_level(level)
@@ -122,10 +111,7 @@ def _compute_rapid_router_scores(
     # For each level, compare best attempt's score with level's max score and
     # increment variables as needed
     if best_attempts:
-        attempts_dict = {
-            best_attempt.level.id: best_attempt
-            for best_attempt in best_attempts
-        }
+        attempts_dict = {best_attempt.level.id: best_attempt for best_attempt in best_attempts}
         for level in levels:
             attempt = attempts_dict.get(level.id)
 
@@ -155,12 +141,7 @@ def _get_max_score_for_level(level: Level) -> int:
     """
     return (
         10
-        if level.id > 12
-        and (
-            level.disable_route_score
-            or level.disable_algorithm_score
-            or not level.episode
-        )
+        if level.id > 12 and (level.disable_route_score or level.disable_algorithm_score or not level.episode)
         else 20
     )
 
@@ -207,17 +188,13 @@ def process_join_organisation_form(request_form, request, student):
         student.pending_class_request = request_form.klass
         student.save()
 
-        email_message = email_messages.studentJoinRequestSentEmail(
-            request,
-            request_form.klass.teacher.school.name,
-            request_form.klass.access_code,
-        )
-        send_email(
-            NOTIFICATION_EMAIL,
-            [student.new_user.email],
-            email_message["subject"],
-            email_message["message"],
-            email_message["subject"],
+        send_dotdigital_email(
+            campaign_ids["student_join_request_sent"],
+            [student.new_user_email],
+            personalization_values={
+                "SCHOOL_CLUB_NAME": request_form.klass.teacher.school.name,
+                "ACCESS_CODE": request_form.klass.access_code,
+            },
         )
 
         email_message = email_messages.studentJoinRequestNotifyEmail(
