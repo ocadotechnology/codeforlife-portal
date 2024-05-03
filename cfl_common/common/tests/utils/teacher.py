@@ -35,7 +35,7 @@ def signup_teacher_directly(preverified=True, **kwargs):
 
 
 @patch("portal.views.home.send_dotdigital_email")
-def signup_duplicate_teacher_fail(page, mock_send_dotdigital_email, duplicate_email):
+def signup_duplicate_teacher_fail(page, duplicate_email, mock_send_dotdigital_email):
     page = page.go_to_signup_page()
 
     first_name, last_name, email_address, password = generate_details()
