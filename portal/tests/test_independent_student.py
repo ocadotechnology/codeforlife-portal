@@ -16,6 +16,7 @@ from common.tests.utils.student import (
     create_independent_student,
     create_independent_student_directly,
     create_school_student_directly,
+    generate_independent_student_details,
     signup_duplicate_independent_student_fail,
     verify_email,
 )
@@ -222,13 +223,29 @@ class TestIndependentStudentFrontend(BaseTest):
         page, _, _, _, _ = create_independent_student(page)
         assert is_email_verified_message_showing(self.selenium)
 
-    def test_signup_duplicate_email_failure(self):
+    @patch("portal.views.home.send_dotdigital_email")
+    def test_signup_duplicate_email_failure(self, mock_send_dotdigital_email):
         page = self.go_to_homepage()
         page, _, _, email, _ = create_independent_student(page)
         assert is_email_verified_message_showing(self.selenium)
 
         page = self.go_to_homepage()
-        page, _, _, _, _ = signup_duplicate_independent_student_fail(page, duplicate_email=email)
+
+        page = page.go_to_signup_page()
+
+        name, username, email_address, password = generate_independent_student_details()
+
+        page = page.independent_student_signup(name, email, password=password, confirm_password=password)
+
+        page = page.return_to_home_page()
+
+        mock_send_dotdigital_email.assert_called_once_with(
+            campaign_ids["user_already_registered"], ANY, personalization_values=ANY
+        )
+
+        login_link = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["LOGIN_URL"]
+
+        page = email.follow_duplicate_account_link_to_login(page, login_link, "independent")
 
         assert self.is_login_page(page)
 
