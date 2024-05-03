@@ -600,9 +600,9 @@ def resend_invite_teacher(request, token):
         registration_link = f"{request.build_absolute_uri(reverse('invited_teacher', kwargs={'token': token}))} "
 
         campaign_id = (
-            campaign_ids["invite_teacher_without_account"]
-            if invite.is_expired
-            else campaign_ids["invite_teacher_with_account"]
+            campaign_ids["invite_teacher_with_account"]
+            if teacher.exists()
+            else campaign_ids["invite_teacher_without_account"]
         )
 
         send_dotdigital_email(
