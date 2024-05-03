@@ -1,12 +1,10 @@
 from builtins import range
 from typing import Tuple
-from unittest.mock import ANY, Mock, patch
+from unittest.mock import patch
 
 from common.helpers.emails import generate_token
 from common.helpers.generators import generate_login_id
-from common.mail import campaign_ids
 from common.models import Class, Student
-from django.core import mail
 
 from . import email
 

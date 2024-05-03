@@ -1,10 +1,9 @@
 import random
 import sys
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 from common.helpers.emails import generate_token
 from common.models import Teacher
-from django.core import mail
 
 from . import email
 
@@ -39,7 +38,6 @@ def signup_duplicate_teacher_fail(page, duplicate_email, mock_send_dotdigital_em
     page = page.go_to_signup_page()
 
     first_name, last_name, email_address, password = generate_details()
-
     page = page.signup(first_name, last_name, duplicate_email, password, password)
 
     page = page.return_to_home_page()
