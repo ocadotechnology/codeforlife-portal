@@ -244,11 +244,7 @@ class TestIndependentStudentFrontend(BaseTest):
 
         login_link = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["LOGIN_URL"]
 
-        # page = email_utils.follow_duplicate_account_link_to_login(page, login_link, "independent")
-
-        page.browser.get(login_link)
-
-        email_utils.go_to_independent_student_login_page(page.browser)
+        page = email_utils.follow_duplicate_account_link_to_login(page, login_link, "independent")
 
         assert self.is_login_page(page)
 

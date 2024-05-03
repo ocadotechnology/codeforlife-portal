@@ -138,7 +138,10 @@ def process_signup_form(request, data):
             send_dotdigital_email(
                 campaign_ids["user_already_registered"],
                 [email],
-                personalization_values={"EMAIL": email, "LOGIN_URL": reverse("teacher_login")},
+                personalization_values={
+                    "EMAIL": email,
+                    "LOGIN_URL": request.build_absolute_uri(reverse("teacher_login")),
+                },
             )
         else:
             LOGGER.warn(f"Ratelimit teacher {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}")
@@ -173,7 +176,10 @@ def process_independent_student_signup_form(request, data):
             send_dotdigital_email(
                 campaign_ids["user_already_registered"],
                 [email],
-                personalization_values={"EMAIL": email, "LOGIN_URL": reverse("independent_student_login")},
+                personalization_values={
+                    "EMAIL": email,
+                    "LOGIN_URL": request.build_absolute_uri(reverse("independent_student_login")),
+                },
             )
         else:
             LOGGER.warning(f"Ratelimit independent {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}")
