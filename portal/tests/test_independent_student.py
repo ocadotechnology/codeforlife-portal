@@ -228,7 +228,7 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_email_verified_message_showing(self.selenium)
 
         page = self.go_to_homepage()
-        page, _, _, _, _ = signup_duplicate_independent_student_fail(page)
+        page, _, _, _, _ = signup_duplicate_independent_student_fail(page, email)
 
         assert self.is_login_page(page)
 
