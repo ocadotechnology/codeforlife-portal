@@ -222,7 +222,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page, _, _, _, _ = create_independent_student(page)
         assert is_email_verified_message_showing(self.selenium)
 
-    @patch("portal.views.home.send_dotdigital_email")
+    @patch("common.helpers.emails.send_dotdigital_email")
     def test_signup_duplicate_email_failure(self, mock_send_dotdigital_email: Mock):
         page = self.go_to_homepage()
         page, _, _, email, _ = create_independent_student(page)
