@@ -36,7 +36,9 @@ class SignupPage(BasePage):
         self.browser.find_element(By.NAME, "teacher_signup").click()
 
         if success:
-            return email_verification_needed_page.EmailVerificationNeededPage(self.browser)
+            from .email_verification_needed_page import EmailVerificationNeededPage
+
+            return EmailVerificationNeededPage(self.browser)
         else:
             return self
 
