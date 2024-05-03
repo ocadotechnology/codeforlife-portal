@@ -103,28 +103,28 @@ def generate_independent_student_details():
 generate_independent_student_details.next_id = 1
 
 
-# @patch("portal.views.home.send_dotdigital_email")
-# def signup_duplicate_independent_student_fail(page, mock_send_dotdigital_email, duplicate_email=None):
-#     page = page.go_to_signup_page()
+@patch("portal.views.home.send_dotdigital_email")
+def signup_duplicate_independent_student_fail(page, mock_send_dotdigital_email, duplicate_email=None):
+    page = page.go_to_signup_page()
 
-#     name, username, email_address, password = generate_independent_student_details()
+    name, username, email_address, password = generate_independent_student_details()
 
-#     if not duplicate_email:
-#         duplicate_email = email_address
+    if not duplicate_email:
+        duplicate_email = email_address
 
-#     page = page.independent_student_signup(name, duplicate_email, password=password, confirm_password=password)
+    page = page.independent_student_signup(name, duplicate_email, password=password, confirm_password=password)
 
-#     page = page.return_to_home_page()
+    page = page.return_to_home_page()
 
-#     mock_send_dotdigital_email.assert_called_once_with(
-#         campaign_ids["user_already_registered"], ANY, personalization_values=ANY
-#     )
+    mock_send_dotdigital_email.assert_called_once_with(
+        campaign_ids["user_already_registered"], ANY, personalization_values=ANY
+    )
 
-#     login_link = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["LOGIN_URL"]
+    login_link = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["LOGIN_URL"]
 
-#     page = email.follow_duplicate_account_link_to_login(page, login_link, "independent")
+    page = email.follow_duplicate_account_link_to_login(page, login_link, "independent")
 
-#     return page, name, username, email_address, password
+    return page, name, username, email_address, password
 
 
 @patch("common.helpers.emails.send_dotdigital_email")
