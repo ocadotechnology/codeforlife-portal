@@ -228,6 +228,8 @@ class TestIndependentStudentFrontend(BaseTest):
         page, _, _, email, _ = create_independent_student(page)
         assert is_email_verified_message_showing(self.selenium)
 
+        mock_send_dotdigital_email.assert_called()
+
         login_link = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["LOGIN_URL"]
 
         page = self.go_to_homepage()
