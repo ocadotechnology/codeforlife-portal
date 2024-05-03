@@ -104,7 +104,7 @@ generate_independent_student_details.next_id = 1
 
 
 @patch("portal.views.home.send_dotdigital_email")
-def signup_duplicate_independent_student_fail(mock_send_dotdigital_email: Mock, page, duplicate_email=None):
+def signup_duplicate_independent_student_fail(page, duplicate_email, mock_send_dotdigital_email: Mock):
     page = page.go_to_signup_page()
 
     name, username, email_address, password = generate_independent_student_details()
