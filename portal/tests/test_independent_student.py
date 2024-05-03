@@ -230,10 +230,6 @@ class TestIndependentStudentFrontend(BaseTest):
         page = self.go_to_homepage()
         page, _, _, _, _ = signup_duplicate_independent_student_fail(page, duplicate_email=email)
 
-        mock_send_dotdigital_email.assert_called_once_with(
-            campaign_ids["user_already_registered"], ANY, personalization_values=ANY
-        )
-
         assert self.is_login_page(page)
 
     @patch("portal.views.home.send_dotdigital_email")

@@ -1,9 +1,10 @@
 from builtins import range
 from typing import Tuple
-from unittest.mock import Mock, patch
+from unittest.mock import ANY, Mock, patch
 
 from common.helpers.emails import generate_token
 from common.helpers.generators import generate_login_id
+from common.mail import campaign_ids
 from common.models import Class, Student
 from django.core import mail
 
@@ -114,6 +115,10 @@ def signup_duplicate_independent_student_fail(page, mock_send_dotdigital_email: 
     page = page.independent_student_signup(name, duplicate_email, password=password, confirm_password=password)
 
     page = page.return_to_home_page()
+
+    mock_send_dotdigital_email.assert_called_once_with(
+        campaign_ids["user_already_registered"], ANY, personalization_values=ANY
+    )
 
     login_link = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["LOGIN_URL"]
 
