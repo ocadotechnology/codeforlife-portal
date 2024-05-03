@@ -15,6 +15,7 @@ campaign_ids = {
     "email_change_verification": 1551594,
     "invite_teacher_with_account": 1569599,
     "invite_teacher_without_account": 1569607,
+    "level_creation": 1570259,
     "reset_password": 1557153,
     "student_join_request_notification": 1569486,
     "student_join_request_rejected": 1569470,
