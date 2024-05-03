@@ -17,7 +17,6 @@ from common.tests.utils.student import (
     create_independent_student_directly,
     create_school_student_directly,
     generate_independent_student_details,
-    signup_duplicate_independent_student_fail,
     verify_email,
 )
 from common.tests.utils.teacher import signup_teacher_directly
