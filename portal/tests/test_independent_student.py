@@ -228,8 +228,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page, _, _, email, _ = create_independent_student(page)
         assert is_email_verified_message_showing(self.selenium)
 
-        page = self.go_to_homepage()
-        page = page.go_to_signup_page()
+        page = self.go_to_homepage().go_to_signup_page()
 
         name, username, email_address, password = generate_independent_student_details()
         page = page.independent_student_signup(name, email, password=password, confirm_password=password)
