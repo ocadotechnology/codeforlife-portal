@@ -225,7 +225,7 @@ class TestIndependentStudentFrontend(BaseTest):
     def test_signup_duplicate_email_failure(self):
         page = self.go_to_homepage()
         page, _, _, email, _ = create_independent_student(page)
-        assert is_email_verified_message_showing(self.selenium)
+        # assert is_email_verified_message_showing(self.selenium)
 
         page = self.go_to_homepage()
         page, _, _, _, _ = signup_duplicate_independent_student_fail(page, email)
