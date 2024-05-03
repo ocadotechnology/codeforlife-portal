@@ -222,18 +222,13 @@ class TestIndependentStudentFrontend(BaseTest):
         page, _, _, _, _ = create_independent_student(page)
         assert is_email_verified_message_showing(self.selenium)
 
-    @patch("common.helpers.emails.send_dotdigital_email")
     def test_signup_duplicate_email_failure(self, mock_send_dotdigital_email: Mock):
         page = self.go_to_homepage()
         page, _, _, email, _ = create_independent_student(page)
         assert is_email_verified_message_showing(self.selenium)
 
-        mock_send_dotdigital_email.assert_called()
-
-        login_link = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["LOGIN_URL"]
-
         page = self.go_to_homepage()
-        page, _, _, _, _ = signup_duplicate_independent_student_fail(page, login_link, duplicate_email=email)
+        page, _, _, _, _ = signup_duplicate_independent_student_fail(page, duplicate_email=email)
 
         mock_send_dotdigital_email.assert_called_once_with(
             campaign_ids["user_already_registered"], ANY, personalization_values=ANY

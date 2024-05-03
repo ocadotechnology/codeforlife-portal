@@ -1,6 +1,6 @@
 from builtins import range
 from typing import Tuple
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from common.helpers.emails import generate_token
 from common.helpers.generators import generate_login_id
@@ -102,7 +102,8 @@ def generate_independent_student_details():
 generate_independent_student_details.next_id = 1
 
 
-def signup_duplicate_independent_student_fail(page, login_link, duplicate_email=None):
+@patch("portal.views.home.send_dotdigital_email")
+def signup_duplicate_independent_student_fail(page, mock_send_dotdigital_email: Mock, duplicate_email=None):
     page = page.go_to_signup_page()
 
     name, username, email_address, password = generate_independent_student_details()
@@ -113,6 +114,8 @@ def signup_duplicate_independent_student_fail(page, login_link, duplicate_email=
     page = page.independent_student_signup(name, duplicate_email, password=password, confirm_password=password)
 
     page = page.return_to_home_page()
+
+    login_link = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["LOGIN_URL"]
 
     page = email.follow_duplicate_account_link_to_login(page, login_link, "independent")
 
