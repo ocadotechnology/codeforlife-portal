@@ -5,7 +5,6 @@ from unittest.mock import patch
 from common.helpers.emails import generate_token
 from common.helpers.generators import generate_login_id
 from common.models import Class, Student
-from django.core import mail
 
 from . import email
 
@@ -100,23 +99,6 @@ def generate_independent_student_details():
 
 
 generate_independent_student_details.next_id = 1
-
-
-def signup_duplicate_independent_student_fail(page, duplicate_email=None):
-    page = page.go_to_signup_page()
-
-    name, username, email_address, password = generate_independent_student_details()
-
-    if not duplicate_email:
-        duplicate_email = email_address
-
-    page = page.independent_student_signup(name, duplicate_email, password=password, confirm_password=password)
-
-    page = page.return_to_home_page()
-
-    page = email.follow_duplicate_account_link_to_login(page, mail.outbox[0], "independent")
-
-    return page, name, username, email_address, password
 
 
 @patch("common.helpers.emails.send_dotdigital_email")

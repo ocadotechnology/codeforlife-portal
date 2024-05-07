@@ -1,13 +1,24 @@
 from datetime import timedelta
 from uuid import uuid4
 
-from common import email_messages
-from common.helpers.emails import (INVITE_FROM, NOTIFICATION_EMAIL,
-                                   DotmailerUserType, add_to_dotmailer,
-                                   generate_token, send_email, update_email)
+from common.helpers.emails import (
+    INVITE_FROM,
+    NOTIFICATION_EMAIL,
+    DotmailerUserType,
+    add_to_dotmailer,
+    generate_token,
+    send_email,
+    update_email,
+)
 from common.helpers.generators import get_random_username
-from common.models import (Class, JoinReleaseStudent, SchoolTeacherInvitation,
-                           Student, Teacher)
+from common.mail import campaign_ids, send_dotdigital_email
+from common.models import (
+    Class,
+    JoinReleaseStudent,
+    SchoolTeacherInvitation,
+    Student,
+    Teacher,
+)
 from common.permissions import check_teacher_authorised, logged_in_as_teacher
 from common.utils import using_two_factor
 from django.contrib import messages as messages
@@ -16,7 +27,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from game.level_management import levels_shared_with, unshare_level
@@ -25,14 +36,20 @@ from two_factor.utils import devices_for_user
 from portal.forms.invite_teacher import InviteTeacherForm
 from portal.forms.organisation import OrganisationForm
 from portal.forms.registration import DeleteAccountForm
-from portal.forms.teach import (ClassCreationForm, InvitedTeacherForm,
-                                TeacherAddExternalStudentForm,
-                                TeacherEditAccountForm)
+from portal.forms.teach import (
+    ClassCreationForm,
+    InvitedTeacherForm,
+    TeacherAddExternalStudentForm,
+    TeacherEditAccountForm,
+)
 from portal.helpers.decorators import ratelimit
 from portal.helpers.password import check_update_password
-from portal.helpers.ratelimit import (RATELIMIT_LOGIN_GROUP,
-                                      RATELIMIT_LOGIN_RATE, RATELIMIT_METHOD,
-                                      clear_ratelimit_cache_for_user)
+from portal.helpers.ratelimit import (
+    RATELIMIT_LOGIN_GROUP,
+    RATELIMIT_LOGIN_RATE,
+    RATELIMIT_METHOD,
+    clear_ratelimit_cache_for_user,
+)
 
 from .teach import create_class
 
@@ -149,9 +166,21 @@ def dashboard_teacher_view(request, is_admin):
                 )
 
                 account_exists = User.objects.filter(email=invited_teacher_email).exists()
-                message = email_messages.inviteTeacherEmail(request, school.name, token, account_exists)
-                send_email(
-                    INVITE_FROM, [invited_teacher_email], message["subject"], message["message"], message["subject"]
+
+                registration_link = (
+                    f"{request.build_absolute_uri(reverse('invited_teacher', kwargs={'token': token}))} "
+                )
+
+                campaign_id = (
+                    campaign_ids["invite_teacher_with_account"]
+                    if account_exists
+                    else campaign_ids["invite_teacher_without_account"]
+                )
+
+                send_dotdigital_email(
+                    campaign_id,
+                    [invited_teacher_email],
+                    personalization_values={"SCHOOL_NAME": school.name, "REGISTRATION_LINK": registration_link},
                 )
 
                 messages.success(
@@ -357,14 +386,10 @@ def organisation_kick(request, pk):
 
     messages.success(request, success_message)
 
-    emailMessage = email_messages.kickedEmail(request, user.school.name)
-
-    send_email(
-        NOTIFICATION_EMAIL,
+    send_dotdigital_email(
+        campaign_ids["teacher_released"],
         [teacher.new_user.email],
-        emailMessage["subject"],
-        emailMessage["message"],
-        emailMessage["subject"],
+        personalization_values={"SCHOOL_CLUB_NAME": user.school.name},
     )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
@@ -380,19 +405,22 @@ def invite_toggle_admin(request, invite_id):
 
     if invite.invited_teacher_is_admin:
         messages.success(request, "Administrator invite status has been given successfully")
-        emailMessage = email_messages.adminGivenEmail(request, invite.school)
+        send_dotdigital_email(
+            campaign_ids["admin_given"],
+            [invite.invited_teacher_email],
+            personalization_values={
+                "SCHOOL_CLUB_NAME": invite.school,
+                "MANAGEMENT_LINK": request.build_absolute_uri(reverse("dashboard")),
+            },
+        )
 
     else:
         messages.success(request, "Administrator invite status has been revoked successfully")
-        emailMessage = email_messages.adminRevokedEmail(request, invite.school)
-
-    send_email(
-        NOTIFICATION_EMAIL,
-        [invite.invited_teacher_email],
-        emailMessage["subject"],
-        emailMessage["message"],
-        emailMessage["subject"],
-    )
+        send_dotdigital_email(
+            campaign_ids["admin_revoked"],
+            [invite.invited_teacher_email],
+            personalization_values={"SCHOOL_CLUB_NAME": invite.school},
+        )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
@@ -411,7 +439,14 @@ def organisation_toggle_admin(request, pk):
 
     if teacher.is_admin:
         messages.success(request, "Administrator status has been given successfully.")
-        email_message = email_messages.adminGivenEmail(request, teacher.school.name)
+        send_dotdigital_email(
+            campaign_ids["admin_given"],
+            [teacher.new_user.email],
+            personalization_values={
+                "SCHOOL_CLUB_NAME": teacher.school.name,
+                "MANAGEMENT_LINK": request.build_absolute_uri(reverse("dashboard")),
+            },
+        )
     else:
         # Remove access to all levels that are from other teachers' students
         [
@@ -420,15 +455,11 @@ def organisation_toggle_admin(request, pk):
             if hasattr(level.owner, "student") and not teacher.teaches(level.owner)
         ]
         messages.success(request, "Administrator status has been revoked successfully.")
-        email_message = email_messages.adminRevokedEmail(request, teacher.school.name)
-
-    send_email(
-        NOTIFICATION_EMAIL,
-        [teacher.new_user.email],
-        email_message["subject"],
-        email_message["message"],
-        email_message["subject"],
-    )
+        send_dotdigital_email(
+            campaign_ids["admin_revoked"],
+            [teacher.new_user.email],
+            personalization_values={"SCHOOL_CLUB_NAME": teacher.school.name},
+        )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
@@ -513,15 +544,13 @@ def teacher_reject_student_request(request, pk):
 
     check_student_request_can_be_handled(request, student)
 
-    emailMessage = email_messages.studentJoinRequestRejectedEmail(
-        request, student.pending_class_request.teacher.school.name, student.pending_class_request.access_code
-    )
-    send_email(
-        NOTIFICATION_EMAIL,
+    send_dotdigital_email(
+        campaign_ids["student_join_request_rejected"],
         [student.new_user.email],
-        emailMessage["subject"],
-        emailMessage["message"],
-        emailMessage["subject"],
+        personalization_values={
+            "SCHOOL_CLUB_NAME": student.pending_class_request.teacher.school.name,
+            "ACCESS_CODE": student.pending_class_request.access_code,
+        },
     )
 
     student.pending_class_request = None
@@ -567,10 +596,21 @@ def resend_invite_teacher(request, token):
         teacher = Teacher.objects.filter(id=invite.from_teacher.id)[0]
 
         messages.success(request, "Teacher re-invited!")
-        message = email_messages.inviteTeacherEmail(request, invite.school, token, not (invite.is_expired))
-        send_email(
-            INVITE_FROM, [invite.invited_teacher_email], message["subject"], message["message"], message["subject"]
+
+        registration_link = f"{request.build_absolute_uri(reverse('invited_teacher', kwargs={'token': token}))} "
+
+        campaign_id = (
+            campaign_ids["invite_teacher_with_account"]
+            if teacher.exists()
+            else campaign_ids["invite_teacher_without_account"]
         )
+
+        send_dotdigital_email(
+            campaign_id,
+            [invite.invited_teacher_email],
+            personalization_values={"SCHOOL_NAME": invite.school, "REGISTRATION_LINK": registration_link},
+        )
+
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 

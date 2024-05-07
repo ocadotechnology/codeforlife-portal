@@ -16,7 +16,7 @@ from common.tests.utils.student import (
     create_independent_student,
     create_independent_student_directly,
     create_school_student_directly,
-    signup_duplicate_independent_student_fail,
+    generate_independent_student_details,
     verify_email,
 )
 from common.tests.utils.teacher import signup_teacher_directly
@@ -169,7 +169,8 @@ class TestIndependentStudent(TestCase):
 
 # Class for Selenium tests. We plan to replace these and turn them into Cypress tests
 class TestIndependentStudentFrontend(BaseTest):
-    def test_delete_indy_account(self):
+    @patch("portal.views.registration.send_dotdigital_email")
+    def test_delete_indy_account(self, mock_send_dotdigital_email: Mock):
         page = self.go_to_homepage()
         page, _, _, email, password = create_independent_student(page)
         page = page.independent_student_login(email, password)
@@ -214,27 +215,37 @@ class TestIndependentStudentFrontend(BaseTest):
         assert not User.objects.get(id=user_id).is_active
 
         # check if email has been sent
-        assert len(mail.outbox) == 1
+        mock_send_dotdigital_email.assert_called_once_with(campaign_ids["delete_account"], ANY)
 
     def test_signup_without_newsletter(self):
         page = self.go_to_homepage()
         page, _, _, _, _ = create_independent_student(page)
         assert is_email_verified_message_showing(self.selenium)
 
-    def test_signup_duplicate_email_failure(self):
+    @patch("portal.views.home.send_dotdigital_email")
+    def test_signup_duplicate_email_failure(self, mock_send_dotdigital_email):
         page = self.go_to_homepage()
         page, _, _, email, _ = create_independent_student(page)
         assert is_email_verified_message_showing(self.selenium)
 
-        page = self.go_to_homepage()
-        page, _, _, _, _ = signup_duplicate_independent_student_fail(page, duplicate_email=email)
+        page = self.go_to_homepage().go_to_signup_page()
 
-        assert len(mail.outbox) == 1
-        assert mail.outbox[0].subject == "Duplicate account"
+        name, username, email_address, password = generate_independent_student_details()
+        page = page.independent_student_signup(name, email, password=password, confirm_password=password)
+        page = page.return_to_home_page()
+
+        mock_send_dotdigital_email.assert_called_once_with(
+            campaign_ids["user_already_registered"], ANY, personalization_values=ANY
+        )
+
+        login_link = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["LOGIN_URL"]
+
+        page = email_utils.follow_duplicate_account_link_to_login(page, login_link, "independent")
 
         assert self.is_login_page(page)
 
-    def test_signup_duplicate_email_with_teacher(self):
+    @patch("portal.views.home.send_dotdigital_email")
+    def test_signup_duplicate_email_with_teacher(self, mock_send_dotdigital_email: Mock):
         teacher_email, _ = signup_teacher_directly()
 
         page = self.go_to_homepage()
@@ -247,8 +258,9 @@ class TestIndependentStudentFrontend(BaseTest):
 
         page.return_to_home_page()
 
-        assert len(mail.outbox) == 1
-        assert mail.outbox[0].subject == "Duplicate account"
+        mock_send_dotdigital_email.assert_called_once_with(
+            campaign_ids["user_already_registered"], ANY, personalization_values=ANY
+        )
 
     def test_login_failure(self):
         page = self.go_to_homepage()
