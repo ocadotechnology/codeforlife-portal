@@ -1,13 +1,13 @@
 import logging
 import math
 
-from common import email_messages
 from common.helpers.emails import (
     NOTIFICATION_EMAIL,
     send_email,
     send_verification_email,
 )
-from common.models import Student, Teacher, DynamicElement, TotalActivity
+from common.mail import campaign_ids, send_dotdigital_email
+from common.models import DynamicElement, Student, Teacher, TotalActivity
 from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import _using_two_factor
 from django.contrib import messages as messages
@@ -34,8 +34,7 @@ from portal.helpers.ratelimit import (
 from portal.strings.coding_club import CODING_CLUB_BANNER
 from portal.strings.home_learning import HOME_LEARNING_BANNER
 from portal.templatetags.app_tags import cloud_storage
-from portal.views.teacher.teach import DownloadType
-from portal.views.teacher.teach import count_student_pack_downloads_click
+from portal.views.teacher.teach import DownloadType, count_student_pack_downloads_click
 
 LOGGER = logging.getLogger(__name__)
 
@@ -126,7 +125,7 @@ def process_signup_form(request, data):
     email = data["teacher_email"]
 
     if email and User.objects.filter(email=email).exists():
-        email_message = email_messages.userAlreadyRegisteredEmail(request, email)
+
         is_email_ratelimited = is_ratelimited(
             request=request,
             group=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP,
@@ -136,12 +135,13 @@ def process_signup_form(request, data):
         )
 
         if not is_email_ratelimited:
-            send_email(
-                NOTIFICATION_EMAIL,
+            send_dotdigital_email(
+                campaign_ids["user_already_registered"],
                 [email],
-                email_message["subject"],
-                email_message["message"],
-                email_message["subject"],
+                personalization_values={
+                    "EMAIL": email,
+                    "LOGIN_URL": request.build_absolute_uri(reverse("teacher_login")),
+                },
             )
         else:
             LOGGER.warn(f"Ratelimit teacher {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}")
@@ -164,7 +164,6 @@ def process_independent_student_signup_form(request, data):
     email = data["email"]
 
     if email and User.objects.filter(email=email).exists():
-        email_message = email_messages.userAlreadyRegisteredEmail(request, email, is_independent_student=True)
         is_email_ratelimited = is_ratelimited(
             request=request,
             group=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP,
@@ -174,12 +173,13 @@ def process_independent_student_signup_form(request, data):
         )
 
         if not is_email_ratelimited:
-            send_email(
-                NOTIFICATION_EMAIL,
+            send_dotdigital_email(
+                campaign_ids["user_already_registered"],
                 [email],
-                email_message["subject"],
-                email_message["message"],
-                email_message["subject"],
+                personalization_values={
+                    "EMAIL": email,
+                    "LOGIN_URL": request.build_absolute_uri(reverse("independent_student_login")),
+                },
             )
         else:
             LOGGER.warning(f"Ratelimit independent {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}")

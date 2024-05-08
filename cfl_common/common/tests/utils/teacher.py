@@ -4,7 +4,6 @@ from unittest.mock import patch
 
 from common.helpers.emails import generate_token
 from common.models import Teacher
-from django.core import mail
 
 from . import email
 
@@ -34,7 +33,8 @@ def signup_teacher_directly(preverified=True, **kwargs):
     return email_address, password
 
 
-def signup_duplicate_teacher_fail(page, duplicate_email):
+@patch("portal.views.home.send_dotdigital_email")
+def signup_duplicate_teacher_fail(page, duplicate_email, mock_send_dotdigital_email):
     page = page.go_to_signup_page()
 
     first_name, last_name, email_address, password = generate_details()
@@ -42,8 +42,9 @@ def signup_duplicate_teacher_fail(page, duplicate_email):
 
     page = page.return_to_home_page()
 
-    page = email.follow_duplicate_account_link_to_login(page, mail.outbox[0], "teacher")
-    mail.outbox = []
+    login_link = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["LOGIN_URL"]
+
+    page = email.follow_duplicate_account_link_to_login(page, login_link, "teacher")
 
     return page, email_address, password
 

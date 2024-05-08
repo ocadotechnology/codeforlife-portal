@@ -1,6 +1,5 @@
 from typing import Any, Dict, List, Optional
 
-from common import email_messages
 from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 from common.mail import campaign_ids, send_dotdigital_email
 from common.models import Student
