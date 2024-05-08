@@ -14,7 +14,9 @@ def verify_returning_users(apps: Apps, *args):
         user__last_login__isnull=False, is_verified=False
     )
 
-    for unverified_returning_userprofile in unverified_returning_userprofiles:
+    for (
+        unverified_returning_userprofile
+    ) in unverified_returning_userprofiles.iterator(chunk_size=1000):
         unverified_returning_userprofile.is_verified = True
         unverified_returning_userprofile.save()
 
