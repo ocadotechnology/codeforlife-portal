@@ -10,15 +10,9 @@ def verify_returning_users(apps: Apps, *args):
     """
     UserProfile = apps.get_model("common", "UserProfile")
 
-    unverified_returning_userprofiles = UserProfile.objects.filter(
+    UserProfile.objects.filter(
         user__last_login__isnull=False, is_verified=False
-    )
-
-    for (
-        unverified_returning_userprofile
-    ) in unverified_returning_userprofiles.iterator(chunk_size=1000):
-        unverified_returning_userprofile.is_verified = True
-        unverified_returning_userprofile.save()
+    ).update(is_verified=True)
 
 
 class Migration(migrations.Migration):
