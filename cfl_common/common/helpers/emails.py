@@ -88,20 +88,19 @@ def send_verification_email(request, user, data, new_email=None, age=None, schoo
     student)
     """
 
-    # verifying first email address (registration)
+    # verifying first email address (registration or unverified login attempt)
     if not new_email:
         verification = generate_token(user)
 
         if age is None:
             # if the user is a released student
-            if hasattr(user, "new_student"):
+            if hasattr(user, "new_student") and school is not None:
                 url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
 
                 send_dotdigital_email(
                     campaign_ids["verify_released_student"], [user.email],
                     personalization_values={"VERIFICATION_LINK": url, "SCHOOL_NAME": school.name}
                 )
-            # if the user is a teacher
             else:
                 url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
 
