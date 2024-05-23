@@ -44,8 +44,8 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}
-          packages_dir: dist/
-          skip_existing: true
+          packages-dir: dist/
+          skip-existing: true
       - name: Build cfl-common package
         run: |
           pip install wheel
@@ -57,8 +57,8 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}
-          packages_dir: cfl_common/dist/
-          skip_existing: true
+          packages-dir: cfl_common/dist/
+          skip-existing: true
       - name: Trigger staging deployment
         uses: actions/github-script@v6
         with:
