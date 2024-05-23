@@ -1,6 +1,5 @@
 import datetime
 import json
-import re
 from enum import Enum, auto
 from uuid import uuid4
 
@@ -66,13 +65,14 @@ def send_email(
     django_send_email(sender, recipients, subject, text_content, title, replace_url, plaintext_template, html_template)
 
 
-def send_verification_email(request, user, data, new_email=None, age=None):
+def send_verification_email(request, user, data, new_email=None, age=None, school=None):
     """
     Sends emails relating to email address verification.
 
     On registration:
     - if the user is under 13, send a verification email addressed to the parent / guardian
     - if the user is over 13, send a regular verification email
+    - if the user is a student who just got released, send a verification email explaining the situation
     - if the user is a student who has requested to sign up to the newsletter, handle their Dotmailer subscription
 
     On email address update:
@@ -92,16 +92,25 @@ def send_verification_email(request, user, data, new_email=None, age=None):
     if not new_email:
         verification = generate_token(user)
 
-        # if the user is a teacher
         if age is None:
-            url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
+            # if the user is a released student
+            if hasattr(user, "new_student"):
+                url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
 
-            send_dotdigital_email(
-                campaign_ids["verify_new_user"], [user.email], personalization_values={"VERIFICATION_LINK": url}
-            )
+                send_dotdigital_email(
+                    campaign_ids["verify_released_student"], [user.email],
+                    personalization_values={"VERIFICATION_LINK": url, "SCHOOL_NAME": school.name}
+                )
+            # if the user is a teacher
+            else:
+                url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
 
-            if _newsletter_ticked(data):
-                add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
+                send_dotdigital_email(
+                    campaign_ids["verify_new_user"], [user.email], personalization_values={"VERIFICATION_LINK": url}
+                )
+
+                if _newsletter_ticked(data):
+                    add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
         # if the user is an independent student
         else:
             if age < 13:
