@@ -29,12 +29,23 @@ jobs:
         run: |
           git config --local user.name cfl-bot
           git config --local user.email codeforlife-bot@ocado.com
-      - name: Release codeforlife-portal
-        uses: relekang/python-semantic-release@v7.34.6
+#      - name: Release codeforlife-portal
+#        uses: relekang/python-semantic-release@v7.34.6
+#        with:
+#          github_token: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
+#          pypi_token: ${{ secrets.PYPI_TOKEN }}
+#        continue-on-error: true
+      - name: Build portal package
+        run: |
+          pip install wheel
+          python setup.py sdist bdist_wheel
+      - name: Publish portal package to PyPi
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          github_token: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
-          pypi_token: ${{ secrets.PYPI_TOKEN }}
-        continue-on-error: true
+          user: __token__
+          password: ${{ secrets.PYPI_TOKEN }}
+          packages_dir: dist/
+          skip_existing: true
       - name: Build cfl-common package
         run: |
           pip install wheel
