@@ -16,11 +16,24 @@ class UserProfile(models.Model):
     developer = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
 
-    # Holds the user's earned kurono badges. This information has to be on the UserProfile as the Avatar objects are
-    # deleted every time the Game gets deleted.
-    # This is a string showing which badges in which worksheets have been earned. The format is "X:Y" where X is the
-    # worksheet ID and Y is the badge ID. This repeats for all badges and each pair is comma-separated.
+    # Holds the user's earned kurono badges. This information has to be on the
+    # UserProfile as the Avatar objects are deleted every time the Game gets
+    # deleted.
+    # This is a string showing which badges in which worksheets have been
+    # earned. The format is "X:Y" where X is the worksheet ID and Y is the
+    # badge ID. This repeats for all badges and each pair is comma-separated.
     aimmo_badges = models.CharField(max_length=200, null=True, blank=True)
+
+    # TODO: Make not nullable once data has been transferred
+    first_name = models.CharField(max_length=200, null=True, blank=True)
+    _first_name = models.BinaryField(null=True, blank=True)
+    last_name = models.CharField(max_length=200, null=True, blank=True)
+    _last_name = models.BinaryField(null=True, blank=True)
+    email = models.CharField(max_length=200, null=True, blank=True)
+    _email = models.BinaryField(null=True, blank=True)
+    # TODO: Make not nullable once data has been transferred
+    username = models.CharField(max_length=200, null=True, blank=True)
+    _username = models.BinaryField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
@@ -38,7 +51,9 @@ class SchoolModelManager(models.Manager):
 
 class School(models.Model):
     name = models.CharField(max_length=200, unique=True)
-    country = CountryField(blank_label="(select country)", null=True, blank=True)
+    country = CountryField(
+        blank_label="(select country)", null=True, blank=True
+    )
     # TODO: Create an Address model to house address details
     county = models.CharField(max_length=50, blank=True, null=True)
     creation_time = models.DateTimeField(default=timezone.now, null=True)
@@ -61,7 +76,11 @@ class School(models.Model):
 
     def admins(self):
         teachers = self.teacher_school.all()
-        return [teacher for teacher in teachers if teacher.is_admin] if teachers else None
+        return (
+            [teacher for teacher in teachers if teacher.is_admin]
+            if teachers
+            else None
+        )
 
     def anonymise(self):
         self.name = uuid4().hex
@@ -72,7 +91,11 @@ class School(models.Model):
 class TeacherModelManager(models.Manager):
     def factory(self, first_name, last_name, email, password):
         user = User.objects.create_user(
-            username=email, email=email, password=password, first_name=first_name, last_name=last_name
+            username=email,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
         )
 
         user_profile = UserProfile.objects.create(user=user)
@@ -86,12 +109,28 @@ class TeacherModelManager(models.Manager):
 
 class Teacher(models.Model):
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-    new_user = models.OneToOneField(User, related_name="new_teacher", null=True, blank=True, on_delete=models.CASCADE)
-    school = models.ForeignKey(School, related_name="teacher_school", null=True, blank=True, on_delete=models.SET_NULL)
+    new_user = models.OneToOneField(
+        User,
+        related_name="new_teacher",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+    )
+    school = models.ForeignKey(
+        School,
+        related_name="teacher_school",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
     is_admin = models.BooleanField(default=False)
     blocked_time = models.DateTimeField(null=True, blank=True)
     invited_by = models.ForeignKey(
-        "self", related_name="invited_teachers", null=True, blank=True, on_delete=models.SET_NULL
+        "self",
+        related_name="invited_teachers",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
     )
 
     objects = TeacherModelManager()
@@ -99,7 +138,10 @@ class Teacher(models.Model):
     def teaches(self, userprofile):
         if hasattr(userprofile, "student"):
             student = userprofile.student
-            return not student.is_independent() and student.class_field.teacher == self
+            return (
+                not student.is_independent()
+                and student.class_field.teacher == self
+            )
 
     def has_school(self):
         return self.school is not (None or "")
@@ -119,11 +161,32 @@ class SchoolTeacherInvitationModelManager(models.Manager):
 
 class SchoolTeacherInvitation(models.Model):
     token = models.CharField(max_length=32)
-    school = models.ForeignKey(School, related_name="teacher_invitations", null=True, on_delete=models.SET_NULL)
-    from_teacher = models.ForeignKey(Teacher, related_name="school_invitations", null=True, on_delete=models.SET_NULL)
-    invited_teacher_first_name = models.CharField(max_length=150)  # Same as User model
-    invited_teacher_last_name = models.CharField(max_length=150)  # Same as User model
+    school = models.ForeignKey(
+        School,
+        related_name="teacher_invitations",
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+    from_teacher = models.ForeignKey(
+        Teacher,
+        related_name="school_invitations",
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+    invited_teacher_first_name = models.CharField(
+        max_length=150
+    )  # Same as User model
+    # TODO: Make not nullable once data has been transferred
+    _invited_teacher_first_name = models.BinaryField(null=True, blank=True)
+    invited_teacher_last_name = models.CharField(
+        max_length=150
+    )  # Same as User model
+    # TODO: Make not nullable once data has been transferred
+    _invited_teacher_last_name = models.BinaryField(null=True, blank=True)
+    # TODO: Switch to a CharField to be able to hold hashed value
     invited_teacher_email = models.EmailField()  # Same as User model
+    # TODO: Make not nullable once data has been transferred
+    _invited_teacher_email = models.BinaryField(null=True, blank=True)
     invited_teacher_is_admin = models.BooleanField(default=False)
     expiry = models.DateTimeField()
     creation_time = models.DateTimeField(default=timezone.now, null=True)
@@ -168,7 +231,9 @@ class ClassModelManager(models.Manager):
 
 class Class(models.Model):
     name = models.CharField(max_length=200)
-    teacher = models.ForeignKey(Teacher, related_name="class_teacher", on_delete=models.CASCADE)
+    teacher = models.ForeignKey(
+        Teacher, related_name="class_teacher", on_delete=models.CASCADE
+    )
     access_code = models.CharField(max_length=5, null=True)
     classmates_data_viewable = models.BooleanField(default=False)
     always_accept_requests = models.BooleanField(default=False)
@@ -176,7 +241,11 @@ class Class(models.Model):
     creation_time = models.DateTimeField(default=timezone.now, null=True)
     is_active = models.BooleanField(default=True)
     created_by = models.ForeignKey(
-        Teacher, null=True, blank=True, related_name="created_classes", on_delete=models.SET_NULL
+        Teacher,
+        null=True,
+        blank=True,
+        related_name="created_classes",
+        on_delete=models.SET_NULL,
     )
 
     objects = ClassModelManager()
@@ -188,7 +257,9 @@ class Class(models.Model):
     def active_game(self):
         games = self.game_set.filter(game_class=self, is_archived=False)
         if len(games) >= 1:
-            assert len(games) == 1  # there should NOT be more than one active game
+            assert (
+                len(games) == 1
+            )  # there should NOT be more than one active game
             return games[0]
         return None
 
@@ -198,8 +269,13 @@ class Class(models.Model):
 
     def get_requests_message(self):
         if self.always_accept_requests:
-            external_requests_message = "This class is currently set to always accept requests."
-        elif self.accept_requests_until is not None and (self.accept_requests_until - timezone.now()) >= timedelta():
+            external_requests_message = (
+                "This class is currently set to always accept requests."
+            )
+        elif (
+            self.accept_requests_until is not None
+            and (self.accept_requests_until - timezone.now()) >= timedelta()
+        ):
             external_requests_message = (
                 "This class is accepting external requests until "
                 + self.accept_requests_until.strftime("%d-%m-%Y %H:%M")
@@ -207,7 +283,9 @@ class Class(models.Model):
                 + timezone.get_current_timezone_name()
             )
         else:
-            external_requests_message = "This class is not currently accepting external requests."
+            external_requests_message = (
+                "This class is not currently accepting external requests."
+            )
 
         return external_requests_message
 
@@ -229,7 +307,9 @@ class UserSession(models.Model):
     login_time = models.DateTimeField(default=timezone.now)
     school = models.ForeignKey(School, null=True, on_delete=models.SET_NULL)
     class_field = models.ForeignKey(Class, null=True, on_delete=models.SET_NULL)
-    login_type = models.CharField(max_length=100, null=True)  # for student login
+    login_type = models.CharField(
+        max_length=100, null=True
+    )  # for student login
 
     def __str__(self):
         return f"{self.user} login: {self.login_time} type: {self.login_type}"
@@ -243,13 +323,24 @@ class StudentModelManager(models.Manager):
                 return random_username
 
     def schoolFactory(self, klass, name, password, login_id=None):
-        user = User.objects.create_user(username=self.get_random_username(), password=password, first_name=name)
+        user = User.objects.create_user(
+            username=self.get_random_username(),
+            password=password,
+            first_name=name,
+        )
         user_profile = UserProfile.objects.create(user=user)
 
-        return Student.objects.create(class_field=klass, user=user_profile, new_user=user, login_id=login_id)
+        return Student.objects.create(
+            class_field=klass,
+            user=user_profile,
+            new_user=user,
+            login_id=login_id,
+        )
 
     def independentStudentFactory(self, name, email, password):
-        user = User.objects.create_user(username=email, email=email, password=password, first_name=name)
+        user = User.objects.create_user(
+            username=email, email=email, password=password, first_name=name
+        )
 
         user_profile = UserProfile.objects.create(user=user)
 
@@ -257,13 +348,29 @@ class StudentModelManager(models.Manager):
 
 
 class Student(models.Model):
-    class_field = models.ForeignKey(Class, related_name="students", null=True, blank=True, on_delete=models.CASCADE)
+    class_field = models.ForeignKey(
+        Class,
+        related_name="students",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+    )
     # hashed uuid used for the unique direct login url
     login_id = models.CharField(max_length=64, null=True)
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-    new_user = models.OneToOneField(User, related_name="new_student", null=True, blank=True, on_delete=models.CASCADE)
+    new_user = models.OneToOneField(
+        User,
+        related_name="new_student",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+    )
     pending_class_request = models.ForeignKey(
-        Class, related_name="class_request", null=True, blank=True, on_delete=models.SET_NULL
+        Class,
+        related_name="class_request",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
     )
     blocked_time = models.DateTimeField(null=True, blank=True)
 
@@ -309,7 +416,9 @@ class JoinReleaseStudent(models.Model):
     JOIN = "join"
     RELEASE = "release"
 
-    student = models.ForeignKey(Student, related_name="student", on_delete=models.CASCADE)
+    student = models.ForeignKey(
+        Student, related_name="student", on_delete=models.CASCADE
+    )
     # either "release" or "join"
     action_type = models.CharField(max_length=64)
     action_time = models.DateTimeField(default=timezone.now)
@@ -317,8 +426,9 @@ class JoinReleaseStudent(models.Model):
 
 class DailyActivity(models.Model):
     """
-    A model to record sets of daily activity. Currently used to record the amount of
-    student details download clicks, through the CSV and login cards methods, per day.
+    A model to record sets of daily activity. Currently used to record the
+    amount of student details download clicks, through the CSV and login
+    cards methods, per day.
     """
 
     date = models.DateField(default=timezone.now)
@@ -342,8 +452,8 @@ class DailyActivity(models.Model):
 
 class TotalActivity(models.Model):
     """
-    A model to record total activity. Meant to only have one entry which records all total activity.
-    An example of this is total ever registrations.
+    A model to record total activity. Meant to only have one entry which
+    records all total activity. An example of this is total ever registrations.
     """
 
     teacher_registrations = models.PositiveIntegerField(default=0)
@@ -361,9 +471,11 @@ class TotalActivity(models.Model):
 
 class DynamicElement(models.Model):
     """
-    This model is meant to allow us to quickly update some elements dynamically on the website without having to
-    redeploy everytime. For example, if a maintenance banner needs to be added, we check the box in the Django admin
-    panel, edit the text and it'll show immediately on the website.
+    This model is meant to allow us to quickly update some elements
+    dynamically on the website without having to redeploy everytime. For
+    example, if a maintenance banner needs to be added, we check the box in
+    the Django admin panel, edit the text and it'll show immediately on the
+    website.
     """
 
     name = models.CharField(max_length=64, unique=True, editable=False)
