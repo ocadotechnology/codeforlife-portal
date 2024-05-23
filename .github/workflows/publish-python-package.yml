@@ -12,12 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.8"
           architecture: "x64"
@@ -29,23 +29,12 @@ jobs:
         run: |
           git config --local user.name cfl-bot
           git config --local user.email codeforlife-bot@ocado.com
-#      - name: Release codeforlife-portal
-#        uses: relekang/python-semantic-release@v7.34.6
-#        with:
-#          github_token: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
-#          pypi_token: ${{ secrets.PYPI_TOKEN }}
-#        continue-on-error: true
-      - name: Build portal package
-        run: |
-          pip install wheel
-          python setup.py sdist bdist_wheel
-      - name: Publish portal package to PyPi
-        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Release codeforlife-portal
+        uses: relekang/python-semantic-release@v7.34.6
         with:
-          user: __token__
-          password: ${{ secrets.PYPI_TOKEN }}
-          packages-dir: dist/
-          skip-existing: true
+          github_token: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
+          pypi_token: ${{ secrets.PYPI_TOKEN }}
+        continue-on-error: true
       - name: Build cfl-common package
         run: |
           pip install wheel
