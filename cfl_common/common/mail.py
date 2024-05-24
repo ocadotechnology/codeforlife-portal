@@ -26,6 +26,7 @@ campaign_ids = {
     "verify_new_user_first_reminder": 1557170,
     "verify_new_user_second_reminder": 1557173,
     "verify_new_user_via_parent": 1551587,
+    "verify_released_student": 1580574,
 }
 
 
