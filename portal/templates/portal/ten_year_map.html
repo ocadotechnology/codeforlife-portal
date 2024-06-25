@@ -1,0 +1,59 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+{% load app_tags banner_tags headline_tags character_list_tags %}
+
+{% block subNav %}
+{% banner banner_name="BANNER" %}
+{% endblock subNav %}
+
+{% block content %}
+
+<div class="background">
+    {% headline headline_name="HEADLINE" %}
+</div>
+
+<div class="background-container">
+    <section class="banner--rapid-router">
+        <img title="world map" alt="World map" src="{% static 'portal/img/world_map.svg' %}" />
+    </section>
+</div>
+
+<div class="background container">
+    <section class="banner--rapid-router">
+        <img title="Rapid Router logo" alt="Banner image of Rapid Router logo and game" src="{% static 'common/img/RR_logo.svg' %}">
+    </section>
+    <div class="background row d-flex">
+        <div class="col-sm-6 d-flex flex-column">
+            <div class="flex-grow-1">
+                <h5 class="mt-0">Starting with Blockly</h5>
+                <p>TEST MAP PAGE</p>
+                <p>If you are not part of a school, you can <a href="{% url 'register' %}">register here</a>.</p>
+            </div>
+            <div class="row my-4">
+                <div class="col-sm-12">
+                    <a href="https://docs.codeforlife.education/rapid-router/blockly-guide" class="button button--primary button--icon col-sm-8" target="_blank">
+                        Learn more about Blockly<span class="iconify" data-icon="mdi:open-in-new"></span></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <a href="{% url 'levels' %}" class="button button--primary button--icon col-sm-8">
+                        Play Rapid Router <span class="iconify" data-icon="mdi:chevron-right"></span></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <a href="https://www.youtube-nocookie.com/embed/w0Pw_XikQSs?rel=0&amp;autoplay=1" class="youtube">
+                <img src="{% static 'portal/img/thumbnail_play_rapid_router.png' %}" alt="Image of Rapid Router game with play button in bottom right corner">
+            </a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        invokeColorbox();
+    });
+</script>
+
+{% endblock content %}

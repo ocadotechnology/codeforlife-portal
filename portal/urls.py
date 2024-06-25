@@ -1,24 +1,30 @@
 from aimmo.urls import HOMEPAGE_REGEX
 from common.permissions import teacher_verified
 from django.conf.urls import include, url
-from django.urls import path
 from django.http import HttpResponse
+from django.urls import path
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from game.views.level import play_default_level
-from two_factor.views import BackupTokensView, ProfileView, QRGeneratorView, SetupCompleteView
+from two_factor.views import (
+    BackupTokensView,
+    ProfileView,
+    QRGeneratorView,
+    SetupCompleteView,
+)
 
 from portal.helpers.decorators import ratelimit
 from portal.helpers.ratelimit import (
     RATELIMIT_LOGIN_GROUP,
-    RATELIMIT_METHOD,
     RATELIMIT_LOGIN_RATE,
     RATELIMIT_LOGIN_RATE_SCHOOL_STUDENT,
+    RATELIMIT_METHOD,
+    school_student_key,
 )
-from portal.helpers.ratelimit import school_student_key
 from portal.helpers.regexes import ACCESS_CODE_REGEX, JWT_REGEX
-from portal.views.about import about, getinvolved, contribute
+from portal.views import cron
+from portal.views.about import about, contribute, getinvolved
 from portal.views.admin import AdminChangePasswordDoneView, AdminChangePasswordView
 from portal.views.aimmo.dashboard import StudentAimmoDashboard, TeacherAimmoDashboard
 from portal.views.api import (
@@ -43,41 +49,50 @@ from portal.views.home import (
 from portal.views.legal import privacy_notice, terms
 from portal.views.login import old_login_form_redirect
 from portal.views.login.independent_student import IndependentStudentLoginView
-from portal.views.login.student import StudentLoginView, StudentClassCodeView, student_direct_login
+from portal.views.login.student import (
+    StudentClassCodeView,
+    StudentLoginView,
+    student_direct_login,
+)
 from portal.views.login.teacher import TeacherLoginView
 from portal.views.organisation import organisation_leave, organisation_manage
 from portal.views.play_landing_page import play_landing_page
 from portal.views.registration import (
+    delete_account,
     password_reset_check_and_confirm,
     password_reset_done,
     student_password_reset,
     teacher_password_reset,
-    delete_account,
 )
 from portal.views.student.edit_account_details import (
-    independentStudentEditAccountView,
     SchoolStudentEditAccountView,
+    independentStudentEditAccountView,
     student_edit_account,
 )
-from portal.views.student.play import SchoolStudentDashboard, IndependentStudentDashboard, student_join_organisation
+from portal.views.student.play import (
+    IndependentStudentDashboard,
+    SchoolStudentDashboard,
+    student_join_organisation,
+)
 from portal.views.teach import teach
 from portal.views.teacher.dashboard import (
     dashboard_manage,
-    organisation_kick,
+    delete_teacher_invite,
     invite_toggle_admin,
+    invited_teacher,
+    organisation_kick,
     organisation_toggle_admin,
+    resend_invite_teacher,
     teacher_accept_student_request,
     teacher_disable_2FA,
     teacher_reject_student_request,
-    delete_teacher_invite,
-    invited_teacher,
-    resend_invite_teacher,
 )
 from portal.views.teacher.teach import (
     teacher_class_password_reset,
     teacher_delete_class,
     teacher_delete_students,
     teacher_dismiss_students,
+    teacher_download_csv,
     teacher_edit_class,
     teacher_edit_student,
     teacher_move_students,
@@ -85,11 +100,9 @@ from portal.views.teacher.teach import (
     teacher_onboarding_create_class,
     teacher_onboarding_edit_class,
     teacher_print_reminder_cards,
-    teacher_download_csv,
     teacher_view_class,
 )
-from portal.views import cron
-
+from portal.views.ten_year_map import ten_year_map_page
 from portal.views.two_factor.core import CustomSetupView
 from portal.views.two_factor.profile import CustomDisableView
 
@@ -347,4 +360,5 @@ urlpatterns = [
     url(r"^codingClub/$", coding_club, name="codingClub"),
     url(r"^codingClub/(?P<student_pack_type>[3-4])/", download_student_pack, name="download_student_pack"),
     url(r"^removeFakeAccounts/", RemoveFakeAccounts.as_view(), name="remove_fake_accounts"),
+    url(r"^tenYears/", ten_year_map_page, name="tenYears"),
 ]
