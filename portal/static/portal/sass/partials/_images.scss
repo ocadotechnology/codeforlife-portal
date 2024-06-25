@@ -73,6 +73,12 @@ img {
   content: url("../img/logo_cfl.png");
 }
 
+.map-pin {
+  position: absolute;
+  background: 0 0;
+  min-width: 0px !important;
+}
+
 .glyphicon {
   @include _font-size(30px);
   font-weight: 500;

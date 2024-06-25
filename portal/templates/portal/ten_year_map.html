@@ -6,46 +6,77 @@
 {% banner banner_name="BANNER" %}
 {% endblock subNav %}
 
+{% block scripts %}
+{{ block.super }}
+<script defer type="text/javascript" src="{% static 'portal/js/tenYearMap.js' %}"></script>
+{% endblock scripts %}
+
 {% block content %}
 
 <div class="background">
     {% headline headline_name="HEADLINE" %}
 </div>
 
-<div class="background-container">
-    <section class="banner--rapid-router">
+<div class="background container" id="map-container">
+    <section class="background background--primary">
         <img title="world map" alt="World map" src="{% static 'portal/img/world_map.svg' %}" />
+        <button class="map-pin" id="hatfield" style="left:475px; top: 631px" onclick="setActivePin('hatfield')">
+            <map-pin id="hatfield-pin" />
+        </button>
+        <button class="map-pin" id="barcelona" style="left:483px; top: 661px" onclick="setActivePin('barcelona')">
+            <map-pin id="barcelona-pin" />
+        </button>
+        <button class="map-pin" id="krakow" style="left:526px; top: 634px" onclick="setActivePin('krakow')">
+            <map-pin id="krakow-pin" />
+        </button>
     </section>
 </div>
 
-<div class="background container">
-    <section class="banner--rapid-router">
-        <img title="Rapid Router logo" alt="Banner image of Rapid Router logo and game" src="{% static 'common/img/RR_logo.svg' %}">
-    </section>
-    <div class="background row d-flex">
-        <div class="col-sm-6 d-flex flex-column">
-            <div class="flex-grow-1">
-                <h5 class="mt-0">Starting with Blockly</h5>
-                <p>TEST MAP PAGE</p>
-                <p>If you are not part of a school, you can <a href="{% url 'register' %}">register here</a>.</p>
-            </div>
-            <div class="row my-4">
-                <div class="col-sm-12">
-                    <a href="https://docs.codeforlife.education/rapid-router/blockly-guide" class="button button--primary button--icon col-sm-8" target="_blank">
-                        Learn more about Blockly<span class="iconify" data-icon="mdi:open-in-new"></span></a>
+<div class="background">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="carousel-teach" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-teach" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-teach" data-slide-to="1"></li>
+                        <li data-target="#carousel-teach" data-slide-to="2"></li>
+                    </ol>
+
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active" id="hatfield-carousel">
+                            <div class="col-sm-6 carousel-image-wrapper">
+                                <img src="{% static 'portal/img/icon_step_by_step.png' %}" alt="Illustration of person climbing steps with flag">
+                            </div>
+                            <div class="col-sm-6 carousel-text">
+                                <h5>
+                                    Hatfield
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="item" id="barcelona-carousel">
+                            <div class="col-sm-6 carousel-image-wrapper">
+                                <img src="{% static 'portal/img/icon_uk_flag.png' %}" alt="Illustration of The Union Jack flag">
+                            </div>
+                            <div class="col-sm-6 carousel-text">
+                                <h5>
+                                    Barcelona
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="item" id="krakow-carousel">
+                            <div class="col-sm-6 carousel-image-wrapper">
+                                <img src="{% static 'portal/img/icon_tracking.png' %}" alt="Illustration of a progress chart">
+                            </div>
+                            <div class="col-sm-6 carousel-text">
+                                <h5>
+                                    Krakow (I couldn't remember where in Poland we were based)
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <a href="{% url 'levels' %}" class="button button--primary button--icon col-sm-8">
-                        Play Rapid Router <span class="iconify" data-icon="mdi:chevron-right"></span></a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <a href="https://www.youtube-nocookie.com/embed/w0Pw_XikQSs?rel=0&amp;autoplay=1" class="youtube">
-                <img src="{% static 'portal/img/thumbnail_play_rapid_router.png' %}" alt="Image of Rapid Router game with play button in bottom right corner">
-            </a>
         </div>
     </div>
 </div>
@@ -54,6 +85,19 @@
     $(document).ready(function () {
         invokeColorbox();
     });
+</script>
+
+<script>
+    customElements.define("map-pin", class extends HTMLElement {
+        connectedCallback() {
+            setTimeout(() => {
+                this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 0 24 24" width="40px" fill="#00A3E0">
+                                    <path d="M0 0h24v24H0z" fill="none"/>
+                                    <path stroke-width="0.75px" stroke="black" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                </svg>`
+            })
+        }
+    })
 </script>
 
 {% endblock content %}
