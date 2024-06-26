@@ -19,15 +19,18 @@
 
 <div class="background container" id="map-container">
     <section class="background background--primary">
-        <img title="world map" alt="World map" src="{% static 'portal/img/world_map.svg' %}" />
-        <button class="map-pin" id="hatfield" style="left:475px; top: 631px" onclick="setActivePin('hatfield')">
+        <img title="world map" alt="World map" src="{% static 'portal/img/color_world_map.png' %}" width="95%"/>
+        <button class="map-pin" id="hatfield" style="left:827px; top: 734px" onclick="setActivePin('hatfield')" data-target="#carousel-ten-year-map" data-slide-to="0">
             <map-pin id="hatfield-pin" />
         </button>
-        <button class="map-pin" id="barcelona" style="left:483px; top: 661px" onclick="setActivePin('barcelona')">
+        <button class="map-pin" id="barcelona" style="left:835px; top: 805px" onclick="setActivePin('barcelona')" data-target="#carousel-ten-year-map" data-slide-to="1">
             <map-pin id="barcelona-pin" />
         </button>
-        <button class="map-pin" id="krakow" style="left:526px; top: 634px" onclick="setActivePin('krakow')">
+        <button class="map-pin" id="krakow" style="left:923px; top: 750px" onclick="setActivePin('krakow')" data-target="#carousel-ten-year-map" data-slide-to="2">
             <map-pin id="krakow-pin" />
+        </button>
+        <button class="map-pin" id="sofia" style="left:961px; top: 793px" onclick="setActivePin('sofia')" data-target="#carousel-ten-year-map" data-slide-to="3">
+            <map-pin id="sofia-pin" />
         </button>
     </section>
 </div>
@@ -36,11 +39,12 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <div id="carousel-teach" class="carousel slide" data-ride="carousel">
+                <div id="carousel-ten-year-map" class="carousel slide">
                     <ol class="carousel-indicators">
-                        <li data-target="#carousel-teach" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-teach" data-slide-to="1"></li>
-                        <li data-target="#carousel-teach" data-slide-to="2"></li>
+                        <li data-target="#carousel-ten-year-map" data-slide-to="0" class="active" onclick="setActivePin('hatfield')"></li>
+                        <li data-target="#carousel-ten-year-map" data-slide-to="1" onclick="setActivePin('barcelona')"></li>
+                        <li data-target="#carousel-ten-year-map" data-slide-to="2" onclick="setActivePin('krakow')"></li>
+                        <li data-target="#carousel-ten-year-map" data-slide-to="3" onclick="setActivePin('sofia')"></li>
                     </ol>
 
                     <div class="carousel-inner" role="listbox">
@@ -49,13 +53,24 @@
                                 <img src="{% static 'portal/img/icon_step_by_step.png' %}" alt="Illustration of person climbing steps with flag">
                             </div>
                             <div class="col-sm-6 carousel-text">
+                                <h4>
+                                    <b>Hatfield</b>
+                                </h4>
                                 <h5>
-                                    Hatfield
+                                    Our world tour begins in Hatfield, where we're running a robotics workshop with the local Howe Dell school! 
+                                    Led by our team and volunteers, students will get to design their own robot, with the potential to win a 
+                                    specially 3D-printed trophy.
                                 </h5>
+                                <div>
+                                    <a href="www.google.com" class="button button--primary button-right-arrow">Learn more</a>
+                                </div>
                             </div>
                         </div>
                         <div class="item" id="barcelona-carousel">
-                            <div class="col-sm-6 carousel-image-wrapper">
+                            <div class="col-sm-3 carousel-image-wrapper" style="margin-right:10px">
+                                <img src="{% static 'portal/img/icon_uk_flag.png' %}" alt="Illustration of The Union Jack flag">
+                            </div>
+                            <div class="col-sm-3 carousel-image-wrapper">
                                 <img src="{% static 'portal/img/icon_uk_flag.png' %}" alt="Illustration of The Union Jack flag">
                             </div>
                             <div class="col-sm-6 carousel-text">
@@ -65,12 +80,27 @@
                             </div>
                         </div>
                         <div class="item" id="krakow-carousel">
+                            <div class="col-sm-6">
+                                <div class="row carousel-image-wrapper" style="height:200px">
+                                    <img src="{% static 'portal/img/icon_uk_flag.png' %}" alt="Illustration of The Union Jack flag">
+                                </div>
+                                <div class="row carousel-image-wrapper" style="height:200px; margin-top:15px">
+                                    <img src="{% static 'portal/img/icon_uk_flag.png' %}" alt="Illustration of The Union Jack flag">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 carousel-text">
+                                <h5>
+                                    Krakow (I couldn't remember where in Poland we were based)
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="item" id="sofia-carousel">
                             <div class="col-sm-6 carousel-image-wrapper">
                                 <img src="{% static 'portal/img/icon_tracking.png' %}" alt="Illustration of a progress chart">
                             </div>
                             <div class="col-sm-6 carousel-text">
                                 <h5>
-                                    Krakow (I couldn't remember where in Poland we were based)
+                                    Sofia
                                 </h5>
                             </div>
                         </div>
@@ -84,6 +114,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         invokeColorbox();
+        setActivePin("hatfield");
     });
 </script>
 
@@ -93,7 +124,7 @@
             setTimeout(() => {
                 this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 0 24 24" width="40px" fill="#00A3E0">
                                     <path d="M0 0h24v24H0z" fill="none"/>
-                                    <path stroke-width="0.75px" stroke="black" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                                 </svg>`
             })
         }
