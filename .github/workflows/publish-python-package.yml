@@ -28,9 +28,10 @@ jobs:
           pip install pipenv
           pipenv install --dev --system
       - name: Release codeforlife-portal
-        uses: python-semantic-release/python-semantic-release@master
+        uses: relekang/python-semantic-release@v7.34.6
         with:
           github_token: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
+          pypi_token: ${{ secrets.PYPI_TOKEN }}
       - name: Build cfl-common package
         run: |
           pip install wheel
