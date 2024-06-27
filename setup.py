@@ -26,7 +26,7 @@ setup(
     install_requires=[
         "django==3.2.25",
         "django-countries==7.3.1",
-        "djangorestframework==3.15.2",
+        "djangorestframework==3.13.1",
         "django-pipeline==2.0.8",
         "django-recaptcha==2.0.6",
         "pyyaml==5.4.1",
