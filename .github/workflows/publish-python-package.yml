@@ -25,10 +25,6 @@ jobs:
         run: |
           pip install pipenv
           pipenv install --dev --system
-      - name: Configure Git
-        run: |
-          git config --local user.name cfl-bot
-          git config --local user.email codeforlife-bot@ocado.com
       - name: Release codeforlife-portal
         uses: relekang/python-semantic-release@v7.34.6
         with:
