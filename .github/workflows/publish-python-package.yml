@@ -1,4 +1,5 @@
 name: Publish Python Package
+
 on:
   push:
     branches:
@@ -6,6 +7,7 @@ on:
     paths-ignore:
       - "CHANGELOG.md"
       - "portal/__init__.py"
+
 jobs:
   publish-pypi-packages:
     name: Publish PyPi Packages
@@ -26,11 +28,9 @@ jobs:
           pip install pipenv
           pipenv install --dev --system
       - name: Release codeforlife-portal
-        uses: relekang/python-semantic-release@v7.34.6
+        uses: python-semantic-release/python-semantic-release@master
         with:
           github_token: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
-          pypi_token: ${{ secrets.PYPI_TOKEN }}
-        continue-on-error: true
       - name: Build cfl-common package
         run: |
           pip install wheel
