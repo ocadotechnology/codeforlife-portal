@@ -19,17 +19,17 @@
 
 <div class="background container" id="map-container" style="position:relative">
     <section class="background background--primary">
-        <img title="world map" alt="World map" src="{% static 'portal/img/color_world_map.png' %}" width="95%"/>
-        <button class="map-pin" id="hatfield" style="left: 69.5%; top: 28%" onclick="setActivePin('hatfield')" data-target="#carousel-ten-year-map" data-slide-to="0">
+        <img title="world map" alt="World map" src="{% static 'portal/img/recropped_world_map.png' %}" width="95%"/>
+        <button class="map-pin" id="hatfield" style="left: 71.7%; top: 28.5%" onclick="setActivePin('hatfield')" data-target="#carousel-ten-year-map" data-slide-to="0">
             <map-pin id="hatfield-pin" />
         </button>
-        <button class="map-pin" id="barcelona" style="left: 70%; top: 43%" onclick="setActivePin('barcelona')" data-target="#carousel-ten-year-map" data-slide-to="1">
+        <button class="map-pin" id="barcelona" style="left: 72.4%; top: 43.6%" onclick="setActivePin('barcelona')" data-target="#carousel-ten-year-map" data-slide-to="1">
             <map-pin id="barcelona-pin" />
         </button>
-        <button class="map-pin" id="krakow" style="left:77.4%; top: 31%" onclick="setActivePin('krakow')" data-target="#carousel-ten-year-map" data-slide-to="2">
+        <button class="map-pin" id="krakow" style="left:81%; top: 29.3%" onclick="setActivePin('krakow')" data-target="#carousel-ten-year-map" data-slide-to="2">
             <map-pin id="krakow-pin" />
         </button>
-        <button class="map-pin" id="sofia" style="left:80.5%; top: 41%" onclick="setActivePin('sofia')" data-target="#carousel-ten-year-map" data-slide-to="3">
+        <button class="map-pin" id="sofia" style="left:84.7%; top: 42%" onclick="setActivePin('sofia')" data-target="#carousel-ten-year-map" data-slide-to="3">
             <map-pin id="sofia-pin" />
         </button>
     </section>
@@ -67,11 +67,8 @@
                             </div>
                         </div>
                         <div class="item" id="barcelona-carousel">
-                            <div class="col-sm-3 carousel-image-wrapper" style="margin-right:10px">
-                                <img src="{% static 'portal/img/icon_uk_flag.png' %}" alt="Illustration of The Union Jack flag">
-                            </div>
-                            <div class="col-sm-3 carousel-image-wrapper">
-                                <img src="{% static 'portal/img/icon_uk_flag.png' %}" alt="Illustration of The Union Jack flag">
+                            <div class="col-sm-6 carousel-image-wrapper">
+                                <img src="{% static 'portal/img/icon_step_by_step.png' %}" alt="Illustration of person climbing steps with flag">
                             </div>
                             <div class="col-sm-6 carousel-text">
                                 <h5>
@@ -80,17 +77,12 @@
                             </div>
                         </div>
                         <div class="item" id="krakow-carousel">
-                            <div class="col-sm-6">
-                                <div class="row carousel-image-wrapper" style="height:200px">
-                                    <img src="{% static 'portal/img/icon_uk_flag.png' %}" alt="Illustration of The Union Jack flag">
-                                </div>
-                                <div class="row carousel-image-wrapper" style="height:200px; margin-top:15px">
-                                    <img src="{% static 'portal/img/icon_uk_flag.png' %}" alt="Illustration of The Union Jack flag">
-                                </div>
+                            <div class="col-sm-6 carousel-image-wrapper">
+                                <img src="{% static 'portal/img/icon_step_by_step.png' %}" alt="Illustration of person climbing steps with flag">
                             </div>
                             <div class="col-sm-6 carousel-text">
                                 <h5>
-                                    Krakow (I couldn't remember where in Poland we were based)
+                                    Krakow
                                 </h5>
                             </div>
                         </div>
@@ -122,7 +114,7 @@
     customElements.define("map-pin", class extends HTMLElement {
         connectedCallback() {
             setTimeout(() => {
-                this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 0 24 24" width="40px" fill="#00A3E0">
+                this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 0 24 24" width="40px" fill="#FFC709">
                                     <path d="M0 0h24v24H0z" fill="none"/>
                                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                                 </svg>`
