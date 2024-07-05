@@ -5,7 +5,9 @@ import sys
 from setuptools import find_packages, setup
 
 with open("portal/__init__.py", "r") as fd:
-    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', fd.read(), re.MULTILINE).group(1)
+    version = re.search(
+        r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', fd.read(), re.MULTILINE
+    ).group(1)
 
 try:
     from semantic_release import setup_hook
@@ -17,6 +19,8 @@ except ImportError:
 setup(
     name="codeforlife-portal",
     version=version,
+    long_description=open("README.md", "r").read(),
+    long_description_content_type="text/markdown",
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
@@ -32,7 +36,7 @@ setup(
         "reportlab==3.6.13",
         "django-formtools==2.2",
         "django-otp==1.0.2",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
-        "requests==2.31.0",
+        "requests==2.32.2",
         "django-treebeard==4.3.1",
         "django-sekizai==2.0.0",
         "django-classy-tags==2.0.0",
@@ -46,6 +50,10 @@ setup(
         "setuptools==65.5.1",
         "django-import-export",
     ],
-    classifiers=["Programming Language :: Python", "Programming Language :: Python :: 3.8", "Framework :: Django"],
+    classifiers=[
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3.8",
+        "Framework :: Django",
+    ],
     zip_safe=False,
 )

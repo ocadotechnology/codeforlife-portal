@@ -283,7 +283,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page = page.go_to_independent_student_login_page()
         page = page.independent_student_login_failure(username, password)
 
-        errors = page.has_login_failed("independent_student_login_form", INVALID_LOGIN_MESSAGE)
+        page.has_login_failed("independent_student_login_form", INVALID_LOGIN_MESSAGE)
         assert page.has_login_failed("independent_student_login_form", INVALID_LOGIN_MESSAGE)
 
         verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
@@ -471,7 +471,9 @@ class TestIndependentStudentFrontend(BaseTest):
         )
 
         assert self.is_join_class_page(page)
-        assert page.has_join_request_failed("Cannot find the school or club and/or class")
+        assert page.has_join_request_failed(
+            "The class code you entered either does not exist or is not currently accepting join requests. Please double check that you have entered the correct class code and contact the teacher of the class to ensure their class is currently accepting join requests."
+        )
 
     def test_join_class_not_accepting_requests(self):
         teacher_email, _ = signup_teacher_directly()
@@ -490,7 +492,9 @@ class TestIndependentStudentFrontend(BaseTest):
         )
 
         assert self.is_join_class_page(page)
-        assert page.has_join_request_failed("Cannot find the school or club and/or class")
+        assert page.has_join_request_failed(
+            "The class code you entered either does not exist or is not currently accepting join requests. Please double check that you have entered the correct class code and contact the teacher of the class to ensure their class is currently accepting join requests."
+        )
 
     def test_join_class_revoked(self):
         teacher_email, _ = signup_teacher_directly()

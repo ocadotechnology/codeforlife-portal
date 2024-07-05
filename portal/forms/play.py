@@ -277,15 +277,19 @@ class StudentJoinOrganisationForm(forms.Form):
 
     def clean(self):
         access_code = self.cleaned_data.get("access_code", None)
+        join_error_text = "The class code you entered either does not exist or is not currently accepting join requests. Please double check that you have entered the correct class code and contact the teacher of the class to ensure their class is currently accepting join requests."
 
         if access_code:
             classes = Class.objects.filter(access_code=access_code)
             if len(classes) != 1:
-                raise forms.ValidationError("Cannot find the school or club and/or class")
+                raise forms.ValidationError(join_error_text)
+
             self.klass = classes[0]
-            if not self.klass.always_accept_requests:
-                if self.klass.accept_requests_until is None:
-                    raise forms.ValidationError("Cannot find the school or club and/or class")
-                elif (self.klass.accept_requests_until - timezone.now()) < timedelta():
-                    raise forms.ValidationError("Cannot find the school or club and/or class")
+
+            if not self.klass.always_accept_requests and (
+                self.klass.accept_requests_until is None
+                or self.klass.accept_requests_until - timezone.now()
+                < timedelta()
+            ):
+                raise forms.ValidationError(join_error_text)
         return self.cleaned_data

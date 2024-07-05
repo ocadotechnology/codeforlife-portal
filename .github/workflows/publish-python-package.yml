@@ -1,4 +1,5 @@
 name: Publish Python Package
+
 on:
   push:
     branches:
@@ -6,18 +7,19 @@ on:
     paths-ignore:
       - "CHANGELOG.md"
       - "portal/__init__.py"
+
 jobs:
   publish-pypi-packages:
     name: Publish PyPi Packages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.8"
           architecture: "x64"
@@ -25,16 +27,11 @@ jobs:
         run: |
           pip install pipenv
           pipenv install --dev --system
-      - name: Configure Git
-        run: |
-          git config --local user.name cfl-bot
-          git config --local user.email codeforlife-bot@ocado.com
       - name: Release codeforlife-portal
         uses: relekang/python-semantic-release@v7.34.6
         with:
           github_token: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
           pypi_token: ${{ secrets.PYPI_TOKEN }}
-        continue-on-error: true
       - name: Build cfl-common package
         run: |
           pip install wheel
@@ -46,8 +43,8 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}
-          packages_dir: cfl_common/dist/
-          skip_existing: true
+          packages-dir: cfl_common/dist/
+          skip-existing: true
       - name: Trigger staging deployment
         uses: actions/github-script@v6
         with:
