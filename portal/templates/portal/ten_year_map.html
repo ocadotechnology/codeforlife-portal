@@ -19,7 +19,8 @@
 
 <div class="background container" id="map-container" style="position:relative">
     <section class="background background--primary">
-        <img title="world map" alt="World map" src="{% static 'portal/img/recropped_world_map.png' %}" width="95%"/>
+        <img title="world map" alt="World map" src="{% static 'portal/img/world_map.png' %}" width="95%"/>
+        <!-- TODO: The pins no longer map to the right location when in mobile view -->
         <button class="map-pin" id="hatfield" style="left: 71.7%; top: 28.5%" onclick="setActivePin('hatfield')" data-target="#carousel-ten-year-map" data-slide-to="0">
             <map-pin id="hatfield-pin" />
         </button>
@@ -57,12 +58,12 @@
                                     <b>Hatfield</b>
                                 </h4>
                                 <h5>
-                                    Our world tour begins in Hatfield, where we're running a robotics workshop with the local Howe Dell school! 
-                                    Led by our team and volunteers, students will get to design their own robot, with the potential to win a 
+                                    Our world tour begins in Hatfield, where we're running a robotics workshop with the local Howe Dell school!
+                                    Led by our team and volunteers, students will get to design their own robot, with the potential to win a
                                     specially 3D-printed trophy.
                                 </h5>
                                 <div>
-                                    <a href="www.google.com" class="button button--primary button-right-arrow">Learn more</a>
+                                    <a href="" class="button button--primary button-right-arrow">Learn more</a>
                                 </div>
                             </div>
                         </div>
@@ -102,13 +103,6 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        invokeColorbox();
-        setActivePin("hatfield");
-    });
-</script>
 
 <script>
     customElements.define("map-pin", class extends HTMLElement {

@@ -54,6 +54,7 @@ from portal.views.home import (
     logout_view,
     register_view,
     reset_screentime_warning,
+    ten_year_map_page
 )
 from portal.views.legal import privacy_notice, terms
 from portal.views.login import old_login_form_redirect
@@ -111,7 +112,6 @@ from portal.views.teacher.teach import (
     teacher_print_reminder_cards,
     teacher_view_class,
 )
-from portal.views.ten_year_map import ten_year_map_page
 from portal.views.two_factor.core import CustomSetupView
 from portal.views.two_factor.profile import CustomDisableView
 
