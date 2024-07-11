@@ -60,6 +60,9 @@
     "-m",
     "pylint"
   ],
+  "python.analysis.extraPaths": [
+    "./cfl_common"
+  ],
   "python.defaultInterpreterPath": ".venv/bin/python",
   "python.testing.pytestArgs": [
     "-n=auto",
@@ -69,8 +72,5 @@
     "."
   ],
   "python.testing.pytestEnabled": true,
-  "python.testing.unittestEnabled": false,
-  "python.analysis.extraPaths": [
-    "./cfl_common"
-  ]
+  "python.testing.unittestEnabled": false
 }
