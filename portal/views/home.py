@@ -46,28 +46,6 @@ from portal.views.teacher.teach import (
 LOGGER = logging.getLogger(__name__)
 
 
-def teach_email_labeller(request):
-    if request.method == "POST" and "teacher_login" in request.POST:
-        return request.POST["login-teacher_email"]
-
-    return ""
-
-
-def play_name_labeller(request):
-    if request.method == "POST":
-        if "school_login" in request.POST:
-            return (
-                request.POST["login-name"]
-                + ":"
-                + request.POST["login-access_code"]
-            )
-
-        if "independent_student_login" in request.POST:
-            return request.POST["independent_student-username"]
-
-    return ""
-
-
 def register_view(request):
     if request.user.is_authenticated:
         return redirect_user_to_dashboard(request)

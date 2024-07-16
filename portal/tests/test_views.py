@@ -542,6 +542,12 @@ class TestViews(TestCase):
         response = c.get(page_url)
         assert response.status_code == 200
 
+    def test_ten_year_map(self):
+        c = Client()
+        page_url = reverse("tenYears")
+        response = c.get(page_url)
+        assert response.status_code == 200
+
     def test_student_dashboard_view(self):
         teacher_email, teacher_password = signup_teacher_directly()
         create_organisation_directly(teacher_email)
