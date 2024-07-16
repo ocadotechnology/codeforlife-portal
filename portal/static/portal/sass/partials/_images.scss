@@ -79,6 +79,277 @@ img {
   min-width: 0px !important;
 }
 
+#hatfield {
+  left: 34.5%;
+  top: 26.7%;
+}
+
+#barcelona {
+  left: 38%;
+  top: 58.8%;
+}
+
+#krakow {
+  left: 61.7%;
+  top: 30.3%;
+}
+
+#sofia {
+  left: 68.5%;
+  top: 55.5%;
+}
+
+@media only screen and (max-width: 1400px) {
+  #sofia {
+    left: 68.8%;
+    top: 55.8%;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  #hatfield {
+    left: 33.5%;
+    top: 25.1%;
+  }
+  
+  #barcelona {
+    left: 36.7%;
+    top: 56.4%;
+  }
+  
+  #krakow {
+    left: 60.7%;
+    top: 28.7%;
+  }
+  
+  #sofia {
+    left: 68%;
+    top: 53.5%;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  #hatfield {
+    left: 32.7%;
+    top: 22.8%;
+  }
+  
+  #barcelona {
+    left: 35.7%;
+    top: 54.6%;
+  }
+  
+  #krakow {
+    left: 59.7%;
+    top: 26.3%;
+  }
+  
+  #sofia {
+    left: 67%;
+    top: 50.2%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #barcelona {
+    left: 36.7%;
+    top: 54%;
+  }
+  
+  #sofia {
+    left: 67.5%;
+    top: 51.2%;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  #hatfield {
+    left: 32.5%;
+    top: 20.8%;
+  }
+  
+  #barcelona {
+    left: 35.4%;
+    top: 53.5%;
+  }
+  
+  #krakow {
+    left: 59.7%;
+    top: 25.3%;
+  }
+  
+  #sofia {
+    left: 67%;
+    top: 50.2%;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  #barcelona {
+    left: 35.4%;
+    top: 52.5%;
+  }
+
+  #sofia {
+    left: 66%;
+    top:48.2%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #hatfield {
+    left: 31.5%;
+    top: 18.8%;
+  }
+  
+  #barcelona {
+    left: 34.4%;
+    top: 50.5%;
+  }
+  
+  #krakow {
+    left: 58.7%;
+    top: 23.3%;
+  }
+  
+  #sofia {
+    left: 66%;
+    top: 48.2%;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  #hatfield {
+    left: 30.5%;
+    top: 17.3%;
+  }
+  
+  #barcelona {
+    left: 33.4%;
+    top: 49%;
+  }
+  
+  #krakow {
+    left: 57.7%;
+    top: 21.6%;
+  }
+  
+  #sofia {
+    left: 65%;
+    top: 46%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  #hatfield {
+    left: 29.8%;
+    top: 16.3%;
+  }
+  
+  #barcelona {
+    left: 33%;
+    top: 47%;
+  }
+  
+  #krakow {
+    left: 57%;
+    top: 20%;
+  }
+  
+  #sofia {
+    left: 64%;
+    top: 44%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  #hatfield {
+    left: 28.7%;
+    top: 17%;
+  }
+  
+  #barcelona {
+    left: 32%;
+    top: 44.5%;
+  }
+  
+  #krakow {
+    left: 56%;
+    top: 21.5%;
+  }
+  
+  #sofia {
+    left: 63%;
+    top: 42%;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  #hatfield {
+    left: 28.5%;
+    top: 17%;
+  }
+  
+  #barcelona {
+    left: 31.5%;
+    top: 42.5%;
+  }
+  
+  #krakow {
+    left: 55%;
+    top: 19.5%;
+  }
+  
+  #sofia {
+    left: 62%;
+    top: 40.5%;
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  #hatfield {
+    left: 27.8%;
+    top: 15.5%;
+  }
+  
+  #barcelona {
+    left: 31%;
+    top: 40.5%;
+  }
+  
+  #krakow {
+    left: 52.5%;
+    top: 19%;
+  }
+  
+  #sofia {
+    left: 61%;
+    top: 39%;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  #hatfield {
+    left: 27.5%;
+    top: 14.5%;
+  }
+  
+  #barcelona {
+    left: 30.5%;
+    top: 40%;
+  }
+  
+  #krakow {
+    left: 53%;
+    top: 18%;
+  }
+  
+  #sofia {
+    left: 60%;
+    top: 35.5%;
+  }
+}
+
 .glyphicon {
   @include _font-size(30px);
   font-weight: 500;
