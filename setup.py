@@ -47,7 +47,7 @@ setup(
         "django-ratelimit==3.0.1",
         "django-preventconcurrentlogins==0.8.2",
         "django-csp==3.7",
-        "setuptools==70.0.0",
+        "setuptools==70.3.0",
         "django-import-export",
     ],
     classifiers=[
