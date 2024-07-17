@@ -24,15 +24,9 @@ from portal.helpers.ratelimit import (
 )
 from portal.helpers.regexes import ACCESS_CODE_REGEX, JWT_REGEX
 from portal.views import cron
-from portal.views.about import about, getinvolved, contribute
-from portal.views.admin import (
-    AdminChangePasswordDoneView,
-    AdminChangePasswordView,
-)
-from portal.views.aimmo.dashboard import (
-    StudentAimmoDashboard,
-    TeacherAimmoDashboard,
-)
+from portal.views.about import about, contribute, getinvolved
+from portal.views.admin import AdminChangePasswordDoneView, AdminChangePasswordView
+from portal.views.aimmo.dashboard import StudentAimmoDashboard, TeacherAimmoDashboard
 from portal.views.api import (
     AnonymiseOrphanSchoolsView,
     InactiveUsersView,
@@ -41,10 +35,7 @@ from portal.views.api import (
     number_users_per_country,
     registered_users,
 )
-from portal.views.dotmailer import (
-    dotmailer_consent_form,
-    process_newsletter_form,
-)
+from portal.views.dotmailer import dotmailer_consent_form, process_newsletter_form
 from portal.views.email import verify_email
 from portal.views.home import (
     coding_club,
@@ -54,14 +45,14 @@ from portal.views.home import (
     logout_view,
     register_view,
     reset_screentime_warning,
-    ten_year_map_page
+    ten_year_map_page,
 )
 from portal.views.legal import privacy_notice, terms
 from portal.views.login import old_login_form_redirect
 from portal.views.login.independent_student import IndependentStudentLoginView
 from portal.views.login.student import (
-    StudentLoginView,
     StudentClassCodeView,
+    StudentLoginView,
     student_direct_login,
 )
 from portal.views.login.teacher import TeacherLoginView
@@ -80,8 +71,8 @@ from portal.views.student.edit_account_details import (
     student_edit_account,
 )
 from portal.views.student.play import (
-    SchoolStudentDashboard,
     IndependentStudentDashboard,
+    SchoolStudentDashboard,
     student_join_organisation,
 )
 from portal.views.teach import teach
@@ -118,9 +109,7 @@ from portal.views.two_factor.profile import CustomDisableView
 js_info_dict = {"packages": ("conf.locale",)}
 
 two_factor_patterns = [
-    url(
-        r"^account/two_factor/setup/$", CustomSetupView.as_view(), name="setup"
-    ),
+    url(r"^account/two_factor/setup/$", CustomSetupView.as_view(), name="setup"),
     url(r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"),
     url(
         r"^account/two_factor/setup/complete/$",
@@ -188,9 +177,7 @@ urlpatterns = [
     ),
     url(
         r"^favicon\.ico$",
-        RedirectView.as_view(
-            url="/static/portal/img/favicon.ico", permanent=True
-        ),
+        RedirectView.as_view(url="/static/portal/img/favicon.ico", permanent=True),
     ),
     url(
         r"^administration/password_change/$",
@@ -202,9 +189,7 @@ urlpatterns = [
         AdminChangePasswordDoneView.as_view(),
         name="administration_password_change_done",
     ),
-    url(
-        r"^users/inactive/", InactiveUsersView.as_view(), name="inactive_users"
-    ),
+    url(r"^users/inactive/", InactiveUsersView.as_view(), name="inactive_users"),
     url(
         r"^locked_out/$",
         TemplateView.as_view(template_name="portal/locked_out.html"),
@@ -282,9 +267,7 @@ urlpatterns = [
     url(r"^consent_form/$", dotmailer_consent_form, name="consent_form"),
     url(
         r"^verify_email/$",
-        TemplateView.as_view(
-            template_name="portal/email_verification_needed.html"
-        ),
+        TemplateView.as_view(template_name="portal/email_verification_needed.html"),
         name="email_verification",
     ),
     url(
@@ -397,9 +380,7 @@ urlpatterns = [
     url(r"^contribute", contribute, name="contribute"),
     url(r"^terms", terms, name="terms"),
     url(r"^privacy-notice/$", privacy_notice, name="privacy_notice"),
-    url(
-        r"^privacy-policy/$", privacy_notice, name="privacy_policy"
-    ),  # Keeping this to route from old URL
+    url(r"^privacy-policy/$", privacy_notice, name="privacy_policy"),  # Keeping this to route from old URL
     url(r"^teach/dashboard/$", dashboard_manage, name="dashboard"),
     url(
         r"^teach/dashboard/kick/(?P<pk>[0-9]+)/$",
@@ -530,5 +511,5 @@ urlpatterns = [
         RemoveFakeAccounts.as_view(),
         name="remove_fake_accounts",
     ),
-    url(r"^tenYears/", ten_year_map_page, name="tenYears"),
+    url(r"^celebrate/", ten_year_map_page, name="celebrate"),
 ]
