@@ -13,6 +13,7 @@
     &.next,
     &.prev {
       display: flex;
+      flex-wrap: wrap;
     }
 
     > .carousel-image-wrapper {
@@ -154,4 +155,24 @@
 .carousel-cards-container {
   /* shrink padding because cards have their own */
   @include _padding(0px, 2px, 0px, 2px);
+}
+
+.carousel-button {
+  margin-top: 2rem;
+}
+
+.carousel-image {
+  margin-top: 15px;
+}
+
+.carousel-image--column {
+  padding-right: 20px;
+}
+
+.carousel-column--images {
+  margin-top: -15px;
+}
+
+.carousel-header {
+  margin-top: 0rem !important;
 }
