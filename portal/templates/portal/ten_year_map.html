@@ -17,7 +17,7 @@
     {% headline headline_name="HEADLINE" %}
 </div>
 
-<div class="background container" id="map-container" style="position:relative">
+<div class="background container" id="map-container">
     <section class="background background--primary">
         <img title="world map" alt="World map" src="{% static 'portal/img/long_europe_map.png' %}" width="95%"/>
         <button class="map-pin" id="hatfield" onclick="setActivePin('hatfield')" data-target="#carousel-ten-year-map" data-slide-to="0">
@@ -49,17 +49,17 @@
 
                     <div class="carousel-inner" role="listbox">
                         <div class="item active" id="hatfield-carousel">
-                            <div class="row">
+                            <div>
                                 <div class="col-sm-6">
                                     <div class="row carousel-image-wrapper">
-                                        <img src="{% static 'portal/img/howe_dell_1.png' %}" style="padding-right:20px" alt="Code for Life volunteers outside Howe Dell Primary School">
+                                        <img src="{% static 'portal/img/howe_dell_1.png' %}" class="ten-year-carousel-image ten-year-carousel-image--column" alt="Code for Life volunteers outside Howe Dell Primary School">
                                     </div>
-                                    <div class="row carousel-image-wrapper" style="margin-top:15px;padding-right:20px">
-                                        <img src="{% static 'portal/img/howe_dell_2.png' %}" alt="CfL volunteers outside Howe Dell Primary School showing off their Code for Life T-shirts">
+                                    <div class="row carousel-image-wrapper">
+                                        <img src="{% static 'portal/img/howe_dell_2.png' %}" class="ten-year-carousel-image ten-year-carousel-image--column" alt="CfL volunteers outside Howe Dell Primary School showing off their Code for Life T-shirts">
                                     </div>
                                 </div>
                                 <div class="col-sm-6 carousel-text">
-                                    <h4 style="margin-top:0rem !important;">
+                                    <h4>
                                         <b>Howe Dell Primary School, Hatfield, UK</b>
                                     </h4>
                                     <h5>
@@ -76,15 +76,13 @@
                                         The children's designs were exceptional, making the judging process challenging, but ultimately a few standout innovations were 
                                         selected.
                                     </p>
-                                    <div style="margin-top:2rem;">
+                                    <div class="ten-year-button">
                                         <a href="https://www.linkedin.com/company/code-for-life-uk/posts/?feedView=all" target="_blank" class="button button--primary button-right-arrow">Learn more</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="row carousel-image-wrapper" style="margin-top:15px;padding-left:15px; padding-right:15px">
-                                    <img src="{% static 'portal/img/howe_dell_3.png' %}" alt="The three winners of Howe Dell Primary School's robot design challenge">
-                                </div>
+                            <div>
+                                <img src="{% static 'portal/img/howe_dell_3.png' %}" class="ten-year-carousel-image"" alt="The three winners of Howe Dell Primary School's robot design challenge">
                             </div>
                         </div>
                         <div class="item" id="barcelona-carousel">
