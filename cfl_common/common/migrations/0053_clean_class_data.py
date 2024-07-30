@@ -6,7 +6,7 @@ def clean_dirty_data(apps: Apps, *args):
 
     Class.objects.filter(
         creation_time__year=2015
-    ).update(creation_time = null)
+    ).update(creation_time = None)
 
 class Migration(migrations.Migration):
 
