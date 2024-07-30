@@ -1,3 +1,4 @@
+from django.apps.registry import Apps
 from django.db import migrations, models
 
 def clean_dirty_data(apps: Apps, *args):
