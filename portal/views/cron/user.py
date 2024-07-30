@@ -239,9 +239,6 @@ class FirstInactivityReminderView(CronMixin, APIView):
             same_day=True,
         )
         user_queryset = teacher_queryset.union(independent_student_queryset)
-
-        print(user_queryset)
-
         user_count = user_queryset.count()
 
         logging.info(
