@@ -9,7 +9,11 @@ def clean_dirty_data(apps: Apps, *args):
     ).update(creation_time = null)
 
 class Migration(migrations.Migration):
-    dependencies = [("common", "0052_add_cse_fields")],
+
+    dependencies = [
+        ("common", "0052_add_cse_fields")
+    ]
+
     operations = [
         migrations.RunPython(
             code=clean_dirty_data,
