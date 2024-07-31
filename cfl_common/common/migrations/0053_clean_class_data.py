@@ -1,11 +1,13 @@
 from django.apps.registry import Apps
 from django.db import migrations, models
 
+from datetime import datetime
+
 def clean_early_class_data(apps: Apps, *args):
     Class = apps.get_model("common", "Class")
 
     Class.objects.filter(
-        creation_time__date__gt = datetime.date(2021, 10, 15)
+        creation_time__date__lt = datetime.date(2021, 10, 15)
     ).update(creation_time = None)
 
 class Migration(migrations.Migration):
