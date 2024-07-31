@@ -37,7 +37,6 @@
                             Games <span class="material-icons-outlined md-32">arrow_drop_down</span></a>
                         <div class="dropdown-content">
                             <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
-                            <a href="{% url_for_aimmo_dashboard %}" id="teacher_kurono_dashboard_button"><small>Kurono</small></a>
                         </div>
                     </div>
                     <div class="dropdown">
@@ -47,8 +46,6 @@
                         <div class="dropdown-content">
                             <a id="rapid_router_resources_button" href="https://code-for-life.gitbook.io/teaching-resources/" target="_blank">
                                 <small>Rapid Router</small> <span class="iconify" data-icon="mdi:open-in-new"></span></a>
-                            <a id="kurono_resources_button" href="https://code-for-life.gitbook.io/teaching-resources/v/kurono-teaching-resources/" target="_blank">
-                                <small>Kurono</small> <span class="iconify" data-icon="mdi:open-in-new"></span></a>
                             <a href="{% url 'codingClub' %}"><small>Coding Clubs</small></a>
                         </div>
                     </div>
@@ -78,9 +75,6 @@
                     </a>
                     <div class="dropdown-content">
                         <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
-                        {% if not user|is_independent_student %}
-                            <a href="{% url_for_aimmo_dashboard %}"><small>Kurono</small></a>
-                        {% endif %}
                     </div>
                 </div>
                 {% if user|is_logged_in_as_school_user %}
@@ -197,8 +191,6 @@
                     <div id="resources-tabs" class="collapse">
                         <a class="button button--menu__item button--menu__item__sub__sub"
                           href="https://code-for-life.gitbook.io/teaching-resources/" target="_blank">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
-                        <a class="button button--menu__item button--menu__item__sub__sub"
-                          href="https://code-for-life.gitbook.io/teaching-resources/v/kurono-teaching-resources/" target="_blank">Kurono<span class="material-icons-outlined md-32">chevron_right</span></a>
                     </div>
                 </div>
             {% else %}
@@ -217,10 +209,6 @@
                     <div id="games-tabs" class="collapse">
                         <a class="button button--menu__item button--menu__item--{% if user|is_independent_student %}independent{% else %}student{% endif %} button--menu__item__sub"
                           href="{% url 'levels' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
-                        {% if not user|is_independent_student %}
-                            <a class="button button--menu__item button--menu__item--student button--menu__item__sub"
-                              href="{% url_for_aimmo_dashboard %}">Kurono<span class="material-icons-outlined md-32">chevron_right</span></a>
-                        {% endif %}
                     </div>
                     {% if user|is_logged_in_as_school_user %}
                     <a class="button button--menu__item button--menu__item--student"

@@ -460,18 +460,6 @@ td .button--primary {
     }
   }
 
-  .grid-kurono-sessions__accordion-button {
-    .icon-drop-down:before {
-      content: "arrow_drop_down";
-    }
-
-    &[aria-expanded="true"] {
-      .icon-drop-down:before {
-        content: "arrow_drop_up";
-      }
-    }
-  }
-
   .button--menu__item--teacher {
     background-color: $color-background-teach;
   }

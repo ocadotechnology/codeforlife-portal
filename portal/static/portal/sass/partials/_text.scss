@@ -69,15 +69,6 @@ a:focus {
   font-weight: 600;
 }
 
-.kurono-overview__paragraph {
-  @include _font-size(25px);
-  @include _line-height(35px);
-
-  + .kurono-overview__paragraph {
-    @include _padding(8 * $spacing, 0px, 0px, 0px);
-  }
-}
-
 .grid-benefits__text1 {
   grid-area: text1;
 }

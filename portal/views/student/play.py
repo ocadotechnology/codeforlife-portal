@@ -1,6 +1,5 @@
 from typing import Any, Dict, List, Optional
 
-from common.helpers.emails import NOTIFICATION_EMAIL, send_email
 from common.mail import campaign_ids, send_dotdigital_email
 from common.models import Student
 from common.permissions import (
@@ -22,7 +21,9 @@ from game.models import Attempt, Level
 from portal.forms.play import StudentJoinOrganisationForm
 
 
-class SchoolStudentDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView):
+class SchoolStudentDashboard(
+    LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView
+):
     template_name = "portal/play/student_dashboard.html"
     login_url = reverse_lazy("student_login_access_code")
 
@@ -31,10 +32,9 @@ class SchoolStudentDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Tem
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         """
-        Gathers the context data required by the template. First, the student's scores
-        for the original Rapid Router levels is gathered, second, the student's scores
-        for any levels shared with them by their teacher, and third, the student's
-        Kurono game information if they have one.
+        Gathers the context data required by the template. First, the student's
+        scores for the original Rapid Router levels is gathered, second,
+        the student's scores for any levels shared with them by their teacher.
         """
         # Get score data for all original levels
         levels = Level.objects.sorted_levels()
@@ -42,29 +42,30 @@ class SchoolStudentDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, Tem
 
         context_data = _compute_rapid_router_scores(student, levels)
 
-        # Find any custom levels created by the teacher and shared with the student
+        # Find any custom levels created by the teacher and shared with the
+        # student
         klass = student.class_field
         teacher = klass.teacher.user
         custom_levels = student.new_user.shared.filter(owner=teacher)
 
         if custom_levels:
-            custom_levels_data = _compute_rapid_router_scores(student, custom_levels)
+            custom_levels_data = _compute_rapid_router_scores(
+                student, custom_levels
+            )
 
-            context_data["total_custom_score"] = custom_levels_data["total_score"]
-            context_data["total_custom_available_score"] = custom_levels_data["total_available_score"]
-
-        # Get Kurono game info if the class has a game linked to it
-        aimmo_game = klass.active_game
-        if aimmo_game:
-            active_worksheet = aimmo_game.worksheet
-
-            context_data["worksheet_id"] = active_worksheet.id
-            context_data["worksheet_image"] = active_worksheet.image_path
+            context_data["total_custom_score"] = custom_levels_data[
+                "total_score"
+            ]
+            context_data["total_custom_available_score"] = custom_levels_data[
+                "total_available_score"
+            ]
 
         return context_data
 
 
-class IndependentStudentDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView, FormView):
+class IndependentStudentDashboard(
+    LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView, FormView
+):
     template_name = "portal/play/independent_student_dashboard.html"
     login_url = reverse_lazy("independent_student_login")
 
@@ -81,7 +82,9 @@ class IndependentStudentDashboard(LoginRequiredNoErrorMixin, UserPassesTestMixin
         )
 
 
-def _compute_rapid_router_scores(student: Student, levels: List[Level] or QuerySet) -> Dict[str, int]:
+def _compute_rapid_router_scores(
+    student: Student, levels: List[Level] or QuerySet
+) -> Dict[str, int]:
     """
     Finds Rapid Router progress and score data for a specific student and a specific
     set of levels. This is used to show quick score data to the student on their
@@ -100,9 +103,9 @@ def _compute_rapid_router_scores(student: Student, levels: List[Level] or QueryS
     num_completed = num_top_scores = total_available_score = 0
     total_score = 0.0
     # Get a QuerySet of best attempts for each level
-    best_attempts = Attempt.objects.filter(level__in=levels, student=student, is_best_attempt=True).select_related(
-        "level"
-    )
+    best_attempts = Attempt.objects.filter(
+        level__in=levels, student=student, is_best_attempt=True
+    ).select_related("level")
 
     for level in levels:
         total_available_score += _get_max_score_for_level(level)
@@ -110,7 +113,10 @@ def _compute_rapid_router_scores(student: Student, levels: List[Level] or QueryS
     # For each level, compare best attempt's score with level's max score and
     # increment variables as needed
     if best_attempts:
-        attempts_dict = {best_attempt.level.id: best_attempt for best_attempt in best_attempts}
+        attempts_dict = {
+            best_attempt.level.id: best_attempt
+            for best_attempt in best_attempts
+        }
         for level in levels:
             attempt = attempts_dict.get(level.id)
 
@@ -140,7 +146,12 @@ def _get_max_score_for_level(level: Level) -> int:
     """
     return (
         10
-        if level.id > 12 and (level.disable_route_score or level.disable_algorithm_score or not level.episode)
+        if level.id > 12
+        and (
+            level.disable_route_score
+            or level.disable_algorithm_score
+            or not level.episode
+        )
         else 20
     )
 

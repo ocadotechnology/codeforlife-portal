@@ -2,10 +2,12 @@ from __future__ import absolute_import
 
 from datetime import datetime, timedelta
 
-from aimmo.models import Game
 from common.models import Class, DailyActivity, Teacher
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from django.test import Client, TestCase
@@ -19,26 +21,6 @@ from .utils.messages import is_class_created_message_showing
 
 
 class TestClass(TestCase):
-    def test_class_deletion_deletes_game(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        klass, _, access_code = create_class_directly(email, "class 1")
-        teacher: Teacher = Teacher.objects.get(new_user__email=email)
-        c = Client()
-        c.login(username=email, password=password)
-        assert Class.objects.filter(teacher=teacher).count() == 1
-
-        # create a game
-        response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass.pk})
-        assert response.status_code == 302
-        assert Game.objects.filter(game_class__teacher=teacher, is_archived=False).count() == 1
-
-        # try do delete class and see if game is also gone
-        delete_url = reverse("teacher_delete_class", kwargs={"access_code": access_code})
-        c.post(delete_url)
-        assert Class.objects.filter(teacher=teacher).count() == 0
-        assert Game.objects.filter(game_class__teacher=teacher, is_archived=True).count() == 1
-
     def test_delete_class(self):
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
@@ -48,7 +30,9 @@ class TestClass(TestCase):
 
         c = Client()
 
-        url = reverse("teacher_delete_class", kwargs={"access_code": access_code})
+        url = reverse(
+            "teacher_delete_class", kwargs={"access_code": access_code}
+        )
 
         # Login as another teacher, try to delete the class and check for 404
         c.login(username=email2, password=password2)
@@ -152,19 +136,93 @@ class TestClass(TestCase):
         old_daily_activity = DailyActivity(date=old_date)
         old_daily_activity.save()
 
-        url = reverse("teacher_edit_class", kwargs={"access_code": access_code1})
+        url = reverse(
+            "teacher_edit_class", kwargs={"access_code": access_code1}
+        )
         # POST request data for locking only the first level
         data = {
-            "Getting Started": ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+            "Getting Started": [
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+            ],
             "Shortest Route": ["13", "14", "15", "16", "17", "18"],
-            "Loops and Repetitions": ["19", "20", "21", "22", "23", "24", "25", "26", "27", "28"],
+            "Loops and Repetitions": [
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+            ],
             "Loops with Conditions": ["29", "30", "31", "32"],
-            "If... Only": ["33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43"],
+            "If... Only": [
+                "33",
+                "34",
+                "35",
+                "36",
+                "37",
+                "38",
+                "39",
+                "40",
+                "41",
+                "42",
+                "43",
+            ],
             "Traffic Lights": ["44", "45", "46", "47", "48", "49", "50"],
-            "Limited Blocks": ["53", "78", "79", "80", "81", "82", "83", "84", "54", "55"],
+            "Limited Blocks": [
+                "53",
+                "78",
+                "79",
+                "80",
+                "81",
+                "82",
+                "83",
+                "84",
+                "54",
+                "55",
+            ],
             "Procedures": ["85", "52", "60", "86", "62", "87", "61"],
-            "Blockly Brain Teasers": ["56", "57", "58", "59", "88", "91", "90", "89", "110", "111", "112", "92"],
-            "Introduction to Python": ["93", "63", "64", "65", "94", "66", "67", "68", "95", "69", "96", "97"],
+            "Blockly Brain Teasers": [
+                "56",
+                "57",
+                "58",
+                "59",
+                "88",
+                "91",
+                "90",
+                "89",
+                "110",
+                "111",
+                "112",
+                "92",
+            ],
+            "Introduction to Python": [
+                "93",
+                "63",
+                "64",
+                "65",
+                "94",
+                "66",
+                "67",
+                "68",
+                "95",
+                "69",
+                "96",
+                "97",
+            ],
             "Python": [
                 "98",
                 "70",
@@ -203,21 +261,99 @@ class TestClass(TestCase):
         assert str(messages[0]) == "Your level preferences have been saved."
 
         # test the old analytic stays the same and the new one is incremented
-        assert DailyActivity.objects.get(date=old_date).level_control_submits == 0
-        assert DailyActivity.objects.get(date=datetime.now()).level_control_submits == 1
+        assert (
+            DailyActivity.objects.get(date=old_date).level_control_submits == 0
+        )
+        assert (
+            DailyActivity.objects.get(date=datetime.now()).level_control_submits
+            == 1
+        )
 
         # Resubmitting to unlock level 1
         data = {
-            "Getting Started": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+            "Getting Started": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+            ],
             "Shortest Route": ["13", "14", "15", "16", "17", "18"],
-            "Loops and Repetitions": ["19", "20", "21", "22", "23", "24", "25", "26", "27", "28"],
+            "Loops and Repetitions": [
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+            ],
             "Loops with Conditions": ["29", "30", "31", "32"],
-            "If... Only": ["33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43"],
+            "If... Only": [
+                "33",
+                "34",
+                "35",
+                "36",
+                "37",
+                "38",
+                "39",
+                "40",
+                "41",
+                "42",
+                "43",
+            ],
             "Traffic Lights": ["44", "45", "46", "47", "48", "49", "50"],
-            "Limited Blocks": ["53", "78", "79", "80", "81", "82", "83", "84", "54", "55"],
+            "Limited Blocks": [
+                "53",
+                "78",
+                "79",
+                "80",
+                "81",
+                "82",
+                "83",
+                "84",
+                "54",
+                "55",
+            ],
             "Procedures": ["85", "52", "60", "86", "62", "87", "61"],
-            "Blockly Brain Teasers": ["56", "57", "58", "59", "88", "91", "90", "89", "110", "111", "112", "92"],
-            "Introduction to Python": ["93", "63", "64", "65", "94", "66", "67", "68", "95", "69", "96", "97"],
+            "Blockly Brain Teasers": [
+                "56",
+                "57",
+                "58",
+                "59",
+                "88",
+                "91",
+                "90",
+                "89",
+                "110",
+                "111",
+                "112",
+                "92",
+            ],
+            "Introduction to Python": [
+                "93",
+                "63",
+                "64",
+                "65",
+                "94",
+                "66",
+                "67",
+                "68",
+                "95",
+                "69",
+                "96",
+                "97",
+            ],
             "Python": [
                 "98",
                 "70",
@@ -270,7 +406,9 @@ class TestClass(TestCase):
 
         c = Client()
 
-        url = reverse("teacher_edit_class", kwargs={"access_code": access_code1})
+        url = reverse(
+            "teacher_edit_class", kwargs={"access_code": access_code1}
+        )
         data = {"new_teacher": teacher2.id, "class_move_submit": ""}
 
         # Login as first teacher and transfer class to the second teacher
@@ -297,7 +435,12 @@ class TestClassFrontend(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        page = self.go_to_homepage().go_to_teacher_login_page().login_no_class(email, password).open_classes_tab()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login_no_class(email, password)
+            .open_classes_tab()
+        )
 
         assert page.does_not_have_classes()
 
@@ -312,19 +455,34 @@ class TestClassFrontend(BaseTest):
         join_teacher_to_organisation(email2, school.name)
 
         # Check teacher 2 doesn't have any classes
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email2, password2).open_classes_tab()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email2, password2)
+            .open_classes_tab()
+        )
         assert page.does_not_have_classes()
         page.logout()
 
         # Log in as the first teacher and create a class for the second one
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email1, password1).open_classes_tab()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email1, password1)
+            .open_classes_tab()
+        )
         page, class_name = create_class(page, teacher_id=teacher2.id)
         page = TeachClassPage(page.browser)
         assert is_class_created_message_showing(self.selenium, class_name)
         page.logout()
 
         # Check teacher 2 now has the class
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email2, password2).open_classes_tab()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email2, password2)
+            .open_classes_tab()
+        )
         assert page.has_classes()
 
     def test_create_dashboard(self):
@@ -333,7 +491,12 @@ class TestClassFrontend(BaseTest):
         klass, name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password).open_classes_tab()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_classes_tab()
+        )
 
         page, class_name = create_class(page)
 
@@ -349,7 +512,12 @@ class TestClassFrontend(BaseTest):
         klass_2, class_name_2, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email_2, password_2).open_classes_tab()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email_2, password_2)
+            .open_classes_tab()
+        )
 
         page, class_name_3 = create_class(page)
 

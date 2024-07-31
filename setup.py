@@ -32,7 +32,6 @@ setup(
         "pyyaml==5.4.1",
         "importlib-metadata==4.13.0",
         "rapid-router>=4",
-        "aimmo>=2",
         "reportlab==3.6.13",
         "django-formtools==2.2",
         "django-otp==1.0.2",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
