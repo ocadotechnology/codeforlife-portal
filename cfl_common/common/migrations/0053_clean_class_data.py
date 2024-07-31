@@ -1,7 +1,7 @@
+from datetime import date
+
 from django.apps.registry import Apps
 from django.db import migrations, models
-
-from datetime import date
 
 def clean_early_class_data(apps: Apps, *args):
     Class = apps.get_model("common", "Class")
