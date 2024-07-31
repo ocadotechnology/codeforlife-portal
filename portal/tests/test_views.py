@@ -17,6 +17,7 @@ from common.models import (
     UserProfile,
     UserSession,
 )
+from common.mail import campaign_ids
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
     create_organisation_directly,
@@ -1225,6 +1226,7 @@ class TestUser(CronTestCase):
         days: int,
         view_name: str,
         assert_called: bool,
+        campaign_name: str,
         mock_send_dotdigital_email: Mock,
     ):
         self.teacher_user.date_joined = timezone.now() - timedelta(
@@ -1244,11 +1246,11 @@ class TestUser(CronTestCase):
 
         if assert_called:
             mock_send_dotdigital_email.assert_any_call(
-                ANY, [self.teacher_user.email]
+                campaign_ids[campaign_name], [self.teacher_user.email]
             )
 
             mock_send_dotdigital_email.assert_any_call(
-                ANY, [self.indy_user.email]
+                campaign_ids[campaign_name], [self.indy_user.email]
             )
 
             # Check only two emails are sent - the student should never be included.
@@ -1259,19 +1261,61 @@ class TestUser(CronTestCase):
         mock_send_dotdigital_email.reset_mock()
 
     def test_first_inactivity_reminder_view(self):
-        self.send_inactivity_reminder(729, "first-inactivity-reminder", False)
-        self.send_inactivity_reminder(730, "first-inactivity-reminder", True)
-        self.send_inactivity_reminder(731, "first-inactivity-reminder", False)
-        self.send_inactivity_reminder(732, "first-inactivity-reminder", False)
+        self.send_inactivity_reminder(
+            729,
+            "first-inactivity-reminder",
+            False,
+            "inactive_users_on_website_first_reminder",
+        )
+        self.send_inactivity_reminder(
+            730,
+            "first-inactivity-reminder",
+            True,
+            "inactive_users_on_website_first_reminder",
+        )
+        self.send_inactivity_reminder(
+            731,
+            "first-inactivity-reminder",
+            False,
+            "inactive_users_on_website_first_reminder",
+        )
 
     def test_second_inactivity_reminder_view(self):
-        self.send_inactivity_reminder(972, "second-inactivity-reminder", False)
-        self.send_inactivity_reminder(973, "second-inactivity-reminder", True)
-        self.send_inactivity_reminder(974, "second-inactivity-reminder", False)
-        self.send_inactivity_reminder(975, "second-inactivity-reminder", False)
+        self.send_inactivity_reminder(
+            972,
+            "second-inactivity-reminder",
+            False,
+            "inactive_users_on_website_second_reminder",
+        )
+        self.send_inactivity_reminder(
+            973,
+            "second-inactivity-reminder",
+            True,
+            "inactive_users_on_website_second_reminder",
+        )
+        self.send_inactivity_reminder(
+            974,
+            "second-inactivity-reminder",
+            False,
+            "inactive_users_on_website_second_reminder",
+        )
 
     def test_third_inactivity_reminder_view(self):
-        self.send_inactivity_reminder(1064, "third-inactivity-reminder", False)
-        self.send_inactivity_reminder(1065, "third-inactivity-reminder", True)
-        self.send_inactivity_reminder(1066, "third-inactivity-reminder", False)
-        self.send_inactivity_reminder(1067, "third-inactivity-reminder", False)
+        self.send_inactivity_reminder(
+            1064,
+            "third-inactivity-reminder",
+            False,
+            "inactive_users_on_website_final_reminder",
+        )
+        self.send_inactivity_reminder(
+            1065,
+            "third-inactivity-reminder",
+            True,
+            "inactive_users_on_website_final_reminder",
+        )
+        self.send_inactivity_reminder(
+            1066,
+            "third-inactivity-reminder",
+            False,
+            "inactive_users_on_website_final_reminder",
+        )

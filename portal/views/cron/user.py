@@ -51,9 +51,7 @@ def get_unverified_users(
     return teacher_queryset, independent_student_queryset
 
 
-def get_inactive_users(
-    days: int, same_day: bool
-) -> (QuerySet[User], QuerySet[User]):
+def get_inactive_users(days: int) -> QuerySet[User]:
     now = timezone.now()
 
     # All users who haven't logged in in X days OR who've never logged in and
@@ -62,24 +60,14 @@ def get_inactive_users(
         Q(
             last_login__isnull=False,
             last_login__lte=now - timedelta(days=days),
+            last_login__gt=now - timedelta(days=days + 1),
         )
         | Q(
             last_login__isnull=True,
             date_joined__lte=now - timedelta(days=days),
+            date_joined__gt=now - timedelta(days=days + 1),
         )
     )
-
-    if same_day:
-        user_queryset = user_queryset.filter(
-            Q(
-                last_login__isnull=False,
-                last_login__gt=now - timedelta(days=days + 1),
-            )
-            | Q(
-                last_login__isnull=True,
-                date_joined__gt=now - timedelta(days=days + 1),
-            )
-        )
 
     teacher_queryset = user_queryset.filter(
         new_teacher__isnull=False,
@@ -90,7 +78,7 @@ def get_inactive_users(
         new_student__class_field__isnull=True,
     )
 
-    return teacher_queryset, independent_student_queryset
+    return teacher_queryset.union(independent_student_queryset)
 
 
 def build_absolute_google_uri(request, location: str) -> str:
@@ -234,11 +222,7 @@ class AnonymiseUnverifiedAccounts(CronMixin, APIView):
 
 class FirstInactivityReminderView(CronMixin, APIView):
     def get(self, request):
-        teacher_queryset, independent_student_queryset = get_inactive_users(
-            USER_1ST_INACTIVE_REMINDER_DAYS,
-            same_day=True,
-        )
-        user_queryset = teacher_queryset.union(independent_student_queryset)
+        user_queryset = get_inactive_users(USER_1ST_INACTIVE_REMINDER_DAYS)
         user_count = user_queryset.count()
 
         logging.info(
@@ -272,11 +256,7 @@ class FirstInactivityReminderView(CronMixin, APIView):
 
 class SecondInactivityReminderView(CronMixin, APIView):
     def get(self, request):
-        teacher_queryset, independent_student_queryset = get_inactive_users(
-            USER_2ND_INACTIVE_REMINDER_DAYS,
-            same_day=True,
-        )
-        user_queryset = teacher_queryset.union(independent_student_queryset)
+        user_queryset = get_inactive_users(USER_2ND_INACTIVE_REMINDER_DAYS)
         user_count = user_queryset.count()
 
         logging.info(
@@ -310,11 +290,7 @@ class SecondInactivityReminderView(CronMixin, APIView):
 
 class ThirdInactivityReminderView(CronMixin, APIView):
     def get(self, request):
-        teacher_queryset, independent_student_queryset = get_inactive_users(
-            USER_3RD_INACTIVE_REMINDER_DAYS,
-            same_day=True,
-        )
-        user_queryset = teacher_queryset.union(independent_student_queryset)
+        user_queryset = get_inactive_users(USER_3RD_INACTIVE_REMINDER_DAYS)
         user_count = user_queryset.count()
 
         logging.info(
