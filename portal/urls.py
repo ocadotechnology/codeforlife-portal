@@ -180,9 +180,9 @@ urlpatterns = [
                                 name="second-inactivity-reminder",
                             ),
                             path(
-                                "inactive/send-third-reminder/",
-                                cron.user.ThirdInactivityReminderView.as_view(),
-                                name="third-inactivity-reminder",
+                                "inactive/send-final-reminder/",
+                                cron.user.FinalInactivityReminderView.as_view(),
+                                name="final-inactivity-reminder",
                             ),
                         ]
                     ),

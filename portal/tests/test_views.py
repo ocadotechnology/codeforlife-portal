@@ -1300,22 +1300,22 @@ class TestUser(CronTestCase):
             "inactive_users_on_website_second_reminder",
         )
 
-    def test_third_inactivity_reminder_view(self):
+    def test_final_inactivity_reminder_view(self):
         self.send_inactivity_reminder(
             1064,
-            "third-inactivity-reminder",
+            "final-inactivity-reminder",
             False,
             "inactive_users_on_website_final_reminder",
         )
         self.send_inactivity_reminder(
             1065,
-            "third-inactivity-reminder",
+            "final-inactivity-reminder",
             True,
             "inactive_users_on_website_final_reminder",
         )
         self.send_inactivity_reminder(
             1066,
-            "third-inactivity-reminder",
+            "final-inactivity-reminder",
             False,
             "inactive_users_on_website_final_reminder",
         )
