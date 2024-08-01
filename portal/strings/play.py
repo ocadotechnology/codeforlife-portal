@@ -14,6 +14,5 @@ PLAY_HEADLINE = {
     "description": "Whether you’re a parent, teacher or a student, our games support "
     "and guide you, making learning to code great fun. Get started with Rapid Router "
     "designed for students new to coding. Rapid Router is where you will build up your "
-    "ability until you are ready to advance to Kurono, where you can test your skills "
-    "in Python.",
+    "ability.",
 }

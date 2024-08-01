@@ -6,9 +6,7 @@ from unittest.mock import ANY, Mock, patch
 from uuid import uuid4
 
 import jwt
-from aimmo.models import Game
 from common.mail import campaign_ids
-from common.models import Class, Student, Teacher
 from common.tests.utils import email as email_utils
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
@@ -50,229 +48,6 @@ from .utils.messages import (
 
 
 class TestTeacher(TestCase):
-    def test_new_student_can_play_games(self):
-        """
-        Given a teacher has a kurono game,
-        When they add a new student to their class,
-        Then the new student should be able to play that class's games
-        """
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        klass, _, access_code = create_class_directly(email)
-        create_school_student_directly(access_code)
-
-        c = Client()
-        c.login(username=email, password=password)
-        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass.id})
-        c.post(reverse("view_class", kwargs={"access_code": access_code}), {"names": "Florian"})
-
-        game = Game.objects.get(id=1)
-        new_student = Student.objects.last()
-        assert game.can_user_play(new_student.new_user)
-
-    def test_accepted_independent_student_can_play_games(self):
-        """
-        Given an independent student requests access to a class,
-        When the teacher for that class accepts the request,
-        Then the new student should have access to that class's games
-        """
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        klass, _, access_code = create_class_directly(email)
-        klass.always_accept_requests = True
-        klass.save()
-        create_school_student_directly(access_code)
-        indep_username, indep_password, indep_student = create_independent_student_directly()
-
-        c = Client()
-
-        c.login(username=indep_username, password=indep_password)
-        c.post(reverse("student_join_organisation"), {"access_code": access_code, "class_join_request": "Request"})
-        c.logout()
-
-        c.login(username=email, password=password)
-        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass.pk})
-        c.post(reverse("teacher_accept_student_request", kwargs={"pk": indep_student.pk}), {"name": "Florian"})
-
-        game: Game = Game.objects.get(id=1)
-        new_student = Student.objects.last()
-        assert game.can_user_play(new_student.new_user)
-
-    def test_moved_class_has_correct_permissions_for_students_and_teachers(self):
-        """
-        Given two teachers each with a class and an aimmo game,
-        When teacher 1 transfers their class to teacher 2,
-        Then:
-            - Students in each class still only have access to their class games
-            - Teacher 2 has access to both games and teacher 1 has access to none
-        """
-
-        # Create teacher 1 -> class 1 -> student 1
-        email1, password1 = signup_teacher_directly()
-        school = create_organisation_directly(email1)
-        klass1, _, access_code1 = create_class_directly(email1, "Class 1")
-        create_school_student_directly(access_code1)
-
-        # Create teacher 2 -> class 2 -> student 2
-        email2, password2 = signup_teacher_directly()
-        join_teacher_to_organisation(email2, school.name)
-        klass2, _, access_code2 = create_class_directly(email2, "Class 2")
-        create_school_student_directly(access_code2)
-
-        teacher2: Teacher = Teacher.objects.get(new_user__email=email2)
-        # make teacher1 non admin to remove extra permissions
-        teacher1: Teacher = Teacher.objects.get(new_user__email=email1)
-        teacher1.is_admin = False
-        teacher1.save()
-
-        c = Client()
-
-        # Create game 1 under class 1
-        c.login(username=email1, password=password1)
-        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass1.pk})
-        c.logout()
-
-        # Create game 2 under class 2
-        c.login(username=email2, password=password2)
-        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass2.pk})
-        c.logout()
-
-        game1: Game = Game.objects.get(owner=teacher1.new_user)
-        game2: Game = Game.objects.get(owner=teacher2.new_user)
-
-        student1: Student = Student.objects.get(class_field=klass1)
-        student2: Student = Student.objects.get(class_field=klass2)
-
-        # Check student permissions for each game
-        assert game1.can_user_play(student1.new_user)
-        assert game2.can_user_play(student2.new_user)
-        assert not game1.can_user_play(student2.new_user)
-        assert not game2.can_user_play(student1.new_user)
-
-        # Check teacher permissions for each game
-        assert game1.can_user_play(teacher1.new_user)
-        assert game2.can_user_play(teacher2.new_user)
-        assert not game1.can_user_play(teacher2.new_user)
-        assert not game2.can_user_play(teacher1.new_user)
-
-        # Transfer class 1 over to teacher 2
-        c.login(username=email1, password=password1)
-        response = c.post(
-            reverse("teacher_edit_class", kwargs={"access_code": access_code1}),
-            {"new_teacher": teacher2.pk, "class_move_submit": ""},
-        )
-        assert response.status_code == 302
-        c.logout()
-
-        # Refresh model instances
-        klass1: Class = Class.objects.get(pk=klass1.pk)
-        game1 = Game.objects.get(pk=game1.pk)
-        game2 = Game.objects.get(pk=game2.pk)
-
-        # Check teacher 2 is the teacher for class 1
-        assert klass1.teacher == teacher2
-
-        # Check that the students' permissions have not changed
-        assert game1.can_user_play(student1.new_user)
-        assert game2.can_user_play(student2.new_user)
-        assert not game1.can_user_play(student2.new_user)
-        assert not game2.can_user_play(student1.new_user)
-
-        # Check that teacher 1 cannot access class 1's game 1 anymore
-        assert not game1.can_user_play(teacher1.new_user)
-
-        # Check that teacher 2 can access game 1
-        assert game1.can_user_play(teacher2.new_user)
-
-    def test_moved_student_has_access_to_only_new_teacher_games(self):
-        """
-        Given a student in a class,
-        When a teacher transfers them to another class with a new teacher,
-        Then the student should only have access to the new teacher's games
-        """
-
-        email1, password1 = signup_teacher_directly()
-        school = create_organisation_directly(email1)
-        klass1, _, access_code1 = create_class_directly(email1, "Class 1")
-        create_school_student_directly(access_code1)
-
-        email2, password2 = signup_teacher_directly()
-        join_teacher_to_organisation(email2, school.name)
-        klass2, _, access_code2 = create_class_directly(email2, "Class 2")
-        create_school_student_directly(access_code2)
-
-        teacher1 = Teacher.objects.get(new_user__email=email1)
-        teacher2 = Teacher.objects.get(new_user__email=email2)
-
-        c = Client()
-        c.login(username=email2, password=password2)
-        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass2.pk})
-        c.logout()
-
-        c.login(username=email1, password=password1)
-        c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass1.pk})
-
-        game1 = Game.objects.get(owner=teacher1.new_user)
-        game2 = Game.objects.get(owner=teacher2.new_user)
-
-        student1 = Student.objects.get(class_field=klass1)
-        student2 = Student.objects.get(class_field=klass2)
-
-        assert game1.can_user_play(student1.new_user)
-        assert game2.can_user_play(student2.new_user)
-
-        c.post(
-            reverse("teacher_move_students", kwargs={"access_code": access_code1}), {"transfer_students": student1.pk}
-        )
-        c.post(
-            reverse("teacher_move_students_to_class", kwargs={"access_code": access_code1}),
-            {
-                "form-0-name": student1.user.user.first_name,
-                "form-MAX_NUM_FORMS": 1000,
-                "form-0-orig_name": student1.user.user.first_name,
-                "form-TOTAL_FORMS": 1,
-                "form-MIN_NUM_FORMS": 0,
-                "submit_disambiguation": "",
-                "form-INITIAL_FORMS": 1,
-                "new_class": klass2.pk,
-            },
-        )
-        c.logout()
-
-        game1 = Game.objects.get(owner=teacher1.new_user)
-        game2 = Game.objects.get(owner=teacher2.new_user)
-
-        assert not game1.can_user_play(student1.new_user)
-        assert game2.can_user_play(student1.new_user)
-
-    def test_teacher_cannot_create_duplicate_game(self):
-        """
-        Given a teacher, a class and a worksheet,
-        When the teacher creates a game for that class and worksheet, and then tries to
-        create the exact same game again,
-        Then the class should only have one game, and an error message should appear.
-        """
-
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        klass, _, _ = create_class_directly(email)
-
-        c = Client()
-        c.login(username=email, password=password)
-        game1_response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass.pk})
-
-        assert game1_response.status_code == 302
-        assert Game.objects.filter(game_class=klass, is_archived=False).count() == 1
-        assert klass.active_game is not None
-        messages = list(game1_response.wsgi_request._messages)
-        assert len([m for m in messages if m.tags == "warning"]) == 0
-
-        game2_response = c.post(reverse("teacher_aimmo_dashboard"), {"game_class": klass.pk})
-
-        messages = list(game2_response.wsgi_request._messages)
-        assert len([m for m in messages if m.tags == "warning"]) == 1
-        assert messages[0].message == "An active game already exists for this class"
-
     def test_signup_short_password_fails(self):
         c = Client()
 
@@ -404,7 +179,9 @@ class TestTeacher(TestCase):
         assert bad_verification_response.status_code == 200
 
         # Get verification link from function call
-        verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
+        verification_url = mock_send_dotdigital_email.call_args.kwargs[
+            "personalization_values"
+        ]["VERIFICATION_LINK"]
 
         # Verify the email properly
         verification_response = c.get(verification_url)
@@ -424,7 +201,14 @@ class TestTeacherFrontend(BaseTest):
     def test_password_too_common(self):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_signup_page()
-        page = page.signup("first_name", "last_name", "e@ma.il", "Password123$", "Password123$", success=False)
+        page = page.signup(
+            "first_name",
+            "last_name",
+            "e@ma.il",
+            "Password123$",
+            "Password123$",
+            success=False,
+        )
         try:
             submit_button = WebDriverWait(self.selenium, 10).until(
                 EC.element_to_be_clickable((By.NAME, "teacher_signup"))
@@ -432,7 +216,8 @@ class TestTeacherFrontend(BaseTest):
             submit_button.click()
         except:
             assert page.was_form_invalid(
-                "form-reg-teacher", "Password is too common, consider using a different password."
+                "form-reg-teacher",
+                "Password is too common, consider using a different password.",
             )
 
     def test_signup_without_newsletter(self):
@@ -467,8 +252,12 @@ class TestTeacherFrontend(BaseTest):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium)
         page = page.go_to_teacher_login_page()
-        page = page.login_failure("non-existent-email@codeforlife.com", "Incorrect password")
-        assert page.has_login_failed("form-login-teacher", INVALID_LOGIN_MESSAGE)
+        page = page.login_failure(
+            "non-existent-email@codeforlife.com", "Incorrect password"
+        )
+        assert page.has_login_failed(
+            "form-login-teacher", INVALID_LOGIN_MESSAGE
+        )
 
     def test_login_success(self):
         email, password = signup_teacher_directly()
@@ -492,9 +281,13 @@ class TestTeacherFrontend(BaseTest):
         page = page.go_to_teacher_login_page()
         page = page.login_failure(email, password)
 
-        assert page.has_login_failed("form-login-teacher", INVALID_LOGIN_MESSAGE)
+        assert page.has_login_failed(
+            "form-login-teacher", INVALID_LOGIN_MESSAGE
+        )
 
-        verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
+        verification_url = mock_send_dotdigital_email.call_args.kwargs[
+            "personalization_values"
+        ]["VERIFICATION_LINK"]
 
         verify_email(page, verification_url)
 
@@ -518,15 +311,26 @@ class TestTeacherFrontend(BaseTest):
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password).open_account_tab()
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_account_tab()
+        )
 
         page = page.change_teacher_details(
-            {"first_name": "Paulina", "last_name": "Koch", "current_password": "$RFVBGT%6yhn"}
+            {
+                "first_name": "Paulina",
+                "last_name": "Koch",
+                "current_password": "$RFVBGT%6yhn",
+            }
         )
         assert self.is_dashboard_page(page)
         assert is_teacher_details_updated_message_showing(self.selenium)
 
-        assert page.check_account_details({"first_name": "Paulina", "last_name": "Koch"})
+        assert page.check_account_details(
+            {"first_name": "Paulina", "last_name": "Koch"}
+        )
 
     def test_edit_details_non_admin(self):
         email_1, _ = signup_teacher_directly()
@@ -539,15 +343,26 @@ class TestTeacherFrontend(BaseTest):
         create_school_student_directly(access_code_2)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login(email_2, password_2).open_account_tab()
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email_2, password_2)
+            .open_account_tab()
+        )
 
         page = page.change_teacher_details(
-            {"first_name": "Florian", "last_name": "Aucomte", "current_password": password_2}
+            {
+                "first_name": "Florian",
+                "last_name": "Aucomte",
+                "current_password": password_2,
+            }
         )
         assert self.is_dashboard_page(page)
         assert is_teacher_details_updated_message_showing(self.selenium)
 
-        assert page.check_account_details({"first_name": "Florian", "last_name": "Aucomte"})
+        assert page.check_account_details(
+            {"first_name": "Florian", "last_name": "Aucomte"}
+        )
 
     @patch("common.helpers.emails.send_dotdigital_email")
     def test_change_email(self, mock_send_dotdigital_email):
@@ -559,7 +374,11 @@ class TestTeacherFrontend(BaseTest):
         other_email, _ = signup_teacher_directly()
 
         page = self.go_to_homepage()
-        page = page.go_to_teacher_login_page().login(email, password).open_account_tab()
+        page = (
+            page.go_to_teacher_login_page()
+            .login(email, password)
+            .open_account_tab()
+        )
 
         # Try changing email to an existing email, should fail
         page = page.change_email("Test", "Teacher", other_email, password)
@@ -567,24 +386,36 @@ class TestTeacherFrontend(BaseTest):
         assert is_email_updated_message_showing(self.selenium)
 
         mock_send_dotdigital_email.assert_called_with(
-            campaign_ids["email_change_notification"], ANY, personalization_values=ANY
+            campaign_ids["email_change_notification"],
+            ANY,
+            personalization_values=ANY,
         )
 
         # Try changing email to an existing indy student's email, should fail
         indy_email, _, _ = create_independent_student_directly()
         page = self.go_to_homepage()
-        page = page.go_to_teacher_login_page().login(email, password).open_account_tab()
+        page = (
+            page.go_to_teacher_login_page()
+            .login(email, password)
+            .open_account_tab()
+        )
 
         page = page.change_email("Test", "Teacher", indy_email, password)
         assert self.is_email_verification_page(page)
         assert is_email_updated_message_showing(self.selenium)
 
         mock_send_dotdigital_email.assert_called_with(
-            campaign_ids["email_change_notification"], ANY, personalization_values=ANY
+            campaign_ids["email_change_notification"],
+            ANY,
+            personalization_values=ANY,
         )
 
         page = self.go_to_homepage()
-        page = page.go_to_teacher_login_page().login(email, password).open_account_tab()
+        page = (
+            page.go_to_teacher_login_page()
+            .login(email, password)
+            .open_account_tab()
+        )
 
         # Try changing email to a new one, should succeed
         new_email = "another-email@codeforlife.com"
@@ -594,21 +425,33 @@ class TestTeacherFrontend(BaseTest):
 
         # Check user can still log in with old account before verifying new email
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+        )
         assert self.is_dashboard_page(page)
 
         page = page.logout()
 
         mock_send_dotdigital_email.assert_called_with(
-            campaign_ids["email_change_verification"], ANY, personalization_values=ANY
+            campaign_ids["email_change_verification"],
+            ANY,
+            personalization_values=ANY,
         )
-        verification_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"]["VERIFICATION_LINK"]
+        verification_url = mock_send_dotdigital_email.call_args.kwargs[
+            "personalization_values"
+        ]["VERIFICATION_LINK"]
 
-        page = email_utils.follow_change_email_link_to_dashboard(page, verification_url)
+        page = email_utils.follow_change_email_link_to_dashboard(
+            page, verification_url
+        )
 
         page = page.login(new_email, password).open_account_tab()
 
-        assert page.check_account_details({"first_name": "Test", "last_name": "Teacher"})
+        assert page.check_account_details(
+            {"first_name": "Test", "last_name": "Teacher"}
+        )
 
     def test_change_password(self):
         email, password = signup_teacher_directly()
@@ -617,7 +460,12 @@ class TestTeacherFrontend(BaseTest):
         create_school_student_directly(access_code)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password).open_account_tab()
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_account_tab()
+        )
 
         new_password = "AnotherPassword12!"
         page = page.change_password("Test", "Teacher", new_password, password)
@@ -639,20 +487,28 @@ class TestTeacherFrontend(BaseTest):
 
         page.reset_email_submit(email)
 
-        mock_send_dotdigital_email.assert_called_with(campaign_ids["reset_password"], ANY, personalization_values=ANY)
+        mock_send_dotdigital_email.assert_called_with(
+            campaign_ids["reset_password"], ANY, personalization_values=ANY
+        )
 
-        reset_password_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"][
-            "RESET_PASSWORD_LINK"
-        ]
+        reset_password_url = mock_send_dotdigital_email.call_args.kwargs[
+            "personalization_values"
+        ]["RESET_PASSWORD_LINK"]
 
-        page = email_utils.follow_reset_email_link(self.selenium, reset_password_url)
+        page = email_utils.follow_reset_email_link(
+            self.selenium, reset_password_url
+        )
 
         new_password = "AnotherPassword12!"
 
         page.teacher_reset_password(new_password)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, new_password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, new_password)
+        )
         assert self.is_dashboard_page(page)
 
     @patch("portal.forms.registration.send_dotdigital_email")
@@ -666,18 +522,25 @@ class TestTeacherFrontend(BaseTest):
 
         page.reset_email_submit(email)
 
-        mock_send_dotdigital_email.assert_called_with(campaign_ids["reset_password"], ANY, personalization_values=ANY)
+        mock_send_dotdigital_email.assert_called_with(
+            campaign_ids["reset_password"], ANY, personalization_values=ANY
+        )
 
-        reset_password_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"][
-            "RESET_PASSWORD_LINK"
-        ]
+        reset_password_url = mock_send_dotdigital_email.call_args.kwargs[
+            "personalization_values"
+        ]["RESET_PASSWORD_LINK"]
 
-        page = email_utils.follow_reset_email_link(self.selenium, reset_password_url)
+        page = email_utils.follow_reset_email_link(
+            self.selenium, reset_password_url
+        )
 
         page.reset_password_fail(password)
 
         message = page.browser.find_element(By.CLASS_NAME, "errorlist")
-        assert "Please choose a password that you haven't used before" in message.text
+        assert (
+            "Please choose a password that you haven't used before"
+            in message.text
+        )
 
     @patch("portal.forms.registration.send_dotdigital_email")
     def test_reset_password_fail(self, mock_send_dotdigital_email: Mock):
@@ -698,7 +561,10 @@ class TestTeacherFrontend(BaseTest):
         join_teacher_to_organisation(standard_email, school.name)
 
         page = (
-            self.go_to_homepage().go_to_teacher_login_page().login(standard_email, standard_password).open_classes_tab()
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(standard_email, standard_password)
+            .open_classes_tab()
         )
 
         assert page.element_does_not_exist_by_id(f"class-code-{access_code}")
@@ -710,8 +576,15 @@ class TestTeacherFrontend(BaseTest):
         admin_email, admin_password = signup_teacher_directly()
         join_teacher_to_organisation(admin_email, school.name, is_admin=True)
 
-        page = self.go_to_homepage().go_to_teacher_login_page().login(admin_email, admin_password).open_classes_tab()
-        class_code_field = page.browser.find_element(By.ID, f"class-code-{access_code}")
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(admin_email, admin_password)
+            .open_classes_tab()
+        )
+        class_code_field = page.browser.find_element(
+            By.ID, f"class-code-{access_code}"
+        )
         assert class_code_field.text == access_code
 
     def test_admin_student_edit(self):
@@ -719,13 +592,20 @@ class TestTeacherFrontend(BaseTest):
         school = create_organisation_directly(email)
 
         klass, _, access_code = create_class_directly(email, "class123")
-        student_name, student_password, student_student = create_school_student_directly(access_code)
+        (
+            student_name,
+            student_password,
+            student_student,
+        ) = create_school_student_directly(access_code)
 
         joining_email, joining_password = signup_teacher_directly()
         join_teacher_to_organisation(joining_email, school.name, is_admin=True)
 
         page = (
-            self.go_to_homepage().go_to_teacher_login_page().login(joining_email, joining_password).open_classes_tab()
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(joining_email, joining_password)
+            .open_classes_tab()
         )
 
         class_button = WebDriverWait(self.selenium, WAIT_TIME).until(
@@ -739,21 +619,34 @@ class TestTeacherFrontend(BaseTest):
         edit_student_button.click()
 
         title = page.browser.find_element(By.ID, "student_details")
-        assert title.text == f"Edit student details for {student_name} from class {klass} ({access_code})"
+        assert (
+            title.text
+            == f"Edit student details for {student_name} from class {klass} ({access_code})"
+        )
 
     def test_make_admin_popup(self):
         email, password = signup_teacher_directly()
         school = create_organisation_directly(email)
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password)
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email, password)
+        )
         joining_email, _ = signup_teacher_directly()
 
-        invite_data = {"teacher_first_name": "Real", "teacher_last_name": "Name", "teacher_email": "ren@me.me"}
+        invite_data = {
+            "teacher_first_name": "Real",
+            "teacher_last_name": "Name",
+            "teacher_email": "ren@me.me",
+        }
 
         for key in invite_data.keys():
             field = page.browser.find_element(By.NAME, key)
             field.send_keys(invite_data[key])
 
-        invite_button = page.browser.find_element(By.NAME, "invite_teacher_button")
+        invite_button = page.browser.find_element(
+            By.NAME, "invite_teacher_button"
+        )
         invite_button.click()
 
         # Once invite sent test the make admin button
@@ -764,7 +657,11 @@ class TestTeacherFrontend(BaseTest):
         make_admin_button.click()
         """
 
-        button_ids = ["make_admin_button_invite", "cancel_admin_popup_button", "delete-invite"]
+        button_ids = [
+            "make_admin_button_invite",
+            "cancel_admin_popup_button",
+            "delete-invite",
+        ]
         click_buttons_by_id(page, self, button_ids)
 
         # Delete the invite and check if the form invite with
@@ -797,27 +694,40 @@ class TestTeacherFrontend(BaseTest):
         create_organisation_directly(email)
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password).open_account_tab()
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_account_tab()
+        )
 
         # test incorrect password
-        page.browser.find_element(By.ID, "id_delete_password").send_keys("IncorrectPassword")
+        page.browser.find_element(By.ID, "id_delete_password").send_keys(
+            "IncorrectPassword"
+        )
         page.browser.find_element(By.ID, "delete_account_button").click()
         is_message_showing(page.browser, "Your account was not deleted")
 
         # test cancel (no class)
         time.sleep(FADE_TIME)
         page.browser.find_element(By.ID, "id_delete_password").clear()
-        page.browser.find_element(By.ID, "id_delete_password").send_keys(password)
+        page.browser.find_element(By.ID, "id_delete_password").send_keys(
+            password
+        )
         page.browser.find_element(By.ID, "delete_account_button").click()
 
         time.sleep(FADE_TIME)
-        assert page.browser.find_element(By.ID, "popup-delete-review").is_displayed()
+        assert page.browser.find_element(
+            By.ID, "popup-delete-review"
+        ).is_displayed()
         page.browser.find_element(By.ID, "cancel_popup_button").click()
         time.sleep(FADE_TIME)
 
         # test close button in the corner
         page.browser.find_element(By.ID, "id_delete_password").clear()
-        page.browser.find_element(By.ID, "id_delete_password").send_keys(password)
+        page.browser.find_element(By.ID, "id_delete_password").send_keys(
+            password
+        )
         page.browser.find_element(By.ID, "delete_account_button").click()
 
         time.sleep(FADE_TIME)
@@ -829,11 +739,15 @@ class TestTeacherFrontend(BaseTest):
         create_school_student_directly(access_code)
 
         # delete then review classes
-        page.browser.find_element(By.ID, "id_delete_password").send_keys(password)
+        page.browser.find_element(By.ID, "id_delete_password").send_keys(
+            password
+        )
         page.browser.find_element(By.ID, "delete_account_button").click()
 
         time.sleep(FADE_TIME)
-        assert page.browser.find_element(By.ID, "popup-delete-review").is_displayed()
+        assert page.browser.find_element(
+            By.ID, "popup-delete-review"
+        ).is_displayed()
         page.browser.find_element(By.ID, "review_button").click()
         time.sleep(FADE_TIME)
 
@@ -841,7 +755,9 @@ class TestTeacherFrontend(BaseTest):
         page = page.open_account_tab()
 
         # test actual deletion
-        page.browser.find_element(By.ID, "id_delete_password").send_keys(password)
+        page.browser.find_element(By.ID, "id_delete_password").send_keys(
+            password
+        )
         page.browser.find_element(By.ID, "delete_account_button").click()
 
         time.sleep(FADE_TIME)
@@ -851,29 +767,49 @@ class TestTeacherFrontend(BaseTest):
         assert page.browser.find_element(By.CLASS_NAME, "banner--homepage")
 
         # user should not be able to login now
-        page = HomePage(self.selenium).go_to_teacher_login_page().login_failure(email, password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login_failure(email, password)
+        )
 
-        assert page.has_login_failed("form-login-teacher", INVALID_LOGIN_MESSAGE)
+        assert page.has_login_failed(
+            "form-login-teacher", INVALID_LOGIN_MESSAGE
+        )
 
     def test_onboarding_complete(self):
         email, password = signup_teacher_directly()
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login_no_school(email, password)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login_no_school(email, password)
+        )
 
         page = page.create_organisation("Test school", "W1", "GB")
         page = page.create_class("Test class", True)
-        page = page.type_student_name("Test Student").create_students().complete_setup()
+        page = (
+            page.type_student_name("Test Student")
+            .create_students()
+            .complete_setup()
+        )
 
         assert page.has_onboarding_complete_popup()
 
     def get_to_forgotten_password_page(self):
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().go_to_teacher_forgotten_password_page()
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .go_to_teacher_forgotten_password_page()
+        )
         return page
 
     def wait_for_email(self):
-        WebDriverWait(self.selenium, 2).until(lambda driver: len(mail.outbox) == 1)
+        WebDriverWait(self.selenium, 2).until(
+            lambda driver: len(mail.outbox) == 1
+        )
 
     def is_dashboard_page(self, page):
         return page.__class__.__name__ == "TeachDashboardPage"

@@ -1,6 +1,6 @@
 {% extends 'portal/base.html' %}
 {% load static %}
-{% load app_tags banner_tags headline_tags character_list_tags %}
+{% load app_tags banner_tags headline_tags %}
 
 {% block subNav %}
 {% banner banner_name="BANNER" %}
@@ -14,32 +14,40 @@
 
 <div class="background container">
     <section class="banner--rapid-router">
-        <img title="Rapid Router logo" alt="Banner image of Rapid Router logo and game" src="{% static 'common/img/RR_logo.svg' %}">
+        <img title="Rapid Router logo"
+             alt="Banner image of Rapid Router logo and game"
+             src="{% static 'common/img/RR_logo.svg' %}">
     </section>
     <div class="background row d-flex">
         <div class="col-sm-6 d-flex flex-column">
             <div class="flex-grow-1">
                 <h5 class="mt-0">Starting with Blockly</h5>
-                <p>Starting with Blockly, you can learn to become a coding superhero, amaze your friends with your high
-                    scores. Create levels for your friends and compete for the most coins.</p>
+                <p>Starting with Blockly, you can learn to become a coding
+                    superhero, amaze your friends with your high scores. Create
+                    levels for your friends and compete for the most coins.</p>
                 <p>If you are not part of a school, you can <a href="{% url 'register' %}">register here</a>.</p>
             </div>
             <div class="row my-4">
                 <div class="col-sm-12">
-                    <a href="https://docs.codeforlife.education/rapid-router/blockly-guide" class="button button--primary button--icon col-sm-8" target="_blank">
+                    <a href="https://docs.codeforlife.education/rapid-router/blockly-guide"
+                       class="button button--primary button--icon col-sm-8"
+                       target="_blank">
                         Learn more about Blockly<span class="iconify" data-icon="mdi:open-in-new"></span></a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <a href="{% url 'levels' %}" class="button button--primary button--icon col-sm-8">
+                    <a href="{% url 'levels' %}"
+                       class="button button--primary button--icon col-sm-8">
                         Play Rapid Router <span class="iconify" data-icon="mdi:chevron-right"></span></a>
                 </div>
             </div>
         </div>
         <div class="col-sm-6">
-            <a href="https://www.youtube-nocookie.com/embed/w0Pw_XikQSs?rel=0&amp;autoplay=1" class="youtube">
-                <img src="{% static 'portal/img/thumbnail_play_rapid_router.png' %}" alt="Image of Rapid Router game with play button in bottom right corner">
+            <a href="https://www.youtube-nocookie.com/embed/w0Pw_XikQSs?rel=0&amp;autoplay=1"
+               class="youtube">
+                <img src="{% static 'portal/img/thumbnail_play_rapid_router.png' %}"
+                     alt="Image of Rapid Router game with play button in bottom right corner">
             </a>
         </div>
     </div>
@@ -49,63 +57,42 @@
     <h4>Meet the characters</h4>
     <div class="container image-row text-left">
         <div>
-            <img title="Wes" alt="Illustration of Wes" src="{% static 'portal/img/wes.png' %}">
+            <img title="Wes" alt="Illustration of Wes"
+                 src="{% static 'portal/img/wes.png' %}">
             <h5>Wes</h5>
-            <p>Wes is as cunning as a fox, which is weird, because he's actually a wolf.</p>
+            <p>Wes is as cunning as a fox, which is weird, because he's actually
+                a wolf.</p>
         </div>
         <div>
-            <img title="Kirsty" alt="Illustration of Kirsty" src="{% static 'portal/img/kirsty.png' %}">
+            <img title="Kirsty" alt="Illustration of Kirsty"
+                 src="{% static 'portal/img/kirsty.png' %}">
             <h5>Kirsty</h5>
-            <p>Kirsty is a girl with big ambitions. Her biggest ambition is to take the crown, and rule the world!</p>
+            <p>Kirsty is a girl with big ambitions. Her biggest ambition is to
+                take the crown, and rule the world!</p>
         </div>
         <div>
-            <img title="Dee" alt="Illustration of Dee" src="{% static 'portal/img/dee.png' %}">
+            <img title="Dee" alt="Illustration of Dee"
+                 src="{% static 'portal/img/dee.png' %}">
             <h5>Dee</h5>
-            <p>Dee is a Mark II DeliviBot. She's super friendly and her wire hair sparks when she laughs.</p>
+            <p>Dee is a Mark II DeliviBot. She's super friendly and her wire
+                hair sparks when she laughs.</p>
         </div>
         <div>
-            <img title="Nigel" alt="Illustration of Nigel" src="{% static 'portal/img/nigel.png' %}">
+            <img title="Nigel" alt="Illustration of Nigel"
+                 src="{% static 'portal/img/nigel.png' %}">
             <h5>Nigel</h5>
-            <p>Nigel is the tallest kid in his class, and he's growing taller by the day.</p>
+            <p>Nigel is the tallest kid in his class, and he's growing taller by
+                the day.</p>
         </div>
         <div>
-            <img title="Phil" alt="Illustration of Phil" src="{% static 'portal/img/phil.png' %}">
+            <img title="Phil" alt="Illustration of Phil"
+                 src="{% static 'portal/img/phil.png' %}">
             <h5>Phil</h5>
-            <p>Phil is a Boarsnark, however, he is different to most Boarsnarks because he's very kind, and very gentle.</p>
+            <p>Phil is a Boarsnark, however, he is different to most Boarsnarks
+                because he's very kind, and very gentle.</p>
         </div>
     </div>
 </section>
-
-<div class="background container">
-    <section class="banner--aimmo">
-        <img title="Kurono logo" alt="Banner image of Kurono logo and game" src="{% static 'portal/img/kurono_logo.svg' %}">
-    </section>
-    <div class="background row d-flex">
-        <div class="col-sm-6 d-flex flex-column">
-            <div class="flex-grow-1">
-                <h5 class="mt-0">Progressing to Python</h5>
-                <p>Kurono guides you and makes learning to code great fun.</p>
-                <p>Using Python, you can travel with your classmates through time to collect all the museum artefacts.</p>
-                <p>Ask your teacher or tutor to <a href="{% url 'register' %}">register</a>.</p>
-            </div>
-            <div>
-                <a href="{% url 'student_login_access_code' %}" class="button button--primary button-right-arrow" >Login to get started</a>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <a href="https://www.youtube-nocookie.com/embed/m-JYukDZlL8?rel=0&amp;autoplay=1" class="youtube">
-                <img src="{% static 'portal/img/thumbnail_play_kurono.png' %}" alt="Image of Kurono game with play button in bottom right corner">
-            </a>
-        </div>
-    </div>
-</div>
-
-<div class="background background--primary">
-    <div class="container">
-        <h4 class="text-center">Meet the characters</h4>
-        {% character_list %}
-    </div>
-</div>
 
 <script type="text/javascript">
     $(document).ready(function () {

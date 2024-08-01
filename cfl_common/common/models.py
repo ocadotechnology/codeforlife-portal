@@ -16,14 +16,6 @@ class UserProfile(models.Model):
     developer = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
 
-    # Holds the user's earned kurono badges. This information has to be on the
-    # UserProfile as the Avatar objects are deleted every time the Game gets
-    # deleted.
-    # This is a string showing which badges in which worksheets have been
-    # earned. The format is "X:Y" where X is the worksheet ID and Y is the
-    # badge ID. This repeats for all badges and each pair is comma-separated.
-    aimmo_badges = models.CharField(max_length=200, null=True, blank=True)
-
     # TODO: Make not nullable once data has been transferred
     first_name = models.CharField(max_length=200, null=True, blank=True)
     _first_name = models.BinaryField(null=True, blank=True)
@@ -385,23 +377,6 @@ class Student(models.Model):
 
 def stripStudentName(name):
     return re.sub("[ \t]+", " ", name.strip())
-
-
-class AimmoCharacterManager(models.Manager):
-    def sorted(self):
-        return self.get_queryset().order_by("sort_order")
-
-
-class AimmoCharacter(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField()
-    image_path = models.CharField(max_length=255)
-    sort_order = models.IntegerField()
-    alt = models.CharField(max_length=255, null=True)
-    objects = AimmoCharacterManager()
-
-    def __str__(self) -> str:
-        return self.name
 
 
 # -----------------------------------------------------------------------
