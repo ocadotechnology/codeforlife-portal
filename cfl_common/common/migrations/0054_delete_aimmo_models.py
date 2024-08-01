@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0052_add_cse_fields'),
+        ('common', '0053_clean_class_data'),
     ]
 
     operations = [
