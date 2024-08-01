@@ -30,7 +30,6 @@ jobs:
           pip install pipenv
           pipenv install --dev --system
           yarn --frozen-lockfile
-          pip install -U "git+https://github.com/ocadotechnology/rapid-router@remove_kurono#egg=rapid-router"
       - name: Collect static
         run: python example_project/manage.py collectstatic --noinput --settings portal_test_settings
       - name: Run Python tests
