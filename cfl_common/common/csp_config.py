@@ -15,8 +15,6 @@ CSP_CONNECT_SRC = (
     "https://www.google-analytics.com/",
     "https://pyodide-cdn2.iodide.io/v0.15.0/full/",
     "https://crowdin.com/",
-    f"wss://{MODULE_NAME}-aimmo.codeforlife.education/",
-    f"https://{MODULE_NAME}-aimmo.codeforlife.education/",
 )
 CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com/", "https://fonts.googleapis.com/", "https://use.typekit.net/")
 CSP_SCRIPT_SRC = (

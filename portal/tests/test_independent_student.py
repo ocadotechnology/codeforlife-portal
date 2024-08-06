@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 
 import datetime
-import time
 from unittest.mock import ANY, Mock, patch
 
 from common.mail import campaign_ids
@@ -28,7 +27,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
-
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils.messages import (
@@ -657,13 +655,6 @@ class TestIndependentStudentFrontend(BaseTest):
         assert len(logs) == 0
         assert student2.pending_class_request is None
         assert student2.is_independent()
-
-    def test_cannot_see_aimmo(self):
-        page = self.go_to_homepage()
-        page, _, username, _, password = create_independent_student(page)
-        page = page.independent_student_login(username, password)
-
-        assert page.element_does_not_exist_by_link_text("Kurono")
 
     def get_to_forgotten_password_page(self):
         self.selenium.get(self.live_server_url)

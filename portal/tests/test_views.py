@@ -6,7 +6,6 @@ from unittest.mock import ANY, Mock, patch
 
 import PyPDF2
 import pytest
-from aimmo.models import Game
 from common.models import (
     Class,
     DailyActivity,
@@ -575,7 +574,8 @@ class TestViews(TestCase):
             "total_available_score": 2040,
         }
 
-        # Expected context data when a student has also attempted some custom RR levels
+        # Expected context data when a student has also attempted some custom RR
+        # levels
         EXPECTED_DATA_WITH_CUSTOM_ATTEMPTS = {
             "num_completed": 2,
             "num_top_scores": 1,
@@ -583,18 +583,6 @@ class TestViews(TestCase):
             "total_available_score": 2040,
             "total_custom_score": 10,
             "total_custom_available_score": 20,
-        }
-
-        # Expected context data when a student also has access to a Kurono game
-        EXPECTED_DATA_WITH_KURONO_GAME = {
-            "num_completed": 2,
-            "num_top_scores": 1,
-            "total_score": 39,
-            "total_available_score": 2040,
-            "total_custom_score": 10,
-            "total_custom_available_score": 20,
-            "worksheet_id": 3,
-            "worksheet_image": "images/worksheets/ancient.jpg",
         }
 
         c = Client()
@@ -623,9 +611,9 @@ class TestViews(TestCase):
         assert response.status_code == 200
         assert response.context_data == EXPECTED_DATA_WITH_ATTEMPTS
 
-        # Teacher creates 3 custom levels, only shares the first 2 with the student.
-        # Check that the total available score only includes the levels shared with the
-        # student. Student attempts one level only.
+        # Teacher creates 3 custom levels, only shares the first 2 with the
+        # student. Check that the total available score only includes the
+        # levels shared with the student. Student attempts one level only.
         custom_level1_id = create_save_level(student.class_field.teacher)
         custom_level2_id = create_save_level(student.class_field.teacher)
         create_save_level(student.class_field.teacher)
@@ -641,15 +629,6 @@ class TestViews(TestCase):
 
         assert response.status_code == 200
         assert response.context_data == EXPECTED_DATA_WITH_CUSTOM_ATTEMPTS
-
-        # Link Kurono game to student's class
-        game = Game(game_class=klass, worksheet_id=3)
-        game.save()
-
-        response = c.get(student_dashboard_url)
-
-        assert response.status_code == 200
-        assert response.context_data == EXPECTED_DATA_WITH_KURONO_GAME
 
     @patch("portal.views.registration.send_dotdigital_email")
     def test_delete_account(self, mock_send_dotdigital_email: Mock):

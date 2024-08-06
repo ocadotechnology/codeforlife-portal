@@ -179,37 +179,6 @@ $column--icon-width: 3%;
     }
   }
 
-  .grid-kurono-sessions {
-    display: grid;
-    grid-auto-rows: auto;
-    grid-template-columns:
-      70%
-      auto;
-
-    .button {
-      @include _margin(0px, 0px, $spacing * 3, 0px);
-    }
-
-    div p {
-      width: 90%;
-    }
-
-    & > * {
-      align-items: center;
-      border-bottom: 1px solid $color-table-border;
-      display: grid;
-    }
-
-    .grid-icon {
-      max-height: 60%;
-      max-width: 60%;
-    }
-
-    h6 {
-      @include _margin(20px, 0px, 10px, 0px);
-    }
-  }
-
   .grid-resources {
     border-top: 1px solid $color-table-border;
     display: grid;
@@ -291,27 +260,5 @@ $column--icon-width: 3%;
       "text3"
       "button3";
     row-gap: 4 * $spacing;
-  }
-
-  .grid-kurono-sessions {
-    .grid-kurono-sessions__item {
-      border-bottom: 1px solid $color-table-border;
-    }
-
-    .grid-kurono-sessions__accordion-button {
-      align-items: center;
-      display: flex;
-      justify-content: space-between;
-
-      .button-group__icon {
-        width: -webkit-fill-available;
-        width: -moz-available;
-      }
-    }
-
-    .button-group {
-      display: flex;
-      justify-content: center;
-    }
   }
 }

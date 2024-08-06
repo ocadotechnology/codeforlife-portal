@@ -1,4 +1,3 @@
-from aimmo.urls import HOMEPAGE_REGEX
 from common.permissions import teacher_verified
 from django.conf.urls import include, url
 from django.http import HttpResponse
@@ -28,10 +27,6 @@ from portal.views.about import about, contribute, getinvolved
 from portal.views.admin import (
     AdminChangePasswordDoneView,
     AdminChangePasswordView,
-)
-from portal.views.aimmo.dashboard import (
-    StudentAimmoDashboard,
-    TeacherAimmoDashboard,
 )
 from portal.views.api import (
     AnonymiseOrphanSchoolsView,
@@ -189,17 +184,6 @@ urlpatterns = [
                 ),
             ]
         ),
-    ),
-    url(HOMEPAGE_REGEX, include("aimmo.urls")),
-    url(
-        r"^teach/kurono/dashboard/$",
-        TeacherAimmoDashboard.as_view(),
-        name="teacher_aimmo_dashboard",
-    ),
-    url(
-        r"^play/kurono/dashboard/$",
-        StudentAimmoDashboard.as_view(),
-        name="student_aimmo_dashboard",
     ),
     url(
         r"^favicon\.ico$",

@@ -6,7 +6,6 @@ from enum import Enum
 from functools import partial, wraps
 from uuid import uuid4
 
-from aimmo.models import Game
 from common.helpers.emails import send_verification_email
 from common.helpers.generators import generate_access_code, generate_login_id, generate_password, get_hashed_login_id
 from common.models import Class, DailyActivity, JoinReleaseStudent, Student, Teacher, TotalActivity
@@ -188,7 +187,6 @@ def teacher_view_class(request, access_code):
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_delete_class(request, access_code):
     klass = get_object_or_404(Class, access_code=access_code)
-    games = Game.objects.filter(game_class=klass)
 
     # check user authorised to see class
     check_teacher_authorised(request, klass.teacher)
@@ -199,9 +197,6 @@ def teacher_delete_class(request, access_code):
         )
         return HttpResponseRedirect(reverse_lazy("view_class", kwargs={"access_code": access_code}))
 
-    for game in games:
-        game.is_archived = True
-        game.save()
     klass.anonymise()
 
     return HttpResponseRedirect(reverse_lazy("dashboard") + "#classes")
