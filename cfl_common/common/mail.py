@@ -27,6 +27,9 @@ campaign_ids = {
     "verify_new_user_second_reminder": 1557173,
     "verify_new_user_via_parent": 1551587,
     "verify_released_student": 1580574,
+    "inactive_users_on_website_first_reminder": 1604381,
+    "inactive_users_on_website_second_reminder": 1606208,
+    "inactive_users_on_website_final_reminder": 1606215,
 }
 
 
@@ -65,7 +68,11 @@ def django_send_email(
     plaintext = loader.get_template(plaintext_template)
     html = loader.get_template(html_template)
     plaintext_email_context = {"content": text_content}
-    html_email_context = {"content": text_content, "title": title, "url_prefix": domain()}
+    html_email_context = {
+        "content": text_content,
+        "title": title,
+        "url_prefix": domain(),
+    }
 
     # render templates
     plaintext_body = plaintext.render(plaintext_email_context)
@@ -74,11 +81,19 @@ def django_send_email(
 
     if replace_url:
         verify_url = replace_url["verify_url"]
-        verify_replace_url = re.sub(f"(.*/verify_email/)(.*)", f"\\1", verify_url)
-        html_body = re.sub(f"({verify_url})(.*){verify_url}", f"\\1\\2{verify_replace_url}", original_html_body)
+        verify_replace_url = re.sub(
+            f"(.*/verify_email/)(.*)", f"\\1", verify_url
+        )
+        html_body = re.sub(
+            f"({verify_url})(.*){verify_url}",
+            f"\\1\\2{verify_replace_url}",
+            original_html_body,
+        )
 
     # make message using templates
-    message = EmailMultiAlternatives(subject, plaintext_body, sender, recipients)
+    message = EmailMultiAlternatives(
+        subject, plaintext_body, sender, recipients
+    )
     message.attach_alternative(html_body, "text/html")
 
     message.send()
@@ -123,7 +138,13 @@ def send_dotdigital_email(
 
     # Dotdigital emails don't work locally, so if testing emails locally use Django to send a dummy email instead
     if MODULE_NAME == "local":
-        django_send_email(from_address, to_addresses, "dummy_subject", "dummy_text_content", "dummy_title")
+        django_send_email(
+            from_address,
+            to_addresses,
+            "dummy_subject",
+            "dummy_text_content",
+            "dummy_title",
+        )
     else:
         if auth is None:
             auth = app_settings.DOTDIGITAL_AUTH
@@ -168,4 +189,8 @@ def send_dotdigital_email(
             timeout=timeout,
         )
 
-        assert response.ok, "Failed to send email." f" Reason: {response.reason}." f" Text: {response.text}."
+        assert response.ok, (
+            "Failed to send email."
+            f" Reason: {response.reason}."
+            f" Text: {response.text}."
+        )

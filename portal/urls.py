@@ -164,6 +164,21 @@ urlpatterns = [
                                 cron.user.AnonymiseUnverifiedAccounts.as_view(),
                                 name="anonymise-unverified-accounts",
                             ),
+                            path(
+                                "inactive/send-first-reminder/",
+                                cron.user.FirstInactivityReminderView.as_view(),
+                                name="first-inactivity-reminder",
+                            ),
+                            path(
+                                "inactive/send-second-reminder/",
+                                cron.user.SecondInactivityReminderView.as_view(),
+                                name="second-inactivity-reminder",
+                            ),
+                            path(
+                                "inactive/send-final-reminder/",
+                                cron.user.FinalInactivityReminderView.as_view(),
+                                name="final-inactivity-reminder",
+                            ),
                         ]
                     ),
                 ),
