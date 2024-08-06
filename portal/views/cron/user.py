@@ -69,16 +69,7 @@ def get_inactive_users(days: int) -> QuerySet[User]:
         )
     )
 
-    teacher_queryset = user_queryset.filter(
-        new_teacher__isnull=False,
-        new_student__isnull=True,
-    )
-    independent_student_queryset = user_queryset.filter(
-        new_teacher__isnull=True,
-        new_student__class_field__isnull=True,
-    )
-
-    return teacher_queryset.union(independent_student_queryset)
+    return user_queryset.exclude(email__isnull=True).exclude(email="")
 
 
 def build_absolute_google_uri(request, location: str) -> str:
