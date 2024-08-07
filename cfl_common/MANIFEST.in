@@ -1,2 +1,3 @@
+include common/fixtures/*.json
 graft common/templates
 graft common/static
