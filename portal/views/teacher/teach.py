@@ -21,7 +21,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
-from game.views.level_selection import get_blockly_episodes, get_python_episodes
+from game.views.level_selection import get_blockly_episodes
 from portal.views.registration import handle_reset_password_tracking
 from reportlab.lib.colors import black, red
 from reportlab.lib.pagesizes import A4
@@ -256,7 +256,6 @@ def teacher_edit_class(request, access_code):
     external_requests_message = klass.get_requests_message()
 
     blockly_episodes = get_blockly_episodes(request)
-    python_episodes = get_python_episodes(request)
 
     locked_levels = klass.locked_levels.all()
     locked_levels_ids = [locked_level.id for locked_level in locked_levels]
@@ -273,7 +272,7 @@ def teacher_edit_class(request, access_code):
         elif "level_control_submit" in request.POST:
             level_control_form = ClassLevelControlForm(request.POST)
             if level_control_form.is_valid():
-                return process_level_control_form(request, klass, blockly_episodes, python_episodes)
+                return process_level_control_form(request, klass, blockly_episodes)
         elif "class_move_submit" in request.POST:
             class_move_form = ClassMoveForm(other_teachers, request.POST)
             if class_move_form.is_valid():
@@ -287,7 +286,6 @@ def teacher_edit_class(request, access_code):
             "class_move_form": class_move_form,
             "level_control_form": level_control_form,
             "blockly_episodes": blockly_episodes,
-            "python_episodes": python_episodes,
             "locked_levels": locked_levels_ids,
             "class": klass,
             "external_requests_message": external_requests_message,
@@ -338,19 +336,17 @@ def process_edit_class_form(request, klass, form):
     return HttpResponseRedirect(reverse_lazy("view_class", kwargs={"access_code": klass.access_code}))
 
 
-def process_level_control_form(request, klass, blockly_episodes, python_episodes):
+def process_level_control_form(request, klass, blockly_episodes):
     """
     Find the levels that the user wants to lock and lock them for the specific class.
     :param request: The request sent by the user submitting the form.
     :param klass: The class for which the levels are being locked / unlocked.
     :param blockly_episodes: The set of Blockly Episodes in the game.
-    :param python_episodes: The set of Python Episodes in the game.
     :return: A redirect to the teacher dashboard with a success message.
     """
     levels_to_lock_ids = []
 
     mark_levels_to_lock_in_episodes(request, blockly_episodes, levels_to_lock_ids)
-    mark_levels_to_lock_in_episodes(request, python_episodes, levels_to_lock_ids)
 
     klass.locked_levels.clear()
     [klass.locked_levels.add(levels_to_lock_id) for levels_to_lock_id in levels_to_lock_ids]

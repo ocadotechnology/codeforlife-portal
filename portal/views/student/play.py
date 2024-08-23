@@ -37,7 +37,7 @@ class SchoolStudentDashboard(
         the student's scores for any levels shared with them by their teacher.
         """
         # Get score data for all original levels
-        levels = Level.objects.sorted_levels()
+        levels = Level.objects.filter(episode__pk__in=range(1, 10))
         student = self.request.user.new_student
 
         context_data = _compute_rapid_router_scores(student, levels)
@@ -73,7 +73,7 @@ class IndependentStudentDashboard(
         return logged_in_as_independent_student(self.request.user)
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        levels = Level.objects.sorted_levels()
+        levels = Level.objects.filter(episode__pk__in=range(1, 10))
         student = self.request.user.new_student
 
         return _compute_rapid_router_scores(
