@@ -264,7 +264,7 @@ class ClassLevelControlForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ClassLevelControlForm, self).__init__(*args, **kwargs)
 
-        episodes = Episode.objects.all()
+        episodes = Episode.objects.filter(pk__in=range(1, 10))
 
         for episode in episodes:
             levels = []

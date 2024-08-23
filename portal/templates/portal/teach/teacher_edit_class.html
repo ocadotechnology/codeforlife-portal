@@ -99,7 +99,7 @@
 
         <div id="episodes">
             <div class="panel-intro d-flex align-items-center justify-content-between">
-                <h6>Blockly levels</h6>
+                <h6>Rapid Router levels</h6>
                 <label class="pr-5 mb-0 mr-5">
                     <input type="checkbox" id="select-all-blockly-levels">
                 </label>
@@ -118,56 +118,6 @@
                                 <label class="mb-0" for="select-all-episode-levels">
                                     <input type="checkbox" value="{{ episode.name }}" id="select-all-blockly-levels-{{ episode.id }}">
                                 </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="collapse-{{episode.id}}" aria-labelledby="episode-{{episode.id}}" class="collapse">
-                        <div class="panel-body d-flex justify-content-between">
-                            <div class="d-flex flex-grow-1 flex-column justify-content-between">
-                                {% for level in episode.levels %}
-                                    <p>{{level.name}}: {{level.title.strip | safe}}</p>
-                                {% endfor %}
-                            </div>
-                            <div class="form__checkbox flex-column justify-content-between p-0">
-                                {% for input in level_control_form|get_dict_item:episode.name %}
-                                    <div class="form__checkbox-input p-0">
-                                        {{ input }}
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-
-            <div class="panel-intro d-flex align-items-center justify-content-between">
-                <h6>Python levels</h6>
-                <label class="pr-5 mb-0 mr-5">
-                    <input type="checkbox" id="select-all-python-levels">
-                </label>
-            </div>
-            {% for episode in python_episodes %}
-                <div 
-                    class="panel"
-                    {% if "coming soon" in episode.name %}
-                        style="pointer-events:none;"
-                    {% endif %}
-                >
-                    <div class="panel-header bg--{{ episode.difficulty }}" id="episode-{{episode.id}}">
-                        <div class="d-flex align-items-center justify-content-end" data-toggle="collapse"
-                             data-target="#collapse-{{episode.id}}" aria-expanded="false"
-                             aria-controls="collapse-{{episode.id}}" data-parent="#episodes">
-                            <p class="episode-title flex-grow-1">{{episode.name}}</p>
-                            <span>Levels {{episode.first_level}}-{{episode.last_level}}</span>
-                            <div class="episode_range_text collapsed d-flex align-items-center justify-content-end"
-                                 data-toggle="collapse" data-target="#collapse-{{episode.id}}"
-                                 aria-expanded="false" aria-controls="collapse-{{episode.id}}" data-parent="#episodes">
-                                 {% if "coming soon" not in episode.name %}
-                                    <label id="episode-label-{{ episode.id }}" class="mb-0" for="select-all-episode-levels">
-                                        <input type="checkbox" value="{{ episode.name }}" id="select-all-python-levels-{{ episode.id }}">
-                                    </label>
-                                {% endif %}
                             </div>
                         </div>
                     </div>
