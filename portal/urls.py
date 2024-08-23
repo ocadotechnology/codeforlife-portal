@@ -216,7 +216,7 @@ urlpatterns = [
     url(r"^i18n/", include("django.conf.urls.i18n")),
     url(r"^jsi18n/$", JavaScriptCatalog.as_view(), js_info_dict),
     url(
-        r"^(?P<levelName>[A-Z0-9]+)/$",
+        r"^(?P<level_name>[A-Z0-9]+)/$",
         play_default_level,
         name="play_default_level",
     ),
