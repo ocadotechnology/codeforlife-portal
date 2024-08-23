@@ -563,7 +563,7 @@ class TestViews(TestCase):
             "num_completed": 0,
             "num_top_scores": 0,
             "total_score": 0,
-            "total_available_score": 2040,
+            "total_available_score": 1450,
         }
 
         # Expected context data when a student has attempted some RR levels
@@ -571,7 +571,7 @@ class TestViews(TestCase):
             "num_completed": 2,
             "num_top_scores": 1,
             "total_score": 39,
-            "total_available_score": 2040,
+            "total_available_score": 1450,
         }
 
         # Expected context data when a student has also attempted some custom RR
@@ -580,7 +580,7 @@ class TestViews(TestCase):
             "num_completed": 2,
             "num_top_scores": 1,
             "total_score": 39,
-            "total_available_score": 2040,
+            "total_available_score": 1450,
             "total_custom_score": 10,
             "total_custom_available_score": 20,
         }
