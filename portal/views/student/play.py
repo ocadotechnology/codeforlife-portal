@@ -46,7 +46,6 @@ class SchoolStudentDashboard(
         context_data = {
             "rapid_router": _compute_scores(student, rapid_router_levels),
             "python_den": _compute_scores(student, python_den_levels),
-            "user_type": "STUDENT"
         }
 
         # Find any custom levels created by the teacher and shared with the
@@ -88,7 +87,6 @@ class IndependentStudentDashboard(
         return {
             "rapid_router": _compute_scores(student, rapid_router_levels),
             "python_den": _compute_scores(student, python_den_levels),
-            "user_type": "INDEPENDENT"
         }
 
 

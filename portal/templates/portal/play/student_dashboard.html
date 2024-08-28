@@ -3,10 +3,10 @@
 {% load app_tags %}
 
 {% block subNav %}
-{% if user_type == "STUDENT" %}
-<section class="banner banner--student row mx-0">
-{% else %}
+{% if user|is_independent_student %}
 <section class="banner banner--independent-student row mx-0">
+{% else %}
+<section class="banner banner--student row mx-0">
 {% endif %}
     <div>
         <h1 class="banner__text--primary">
