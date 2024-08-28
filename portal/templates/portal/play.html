@@ -94,6 +94,40 @@
     </div>
 </section>
 
+<div class="background container">
+    <section>
+        <img title="Python Den logo"
+             alt="Banner image of Python Den logo and game"
+             src="{% static 'portal/img/python_den_banner.svg' %}">
+    </section>
+    <div class="background row d-flex">
+        <div class="col-sm-6">
+            <img src="{% static 'portal/img/python_den.png' %}"
+                 alt="Python Den logo and characters">
+        </div>
+        <div class="col-sm-6 d-flex flex-column">
+            <div class="flex-grow-1">
+                <h5 class="mt-0">Python programming</h5>
+                <p>The Python Den is an exploration of Python programming
+                    through a comprehensive course. Free lesson plans, videos
+                    and worksheets to support you in your learning.</p>
+                <p>From foundational syntax to advanced concepts like loops
+                    and data manipulation, each session is a new challenge.</p>
+                <p>We aim to provide a tried-and-tested, structured set of
+                    lessons that you can use at home or in class, no matter
+                    your own level of experience.</p>
+            </div>
+            <div class="row my-4">
+                <div class="col-sm-12">
+                    <a href="{% url 'python_levels' %}"
+                       class="button button--primary button--icon col-sm-8">
+                        Play Python Den <span class="iconify" data-icon="mdi:chevron-right"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         invokeColorbox();
