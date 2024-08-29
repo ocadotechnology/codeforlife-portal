@@ -37,6 +37,7 @@
                             Games <span class="material-icons-outlined md-32">arrow_drop_down</span></a>
                         <div class="dropdown-content">
                             <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
+                            <a href="{% url 'python_levels' %}"><small>Python Den</small></a>
                         </div>
                     </div>
                     <div class="dropdown">
@@ -46,6 +47,8 @@
                         <div class="dropdown-content">
                             <a id="rapid_router_resources_button" href="https://code-for-life.gitbook.io/teaching-resources/" target="_blank">
                                 <small>Rapid Router</small> <span class="iconify" data-icon="mdi:open-in-new"></span></a>
+                            <a href="https://code-for-life.gitbook.io/python-lessons-with-raspberry-pi-ide/DGiFT28ihVJK7ghZQHqu" target="_blank">
+                                <small>Python Den</small> <span class="iconify" data-icon="mdi:open-in-new"></span></a>
                             <a href="{% url 'codingClub' %}"><small>Coding Clubs</small></a>
                         </div>
                     </div>
@@ -75,6 +78,7 @@
                     </a>
                     <div class="dropdown-content">
                         <a href="{% url 'levels' %}"><small>Rapid Router</small></a>
+                        <a href="{% url 'python_levels' %}"><small>Python Den</small></a>
                     </div>
                 </div>
                 {% if user|is_logged_in_as_school_user %}
@@ -186,11 +190,15 @@
                       href="{% url 'dashboard' %}">School / Club<span class="material-icons-outlined md-32">chevron_right</span></a>
                     <a class="button button--menu__item button--menu__item__sub"
                       href="{% url 'levels' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
+                    <a class="button button--menu__item button--menu__item__sub"
+                       href="{% url 'python_levels' %}">Python Den<span class="material-icons-outlined md-32">chevron_right</span></a>
                     <button class="button--menu__item button--menu__item__sub
                     button--menu__item--sub-header" data-toggle="collapse" data-target="#resources-tabs">Teaching Resources</button>
                     <div id="resources-tabs" class="collapse">
                         <a class="button button--menu__item button--menu__item__sub__sub"
                           href="https://code-for-life.gitbook.io/teaching-resources/" target="_blank">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
+                        <a class="button button--menu__item button--menu__item__sub__sub"
+                           href="https://code-for-life.gitbook.io/python-lessons-with-raspberry-pi-ide/DGiFT28ihVJK7ghZQHqu" target="_blank">Python Den<span class="material-icons-outlined md-32">chevron_right</span></a>
                     </div>
                 </div>
             {% else %}
@@ -209,6 +217,8 @@
                     <div id="games-tabs" class="collapse">
                         <a class="button button--menu__item button--menu__item--{% if user|is_independent_student %}independent{% else %}student{% endif %} button--menu__item__sub"
                           href="{% url 'levels' %}">Rapid Router<span class="material-icons-outlined md-32">chevron_right</span></a>
+                        <a class="button button--menu__item button--menu__item--{% if user|is_independent_student %}independent{% else %}student{% endif %} button--menu__item__sub"
+                           href="{% url 'python_levels' %}">Python Den<span class="material-icons-outlined md-32">chevron_right</span></a>
                     </div>
                     {% if user|is_logged_in_as_school_user %}
                     <a class="button button--menu__item button--menu__item--student"

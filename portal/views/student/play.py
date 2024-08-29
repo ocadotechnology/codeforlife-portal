@@ -37,10 +37,16 @@ class SchoolStudentDashboard(
         the student's scores for any levels shared with them by their teacher.
         """
         # Get score data for all original levels
-        levels = Level.objects.filter(episode__pk__in=range(1, 10))
+        rapid_router_levels = Level.objects.filter(episode__pk__in=range(1, 10))
+        python_den_levels = Level.objects.filter(
+            episode__pk__in=[12, 13, 14, 15, 22]
+        )
         student = self.request.user.new_student
 
-        context_data = _compute_rapid_router_scores(student, levels)
+        context_data = {
+            "rapid_router": _compute_scores(student, rapid_router_levels),
+            "python_den": _compute_scores(student, python_den_levels),
+        }
 
         # Find any custom levels created by the teacher and shared with the
         # student
@@ -49,16 +55,15 @@ class SchoolStudentDashboard(
         custom_levels = student.new_user.shared.filter(owner=teacher)
 
         if custom_levels:
-            custom_levels_data = _compute_rapid_router_scores(
-                student, custom_levels
-            )
+            custom_levels_data = _compute_scores(student, custom_levels)
 
-            context_data["total_custom_score"] = custom_levels_data[
-                "total_score"
-            ]
-            context_data["total_custom_available_score"] = custom_levels_data[
-                "total_available_score"
-            ]
+            context_data["rapid_router"]["total_custom_score"] = (
+                custom_levels_data
+            )["total_score"]
+
+            context_data["rapid_router"][
+                "total_custom_available_score"
+            ] = custom_levels_data["total_available_score"]
 
         return context_data
 
@@ -66,23 +71,26 @@ class SchoolStudentDashboard(
 class IndependentStudentDashboard(
     LoginRequiredNoErrorMixin, UserPassesTestMixin, TemplateView, FormView
 ):
-    template_name = "portal/play/independent_student_dashboard.html"
+    template_name = "portal/play/student_dashboard.html"
     login_url = reverse_lazy("independent_student_login")
 
     def test_func(self) -> Optional[bool]:
         return logged_in_as_independent_student(self.request.user)
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        levels = Level.objects.filter(episode__pk__in=range(1, 10))
+        rapid_router_levels = Level.objects.filter(episode__pk__in=range(1, 10))
+        python_den_levels = Level.objects.filter(
+            episode__pk__in=[12, 13, 14, 15, 22]
+        )
         student = self.request.user.new_student
 
-        return _compute_rapid_router_scores(
-            student,
-            levels,
-        )
+        return {
+            "rapid_router": _compute_scores(student, rapid_router_levels),
+            "python_den": _compute_scores(student, python_den_levels),
+        }
 
 
-def _compute_rapid_router_scores(
+def _compute_scores(
     student: Student, levels: List[Level] or QuerySet
 ) -> Dict[str, int]:
     """

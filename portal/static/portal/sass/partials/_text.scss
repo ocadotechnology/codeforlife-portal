@@ -180,6 +180,11 @@ blockquote {
   }
 }
 
+.background--python-den {
+  background-color: $color-background-python-den;
+  color: $color-text-secondary;
+}
+
 @media (min-width: $tablet-small-min-width) {
   .list--two-columns {
     columns: 2;

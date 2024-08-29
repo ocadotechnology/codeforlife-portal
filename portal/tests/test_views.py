@@ -560,29 +560,53 @@ class TestViews(TestCase):
 
         # Expected context data when a student hasn't played anything yet
         EXPECTED_DATA_FIRST_LOGIN = {
-            "num_completed": 0,
-            "num_top_scores": 0,
-            "total_score": 0,
-            "total_available_score": 1450,
+            "rapid_router": {
+                "num_completed": 0,
+                "num_top_scores": 0,
+                "total_score": 0,
+                "total_available_score": 1450,
+            },
+            "python_den": {
+                "num_completed": 0,
+                "num_top_scores": 0,
+                "total_score": 0,
+                "total_available_score": 830,
+            },
         }
 
         # Expected context data when a student has attempted some RR levels
         EXPECTED_DATA_WITH_ATTEMPTS = {
-            "num_completed": 2,
-            "num_top_scores": 1,
-            "total_score": 39,
-            "total_available_score": 1450,
+            "rapid_router": {
+                "num_completed": 2,
+                "num_top_scores": 1,
+                "total_score": 39,
+                "total_available_score": 1450,
+            },
+            "python_den": {
+                "num_completed": 2,
+                "num_top_scores": 2,
+                "total_score": 30,
+                "total_available_score": 830,
+            },
         }
 
         # Expected context data when a student has also attempted some custom RR
         # levels
         EXPECTED_DATA_WITH_CUSTOM_ATTEMPTS = {
-            "num_completed": 2,
-            "num_top_scores": 1,
-            "total_score": 39,
-            "total_available_score": 1450,
-            "total_custom_score": 10,
-            "total_custom_available_score": 20,
+            "rapid_router": {
+                "num_completed": 2,
+                "num_top_scores": 1,
+                "total_score": 39,
+                "total_available_score": 1450,
+                "total_custom_score": 10,
+                "total_custom_available_score": 20,
+            },
+            "python_den": {
+                "num_completed": 2,
+                "num_top_scores": 2,
+                "total_score": 30,
+                "total_available_score": 830,
+            },
         }
 
         c = Client()
@@ -599,12 +623,19 @@ class TestViews(TestCase):
         assert response.status_code == 200
         assert response.context_data == EXPECTED_DATA_FIRST_LOGIN
 
-        # Attempt the first two levels, one perfect attempt, one not
+        # Attempt the first two RR levels, one perfect attempt, one not
         level1 = Level.objects.get(name="1")
         level2 = Level.objects.get(name="2")
 
         create_attempt(student, level1, 20)
         create_attempt(student, level2, 19)
+
+        # Attempt the first and fourth Python Den levels, both perfect
+        level1001 = Level.objects.get(name="1001")
+        level1004 = Level.objects.get(name="1004")
+
+        create_attempt(student, level1001, 20)
+        create_attempt(student, level1004, 10)
 
         response = c.get(student_dashboard_url)
 

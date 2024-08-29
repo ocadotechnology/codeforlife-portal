@@ -149,6 +149,41 @@
     </div>
 </div>
 
+<div class="background background--primary">
+    <div class="container">
+        <div class="row d-flex">
+            <div class="col-sm-6 d-flex flex-column">
+                <div class="flex-grow-1">
+                    <h4 class="mt-0">Python programming</h4>
+                    <p>The Python Den is an exploration of Python
+                        programming through a comprehensive course with free
+                        lesson plans, videos and worksheets to support you in
+                        teaching Python programming to your students. From
+                        foundational syntax to advanced concepts like loops
+                        and data manipulation, each session is tailored to
+                        engage young learners.</p>
+                    <p>We aim to provide a tried-and-tested, structured set
+                        of lessons that you can use in your classroom, no
+                        matter your own level of experience.
+                    </p>
+                </div>
+                <div>
+                    <a href="{% url 'python_levels' %}"
+                       class="button button--primary button-right-arrow">
+                        Try out Python Den
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <a href="https://www.youtube-nocookie.com/embed/ko4nrr4kDzA?rel=0&amp;autoplay=1" class="youtube">
+                    <img src="{% static 'portal/img/thumbnail_python_den.png' %}"
+                         alt="Python Den logo">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function(){
         invokeColorbox();

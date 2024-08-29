@@ -3,7 +3,11 @@
 {% load app_tags %}
 
 {% block subNav %}
+{% if user|is_independent_student %}
+<section class="banner banner--independent-student row mx-0">
+{% else %}
 <section class="banner banner--student row mx-0">
+{% endif %}
     <div>
         <h1 class="banner__text--primary">
             Welcome, {{ user|make_into_username }}
@@ -16,13 +20,13 @@
 {% block content %}
 <div id="play_dashboard_page">
     <div class="background container">
-        <section><h4>Your class games</h4></section>
-        <div class="grid-games col-center col-sm-4">
+        <section><h4>Your games</h4></section>
+        <div class="grid-games col-center col-sm-9">
             <div class="card">
                 <div class="card__images">
                     <img title="Rapid Router" alt="Rapid Router"
                          class="card__image"
-                         src="{% static 'portal/img/RR_logo_green.svg' %}">
+                         src="{% static 'portal/img/RR_logo_grass_background.png' %}">
                 </div>
                 <div class="card__text">
                     <h5 class="card__title">Rapid Router</h5>
@@ -35,17 +39,34 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card__images">
+                    <img title="Python Den" alt="Python Den"
+                         class="card__image"
+                         src="{% static 'portal/img/python_den.png' %}">
+                </div>
+                <div class="card__text">
+                    <h5 class="card__title">Python Den</h5>
+                    <p>The Python Den takes you on a programming journey from
+                        beginner to syntax superhero. Build a good solid
+                        foundation of Python to start your coding career!</p>
+                    <div class="button-group">
+                        <a href="{% url 'python_levels'%}"
+                           class="button button--primary">Play</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="background background--primary">
         <div class="container">
             <div class="text-center">
                 <section><img title="Rapid Router logo" alt="Rapid Router logo" src="{% static 'portal/img/RR_logo_simple.png' %}"></section>
-                <h4>You have completed {{ num_completed }} Rapid Router level{{ num_completed|pluralize }}!</h4>
-                <h4>You have {{ num_top_scores }} top score{{ num_top_scores|pluralize }}!</h4>
-                <h4>You have a score of {{ total_score }}. There are {{ total_available_score }} available points.</h4>
-                {% if total_custom_available_score %}
-                    <h4>You have a score of {{ total_custom_score }} out of {{ total_custom_available_score }} available points on custom levels.</h4>
+                <h4>You have completed {{ rapid_router.num_completed }} Rapid Router level{{ rapid_router.num_completed|pluralize }}!</h4>
+                <h4>You have {{ rapid_router.num_top_scores }} top score{{ rapid_router.num_top_scores|pluralize }}!</h4>
+                <h4>You have a score of {{ rapid_router.total_score }}. There are {{ rapid_router.total_available_score }} available points.</h4>
+                {% if rapid_router.total_custom_available_score %}
+                    <h4>You have a score of {{ rapid_router.total_custom_score }} out of {{ rapid_router.total_custom_available_score }} available points on custom levels.</h4>
                 {% endif %}
                 <section>
                     <a href="{% url 'scoreboard' %}"
@@ -53,6 +74,16 @@
                         Check scoreboard
                     </a>
                 </section>
+            </div>
+        </div>
+    </div>
+    <div class="background background--python-den">
+        <div class="container">
+            <div class="text-center">
+                <section><img title="Python Den logo" alt="Python Den logo" src="{% static 'portal/img/logo_python_den.svg' %}"></section>
+                <h4>You have completed {{ python_den.num_completed }} Python Den level{{ python_den.num_completed|pluralize }}!</h4>
+                <h4>You have {{ python_den.num_top_scores }} top score{{ python_den.num_top_scores|pluralize }}!</h4>
+                <h4>You have a score of {{ python_den.total_score }}. There are {{ python_den.total_available_score }} available points.</h4>
             </div>
         </div>
     </div>
