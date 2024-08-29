@@ -62,8 +62,7 @@
         <div class="container">
             <div class="text-center">
                 <section><img title="Rapid Router logo" alt="Rapid Router logo" src="{% static 'portal/img/RR_logo_simple.png' %}"></section>
-                <h4>You have completed {{ rapid_router.num_completed }} Rapid
-                    Router level{{ num_completed|pluralize }}!</h4>
+                <h4>You have completed {{ rapid_router.num_completed }} Rapid Router level{{ rapid_router.num_completed|pluralize }}!</h4>
                 <h4>You have {{ rapid_router.num_top_scores }} top score{{ rapid_router.num_top_scores|pluralize }}!</h4>
                 <h4>You have a score of {{ rapid_router.total_score }}. There are {{ rapid_router.total_available_score }} available points.</h4>
                 {% if rapid_router.total_custom_available_score %}
@@ -82,8 +81,7 @@
         <div class="container">
             <div class="text-center">
                 <section><img title="Python Den logo" alt="Python Den logo" src="{% static 'portal/img/logo_python_den.svg' %}"></section>
-                <h4>You have completed {{ python_den.num_completed }} Python
-                    Den level{{ python_den.num_completed|pluralize }}!</h4>
+                <h4>You have completed {{ python_den.num_completed }} Python Den level{{ python_den.num_completed|pluralize }}!</h4>
                 <h4>You have {{ python_den.num_top_scores }} top score{{ python_den.num_top_scores|pluralize }}!</h4>
                 <h4>You have a score of {{ python_den.total_score }}. There are {{ python_den.total_available_score }} available points.</h4>
             </div>
