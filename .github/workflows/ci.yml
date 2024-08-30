@@ -13,22 +13,23 @@ jobs:
       OCADO_TECH_ORG_ID: 2088731
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.8"
+          python-version: "3.12"
           architecture: "x64"
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 16.x
       - name: Install dependencies
         run: |
           pip install pipenv
           pipenv install --dev --system
+          pip install -U "git+https://github.com/ocadotechnology/rapid-router@python312#egg=rapid-router"
           yarn --frozen-lockfile
       - name: Collect static
         run: python example_project/manage.py collectstatic --noinput --settings portal_test_settings
