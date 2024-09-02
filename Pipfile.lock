@@ -188,13 +188,6 @@
             "markers": "python_version >= '3.8'",
             "version": "==4.1.1"
         },
-        "django-js-reverse": {
-            "hashes": [
-                "sha256:2a392d169f44e30b883c30dfcfd917a14167ce8fe196c99d2385b31c90d77aa0",
-                "sha256:8134c2ab6307c945edfa90671ca65e85d6c1754d48566bdd6464be259cc80c30"
-            ],
-            "version": "==0.9.1"
-        },
         "django-otp": {
             "hashes": [
                 "sha256:8ba5ab9bd2738c7321376c349d7cce49cf4404e79f6804e0a3cc462a91728e18",
@@ -495,14 +488,6 @@
             "markers": "python_version >= '3.8'",
             "version": "==10.4.0"
         },
-        "pyhamcrest": {
-            "hashes": [
-                "sha256:412e00137858f04bde0729913874a48485665f2d36fe9ee449f26be864af9316",
-                "sha256:7ead136e03655af85069b6f47b23eb7c3e5c221aa9f022a4fbb499f5b7308f29"
-            ],
-            "markers": "python_version >= '3.5'",
-            "version": "==2.0.2"
-        },
         "pyjwt": {
             "hashes": [
                 "sha256:69285c7e31fc44f68a1feb309e948e0df53259d579295e6cfe2b1792329f05fd",
@@ -599,13 +584,6 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==7.4.2"
-        },
-        "rapid-router": {
-            "hashes": [
-                "sha256:a559d6989752eea20635024575eac34dd6eb3870e4045b6688b3f783fb54df91",
-                "sha256:acd9e9a67d18fd54af9cb6251e31335b75993c0315345804e5f18c47fbf51eac"
-            ],
-            "version": "==6.3.6"
         },
         "reportlab": {
             "hashes": [
