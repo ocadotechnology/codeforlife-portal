@@ -28,7 +28,7 @@ setup(
         "django-recaptcha==2.0.6",
         "pyyaml==6.0.2",
         "importlib-metadata==4.13.0",
-        "rapid-router>=6",
+        "rapid-router>=6.3.6",
         "reportlab==3.6.13",
         "django-formtools==2.2",
         "django-otp==1.0.2",  # we needed to fix this due to a wide ranged dependency in django-two-factor-auth
