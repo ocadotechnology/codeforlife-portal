@@ -20,25 +20,37 @@ from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 class InvitedTeacherForm(forms.Form):
     teacher_password = forms.CharField(
         help_text="Enter a password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Password"}
+        ),
     )
     teacher_confirm_password = forms.CharField(
         help_text="Repeat password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Repeat password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Repeat password"}
+        ),
     )
 
-    consent_ticked = forms.BooleanField(widget=forms.CheckboxInput(), initial=False, required=True)
-    newsletter_ticked = forms.BooleanField(widget=forms.CheckboxInput(), initial=False, required=False)
+    consent_ticked = forms.BooleanField(
+        widget=forms.CheckboxInput(), initial=False, required=True
+    )
+    newsletter_ticked = forms.BooleanField(
+        widget=forms.CheckboxInput(), initial=False, required=False
+    )
 
     def clean_teacher_password(self):
-        return form_clean_password(self, "teacher_password", PasswordStrength.TEACHER)
+        return form_clean_password(
+            self, "teacher_password", PasswordStrength.TEACHER
+        )
 
     def clean(self):
         if any(self.errors):
             return
 
         password = self.cleaned_data.get("teacher_password", None)
-        confirm_password = self.cleaned_data.get("teacher_confirm_password", None)
+        confirm_password = self.cleaned_data.get(
+            "teacher_confirm_password", None
+        )
 
         check_passwords(password, confirm_password)
 
@@ -49,16 +61,22 @@ class TeacherSignupForm(InvitedTeacherForm):
     teacher_first_name = forms.CharField(
         help_text="Enter your first name",
         max_length=100,
-        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "First name"}),
+        widget=forms.TextInput(
+            attrs={"autocomplete": "off", "placeholder": "First name"}
+        ),
     )
     teacher_last_name = forms.CharField(
         help_text="Enter your last name",
         max_length=100,
-        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Last name"}),
+        widget=forms.TextInput(
+            attrs={"autocomplete": "off", "placeholder": "Last name"}
+        ),
     )
     teacher_email = forms.EmailField(
         help_text="Enter your email address",
-        widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "Email address"}),
+        widget=forms.EmailInput(
+            attrs={"autocomplete": "off", "placeholder": "Email address"}
+        ),
     )
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
@@ -67,31 +85,42 @@ class TeacherSignupForm(InvitedTeacherForm):
 class TeacherEditAccountForm(forms.Form):
     first_name = forms.CharField(
         max_length=100,
-        widget=forms.TextInput(attrs={"placeholder": "First name", "class": "fName"}),
+        widget=forms.TextInput(
+            attrs={"placeholder": "First name", "class": "fName"}
+        ),
         help_text="First name",
     )
     last_name = forms.CharField(
         max_length=100,
-        widget=forms.TextInput(attrs={"placeholder": "Last name", "class": "lName"}),
+        widget=forms.TextInput(
+            attrs={"placeholder": "Last name", "class": "lName"}
+        ),
         help_text="Last name",
     )
     email = forms.EmailField(
         required=False,
-        widget=forms.EmailInput(attrs={"placeholder": "New email address (optional)"}),
+        widget=forms.EmailInput(
+            attrs={"placeholder": "New email address (optional)"}
+        ),
         help_text="New email address (optional)",
     )
     password = forms.CharField(
         required=False,
-        widget=forms.PasswordInput(attrs={"placeholder": "New password (optional)"}),
+        widget=forms.PasswordInput(
+            attrs={"placeholder": "New password (optional)"}
+        ),
         help_text="New password (optional)",
     )
     confirm_password = forms.CharField(
         required=False,
-        widget=forms.PasswordInput(attrs={"placeholder": "Confirm new password (optional)"}),
+        widget=forms.PasswordInput(
+            attrs={"placeholder": "Confirm new password (optional)"}
+        ),
         help_text="Confirm new password (optional)",
     )
     current_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"placeholder": "Current password"}), help_text="Enter your current password"
+        widget=forms.PasswordInput(attrs={"placeholder": "Current password"}),
+        help_text="Enter your current password",
     )
 
     def __init__(self, user, *args, **kwargs):
@@ -113,7 +142,9 @@ class TeacherEditAccountForm(forms.Form):
 
         return self.cleaned_data
 
-    def check_password_errors(self, password, confirm_password, current_password):
+    def check_password_errors(
+        self, password, confirm_password, current_password
+    ):
         check_passwords(password, confirm_password)
 
         if not self.user.check_password(current_password):
@@ -122,11 +153,15 @@ class TeacherEditAccountForm(forms.Form):
 
 class TeacherLoginForm(AuthenticationForm):
     username = forms.EmailField(
-        widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "Email address"}),
+        widget=forms.EmailInput(
+            attrs={"autocomplete": "off", "placeholder": "Email address"}
+        ),
         help_text="Enter your email address",
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Password"}
+        ),
         help_text="Enter your password",
     )
 
@@ -160,7 +195,9 @@ class TeacherLoginForm(AuthenticationForm):
         users = User.objects.filter(email=email)
 
         for result in users:
-            if hasattr(result, "userprofile") and hasattr(result.userprofile, "teacher"):
+            if hasattr(result, "userprofile") and hasattr(
+                result.userprofile, "teacher"
+            ):
                 user = result
                 break
 
@@ -186,7 +223,8 @@ class TeacherLoginForm(AuthenticationForm):
 
 class ClassCreationForm(forms.Form):
     class_name = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "Class name"}), help_text="Enter a class name"
+        widget=forms.TextInput(attrs={"placeholder": "Class name"}),
+        help_text="Enter a class name",
     )
     teacher = forms.ChoiceField(help_text="Select teacher", required=False)
     classmate_progress = forms.BooleanField(
@@ -201,7 +239,12 @@ class ClassCreationForm(forms.Form):
 
         if teacher is not None:
             # Place current teacher at the top
-            teacher_choices = [(teacher.id, f"{teacher.new_user.first_name} {teacher.new_user.last_name}")]
+            teacher_choices = [
+                (
+                    teacher.id,
+                    f"{teacher.new_user.first_name} {teacher.new_user.last_name}",
+                )
+            ]
 
             # Get coworkers and add them to the choices if the teacher is an admin
             if teacher.is_admin:
@@ -212,7 +255,10 @@ class ClassCreationForm(forms.Form):
                 )
                 for coworker in coworkers:
                     teacher_choices.append(
-                        (coworker.id, f"{coworker.new_user.first_name} {coworker.new_user.last_name}")
+                        (
+                            coworker.id,
+                            f"{coworker.new_user.first_name} {coworker.new_user.last_name}",
+                        )
                     )
 
             self.fields["teacher"].choices = teacher_choices
@@ -231,19 +277,35 @@ class ClassEditForm(forms.Form):
     ]
     join_choices.extend(
         [
-            (str(hours), "Allow external requests to this class for the next " + str(hours) + " hours")
+            (
+                str(hours),
+                "Allow external requests to this class for the next "
+                + str(hours)
+                + " hours",
+            )
             for hours in range(4, 28, 4)
         ]
     )
     join_choices.extend(
         [
-            (str(days * 24), "Allow external requests to this class for the next " + str(days) + " days")
+            (
+                str(days * 24),
+                "Allow external requests to this class for the next "
+                + str(days)
+                + " days",
+            )
             for days in range(2, 5)
         ]
     )
-    join_choices.append(("1000", "Always allow external requests to this class (not recommended)"))
+    join_choices.append(
+        (
+            "1000",
+            "Always allow external requests to this class (not recommended)",
+        )
+    )
     name = forms.CharField(
-        widget=forms.TextInput(attrs={"placeholder": "Enter class name"}), help_text="Enter class name"
+        widget=forms.TextInput(attrs={"placeholder": "Enter class name"}),
+        help_text="Enter class name",
     )
     classmate_progress = forms.BooleanField(
         label="Allow students to see their classmates' progress?",
@@ -264,7 +326,7 @@ class ClassLevelControlForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ClassLevelControlForm, self).__init__(*args, **kwargs)
 
-        episodes = Episode.objects.filter(pk__in=range(1, 10))
+        episodes = Episode.objects.filter(pk__in=range(1, 22))
 
         for episode in episodes:
             levels = []
@@ -275,27 +337,40 @@ class ClassLevelControlForm(forms.Form):
             levels_choices = [(level.id, level.name) for level in levels]
 
             self.fields[episode.name] = forms.MultipleChoiceField(
-                choices=itertools.chain(levels_choices), widget=forms.CheckboxSelectMultiple(), required=False
+                choices=itertools.chain(levels_choices),
+                widget=forms.CheckboxSelectMultiple(),
+                required=False,
             )
 
 
 class ClassMoveForm(forms.Form):
     new_teacher = forms.ChoiceField(
-        label="New teacher to take over class", help_text="Select teacher", widget=forms.Select()
+        label="New teacher to take over class",
+        help_text="Select teacher",
+        widget=forms.Select(),
     )
 
     def __init__(self, teachers, *args, **kwargs):
         self.teachers = teachers
         teacher_choices = []
         for teacher in teachers:
-            teacher_choices.append((teacher.id, teacher.new_user.first_name + " " + teacher.new_user.last_name))
+            teacher_choices.append(
+                (
+                    teacher.id,
+                    teacher.new_user.first_name
+                    + " "
+                    + teacher.new_user.last_name,
+                )
+            )
         super(ClassMoveForm, self).__init__(*args, **kwargs)
         self.fields["new_teacher"].choices = teacher_choices
 
 
 class TeacherEditStudentForm(forms.Form):
     name = forms.CharField(
-        label="Name", widget=forms.TextInput(attrs={"placeholder": "Name"}), help_text="Choose a name"
+        label="Name",
+        widget=forms.TextInput(attrs={"placeholder": "Name"}),
+        help_text="Choose a name",
     )
 
     def __init__(self, student, *args, **kwargs):
@@ -307,14 +382,24 @@ class TeacherEditStudentForm(forms.Form):
         name = stripStudentName(self.cleaned_data.get("name", ""))
 
         if name == "":
-            raise forms.ValidationError("'" + self.cleaned_data.get("name", "") + "' is not a valid name")
+            raise forms.ValidationError(
+                "'"
+                + self.cleaned_data.get("name", "")
+                + "' is not a valid name"
+            )
 
         if re.match(re.compile("^[\w -]+$"), name) is None:
-            raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
+            raise forms.ValidationError(
+                "Names may only contain letters, numbers, dashes, underscores, and spaces."
+            )
 
-        students = Student.objects.filter(class_field=self.klass, new_user__first_name__iexact=name)
+        students = Student.objects.filter(
+            class_field=self.klass, new_user__first_name__iexact=name
+        )
         if students.exists() and students[0] != self.student:
-            raise forms.ValidationError("There is already a student called '" + name + "' in this class")
+            raise forms.ValidationError(
+                "There is already a student called '" + name + "' in this class"
+            )
 
         return name
 
@@ -323,12 +408,16 @@ class TeacherSetStudentPass(forms.Form):
     password = forms.CharField(
         label="New password",
         help_text="Enter new password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Enter new password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Enter new password"}
+        ),
     )
     confirm_password = forms.CharField(
         label="Confirm new password",
         help_text="Confirm new password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Confirm new password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Confirm new password"}
+        ),
     )
 
     def clean_password(self):
@@ -372,19 +461,32 @@ def validateStudentNames(klass, names):
 
 def find_clashes(names, students, clashes_found, validationErrors):
     for name in names:
-        if students.filter(new_user__first_name__iexact=name).exists() and name not in clashes_found:
+        if (
+            students.filter(new_user__first_name__iexact=name).exists()
+            and name not in clashes_found
+        ):
             validationErrors.append(
-                forms.ValidationError("There is already a student called '" + name + "' in this class")
+                forms.ValidationError(
+                    "There is already a student called '"
+                    + name
+                    + "' in this class"
+                )
             )
             clashes_found.append(name)
 
 
 def find_duplicates(names, lower_names, validationErrors):
     duplicates_found = []
-    for duplicate in [name for name in names if lower_names.count(name.lower()) > 1]:
+    for duplicate in [
+        name for name in names if lower_names.count(name.lower()) > 1
+    ]:
         if duplicate not in duplicates_found:
             validationErrors.append(
-                forms.ValidationError("You cannot add more than one student called '" + duplicate + "'")
+                forms.ValidationError(
+                    "You cannot add more than one student called '"
+                    + duplicate
+                    + "'"
+                )
             )
             duplicates_found.append(duplicate)
 
@@ -403,7 +505,9 @@ def find_illegal_characters(names, validationErrors):
 
 def check_passwords(password, confirm_password):
     if password is not None and password != confirm_password:
-        raise forms.ValidationError("The password and the confirmation password do not match")
+        raise forms.ValidationError(
+            "The password and the confirmation password do not match"
+        )
 
 
 class TeacherMoveStudentsDestinationForm(forms.Form):
@@ -428,28 +532,47 @@ class TeacherMoveStudentsDestinationForm(forms.Form):
                     + klass.teacher.new_user.last_name,
                 )
             )
-        super(TeacherMoveStudentsDestinationForm, self).__init__(*args, **kwargs)
+        super(TeacherMoveStudentsDestinationForm, self).__init__(
+            *args, **kwargs
+        )
         self.fields["new_class"].choices = class_choices
 
 
 class TeacherMoveStudentDisambiguationForm(forms.Form):
     orig_name = forms.CharField(
         label="Original Name",
-        widget=forms.TextInput(attrs={"readonly": "readonly", "placeholder": "Original Name", "type": "hidden"}),
+        widget=forms.TextInput(
+            attrs={
+                "readonly": "readonly",
+                "placeholder": "Original Name",
+                "type": "hidden",
+            }
+        ),
     )
-    name = forms.CharField(label="Name", widget=forms.TextInput(attrs={"placeholder": "Name", "style": "margin : 0px"}))
+    name = forms.CharField(
+        label="Name",
+        widget=forms.TextInput(
+            attrs={"placeholder": "Name", "style": "margin : 0px"}
+        ),
+    )
 
     def clean_name(self):
         name = stripStudentName(self.cleaned_data.get("name", ""))
         if name == "":
-            raise forms.ValidationError("'" + self.cleaned_data.get("name", "") + "' is not a valid name")
+            raise forms.ValidationError(
+                "'"
+                + self.cleaned_data.get("name", "")
+                + "' is not a valid name"
+            )
         return name
 
 
 class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
     def __init__(self, destination, *args, **kwargs):
         self.destination = destination
-        super(BaseTeacherMoveStudentsDisambiguationFormSet, self).__init__(*args, **kwargs)
+        super(BaseTeacherMoveStudentsDisambiguationFormSet, self).__init__(
+            *args, **kwargs
+        )
 
     def clean(self):
         if any(self.errors):
@@ -468,28 +591,44 @@ class BaseTeacherMoveStudentsDisambiguationFormSet(forms.BaseFormSet):
 class TeacherDismissStudentsForm(forms.Form):
     orig_name = forms.CharField(
         help_text="Original student name",
-        widget=forms.TextInput(attrs={"readonly": "readonly", "placeholder": "Original Name", "class": "m-0"}),
+        widget=forms.TextInput(
+            attrs={
+                "readonly": "readonly",
+                "placeholder": "Original Name",
+                "class": "m-0",
+            }
+        ),
     )
     name = forms.CharField(
         help_text="New student name",
-        widget=forms.TextInput(attrs={"placeholder": "Enter new student name", "class": "m-0"}),
+        widget=forms.TextInput(
+            attrs={"placeholder": "Enter new student name", "class": "m-0"}
+        ),
     )
     email = forms.EmailField(
         label="Email",
         help_text="New email address",
-        widget=forms.EmailInput(attrs={"placeholder": "Enter email address", "class": "m-0"}),
+        widget=forms.EmailInput(
+            attrs={"placeholder": "Enter email address", "class": "m-0"}
+        ),
     )
     confirm_email = forms.EmailField(
         label="Confirm Email",
         help_text="Confirm email address",
-        widget=forms.EmailInput(attrs={"placeholder": "Confirm email address", "class": "m-0"}),
+        widget=forms.EmailInput(
+            attrs={"placeholder": "Confirm email address", "class": "m-0"}
+        ),
     )
 
     def clean_name(self):
         name = stripStudentName(self.cleaned_data.get("name", ""))
 
         if name == "":
-            raise forms.ValidationError("'" + self.cleaned_data.get("name", "") + "' is not a valid name")
+            raise forms.ValidationError(
+                "'"
+                + self.cleaned_data.get("name", "")
+                + "' is not a valid name"
+            )
 
         return name
 
@@ -547,7 +686,10 @@ class StudentCreationForm(forms.Form):
 
 
 class TeacherAddExternalStudentForm(forms.Form):
-    name = forms.CharField(label="Student name", widget=forms.TextInput(attrs={"placeholder": "Name"}))
+    name = forms.CharField(
+        label="Student name",
+        widget=forms.TextInput(attrs={"placeholder": "Name"}),
+    )
 
     def __init__(self, klass, *args, **kwargs):
         self.klass = klass
@@ -557,9 +699,17 @@ class TeacherAddExternalStudentForm(forms.Form):
         name = stripStudentName(self.cleaned_data.get("name", ""))
 
         if name == "":
-            raise forms.ValidationError("'" + self.cleaned_data.get("name", "") + "' is not a valid name")
+            raise forms.ValidationError(
+                "'"
+                + self.cleaned_data.get("name", "")
+                + "' is not a valid name"
+            )
 
-        if Student.objects.filter(class_field=self.klass, new_user__first_name__iexact=name).exists():
-            raise forms.ValidationError("There is already a student called '" + name + "' in this class")
+        if Student.objects.filter(
+            class_field=self.klass, new_user__first_name__iexact=name
+        ).exists():
+            raise forms.ValidationError(
+                "There is already a student called '" + name + "' in this class"
+            )
 
         return name

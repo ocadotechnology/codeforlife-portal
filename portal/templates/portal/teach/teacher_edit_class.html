@@ -89,7 +89,7 @@
 </div>
 
 <div class="background container">
-    <h5>Rapid Router access settings</h5>
+    <h5>Levels access settings</h5>
     <p>You may control access to levels here by selecting what you wish to display to the students.</p>
 
     <form method="post">
@@ -139,6 +139,62 @@
                         </div>
                     </div>
                 </div>
+            {% endfor %}
+            <div class="panel-intro d-flex align-items-center justify-content-between">
+                <h6>Python Den levels</h6>
+                <label class="pr-5 mb-0 mr-5">
+                    <input type="checkbox" id="select-all-python-levels">
+                </label>
+            </div>
+            {% for episode in python_episodes %}
+                {% if episode.levels %}
+                <div class="panel">
+                    <div class="panel-header bg--{{ episode.difficulty }}" id="episode-{{episode.id}}">
+                        <div class="d-flex align-items-center justify-content-end" data-toggle="collapse"
+                             data-target="#collapse-{{episode.id}}" aria-expanded="false"
+                             aria-controls="collapse-{{episode.id}}" data-parent="#episodes">
+                            <p class="episode-title flex-grow-1">{{episode.name}}</p>
+                            {% if episode.first_level > 1009 %}
+                                <span>Levels {{episode.first_level|stringformat:"i"|slice:"2:4"}}-{{episode.last_level|stringformat:"i"|slice:"2:4"}}</span>
+                            {% else %}
+                                {% if episode.last_level > 1009 %}
+                                    <span>Levels {{episode.first_level|stringformat:"i"|slice:"3:4"}}-{{episode.last_level|stringformat:"i"|slice:"2:4"}}</span>
+                                {% else %}
+                                    <span>Levels {{episode.first_level|stringformat:"i"|slice:"3:4"}}-{{episode.last_level|stringformat:"i"|slice:"3:4"}}</span>
+                                {% endif %}
+                            {% endif %}
+                            <div class="episode_range_text collapsed d-flex align-items-center justify-content-end"
+                                 data-toggle="collapse" data-target="#collapse-{{episode.id}}"
+                                 aria-expanded="false" aria-controls="collapse-{{episode.id}}" data-parent="#episodes">
+                                <label class="mb-0" for="select-all-episode-levels">
+                                    <input type="checkbox" value="{{ episode.name }}" id="select-all-python-levels-{{ episode.id }}">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="collapse-{{episode.id}}" aria-labelledby="episode-{{episode.id}}" class="collapse">
+                        <div class="panel-body d-flex justify-content-between">
+                            <div class="d-flex flex-grow-1 flex-column justify-content-between">
+                                {% for level in episode.levels %}
+                                    {% if level.name < 1010 %}
+                                        <p>{{level.name|stringformat:"i"|slice:"3:4"}}: {{level.title.strip | safe}}</p>
+                                    {% else %}
+                                        <p>{{level.name|stringformat:"i"|slice:"2:4"}}: {{level.title.strip | safe}}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="form__checkbox flex-column justify-content-between p-0">
+                                {% for input in level_control_form|get_dict_item:episode.name %}
+                                <div class="form__checkbox-input p-0">
+                                    {{ input }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
             {% endfor %}
         </div>
 
