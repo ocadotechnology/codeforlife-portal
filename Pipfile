@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 codeforlife-portal = {path = ".", editable = true}
 cfl-common = {path = "./cfl_common", editable = true}
+rapid-router = {ref = "sync_episode_names", git = "https://github.com/ocadotechnology/rapid-router.git"}
 
 [dev-packages]
 django-selenium-clean = "==1.0.0"

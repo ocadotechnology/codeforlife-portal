@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "164e3bef474a2fa70671ac95377be239fd0098883de8d05b2991a0ce18c424fd"
+            "sha256": "d3f240149fb6a75b4125678e846e86828a595128665ac9d5bfcc79680d1d828d"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -525,7 +525,7 @@
                 "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3",
                 "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.9.0.post0"
         },
         "pytz": {
@@ -603,11 +603,8 @@
             "version": "==7.4.2"
         },
         "rapid-router": {
-            "hashes": [
-                "sha256:99564a45129e7698d8540fe928aed0e66c43474514a86c28d343ea23ea51c39e",
-                "sha256:b3017c86049e6120e1d1aa716eae9528d6faa7a0b5321b0ddfcb208c996fa263"
-            ],
-            "version": "==6.4.3"
+            "git": "https://github.com/ocadotechnology/rapid-router.git",
+            "ref": "076a7085b8e3c97d155c3777b9a45140232c8122"
         },
         "reportlab": {
             "hashes": [
@@ -681,7 +678,7 @@
                 "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926",
                 "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==1.16.0"
         },
         "sqlparse": {
