@@ -868,12 +868,13 @@ def teacher_move_students_to_class(request, access_code):
 
 
 def check_if_move_authorised(request, old_class, new_class):
-    # check user is authorised to deal with class
-    if request.user.new_teacher != old_class.teacher:
-        raise Http404
+    teacher = request.user.new_teacher
 
-    # check teacher authorised to transfer to new class
-    if request.user.new_teacher.school != new_class.teacher.school:
+    # check teacher has permission to edit old_class and that both classes
+    # are in the same school
+    if (
+        not teacher.is_admin and teacher != old_class.teacher
+    ) or teacher.school != new_class.teacher.school:
         raise Http404
 
 
