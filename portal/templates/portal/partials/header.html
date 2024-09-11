@@ -157,19 +157,19 @@
                         <li class="dropdown-menu__option">
                             <a id="teacher_login_button" class="button--regular" aria-labelledby="Teacher" href="{% url 'teacher_login' %}">
                                 <div class="dropdown-menu__option__text">Teacher</div>
-                                <span class="material-icons-outlined">chevron_right</span>
+                                <span data-nosnippet class="material-icons-outlined">chevron_right</span>
                             </a>
                         </li>
                         <li class="dropdown-menu__option">
                             <a id="student_login_button" class="button--regular" aria-labelledby="Student" href="{% url 'student_login_access_code' %}">
                                 <div class="dropdown-menu__option__text">Student</div>
-                                <span class="material-icons-outlined">chevron_right</span>
+                                <span data-nosnippet class="material-icons-outlined">chevron_right</span>
                             </a>
                         </li>
                         <li class="dropdown-menu__option">
                             <a id="independent_login_button" class="button--regular" aria-labelledby="Independent" href="{% url 'independent_student_login' %}">
                                 <div class="dropdown-menu__option__text">Independent</div>
-                                <span class="material-icons-outlined">chevron_right</span>
+                                <span data-nosnippet class="material-icons-outlined">chevron_right</span>
                             </a>
                         </li>
                     </ul>
@@ -243,11 +243,11 @@
                     data-toggle="collapse" data-target="#login-tabs">Log in</button>
             <div id="login-tabs" class="collapse">
                 <a class="button button--menu__item button--menu__item__sub"
-                  href="{% url 'teacher_login' %}">Teacher<span class="material-icons-outlined md-32">chevron_right</span></a>
+                  href="{% url 'teacher_login' %}">Teacher<span data-nosnippet class="material-icons-outlined md-32">chevron_right</span></a>
                 <a class="button button--menu__item button--menu__item__sub"
-                  href="{% url 'student_login_access_code' %}">Student<span class="material-icons-outlined md-32">chevron_right</span></a>
+                  href="{% url 'student_login_access_code' %}">Student<span data-nosnippet class="material-icons-outlined md-32">chevron_right</span></a>
                 <a class="button button--menu__item button--menu__item__sub"
-                  href="{% url 'independent_student_login' %}">Independent<span class="material-icons-outlined md-32">chevron_right</span></a>
+                  href="{% url 'independent_student_login' %}">Independent<span data-nosnippet class="material-icons-outlined md-32">chevron_right</span></a>
             </div>
             <a class="button button--menu__item" href="{% url 'teach' %}">Teacher
                 <span class="material-icons-outlined md-32">chevron_right</span></a>
