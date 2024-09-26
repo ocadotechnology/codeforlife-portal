@@ -22,6 +22,7 @@ USER_DELETE_UNVERIFIED_ACCOUNT_DAYS = 19
 USER_1ST_INACTIVE_REMINDER_DAYS = 730  # 2 years
 USER_2ND_INACTIVE_REMINDER_DAYS = 973  # roughly 2 years and 8 months
 USER_FINAL_INACTIVE_REMINDER_DAYS = 1065  # 2 years and 11 months
+USER_RETENTION_PERIOD = 1096  # 3 years
 
 
 def get_unverified_users(
@@ -266,6 +267,10 @@ class SecondInactivityReminderView(CronMixin, APIView):
                             "inactive_users_on_website_second_reminder"
                         ],
                         [email],
+                        personalization_values={
+                            "DAYS_LEFT": USER_RETENTION_PERIOD
+                            - USER_2ND_INACTIVE_REMINDER_DAYS
+                        },
                     )
 
                     sent_email_count += 1
@@ -300,6 +305,10 @@ class FinalInactivityReminderView(CronMixin, APIView):
                             "inactive_users_on_website_final_reminder"
                         ],
                         [email],
+                        personalization_values={
+                            "DAYS_LEFT": USER_RETENTION_PERIOD
+                            - USER_FINAL_INACTIVE_REMINDER_DAYS
+                        },
                     )
 
                     sent_email_count += 1

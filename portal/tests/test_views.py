@@ -40,7 +40,12 @@ from rest_framework.test import APIClient, APITestCase
 from deploy import captcha
 from portal.templatetags.app_tags import is_logged_in_as_admin_teacher
 from portal.views.api import anonymise
-from portal.views.cron.user import USER_DELETE_UNVERIFIED_ACCOUNT_DAYS
+from portal.views.cron.user import (
+    USER_DELETE_UNVERIFIED_ACCOUNT_DAYS,
+    USER_2ND_INACTIVE_REMINDER_DAYS,
+    USER_FINAL_INACTIVE_REMINDER_DAYS,
+    USER_RETENTION_PERIOD,
+)
 from portal.views.teacher.teach import (
     REMINDER_CARDS_PDF_COLUMNS,
     REMINDER_CARDS_PDF_ROWS,
@@ -1238,6 +1243,7 @@ class TestUser(CronTestCase):
         assert_called: bool,
         campaign_name: str,
         mock_send_dotdigital_email: Mock,
+        personalization_values=None,
     ):
         self.teacher_user.date_joined = timezone.now() - timedelta(
             days=days, hours=12
@@ -1255,13 +1261,28 @@ class TestUser(CronTestCase):
         self.client.get(reverse(view_name))
 
         if assert_called:
-            mock_send_dotdigital_email.assert_any_call(
-                campaign_ids[campaign_name], [self.teacher_user.email]
-            )
+            if personalization_values is not None:
+                mock_send_dotdigital_email.assert_any_call(
+                    campaign_ids[campaign_name],
+                    [self.teacher_user.email],
+                    personalization_values=personalization_values,
+                )
 
-            mock_send_dotdigital_email.assert_any_call(
-                campaign_ids[campaign_name], [self.indy_user.email]
-            )
+                mock_send_dotdigital_email.assert_any_call(
+                    campaign_ids[campaign_name],
+                    [self.indy_user.email],
+                    personalization_values=personalization_values,
+                )
+            else:
+                mock_send_dotdigital_email.assert_any_call(
+                    campaign_ids[campaign_name],
+                    [self.teacher_user.email],
+                )
+
+                mock_send_dotdigital_email.assert_any_call(
+                    campaign_ids[campaign_name],
+                    [self.indy_user.email],
+                )
 
             # Check only two emails are sent - the student should never be included.
             assert mock_send_dotdigital_email.call_count == 2
@@ -1302,6 +1323,10 @@ class TestUser(CronTestCase):
             "second-inactivity-reminder",
             True,
             "inactive_users_on_website_second_reminder",
+            personalization_values={
+                "DAYS_LEFT": USER_RETENTION_PERIOD
+                - USER_2ND_INACTIVE_REMINDER_DAYS
+            },
         )
         self.send_inactivity_reminder(
             974,
@@ -1322,6 +1347,10 @@ class TestUser(CronTestCase):
             "final-inactivity-reminder",
             True,
             "inactive_users_on_website_final_reminder",
+            personalization_values={
+                "DAYS_LEFT": USER_RETENTION_PERIOD
+                - USER_FINAL_INACTIVE_REMINDER_DAYS
+            },
         )
         self.send_inactivity_reminder(
             1066,
