@@ -152,7 +152,7 @@ class SchoolTeacherInvitationModelManager(models.Manager):
 
 
 class SchoolTeacherInvitation(models.Model):
-    token = models.CharField(max_length=32)
+    token = models.CharField(max_length=88)
     school = models.ForeignKey(
         School,
         related_name="teacher_invitations",
