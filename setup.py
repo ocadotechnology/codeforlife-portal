@@ -45,6 +45,7 @@ setup(
         "django-csp==3.7",
         "setuptools==74.0.0",
         "django-import-export",
+        "django-reverse-js==0.1.7",
     ],
     classifiers=[
         "Programming Language :: Python",

@@ -47,6 +47,7 @@
     .popup-box__title {
       @include _padding(5 * $spacing, 5 * $spacing, 0px, 5 * $spacing);
       background-color: $color-background-secondary;
+      color: $color-text-primary;
       display: flex;
       justify-content: flex-start;
       font-family: "Space Grotesk", sans-serif;

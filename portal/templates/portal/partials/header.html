@@ -103,6 +103,7 @@
             <div class="menu__left-side col-md-5">
                 <a href="{% url 'teach' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>
                 <a href="{% url 'play' %}" class="button--menu button--menu--primary  button--menu--enabled">Students</a>
+                <button onclick="showDonateConfirmation()" id="donate" class="button--primary button--register register">Donate</button>
         {% endif %}
         </div>
         {% if user|is_logged_in %}
@@ -145,36 +146,36 @@
                     {% endif %}
                 </ul>
             </div>
-            {% else %}
-            <div class="menu__right-side col-md-5">
-                <a href="{% url 'register' %}" id="signup_button" class="button button--primary button--register register">Register</a>
-                <div class="dropdown">
-                    <button id="login_dropdown" class="button--regular button--secondary button--header--login button--dropdown"
-                            data-toggle="dropdown">
-                        <div class="dropdown__text">Log in</div>
-                    </button>
-                    <ul class="dropdown-menu header__login-options-dropdown-menu">
-                        <li class="dropdown-menu__option">
-                            <a id="teacher_login_button" class="button--regular" aria-labelledby="Teacher" href="{% url 'teacher_login' %}">
-                                <div class="dropdown-menu__option__text">Teacher</div>
-                                <span data-nosnippet class="material-icons-outlined">chevron_right</span>
-                            </a>
-                        </li>
-                        <li class="dropdown-menu__option">
-                            <a id="student_login_button" class="button--regular" aria-labelledby="Student" href="{% url 'student_login_access_code' %}">
-                                <div class="dropdown-menu__option__text">Student</div>
-                                <span data-nosnippet class="material-icons-outlined">chevron_right</span>
-                            </a>
-                        </li>
-                        <li class="dropdown-menu__option">
-                            <a id="independent_login_button" class="button--regular" aria-labelledby="Independent" href="{% url 'independent_student_login' %}">
-                                <div class="dropdown-menu__option__text">Independent</div>
-                                <span data-nosnippet class="material-icons-outlined">chevron_right</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            {% endif %}
+        {% else %}
+        <div class="menu__right-side col-md-5">
+            <a href="{% url 'register' %}" id="signup_button" class="button button--primary button--register register">Register</a>
+            <div class="dropdown">
+                <button id="login_dropdown" class="button--regular button--secondary button--header--login button--dropdown"
+                        data-toggle="dropdown">
+                    <div class="dropdown__text">Log in</div>
+                </button>
+                <ul class="dropdown-menu header__login-options-dropdown-menu">
+                    <li class="dropdown-menu__option">
+                        <a id="teacher_login_button" class="button--regular" aria-labelledby="Teacher" href="{% url 'teacher_login' %}">
+                            <div class="dropdown-menu__option__text">Teacher</div>
+                            <span data-nosnippet class="material-icons-outlined">chevron_right</span>
+                        </a>
+                    </li>
+                    <li class="dropdown-menu__option">
+                        <a id="student_login_button" class="button--regular" aria-labelledby="Student" href="{% url 'student_login_access_code' %}">
+                            <div class="dropdown-menu__option__text">Student</div>
+                            <span data-nosnippet class="material-icons-outlined">chevron_right</span>
+                        </a>
+                    </li>
+                    <li class="dropdown-menu__option">
+                        <a id="independent_login_button" class="button--regular" aria-labelledby="Independent" href="{% url 'independent_student_login' %}">
+                            <div class="dropdown-menu__option__text">Independent</div>
+                            <span data-nosnippet class="material-icons-outlined">chevron_right</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
         </div>
     </div>
     <div id="menu-items" class="collapse">

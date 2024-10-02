@@ -1,4 +1,5 @@
 from common.helpers.emails import (
+    add_donor_to_dotmailer,
     add_to_dotmailer,
     get_dotmailer_user_by_email,
     send_dotmailer_consent_confirmation_email_to_user,
@@ -11,7 +12,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 
-from portal.forms.dotmailer import NewsletterForm, ConsentForm
+from portal.forms.dotmailer import NewsletterForm, DonateForm, ConsentForm
 
 
 @csrf_exempt
@@ -29,6 +30,19 @@ def process_newsletter_form(request):
             extra_tags="sub-nav--warning",
         )
         return HttpResponseRedirect(reverse_lazy("home"))
+
+    return HttpResponse(status=405)
+
+
+@csrf_exempt
+def process_donate_form(request):
+    if request.method == "POST":
+        user_email = request.POST.get("email", "")
+        add_donor_to_dotmailer("", "", user_email)
+        messages.success(
+            request, "Thank you for registering your interest! 🎉"
+        )
+        return HttpResponse("[]", content_type="application/json")
 
     return HttpResponse(status=405)
 

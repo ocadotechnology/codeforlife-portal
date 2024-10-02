@@ -144,6 +144,27 @@ def add_to_dotmailer(first_name: str, last_name: str, email: str, user_type: Dot
         return HttpResponse(status=404)
 
 
+def add_donor_to_dotmailer(first_name: str, last_name: str, email: str):
+    try:
+        create_contact(first_name, last_name, email)
+        main_address_book_url = "https://r1-api.dotmailer.com/v2/address-books/37649245/contacts"
+
+        body = {
+            "email": email,
+            "optInType": "VerifiedDouble",
+            "emailType": "Html",
+            "dataFields": [
+                {"key": "FIRSTNAME", "value": first_name},
+                {"key": "LASTNAME", "value": last_name},
+                {"key": "FULLNAME", "value": f"{first_name} {last_name}"},
+            ],
+        }
+
+        post(main_address_book_url, json=body, auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD))
+    except RequestException:
+        return HttpResponse(status=404)
+
+
 def create_contact(first_name, last_name, email):
     url = app_settings.DOTMAILER_CREATE_CONTACT_URL
     body = {

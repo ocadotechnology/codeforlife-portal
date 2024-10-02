@@ -105,6 +105,7 @@ INSTALLED_APPS = [
     "treebeard",
     "two_factor",
     "preventconcurrentlogins",
+    "django_reverse_js",
 ]
 
 PIPELINE = {
@@ -172,6 +173,7 @@ TEMPLATES = [
                 "common.context_processors.module_name",
                 "common.context_processors.cookie_management_enabled",
                 "portal.context_processors.process_newsletter_form",
+                "portal.context_processors.process_donate_form",
             ]
         },
     }
