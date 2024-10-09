@@ -104,7 +104,7 @@
             <div class="menu__left-side col-md-5">
                 <a href="{% url 'teach' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>
                 <a href="{% url 'play' %}" class="button--menu button--menu--primary  button--menu--enabled">Students</a>
-                <button onclick="showDonateConfirmation()" class="button--menu button--pill button--tertiary">Donate</button>
+                <button id="donate" onclick="showDonateConfirmation()" class="button--menu button--pill button--tertiary">Donate</button>
         {% endif %}
         </div>
         {% if user|is_logged_in %}
