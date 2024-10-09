@@ -49,28 +49,11 @@ function showDonatePopup(title, text) {
 function hideDonatePopup() {
   $("#donate-popup").removeClass("popup--fade");
   $("#donate-popup").find(".popup-text").remove();
+  $("#donate_email_field").val("");
   $('#donate_age_verification').prop("checked", false);
   const donateSubmitButton = $('#confirm_donate_button');
   donateSubmitButton.addClass("disabled");
   donateSubmitButton.prop("disabled", true);
-}
-
-function processDonateForm() {
-  const email = $("#donate_email_field").val();
-  $.ajax({
-    url: Urls.process_donate_form(),
-    type: 'POST',
-    dataType: 'json',
-    data: {
-      email: email
-    },
-    error: function (xhr, errmsg, err) {
-      console.error(
-          xhr.status + ': ' + errmsg + ' ' + err + ' ' + xhr.responseText
-      )
-    }.bind(this)
-  })
-  hideDonatePopup();
 }
 
 function showDonateConfirmation(path) {

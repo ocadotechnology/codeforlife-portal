@@ -16,13 +16,14 @@
                 {{ donate_form.non_field_errors }}
                 <div class="form--row">
                     <div class="form--row__input">
-                        <label>{{ donate_form.email.label }}</label>
+                        <label><small>{{ donate_form.email.label }}</small></label>
                         <div class="input--icon">
                             {{ donate_form.email }}
                             <span class="iconify" data-icon="mdi:email-outline"></span>
                         </div>
+                        <small id="donate_errors" class="warningText">
+                            {{ donate_form.email.errors }}</small>
                         <small>{{ donate_form.email.help_text }}</small>
-                        {{ donate_form.email.errors }}
                     </div>
                 </div>
                 <div class="form--row justify-content-between">
@@ -37,7 +38,9 @@
             <div class="popup-box__buttons">
                 <a id="cancel_button"
                    class="button button--small button--secondary button--secondary--dark" onclick="hideDonatePopup()" aria-labelledby="cancel_button">Cancel</a>
-                <a id="confirm_donate_button" class='button button--small button--primary' onclick="processDonateForm()" aria-labelledby="confirm_button">Confirm</a>
+                <button type="submit" id="confirm_donate_button"
+                   class='button button--small button--primary'
+                        aria-labelledby="confirm_button">Confirm</button>
             </div>
         </form>
     </div>

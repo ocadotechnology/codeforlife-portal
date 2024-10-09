@@ -105,7 +105,6 @@ INSTALLED_APPS = [
     "treebeard",
     "two_factor",
     "preventconcurrentlogins",
-    "django_reverse_js",
 ]
 
 PIPELINE = {

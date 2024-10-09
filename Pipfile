@@ -10,7 +10,6 @@ codeforlife-portal = {path = ".", editable = true}
 [dev-packages]
 black = "*"
 django-import-export = "*"
-django-reverse-js = "==0.1.7"
 django-selenium-clean = "==1.0.0"
 django-test-migrations = "==1.2.0"
 isort = "*"

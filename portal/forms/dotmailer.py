@@ -23,7 +23,7 @@ class DonateForm(forms.Form):
     email = forms.EmailField(
         label="This data will only be used for this purpose and you will be "
         "able to opt out anytime. Please read our privacy notice for "
-        "futher details.",
+        "further details.",
         label_suffix="",
         widget=forms.EmailInput(
             attrs={
