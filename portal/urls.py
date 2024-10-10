@@ -5,7 +5,6 @@ from django.urls import path
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.i18n import JavaScriptCatalog
-from django_reverse_js.views import urls_js
 from game.views.level import play_default_level
 from two_factor.views import (
     BackupTokensView,
@@ -533,5 +532,4 @@ urlpatterns = [
         name="remove_fake_accounts",
     ),
     url(r"^celebrate/", ten_year_map_page, name="celebrate"),
-    path("reverse.js", urls_js, name="js-reverse"),
 ]
