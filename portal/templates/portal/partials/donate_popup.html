@@ -1,0 +1,46 @@
+{% load static %}
+{% load app_tags %}
+{# A popup with a form input for email addresses. #}
+<section id="donate-popup" class="popup-wrapper">
+    <div class="popup-box">
+        <div>
+            <button type="button" onclick="hideDonatePopup()" class="close popup-box__close" aria-label="Close">
+                <span class="iconify" data-icon="mdi:close"></span>
+            </button>
+        </div>
+        <div class="popup-box__title"></div>
+        <div class="popup-box__msg"></div>
+        <form id="donate_form" action="{% url 'process_donate_form' %}"
+              method="post">
+            <div class="col-sm-12">
+                {{ donate_form.non_field_errors }}
+                <div class="form--row">
+                    <div class="form--row__input">
+                        <label><small>{{ donate_form.email.label }}</small></label>
+                        <div class="input--icon">
+                            {{ donate_form.email }}
+                            <span class="iconify" data-icon="mdi:email-outline"></span>
+                        </div>
+                        {{ donate_form.email.errors }}
+                        <small>{{ donate_form.email.help_text }}</small>
+                    </div>
+                </div>
+                <div class="form--row justify-content-between">
+                    <div class="form__checkbox">
+                        <div class="form__checkbox-input">
+                            {{ donate_form.age_verification }}
+                        </div>
+                        <p class="p-0">Please confirm that you are over 18.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="popup-box__buttons">
+                <a class="button button--small button--secondary button--secondary--dark"
+                   onclick="hideDonatePopup()" aria-labelledby="cancel_button">Cancel</a>
+                <button type="submit" id="confirm_donate_button"
+                   class='button button--small button--primary'
+                        aria-labelledby="confirm_button">Confirm</button>
+            </div>
+        </form>
+    </div>
+</section>

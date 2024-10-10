@@ -260,13 +260,14 @@
     width: 100%;
     z-index: $nav-bar-level;
 
-    .button--menu {
-      border-radius: 0;
+    .button--menu:hover,
+    .button--menu:focus, {
+      font-weight: normal;
+    }
 
-      &:hover,
-      &:focus {
-        font-weight: normal;
-      }
+    .button--pill:hover,
+    .button--pill:focus, {
+      font-weight: 600;
     }
 
     .button--menu--secondary {

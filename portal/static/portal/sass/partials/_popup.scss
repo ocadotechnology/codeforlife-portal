@@ -20,9 +20,9 @@
   .popup-box {
     background-color: $color-background-secondary;
     box-shadow: 0 0 4 * $spacing $color-background-box-shadow;
-    margin: 20% auto 0;
+    margin: 10% auto;
     overflow: hidden;
-    width: 460px;
+    width: 520px;
 
     .popup-box__msg {
       @include _padding(0px, 5 * $spacing, 5 * $spacing, 5 * $spacing);
@@ -47,6 +47,7 @@
     .popup-box__title {
       @include _padding(5 * $spacing, 5 * $spacing, 0px, 5 * $spacing);
       background-color: $color-background-secondary;
+      color: $color-text-primary;
       display: flex;
       justify-content: flex-start;
       font-family: "Space Grotesk", sans-serif;
@@ -56,6 +57,10 @@
     .popup-box__close {
       min-width:0;
       @include _margin(8px, 8px, 8px, 8px);
+    }
+
+    label {
+      text-align: left;
     }
   }
 

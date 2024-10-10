@@ -32,7 +32,6 @@
                   type="image/x-icon">
         {% endblock css %}
         {% include "portal/tag_manager/tag_manager_head.html" %}
-
         <script type="text/javascript" src="{% static 'portal/js/lib/modernizr-build.js' %}"></script>
         <script type="text/javascript" src="{% static 'portal/js/common.js' %}"></script>
         <script type="text/javascript" src="{% static 'portal/js/jquery.placeholder.js' %}"></script>
@@ -82,6 +81,7 @@
         {% include "portal/tag_manager/tag_manager_body.html" %}
         {% render_block "js" %}
         {% include 'portal/mouseflow.html' %}
+        {% include "portal/partials/donate_popup.html" %}
         <div class="content-footer-wrapper">
             {% block contentWrapper %}
                 <div {% block pageID %}id="contentWrapper"{% endblock %}>
@@ -240,16 +240,25 @@
     });
             </script>
             <script>
-    // disable newsletter signup button by default
+    // disable newsletter signup and donate buttons by default
     const newsletterSubmitButton = $('#submit_newsletter');
     newsletterSubmitButton.addClass("disabled");
     newsletterSubmitButton.prop("disabled", true);
 
-    // enable it or disable it depending on age verification checkbox
+    const donateSubmitButton = $('#confirm_donate_button');
+    donateSubmitButton.addClass("disabled");
+    donateSubmitButton.prop("disabled", true);
+
+    // enable them or disable them depending on age verification checkbox
     $('#id_age_verification').on("click", function() {
         newsletterSubmitButton.prop("disabled", !this.checked);
         newsletterSubmitButton.toggleClass("disabled", !this.checked);
     });
+
+    $('#donate_age_verification').on("click", function() {
+        donateSubmitButton.prop("disabled", !this.checked);
+        donateSubmitButton.toggleClass("disabled", !this.checked);
+    })
             </script>
         {% endblock scripts %}
     </body>
