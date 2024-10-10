@@ -21,8 +21,7 @@
                             {{ donate_form.email }}
                             <span class="iconify" data-icon="mdi:email-outline"></span>
                         </div>
-                        <small id="donate_errors" class="warningText">
-                            {{ donate_form.email.errors }}</small>
+                        {{ donate_form.email.errors }}
                         <small>{{ donate_form.email.help_text }}</small>
                     </div>
                 </div>
@@ -36,8 +35,8 @@
                 </div>
             </div>
             <div class="popup-box__buttons">
-                <a id="cancel_button"
-                   class="button button--small button--secondary button--secondary--dark" onclick="hideDonatePopup()" aria-labelledby="cancel_button">Cancel</a>
+                <a class="button button--small button--secondary button--secondary--dark"
+                   onclick="hideDonatePopup()" aria-labelledby="cancel_button">Cancel</a>
                 <button type="submit" id="confirm_donate_button"
                    class='button button--small button--primary'
                         aria-labelledby="confirm_button">Confirm</button>
