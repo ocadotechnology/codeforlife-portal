@@ -5,7 +5,12 @@ from uuid import uuid4
 
 import jwt
 from common import app_settings
-from common.mail import campaign_ids, django_send_email, send_dotdigital_email
+from common.mail import (
+    address_book_ids,
+    campaign_ids,
+    django_send_email,
+    send_dotdigital_email,
+)
 from common.models import Student, Teacher
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -15,9 +20,15 @@ from django.utils import timezone
 from requests import delete, get, post, put
 from requests.exceptions import RequestException
 
-NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
-VERIFICATION_EMAIL = "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
-PASSWORD_RESET_EMAIL = "Code For Life Password Reset <" + app_settings.EMAIL_ADDRESS + ">"
+NOTIFICATION_EMAIL = (
+    "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
+)
+VERIFICATION_EMAIL = (
+    "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
+)
+PASSWORD_RESET_EMAIL = (
+    "Code For Life Password Reset <" + app_settings.EMAIL_ADDRESS + ">"
+)
 INVITE_FROM = "Code For Life Invitation <" + app_settings.EMAIL_ADDRESS + ">"
 
 
@@ -41,7 +52,9 @@ def generate_token_for_email(email: str, new_email: str = ""):
             "email": email,
             "new_email": new_email,
             "email_verification_token": uuid4().hex[:30],
-            "expires": (timezone.now() + datetime.timedelta(hours=1)).timestamp(),
+            "expires": (
+                timezone.now() + datetime.timedelta(hours=1)
+            ).timestamp(),
         },
         settings.SECRET_KEY,
         algorithm="HS256",
@@ -62,10 +75,21 @@ def send_email(
     plaintext_template="email.txt",
     html_template="email.html",
 ):
-    django_send_email(sender, recipients, subject, text_content, title, replace_url, plaintext_template, html_template)
+    django_send_email(
+        sender,
+        recipients,
+        subject,
+        text_content,
+        title,
+        replace_url,
+        plaintext_template,
+        html_template,
+    )
 
 
-def send_verification_email(request, user, data, new_email=None, age=None, school=None):
+def send_verification_email(
+    request, user, data, new_email=None, age=None, school=None
+):
     """
     Sends emails relating to email address verification.
 
@@ -98,18 +122,30 @@ def send_verification_email(request, user, data, new_email=None, age=None, schoo
                 url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
 
                 send_dotdigital_email(
-                    campaign_ids["verify_released_student"], [user.email],
-                    personalization_values={"VERIFICATION_LINK": url, "SCHOOL_NAME": school.name}
+                    campaign_ids["verify_released_student"],
+                    [user.email],
+                    personalization_values={
+                        "VERIFICATION_LINK": url,
+                        "SCHOOL_NAME": school.name,
+                    },
                 )
             else:
                 url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
 
                 send_dotdigital_email(
-                    campaign_ids["verify_new_user"], [user.email], personalization_values={"VERIFICATION_LINK": url}
+                    campaign_ids["verify_new_user"],
+                    [user.email],
+                    personalization_values={"VERIFICATION_LINK": url},
                 )
 
                 if _newsletter_ticked(data):
-                    add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.TEACHER)
+                    add_to_dotmailer(
+                        user.first_name,
+                        user.last_name,
+                        user.email,
+                        address_book_ids["newsletter"],
+                        DotmailerUserType.TEACHER,
+                    )
         # if the user is an independent student
         else:
             if age < 13:
@@ -117,29 +153,50 @@ def send_verification_email(request, user, data, new_email=None, age=None, schoo
                 send_dotdigital_email(
                     campaign_ids["verify_new_user_via_parent"],
                     [user.email],
-                    personalization_values={"FIRST_NAME": user.first_name, "ACTIVATION_LINK": url},
+                    personalization_values={
+                        "FIRST_NAME": user.first_name,
+                        "ACTIVATION_LINK": url,
+                    },
                 )
             else:
                 url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
                 send_dotdigital_email(
-                    campaign_ids["verify_new_user"], [user.email], personalization_values={"VERIFICATION_LINK": url}
+                    campaign_ids["verify_new_user"],
+                    [user.email],
+                    personalization_values={"VERIFICATION_LINK": url},
                 )
 
             if _newsletter_ticked(data):
-                add_to_dotmailer(user.first_name, user.last_name, user.email, DotmailerUserType.STUDENT)
+                add_to_dotmailer(
+                    user.first_name,
+                    user.last_name,
+                    user.email,
+                    address_book_ids["newsletter"],
+                    DotmailerUserType.STUDENT,
+                )
     # verifying change of email address.
     else:
         verification = generate_token(user, new_email)
         url = f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': verification}))}"
         send_dotdigital_email(
-            campaign_ids["email_change_verification"], [new_email], personalization_values={"VERIFICATION_LINK": url}
+            campaign_ids["email_change_verification"],
+            [new_email],
+            personalization_values={"VERIFICATION_LINK": url},
         )
 
 
-def add_to_dotmailer(first_name: str, last_name: str, email: str, user_type: DotmailerUserType):
+def add_to_dotmailer(
+    first_name: str,
+    last_name: str,
+    email: str,
+    address_book_id: int,
+    user_type: DotmailerUserType = None,
+):
     try:
         create_contact(first_name, last_name, email)
-        add_contact_to_address_book(first_name, last_name, email, user_type)
+        add_contact_to_address_book(
+            first_name, last_name, email, address_book_id, user_type
+        )
     except RequestException:
         return HttpResponse(status=404)
 
@@ -157,15 +214,34 @@ def create_contact(first_name, last_name, email):
                 {"key": "FULLNAME", "value": f"{first_name} {last_name}"},
             ],
         },
-        "consentFields": [{"fields": [{"key": "DATETIMECONSENTED", "value": datetime.datetime.now().__str__()}]}],
+        "consentFields": [
+            {
+                "fields": [
+                    {
+                        "key": "DATETIMECONSENTED",
+                        "value": datetime.datetime.now().__str__(),
+                    }
+                ]
+            }
+        ],
         "preferences": app_settings.DOTMAILER_DEFAULT_PREFERENCES,
     }
 
-    post(url, json=body, auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD))
+    post(
+        url,
+        json=body,
+        auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+    )
 
 
-def add_contact_to_address_book(first_name: str, last_name: str, email: str, user_type: DotmailerUserType):
-    main_address_book_url = app_settings.DOTMAILER_MAIN_ADDRESS_BOOK_URL
+def add_contact_to_address_book(
+    first_name: str,
+    last_name: str,
+    email: str,
+    address_book_id: int,
+    user_type: DotmailerUserType = None,
+):
+    main_address_book_url = f"https://r1-api.dotmailer.com/v2/address-books/{address_book_id}/contacts"
 
     body = {
         "email": email,
@@ -178,16 +254,31 @@ def add_contact_to_address_book(first_name: str, last_name: str, email: str, use
         ],
     }
 
-    post(main_address_book_url, json=body, auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD))
+    post(
+        main_address_book_url,
+        json=body,
+        auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+    )
 
-    specific_address_book_url = app_settings.DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL
+    if user_type is not None:
+        specific_address_book_url = (
+            app_settings.DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL
+        )
 
-    if user_type == DotmailerUserType.TEACHER:
-        specific_address_book_url = app_settings.DOTMAILER_TEACHER_ADDRESS_BOOK_URL
-    elif user_type == DotmailerUserType.STUDENT:
-        specific_address_book_url = app_settings.DOTMAILER_STUDENT_ADDRESS_BOOK_URL
+        if user_type == DotmailerUserType.TEACHER:
+            specific_address_book_url = (
+                app_settings.DOTMAILER_TEACHER_ADDRESS_BOOK_URL
+            )
+        elif user_type == DotmailerUserType.STUDENT:
+            specific_address_book_url = (
+                app_settings.DOTMAILER_STUDENT_ADDRESS_BOOK_URL
+            )
 
-    post(specific_address_book_url, json=body, auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD))
+        post(
+            specific_address_book_url,
+            json=body,
+            auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+        )
 
 
 def delete_contact(email: str):
@@ -195,8 +286,16 @@ def delete_contact(email: str):
         user = get_dotmailer_user_by_email(email)
         user_id = user.get("id")
         if user_id:
-            url = app_settings.DOTMAILER_DELETE_USER_BY_ID_URL.replace("ID", str(user_id))
-            delete(url, auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD))
+            url = app_settings.DOTMAILER_DELETE_USER_BY_ID_URL.replace(
+                "ID", str(user_id)
+            )
+            delete(
+                url,
+                auth=(
+                    app_settings.DOTMAILER_USER,
+                    app_settings.DOTMAILER_PASSWORD,
+                ),
+            )
     except RequestException:
         return HttpResponse(status=404)
 
@@ -204,7 +303,9 @@ def delete_contact(email: str):
 def get_dotmailer_user_by_email(email):
     url = app_settings.DOTMAILER_GET_USER_BY_EMAIL_URL.replace("EMAIL", email)
 
-    response = get(url, auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD))
+    response = get(
+        url, auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD)
+    )
 
     return json.loads(response.content)
 
@@ -212,7 +313,9 @@ def get_dotmailer_user_by_email(email):
 def add_consent_record_to_dotmailer_user(user):
     consent_date_time = datetime.datetime.now().__str__()
 
-    url = app_settings.DOTMAILER_PUT_CONSENT_DATA_URL.replace("USER_ID", str(user["id"]))
+    url = app_settings.DOTMAILER_PUT_CONSENT_DATA_URL.replace(
+        "USER_ID", str(user["id"])
+    )
     body = {
         "contact": {
             "email": user["email"],
@@ -220,10 +323,20 @@ def add_consent_record_to_dotmailer_user(user):
             "emailType": user["emailType"],
             "dataFields": user["dataFields"],
         },
-        "consentFields": [{"fields": [{"key": "DATETIMECONSENTED", "value": consent_date_time}]}],
+        "consentFields": [
+            {
+                "fields": [
+                    {"key": "DATETIMECONSENTED", "value": consent_date_time}
+                ]
+            }
+        ],
     }
 
-    put(url, json=body, auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD))
+    put(
+        url,
+        json=body,
+        auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+    )
 
 
 def send_dotmailer_consent_confirmation_email_to_user(user):
@@ -231,7 +344,11 @@ def send_dotmailer_consent_confirmation_email_to_user(user):
     campaign_id = app_settings.DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID
     body = {"campaignID": campaign_id, "contactIds": [str(user["id"])]}
 
-    post(url, json=body, auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD))
+    post(
+        url,
+        json=body,
+        auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+    )
 
 
 def update_indy_email(user, request, data):

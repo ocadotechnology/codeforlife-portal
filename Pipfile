@@ -4,26 +4,26 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-codeforlife-portal = {path = ".", editable = true}
 cfl-common = {path = "./cfl_common", editable = true}
+codeforlife-portal = {path = ".", editable = true}
 
 [dev-packages]
+black = "*"
+django-import-export = "*"
 django-selenium-clean = "==1.0.0"
 django-test-migrations = "==1.2.0"
+isort = "*"
+PyPDF2 = "==2.10.6"
+pytest = "==8.*"
+pytest-cov = "*"
+pytest-django = "==4.5.2"
+pytest-mock = "*"
+pytest-order = "*"
+pytest-xdist = "*"
+pyvirtualdisplay = "*"
 responses = "==0.18.0"
 selenium = "==4.9.0"
 snapshottest = "==1.0.0a1"
-pytest-django = "==4.5.2"
-pytest = "==8.*"
-django-import-export = "*"
-pytest-cov = "*"
-pytest-xdist = "*"
-pytest-order = "*"
-pyvirtualdisplay = "*"
-pytest-mock = "*"
-PyPDF2 = "==2.10.6"
-black = "*"
-isort = "*"
 
 [requires]
 python_version = "3.12"
