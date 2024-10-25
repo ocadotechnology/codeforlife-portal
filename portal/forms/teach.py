@@ -18,6 +18,7 @@ from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 
 
 class InvitedTeacherForm(forms.Form):
+    prefix = 'teacher_signup'
     teacher_password = forms.CharField(
         help_text="Enter a password",
         widget=forms.PasswordInput(
