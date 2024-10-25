@@ -32,6 +32,11 @@ campaign_ids = {
     "inactive_users_on_website_final_reminder": 1606215,
 }
 
+address_book_ids = {
+    "newsletter": 9705772,
+    "donors": 37649245,
+}
+
 
 def add_contact(email: str):
     """Add a new contact to Dotdigital."""

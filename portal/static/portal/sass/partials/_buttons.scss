@@ -89,7 +89,6 @@ table {
     color: $color-text-primary;
     box-shadow: none;
   }
-
 }
 
 /* Outlined button */
@@ -139,6 +138,30 @@ table {
   }
 }
 
+/* Green button */
+.button--tertiary {
+  @include _padding(10px, 15px, 10px, 15px);
+  background: $color-button-pill;
+  color: $color-text-secondary;
+
+  &:hover:not(.disabled){
+    @include material-shadow();
+    background: $color-button-pill-hover;
+    color: $color-text-secondary;
+    text-decoration: none;
+  }
+
+  &:active:not(.disabled) {
+    background: $color-button-pill-active;
+    color: $color-text-secondary;
+    box-shadow: none;
+  }
+}
+
+.button--pill {
+  @include _border-radius-all(20px);
+}
+
 .button-right-arrow {
   &:after {
     content: "\e5e1";
@@ -172,8 +195,6 @@ table {
 }
 
 .button--menu {
-  background-color: transparent;
-  border-radius: 0;
   text-decoration: none;
 }
 
@@ -413,6 +434,13 @@ td .button--primary {
     &.button--register {
       background: $color-secondary-300;
       border: 0;
+      justify-content: center;
+    }
+
+    &.button--donate {
+      background: $color-button-pill;
+      border: 0;
+      color: $color-text-secondary;
       justify-content: center;
     }
 
