@@ -19,11 +19,11 @@ from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 
 class InvitedTeacherForm(forms.Form):
     prefix = 'teacher_signup'
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.widget.attrs['id'] = f'id_teacher_signup-{field.name}'
+        for field_name, field in self.fields.items():
+            field.widget.attrs['id'] = f'id_teacher_signup-{field_name}'
 
     teacher_password = forms.CharField(
         help_text="Enter a password",
