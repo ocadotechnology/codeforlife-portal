@@ -55,6 +55,11 @@
     calculate-rem($radius-bottom-left);
 }
 
+@mixin _border-radius-all($radius) {
+  border-radius: calculate-rem($radius) calculate-rem($radius)
+    calculate-rem($radius) calculate-rem($radius);
+}
+
 @mixin _box-shadow($h-offset, $v-offset, $blur, $spread, $color) {
   box-shadow: calculate-rem($h-offset) calculate-rem($v-offset)
     calculate-rem($blur) calculate-rem($spread) $color;

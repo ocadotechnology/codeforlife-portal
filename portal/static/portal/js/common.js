@@ -38,13 +38,42 @@ function hidePopupConfirmation() {
   $("#popup").find(".popup-text").remove();
 }
 
+function showDonatePopup(title, text) {
+  let popup = $("#donate-popup");
+  popup.find(".popup-box__title").text(title);
+  popup.find(".popup-box__msg").append(text);
+
+  popup.addClass("popup--fade");
+}
+
+function hideDonatePopup() {
+  $("#donate-popup").removeClass("popup--fade");
+  $("#donate-popup").find(".popup-text").remove();
+  $("#donate_email_field").val("");
+  $('#donate_age_verification').prop("checked", false);
+  const donateSubmitButton = $('#confirm_donate_button');
+  donateSubmitButton.addClass("disabled");
+  donateSubmitButton.prop("disabled", true);
+}
+
+function showDonateConfirmation(path) {
+  let title = "We would love to have you support our non-profit mission! ❤️";
+  let text =
+      "<div class='popup-text'>" +
+      "<h6>If you would like to be added to a mailing list and find out" +
+      " more about how you could support our mission, please add your" +
+      " email below.</h6>" +
+      "</div>";
+  let confirm_handler = "postWithCsrf('" + path + "')";
+
+  showDonatePopup(title, text, confirm_handler);
+}
 
 /**
-
-Show a service unavailable popup with a close button in the top-right corner.
-@param {String} title The title of the popup.
-@param {String} text The message of the popup.
-*/
+ * Show a service unavailable popup with a close button in the top-right corner.
+ * @param {String} title The title of the popup.
+ * @param {String} text The message of the popup.
+ */
 
 function showServiceUnavailable(title, text) {
   let popup = $("#service-unavailable-popup");
@@ -57,6 +86,7 @@ function showServiceUnavailable(title, text) {
 function hideServiceUnavailable() {
   $("#service-unavailable-popup").removeClass("popup--fade");
 }
+
 /**
  * Show an info popup with a close button in the top-right corner.
  * @param {String} title The title of the popup.
