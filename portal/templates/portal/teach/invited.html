@@ -20,7 +20,7 @@
                 </p>
             </div>
 
-            <form class="d-flex flex-column" method="post" id="form-invited-teacher" autocomplete="off">
+            <form class="d-flex flex-column" method="post" id="teacher-register-form" autocomplete="off">
 
                 {% csrf_token %}
 
@@ -29,7 +29,9 @@
                 <div class="row form--row">
                     <label for="{{ invited_teacher_form.teacher_password.auto_id }}"></label>
                     <div class="input--icon">
-                        {{ invited_teacher_form.teacher_password }}<span class="iconify" data-icon="mdi:security"></span>
+                        {{ invited_teacher_form.teacher_password }}
+                        <span id="teacher-password-field-icon" class="iconify"
+                            data-icon="material-symbols:visibility-off" ></span>
                     </div>
                     <small>{{ invited_teacher_form.teacher_password.help_text }}</small>
                     {{ invited_teacher_form.teacher_password.errors }}
@@ -37,7 +39,9 @@
                 <div class="row form--row">
                     <label for="{{ invited_teacher_form.teacher_confirm_password.auto_id }}"></label>
                     <div class="input--icon">
-                        {{ invited_teacher_form.teacher_confirm_password }}<span class="iconify" data-icon="mdi:security"></span>
+                        {{ invited_teacher_form.teacher_confirm_password }}
+                        <span id="teacher-confirm-password-field-icon" class="iconify"
+                            data-icon="material-symbols:visibility-off" ></span>
                     </div>
                     <small>{{ invited_teacher_form.teacher_confirm_password.help_text }}</small>
                     {{ invited_teacher_form.teacher_confirm_password.errors }}
@@ -73,10 +77,14 @@
     </div>
 </div>
 
-<script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
+{% include "portal/partials/service_unavailable_popup.html" %}
+
 <script>
-    var TEACHER_PASSWORD_FIELD_ID = '{{ invited_teacher_form.teacher_password.auto_id }}';
-    var INDEP_STUDENT_PASSWORD_FIELD_ID = '{{ invited_teacher_form.teacher_password.auto_id }}';
+    const password_id = '{{ invited_teacher_form.teacher_password.auto_id }}';
+    var TEACHER_PASSWORD_FIELD_ID = password_id;
+    var INDEP_STUDENT_PASSWORD_FIELD_ID = password_id;
 </script>
+
+<script type="text/javascript" src="{% static 'portal/js/passwordStrength.js' %}"></script>
 
 {% endblock content %}

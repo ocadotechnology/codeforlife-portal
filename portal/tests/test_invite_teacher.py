@@ -63,9 +63,9 @@ class TestInviteTeacher(TestCase):
         response = client.post(
             invitation_url,
             {
-                "teacher_password": invited_teacher_password,
-                "teacher_confirm_password": invited_teacher_password,
-                "consent_ticked": "on",
+                "teacher_signup-teacher_password": invited_teacher_password,
+                "teacher_signup-teacher_confirm_password": invited_teacher_password,
+                "teacher_signup-consent_ticked": "on",
             },
         )
 
