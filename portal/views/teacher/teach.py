@@ -620,9 +620,9 @@ def process_dismiss_student_form(request, formset, klass, access_code):
         )
 
         students_levels = Level.objects.filter(owner=student.new_user.userprofile).all()
-        for level in students_levels.all():
-            for other in level.shared_with.all():
-                level.shared_with.remove(other)
+        for level in students_levels:
+            level.shared_with.set([])
+            level.save()
 
         student.class_field = None
         student.new_user.first_name = data["name"]
