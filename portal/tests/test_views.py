@@ -252,10 +252,23 @@ class TestTeacherViews(TestCase):
         assert response.status_code == 302
 
         student = Student.objects.get(pk=self.student.pk)
+        
         assert student.user.is_verified
 
         c.logout()
         c.login(username=self.email, password=self.password)
+
+        teacher = Teacher.objects.factory("the", "teacher", "theteacher@foo.com", "password")
+        level = Level.objects.create()
+        
+        level.owner = student.new_user.userprofile
+        level.shared_with.add(teacher.new_user)
+        level.save()
+
+        students_levels = Level.objects.filter(owner=student.new_user.userprofile).all()
+
+        for level in students_levels.all():
+            assert level.shared_with.exists()
 
         release_url = reverse(
             "teacher_dismiss_students", args=[self.class_access_code]
@@ -278,6 +291,11 @@ class TestTeacherViews(TestCase):
 
         student = Student.objects.get(pk=self.student.pk)
         assert not student.user.is_verified
+
+        students_levels = Level.objects.filter(owner=student.new_user.userprofile).all()
+
+        for level in students_levels.all():
+            assert not level.shared_with.exists()
 
 
 class TestLoginViews(TestCase):
