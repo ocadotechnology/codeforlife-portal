@@ -255,7 +255,7 @@ def coding_club(request):
 
 def download_student_pack(request, student_pack_type):
     if request.method == "POST":
-        # count_student_pack_downloads_click(int(student_pack_type))
+        count_student_pack_downloads_click(int(student_pack_type))
         link = cloud_storage("club_packs/PrimaryCodingClub.zip")
         return redirect(link)
 

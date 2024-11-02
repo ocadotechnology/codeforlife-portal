@@ -223,63 +223,53 @@ urlpatterns = [
     ),
     url(r"^$", home, name="home"),
     url(r"^home-learning", home_learning, name="home-learning"),
-    url(
-        r"^register_form",
-        # register_view,
-        home,
-        name="register",
-    ),
+    url(r"^register_form", register_view, name="register"),
     url(
         r"^login/teacher/$",
-        # # The ratelimit decorator checks how often a POST request is performed on that view.
-        # # It checks against the username value specifically. If the number of requests
-        # # exceeds the specified rate, then the user will be blocked (if block = True).
-        # ratelimit(
-        #     group=RATELIMIT_LOGIN_GROUP,
-        #     key="post:auth-username",
-        #     method=RATELIMIT_METHOD,
-        #     rate=RATELIMIT_LOGIN_RATE,
-        #     block=True,
-        # )(TeacherLoginView.as_view()),
-        home,
+        # The ratelimit decorator checks how often a POST request is performed on that view.
+        # It checks against the username value specifically. If the number of requests
+        # exceeds the specified rate, then the user will be blocked (if block = True).
+        ratelimit(
+            group=RATELIMIT_LOGIN_GROUP,
+            key="post:auth-username",
+            method=RATELIMIT_METHOD,
+            rate=RATELIMIT_LOGIN_RATE,
+            block=True,
+        )(TeacherLoginView.as_view()),
         name="teacher_login",
     ),
     url(
         rf"^login/student/(?P<access_code>{ACCESS_CODE_REGEX})/(?:(?P<login_type>classform)/)?$",
-        # ratelimit(
-        #     group=RATELIMIT_LOGIN_GROUP,
-        #     key=school_student_key,
-        #     method=RATELIMIT_METHOD,
-        #     rate=RATELIMIT_LOGIN_RATE_SCHOOL_STUDENT,
-        #     block=True,
-        #     is_teacher=False,
-        # )(StudentLoginView.as_view()),
-        home,
+        ratelimit(
+            group=RATELIMIT_LOGIN_GROUP,
+            key=school_student_key,
+            method=RATELIMIT_METHOD,
+            rate=RATELIMIT_LOGIN_RATE_SCHOOL_STUDENT,
+            block=True,
+            is_teacher=False,
+        )(StudentLoginView.as_view()),
         name="student_login",
     ),
     url(
         r"^login/student/$",
-        # StudentClassCodeView.as_view(),
-        home,
+        StudentClassCodeView.as_view(),
         name="student_login_access_code",
     ),
     url(
         r"^u/(?P<user_id>[0-9]+)/(?P<login_id>[a-z0-9]+)/$",
-        # student_direct_login,
-        home,
+        student_direct_login,
         name="student_direct_login",
     ),
     url(
         r"^login/independent/$",
-        # ratelimit(
-        #     group=RATELIMIT_LOGIN_GROUP,
-        #     key="post:username",
-        #     method=RATELIMIT_METHOD,
-        #     rate=RATELIMIT_LOGIN_RATE,
-        #     block=True,
-        #     is_teacher=False,
-        # )(IndependentStudentLoginView.as_view()),
-        home,
+        ratelimit(
+            group=RATELIMIT_LOGIN_GROUP,
+            key="post:username",
+            method=RATELIMIT_METHOD,
+            rate=RATELIMIT_LOGIN_RATE,
+            block=True,
+            is_teacher=False,
+        )(IndependentStudentLoginView.as_view()),
         name="independent_student_login",
     ),
     url(r"^login_form", old_login_form_redirect, name="old_login_form"),
@@ -300,20 +290,17 @@ urlpatterns = [
     ),
     url(
         rf"^verify_email/(?P<token>{JWT_REGEX})/$",
-        # verify_email,
-        home,
+        verify_email,
         name="verify_email",
     ),
     url(
         r"^user/password/reset/student/$",
-        # student_password_reset,
-        home,
+        student_password_reset,
         name="student_password_reset",
     ),
     url(
         r"^user/password/reset/teacher/$",
-        # teacher_password_reset,
-        home,
+        teacher_password_reset,
         name="teacher_password_reset",
     ),
     url(
@@ -323,8 +310,7 @@ urlpatterns = [
     ),
     url(
         r"^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$",
-        # password_reset_check_and_confirm,
-        home,
+        password_reset_check_and_confirm,
         name="password_reset_check_and_confirm",
     ),
     url(

@@ -172,42 +172,42 @@ class SecondVerifyEmailReminderView(CronMixin, APIView):
 
 class AnonymiseUnverifiedAccounts(CronMixin, APIView):
     def get(self, request):
-        # user_count = User.objects.filter(is_active=True).count()
-        #
-        # teacher_queryset, independent_student_queryset = get_unverified_users(
-        #     USER_DELETE_UNVERIFIED_ACCOUNT_DAYS,
-        #     same_day=False,
-        # )
-        # teacher_count = teacher_queryset.count()
-        # indy_count = independent_student_queryset.count()
-        #
-        # user_queryset = teacher_queryset.union(independent_student_queryset)
-        #
-        # for user in user_queryset.iterator(chunk_size=100):
-        #     try:
-        #         anonymise(user)
-        #     except Exception as ex:
-        #         logging.error(f"Failed to anonymise user with id: {user.id}")
-        #         logging.exception(ex)
-        #
-        # user_count -= User.objects.filter(is_active=True).count()
-        # logging.info(f"{user_count} unverified users anonymised.")
-        #
-        # activity_today = DailyActivity.objects.get_or_create(
-        #     date=datetime.now().date()
-        # )[0]
-        # activity_today.anonymised_unverified_teachers = teacher_count
-        # activity_today.anonymised_unverified_independents = indy_count
-        # activity_today.save()
-        #
-        # TotalActivity.objects.update(
-        #     anonymised_unverified_teachers=F("anonymised_unverified_teachers")
-        #     + teacher_count,
-        #     anonymised_unverified_independents=F(
-        #         "anonymised_unverified_independents"
-        #     )
-        #     + indy_count,
-        # )
+        user_count = User.objects.filter(is_active=True).count()
+
+        teacher_queryset, independent_student_queryset = get_unverified_users(
+            USER_DELETE_UNVERIFIED_ACCOUNT_DAYS,
+            same_day=False,
+        )
+        teacher_count = teacher_queryset.count()
+        indy_count = independent_student_queryset.count()
+
+        user_queryset = teacher_queryset.union(independent_student_queryset)
+
+        for user in user_queryset.iterator(chunk_size=100):
+            try:
+                anonymise(user)
+            except Exception as ex:
+                logging.error(f"Failed to anonymise user with id: {user.id}")
+                logging.exception(ex)
+
+        user_count -= User.objects.filter(is_active=True).count()
+        logging.info(f"{user_count} unverified users anonymised.")
+
+        activity_today = DailyActivity.objects.get_or_create(
+            date=datetime.now().date()
+        )[0]
+        activity_today.anonymised_unverified_teachers = teacher_count
+        activity_today.anonymised_unverified_independents = indy_count
+        activity_today.save()
+
+        TotalActivity.objects.update(
+            anonymised_unverified_teachers=F("anonymised_unverified_teachers")
+            + teacher_count,
+            anonymised_unverified_independents=F(
+                "anonymised_unverified_independents"
+            )
+            + indy_count,
+        )
 
         return Response()
 
