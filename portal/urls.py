@@ -1,3 +1,4 @@
+from common.permissions import teacher_verified
 from django.http import HttpResponse
 from django.urls import include, path, re_path
 from django.views.generic import RedirectView
@@ -5,6 +6,12 @@ from django.views.generic.base import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from game.views.level import play_default_level
 from two_factor.urls import urlpatterns as tf_urls
+from two_factor.views import (
+    BackupTokensView,
+    ProfileView,
+    QRGeneratorView,
+    SetupCompleteView,
+)
 
 from portal.helpers.decorators import ratelimit
 from portal.helpers.ratelimit import (
@@ -101,8 +108,40 @@ from portal.views.teacher.teach import (
     teacher_print_reminder_cards,
     teacher_view_class,
 )
+from portal.views.two_factor.core import CustomSetupView
+from portal.views.two_factor.profile import CustomDisableView
 
 js_info_dict = {"packages": ("conf.locale",)}
+
+two_factor_patterns = [
+    re_path(
+        r"^account/two_factor/setup/$", CustomSetupView.as_view(), name="setup"
+    ),
+    re_path(
+        r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"
+    ),
+    re_path(
+        r"^account/two_factor/setup/complete/$",
+        SetupCompleteView.as_view(),
+        name="setup_complete",
+    ),
+    re_path(
+        r"^account/two_factor/backup/tokens/$",
+        teacher_verified(BackupTokensView.as_view()),
+        name="backup_tokens",
+    ),
+    re_path(
+        r"^account/two_factor/$",
+        teacher_verified(ProfileView.as_view()),
+        name="profile",
+    ),
+    re_path(
+        r"^account/two_factor/disable/$",
+        teacher_verified(CustomDisableView.as_view()),
+        name="disable",
+    ),
+]
+
 
 urlpatterns = [
     path(
@@ -173,7 +212,10 @@ urlpatterns = [
         TemplateView.as_view(template_name="portal/locked_out.html"),
         name="locked_out",
     ),
-    path("", include(tf_urls)),
+    re_path(
+        r"^",
+        include((two_factor_patterns, "two_factor"), namespace="two_factor"),
+    ),
     re_path(r"^i18n/", include("django.conf.urls.i18n")),
     re_path(r"^jsi18n/$", JavaScriptCatalog.as_view(), js_info_dict),
     re_path(
