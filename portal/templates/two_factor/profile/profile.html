@@ -12,6 +12,7 @@
 <h2>{% trans "Backup Phone Numbers" %}</h2>
 <p>{% blocktrans trimmed %}If your primary method is not available, we are able to
     send backup tokens to the phone numbers listed below.{% endblocktrans %}</p>
+{% if backup_phones %}
 <ul>
     {% for phone in backup_phones %}
     <li>
@@ -25,6 +26,7 @@
     </li>
     {% endfor %}
 </ul>
+{% endif %}
 <p><a href="{% url 'two_factor:phone_create' %}"
       class="btn btn-info">{% trans "Add Phone Number" %}</a></p>
 {% endif %}
