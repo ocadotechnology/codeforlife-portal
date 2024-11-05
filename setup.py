@@ -35,7 +35,6 @@ setup(
         "django-sekizai==4.1.0",
         "django-classy-tags==4.1.0",
         "phonenumbers==8.12.12",
-        f"cfl-common=={version}",
         "django-ratelimit==3.0.1",
         "django-preventconcurrentlogins==0.8.2",
         "setuptools==74.0.0",

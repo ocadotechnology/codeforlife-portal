@@ -19,7 +19,7 @@ setup(
     install_requires=[
         "django==4.2.16",
         "djangorestframework==3.15.1",
-        "django-two-factor-auth==1.15.1",
+        "django-two-factor-auth==1.17.0",
         "django-countries==7.6.1",
         "pyjwt==2.6.0",
         "pgeocode==0.4.0",
