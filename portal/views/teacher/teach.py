@@ -39,6 +39,8 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 
+from game.models import Level
+
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
     BaseTeacherMoveStudentsDisambiguationFormSet,
@@ -55,6 +57,7 @@ from portal.forms.teach import (
 )
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.views.registration import handle_reset_password_tracking
+
 
 STUDENT_PASSWORD_LENGTH = 6
 REMINDER_CARDS_PDF_ROWS = 8
@@ -615,6 +618,11 @@ def process_dismiss_student_form(request, formset, klass, access_code):
             class_field=klass,
             new_user__first_name__iexact=data["orig_name"],
         )
+
+        students_levels = Level.objects.filter(owner=student.new_user.userprofile).all()
+        for level in students_levels:
+            level.shared_with.set([])
+            level.save()
 
         student.class_field = None
         student.new_user.first_name = data["name"]

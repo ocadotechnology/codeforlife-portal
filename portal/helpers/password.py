@@ -1,14 +1,12 @@
+import hashlib
 import re
 from enum import Enum, auto
 
+import requests
 from django import forms
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.hashers import PBKDF2PasswordHasher as ph
 from django.core.exceptions import ValidationError
-
-
-import hashlib
-import requests
 
 
 def is_password_pwned(password):
@@ -41,56 +39,56 @@ class PasswordStrength(Enum):
     TEACHER = auto()
 
     def password_test(self, password):
-        if self is PasswordStrength.STUDENT:
-            minimum_password_length = 6
-            # Make student password case insensitive
-            password = password.lower()
-            if password and not password_strength_test(
-                password=password,
-                minimum_password_length=minimum_password_length,
-                upper=False,
-                lower=False,
-                numbers=False,
-                special_char=False,
-            ):
-                raise forms.ValidationError(
-                    f"Password not strong enough, consider using at least {minimum_password_length} characters and making it hard to guess."
-                )
-            if is_password_pwned(password):
-                raise forms.ValidationError("Password is too common, consider using a different password.")
-
-        elif self is PasswordStrength.INDEPENDENT:
-            minimum_password_length = 8
-            if password and not password_strength_test(
-                password=password,
-                minimum_password_length=minimum_password_length,
-                upper=True,
-                lower=True,
-                numbers=True,
-                special_char=False,
-            ):
-                raise forms.ValidationError(
-                    f"Password not strong enough, consider using at least {minimum_password_length} characters, "
-                    "upper and lower case letters, and numbers and making it hard to guess."
-                )
-            if is_password_pwned(password):
-                raise forms.ValidationError("Password is too common, consider using a different password.")
-        else:
-            minimum_password_length = 10
-            if password and not password_strength_test(
-                password=password,
-                minimum_password_length=minimum_password_length,
-                upper=True,
-                lower=True,
-                numbers=True,
-                special_char=True,
-            ):
-                raise forms.ValidationError(
-                    f"Password not strong enough, consider using at least {minimum_password_length} characters, "
-                    "upper and lower case letters, numbers, special characters and making it hard to guess."
-                )
-            if is_password_pwned(password):
-                raise forms.ValidationError("Password is too common, consider using a different password.")
+        if password:
+            if self is PasswordStrength.STUDENT:
+                minimum_password_length = 6
+                # Make student password case insensitive
+                password = password.lower()
+                if not password_strength_test(
+                    password=password,
+                    minimum_password_length=minimum_password_length,
+                    upper=False,
+                    lower=False,
+                    numbers=False,
+                    special_char=False,
+                ):
+                    raise forms.ValidationError(
+                        f"Password not strong enough, consider using at least {minimum_password_length} characters and making it hard to guess."
+                    )
+                if is_password_pwned(password):
+                    raise forms.ValidationError("Password is too common, consider using a different password.")
+            elif self is PasswordStrength.INDEPENDENT:
+                minimum_password_length = 8
+                if not password_strength_test(
+                    password=password,
+                    minimum_password_length=minimum_password_length,
+                    upper=True,
+                    lower=True,
+                    numbers=True,
+                    special_char=False,
+                ):
+                    raise forms.ValidationError(
+                        f"Password not strong enough, consider using at least {minimum_password_length} characters, "
+                        "upper and lower case letters, and numbers and making it hard to guess."
+                    )
+                if is_password_pwned(password):
+                    raise forms.ValidationError("Password is too common, consider using a different password.")
+            else:
+                minimum_password_length = 10
+                if not password_strength_test(
+                    password=password,
+                    minimum_password_length=minimum_password_length,
+                    upper=True,
+                    lower=True,
+                    numbers=True,
+                    special_char=True,
+                ):
+                    raise forms.ValidationError(
+                        f"Password not strong enough, consider using at least {minimum_password_length} characters, "
+                        "upper and lower case letters, numbers, special characters and making it hard to guess."
+                    )
+                if is_password_pwned(password):
+                    raise forms.ValidationError("Password is too common, consider using a different password.")
 
         return password
 
