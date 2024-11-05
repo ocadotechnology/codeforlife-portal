@@ -1,8 +1,6 @@
 import re
 from datetime import timedelta, date
 
-from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV2Invisible
 from common.helpers.emails import send_verification_email
 from common.models import Class, Student, stripStudentName
 from common.permissions import logged_in_as_independent_student
@@ -10,6 +8,8 @@ from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Invisible
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.helpers.password import PasswordStrength, form_clean_password

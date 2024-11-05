@@ -21,9 +21,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
-from django.utils.encoding import force_text
+from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
@@ -202,7 +202,7 @@ def password_reset_confirm(
     check_uidb64(uidb64, token)
 
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_bytes(urlsafe_base64_decode(uidb64))
         user = UserModel._default_manager.get(pk=uid)
     except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
         user = None

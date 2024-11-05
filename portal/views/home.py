@@ -33,9 +33,12 @@ from portal.helpers.ratelimit import (
 )
 from portal.strings.coding_club import CODING_CLUB_BANNER
 from portal.strings.home_learning import HOME_LEARNING_BANNER
-from portal.strings.ten_year_map import TEN_YEAR_MAP_BANNER, TEN_YEAR_MAP_HEADLINE
+from portal.strings.ten_year_map import (
+    TEN_YEAR_MAP_BANNER,
+    TEN_YEAR_MAP_HEADLINE,
+)
 from portal.templatetags.app_tags import cloud_storage
-from portal.views.teacher.teach import DownloadType, count_student_pack_downloads_click
+from portal.views.teacher.teach import count_student_pack_downloads_click
 
 LOGGER = logging.getLogger(__name__)
 
@@ -65,11 +68,17 @@ def render_signup_form(request):
     invalid_form = False
 
     teacher_signup_form = TeacherSignupForm(prefix="teacher_signup")
-    independent_student_signup_form = IndependentStudentSignupForm(prefix="independent_student_signup")
+    independent_student_signup_form = IndependentStudentSignupForm(
+        prefix="independent_student_signup"
+    )
 
     if request.method == "POST":
+        print("IN POST")
+        print(request.POST)
         if "teacher_signup-teacher_email" in request.POST:
-            teacher_signup_form = TeacherSignupForm(request.POST, prefix="teacher_signup")
+            teacher_signup_form = TeacherSignupForm(
+                request.POST, prefix="teacher_signup"
+            )
 
             if not captcha.CAPTCHA_ENABLED:
                 remove_captcha_from_forms(teacher_signup_form)
@@ -123,11 +132,15 @@ def process_signup_form(request, data):
                 [email],
                 personalization_values={
                     "EMAIL": email,
-                    "LOGIN_URL": request.build_absolute_uri(reverse("teacher_login")),
+                    "LOGIN_URL": request.build_absolute_uri(
+                        reverse("teacher_login")
+                    ),
                 },
             )
         else:
-            LOGGER.warn(f"Ratelimit teacher {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}")
+            LOGGER.warn(
+                f"Ratelimit teacher {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}"
+            )
     else:
         teacher = Teacher.objects.factory(
             first_name=data["teacher_first_name"],
@@ -138,7 +151,9 @@ def process_signup_form(request, data):
 
         send_verification_email(request, teacher.user.user, data)
 
-        TotalActivity.objects.update(teacher_registrations=F("teacher_registrations") + 1)
+        TotalActivity.objects.update(
+            teacher_registrations=F("teacher_registrations") + 1
+        )
 
     return render(
         request,
@@ -166,11 +181,15 @@ def process_independent_student_signup_form(request, data):
                 [email],
                 personalization_values={
                     "EMAIL": email,
-                    "LOGIN_URL": request.build_absolute_uri(reverse("independent_student_login")),
+                    "LOGIN_URL": request.build_absolute_uri(
+                        reverse("independent_student_login")
+                    ),
                 },
             )
         else:
-            LOGGER.warning(f"Ratelimit independent {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}")
+            LOGGER.warning(
+                f"Ratelimit independent {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}"
+            )
         return render(
             request,
             "portal/email_verification_needed.html",
@@ -188,7 +207,9 @@ def process_independent_student_signup_form(request, data):
 
     send_verification_email(request, student.new_user, data, age=age)
 
-    TotalActivity.objects.update(independent_registrations=F("independent_registrations") + 1)
+    TotalActivity.objects.update(
+        independent_registrations=F("independent_registrations") + 1
+    )
 
     return render(
         request,
@@ -199,7 +220,10 @@ def process_independent_student_signup_form(request, data):
 
 
 def is_developer(request):
-    return hasattr(request.user, "userprofile") and request.user.userprofile.developer
+    return (
+        hasattr(request.user, "userprofile")
+        and request.user.userprofile.developer
+    )
 
 
 def redirect_teacher_to_correct_page(request, teacher):
@@ -229,10 +253,14 @@ def home(request):
     # tests where the first Selenium test passes, but any following test
     # fails because it cannot find the Maintenance banner instance.
     try:
-        maintenance_banner = DynamicElement.objects.get(name="Maintenance banner")
+        maintenance_banner = DynamicElement.objects.get(
+            name="Maintenance banner"
+        )
 
         if maintenance_banner.active:
-            messages.info(request, format_html(maintenance_banner.text), extra_tags="safe")
+            messages.info(
+                request, format_html(maintenance_banner.text), extra_tags="safe"
+            )
     except ObjectDoesNotExist:
         pass
 
@@ -250,7 +278,9 @@ def home(request):
 
 
 def coding_club(request):
-    return render(request, "portal/coding_club.html", {"BANNER": CODING_CLUB_BANNER})
+    return render(
+        request, "portal/coding_club.html", {"BANNER": CODING_CLUB_BANNER}
+    )
 
 
 def download_student_pack(request, student_pack_type):
@@ -269,7 +299,9 @@ def home_learning(request):
 
 
 def ten_year_map_page(request):
-    messages.info(request, "This page is currently under construction.", extra_tags="safe")
+    messages.info(
+        request, "This page is currently under construction.", extra_tags="safe"
+    )
     return render(
         request,
         "portal/ten_year_map.html",

@@ -2,7 +2,6 @@ from two_factor.forms import (
     TOTPDeviceForm,
     MethodForm,
     DeviceValidationForm,
-    YubiKeyDeviceForm,
 )
 from two_factor.views.core import SetupView
 
@@ -14,12 +13,10 @@ class CustomSetupView(SetupView):
         ("generator", TOTPDeviceForm),
         ("method", MethodForm),
         ("validation", DeviceValidationForm),
-        ("yubikey", YubiKeyDeviceForm),
     )
 
     condition_dict = {
         "call": lambda self: self.get_method() == "call",
         "sms": lambda self: self.get_method() == "sms",
         "validation": lambda self: self.get_method() in ("sms", "call"),
-        "yubikey": lambda self: self.get_method() == "yubikey",
     }
