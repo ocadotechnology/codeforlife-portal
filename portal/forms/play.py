@@ -222,7 +222,7 @@ class IndependentStudentSignupForm(forms.Form):
         widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Repeat password"}),
     )
 
-    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
+    # captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean_name(self):
         name = self.cleaned_data.get("name", None)
