@@ -73,8 +73,6 @@ def render_signup_form(request):
     )
 
     if request.method == "POST":
-        print("IN POST")
-        print(request.POST)
         if "teacher_signup-teacher_email" in request.POST:
             teacher_signup_form = TeacherSignupForm(
                 request.POST, prefix="teacher_signup"
