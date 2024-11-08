@@ -52,5 +52,5 @@ one special character.
   cy.deleteUser('testadmin')
 
   // Logout
-  cy.get('[href="/administration/logout/"]').click()
+  cy.get('[action="/administration/logout/"]').click()
 }

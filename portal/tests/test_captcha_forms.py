@@ -1,7 +1,7 @@
-from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV2Invisible
 from django import forms
 from django.test import TestCase
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Invisible
 
 from portal.helpers.captcha import is_captcha_in_form, remove_captcha_from_forms
 

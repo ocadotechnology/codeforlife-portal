@@ -86,7 +86,7 @@ INSTALLED_APPS = [
     "game",
     "pipeline",
     "portal",
-    "captcha",
+    "django_recaptcha",
     "common",
     "django.contrib.admin",
     "django.contrib.admindocs",

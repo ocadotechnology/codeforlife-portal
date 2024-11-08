@@ -32,7 +32,9 @@ class TestAdminAccessMiddleware(TestCase):
         self.email, self.password = self._setup_user()
 
         self.monkeypatch = MonkeyPatch()
-        self.monkeypatch.setattr("deploy.middleware.admin_access.MODULE_NAME", "test")
+        self.monkeypatch.setattr(
+            "deploy.middleware.admin_access.MODULE_NAME", "test"
+        )
 
     def _setup_user(self) -> Tuple[str, str]:
         email, password = signup_teacher_directly()
@@ -79,7 +81,11 @@ class TestAdminAccessMiddleware(TestCase):
         assert type(response) == HttpResponseRedirect
         assert response.url == "/teach/dashboard/"
 
-    @mock.patch("deploy.middleware.admin_access.using_two_factor", return_value=True, autospec=True)
+    @mock.patch(
+        "deploy.middleware.admin_access.using_two_factor",
+        return_value=True,
+        autospec=True,
+    )
     def test_non_superuser_with_2FA_is_redirected(self, mock_using_two_factor):
         self.client.login(username=self.email, password=self.password)
 
@@ -91,8 +97,14 @@ class TestAdminAccessMiddleware(TestCase):
         assert type(response) == HttpResponseRedirect
         assert response.url == "/teach/dashboard/"
 
-    @mock.patch("deploy.middleware.admin_access.using_two_factor", return_value=True, autospec=True)
-    def test_superuser_with_2FA_can_access_admin_site(self, mock_using_two_factor):
+    @mock.patch(
+        "deploy.middleware.admin_access.using_two_factor",
+        return_value=True,
+        autospec=True,
+    )
+    def test_superuser_with_2FA_can_access_admin_site(
+        self, mock_using_two_factor
+    ):
         self._make_user_superuser()
 
         self.client.login(username=self.email, password=self.password)
@@ -118,7 +130,7 @@ class TestSecurityMiddleware(TestCase):
         assert response.headers["cache-control"] == "private"
         assert response.headers["x-content-type-options"] == "nosniff"
         assert response.headers["x-frame-options"] == "DENY"
-        assert response.headers["x-xss-protection"] == "1"
+        assert response.headers["x-xss-protection"] == "1; mode=block"
 
 
 class TestSessionTimeoutMiddleware(TestCase):
@@ -132,7 +144,9 @@ class TestSessionTimeoutMiddleware(TestCase):
         self.email, self.password = self._setup_user()
 
         self.monkeypatch = MonkeyPatch()
-        self.monkeypatch.setattr("deploy.middleware.session_timeout.SESSION_EXPIRY_TIME", 5)
+        self.monkeypatch.setattr(
+            "deploy.middleware.session_timeout.SESSION_EXPIRY_TIME", 5
+        )
 
     def _setup_user(self) -> Tuple[str, str]:
         email, password = signup_teacher_directly()
@@ -211,14 +225,18 @@ class TestScreentimeWarningMiddleware(TestCase):
         self.client.get("/")
         session = self.client.session
         assert "screentime_warning_timeout" in session
-        previous_screentime_warning_timeout = session["screentime_warning_timeout"]
+        previous_screentime_warning_timeout = session[
+            "screentime_warning_timeout"
+        ]
 
         self.client.get("/")
         session = self.client.session
         assert "screentime_warning_timeout" in session
         new_screentime_warning_timeout = session["screentime_warning_timeout"]
 
-        assert new_screentime_warning_timeout < previous_screentime_warning_timeout
+        assert (
+            new_screentime_warning_timeout < previous_screentime_warning_timeout
+        )
 
         # Check the reset_screentime_warning API resets the timeout
         url = reverse("reset_screentime_warning")
@@ -226,5 +244,9 @@ class TestScreentimeWarningMiddleware(TestCase):
         self.client.get("/")
         session = self.client.session
         assert "screentime_warning_timeout" in session
-        renewed_screentime_warning_timeout = session["screentime_warning_timeout"]
-        assert renewed_screentime_warning_timeout > new_screentime_warning_timeout
+        renewed_screentime_warning_timeout = session[
+            "screentime_warning_timeout"
+        ]
+        assert (
+            renewed_screentime_warning_timeout > new_screentime_warning_timeout
+        )

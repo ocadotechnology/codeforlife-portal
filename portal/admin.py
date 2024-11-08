@@ -12,7 +12,7 @@ from common.models import (
     UserProfile,
 )
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.admin import UserAdmin as _UserAdmin
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from import_export.admin import ExportActionMixin
@@ -172,38 +172,40 @@ class TotalActivityAdmin(admin.ModelAdmin, ExportActionMixin):
         return False
 
 
-def anonymise_user(user_admin, request, queryset):
-    for user in queryset:
-        anonymise(user)
+_UserAdmin.list_display += ("date_joined", "id")
+_UserAdmin.list_filter += ("date_joined",)
 
 
-def export_as_csv(self, request, queryset):
-    meta = self.model._meta
-    field_names = [
-        field.name for field in meta.fields if field.name != "password"
-    ]
+class UserAdmin(_UserAdmin):
+    actions = ["anonymise_user", "export_as_csv"]
+    add_form = AdminUserCreationForm
+    change_password_form = AdminChangeUserPasswordForm
 
-    response = HttpResponse(content_type="text/csv")
-    response["Content-Disposition"] = "attachment; filename={}.csv".format(meta)
-    writer = csv.writer(response)
+    def anonymise_user(self, request, queryset):
+        for user in queryset:
+            anonymise(user)
 
-    writer.writerow(field_names)
-    for obj in queryset:
-        writer.writerow([getattr(obj, field) for field in field_names])
+    anonymise_user.short_description = "Anonymise selected users"
 
-    return response
+    def export_as_csv(self, request, queryset):
+        meta = self.model._meta
+        field_names = [
+            field.name for field in meta.fields if field.name != "password"
+        ]
 
+        response = HttpResponse(content_type="text/csv")
+        response["Content-Disposition"] = "attachment; filename={}.csv".format(
+            meta
+        )
+        writer = csv.writer(response)
 
-anonymise_user.short_description = "Anonymise selected users"
-export_as_csv.short_description = "Export selected users data as CSV"
+        writer.writerow(field_names)
+        for obj in queryset:
+            writer.writerow([getattr(obj, field) for field in field_names])
 
+        return response
 
-UserAdmin.list_display += ("date_joined", "id")
-UserAdmin.list_filter += ("date_joined",)
-UserAdmin.add_form = AdminUserCreationForm
-UserAdmin.change_password_form = AdminChangeUserPasswordForm
-UserAdmin.actions.append(anonymise_user)
-UserAdmin.actions.append(export_as_csv)
+    export_as_csv.short_description = "Export selected users data as CSV"
 
 
 admin.site.register(Class, ClassAdmin)

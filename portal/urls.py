@@ -1,11 +1,11 @@
 from common.permissions import teacher_verified
-from django.conf.urls import include, url
 from django.http import HttpResponse
-from django.urls import path
+from django.urls import include, path, re_path
 from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from game.views.level import play_default_level
+from two_factor.urls import urlpatterns as tf_urls
 from two_factor.views import (
     BackupTokensView,
     ProfileView,
@@ -114,26 +114,28 @@ from portal.views.two_factor.profile import CustomDisableView
 js_info_dict = {"packages": ("conf.locale",)}
 
 two_factor_patterns = [
-    url(
+    re_path(
         r"^account/two_factor/setup/$", CustomSetupView.as_view(), name="setup"
     ),
-    url(r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"),
-    url(
+    re_path(
+        r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"
+    ),
+    re_path(
         r"^account/two_factor/setup/complete/$",
         SetupCompleteView.as_view(),
         name="setup_complete",
     ),
-    url(
+    re_path(
         r"^account/two_factor/backup/tokens/$",
         teacher_verified(BackupTokensView.as_view()),
         name="backup_tokens",
     ),
-    url(
+    re_path(
         r"^account/two_factor/$",
         teacher_verified(ProfileView.as_view()),
         name="profile",
     ),
-    url(
+    re_path(
         r"^account/two_factor/disable/$",
         teacher_verified(CustomDisableView.as_view()),
         name="disable",
@@ -186,45 +188,45 @@ urlpatterns = [
             ]
         ),
     ),
-    url(
+    re_path(
         r"^favicon\.ico$",
         RedirectView.as_view(
             url="/static/portal/img/favicon.ico", permanent=True
         ),
     ),
-    url(
+    re_path(
         r"^administration/password_change/$",
         AdminChangePasswordView.as_view(),
         name="administration_password_change",
     ),
-    url(
+    re_path(
         r"^administration/password_change_done/$",
         AdminChangePasswordDoneView.as_view(),
         name="administration_password_change_done",
     ),
-    url(
+    re_path(
         r"^users/inactive/", InactiveUsersView.as_view(), name="inactive_users"
     ),
-    url(
+    re_path(
         r"^locked_out/$",
         TemplateView.as_view(template_name="portal/locked_out.html"),
         name="locked_out",
     ),
-    url(
+    re_path(
         r"^",
         include((two_factor_patterns, "two_factor"), namespace="two_factor"),
     ),
-    url(r"^i18n/", include("django.conf.urls.i18n")),
-    url(r"^jsi18n/$", JavaScriptCatalog.as_view(), js_info_dict),
-    url(
+    re_path(r"^i18n/", include("django.conf.urls.i18n")),
+    re_path(r"^jsi18n/$", JavaScriptCatalog.as_view(), js_info_dict),
+    re_path(
         r"^(?P<level_name>[A-Z0-9]+)/$",
         play_default_level,
         name="play_default_level",
     ),
-    url(r"^$", home, name="home"),
-    url(r"^home-learning", home_learning, name="home-learning"),
-    url(r"^register_form", register_view, name="register"),
-    url(
+    re_path(r"^$", home, name="home"),
+    re_path(r"^home-learning", home_learning, name="home-learning"),
+    re_path(r"^register_form", register_view, name="register"),
+    re_path(
         r"^login/teacher/$",
         # The ratelimit decorator checks how often a POST request is performed on that view.
         # It checks against the username value specifically. If the number of requests
@@ -238,7 +240,7 @@ urlpatterns = [
         )(TeacherLoginView.as_view()),
         name="teacher_login",
     ),
-    url(
+    re_path(
         rf"^login/student/(?P<access_code>{ACCESS_CODE_REGEX})/(?:(?P<login_type>classform)/)?$",
         ratelimit(
             group=RATELIMIT_LOGIN_GROUP,
@@ -250,17 +252,17 @@ urlpatterns = [
         )(StudentLoginView.as_view()),
         name="student_login",
     ),
-    url(
+    re_path(
         r"^login/student/$",
         StudentClassCodeView.as_view(),
         name="student_login_access_code",
     ),
-    url(
+    re_path(
         r"^u/(?P<user_id>[0-9]+)/(?P<login_id>[a-z0-9]+)/$",
         student_direct_login,
         name="student_direct_login",
     ),
-    url(
+    re_path(
         r"^login/independent/$",
         ratelimit(
             group=RATELIMIT_LOGIN_GROUP,
@@ -272,106 +274,110 @@ urlpatterns = [
         )(IndependentStudentLoginView.as_view()),
         name="independent_student_login",
     ),
-    url(r"^login_form", old_login_form_redirect, name="old_login_form"),
-    url(r"^logout/$", logout_view, name="logout_view"),
-    url(
+    re_path(r"^login_form", old_login_form_redirect, name="old_login_form"),
+    re_path(r"^logout/$", logout_view, name="logout_view"),
+    re_path(
         r"^news_signup/$",
         process_newsletter_form,
         name="process_newsletter_form",
     ),
-    url(r"^donate_signup/$", process_donate_form, name="process_donate_form"),
-    url(r"^consent_form/$", dotmailer_consent_form, name="consent_form"),
-    url(
+    re_path(
+        r"^donate_signup/$", process_donate_form, name="process_donate_form"
+    ),
+    re_path(r"^consent_form/$", dotmailer_consent_form, name="consent_form"),
+    re_path(
         r"^verify_email/$",
         TemplateView.as_view(
             template_name="portal/email_verification_needed.html"
         ),
         name="email_verification",
     ),
-    url(
+    re_path(
         rf"^verify_email/(?P<token>{JWT_REGEX})/$",
         verify_email,
         name="verify_email",
     ),
-    url(
+    re_path(
         r"^user/password/reset/student/$",
         student_password_reset,
         name="student_password_reset",
     ),
-    url(
+    re_path(
         r"^user/password/reset/teacher/$",
         teacher_password_reset,
         name="teacher_password_reset",
     ),
-    url(
+    re_path(
         r"^user/password/reset/done/$",
         password_reset_done,
         name="reset_password_email_sent",
     ),
-    url(
+    re_path(
         r"^user/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$",
         password_reset_check_and_confirm,
         name="password_reset_check_and_confirm",
     ),
-    url(
+    re_path(
         r"^user/reset_screentime_warning/$",
         reset_screentime_warning,
         name="reset_screentime_warning",
     ),
-    url(
+    re_path(
         r"^user/reset_session_time/$",
         lambda _: HttpResponse(status=204),
         name="reset_session_time",
     ),
-    url(
+    re_path(
         r"^teacher/password/reset/complete/$",
         TemplateView.as_view(template_name="portal/reset_password_done.html"),
         name="password_reset_complete",
     ),
-    url(r"^teach/$", teach, name="teach"),
-    url(
+    re_path(r"^teach/$", teach, name="teach"),
+    re_path(
         r"^teach/onboarding-organisation/$",
         organisation_manage,
         name="onboarding-organisation",
     ),
-    url(
+    re_path(
         r"^teach/onboarding-classes",
         teacher_onboarding_create_class,
         name="onboarding-classes",
     ),
-    url(
+    re_path(
         rf"^teach/onboarding-class/(?P<access_code>{ACCESS_CODE_REGEX})$",
         teacher_onboarding_edit_class,
         name="onboarding-class",
     ),
-    url(
+    re_path(
         rf"^teach/onboarding-class/(?P<access_code>{ACCESS_CODE_REGEX})/print_reminder_cards/$",
         teacher_print_reminder_cards,
         name="teacher_print_reminder_cards",
     ),
-    url(
+    re_path(
         rf"^teach/onboarding-class/(?P<access_code>{ACCESS_CODE_REGEX})/download_csv/$",
         teacher_download_csv,
         name="teacher_download_csv",
     ),
-    url(
+    re_path(
         r"^invited_teacher/(?P<token>[0-9a-f]+)/$",
         invited_teacher,
         name="invited_teacher",
     ),
-    url(r"^play/$", play_landing_page, name="play"),
-    url(
+    re_path(r"^play/$", play_landing_page, name="play"),
+    re_path(
         r"^play/details/$",
         SchoolStudentDashboard.as_view(),
         name="student_details",
     ),
-    url(
+    re_path(
         r"^play/details/independent$",
         IndependentStudentDashboard.as_view(),
         name="independent_student_details",
     ),
-    url(r"^play/account/$", student_edit_account, name="student_edit_account"),
-    url(
+    re_path(
+        r"^play/account/$", student_edit_account, name="student_edit_account"
+    ),
+    re_path(
         r"^play/account/independent/$",
         ratelimit(
             group=RATELIMIT_LOGIN_GROUP,
@@ -383,136 +389,136 @@ urlpatterns = [
         )(independentStudentEditAccountView),
         name="independent_edit_account",
     ),
-    url(
+    re_path(
         r"^play/account/school_student/$",
         SchoolStudentEditAccountView.as_view(),
         name="school_student_edit_account",
     ),
-    url(
+    re_path(
         r"^play/join/$",
         student_join_organisation,
         name="student_join_organisation",
     ),
-    url(r"^about", about, name="about"),
-    url(r"^getinvolved", getinvolved, name="getinvolved"),
-    url(r"^contribute", contribute, name="contribute"),
-    url(r"^terms", terms, name="terms"),
-    url(r"^privacy-notice/$", privacy_notice, name="privacy_notice"),
-    url(
+    re_path(r"^about", about, name="about"),
+    re_path(r"^getinvolved", getinvolved, name="getinvolved"),
+    re_path(r"^contribute", contribute, name="contribute"),
+    re_path(r"^terms", terms, name="terms"),
+    re_path(r"^privacy-notice/$", privacy_notice, name="privacy_notice"),
+    re_path(
         r"^privacy-policy/$", privacy_notice, name="privacy_policy"
     ),  # Keeping this to route from old URL
-    url(r"^teach/dashboard/$", dashboard_manage, name="dashboard"),
-    url(
+    re_path(r"^teach/dashboard/$", dashboard_manage, name="dashboard"),
+    re_path(
         r"^teach/dashboard/kick/(?P<pk>[0-9]+)/$",
         organisation_kick,
         name="organisation_kick",
     ),
-    url(
+    re_path(
         r"^teach/dashboard/toggle_admin/(?P<pk>[0-9]+)/$",
         organisation_toggle_admin,
         name="organisation_toggle_admin",
     ),
-    url(
+    re_path(
         r"^teach/dashboard/disable_2FA/(?P<pk>[0-9]+)/$",
         teacher_disable_2FA,
         name="teacher_disable_2FA",
     ),
-    url(
+    re_path(
         r"^teach/dashboard/school/leave/$",
         organisation_leave,
         name="organisation_leave",
     ),
-    url(
+    re_path(
         r"^teach/dashboard/student/accept/(?P<pk>[0-9]+)/$",
         teacher_accept_student_request,
         name="teacher_accept_student_request",
     ),
-    url(
+    re_path(
         r"^teach/dashboard/student/reject/(?P<pk>[0-9]+)/$",
         teacher_reject_student_request,
         name="teacher_reject_student_request",
     ),
-    url(
+    re_path(
         rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})$",
         teacher_view_class,
         name="view_class",
     ),
-    url(
+    re_path(
         rf"^teach/class/delete/(?P<access_code>{ACCESS_CODE_REGEX})$",
         teacher_delete_class,
         name="teacher_delete_class",
     ),
-    url(
+    re_path(
         rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/students/delete/$",
         teacher_delete_students,
         name="teacher_delete_students",
     ),
-    url(
+    re_path(
         rf"^teach/class/edit/(?P<access_code>{ACCESS_CODE_REGEX})$",
         teacher_edit_class,
         name="teacher_edit_class",
     ),
-    url(
+    re_path(
         r"^teach/class/student/edit/(?P<pk>[0-9]+)/$",
         teacher_edit_student,
         name="teacher_edit_student",
     ),
-    url(
+    re_path(
         rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/password_reset/$",
         teacher_class_password_reset,
         name="teacher_class_password_reset",
     ),
-    url(
+    re_path(
         rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/students/dismiss/$",
         teacher_dismiss_students,
         name="teacher_dismiss_students",
     ),
-    url(
+    re_path(
         rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/students/move/$",
         teacher_move_students,
         name="teacher_move_students",
     ),
-    url(
+    re_path(
         r"^teach/dashboard/resend_invite/(?P<token>[0-9a-f]+)/$",
         resend_invite_teacher,
         name="resend_invite_teacher",
     ),
-    url(
+    re_path(
         r"^teach/dashboard/toggle_admin_invite/(?P<invite_id>[0-9]+)/$",
         invite_toggle_admin,
         name="invite_toggle_admin",
     ),
-    url(
+    re_path(
         r"^teach/dashboard/delete_teacher_invite/(?P<token>[0-9a-f]+)$",
         delete_teacher_invite,
         name="delete_teacher_invite",
     ),
-    url(
+    re_path(
         rf"^teach/class/(?P<access_code>{ACCESS_CODE_REGEX})/students/move/disambiguate/$",
         teacher_move_students_to_class,
         name="teacher_move_students_to_class",
     ),
-    url(r"^delete/account/$", delete_account, name="delete_account"),
-    url(
+    re_path(r"^delete/account/$", delete_account, name="delete_account"),
+    re_path(
         r"^schools/anonymise/(?P<start_id>\d+)/",
         AnonymiseOrphanSchoolsView.as_view(),
         name="anonymise_orphan_schools",
     ),
-    url(
+    re_path(
         r"^api/",
         include(
             [
-                url(
+                re_path(
                     r"^registered/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$",
                     registered_users,
                     name="registered-users",
                 ),
-                url(
+                re_path(
                     r"^lastconnectedsince/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/$",
                     last_connected_since,
                     name="last-connected-since",
                 ),
-                url(
+                re_path(
                     r"^userspercountry/(?P<country>(AF|AX|AL|DZ|AS|AD|AO|AI|AQ|AG|AR|AM|AW|AU|AT|AZ|BS|BH|BD|BB|BY|BE|BZ|BJ|BM|BT|BO|BQ|BA|BW|BV|BR|IO|BN|BG|BF|BI|KH|CM|CA|CV|KY|CF|TD|CL|CN|CX|CC|CO|KM|CG|CD|CK|CR|CI|HR|CU|CW|CY|CZ|DK|DJ|DM|DO|EC|EG|SV|GQ|ER|EE|ET|FK|FO|FJ|FI|FR|GF|PF|TF|GA|GM|GE|DE|GH|GI|GR|GL|GD|GP|GU|GT|GG|GN|GW|GY|HT|HM|VA|HN|HK|HU|IS|IN|ID|IR|IQ|IE|IM|IL|IT|JM|JP|JE|JO|KZ|KE|KI|KP|KR|KW|KG|LA|LV|LB|LS|LR|LY|LI|LT|LU|MO|MK|MG|MW|MY|MV|ML|MT|MH|MQ|MR|MU|YT|MX|FM|MD|MC|MN|ME|MS|MA|MZ|MM|NA|NR|NP|NL|NC|NZ|NI|NE|NG|NU|NF|MP|NO|OM|PK|PW|PS|PA|PG|PY|PE|PH|PN|PL|PT|PR|QA|RE|RO|RU|RW|BL|SH|KN|LC|MF|PM|VC|WS|SM|ST|SA|SN|RS|SC|SL|SG|SX|SK|SI|SB|SO|ZA|GS|SS|ES|LK|SD|SR|SJ|SZ|SE|CH|SY|TW|TJ|TZ|TH|TL|TG|TK|TO|TT|TN|TR|TM|TC|TV|UG|UA|AE|GB|US|UM|UY|UZ|VU|VE|VN|VG|VI|WF|EH|YE|ZM|ZW))/$",
                     number_users_per_country,
                     name="number_users_per_country",
@@ -520,16 +526,16 @@ urlpatterns = [
             ]
         ),
     ),
-    url(r"^codingClub/$", coding_club, name="codingClub"),
-    url(
+    re_path(r"^codingClub/$", coding_club, name="codingClub"),
+    re_path(
         r"^codingClub/(?P<student_pack_type>[3-4])/",
         download_student_pack,
         name="download_student_pack",
     ),
-    url(
+    re_path(
         r"^removeFakeAccounts/",
         RemoveFakeAccounts.as_view(),
         name="remove_fake_accounts",
     ),
-    url(r"^celebrate/", ten_year_map_page, name="celebrate"),
+    re_path(r"^celebrate/", ten_year_map_page, name="celebrate"),
 ]

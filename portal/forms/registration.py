@@ -1,5 +1,3 @@
-from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV2Invisible
 from common.mail import campaign_ids, send_dotdigital_email
 from common.models import Student, Teacher
 from django import forms
@@ -10,6 +8,8 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Invisible
 
 from portal.helpers.password import PasswordStrength, form_clean_password
 
