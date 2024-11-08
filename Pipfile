@@ -20,7 +20,7 @@ pytest-mock = "*"
 pytest-order = "*"
 pytest-xdist = "*"
 pyvirtualdisplay = "*"
-rapid-router = {ref = "django4", git = "https://github.com/ocadotechnology/rapid-router.git"}
+rapid-router = ">=6.3.6"
 responses = "==0.18.0"
 selenium = "==4.9.0"
 snapshottest = "==1.0.0a1"
