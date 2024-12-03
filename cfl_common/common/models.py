@@ -1,4 +1,5 @@
 import re
+import typing as t
 from datetime import timedelta
 from uuid import uuid4
 
@@ -6,6 +7,10 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django_countries.fields import CountryField
+
+if t.TYPE_CHECKING:
+    from django.db.models import ManyToManyRel
+    from game.models import Worksheet
 
 
 class UserProfile(models.Model):
@@ -43,9 +48,7 @@ class SchoolModelManager(models.Manager):
 
 class School(models.Model):
     name = models.CharField(max_length=200, unique=True)
-    country = CountryField(
-        blank_label="(select country)", null=True, blank=True
-    )
+    country = CountryField(blank_label="(select country)", null=True, blank=True)
     # TODO: Create an Address model to house address details
     county = models.CharField(max_length=50, blank=True, null=True)
     creation_time = models.DateTimeField(default=timezone.now, null=True)
@@ -68,11 +71,7 @@ class School(models.Model):
 
     def admins(self):
         teachers = self.teacher_school.all()
-        return (
-            [teacher for teacher in teachers if teacher.is_admin]
-            if teachers
-            else None
-        )
+        return [teacher for teacher in teachers if teacher.is_admin] if teachers else None
 
     def anonymise(self):
         self.name = uuid4().hex
@@ -130,10 +129,7 @@ class Teacher(models.Model):
     def teaches(self, userprofile):
         if hasattr(userprofile, "student"):
             student = userprofile.student
-            return (
-                not student.is_independent()
-                and student.class_field.teacher == self
-            )
+            return not student.is_independent() and student.class_field.teacher == self
 
     def has_school(self):
         return self.school is not (None or "")
@@ -165,14 +161,10 @@ class SchoolTeacherInvitation(models.Model):
         null=True,
         on_delete=models.SET_NULL,
     )
-    invited_teacher_first_name = models.CharField(
-        max_length=150
-    )  # Same as User model
+    invited_teacher_first_name = models.CharField(max_length=150)  # Same as User model
     # TODO: Make not nullable once data has been transferred
     _invited_teacher_first_name = models.BinaryField(null=True, blank=True)
-    invited_teacher_last_name = models.CharField(
-        max_length=150
-    )  # Same as User model
+    invited_teacher_last_name = models.CharField(max_length=150)  # Same as User model
     # TODO: Make not nullable once data has been transferred
     _invited_teacher_last_name = models.BinaryField(null=True, blank=True)
     # TODO: Switch to a CharField to be able to hold hashed value
@@ -222,10 +214,10 @@ class ClassModelManager(models.Manager):
 
 
 class Class(models.Model):
+    locked_worksheets: "ManyToManyRel[Worksheet]"
+
     name = models.CharField(max_length=200)
-    teacher = models.ForeignKey(
-        Teacher, related_name="class_teacher", on_delete=models.CASCADE
-    )
+    teacher = models.ForeignKey(Teacher, related_name="class_teacher", on_delete=models.CASCADE)
     access_code = models.CharField(max_length=5, null=True)
     classmates_data_viewable = models.BooleanField(default=False)
     always_accept_requests = models.BooleanField(default=False)
@@ -249,9 +241,7 @@ class Class(models.Model):
     def active_game(self):
         games = self.game_set.filter(game_class=self, is_archived=False)
         if len(games) >= 1:
-            assert (
-                len(games) == 1
-            )  # there should NOT be more than one active game
+            assert len(games) == 1  # there should NOT be more than one active game
             return games[0]
         return None
 
@@ -261,13 +251,8 @@ class Class(models.Model):
 
     def get_requests_message(self):
         if self.always_accept_requests:
-            external_requests_message = (
-                "This class is currently set to always accept requests."
-            )
-        elif (
-            self.accept_requests_until is not None
-            and (self.accept_requests_until - timezone.now()) >= timedelta()
-        ):
+            external_requests_message = "This class is currently set to always accept requests."
+        elif self.accept_requests_until is not None and (self.accept_requests_until - timezone.now()) >= timedelta():
             external_requests_message = (
                 "This class is accepting external requests until "
                 + self.accept_requests_until.strftime("%d-%m-%Y %H:%M")
@@ -275,9 +260,7 @@ class Class(models.Model):
                 + timezone.get_current_timezone_name()
             )
         else:
-            external_requests_message = (
-                "This class is not currently accepting external requests."
-            )
+            external_requests_message = "This class is not currently accepting external requests."
 
         return external_requests_message
 
@@ -299,9 +282,7 @@ class UserSession(models.Model):
     login_time = models.DateTimeField(default=timezone.now)
     school = models.ForeignKey(School, null=True, on_delete=models.SET_NULL)
     class_field = models.ForeignKey(Class, null=True, on_delete=models.SET_NULL)
-    login_type = models.CharField(
-        max_length=100, null=True
-    )  # for student login
+    login_type = models.CharField(max_length=100, null=True)  # for student login
 
     def __str__(self):
         return f"{self.user} login: {self.login_time} type: {self.login_type}"
@@ -330,9 +311,7 @@ class StudentModelManager(models.Manager):
         )
 
     def independentStudentFactory(self, name, email, password):
-        user = User.objects.create_user(
-            username=email, email=email, password=password, first_name=name
-        )
+        user = User.objects.create_user(username=email, email=email, password=password, first_name=name)
 
         user_profile = UserProfile.objects.create(user=user)
 
@@ -391,9 +370,7 @@ class JoinReleaseStudent(models.Model):
     JOIN = "join"
     RELEASE = "release"
 
-    student = models.ForeignKey(
-        Student, related_name="student", on_delete=models.CASCADE
-    )
+    student = models.ForeignKey(Student, related_name="student", on_delete=models.CASCADE)
     # either "release" or "join"
     action_type = models.CharField(max_length=64)
     action_time = models.DateTimeField(default=timezone.now)
