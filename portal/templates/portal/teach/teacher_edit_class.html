@@ -195,6 +195,13 @@
                                     {% endif %}
                                 {% endfor %}
                             </div>
+                            <div class="form__checkbox flex-column justify-content-between p-0">
+                                {% for input in level_control_form|get_dict_item:episode.name %}
+                                <div class="form__checkbox-input p-0">
+                                    {{ input }}
+                                </div>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>

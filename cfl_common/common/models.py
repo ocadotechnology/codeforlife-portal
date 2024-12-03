@@ -9,7 +9,7 @@ from django.utils import timezone
 from django_countries.fields import CountryField
 
 if t.TYPE_CHECKING:
-    from django.db.models import ManyToManyRel
+    from django.db.models import ManyToManyField
     from game.models import Worksheet
 
 
@@ -214,7 +214,7 @@ class ClassModelManager(models.Manager):
 
 
 class Class(models.Model):
-    locked_worksheets: "ManyToManyRel[Worksheet]"
+    locked_worksheets: "ManyToManyField[Worksheet]"
 
     name = models.CharField(max_length=200)
     teacher = models.ForeignKey(Teacher, related_name="class_teacher", on_delete=models.CASCADE)

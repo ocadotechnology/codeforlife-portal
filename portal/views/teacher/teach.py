@@ -33,13 +33,12 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
+from game.models import Level
 from game.views.level_selection import get_blockly_episodes, get_python_episodes
 from reportlab.lib.colors import black, red
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
-
-from game.models import Level
 
 from portal.forms.teach import (
     BaseTeacherDismissStudentsFormSet,
@@ -57,7 +56,6 @@ from portal.forms.teach import (
 )
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.views.registration import handle_reset_password_tracking
-
 
 STUDENT_PASSWORD_LENGTH = 6
 REMINDER_CARDS_PDF_ROWS = 8
@@ -391,7 +389,7 @@ def process_edit_class_form(request, klass, form):
     return HttpResponseRedirect(reverse_lazy("view_class", kwargs={"access_code": klass.access_code}))
 
 
-def process_level_control_form(request, klass, blockly_episodes, python_episodes):
+def process_level_control_form(request, klass: Class, blockly_episodes, python_episodes):
     """
     Find the levels that the user wants to lock and lock them for the specific class.
     :param request: The request sent by the user submitting the form.
@@ -401,12 +399,16 @@ def process_level_control_form(request, klass, blockly_episodes, python_episodes
     :return: A redirect to the teacher dashboard with a success message.
     """
     levels_to_lock_ids = []
+    locked_worksheet_ids = []
 
-    mark_levels_to_lock_in_episodes(request, blockly_episodes, levels_to_lock_ids)
-    mark_levels_to_lock_in_episodes(request, python_episodes, levels_to_lock_ids)
+    mark_levels_to_lock_in_episodes(request, blockly_episodes, levels_to_lock_ids, locked_worksheet_ids)
+    mark_levels_to_lock_in_episodes(request, python_episodes, levels_to_lock_ids, locked_worksheet_ids)
 
     klass.locked_levels.clear()
     [klass.locked_levels.add(levels_to_lock_id) for levels_to_lock_id in levels_to_lock_ids]
+    klass.locked_worksheets.clear()
+    for locked_worksheet_id in locked_worksheet_ids:
+        klass.locked_worksheets.add(locked_worksheet_id)
 
     messages.success(request, "Your level preferences have been saved.")
     activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
@@ -416,7 +418,7 @@ def process_level_control_form(request, klass, blockly_episodes, python_episodes
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
 
-def mark_levels_to_lock_in_episodes(request, episodes, levels_to_lock_ids):
+def mark_levels_to_lock_in_episodes(request, episodes, levels_to_lock_ids, locked_worksheet_ids: list):
     """
     For a given set of Episodes, find which Levels are to be locked. This is done by checking the POST request data.
     If a Level ID is missing from the request.POST, it means it needs to be locked, and if the entire Episode is missing
@@ -428,14 +430,21 @@ def mark_levels_to_lock_in_episodes(request, episodes, levels_to_lock_ids):
     for episode in episodes:
         episode_name = episode["name"]
         episode_levels = episode["levels"]
+        episode_worksheets = episode["worksheets"]
         if episode_name in request.POST:
             [
                 levels_to_lock_ids.append(episode_level["id"])
                 for episode_level in episode_levels
-                if str(episode_level["id"]) not in request.POST.getlist(episode_name)
+                if f'level:{episode_level["id"]}' not in request.POST.getlist(episode_name)
             ]
+            for episode_worksheet in episode_worksheets:
+                worksheet_id = episode_worksheet["id"]
+                if f"worksheet:{worksheet_id}" not in request.POST.getlist(episode_name):
+                    locked_worksheet_ids.append(worksheet_id)
         else:
             [levels_to_lock_ids.append(episode_level["id"]) for episode_level in episode_levels]
+            for episode_worksheet in episode_worksheets:
+                locked_worksheet_ids.append(episode_worksheet["id"])
 
 
 def process_move_class_form(request, klass, form):
