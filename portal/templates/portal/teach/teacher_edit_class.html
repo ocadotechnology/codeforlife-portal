@@ -147,20 +147,21 @@
                 </label>
             </div>
             {% for episode in python_episodes %}
-                {% if episode.levels %}
                 <div class="panel">
                     <div class="panel-header bg--{{ episode.difficulty }}" id="episode-{{episode.id}}">
                         <div class="d-flex align-items-center justify-content-end" data-toggle="collapse"
                              data-target="#collapse-{{episode.id}}" aria-expanded="false"
                              aria-controls="collapse-{{episode.id}}" data-parent="#episodes">
                             <p class="episode-title flex-grow-1">{{episode.name}}</p>
-                            {% if episode.first_level > 1009 %}
-                                <span>Levels {{episode.first_level|stringformat:"i"|slice:"2:4"}}-{{episode.last_level|stringformat:"i"|slice:"2:4"}}</span>
-                            {% else %}
-                                {% if episode.last_level > 1009 %}
-                                    <span>Levels {{episode.first_level|stringformat:"i"|slice:"3:4"}}-{{episode.last_level|stringformat:"i"|slice:"2:4"}}</span>
+                            {% if episode.levels %}
+                                {% if episode.first_level > 1009 %}
+                                    <span>Levels {{episode.first_level|stringformat:"i"|slice:"2:4"}}-{{episode.last_level|stringformat:"i"|slice:"2:4"}}</span>
                                 {% else %}
-                                    <span>Levels {{episode.first_level|stringformat:"i"|slice:"3:4"}}-{{episode.last_level|stringformat:"i"|slice:"3:4"}}</span>
+                                    {% if episode.last_level > 1009 %}
+                                        <span>Levels {{episode.first_level|stringformat:"i"|slice:"3:4"}}-{{episode.last_level|stringformat:"i"|slice:"2:4"}}</span>
+                                    {% else %}
+                                        <span>Levels {{episode.first_level|stringformat:"i"|slice:"3:4"}}-{{episode.last_level|stringformat:"i"|slice:"3:4"}}</span>
+                                    {% endif %}
                                 {% endif %}
                             {% endif %}
                             <div class="episode_range_text collapsed d-flex align-items-center justify-content-end"
@@ -177,10 +178,20 @@
                         <div class="panel-body d-flex justify-content-between">
                             <div class="d-flex flex-grow-1 flex-column justify-content-between">
                                 {% for level in episode.levels %}
+                                    {% for worksheet in episode.worksheets %}
+                                        {% if worksheet.before_level == level.id %}
+                                            <p>{{episode.name}}</p>
+                                        {% endif %}
+                                    {% endfor %}
                                     {% if level.name < 1010 %}
                                         <p>{{level.name|stringformat:"i"|slice:"3:4"}}: {{level.title.strip | safe}}</p>
                                     {% else %}
                                         <p>{{level.name|stringformat:"i"|slice:"2:4"}}: {{level.title.strip | safe}}</p>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for worksheet in episode.worksheets %}
+                                    {% if not worksheet.before_level %}
+                                        <p>{{episode.name}}{% if episode.worksheets|length > 1 %} pt. {{ forloop.counter }}{% endif %}</p>
                                     {% endif %}
                                 {% endfor %}
                             </div>
@@ -194,7 +205,6 @@
                         </div>
                     </div>
                 </div>
-                {% endif %}
             {% endfor %}
         </div>
 
