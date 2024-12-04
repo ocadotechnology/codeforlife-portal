@@ -1205,11 +1205,11 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:817c9b296af5956eb16289751706ffe6b0282be8b8f13fecd892b2cf6112467a",
-                "sha256:8841f2b8c9d9be81a42c64a4a2cd3a210ee59b83c041ff5feeabcb2ed4ccb9fb"
+                "sha256:2b2e285ae908559e179d17de0befb0e0fa47d825a239feeaa313b66025d51aa8",
+                "sha256:63fbffcddd1f060ecd1d38d496c92224d7bbcfbf323b96cb67b9547096165751"
             ],
             "index": "pypi",
-            "version": "==7.2.0"
+            "version": "==7.2.2"
         },
         "requests": {
             "hashes": [

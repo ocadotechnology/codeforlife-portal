@@ -303,6 +303,8 @@ def teacher_edit_class(request, access_code):
     locked_levels = klass.locked_levels.all()
     locked_levels_ids = [locked_level.id for locked_level in locked_levels]
 
+    locked_worksheet_ids = [worksheet.id for worksheet in klass.locked_worksheets.all()]
+
     form = ClassEditForm(
         initial={
             "name": klass.name,
@@ -336,6 +338,7 @@ def teacher_edit_class(request, access_code):
             "blockly_episodes": blockly_episodes,
             "python_episodes": python_episodes,
             "locked_levels": locked_levels_ids,
+            "locked_worksheet_ids": locked_worksheet_ids,
             "class": klass,
             "external_requests_message": external_requests_message,
         },

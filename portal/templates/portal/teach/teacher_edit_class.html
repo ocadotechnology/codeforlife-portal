@@ -13,9 +13,14 @@
         // Uncheck the checkboxes that correspond to the already-locked levels
         $(document).ready(function(){
             const lockedLevelsIds = {{ locked_levels }};
+            const lockedWorksheetIds = {{ locked_worksheet_ids }};
 
             lockedLevelsIds.forEach(function(lockedLevelId) {
-                const selector = `[value="${lockedLevelId}"]`;
+                const selector = `[value="level:${lockedLevelId}"]`;
+                $(selector).click();
+            })
+            lockedWorksheetIds.forEach(function(lockedWorksheetId) {
+                const selector = `[value="worksheet:${lockedWorksheetId}"]`;
                 $(selector).click();
             })
         })
