@@ -4,8 +4,8 @@ import json
 from datetime import date, datetime, timedelta
 from unittest.mock import ANY, Mock, patch
 
-import PyPDF2
 import pytest
+from common.mail import campaign_ids
 from common.models import (
     Class,
     DailyActivity,
@@ -16,7 +16,6 @@ from common.models import (
     UserProfile,
     UserSession,
 )
-from common.mail import campaign_ids
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.organisation import (
     create_organisation_directly,
@@ -35,6 +34,7 @@ from django.utils import timezone
 from game.models import Level
 from game.tests.utils.attempt import create_attempt
 from game.tests.utils.level import create_save_level
+from pypdf import PdfReader
 from rest_framework.test import APIClient, APITestCase
 
 from deploy import captcha
@@ -93,10 +93,10 @@ class TestTeacherViews(TestCase):
 
         # read PDF, check there's only 1 page and that the correct student details show
         with io.BytesIO(response.content) as pdf_file:
-            file_reader = PyPDF2.PdfFileReader(pdf_file)
-            assert file_reader.getNumPages() == 1
+            file_reader = PdfReader(pdf_file)
+            assert len(file_reader.pages) == 1
 
-            page_text = file_reader.getPage(0).extractText()
+            page_text = file_reader.pages[0].extract_text()
             assert NAME1 in page_text
             assert NAME2 in page_text
             assert PASSWORD1 in page_text
@@ -119,11 +119,11 @@ class TestTeacherViews(TestCase):
 
         # Check there are 2 pages and that each page contains the warning text
         with io.BytesIO(response.content) as pdf_file:
-            file_reader = PyPDF2.PdfFileReader(pdf_file)
-            assert file_reader.getNumPages() == 2
+            file_reader = PdfReader(pdf_file)
+            assert len(file_reader.pages) == 2
 
-            page1_text = file_reader.getPage(0).extractText()
-            page2_text = file_reader.getPage(1).extractText()
+            page1_text = file_reader.pages[0].extract_text()
+            page2_text = file_reader.pages[1].extract_text()
             assert REMINDER_CARDS_PDF_WARNING_TEXT in page1_text
             assert REMINDER_CARDS_PDF_WARNING_TEXT in page2_text
 
@@ -252,20 +252,24 @@ class TestTeacherViews(TestCase):
         assert response.status_code == 302
 
         student = Student.objects.get(pk=self.student.pk)
-        
+
         assert student.user.is_verified
 
         c.logout()
         c.login(username=self.email, password=self.password)
 
-        teacher = Teacher.objects.factory("the", "teacher", "theteacher@foo.com", "password")
+        teacher = Teacher.objects.factory(
+            "the", "teacher", "theteacher@foo.com", "password"
+        )
         level = Level.objects.create()
-        
+
         level.owner = student.new_user.userprofile
         level.shared_with.add(teacher.new_user)
         level.save()
 
-        students_levels = Level.objects.filter(owner=student.new_user.userprofile).all()
+        students_levels = Level.objects.filter(
+            owner=student.new_user.userprofile
+        ).all()
 
         for level in students_levels.all():
             assert level.shared_with.exists()
@@ -292,7 +296,9 @@ class TestTeacherViews(TestCase):
         student = Student.objects.get(pk=self.student.pk)
         assert not student.user.is_verified
 
-        students_levels = Level.objects.filter(owner=student.new_user.userprofile).all()
+        students_levels = Level.objects.filter(
+            owner=student.new_user.userprofile
+        ).all()
 
         for level in students_levels.all():
             assert not level.shared_with.exists()

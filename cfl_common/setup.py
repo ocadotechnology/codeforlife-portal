@@ -23,7 +23,7 @@ setup(
         "django-import-export==4.2.0",
         "django-pipeline==3.1.0",
         "django-two-factor-auth==1.17.0",
-        "djangorestframework==3.15.1",
+        "djangorestframework==3.15.2",
         "libsass==0.23.0",
         "more-itertools==8.7.0",
         "pgeocode==0.4.0",
