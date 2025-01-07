@@ -196,7 +196,7 @@
                                 {% endfor %}
                                 {% for worksheet in episode.worksheets %}
                                     {% if not worksheet.before_level %}
-                                        <p>{{episode.name}}{% if episode.worksheets|length > 1 %} pt. {{ forloop.counter }}{% endif %}</p>
+                                        <p>{{episode.name}}{% if episode.counter > 0 %} pt. {{ forloop.counter }}{% endif %}</p>
                                     {% endif %}
                                 {% endfor %}
                             </div>
