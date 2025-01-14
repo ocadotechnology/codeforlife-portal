@@ -6,7 +6,6 @@ def set_non_school_teachers_as_non_admins(apps: Apps, *args):
     Teacher = apps.get_model("common", "Teacher")
 
     Teacher.objects.filter(
-        new_user__is_active=True,
         is_admin=True,
         school__isnull=True,
     ).update(is_admin=False)
