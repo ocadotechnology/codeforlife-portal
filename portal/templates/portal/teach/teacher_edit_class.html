@@ -185,7 +185,7 @@
                                 {% for level in episode.levels %}
                                     {% for worksheet in episode.worksheets %}
                                         {% if worksheet.before_level == level.id %}
-                                            <p>{{episode.name}}</p>
+                                            <p>{{episode.name}}{% if episode.worksheets|length > 1 %} pt. {{ forloop.counter }}{% endif %}</p>
                                         {% endif %}
                                     {% endfor %}
                                     {% if level.name < 1010 %}
