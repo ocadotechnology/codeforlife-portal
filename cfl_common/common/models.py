@@ -126,6 +126,17 @@ class Teacher(models.Model):
 
     objects = TeacherModelManager()
 
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                check=~models.Q(
+                    school__isnull=True,
+                    is_admin=True,
+                ),
+                name="teacher__is_admin",
+            )
+        ]
+
     def teaches(self, userprofile):
         if hasattr(userprofile, "student"):
             student = userprofile.student
