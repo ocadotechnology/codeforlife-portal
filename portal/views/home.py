@@ -2,8 +2,6 @@ import logging
 import math
 
 from common.helpers.emails import (
-    NOTIFICATION_EMAIL,
-    send_email,
     send_verification_email,
 )
 from common.mail import campaign_ids, send_dotdigital_email
@@ -16,7 +14,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import F
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.html import format_html
@@ -37,8 +35,6 @@ from portal.strings.ten_year_map import (
     TEN_YEAR_MAP_BANNER,
     TEN_YEAR_MAP_HEADLINE,
 )
-from portal.templatetags.app_tags import cloud_storage
-from portal.views.teacher.teach import count_student_pack_downloads_click
 
 LOGGER = logging.getLogger(__name__)
 
@@ -279,13 +275,6 @@ def coding_club(request):
     return render(
         request, "portal/coding_club.html", {"BANNER": CODING_CLUB_BANNER}
     )
-
-
-def download_student_pack(request, student_pack_type):
-    if request.method == "POST":
-        count_student_pack_downloads_click(int(student_pack_type))
-        link = cloud_storage("club_packs/PrimaryCodingClub.zip")
-        return redirect(link)
 
 
 def home_learning(request):

@@ -46,12 +46,9 @@
                     </p>
                 </div>
                 <div>
-                    <form method="post", action="{% url 'download_student_pack' 3 %}" class="non-styled--form">
-                        {% csrf_token %}
-                        <button id="primary_pack" href="" type="submit" class="button button--primary button--icon">
-                            Download the Primary coding club pack<span class="iconify" data-icon="mdi:tray-arrow-down"></span>
-                        </button>
-                    </form>
+                    <a id="primary_pack" download type="submit" class="button button--primary button--icon" href="https://code-for-life.gitbook.io/code-for-life-primary-club-resources">
+                        Download the Primary coding club pack<span class="iconify" data-icon="mdi:tray-arrow-down"></span>
+                    </a>
                 </div>
             </div>
             <div class="col-sm-6 d-flex flex-column">
@@ -77,7 +74,7 @@
                     <h4 class="mt-0">Python coding club</h4>
                     <p>
                         Download your FREE coding club pack for students aged 12 and above.
-                        This pack is a fast paced introduction to Python. It is aimed at students already interested
+                        This pack is a fast-paced introduction to Python. It is aimed at students already interested
                         in learning coding, individuals looking to learn and run their own club, or adults wanting to
                         try coding out. It is designed to be used in face-to-face or online clubs.
                     </p>
