@@ -5,7 +5,6 @@ from django.views.generic import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from game.views.level import play_default_level
-from two_factor.urls import urlpatterns as tf_urls
 from two_factor.views import (
     BackupTokensView,
     ProfileView,
@@ -44,7 +43,6 @@ from portal.views.dotmailer import (
 from portal.views.email import verify_email
 from portal.views.home import (
     coding_club,
-    download_student_pack,
     home,
     home_learning,
     logout_view,
@@ -527,11 +525,6 @@ urlpatterns = [
         ),
     ),
     re_path(r"^codingClub/$", coding_club, name="codingClub"),
-    re_path(
-        r"^codingClub/(?P<student_pack_type>[3-4])/",
-        download_student_pack,
-        name="download_student_pack",
-    ),
     re_path(
         r"^removeFakeAccounts/",
         RemoveFakeAccounts.as_view(),

@@ -27,7 +27,7 @@ setup(
         "django-recaptcha==4.0.0",
         "pyyaml==6.0.2",
         "importlib-metadata==4.13.0",
-        "reportlab==3.6.13",
+        "reportlab==4.2.5",
         "django-formtools==2.5.1",
         "django-otp==1.5.4",
         "requests==2.32.2",

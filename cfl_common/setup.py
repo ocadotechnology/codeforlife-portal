@@ -17,7 +17,7 @@ setup(
     version=version,
     include_package_data=True,
     install_requires=[
-        "django==4.2.17",
+        "django==4.2.18",
         "django-countries==7.6.1",
         "django-csp==3.8",
         "django-import-export==4.2.0",
