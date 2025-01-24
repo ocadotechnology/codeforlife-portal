@@ -265,11 +265,6 @@
       font-weight: normal;
     }
 
-    .button--pill:hover,
-    .button--pill:focus, {
-      font-weight: 600;
-    }
-
     .button--menu--secondary {
       @include _padding($spacing * 3, 0px, $spacing * 3, 0px);
     }
