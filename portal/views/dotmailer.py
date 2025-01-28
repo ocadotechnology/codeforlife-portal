@@ -12,7 +12,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 
-from portal.forms.dotmailer import NewsletterForm, DonateForm, ConsentForm
+from portal.forms.dotmailer import NewsletterForm, ConsentForm
 
 
 @csrf_exempt
@@ -29,27 +29,6 @@ def process_newsletter_form(request):
                 DotmailerUserType.NO_ACCOUNT,
             )
             messages.success(request, "Thank you for signing up! 🎉")
-            return HttpResponseRedirect(reverse_lazy("home"))
-        messages.error(
-            request,
-            "Invalid email address. Please try again.",
-            extra_tags="sub-nav--warning",
-        )
-        return HttpResponseRedirect(reverse_lazy("home"))
-
-    return HttpResponse(status=405)
-
-
-@csrf_exempt
-def process_donate_form(request):
-    if request.method == "POST":
-        donate_form = DonateForm(data=request.POST)
-        if donate_form.is_valid():
-            user_email = request.POST.get("email", "")
-            add_to_dotmailer("", "", user_email, address_book_ids["donors"])
-            messages.success(
-                request, "Thank you for registering your interest! 🎉"
-            )
             return HttpResponseRedirect(reverse_lazy("home"))
         messages.error(
             request,

@@ -37,7 +37,6 @@ from portal.views.api import (
 )
 from portal.views.dotmailer import (
     dotmailer_consent_form,
-    process_donate_form,
     process_newsletter_form,
 )
 from portal.views.email import verify_email
@@ -278,9 +277,6 @@ urlpatterns = [
         r"^news_signup/$",
         process_newsletter_form,
         name="process_newsletter_form",
-    ),
-    re_path(
-        r"^donate_signup/$", process_donate_form, name="process_donate_form"
     ),
     re_path(r"^consent_form/$", dotmailer_consent_form, name="consent_form"),
     re_path(

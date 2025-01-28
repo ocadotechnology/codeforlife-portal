@@ -19,28 +19,6 @@ class NewsletterForm(forms.Form):
     )
 
 
-class DonateForm(forms.Form):
-    email = forms.EmailField(
-        label="This data will only be used for this purpose and you will be "
-        "able to opt out anytime. Please read our privacy notice for "
-        "further details.",
-        label_suffix="",
-        widget=forms.EmailInput(
-            attrs={
-                "placeholder": "Enter your email address",
-                "id": "donate_email_field",
-            }
-        ),
-        help_text="Enter your email address",
-    )
-
-    age_verification = forms.BooleanField(
-        widget=forms.CheckboxInput(attrs={"id": "donate_age_verification"}),
-        initial=False,
-        required=True,
-    )
-
-
 class ConsentForm(forms.Form):
     email = forms.EmailField(
         label="Email",

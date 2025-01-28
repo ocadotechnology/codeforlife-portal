@@ -38,24 +38,6 @@ function hidePopupConfirmation() {
   $("#popup").find(".popup-text").remove();
 }
 
-function showDonatePopup(title, text) {
-  let popup = $("#donate-popup");
-  popup.find(".popup-box__title").text(title);
-  popup.find(".popup-box__msg").append(text);
-
-  popup.addClass("popup--fade");
-}
-
-function hideDonatePopup() {
-  $("#donate-popup").removeClass("popup--fade");
-  $("#donate-popup").find(".popup-text").remove();
-  $("#donate_email_field").val("");
-  $('#donate_age_verification').prop("checked", false);
-  const donateSubmitButton = $('#confirm_donate_button');
-  donateSubmitButton.addClass("disabled");
-  donateSubmitButton.prop("disabled", true);
-}
-
 function showDonateConfirmation(path) {
   let title = "We would love to have you support our non-profit mission! ❤️";
   let text =
