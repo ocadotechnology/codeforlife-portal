@@ -527,4 +527,9 @@ urlpatterns = [
         name="remove_fake_accounts",
     ),
     re_path(r"^celebrate/", ten_year_map_page, name="celebrate"),
+    re_path(
+        r"^maintenance/$",
+        TemplateView.as_view(template_name="maintenance.html"),
+        name="maintenance",
+    ),
 ]
