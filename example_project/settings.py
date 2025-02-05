@@ -115,6 +115,7 @@ MIDDLEWARE = [
     "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
     "csp.middleware.CSPMiddleware",
     "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
+    "deploy.middleware.maintenance.MaintenanceMiddleware",
 ]
 
 TEMPLATES = [

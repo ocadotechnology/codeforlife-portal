@@ -1,0 +1,34 @@
+{% load static %}
+{% load app_tags %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Code For Life - maintenance</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'portal.css' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
+        <link rel="icon" href="{% static 'portal/img/favicon.ico' %}" type="image/x-icon">
+    </head>
+    <body>
+        <div class="content-footer-wrapper">
+            <div id="contentWrapper">
+                {% block topBar %}
+                {% include 'portal/partials/header.html' %}
+                {% endblock topBar %}
+                <div class="content">
+                    <div class="error-page background container">
+                        <div class="row mx-0 d-flex justify-content-between">
+                            <div class="flex-grow-1">
+                                <h2>Works in progress!</h2>
+                                <h5>Apologies! Dee is working on something important.</h5>
+                                <p>The website is temporarily unavailable.</p>
+                            </div>
+                            <img title="Dee" alt="Dee" src="{% static 'portal/img/dee.png' %}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
