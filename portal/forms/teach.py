@@ -234,6 +234,16 @@ class ClassCreationForm(forms.Form):
 
             self.fields["teacher"].choices = teacher_choices
 
+    def clean(self):
+        name = self.cleaned_data.get("class_name", "")
+
+        if re.match(re.compile("^[\w -]+$"), name) is None:
+            raise forms.ValidationError(
+                "Class name may only contain letters, numbers, dashes, underscores, and spaces."
+            )
+
+        return self.cleaned_data
+
 
 class ClassEditForm(forms.Form):
     # select dropdown choices for potentially limiting time in which external students may join
@@ -287,6 +297,16 @@ class ClassEditForm(forms.Form):
         choices=join_choices,
         widget=forms.Select(),
     )
+
+    def clean(self):
+        name = self.cleaned_data.get("name", "")
+
+        if re.match(re.compile("^[\w -]+$"), name) is None:
+            raise forms.ValidationError(
+                "Class name may only contain letters, numbers, dashes, underscores, and spaces."
+            )
+
+        return self.cleaned_data
 
 
 class ClassLevelControlForm(forms.Form):

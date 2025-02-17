@@ -15,6 +15,7 @@ from django.urls import reverse
 from game.models import Level
 
 from .base_test import BaseTest
+from .pageObjects.portal.home_page import HomePage
 from .pageObjects.portal.teach.class_page import TeachClassPage
 from .utils.classes import create_class
 from .utils.messages import is_class_created_message_showing
@@ -537,3 +538,23 @@ class TestClassFrontend(BaseTest):
         page, class_name_3 = create_class(page)
 
         assert is_class_created_message_showing(self.selenium, class_name_3)
+
+    def test_create_invalid_name(self):
+        email, password = signup_teacher_directly()
+        create_organisation_directly(email)
+
+        class_name = "Class!"
+
+        self.selenium.get(self.live_server_url)
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login_no_class(email, password)
+            .open_classes_tab()
+        )
+
+        page = page.create_class(class_name, False)
+
+        assert page.was_form_invalid(
+            "form-create-class", "Class name may only contain letters, numbers, dashes, underscores, and spaces."
+        )
