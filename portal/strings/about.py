@@ -9,6 +9,11 @@ GETINVOLVED_BANNER = {
     "title": "Get involved",
     "subtitle": "How you can get involved with the creation of Code for Life products and resources",
     "image_class": "banner--picture--getinvolved",
+    "button": {
+        "external": True,
+        "text": "Opportunities with Code for Life",
+        "link": "https://storage.googleapis.com/codeforlife-assets/opportunities_with_cfl.pdf",
+    },
 }
 
 CONTRIBUTE_BANNER = {

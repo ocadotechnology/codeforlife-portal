@@ -274,6 +274,9 @@
             <span class="material-icons-outlined md-32">chevron_right</span></a>
         <a class="button button--menu__item" href="{% url 'getinvolved' %}">Get involved
             <span class="material-icons-outlined md-32">chevron_right</span></a>
+        <a class="button button--menu__item" target="_blank"
+           href="https://storage.googleapis.com/codeforlife-assets/opportunities_with_cfl.pdf">Opportunities with CFL
+            <span class="material-icons-outlined md-32">chevron_right</span></a>
         {% if user|is_logged_in %}
             {% if user|is_logged_in_as_teacher %}
                 {% if user|has_teacher_finished_onboarding %}

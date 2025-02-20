@@ -11,7 +11,11 @@
                         <p>{{ text }}</p>
                     {% endif %}
                     {% if button %}
-                        <a href="{% url button.link %}" class="button button--primary button-right-arrow">{{ button.text}}</a>
+                        {% if button.external %}
+                            <a href="{{ button.link }}" target="_blank" class="button button--primary button-right-arrow">{{ button.text }}</a>
+                        {% else %}
+                            <a href="{% url button.link %}" class="button button--primary button-right-arrow">{{ button.text}}</a>
+                        {% endif %}
                     {% endif %}
                 </div>
                 <div>
