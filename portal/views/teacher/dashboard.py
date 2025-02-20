@@ -585,10 +585,10 @@ def teacher_accept_student_request(request, pk):
             students_levels = Level.objects.filter(owner=student.new_user.userprofile).all()
             school_admins = teacher.school.admins()
             for level in students_levels:
-                level.shared_with.add([school_admin.new_user.id for school_admin in school_admins])
+                level.shared_with.add(*[school_admin.new_user.id for school_admin in school_admins])
 
                 if not teacher.is_admin:
-                    level.shared_with.add([teacher.new_user.id])
+                    level.shared_with.add(teacher.new_user)
 
                 level.needs_approval = True
                 level.save()
