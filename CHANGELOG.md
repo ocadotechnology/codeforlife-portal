@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.3.4 (2025-02-26)
+
+### Bug Fixes
+
+- Pypi token
+  ([`b696354`](https://github.com/ocadotechnology/codeforlife-portal/commit/b69635429060647c20f96fd53e5c78797ba452b8))
+
+
 ## v8.3.3 (2025-02-26)
 
 ### Bug Fixes
