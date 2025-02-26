@@ -29,7 +29,6 @@ CSP_SCRIPT_SRC = (
     "https://cdn-ukwest.onetrust.com/",
     "https://code.iconify.design/2/2.0.3/iconify.min.js",
     "https://www.googletagmanager.com/",
-    "https://cdn.mouseflow.com/",
     "https://www.recaptcha.net/",
     "https://www.google.com/recaptcha/",
     "https://www.gstatic.com/recaptcha/",
