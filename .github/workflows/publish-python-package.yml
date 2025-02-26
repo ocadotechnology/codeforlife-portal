@@ -45,7 +45,7 @@ jobs:
           python setup.py sdist bdist_wheel
           popd
 
-      - name: Publish cfl-common package to PyPi
+      - name: 🚀 Publish cfl-common package to PyPi
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
