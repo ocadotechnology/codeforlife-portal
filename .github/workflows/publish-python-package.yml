@@ -29,7 +29,7 @@ jobs:
 
       - name: Install pip requirements
         run: |
-          pip install wheel python-semantic-release==9.*
+          pip install pipenv wheel python-semantic-release==9.*
           pipenv install --dev --system
 
       - name: 📜 Detect Semantic Version
