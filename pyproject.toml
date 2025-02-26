@@ -1,6 +1,7 @@
 # https://github.com/python-semantic-release/python-semantic-release/blob/v7.33.0/docs/configuration.rst#distributions
 [tool.semantic_release]
 version_variable = "portal/__init__.py:__version__"
+remove_dist = false
 
 [build-system]
 requires = ["setuptools", "wheel"]
