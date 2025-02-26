@@ -29,9 +29,12 @@ jobs:
 
       - name: Install pip requirements
         run: |
-          pip install python-semantic-release==9.*
+          pip install wheel python-semantic-release==9.*
           pip install pipenv
           pipenv install --dev --system
+
+      - name: Build package
+        run: python setup.py sdist bdist_wheel
 
       - name: 🚀 Publish Semantic Release
         env:
@@ -45,7 +48,6 @@ jobs:
 
       - name: Build cfl-common package
         run: |
-          pip install wheel
           pushd cfl_common
           python setup.py sdist bdist_wheel
           popd
