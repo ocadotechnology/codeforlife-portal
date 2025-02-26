@@ -18,26 +18,33 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           architecture: "x64"
+
       - name: Install pip requirements
         run: |
           pip install pipenv
           pipenv install --dev --system
+
       - name: Release codeforlife-portal
         uses: relekang/python-semantic-release@v9
         with:
           github_token: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
-          pypi_token: ${{ secrets.PYPI_TOKEN }}
+
+      - name: 🚀 Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
       - name: Build cfl-common package
         run: |
           pip install wheel
           pushd cfl_common
           python setup.py sdist bdist_wheel
           popd
+
       - name: Publish cfl-common package to PyPi
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
@@ -45,6 +52,7 @@ jobs:
           password: ${{ secrets.PYPI_TOKEN }}
           packages-dir: cfl_common/dist/
           skip-existing: true
+
       - name: Trigger staging deployment
         uses: actions/github-script@v6
         with:
