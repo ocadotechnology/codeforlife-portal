@@ -1,6 +1,26 @@
 # CHANGELOG
 
 
+## v8.3.6 (2025-02-26)
+
+### Bug Fixes
+
+- Detect semantic version
+  ([`865ae5f`](https://github.com/ocadotechnology/codeforlife-portal/commit/865ae5f8a11ded9471d88623e011a0745852c0f8))
+
+- Remove verbose
+  ([`dab216f`](https://github.com/ocadotechnology/codeforlife-portal/commit/dab216f61d6f63f56fdf23b6e9ad865c79866471))
+
+- Use cli
+  ([`4078567`](https://github.com/ocadotechnology/codeforlife-portal/commit/4078567a07dc43a168014ea01c24b1207480f972))
+
+- Verbose
+  ([`d202b94`](https://github.com/ocadotechnology/codeforlife-portal/commit/d202b9488314efa54c5a27bcd39cd3c2399d6744))
+
+- Version variable and build wheel
+  ([`0e8b9f0`](https://github.com/ocadotechnology/codeforlife-portal/commit/0e8b9f0b70d86ef7f93c0045e3b8e0a8d4612d9c))
+
+
 ## v8.3.5 (2025-02-26)
 
 ### Bug Fixes
