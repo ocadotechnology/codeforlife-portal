@@ -29,13 +29,14 @@ jobs:
 
       - name: Install pip requirements
         run: |
+          pip install python-semantic-release==9.*
           pip install pipenv
           pipenv install --dev --system
 
-      - name: Release codeforlife-portal
-        uses: relekang/python-semantic-release@v9
-        with:
-          github_token: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
+      - name: 🚀 Publish Semantic Release
+        env:
+          GH_TOKEN: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
+        run: semantic-release publish --verbosity=INFO
 
       - name: 🚀 Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
