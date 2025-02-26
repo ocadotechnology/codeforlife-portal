@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.3.3 (2025-02-26)
+
+### Bug Fixes
+
+- Add permissions
+  ([`7be386f`](https://github.com/ocadotechnology/codeforlife-portal/commit/7be386f1b220b193d647df80f5bb8d0f470ae72c))
+
+
 ## v8.3.2 (2025-02-26)
 
 ### Bug Fixes
