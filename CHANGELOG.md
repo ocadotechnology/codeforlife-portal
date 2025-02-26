@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.3.2 (2025-02-26)
+
+### Bug Fixes
+
+- Publish new version
+  ([`64b2898`](https://github.com/ocadotechnology/codeforlife-portal/commit/64b2898e4a43e04df49e62005216dcc5e54f91cb))
+
+
 ## v8.3.1 (2025-02-26)
 
 ### Bug Fixes
