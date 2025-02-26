@@ -36,7 +36,7 @@ jobs:
       - name: 🚀 Publish Semantic Release
         env:
           GH_TOKEN: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
-        run: semantic-release publish --verbose=INFO
+        run: semantic-release publish
 
       - name: 🚀 Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
