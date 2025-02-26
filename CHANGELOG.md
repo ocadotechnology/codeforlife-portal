@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.3.5 (2025-02-26)
+
+### Bug Fixes
+
+- Keep dist and trust publisher
+  ([`9a7bf82`](https://github.com/ocadotechnology/codeforlife-portal/commit/9a7bf82e7992a006936c96c15ce4e42e34ea39ec))
+
+
 ## v8.3.4 (2025-02-26)
 
 ### Bug Fixes
