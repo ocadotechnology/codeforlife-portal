@@ -12,6 +12,8 @@ jobs:
   publish-pypi-packages:
     name: Publish PyPi Packages
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
