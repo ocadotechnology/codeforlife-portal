@@ -10,13 +10,22 @@
                     {% if text %}
                         <p>{{ text }}</p>
                     {% endif %}
-                    {% if button %}
-                        {% if button.external %}
-                            <a href="{{ button.link }}" target="_blank" class="button button--primary button-right-arrow">{{ button.text }}</a>
-                        {% else %}
-                            <a href="{% url button.link %}" class="button button--primary button-right-arrow">{{ button.text}}</a>
+                    <div class="button-group">
+                        {% if button %}
+                            {% if button.external %}
+                                <a href="{{ button.link }}" target="_blank" class="button button--primary button-right-arrow">{{ button.text }}</a>
+                            {% else %}
+                                <a href="{% url button.link %}" class="button button--primary button-right-arrow">{{ button.text}}</a>
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
+                        {% if button2 %}
+                            {% if button.external %}
+                                <a href="{{ button2.link }}" target="_blank" class="button button--primary button-right-arrow">{{ button2.text }}</a>
+                            {% else %}
+                                <a href="{% url button2.link %}" class="button button--primary button-right-arrow">{{ button2.text}}</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
                 </div>
                 <div>
                     <div class="banner--picture">
