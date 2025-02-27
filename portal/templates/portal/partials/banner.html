@@ -12,10 +12,18 @@
                     {% endif %}
                     <div class="button-group">
                         {% if button %}
-                            <a href="{% url button.link %}" class="button button--primary button-right-arrow">{{ button.text}}</a>
+                            {% if button.external %}
+                                <a href="{{ button.link }}" target="_blank" class="button button--primary button-right-arrow">{{ button.text }}</a>
+                            {% else %}
+                                <a href="{% url button.link %}" class="button button--primary button-right-arrow">{{ button.text}}</a>
+                            {% endif %}
                         {% endif %}
                         {% if button2 %}
-                            <a href="{% url button2.link %}" class="button button--primary button-right-arrow">{{ button2.text}}</a>
+                            {% if button.external %}
+                                <a href="{{ button2.link }}" target="_blank" class="button button--primary button-right-arrow">{{ button2.text }}</a>
+                            {% else %}
+                                <a href="{% url button2.link %}" class="button button--primary button-right-arrow">{{ button2.text}}</a>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>

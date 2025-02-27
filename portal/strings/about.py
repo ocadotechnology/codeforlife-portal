@@ -9,6 +9,11 @@ GETINVOLVED_BANNER = {
     "title": "Get involved",
     "subtitle": "How you can get involved with the creation of Code for Life products and resources",
     "image_class": "banner--picture--getinvolved",
+    "button": {
+        "external": True,
+        "text": "Opportunities with Code for Life",
+        "link": "https://2662351606-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-M_6UDUiGoJDhr_OXetO%2Fuploads%2FPavvCifcuUeZZZLkV01C%2FOpportunities%20with%20Code%20for%20Life.pdf?alt=media",
+    },
 }
 
 CONTRIBUTE_BANNER = {
