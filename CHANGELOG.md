@@ -1,6 +1,21 @@
 # CHANGELOG
 
 
+## v8.4.0 (2025-02-27)
+
+### Features
+
+- Opportunities with CFL doc
+  ([#2408](https://github.com/ocadotechnology/codeforlife-portal/pull/2408),
+  [`332e456`](https://github.com/ocadotechnology/codeforlife-portal/commit/332e4563c59bac9774bc75b6a0a3f3c390de120b))
+
+* feat: Opportunities with CFL doc
+
+* Update links to point to Gitbook
+
+* Shorten URLs
+
+
 ## v8.3.8 (2025-02-27)
 
 ### Bug Fixes
