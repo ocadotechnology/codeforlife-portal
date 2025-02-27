@@ -1,9 +1,9 @@
 PLAY_BANNER = {
     "title": "Play",
-    "subtitle": "Anyone can learn how to code. We will help you learn how. It’s "
-    "fun, free and easy.",
+    "subtitle": "Anyone can learn how to code. We will help you learn how. It’s " "fun, free and easy.",
     "text": "",
-    "button": {"text": "Play Rapid Router", "link": "levels"},
+    "button": {"text": "Try Rapid Router", "link": "levels"},
+    "button2": {"text": "Try Python Den", "link": "python_levels"},
     "image_class": "banner--picture--play",
     "alt": "Boy playing on ipad",
     "image_description": "Credit: Annie Spratt, Unsplash",
