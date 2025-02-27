@@ -930,8 +930,8 @@ class TestViews(TestCase):
                 "teacher_signup-teacher_last_name": "Test Last Name",
                 "teacher_signup-teacher_email": "test@email.com",
                 "teacher_signup-consent_ticked": "on",
-                "teacher_signup-teacher_password": "$RFVBGT%6yhn",
-                "teacher_signup-teacher_confirm_password": "$RFVBGT%6yhn",
+                "teacher_signup-teacher_password": "$RFVBGT%6yhn$RFVBGT%6yhn",
+                "teacher_signup-teacher_confirm_password": "$RFVBGT%6yhn$RFVBGT%6yhn",
                 "g-recaptcha-response": "something",
             },
         )
@@ -955,8 +955,8 @@ class TestViews(TestCase):
                 "independent_student_signup-name": "Test Name",
                 "independent_student_signup-email": "test@indy-email.com",
                 "independent_student_signup-consent_ticked": "on",
-                "independent_student_signup-password": "$RFVBGT%6yhn",
-                "independent_student_signup-confirm_password": "$RFVBGT%6yhn",
+                "independent_student_signup-password": "$RFVBGT%6yhn$RFVBGT%6yhn$RFVBGT%6yhn$RFVBGT%6yhn",
+                "independent_student_signup-confirm_password": "$RFVBGT%6yhn$RFVBGT%6yhn$RFVBGT%6yhn$RFVBGT%6yhn",
                 "g-recaptcha-response": "something",
             },
         )
