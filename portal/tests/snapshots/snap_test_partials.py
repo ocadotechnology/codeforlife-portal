@@ -19,7 +19,10 @@ snapshots['test_banner 1'] = '''<div class="banner banner--teacher">
                     
                         <p>Test text</p>
                     
-                    
+                    <div class="button-group">
+                        
+                        
+                    </div>
                 </div>
                 <div>
                     <div class="banner--picture">
