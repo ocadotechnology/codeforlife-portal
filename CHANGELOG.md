@@ -1,6 +1,18 @@
 # CHANGELOG
 
 
+## v8.3.7 (2025-02-27)
+
+### Bug Fixes
+
+- Remove Mouseflow code ([#2413](https://github.com/ocadotechnology/codeforlife-portal/pull/2413),
+  [`67bcc0d`](https://github.com/ocadotechnology/codeforlife-portal/commit/67bcc0de0e87a7812d4ab4d77f3190fd21fcc916))
+
+* fix: Remove Mouseflow code
+
+* Fix tests
+
+
 ## v8.3.6 (2025-02-26)
 
 ### Bug Fixes
