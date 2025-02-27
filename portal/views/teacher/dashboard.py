@@ -28,6 +28,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 from game.level_management import levels_shared_with, unshare_level
+from game.models import Level
 from two_factor.utils import devices_for_user
 
 from portal.forms.invite_teacher import InviteTeacherForm
@@ -574,11 +575,23 @@ def teacher_accept_student_request(request, pk):
         if form.is_valid():
             data = form.cleaned_data
             student.class_field = student.pending_class_request
+            teacher = student.pending_class_request.teacher
             student.pending_class_request = None
             student.new_user.username = get_random_username()
             student.new_user.first_name = data["name"]
             student.new_user.last_name = ""
             student.new_user.email = ""
+
+            students_levels = Level.objects.filter(owner=student.new_user.userprofile).all()
+            school_admins = teacher.school.admins()
+            for level in students_levels:
+                level.shared_with.add(*[school_admin.new_user.id for school_admin in school_admins])
+
+                if not teacher.is_admin:
+                    level.shared_with.add(teacher.new_user)
+
+                level.needs_approval = True
+                level.save()
 
             student.save()
             student.new_user.save()

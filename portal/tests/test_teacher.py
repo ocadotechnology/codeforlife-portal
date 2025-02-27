@@ -322,7 +322,7 @@ class TestTeacherFrontend(BaseTest):
             {
                 "first_name": "Paulina",
                 "last_name": "Koch",
-                "current_password": "$RFVBGT%6yhn",
+                "current_password": "$RFVBGT%6yhn$RFVBGT%6yhn$RFVBGT%6yhn$RFVBGT%6yhn",
             }
         )
         assert self.is_dashboard_page(page)
