@@ -12,7 +12,7 @@ GETINVOLVED_BANNER = {
     "button": {
         "external": True,
         "text": "Opportunities with Code for Life",
-        "link": "https://storage.googleapis.com/codeforlife-assets/opportunities_with_cfl.pdf",
+        "link": "https://2662351606-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-M_6UDUiGoJDhr_OXetO%2Fuploads%2FPavvCifcuUeZZZLkV01C%2FOpportunities%20with%20Code%20for%20Life.pdf?alt=media&token=d8dce323-b13b-4b03-9986-ac5be2e96631",
     },
 }
 
