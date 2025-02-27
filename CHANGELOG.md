@@ -1,6 +1,25 @@
 # CHANGELOG
 
 
+## v8.3.8 (2025-02-27)
+
+### Bug Fixes
+
+- Add try python den button to banner
+  ([#2412](https://github.com/ocadotechnology/codeforlife-portal/pull/2412),
+  [`e6c1bd2`](https://github.com/ocadotechnology/codeforlife-portal/commit/e6c1bd226c3169b2e6f0b956f7608f1d4c18b8b4))
+
+* fix: add try python den button to banner
+
+* feedback
+
+* Merge branch 'master' into portal-2373
+
+* Update banner snapshot
+
+Co-Authored-By: Florian Aucomte <f.aucomte@hotmail.co.uk>
+
+
 ## v8.3.7 (2025-02-27)
 
 ### Bug Fixes
