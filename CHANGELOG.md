@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.4.1 (2025-02-28)
+
+### Bug Fixes
+
+- Ga collect ([#2414](https://github.com/ocadotechnology/codeforlife-portal/pull/2414),
+  [`42b6cb7`](https://github.com/ocadotechnology/codeforlife-portal/commit/42b6cb7fc53ebeb26d8cf2aae87e1c108f505882))
+
+
 ## v8.4.0 (2025-02-27)
 
 ### Features
