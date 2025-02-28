@@ -21,12 +21,9 @@ from portal.helpers.ratelimit import (
     school_student_key,
 )
 from portal.helpers.regexes import ACCESS_CODE_REGEX, JWT_REGEX
-from portal.views import cron
+from portal.views import cron, google_analytics
 from portal.views.about import about, contribute, getinvolved
-from portal.views.admin import (
-    AdminChangePasswordDoneView,
-    AdminChangePasswordView,
-)
+from portal.views.admin import AdminChangePasswordDoneView, AdminChangePasswordView
 from portal.views.api import (
     AnonymiseOrphanSchoolsView,
     InactiveUsersView,
@@ -35,10 +32,7 @@ from portal.views.api import (
     number_users_per_country,
     registered_users,
 )
-from portal.views.dotmailer import (
-    dotmailer_consent_form,
-    process_newsletter_form,
-)
+from portal.views.dotmailer import dotmailer_consent_form, process_newsletter_form
 from portal.views.email import verify_email
 from portal.views.home import (
     coding_club,
@@ -111,12 +105,8 @@ from portal.views.two_factor.profile import CustomDisableView
 js_info_dict = {"packages": ("conf.locale",)}
 
 two_factor_patterns = [
-    re_path(
-        r"^account/two_factor/setup/$", CustomSetupView.as_view(), name="setup"
-    ),
-    re_path(
-        r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"
-    ),
+    re_path(r"^account/two_factor/setup/$", CustomSetupView.as_view(), name="setup"),
+    re_path(r"^account/two_factor/qrcode/$", QRGeneratorView.as_view(), name="qr"),
     re_path(
         r"^account/two_factor/setup/complete/$",
         SetupCompleteView.as_view(),
@@ -141,6 +131,11 @@ two_factor_patterns = [
 
 
 urlpatterns = [
+    path(
+        "google-analytics/collect/",
+        google_analytics.collect,
+        name="collect-google-analytics",
+    ),
     path(
         "cron/",
         include(
@@ -187,9 +182,7 @@ urlpatterns = [
     ),
     re_path(
         r"^favicon\.ico$",
-        RedirectView.as_view(
-            url="/static/portal/img/favicon.ico", permanent=True
-        ),
+        RedirectView.as_view(url="/static/portal/img/favicon.ico", permanent=True),
     ),
     re_path(
         r"^administration/password_change/$",
@@ -201,9 +194,7 @@ urlpatterns = [
         AdminChangePasswordDoneView.as_view(),
         name="administration_password_change_done",
     ),
-    re_path(
-        r"^users/inactive/", InactiveUsersView.as_view(), name="inactive_users"
-    ),
+    re_path(r"^users/inactive/", InactiveUsersView.as_view(), name="inactive_users"),
     re_path(
         r"^locked_out/$",
         TemplateView.as_view(template_name="portal/locked_out.html"),
@@ -281,9 +272,7 @@ urlpatterns = [
     re_path(r"^consent_form/$", dotmailer_consent_form, name="consent_form"),
     re_path(
         r"^verify_email/$",
-        TemplateView.as_view(
-            template_name="portal/email_verification_needed.html"
-        ),
+        TemplateView.as_view(template_name="portal/email_verification_needed.html"),
         name="email_verification",
     ),
     re_path(
@@ -368,9 +357,7 @@ urlpatterns = [
         IndependentStudentDashboard.as_view(),
         name="independent_student_details",
     ),
-    re_path(
-        r"^play/account/$", student_edit_account, name="student_edit_account"
-    ),
+    re_path(r"^play/account/$", student_edit_account, name="student_edit_account"),
     re_path(
         r"^play/account/independent/$",
         ratelimit(
@@ -398,9 +385,7 @@ urlpatterns = [
     re_path(r"^contribute", contribute, name="contribute"),
     re_path(r"^terms", terms, name="terms"),
     re_path(r"^privacy-notice/$", privacy_notice, name="privacy_notice"),
-    re_path(
-        r"^privacy-policy/$", privacy_notice, name="privacy_policy"
-    ),  # Keeping this to route from old URL
+    re_path(r"^privacy-policy/$", privacy_notice, name="privacy_policy"),  # Keeping this to route from old URL
     re_path(r"^teach/dashboard/$", dashboard_manage, name="dashboard"),
     re_path(
         r"^teach/dashboard/kick/(?P<pk>[0-9]+)/$",
