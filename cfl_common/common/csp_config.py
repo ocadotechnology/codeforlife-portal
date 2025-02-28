@@ -49,7 +49,8 @@ CSP_STYLE_SRC = (
 )
 CSP_FRAME_SRC = (
     "https://storage.googleapis.com/",
-    "https://2662351606-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/"
+    "https://2662351606-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/",
+    "https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/",
     "https://www.youtube-nocookie.com/",
     "https://www.recaptcha.net/",
     "https://www.google.com/recaptcha/",
