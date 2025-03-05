@@ -1,6 +1,21 @@
 # CHANGELOG
 
 
+## v8.4.2 (2025-03-05)
+
+### Bug Fixes
+
+- Use Gitbook videos instead of YouTube links
+  ([#2415](https://github.com/ocadotechnology/codeforlife-portal/pull/2415),
+  [`8480c4f`](https://github.com/ocadotechnology/codeforlife-portal/commit/8480c4fc49857dca5bd4745e29fea77b90159713))
+
+* fix: Use Gitbook videos instead of YouTube links
+
+* Remove YouTube from CSP
+
+* Remove YouTube from privacy policy text
+
+
 ## v8.4.1 (2025-02-28)
 
 ### Bug Fixes
