@@ -327,7 +327,7 @@ class ClassLevelControlForm(forms.Form):
             for worksheet in episode.worksheets.filter(before_level__isnull=True):
                 choices.append((f"worksheet:{worksheet.id}", episode.name))
 
-            self.fields[episode.name] = forms.MultipleChoiceField(
+            self.fields[f"episode{episode.id}"] = forms.MultipleChoiceField(
                 choices=itertools.chain(choices),
                 widget=forms.CheckboxSelectMultiple(),
                 required=False,

@@ -110,40 +110,43 @@
                 </label>
             </div>
             {% for episode in blockly_episodes %}
-                <div class="panel">
-                    <div class="panel-header bg--{{ episode.difficulty }}" id="episode-{{episode.id}}">
-                        <div class="d-flex align-items-center justify-content-end" data-toggle="collapse"
-                             data-target="#collapse-{{episode.id}}" aria-expanded="false"
-                             aria-controls="collapse-{{episode.id}}" data-parent="#episodes">
-                            <p class="episode-title flex-grow-1">{{episode.name}}</p>
-                            <span>Levels {{episode.first_level}}-{{episode.last_level}}</span>
-                            <div class="episode_range_text collapsed d-flex align-items-center justify-content-end"
-                                 data-toggle="collapse" data-target="#collapse-{{episode.id}}"
-                                 aria-expanded="false" aria-controls="collapse-{{episode.id}}" data-parent="#episodes">
-                                <label class="mb-0" for="select-all-episode-levels">
-                                    <input type="checkbox" value="{{ episode.name }}" id="select-all-blockly-levels-{{ episode.id }}">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="collapse-{{episode.id}}" aria-labelledby="episode-{{episode.id}}" class="collapse">
-                        <div class="panel-body d-flex justify-content-between">
-                            <div class="d-flex flex-grow-1 flex-column justify-content-between">
-                                {% for level in episode.levels %}
-                                    <p>{{level.name}}: {{level.title.strip | safe}}</p>
-                                {% endfor %}
-                            </div>
-                            <div class="form__checkbox flex-column justify-content-between p-0">
-                                {% for input in level_control_form|get_dict_item:episode.name %}
-                                    <div class="form__checkbox-input p-0">
-                                        {{ input }}
+                {% with episode.id|stringformat:"s" as episode_id %}
+                    {% with "episode"|add:episode_id as episode_index %}
+                        <div class="panel">
+                            <div class="panel-header bg--{{ episode.difficulty }}" id="episode-{{episode.id}}">
+                                <div class="d-flex align-items-center justify-content-end" data-toggle="collapse"
+                                    data-target="#collapse-{{episode.id}}" aria-expanded="false"
+                                    aria-controls="collapse-{{episode.id}}" data-parent="#episodes">
+                                    <p class="episode-title flex-grow-1">{{episode.name}}</p>
+                                    <span>Levels {{episode.first_level}}-{{episode.last_level}}</span>
+                                    <div class="episode_range_text collapsed d-flex align-items-center justify-content-end"
+                                        data-toggle="collapse" data-target="#collapse-{{episode.id}}"
+                                        aria-expanded="false" aria-controls="collapse-{{episode.id}}" data-parent="#episodes">
+                                        <label class="mb-0" for="select-all-episode-levels">
+                                            <input type="checkbox" value="{{ episode_index }}" id="select-all-blockly-levels-{{ episode.id }}">
+                                        </label>
                                     </div>
-                                {% endfor %}
+                                </div>
+                            </div>
+                            <div id="collapse-{{episode.id}}" aria-labelledby="episode-{{episode.id}}" class="collapse">
+                                <div class="panel-body d-flex justify-content-between">
+                                    <div class="d-flex flex-grow-1 flex-column justify-content-between">
+                                        {% for level in episode.levels %}
+                                            <p>{{level.name}}: {{level.title.strip | safe}}</p>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="form__checkbox flex-column justify-content-between p-0">
+                                        {% for input in level_control_form|get_dict_item:episode_index %}
+                                            <div class="form__checkbox-input p-0">
+                                                {{ input }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    {% endwith %}
+                {% endwith %}
             {% endfor %}
             <div class="panel-intro d-flex align-items-center justify-content-between">
                 <h6>Python Den levels</h6>
@@ -152,64 +155,67 @@
                 </label>
             </div>
             {% for episode in python_episodes %}
-                <div class="panel">
-                    <div class="panel-header bg--{{ episode.difficulty }}" id="episode-{{episode.id}}">
-                        <div class="d-flex align-items-center justify-content-end" data-toggle="collapse"
-                             data-target="#collapse-{{episode.id}}" aria-expanded="false"
-                             aria-controls="collapse-{{episode.id}}" data-parent="#episodes">
-                            <p class="episode-title flex-grow-1">{{episode.name}}</p>
-                            {% if episode.levels %}
-                                {% if episode.first_level > 1009 %}
-                                    <span>Levels {{episode.first_level|stringformat:"i"|slice:"2:4"}}-{{episode.last_level|stringformat:"i"|slice:"2:4"}}</span>
-                                {% else %}
-                                    {% if episode.last_level > 1009 %}
-                                        <span>Levels {{episode.first_level|stringformat:"i"|slice:"3:4"}}-{{episode.last_level|stringformat:"i"|slice:"2:4"}}</span>
-                                    {% else %}
-                                        <span>Levels {{episode.first_level|stringformat:"i"|slice:"3:4"}}-{{episode.last_level|stringformat:"i"|slice:"3:4"}}</span>
-                                    {% endif %}
-                                {% endif %}
-                            {% endif %}
-                            <div class="episode_range_text collapsed d-flex align-items-center justify-content-end"
-                                 data-toggle="collapse" data-target="#collapse-{{episode.id}}"
-                                 aria-expanded="false" aria-controls="collapse-{{episode.id}}" data-parent="#episodes">
-                                <label class="mb-0" for="select-all-episode-levels">
-                                    <input type="checkbox" value="{{ episode.name }}" id="select-all-python-levels-{{ episode.id }}">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="collapse-{{episode.id}}" aria-labelledby="episode-{{episode.id}}" class="collapse">
-                        <div class="panel-body d-flex justify-content-between">
-                            <div class="d-flex flex-grow-1 flex-column justify-content-between">
-                                {% for level in episode.levels %}
-                                    {% for worksheet in episode.worksheets %}
-                                        {% if worksheet.before_level == level.id %}
-                                            <p>{{episode.name}}{% if episode.worksheets|length > 1 %} pt. {{ worksheet.index }}{% endif %}</p>
+                {% with episode.id|stringformat:"s" as episode_id %}
+                    {% with "episode"|add:episode_id as episode_index %}
+                        <div class="panel">
+                            <div class="panel-header bg--{{ episode.difficulty }}" id="episode-{{episode.id}}">
+                                <div class="d-flex align-items-center justify-content-end" data-toggle="collapse"
+                                    data-target="#collapse-{{episode.id}}" aria-expanded="false"
+                                    aria-controls="collapse-{{episode.id}}" data-parent="#episodes">
+                                    <p class="episode-title flex-grow-1">{{episode.name}}</p>
+                                    {% if episode.levels %}
+                                        {% if episode.first_level > 1009 %}
+                                            <span>Levels {{episode.first_level|stringformat:"i"|slice:"2:4"}}-{{episode.last_level|stringformat:"i"|slice:"2:4"}}</span>
+                                        {% else %}
+                                            {% if episode.last_level > 1009 %}
+                                                <span>Levels {{episode.first_level|stringformat:"i"|slice:"3:4"}}-{{episode.last_level|stringformat:"i"|slice:"2:4"}}</span>
+                                            {% else %}
+                                                <span>Levels {{episode.first_level|stringformat:"i"|slice:"3:4"}}-{{episode.last_level|stringformat:"i"|slice:"3:4"}}</span>
+                                            {% endif %}
                                         {% endif %}
-                                    {% endfor %}
-                                    {% if level.name < 1010 %}
-                                        <p>{{level.name|stringformat:"i"|slice:"3:4"}}: {{level.title.strip | safe}}</p>
-                                    {% else %}
-                                        <p>{{level.name|stringformat:"i"|slice:"2:4"}}: {{level.title.strip | safe}}</p>
                                     {% endif %}
-                                {% endfor %}
-                                {% for worksheet in episode.worksheets %}
-                                    {% if not worksheet.before_level %}
-                                        <p>{{episode.name}}{% if episode.worksheets|length > 1 %} pt. {{ worksheet.index }}{% endif %}</p>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                            <div class="form__checkbox flex-column justify-content-between p-0">
-                                {% for input in level_control_form|get_dict_item:episode.name %}
-                                <div class="form__checkbox-input p-0">
-                                    {{ input }}
+                                    <div class="episode_range_text collapsed d-flex align-items-center justify-content-end"
+                                        data-toggle="collapse" data-target="#collapse-{{episode.id}}"
+                                        aria-expanded="false" aria-controls="collapse-{{episode.id}}" data-parent="#episodes">
+                                        <label class="mb-0" for="select-all-episode-levels">
+                                            <input type="checkbox" value="{{ episode_index }}" id="select-all-python-levels-{{ episode.id }}">
+                                        </label>
+                                    </div>
                                 </div>
-                                {% endfor %}
+                            </div>
+                            <div id="collapse-{{episode.id}}" aria-labelledby="episode-{{episode.id}}" class="collapse">
+                                <div class="panel-body d-flex justify-content-between">
+                                    <div class="d-flex flex-grow-1 flex-column justify-content-between">
+                                        {% for level in episode.levels %}
+                                            {% for worksheet in episode.worksheets %}
+                                                {% if worksheet.before_level == level.id %}
+                                                    <p>{{episode.name}}{% if episode.worksheets|length > 1 %} pt. {{ worksheet.index }}{% endif %}</p>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if level.name < 1010 %}
+                                                <p>{{level.name|stringformat:"i"|slice:"3:4"}}: {{level.title.strip | safe}}</p>
+                                            {% else %}
+                                                <p>{{level.name|stringformat:"i"|slice:"2:4"}}: {{level.title.strip | safe}}</p>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% for worksheet in episode.worksheets %}
+                                            {% if not worksheet.before_level %}
+                                                <p>{{episode.name}}{% if episode.worksheets|length > 1 %} pt. {{ worksheet.index }}{% endif %}</p>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <div class="form__checkbox flex-column justify-content-between p-0">
+                                        {% for input in level_control_form|get_dict_item:episode_index %}
+                                        <div class="form__checkbox-input p-0">
+                                            {{ input }}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    {% endwith %}
+                {% endwith %}
             {% endfor %}
         </div>
 
