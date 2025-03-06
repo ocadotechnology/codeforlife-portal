@@ -138,7 +138,7 @@ class TestClass(TestCase):
         url = reverse("teacher_edit_class", kwargs={"access_code": access_code1})
         # POST request data for locking only the first level
         data = {
-            "Getting Started": [
+            "episode1": [
                 "level:2",
                 "level:3",
                 "level:4",
@@ -151,7 +151,7 @@ class TestClass(TestCase):
                 "level:11",
                 "level:12",
             ],
-            "Shortest Route": [
+            "episode2": [
                 "level:13",
                 "level:14",
                 "level:15",
@@ -159,7 +159,7 @@ class TestClass(TestCase):
                 "level:17",
                 "level:18",
             ],
-            "Loops and Repetitions": [
+            "episode3": [
                 "level:19",
                 "level:20",
                 "level:21",
@@ -171,13 +171,13 @@ class TestClass(TestCase):
                 "level:27",
                 "level:28",
             ],
-            "Loops with Conditions": [
+            "episode4": [
                 "level:29",
                 "level:30",
                 "level:31",
                 "level:32",
             ],
-            "If... Only": [
+            "episode5": [
                 "level:33",
                 "level:34",
                 "level:35",
@@ -190,7 +190,7 @@ class TestClass(TestCase):
                 "level:42",
                 "level:43",
             ],
-            "Traffic Lights": [
+            "episode6": [
                 "level:44",
                 "level:45",
                 "level:46",
@@ -199,7 +199,7 @@ class TestClass(TestCase):
                 "level:49",
                 "level:50",
             ],
-            "Limited Blocks": [
+            "episode7": [
                 "level:53",
                 "level:78",
                 "level:79",
@@ -211,7 +211,7 @@ class TestClass(TestCase):
                 "level:54",
                 "level:55",
             ],
-            "Procedures": [
+            "episode8": [
                 # "level:85",
                 # "level:52",
                 # "level:60",
@@ -220,7 +220,7 @@ class TestClass(TestCase):
                 # "level:87",
                 # "level:61",
             ],
-            "Blockly Brain Teasers": [
+            "episode9": [
                 "level:56",
                 "level:57",
                 "level:58",
@@ -234,7 +234,7 @@ class TestClass(TestCase):
                 "level:112",
                 "level:92",
             ],
-            "Introduction to Python": [
+            "episode10": [
                 "level:93",
                 "level:63",
                 "level:64",
@@ -248,7 +248,7 @@ class TestClass(TestCase):
                 "level:96",
                 "level:97",
             ],
-            "Python": [
+            "episode11": [
                 "level:98",
                 "level:70",
                 "level:71",
@@ -291,7 +291,7 @@ class TestClass(TestCase):
 
         # Resubmitting to unlock level 1
         data = {
-            "Getting Started": [
+            "episode1": [
                 "level:1",
                 "level:2",
                 "level:3",
@@ -305,7 +305,7 @@ class TestClass(TestCase):
                 "level:11",
                 "level:12",
             ],
-            "Shortest Route": [
+            "episode2": [
                 "level:13",
                 "level:14",
                 "level:15",
@@ -313,7 +313,7 @@ class TestClass(TestCase):
                 "level:17",
                 "level:18",
             ],
-            "Loops and Repetitions": [
+            "episode3": [
                 "level:19",
                 "level:20",
                 "level:21",
@@ -325,13 +325,13 @@ class TestClass(TestCase):
                 "level:27",
                 "level:28",
             ],
-            "Loops with Conditions": [
+            "episode4": [
                 "level:29",
                 "level:30",
                 "level:31",
                 "level:32",
             ],
-            "If... Only": [
+            "episode5": [
                 "level:33",
                 "level:34",
                 "level:35",
@@ -344,7 +344,7 @@ class TestClass(TestCase):
                 "level:42",
                 "level:43",
             ],
-            "Traffic Lights": [
+            "episode6": [
                 "level:44",
                 "level:45",
                 "level:46",
@@ -353,7 +353,7 @@ class TestClass(TestCase):
                 "level:49",
                 "level:50",
             ],
-            "Limited Blocks": [
+            "episode7": [
                 "level:53",
                 "level:78",
                 "level:79",
@@ -365,7 +365,7 @@ class TestClass(TestCase):
                 "level:54",
                 "level:55",
             ],
-            "Procedures": [
+            "episode8": [
                 # "level:85",
                 # "level:52",
                 # "level:60",
@@ -374,7 +374,7 @@ class TestClass(TestCase):
                 # "level:87",
                 # "level:61",
             ],
-            "Blockly Brain Teasers": [
+            "episode9": [
                 "level:56",
                 "level:57",
                 "level:58",
@@ -388,7 +388,7 @@ class TestClass(TestCase):
                 "level:112",
                 "level:92",
             ],
-            "Introduction to Python": [
+            "episode10": [
                 "level:93",
                 "level:63",
                 "level:64",
@@ -402,7 +402,7 @@ class TestClass(TestCase):
                 "level:96",
                 "level:97",
             ],
-            "Python": [
+            "episode11": [
                 "level:98",
                 "level:70",
                 "level:71",
@@ -546,12 +546,7 @@ class TestClassFrontend(BaseTest):
         class_name = "Class!"
 
         self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login_no_class(email, password)
-            .open_classes_tab()
-        )
+        page = HomePage(self.selenium).go_to_teacher_login_page().login_no_class(email, password).open_classes_tab()
 
         page = page.create_class(class_name, False)
 
