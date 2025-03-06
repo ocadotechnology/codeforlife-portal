@@ -431,18 +431,18 @@ def mark_levels_to_lock_in_episodes(request, episodes, levels_to_lock_ids, locke
     :param levels_to_lock_ids: A list of Level IDs marked to be locked.
     """
     for episode in episodes:
-        episode_name = episode["name"]
         episode_levels = episode["levels"]
         episode_worksheets = episode["worksheets"]
-        if episode_name in request.POST:
+        episode_index = f"episode{episode['id']}"
+        if episode_index in request.POST:
             [
                 levels_to_lock_ids.append(episode_level["id"])
                 for episode_level in episode_levels
-                if f'level:{episode_level["id"]}' not in request.POST.getlist(episode_name)
+                if f'level:{episode_level["id"]}' not in request.POST.getlist(episode_index)
             ]
             for episode_worksheet in episode_worksheets:
                 worksheet_id = episode_worksheet["id"]
-                if f"worksheet:{worksheet_id}" not in request.POST.getlist(episode_name):
+                if f"worksheet:{worksheet_id}" not in request.POST.getlist(episode_index):
                     locked_worksheet_ids.append(worksheet_id)
         else:
             [levels_to_lock_ids.append(episode_level["id"]) for episode_level in episode_levels]
