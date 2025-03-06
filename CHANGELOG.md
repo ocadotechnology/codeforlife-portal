@@ -1,6 +1,18 @@
 # CHANGELOG
 
 
+## v8.4.3 (2025-03-06)
+
+### Bug Fixes
+
+- Episode indexing ([#2416](https://github.com/ocadotechnology/codeforlife-portal/pull/2416),
+  [`d3cc840`](https://github.com/ocadotechnology/codeforlife-portal/commit/d3cc840f66c63a8f9f7e913dc0904bd5eb8b122f))
+
+* fix: episode indexing
+
+* fix: episode indexes
+
+
 ## v8.4.2 (2025-03-05)
 
 ### Bug Fixes
