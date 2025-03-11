@@ -29,7 +29,7 @@ jobs:
         run: |
           pip install pipenv
           pipenv install --dev --system
-          yarn --frozen-lockfile
+          npm install -g cypress
       - name: Collect static
         run: python example_project/manage.py collectstatic --noinput --settings portal_test_settings
       - name: Run Python tests
