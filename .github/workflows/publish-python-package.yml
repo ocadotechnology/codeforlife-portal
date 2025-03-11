@@ -34,7 +34,7 @@ jobs:
 
       - name: 📜 Detect Semantic Version
         env:
-          GH_TOKEN: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CFL_BOT_GH_TOKEN }}
         run: semantic-release version
 
       - name: Build package
@@ -42,7 +42,7 @@ jobs:
 
       - name: 🚀 Publish Semantic Release
         env:
-          GH_TOKEN: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CFL_BOT_GH_TOKEN }}
         run: semantic-release publish
 
       - name: 🚀 Publish to PyPI
@@ -65,7 +65,7 @@ jobs:
       - name: Trigger staging deployment
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
+          github-token: ${{ secrets.CFL_BOT_GH_TOKEN }}
           script: |
             github.rest.actions.createWorkflowDispatch({
               owner: 'ocadotechnology',
