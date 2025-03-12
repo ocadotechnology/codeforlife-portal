@@ -7,9 +7,8 @@ import typing as t
 from setuptools import find_packages, setup
 
 with open("portal/__init__.py", "r") as fd:
-    version = re.search(
-        r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', fd.read(), re.MULTILINE
-    ).group(1)
+    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', fd.read(), re.MULTILINE).group(1)
+
 
 def parse_requirements(packages: t.Dict[str, t.Dict[str, t.Any]]):
     """Parse a group of requirements from `Pipfile.lock`.
@@ -35,6 +34,7 @@ def parse_requirements(packages: t.Dict[str, t.Dict[str, t.Any]]):
         requirements.append(requirement)
 
     return requirements
+
 
 # Parse Pipfile.lock into strings.
 with open("Pipfile.lock", "r", encoding="utf-8") as pipfile_lock:
