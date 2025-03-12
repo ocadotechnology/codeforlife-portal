@@ -4,8 +4,23 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-cfl-common = {path = "./cfl_common", editable = true}
-codeforlife-portal = {path = ".", editable = true}
+# Uncomment the next line and comment the one after to install local common for testing
+# cfl-common = {path = "./cfl_common", editable = true}
+cfl-common = "==8.4.4"
+django-classy-tags = "==4.1.0"
+django-formtools = "==2.5.1"
+django-otp = "==1.5.4"
+django-preventconcurrentlogins = "==0.8.2"
+django-ratelimit = "==3.0.1"
+django-recaptcha = "==4.0.0"
+django-sekizai = "==4.1.0"
+django-treebeard = "==4.7.1"
+importlib-metadata = "==4.13.0"
+phonenumbers = "==8.12.12"
+pyyaml = "==6.0.2"
+reportlab = "==4.2.5"
+requests = "==2.32.2"
+setuptools = "==74.0.0"
 
 [dev-packages]
 black = "*"

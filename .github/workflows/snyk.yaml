@@ -8,7 +8,21 @@ on:
 
 jobs:
   monitor:
-    uses: ocadotechnology/codeforlife-workspace/.github/workflows/monitor-python-release.yaml@main
-    secrets: inherit
-    with:
-      python-version: 3.12
+    runs-on: ubuntu-22.04
+    steps:
+      - name: 🐍 Set up Python 3.12 Environment
+        uses: ocadotechnology/codeforlife-workspace/.github/actions/python/setup-environment@main
+        with:
+          python-version: 3.12
+
+      - name: ❌ Delete package.json
+        run: rm package.json
+
+      - name: 🐕‍🦺 Monitor Open-Source Vulnerabilities and License Issues
+        uses: ocadotechnology/codeforlife-workspace/.github/actions/snyk/monitor-release@main
+        with:
+          gh-token: ${{ secrets.CFL_BOT_GH_TOKEN }}
+          snyk-token: ${{ secrets.SNYK_TOKEN }}
+          snyk-config-path: "backend/.snyk"
+          snyk-project-environment: "old system"
+          snyk-add-monitor-args: --command=.venv/bin/python
