@@ -32,6 +32,21 @@ jobs:
           pip install pipenv wheel python-semantic-release==9.*
           pipenv install --dev --system
 
+      - name: ❌ Delete package.json
+        run: rm package.json
+
+      - name: ❌ Delete yarn.lock
+        run: rm yarn.lock
+
+      - name: 🐕‍🦺 Monitor Open-Source Vulnerabilities and License Issues
+        uses: ocadotechnology/codeforlife-workspace/.github/actions/snyk/monitor-release@main
+        with:
+          gh-token: ${{ secrets.CFL_BOT_GH_TOKEN }}
+          snyk-token: ${{ secrets.SNYK_TOKEN }}
+          snyk-config-path: "backend/.snyk"
+          snyk-project-environment: backend
+          snyk-add-monitor-args: --command=.venv/bin/python
+
       - name: 📜 Detect Semantic Version
         env:
           GH_TOKEN: ${{ secrets.CFL_BOT_GH_TOKEN }}
