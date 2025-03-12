@@ -31,7 +31,7 @@ jobs:
           pipenv install --dev --system
           yarn --frozen-lockfile
       - name: Collect static
-        run: python manage.py collectstatic --noinput --settings portal_test_settings
+        run: python manage.py collectstatic --noinput --settings example_project.portal_test_settings
       - name: Run Python tests
         run: pytest -x --cov=. --cov-report=xml -vv -n auto
         env:
