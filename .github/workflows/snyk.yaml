@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  monitor:
+  test:
     if: github.repository_owner_id == 2088731
     runs-on: ubuntu-22.04
     steps:
