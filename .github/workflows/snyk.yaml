@@ -24,5 +24,5 @@ jobs:
           gh-token: ${{ secrets.CFL_BOT_GH_TOKEN }}
           snyk-token: ${{ secrets.SNYK_TOKEN }}
           snyk-config-path: "backend/.snyk"
-          snyk-project-environment: "old system"
+          snyk-project-environment: backend
           snyk-add-monitor-args: --command=.venv/bin/python
