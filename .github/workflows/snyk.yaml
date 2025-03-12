@@ -16,11 +16,8 @@ jobs:
         with:
           python-version: 3.12
 
-      - name: ❌ Delete package.json
-        run: rm package.json
-
-      - name: ❌ Delete yarn.lock
-        run: rm yarn.lock
+      - name: ❌ Delete frontend package manager files
+        run: rm package.json yarn.lock
 
       - name: 🐕‍🦺 Run Snyk Tests
         uses: ocadotechnology/codeforlife-workspace/.github/actions/snyk/run-tests@main
