@@ -18,6 +18,9 @@ jobs:
       - name: ❌ Delete package.json
         run: rm package.json
 
+      - name: ❌ Delete yarn.lock
+        run: rm yarn.lock
+
       - name: 🐕‍🦺 Monitor Open-Source Vulnerabilities and License Issues
         uses: ocadotechnology/codeforlife-workspace/.github/actions/snyk/monitor-release@main
         with:
