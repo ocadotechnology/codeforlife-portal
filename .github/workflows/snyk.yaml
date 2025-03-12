@@ -8,6 +8,7 @@ on:
 
 jobs:
   monitor:
+    if: github.repository_owner_id == env.OCADO_TECH_ORG_ID
     runs-on: ubuntu-22.04
     steps:
       - name: 🐍 Set up Python 3.12 Environment
@@ -20,6 +21,13 @@ jobs:
 
       - name: ❌ Delete yarn.lock
         run: rm yarn.lock
+
+      - name: 🐕‍🦺 Run Snyk Tests
+        uses: ocadotechnology/codeforlife-workspace/.github/actions/snyk/run-tests@main
+        with:
+          snyk-token: ${{ secrets.SNYK_TOKEN }}
+          config-path: "backend/.snyk"
+          add-test-args: --command=.venv/bin/python
 
       - name: 🐕‍🦺 Monitor Open-Source Vulnerabilities and License Issues
         uses: ocadotechnology/codeforlife-workspace/.github/actions/snyk/monitor-release@main
