@@ -1,6 +1,10 @@
+import time
+
 from selenium.webdriver.common.by import By
 
+
 def is_message_showing(browser, message):
+    time.sleep(5)
     return message in browser.find_element(By.ID, "messages").text
 
 
