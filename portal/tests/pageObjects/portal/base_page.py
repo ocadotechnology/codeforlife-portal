@@ -108,6 +108,7 @@ class BasePage(object):
         return self.on_correct_page("403_forbidden")
 
     def was_form_invalid(self, formID, error):
+        time.sleep(5)
         errors = (
             self.browser.find_element(By.ID, formID)
             .find_element(By.CLASS_NAME, "errorlist")
