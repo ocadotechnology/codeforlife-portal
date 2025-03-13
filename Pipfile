@@ -37,7 +37,7 @@ pytest-xdist = "*"
 pyvirtualdisplay = "*"
 rapid-router = ">=7.0.0"
 responses = "==0.18.0"
-selenium = "==4.9.0"
+selenium = "==4.29.0"
 snapshottest = "==1.0.0a1"
 
 [requires]
