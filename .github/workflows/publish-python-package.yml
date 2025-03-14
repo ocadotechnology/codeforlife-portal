@@ -63,6 +63,7 @@ jobs:
           skip-existing: true
 
   monitor:
+    runs-on: ubuntu-22.04
     secrets: inherit
     needs: [ publish-pypi-packages ]
     steps:
