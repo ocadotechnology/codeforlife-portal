@@ -26,11 +26,11 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "portal/static")]
 MEDIA_ROOT = os.path.join(STATIC_ROOT, "email_media/")
 SECRET_KEY = "not-a-secret"
 
-ROOT_URLCONF = "urls"
+ROOT_URLCONF = "example_project.urls"
 
 ALLOWED_HOSTS = ["*"]
 
-WSGI_APPLICATION = "wsgi.application"
+WSGI_APPLICATION = "example_project.wsgi.application"
 
 LOGIN_REDIRECT_URL = "/teach/dashboard/"
 

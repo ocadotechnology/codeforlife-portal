@@ -29,20 +29,20 @@ jobs:
 
       - name: Install pip requirements
         run: |
-          pip install pipenv wheel python-semantic-release==9.*
+          pip install pipenv build python-semantic-release==9.*
           pipenv install --dev --system
 
       - name: 📜 Detect Semantic Version
         env:
-          GH_TOKEN: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CFL_BOT_GH_TOKEN }}
         run: semantic-release version
 
       - name: Build package
-        run: python setup.py sdist bdist_wheel
+        run: python -m build --sdist --wheel
 
       - name: 🚀 Publish Semantic Release
         env:
-          GH_TOKEN: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CFL_BOT_GH_TOKEN }}
         run: semantic-release publish
 
       - name: 🚀 Publish to PyPI
@@ -53,7 +53,7 @@ jobs:
       - name: Build cfl-common package
         run: |
           pushd cfl_common
-          python setup.py sdist bdist_wheel
+          python -m build --sdist --wheel
           popd
 
       - name: 🚀 Publish cfl-common package to PyPi
@@ -62,14 +62,19 @@ jobs:
           packages-dir: cfl_common/dist/
           skip-existing: true
 
-      - name: Trigger staging deployment
-        uses: actions/github-script@v6
+  monitor:
+    runs-on: ubuntu-22.04
+    secrets: inherit
+    needs: [ publish-pypi-packages ]
+    steps:
+      - name: ❌ Delete frontend package manager files
+        run: rm package.json yarn.lock
+
+      - name: 🐕‍🦺 Monitor Open-Source Vulnerabilities and License Issues
+        uses: ocadotechnology/codeforlife-workspace/.github/actions/snyk/monitor-release@main
         with:
-          github-token: ${{ secrets.CFL_BOT_GITHUB_TOKEN }}
-          script: |
-            github.rest.actions.createWorkflowDispatch({
-              owner: 'ocadotechnology',
-              repo: 'codeforlife-deploy-appengine',
-              workflow_id: 'deploy_staging.yml',
-              ref: 'master',
-            });
+          gh-token: ${{ secrets.CFL_BOT_GH_TOKEN }}
+          snyk-token: ${{ secrets.SNYK_TOKEN }}
+          snyk-config-path: "backend/.snyk"
+          snyk-project-environment: backend
+          snyk-add-monitor-args: --command=.venv/bin/python

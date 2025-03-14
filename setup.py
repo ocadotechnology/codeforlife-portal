@@ -1,13 +1,46 @@
 # -*- coding: utf-8 -*-
+import json
 import re
 import sys
+import typing as t
 
 from setuptools import find_packages, setup
 
 with open("portal/__init__.py", "r") as fd:
-    version = re.search(
-        r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', fd.read(), re.MULTILINE
-    ).group(1)
+    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', fd.read(), re.MULTILINE).group(1)
+
+
+def parse_requirements(packages: t.Dict[str, t.Dict[str, t.Any]]):
+    """Parse a group of requirements from `Pipfile.lock`.
+
+    https://setuptools.pypa.io/en/latest/userguide/dependency_management.html
+
+    Args:
+        packages: The group name of the requirements.
+
+    Returns:
+        The requirements as a list of strings, required by `setuptools.setup`.
+    """
+
+    requirements: t.List[str] = []
+    for name, package in packages.items():
+        requirement = name
+        if "extras" in package:
+            requirement += f"[{','.join(package['extras'])}]"
+        if "version" in package:
+            requirement += package["version"]
+        if "markers" in package:
+            requirement += f"; {package['markers']}"
+        requirements.append(requirement)
+
+    return requirements
+
+
+# Parse Pipfile.lock into strings.
+with open("Pipfile.lock", "r", encoding="utf-8") as pipfile_lock:
+    lock = json.load(pipfile_lock)
+    install_requires = parse_requirements(lock["default"])
+    dev_requires = parse_requirements(lock["develop"])
 
 try:
     from semantic_release import setup_hook
@@ -23,22 +56,8 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(),
     include_package_data=True,
-    install_requires=[
-        "django-recaptcha==4.0.0",
-        "pyyaml==6.0.2",
-        "importlib-metadata==4.13.0",
-        "reportlab==4.2.5",
-        "django-formtools==2.5.1",
-        "django-otp==1.5.4",
-        "requests==2.32.2",
-        "django-treebeard==4.7.1",
-        "django-sekizai==4.1.0",
-        "django-classy-tags==4.1.0",
-        "phonenumbers==8.12.12",
-        "django-ratelimit==3.0.1",
-        "django-preventconcurrentlogins==0.8.2",
-        "setuptools==74.0.0",
-    ],
+    install_requires=install_requires,
+    extras_require={"dev": dev_requires},
     classifiers=[
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.12",

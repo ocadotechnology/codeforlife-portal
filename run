@@ -2,6 +2,6 @@
 set -e
 cd "${BASH_SOURCE%/*}"
 
-./example_project/manage.py migrate --noinput
-./example_project/manage.py collectstatic --noinput --clear
-./example_project/manage.py runserver "$@"
+./manage.py migrate --noinput
+./manage.py collectstatic --noinput --clear
+./manage.py runserver "$@"

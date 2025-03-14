@@ -1,4 +1,4 @@
 pip install -e .
-python ./example_project/manage.py migrate --noinput
-python ./example_project/manage.py collectstatic --noinput
-python ./example_project/manage.py runserver localhost:8000
+python ./manage.py migrate --noinput
+python ./manage.py collectstatic --noinput
+python ./manage.py runserver localhost:8000
