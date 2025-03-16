@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 
 import datetime
-import time
 from unittest.mock import ANY, Mock, patch
 
 from common.mail import campaign_ids
@@ -516,8 +515,6 @@ class TestIndependentStudentFrontend(BaseTest):
         assert is_indep_student_join_request_received_message_showing(self.selenium)
 
         page.revoke_join_request()
-
-        time.sleep(5)
 
         assert is_indep_student_join_request_revoked_message_showing(self.selenium)
 
