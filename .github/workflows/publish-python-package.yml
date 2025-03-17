@@ -64,7 +64,6 @@ jobs:
 
   monitor:
     runs-on: ubuntu-22.04
-    secrets: inherit
     needs: [ publish-pypi-packages ]
     steps:
       - name: ❌ Delete frontend package manager files
