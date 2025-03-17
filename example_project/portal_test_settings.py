@@ -6,7 +6,7 @@ from selenium import webdriver
 
 DEBUG = True
 
-headless_chrome_options = webdriver.ChromeOptions()
+headless_chrome_options = webdriver.FirefoxOptions()
 headless_chrome_options.add_argument("--headless")
 headless_chrome_options.add_argument("--window-size=1920,1080")
 headless_chrome_options.add_argument("--start-maximized")
@@ -16,9 +16,9 @@ headless_chrome_options.add_argument("--disable-extensions")
 headless_chrome_options.add_argument("--disable-dev-shm-usage")
 
 SELENIUM_WEBDRIVERS = {
-    "default": {"callable": webdriver.Chrome, "args": (), "kwargs": {}},
+    "default": {"callable": webdriver.Firefox, "args": (), "kwargs": {"options": headless_chrome_options}},
     "firefox": {"callable": webdriver.Firefox, "args": (), "kwargs": {}},
-    "chrome-headless": {"callable": webdriver.Chrome, "args": (), "kwargs": {"options": headless_chrome_options}},
+    "chrome-headless": {"callable": webdriver.Firefox, "args": (), "kwargs": {"options": headless_chrome_options}},
 }
 
 SELENIUM_WIDTHS = [1624]
