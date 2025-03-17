@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import json
+import time
 from unittest.mock import Mock, patch
 
 import pytest
@@ -24,7 +25,6 @@ from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.by import By
 
 from portal.tests.pageObjects.portal.home_page import HomePage
-
 from .base_test import BaseTest
 
 
@@ -146,6 +146,8 @@ class TestTeacherStudentFrontend(BaseTest):
             .import_students_from_csv("test_students_names_no_name.csv")
         )
 
+        time.sleep(1)
+
         alert = Alert(page.browser)
         assert alert.text == "'Name' column not found in CSV file."
         alert.dismiss()
@@ -183,6 +185,8 @@ class TestTeacherStudentFrontend(BaseTest):
             .go_to_class_page()
             .import_students_from_csv("test_students_names_no_name.csv")
         )
+
+        time.sleep(1)
 
         alert = Alert(page.browser)
         assert alert.text == "'Name' column not found in CSV file."

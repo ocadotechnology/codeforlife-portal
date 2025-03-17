@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 
+
 def is_message_showing(browser, message):
     return message in browser.find_element(By.ID, "messages").text
 

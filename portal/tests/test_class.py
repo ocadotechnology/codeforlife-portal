@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import time
 from datetime import datetime, timedelta
 
 from common.models import Class, DailyActivity, Teacher
@@ -549,6 +550,8 @@ class TestClassFrontend(BaseTest):
         page = HomePage(self.selenium).go_to_teacher_login_page().login_no_class(email, password).open_classes_tab()
 
         page = page.create_class(class_name, False)
+
+        time.sleep(1)
 
         assert page.was_form_invalid(
             "form-create-class", "Class name may only contain letters, numbers, dashes, underscores, and spaces."
