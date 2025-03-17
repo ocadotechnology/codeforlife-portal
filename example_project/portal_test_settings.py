@@ -74,7 +74,7 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "portal/static")]
 MEDIA_ROOT = os.path.join(STATIC_ROOT, "email_media/")
 
-WSGI_APPLICATION = "wsgi.application"
+WSGI_APPLICATION = "example_project.wsgi.application"
 
 LOGIN_REDIRECT_URL = "/teach/dashboard/"
 
