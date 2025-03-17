@@ -81,6 +81,9 @@ jobs:
         with:
           gh-token: ${{ secrets.CFL_BOT_GH_TOKEN }}
 
+      - name: ❌ Delete frontend package manager files
+        run: rm package.json yarn.lock
+
       - name: 🐕‍🦺 Monitor Open-Source Vulnerabilities and License Issues
         uses: ocadotechnology/codeforlife-workspace/.github/actions/snyk/monitor-release@main
         with:
