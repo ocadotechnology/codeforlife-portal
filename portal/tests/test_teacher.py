@@ -643,7 +643,6 @@ class TestTeacherFrontend(BaseTest):
             field.send_keys(invite_data[key])
 
         page.browser.find_element(By.NAME, "invite_teacher_button").click()
-
         # Once invite sent test the make admin button
         page.browser.find_element(By.ID, "make_admin_button_invite").click()
         time.sleep(1)
@@ -665,11 +664,10 @@ class TestTeacherFrontend(BaseTest):
         page.browser.find_element(By.ID, "cancel_admin_popup_button").click()
 
         # Non admin teacher joined - make admin should also make a popup
-
         join_teacher_to_organisation(joining_email, school.name)
 
         # refresh the page and scroll to the buttons
-        page.browser.execute_script("location.reload()")
+        page.browser.find_element(By.CSS_SELECTOR, ".logo").click()
         page.browser.find_element(By.ID, "make_admin_button").click()
 
         assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
