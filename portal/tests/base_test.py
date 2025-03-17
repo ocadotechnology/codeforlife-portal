@@ -5,29 +5,10 @@ from django.contrib.sites.models import Site
 from django.urls import reverse
 
 from deploy import captcha
-
 # Uncomment to use FireFox
 # master_browser = webdriver.Firefox()
 from portal.tests.pageObjects.portal.home_page import HomePage
 from .selenium_test_case import SeleniumTestCase
-
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
-
-def button_click_handler(page, self, button_element):
-    current_button = WebDriverWait(self.selenium, 20).until(EC.presence_of_element_located((By.ID, button_element)))
-    ActionChains(self.selenium).move_to_element(current_button).click(current_button).perform()
-
-
-def click_buttons_by_id(page, self, button_ids):
-    if isinstance(button_ids, str):
-        button_click_handler(page, self, button_ids)
-    else:
-        for button_id in button_ids:
-            button_click_handler(page, self, button_id)
 
 
 class BaseTest(SeleniumTestCase):

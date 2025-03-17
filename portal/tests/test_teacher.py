@@ -33,9 +33,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
-from portal.tests.base_test import click_buttons_by_id
 from portal.tests.test_invite_teacher import WAIT_TIME
-
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils.messages import (
@@ -644,25 +642,14 @@ class TestTeacherFrontend(BaseTest):
             field = page.browser.find_element(By.NAME, key)
             field.send_keys(invite_data[key])
 
-        invite_button = page.browser.find_element(
-            By.NAME, "invite_teacher_button"
-        )
-        invite_button.click()
+        page.browser.find_element(By.NAME, "invite_teacher_button").click()
 
         # Once invite sent test the make admin button
-        """
-        make_admin_button = WebDriverWait(self.selenium, WAIT_TIME).until(
-            EC.element_to_be_clickable((By.ID, "make_admin_button_invite"))
-        )
-        make_admin_button.click()
-        """
-
-        button_ids = [
-            "make_admin_button_invite",
-            "cancel_admin_popup_button",
-            "delete-invite",
-        ]
-        click_buttons_by_id(page, self, button_ids)
+        page.browser.find_element(By.ID, "make_admin_button_invite").click()
+        time.sleep(1)
+        page.browser.find_element(By.ID, "cancel_admin_popup_button").click()
+        time.sleep(1)
+        page.browser.find_element(By.ID, "delete-invite").click()
 
         # Delete the invite and check if the form invite with
         # admin checked also makes a popup
@@ -673,9 +660,9 @@ class TestTeacherFrontend(BaseTest):
         checkbox = page.browser.find_element(By.NAME, "make_admin_ticked")
         checkbox.click()
 
-        button_ids = ["invite_teacher_button", "cancel_admin_popup_button"]
-
-        click_buttons_by_id(page, self, button_ids)
+        page.browser.find_element(By.ID, "invite_teacher_button").click()
+        time.sleep(1)
+        page.browser.find_element(By.ID, "cancel_admin_popup_button").click()
 
         # Non admin teacher joined - make admin should also make a popup
 
@@ -683,7 +670,7 @@ class TestTeacherFrontend(BaseTest):
 
         # refresh the page and scroll to the buttons
         page.browser.execute_script("location.reload()")
-        click_buttons_by_id(page, self, "make_admin_button")
+        page.browser.find_element(By.ID, "make_admin_button").click()
 
         assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
 

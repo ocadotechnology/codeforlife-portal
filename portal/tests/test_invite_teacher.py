@@ -16,7 +16,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-from portal.tests.base_test import BaseTest, click_buttons_by_id
+from portal.tests.base_test import BaseTest
 
 FADE_TIME = 0.9
 WAIT_TIME = 15
@@ -185,7 +185,7 @@ class TestTeacherInviteActions(BaseTest):
             field.send_keys(invite_data[key])
 
         # check if invite text for a user has been generated
-        click_buttons_by_id(page, self, "invite_teacher_button")
+        page.browser.find_element(By.ID, "invite_teacher_button").click()
         banner = page.browser.find_element(By.ID, "messages")
         assert (
             f"You have invited {invite_data['teacher_first_name']} {invite_data['teacher_last_name']} to your school."
@@ -194,14 +194,17 @@ class TestTeacherInviteActions(BaseTest):
 
         # check if popup message appears and if the invite is changed to admin
         sleep(1)  # this HAS to be there because of the animation :/
-        click_buttons_by_id(page, self, ["make_admin_button_invite", "add_admin_button"])
+        page.browser.find_element(By.ID, "make_admin_button_invite").click()
+        sleep(1)
+        page.browser.find_element(By.ID, "add_admin_button").click()
+
         invite = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0]
         assert invite.invited_teacher_is_admin
         banner = page.browser.find_element(By.ID, "messages")
         assert "Administrator invite status has been given successfully" in banner.text
 
         # revoke admin
-        click_buttons_by_id(page, self, "make_non_admin_button_invite")
+        page.browser.find_element(By.ID, "make_non_admin_button_invite").click()
 
         banner = page.browser.find_element(By.ID, "messages")
         assert "Administrator invite status has been revoked successfully" in banner.text
@@ -220,8 +223,7 @@ class TestTeacherInviteActions(BaseTest):
         for key in invite_data.keys():
             field = page.browser.find_element(By.NAME, key)
             field.send_keys(invite_data[key])
-        invite_button = page.browser.find_element(By.NAME, "invite_teacher_button")
-        invite_button.click()
+        page.browser.find_element(By.NAME, "invite_teacher_button").click()
 
         # check object was created
         invite_queryset = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")
@@ -251,7 +253,7 @@ class TestTeacherInviteActions(BaseTest):
             field = page.browser.find_element(By.NAME, key)
             field.send_keys(invite_data[key])
 
-        click_buttons_by_id(page, self, "invite_teacher_button")
+        page.browser.find_element(By.ID, "invite_teacher_button").click()
 
         banner = page.browser.find_element(By.XPATH, '//*[@id="messages"]/div/div/div/div/div/p')
         assert (
@@ -260,7 +262,7 @@ class TestTeacherInviteActions(BaseTest):
         )
 
         # resend an invite
-        click_buttons_by_id(page, self, "resend-invite")
+        page.browser.find_element(By.ID, "resend-invite").click()
 
         # check if invite was updated by 30 days (used 29 for rounding errors)
         new_invite_expiry = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0].expiry
