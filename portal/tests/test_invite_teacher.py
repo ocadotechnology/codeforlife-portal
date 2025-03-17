@@ -236,32 +236,32 @@ class TestTeacherInviteActions(BaseTest):
         empty_invite_queryset = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")
         assert len(empty_invite_queryset) == 0
 
-    # def test_resend_invite(self):
-    #     teacher_email, teacher_password = signup_teacher_directly()
-    #     create_organisation_directly(teacher_email)
-    #     class_name = "Test Class"
-    #     klass, _, _ = create_class_directly(teacher_email, class_name)
-    #
-    #     page = self.go_to_homepage()
-    #     page = page.go_to_teacher_login_page().login(teacher_email, teacher_password)
-    #
-    #     # Generate an invite
-    #     invite_data = {"teacher_first_name": "Adam", "teacher_last_name": "NotAdam", "teacher_email": "adam@adam.not"}
-    #     for key in invite_data.keys():
-    #         field = page.browser.find_element(By.NAME, key)
-    #         field.send_keys(invite_data[key])
-    #
-    #     click_buttons_by_id(page, self, "invite_teacher_button")
-    #
-    #     banner = page.browser.find_element(By.XPATH, '//*[@id="messages"]/div/div/div/div/div/p')
-    #     assert (
-    #         banner.text
-    #         == f"You have invited {invite_data['teacher_first_name']} {invite_data['teacher_last_name']} to your school."
-    #     )
-    #
-    #     # resend an invite
-    #     click_buttons_by_id(page, self, "resend-invite")
-    #
-    #     # check if invite was updated by 30 days (used 29 for rounding errors)
-    #     new_invite_expiry = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0].expiry
-    #     assert timezone.now() + timedelta(days=29) <= new_invite_expiry
+    def test_resend_invite(self):
+        teacher_email, teacher_password = signup_teacher_directly()
+        create_organisation_directly(teacher_email)
+        class_name = "Test Class"
+        klass, _, _ = create_class_directly(teacher_email, class_name)
+
+        page = self.go_to_homepage()
+        page = page.go_to_teacher_login_page().login(teacher_email, teacher_password)
+
+        # Generate an invite
+        invite_data = {"teacher_first_name": "Adam", "teacher_last_name": "NotAdam", "teacher_email": "adam@adam.not"}
+        for key in invite_data.keys():
+            field = page.browser.find_element(By.NAME, key)
+            field.send_keys(invite_data[key])
+
+        click_buttons_by_id(page, self, "invite_teacher_button")
+
+        banner = page.browser.find_element(By.XPATH, '//*[@id="messages"]/div/div/div/div/div/p')
+        assert (
+            banner.text
+            == f"You have invited {invite_data['teacher_first_name']} {invite_data['teacher_last_name']} to your school."
+        )
+
+        # resend an invite
+        click_buttons_by_id(page, self, "resend-invite")
+
+        # check if invite was updated by 30 days (used 29 for rounding errors)
+        new_invite_expiry = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0].expiry
+        assert timezone.now() + timedelta(days=29) <= new_invite_expiry
