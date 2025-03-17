@@ -5,8 +5,6 @@ from django.contrib.sites.models import Site
 from django.urls import reverse
 
 from deploy import captcha
-# Uncomment to use FireFox
-# master_browser = webdriver.Firefox()
 from portal.tests.pageObjects.portal.home_page import HomePage
 from .selenium_test_case import SeleniumTestCase
 

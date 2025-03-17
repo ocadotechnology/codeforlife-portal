@@ -6,19 +6,19 @@ from selenium import webdriver
 
 DEBUG = True
 
-headless_chrome_options = webdriver.FirefoxOptions()
-headless_chrome_options.add_argument("--headless")
-headless_chrome_options.add_argument("--window-size=1920,1080")
-headless_chrome_options.add_argument("--start-maximized")
-headless_chrome_options.add_argument("--disable-gpu")
-headless_chrome_options.add_argument("--no-sandbox")
-headless_chrome_options.add_argument("--disable-extensions")
-headless_chrome_options.add_argument("--disable-dev-shm-usage")
+headless_firefox_options = webdriver.FirefoxOptions()
+headless_firefox_options.add_argument("--headless")
+headless_firefox_options.add_argument("--window-size=1920,1080")
+headless_firefox_options.add_argument("--start-maximized")
+headless_firefox_options.add_argument("--disable-gpu")
+headless_firefox_options.add_argument("--no-sandbox")
+headless_firefox_options.add_argument("--disable-extensions")
+headless_firefox_options.add_argument("--disable-dev-shm-usage")
 
 SELENIUM_WEBDRIVERS = {
     "default": {"callable": webdriver.Firefox, "args": (), "kwargs": {}},
-    "firefox": {"callable": webdriver.Firefox, "args": (), "kwargs": {}},
-    "chrome-headless": {"callable": webdriver.Firefox, "args": (), "kwargs": {"options": headless_chrome_options}},
+    "chrome": {"callable": webdriver.Chrome, "args": (), "kwargs": {}},
+    "firefox-headless": {"callable": webdriver.Firefox, "args": (), "kwargs": {"options": headless_firefox_options}},
 }
 
 SELENIUM_WIDTHS = [1624]
