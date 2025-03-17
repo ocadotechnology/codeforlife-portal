@@ -66,6 +66,11 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [ publish-pypi-packages ]
     steps:
+      - name: 🐍 Set up Python 3.12 Environment
+        uses: ocadotechnology/codeforlife-workspace/.github/actions/python/setup-environment@main
+        with:
+          python-version: 3.12
+
       - name: 📥 Download Snyk CLI and Config File
         uses: ocadotechnology/codeforlife-workspace/.github/actions/snyk/download-cli-and-config-file@main
         with:
