@@ -66,8 +66,20 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [ publish-pypi-packages ]
     steps:
-      - name: ❌ Delete frontend package manager files
-        run: rm package.json yarn.lock
+      - name: 📥 Download Snyk CLI and Config File
+        uses: ocadotechnology/codeforlife-workspace/.github/actions/snyk/download-cli-and-config-file@main
+        with:
+          config-path: "backend/.snyk"
+
+      - name: 🗂️ Get Repo's Name
+        id: get-repo-name
+        uses: ocadotechnology/codeforlife-workspace/.github/actions/github/get-repo-name@main
+
+      - name: 🗂️ Get Repo's Latest Release Tag
+        id: get-latest-release-tag
+        uses: ocadotechnology/codeforlife-workspace/.github/actions/github/get-latest-release-tag@main
+        with:
+          gh-token: ${{ secrets.CFL_BOT_GH_TOKEN }}
 
       - name: 🐕‍🦺 Monitor Open-Source Vulnerabilities and License Issues
         uses: ocadotechnology/codeforlife-workspace/.github/actions/snyk/monitor-release@main
