@@ -782,6 +782,8 @@ class TestTeacherFrontend(BaseTest):
             .complete_setup()
         )
 
+        time.sleep(1)
+
         assert page.has_onboarding_complete_popup()
 
     def get_to_forgotten_password_page(self):
