@@ -25,12 +25,15 @@ def parse_requirements(packages: t.Dict[str, t.Dict[str, t.Any]]):
     requirements: t.List[str] = []
     for name, package in packages.items():
         requirement = name
-        if "extras" in package:
-            requirement += f"[{','.join(package['extras'])}]"
-        if "version" in package:
-            requirement += package["version"]
-        if "markers" in package:
-            requirement += f"; {package['markers']}"
+        if requirement == "cfl-common":
+            requirement += version
+        else:
+            if "extras" in package:
+                requirement += f"[{','.join(package['extras'])}]"
+            if "version" in package:
+                requirement += package["version"]
+            if "markers" in package:
+                requirement += f"; {package['markers']}"
         requirements.append(requirement)
 
     return requirements
