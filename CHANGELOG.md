@@ -1,6 +1,110 @@
 # CHANGELOG
 
 
+## v8.4.5 (2025-03-18)
+
+### Bug Fixes
+
+- Bump version
+  ([`b178a60`](https://github.com/ocadotechnology/codeforlife-portal/commit/b178a60c64623c08cd21f0c4c580966bb581de7b))
+
+### Build System
+
+- Remove requests from Pipfile
+  ([`17e56f8`](https://github.com/ocadotechnology/codeforlife-portal/commit/17e56f8e0ad69dcb5c45043f842586effb8be4cf))
+
+### Continuous Integration
+
+- Add missing steps
+  ([`fa8341b`](https://github.com/ocadotechnology/codeforlife-portal/commit/fa8341bfbe93ee9d0ebdb01a286d1a0cc1fec77c))
+
+- Checkout code
+  ([`b637eb1`](https://github.com/ocadotechnology/codeforlife-portal/commit/b637eb1928bb5138ee4075c1b33d214bce02a19e))
+
+- Remove other files again
+  ([`fabf5f3`](https://github.com/ocadotechnology/codeforlife-portal/commit/fabf5f3fb728a81896bfb7c36d975630dc576e4f))
+
+- Remove secrets key
+  ([`199e7bc`](https://github.com/ocadotechnology/codeforlife-portal/commit/199e7bc0a2d36306e3577756c9ac889d3b3e1d53))
+
+- Test new Snyk monitor ([#2418](https://github.com/ocadotechnology/codeforlife-portal/pull/2418),
+  [`11d72cc`](https://github.com/ocadotechnology/codeforlife-portal/commit/11d72cc46fd95eabfe219e1a618a5735d43dd467))
+
+* ci: Test new Snyk monitor
+
+* Relock pipfile
+
+* venv folder
+
+* add workflow_dispatch
+
+* Try removing package.json and yarn.lock
+
+* Install cypress in workflow
+
+* Move all deps to Pipfiles
+
+* Fix project env
+
+* Also delete yarn.lock
+
+* Also run actual Snyk tests
+
+* Add env ID
+
+* Just use int
+
+* Move monitor to publish to release job
+
+* Combine rms
+
+* Move manage.py to root
+
+* Refactor dir
+
+* Point to settings
+
+* Use dot
+
+* Black
+
+* Rename Snyk job
+
+* Upgrade Selenium and try using sleeps again
+
+* Add sleep to message check
+
+* Add sleep before checking error messages
+
+* Fix release jobs
+
+* Add machine
+
+* Remove unnecessary sleeps
+
+* Try using Firefox
+
+* Temp uncomment
+
+* Don't exit first, see all failing tests
+
+* Uncomment test, see if results are consistent
+
+* Stop using ActionChains
+
+* Sleep
+
+* Click fixes
+
+* WSGI
+
+* sleep
+
+* cleanup
+
+* rename headless
+
+
 ## v8.4.4 (2025-03-07)
 
 ### Bug Fixes
