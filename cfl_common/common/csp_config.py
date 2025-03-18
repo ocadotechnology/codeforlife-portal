@@ -79,7 +79,7 @@ CSP_IMG_SRC = (
 )
 CSP_OBJECT_SRC = (f"{domain()}/static/common/img/", f"{domain()}/static/game/image/")
 CSP_MEDIA_SRC = (
-    "https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com",
+    "https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/",
     f"{domain()}/static/game/sound/",
     f"{domain()}/static/game/js/blockly/media/",
 )
