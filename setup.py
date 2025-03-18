@@ -26,7 +26,7 @@ def parse_requirements(packages: t.Dict[str, t.Dict[str, t.Any]]):
     for name, package in packages.items():
         requirement = name
         if requirement == "cfl-common":
-            requirement += version
+            requirement += f"=={version}"
         else:
             if "extras" in package:
                 requirement += f"[{','.join(package['extras'])}]"
