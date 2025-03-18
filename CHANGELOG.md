@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v8.4.10 (2025-03-18)
+
+### Bug Fixes
+
+- Add Gitbook video src to CSP
+  ([#2420](https://github.com/ocadotechnology/codeforlife-portal/pull/2420),
+  [`837d058`](https://github.com/ocadotechnology/codeforlife-portal/commit/837d05890d642611d813c193d64634baeb5c699a))
+
+* fix: Add video src to CSP
+
+* Add slash
+
+
 ## v8.4.9 (2025-03-18)
 
 ### Bug Fixes
