@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.4.9 (2025-03-18)
+
+### Bug Fixes
+
+- Add ==
+  ([`ba8fd58`](https://github.com/ocadotechnology/codeforlife-portal/commit/ba8fd58214fee920b11eef2d476f3b722b11f322))
+
+
 ## v8.4.8 (2025-03-18)
 
 ### Bug Fixes
