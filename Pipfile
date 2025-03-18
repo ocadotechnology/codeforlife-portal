@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 # Uncomment the next line and comment the one after to install local common for testing
 # cfl-common = {path = "./cfl_common", editable = true}
-cfl-common = "==8.4.4"
+cfl-common = "==8.4.5"
 django-classy-tags = "==4.1.0"
 django-formtools = "==2.5.1"
 django-otp = "==1.5.4"
