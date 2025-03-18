@@ -1,12 +1,18 @@
 # CHANGELOG
 
 
+## v8.4.7 (2025-03-18)
+
+
 ## v8.4.6 (2025-03-18)
 
 ### Bug Fixes
 
 - Install latest common
   ([`223cf6a`](https://github.com/ocadotechnology/codeforlife-portal/commit/223cf6a464a1c3cc5cc85fd83d70739f27ec5e99))
+
+- Set common version to portal version
+  ([`2a2f381`](https://github.com/ocadotechnology/codeforlife-portal/commit/2a2f3816ee93c1ab2ec75f7e6eb02c6d5b634ae5))
 
 
 ## v8.4.5 (2025-03-18)
