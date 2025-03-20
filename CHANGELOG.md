@@ -1,6 +1,18 @@
 # CHANGELOG
 
 
+## v8.5.0 (2025-03-20)
+
+### Features
+
+- Add cookie list ([#2421](https://github.com/ocadotechnology/codeforlife-portal/pull/2421),
+  [`a1a6948`](https://github.com/ocadotechnology/codeforlife-portal/commit/a1a69487d30fd19b0db7d5c96694758faa84b327))
+
+* feat: Add cookie list
+
+* Typo
+
+
 ## v8.4.10 (2025-03-18)
 
 ### Bug Fixes
