@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.5.1 (2025-03-26)
+
+### Bug Fixes
+
+- Align cookie table columns
+  ([`9acbcb1`](https://github.com/ocadotechnology/codeforlife-portal/commit/9acbcb109936927bf468d59945c1e8bde261d65e))
+
+
 ## v8.5.0 (2025-03-20)
 
 ### Features
