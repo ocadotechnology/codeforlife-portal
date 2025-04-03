@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "==5.2.0"
+django = "==5.1.8"
 django-countries = "==7.6.1"
 django-csp = "==3.8"
 django-import-export = "==4.2.0"
