@@ -158,24 +158,25 @@ describe("Teacher", () => {
     cy.logout();
   });
 
-  // it('cannot see an anonymised teacher in dashboard', () => {
-  //   const teacherEmail = 'teacher.to.be.deleted2@codeforlife.com'; // from teachersToBeDeleted fixture
-  //   const teacherName = 'Teacher To Be Deleted 2';
+  it('cannot see an anonymised teacher in dashboard', () => {
+    const teacherEmail = 'teacher.to.be.deleted2@codeforlife.com'; // from teachersToBeDeleted fixture
+    const teacherName = 'Teacher To Be Deleted 2';
 
-  //   // Login as default teacher and check the teacher is in the teachers table
-  //   cy.loginAsDefaultTeacher();
-  //   cy.get('#teachers_table').should('contain.text', teacherName);
-  //   cy.logout();
+    // Login as default teacher and check the teacher is in the teachers table
+    cy.loginAsDefaultTeacher();
+    cy.get('#teachers_table').should('contain.text', teacherName);
+    cy.logout();
 
-  //   // Login as Portaladmin, go to admin site and anonymise teacher
-  //   cy.loginAsSuperuser('codeforlife-portal@ocado.com', 'abc123');
-  //   cy.visit('administration/');
-  //   cy.anonymiseUser(teacherEmail);
-  //   cy.adminLogout();
+    // Login as Portaladmin, go to admin site and anonymise teacher
+    cy.loginAsSuperuser('codeforlife-portal@ocado.com', 'abc123');
+    cy.visit('administration/');
+    cy.anonymiseUser(teacherEmail);
+    cy.visit("/")
+    cy.logout();
 
-  //   // Login as default teacher again and check the teacher is not there now
-  //   cy.loginAsDefaultTeacher();
-  //   cy.get('#teachers_table').should('not.contain', teacherName);
-  //   cy.get('#teachers_table').should('not.contain', 'Deleted User');
-  // });
+    // Login as default teacher again and check the teacher is not there now
+    cy.loginAsDefaultTeacher();
+    cy.get('#teachers_table').should('not.contain', teacherName);
+    cy.get('#teachers_table').should('not.contain', 'Deleted User');
+  });
 });
