@@ -1,4 +1,5 @@
 """Django settings for example_project project."""
+
 import os
 
 DEBUG = True
@@ -77,11 +78,17 @@ PIPELINE = {
             "output_filename": "portal.css",
         },
         "popup": {
-            "source_filenames": (os.path.join(BASE_DIR, "static/portal/sass/partials/_popup.scss"),),
+            "source_filenames": (
+                os.path.join(
+                    BASE_DIR, "static/portal/sass/partials/_popup.scss"
+                ),
+            ),
             "output_filename": "popup.css",
         },
         "game-scss": {
-            "source_filenames": (os.path.join(BASE_DIR, "static/game/sass/game.scss"),),
+            "source_filenames": (
+                os.path.join(BASE_DIR, "static/game/sass/game.scss"),
+            ),
             "output_filename": "game.css",
         },
     },
@@ -94,7 +101,15 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
+
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        "BACKEND": "pipeline.storage.PipelineManifestStorage",
+    },
+}
+
+
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 LANGUAGES = [("en-gb", "English")]
@@ -132,7 +147,7 @@ TEMPLATES = [
                 "common.context_processors.cookie_management_enabled",
                 "portal.context_processors.process_newsletter_form",
             ]
-        }
+        },
     }
 ]
 
@@ -141,7 +156,9 @@ CLOUD_STORAGE_PREFIX = "https://storage.googleapis.com/codeforlife-assets/"
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "handlers": {"console": {"level": "DEBUG", "class": "logging.StreamHandler"}},
+    "handlers": {
+        "console": {"level": "DEBUG", "class": "logging.StreamHandler"}
+    },
     "loggers": {"two_factor": {"handlers": ["console"], "level": "INFO"}},
 }
 RAPID_ROUTER_EARLY_ACCESS_FUNCTION_NAME = "portal.beta.has_beta_access"
@@ -150,7 +167,10 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 CSRF_USE_SESSIONS = True
 RECAPTCHA_DOMAIN = "www.recaptcha.net"
-AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend", "portal.backends.StudentLoginBackend"]
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "portal.backends.StudentLoginBackend",
+]
 USE_TZ = True
 PASSWORD_RESET_TIMEOUT_DAYS = 1
 
