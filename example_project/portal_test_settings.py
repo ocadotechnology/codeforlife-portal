@@ -142,11 +142,12 @@ PIPELINE = {
 }
 
 
-STATICFILES_FINDERS = (
+STATICFILES_FINDERS = [
+    "pipeline.finders.PipelineFinder",
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-    "pipeline.finders.PipelineFinder",
-)
+]
+
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 STORAGES = {
