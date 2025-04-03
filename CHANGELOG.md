@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.6.0 (2025-04-03)
+
+### Features
+
+- Django 5.2 ([#2427](https://github.com/ocadotechnology/codeforlife-portal/pull/2427),
+  [`e82e74e`](https://github.com/ocadotechnology/codeforlife-portal/commit/e82e74eb224b8ec4450a26edbf4923f9d482efac))
+
+
 ## v8.5.1 (2025-03-26)
 
 ### Bug Fixes
