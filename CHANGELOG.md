@@ -1,6 +1,60 @@
 # CHANGELOG
 
 
+## v8.6.3 (2025-04-04)
+
+### Bug Fixes
+
+- Drf 3.16 ([#2430](https://github.com/ocadotechnology/codeforlife-portal/pull/2430),
+  [`d0c69b5`](https://github.com/ocadotechnology/codeforlife-portal/commit/d0c69b53219d9a4de1fba5d6e628328e8041fbb8))
+
+
+## v8.6.2 (2025-04-04)
+
+### Bug Fixes
+
+- Django-otp 1.6 ([#2429](https://github.com/ocadotechnology/codeforlife-portal/pull/2429),
+  [`947cca8`](https://github.com/ocadotechnology/codeforlife-portal/commit/947cca80ac0c0e75d8abf3e9675dd13be7533c21))
+
+* fix: django-otp 1.6
+
+* new pipfile
+
+* wip
+
+* lol
+
+* Get jquery-ui directly from the web
+
+* sos
+
+* Fix teacher test
+
+---------
+
+Co-authored-by: faucomte97 <f.aucomte@hotmail.co.uk>
+
+
+## v8.6.1 (2025-04-03)
+
+### Bug Fixes
+
+- Django 5.1 ([#2428](https://github.com/ocadotechnology/codeforlife-portal/pull/2428),
+  [`deee86c`](https://github.com/ocadotechnology/codeforlife-portal/commit/deee86c492556b687726dcf803331cbd6d394a1c))
+
+* fix: django 5.1
+
+* feedback
+
+
+## v8.6.0 (2025-04-03)
+
+### Features
+
+- Django 5.2 ([#2427](https://github.com/ocadotechnology/codeforlife-portal/pull/2427),
+  [`e82e74e`](https://github.com/ocadotechnology/codeforlife-portal/commit/e82e74eb224b8ec4450a26edbf4923f9d482efac))
+
+
 ## v8.5.1 (2025-03-26)
 
 ### Bug Fixes
