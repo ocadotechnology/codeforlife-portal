@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.6.3 (2025-04-04)
+
+### Bug Fixes
+
+- Drf 3.16 ([#2430](https://github.com/ocadotechnology/codeforlife-portal/pull/2430),
+  [`d0c69b5`](https://github.com/ocadotechnology/codeforlife-portal/commit/d0c69b53219d9a4de1fba5d6e628328e8041fbb8))
+
+
 ## v8.6.2 (2025-04-04)
 
 ### Bug Fixes
