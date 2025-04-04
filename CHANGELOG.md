@@ -1,6 +1,32 @@
 # CHANGELOG
 
 
+## v8.6.2 (2025-04-04)
+
+### Bug Fixes
+
+- Django-otp 1.6 ([#2429](https://github.com/ocadotechnology/codeforlife-portal/pull/2429),
+  [`947cca8`](https://github.com/ocadotechnology/codeforlife-portal/commit/947cca80ac0c0e75d8abf3e9675dd13be7533c21))
+
+* fix: django-otp 1.6
+
+* new pipfile
+
+* wip
+
+* lol
+
+* Get jquery-ui directly from the web
+
+* sos
+
+* Fix teacher test
+
+---------
+
+Co-authored-by: faucomte97 <f.aucomte@hotmail.co.uk>
+
+
 ## v8.6.1 (2025-04-03)
 
 ### Bug Fixes
