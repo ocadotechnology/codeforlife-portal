@@ -1,4 +1,3 @@
-import logging
 import math
 
 from common.helpers.emails import (
@@ -35,8 +34,6 @@ from portal.strings.ten_year_map import (
     TEN_YEAR_MAP_BANNER,
     TEN_YEAR_MAP_HEADLINE,
 )
-
-LOGGER = logging.getLogger(__name__)
 
 
 def register_view(request):
@@ -131,10 +128,6 @@ def process_signup_form(request, data):
                     ),
                 },
             )
-        else:
-            LOGGER.warn(
-                f"Ratelimit teacher {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}"
-            )
     else:
         teacher = Teacher.objects.factory(
             first_name=data["teacher_first_name"],
@@ -180,10 +173,7 @@ def process_independent_student_signup_form(request, data):
                     ),
                 },
             )
-        else:
-            LOGGER.warning(
-                f"Ratelimit independent {RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP}: {email}"
-            )
+
         return render(
             request,
             "portal/email_verification_needed.html",

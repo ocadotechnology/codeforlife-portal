@@ -1,6 +1,18 @@
 # CHANGELOG
 
 
+## v8.6.4 (2025-04-04)
+
+### Bug Fixes
+
+- Remove logger instances ([#2426](https://github.com/ocadotechnology/codeforlife-portal/pull/2426),
+  [`bbc708c`](https://github.com/ocadotechnology/codeforlife-portal/commit/bbc708c594bec96b9b952a69f3fc5890a439e90e))
+
+* fix: Remove logger instances
+
+* Merge branch 'master' into remove_logger
+
+
 ## v8.6.3 (2025-04-04)
 
 ### Bug Fixes

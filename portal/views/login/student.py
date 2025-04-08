@@ -1,5 +1,3 @@
-import logging
-
 from common.models import UserSession, Student, Class
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -13,8 +11,6 @@ from portal.forms.play import StudentLoginForm, StudentClassCodeForm
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.helpers.request_handlers import get_access_code_from_request
 from portal.views.login import has_user_lockout_expired
-
-LOGGER = logging.getLogger(__name__)
 
 
 class StudentClassCodeView(FormView):
@@ -76,12 +72,7 @@ class StudentLoginView(LoginView):
         students = Student.objects.filter(
             new_user__first_name__iexact=name, class_field=klass
         )
-        try:
-            student = students[0]
-        except IndexError:
-            msg = f"Student {name} in class {class_code} is not found!"
-            LOGGER.error(msg)
-            raise Exception(msg)
+        student = students[0]
 
         # Log the login time, class, and login type
         session = UserSession(

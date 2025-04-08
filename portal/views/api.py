@@ -1,5 +1,4 @@
 import datetime
-import logging
 import uuid
 
 from common.models import Class, School, Student, Teacher, UserProfile
@@ -15,7 +14,6 @@ from rest_framework.reverse import reverse_lazy
 
 from portal.app_settings import IS_CLOUD_SCHEDULER_FUNCTION
 
-LOGGER = logging.getLogger(__name__)
 THREE_YEARS_IN_DAYS = 1095
 
 
@@ -199,7 +197,6 @@ class AnonymiseOrphanSchoolsView(generics.ListAPIView):
             pk__gte=start_id, new_user__is_active=False
         ):
             anonymise(teacher.new_user)
-            LOGGER.info(f"Anonymised teacher ID {teacher.pk}")
 
         # Anonymise schools without any teachers
         for school in School.objects.filter(teacher_school__isnull=True):
