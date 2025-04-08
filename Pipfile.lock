@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7ec8bb9392dee00f4badff8face24129f37262f5b3bf4bc8364ee5d619a07b29"
+            "sha256": "3f48d8cd56d06cc82e6a10b15a21e9f2a7e1d8ec2b19587e52a46d100de15f05"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -1034,11 +1034,11 @@
         },
         "django-reverse-js": {
             "hashes": [
-                "sha256:7d626f4d660604e4c2623a494a08ddb70587375110cf4e7bb6f56eeb4471630f",
-                "sha256:89c15e3f1bd656a6f7c7f3641144c0a79d42ec692182c8edd6a91061674f6b62"
+                "sha256:42739b2d955704cb723467655c67278602695d2aae6e7595ff80db323c73e958",
+                "sha256:e9e604aaf8c5cda7c1b1cb9a1a78cff395f7937935085d22bcd484016512a069"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==0.1.7"
+            "version": "==0.1.8"
         },
         "django-selenium-clean": {
             "hashes": [
@@ -1122,11 +1122,11 @@
         },
         "ipython": {
             "hashes": [
-                "sha256:143ef3ea6fb1e1bffb4c74b114051de653ffb7737a3f7ab1670e657ca6ae8c44",
-                "sha256:ec7b479e3e5656bf4f58c652c120494df1820f4f28f522fb7ca09e213c2aab52"
+                "sha256:2df07257ec2f84a6b346b8d83100bcf8fa501c6e01ab75cd3799b0bb253b3d2a",
+                "sha256:a47e13a5e05e02f3b8e1e7a0f9db372199fe8c3763532fe7a1e0379e4e135f16"
             ],
             "markers": "python_version >= '3.11'",
-            "version": "==9.0.2"
+            "version": "==9.1.0"
         },
         "ipython-pygments-lexers": {
             "hashes": [
@@ -1519,11 +1519,11 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:5cbf29cfd9bbf83ab8256fc0bc161f68aabb5d1a6d103bef6e42be610f84a39a",
-                "sha256:e7048d7cc7eaf4ab48f527e29879ff9bf6ca7bbf45506a999544a24c940c2874"
+                "sha256:0754742079db84ae0c6eb20318226b0946ce952af39092396c5e6c9492ae81c0",
+                "sha256:d9d134cf125df366941422df509175d7b622b9e08f37a97c13d6393d53d40735"
             ],
             "index": "pypi",
-            "version": "==7.5.2"
+            "version": "==7.5.3"
         },
         "requests": {
             "hashes": [
