@@ -1,6 +1,25 @@
 # CHANGELOG
 
 
+## v8.6.5 (2025-04-08)
+
+### Bug Fixes
+
+- Fixes for #2383, #2422, and #2423
+  ([#2424](https://github.com/ocadotechnology/codeforlife-portal/pull/2424),
+  [`bf30d90`](https://github.com/ocadotechnology/codeforlife-portal/commit/bf30d905624aaa986db2d44b0b1759bb21f7136c))
+
+* Fixes #2383 (Contribute page responsiveness), #2422 (Nav bar register button), and #2423 (Register
+  page text ammendment)
+
+* Merge branch 'master' into master
+
+### Build System
+
+- Relock to get latest RR
+  ([`d05e2d6`](https://github.com/ocadotechnology/codeforlife-portal/commit/d05e2d6e01f1f0e33b28fffb8b856e9728d79ec4))
+
+
 ## v8.6.4 (2025-04-04)
 
 ### Bug Fixes
