@@ -1,6 +1,21 @@
 # CHANGELOG
 
 
+## v8.6.6 (2025-04-22)
+
+### Bug Fixes
+
+- Fix for #2432 ([#2433](https://github.com/ocadotechnology/codeforlife-portal/pull/2433),
+  [`4c2ece8`](https://github.com/ocadotechnology/codeforlife-portal/commit/4c2ece8744745ec2b78d29f12227439d67987f66))
+
+* Update teach.html
+
+### Build System
+
+- Relock to get latest RR
+  ([`f0c3312`](https://github.com/ocadotechnology/codeforlife-portal/commit/f0c3312944fe60aca78f30982104322481c70dba))
+
+
 ## v8.6.5 (2025-04-08)
 
 ### Bug Fixes
