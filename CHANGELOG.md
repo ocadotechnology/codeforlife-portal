@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.6.9 (2025-05-09)
+
+### Bug Fixes
+
+- Relock again for setuptools upgrade
+  ([`f8bd586`](https://github.com/ocadotechnology/codeforlife-portal/commit/f8bd5869ee7318302e5b08cec7073c1c6364bb6f))
+
+
 ## v8.6.8 (2025-05-09)
 
 ### Bug Fixes
