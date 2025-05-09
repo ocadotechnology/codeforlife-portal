@@ -1,6 +1,24 @@
 # CHANGELOG
 
 
+## v8.6.7 (2025-05-09)
+
+### Bug Fixes
+
+- **deps**: Bump django from 5.1.8 to 5.1.9 in /cfl_common
+  ([#2436](https://github.com/ocadotechnology/codeforlife-portal/pull/2436),
+  [`ff385ef`](https://github.com/ocadotechnology/codeforlife-portal/commit/ff385effc6a7c7ddc4f77fce5fc6471994df48b5))
+
+Bumps [django](https://github.com/django/django) from 5.1.8 to 5.1.9. -
+  [Commits](https://github.com/django/django/compare/5.1.8...5.1.9)
+
+--- updated-dependencies: - dependency-name: django dependency-version: 5.1.9
+
+dependency-type: direct:production ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+
 ## v8.6.6 (2025-04-22)
 
 ### Bug Fixes
