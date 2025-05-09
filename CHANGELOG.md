@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.6.8 (2025-05-09)
+
+### Bug Fixes
+
+- Also relock portal Pipfile
+  ([`aca4e62`](https://github.com/ocadotechnology/codeforlife-portal/commit/aca4e62b22d7e9bc8f7dfd35de2c8ce0348f36d9))
+
+
 ## v8.6.7 (2025-05-09)
 
 ### Bug Fixes
