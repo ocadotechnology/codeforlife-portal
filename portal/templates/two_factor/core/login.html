@@ -1,6 +1,7 @@
 {# Overriden the original "two_factor" template to remove extending base template and slightly adjust style #}
 
 {% load i18n %}
+{% load static %}
 {% load two_factor_tags %}
 
 {% block extra_media %}
@@ -66,9 +67,9 @@
                     </p>
                 </form>
             </div>
+            {% endif %}
+            {% endblock %}
         </div>
     </div>
 </section>
-{% endif %}
-{% endblock %}
 {% endblock %}
