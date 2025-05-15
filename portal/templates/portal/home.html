@@ -9,9 +9,12 @@
     <div class="banner--homepage banner--homepage--teacher col-sm-6">
         <div class="banner col-sm-11">
             <div class="banner__item">
-                <a href="{% url 'teach' %}" class="educate-homepage"
-                alt="Male teacher helping young female student"
-                ></a>
+                <a href="{% url 'teach' %}">
+                    <img src="{% static 'portal/img/home_educate.png' %}" class="educate-homepage"
+                         alt="Male teacher helping young female student"
+                         title="Male teacher helping young female student"
+                    >
+                </a>
             </div>
             <div class="banner-home-content">
                 <div class="banner-home-text">
@@ -29,9 +32,12 @@
     <div class="banner--homepage banner--homepage--student col-sm-6">
         <div class="banner col-sm-11">
             <div class="banner__item">
-                <a href="{% url 'play' %}" class="play-homepage"
-                alt="Two young boys playing on a laptop"
-                ></a>
+                <a href="{% url 'play' %}">
+                    <img src="{% static 'portal/img/home_play.png' %}" class="play-homepage"
+                         alt="Two young boys playing on a laptop"
+                         title="Two young boys playing on a laptop"
+                    >
+                </a>
             </div>
             <div class="banner-home-content">
                 <div class="banner-home-text">

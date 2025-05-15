@@ -10,16 +10,28 @@ other templates to add custom content. -->
 {% block content %}
 <section class="row mx-0">
 {% if usertype == "TEACHER" %}
-    <span class="oval-blue login-shape-left"></span>
-    <span class="polygon-yellow login-shape-right"></span>
+    <span class="login-shape-left">
+        <img src="{% static 'portal/img/oval_blue.svg' %}" alt="Blue oval">
+    </span>
+    <span class="login-shape-right">
+        <img src="{% static 'portal/img/polygon_yellow.svg' %}" alt="Yellow polygon">
+    </span>
     <div class="form--login is-flex form--register--teacher">
 {% elif usertype == "SCHOOL_STUDENT" %}
-    <span class="oval-yellow login-shape-left"></span>
-    <span class="polygon-pink login-shape-right"></span>
+    <span class="login-shape-left">
+        <img src="{% static 'portal/img/oval_yellow.svg' %}" alt="Yellow oval">
+    </span>
+    <span class="login-shape-right">
+        <img src="{% static 'portal/img/polygon_pink.svg' %}" alt="Pink polygon">
+    </span>
     <div class="form--login is-flex form--register--student">
 {% else %}
-    <span class="oval-pink login-shape-left"></span>
-    <span class="polygon-blue login-shape-right"></span>
+    <span class="login-shape-left">
+        <img src="{% static 'portal/img/oval_pink.svg' %}" alt="Pink oval">
+    </span>
+    <span class="login-shape-right">
+        <img src="{% static 'portal/img/polygon_blue.svg' %}" alt="Blue polygon">
+    </span>
     <div class="form--login is-flex form--register--indep-student">
 {% endif %}
         <div class="form col-xs-12 col-sm-8 col-md-8 col-lg-9 center-block">

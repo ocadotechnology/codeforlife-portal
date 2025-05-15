@@ -30,13 +30,6 @@ img {
   margin-top: 1.5em;
 }
 
-.background--swirl {
-  background-image: url("../img/ocado-swirl.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 .image-row {
   align-items: baseline;
   display: flex;
@@ -70,7 +63,6 @@ img {
 
 .logo {
   @include _padding($spacing * 3, $spacing * 14, $spacing * 3, $spacing * 3);
-  content: url("../img/logo_cfl.png");
 }
 
 .map-pin {
@@ -386,53 +378,33 @@ img {
 }
 
 .educate-homepage {
-  content: url("../img/home_educate.png");
   width: 70%;
   object-fit: contain;
 }
 
 .play-homepage {
-  content: url("../img/home_play.png");
   width: 70%;
   object-fit: contain;
 }
 
-.oval-blue {
-  content: url("../img/oval_blue.svg");
-}
-
-.oval-pink {
-  content: url("../img/oval_pink.svg");
-}
-
-.oval-yellow {
-  content: url("../img/oval_yellow.svg");
-}
-
-.polygon-blue {
-  content: url("../img/polygon_blue.svg");
-}
-
-.polygon-pink {
-  content: url("../img/polygon_pink.svg");
-}
-
-.polygon-yellow {
-  content: url("../img/polygon_yellow.svg");
-}
-
 .login-shape-left {
-  @include _top(250px);
-  @include _margin(-250px, 0px, 0px, 0px);
+  @include _top(300px);
   position: relative;
   left: -17vw;
+
+  img {
+    @include _margin(-250px, 0px, 0px, 0px);
+  }
 }
 
 .login-shape-right {
-  @include _top(500px);
-  @include _margin(-500px, 0px, 0px, 0px);
+  @include _top(550px);
   position: relative;
   left: 17vw;
+
+  img {
+    @include _margin(-250px, 0px, 0px, 0px);
+  }
 }
 
 @media (max-width: $tablet-large-max-width) {
