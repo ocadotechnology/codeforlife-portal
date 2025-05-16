@@ -20,8 +20,12 @@
 
 {% if wizard.steps.current == 'auth' %}
     <section class="row mx-0">
-        <span class="oval-blue login-shape-left"></span>
-        <span class="polygon-yellow login-shape-right"></span>
+        <span class="login-shape-left">
+            <img src="{% static 'portal/img/oval_blue.svg' %}" alt="Blue oval">
+        </span>
+        <span class="login-shape-right">
+            <img src="{% static 'portal/img/polygon_yellow.svg' %}" alt="Yellow polygon">
+        </span>
         <div class="form--login is-flex form--register--teacher">
             <div class="form col-xs-12 col-sm-8 col-md-8 col-lg-9 center-block">
                 <h4 class="center-block">Welcome</h4>
