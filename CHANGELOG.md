@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v8.6.10 (2025-05-16)
+
+### Bug Fixes
+
+- Use img tags instead of CSS content property
+  ([#2437](https://github.com/ocadotechnology/codeforlife-portal/pull/2437),
+  [`04cb4d2`](https://github.com/ocadotechnology/codeforlife-portal/commit/04cb4d220e62f349a298a74525e6a0afa7b681fa))
+
+* fix: Use img tags instead of CSS content property
+
+* Load static tags
+
+
 ## v8.6.9 (2025-05-09)
 
 ### Bug Fixes
