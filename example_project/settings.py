@@ -75,7 +75,7 @@ PIPELINE = {
                 os.path.join(BASE_DIR, "static/game/css/level_selection.css"),
                 os.path.join(BASE_DIR, "static/game/css/backgrounds.css"),
             ),
-            "output_filename": "portal.css",
+            "output_filename": "portal/css/portal.css",
         },
         "popup": {
             "source_filenames": (
@@ -83,13 +83,13 @@ PIPELINE = {
                     BASE_DIR, "static/portal/sass/partials/_popup.scss"
                 ),
             ),
-            "output_filename": "popup.css",
+            "output_filename": "portal/css/popup.css",
         },
         "game-scss": {
             "source_filenames": (
                 os.path.join(BASE_DIR, "static/game/sass/game.scss"),
             ),
-            "output_filename": "game.css",
+            "output_filename": "game/css/gamestyles.css",
         },
     },
     "CSS_COMPRESSOR": None,
