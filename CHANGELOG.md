@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.6.11 (2025-05-19)
+
+### Bug Fixes
+
+- Sass compiler ([#2438](https://github.com/ocadotechnology/codeforlife-portal/pull/2438),
+  [`249390f`](https://github.com/ocadotechnology/codeforlife-portal/commit/249390f073bda177a30edbab752d4af784ce06cf))
+
+
 ## v8.6.10 (2025-05-16)
 
 ### Bug Fixes
