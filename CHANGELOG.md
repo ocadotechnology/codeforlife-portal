@@ -1,6 +1,15 @@
 # CHANGELOG
 
 
+## v8.6.12 (2025-05-28)
+
+### Bug Fixes
+
+- Add new functional cookie
+  ([#2440](https://github.com/ocadotechnology/codeforlife-portal/pull/2440),
+  [`a639130`](https://github.com/ocadotechnology/codeforlife-portal/commit/a639130cdd9d466f6702685d9af6d474f98721b1))
+
+
 ## v8.6.11 (2025-05-19)
 
 ### Bug Fixes
