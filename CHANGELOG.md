@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v8.7.0 (2025-05-28)
+
+### Features
+
+- Update contribute page and add link to footer
+  ([#2441](https://github.com/ocadotechnology/codeforlife-portal/pull/2441),
+  [`e28fc88`](https://github.com/ocadotechnology/codeforlife-portal/commit/e28fc88ee95936d51358a3bf984b511fbfd82b8f))
+
+* feat: Update contribute image and add link to footer
+
+* Smaller image
+
+
 ## v8.6.12 (2025-05-28)
 
 ### Bug Fixes
