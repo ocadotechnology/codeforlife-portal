@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.7.1 (2025-05-31)
+
+### Bug Fixes
+
+- Invite teacher permissions
+  ([`e41462f`](https://github.com/ocadotechnology/codeforlife-portal/commit/e41462f4b046ee37c937d0f6190c0a0a041ffaa8))
+
+
 ## v8.7.0 (2025-05-28)
 
 ### Features
