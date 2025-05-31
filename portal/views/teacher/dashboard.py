@@ -29,6 +29,7 @@ from django.utils import timezone
 from django.views.decorators.http import require_POST
 from game.level_management import levels_shared_with, unshare_level
 from game.models import Level
+from game.views.level_selection import is_admin_teacher
 from two_factor.utils import devices_for_user
 
 from portal.forms.invite_teacher import InviteTeacherForm
@@ -160,7 +161,7 @@ def dashboard_teacher_view(request, is_admin):
         elif request.POST.get("show_onboarding_complete") == "1":
             show_onboarding_complete = True
 
-        elif "invite_teacher" in request.POST:
+        elif "invite_teacher" in request.POST and is_admin:
             invite_teacher_form = InviteTeacherForm(request.POST)
             if invite_teacher_form.is_valid():
                 data = invite_teacher_form.cleaned_data
@@ -674,7 +675,7 @@ def delete_teacher_invite(request, token):
     teacher = request.user.new_teacher
 
     # auth the user before deletion
-    if invite is None or teacher.school != invite.school:
+    if invite is None or teacher.school != invite.school or not is_admin_teacher(request.user):
         messages.error(
             request,
             "You do not have permission to perform this action or the invite does not exist",
@@ -698,7 +699,7 @@ def resend_invite_teacher(request, token):
     teacher = request.user.new_teacher
 
     # auth the user before deletion
-    if invite is None or teacher.school != invite.school:
+    if invite is None or teacher.school != invite.school or not is_admin_teacher(request.user):
         messages.error(
             request,
             "You do not have permission to perform this action or the invite does not exist",
@@ -706,7 +707,7 @@ def resend_invite_teacher(request, token):
     else:
         invite.expiry = timezone.now() + timedelta(days=30)
         invite.save()
-        teacher = Teacher.objects.filter(id=invite.from_teacher.id)[0]
+        teacher = Teacher.objects.filter(id=invite.from_teacher.id)
 
         messages.success(request, "Teacher re-invited!")
 

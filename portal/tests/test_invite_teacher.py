@@ -5,7 +5,7 @@ from uuid import uuid4
 import pytest
 from common.models import SchoolTeacherInvitation, Teacher
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly
+from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
 from common.tests.utils.teacher import signup_teacher_directly
 from django.contrib.messages import get_messages
 from django.core import mail
@@ -149,8 +149,66 @@ class TestInviteTeacher(TestCase):
             "access this page."
         )
 
+    def test_invite_permissions(self):
+        # Create an admin and a standard teacher in the same school
+        admin_email, admin_password = signup_teacher_directly()
+        school = create_organisation_directly(admin_email)
+        create_class_directly(admin_email)
 
-class TestTeacherInviteAPI(TestCase):
+        standard_email, standard_password = signup_teacher_directly()
+        join_teacher_to_organisation(standard_email, school.name)
+        create_class_directly(standard_email)
+
+        # Log in as standard teacher, try inviting a teacher, no invitation should be created
+        client = Client()
+        client.login(username=standard_email, password=standard_password)
+
+        dashboard_url = reverse("dashboard")
+        data = {
+            "teacher_first_name": "Valid",
+            "teacher_last_name": "Name",
+            "teacher_email": "new@teacher.com",
+            "invite_teacher": "",
+        }
+
+        response = client.post(dashboard_url, data)
+
+        assert response.status_code == 200
+        messages = list(response.context["messages"])
+        assert len(messages) == 0
+        assert len(mail.outbox) == 0
+        client.logout()
+
+        assert not SchoolTeacherInvitation.objects.filter(invited_teacher_email="new@teacher.com").exists()
+
+        # Log in as admin teacher to invite a teacher
+        client.login(username=admin_email, password=admin_password)
+
+        dashboard_url = reverse("dashboard")
+        data = {
+            "teacher_first_name": "Valid",
+            "teacher_last_name": "Name",
+            "teacher_email": "new@teacher.com",
+            "invite_teacher": "",
+        }
+
+        client.post(dashboard_url, data)
+        client.logout()
+
+        assert SchoolTeacherInvitation.objects.filter(invited_teacher_email="new@teacher.com").exists()
+        invite =  SchoolTeacherInvitation.objects.get(invited_teacher_email="new@teacher.com")
+
+        # Log in as standard teacher, try resending and deleting the invitation, both should fail
+        client.login(username=standard_email, password=standard_password)
+
+        response = client.post(reverse("resend_invite_teacher", kwargs={"token": invite.token}))
+        message = list(response.wsgi_request._messages)[0].message
+        assert message == "You do not have permission to perform this action or the invite does not exist"
+
+        response = client.post(reverse("delete_teacher_invite", kwargs={"token": invite.token}))
+        message = list(response.wsgi_request._messages)[0].message
+        assert message == "You do not have permission to perform this action or the invite does not exist"
+
     def test_delete_exception(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
