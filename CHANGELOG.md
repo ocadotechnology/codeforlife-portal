@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.7.2 (2025-06-05)
+
+### Bug Fixes
+
+- Django 5.9.10 ([#2443](https://github.com/ocadotechnology/codeforlife-portal/pull/2443),
+  [`5c94637`](https://github.com/ocadotechnology/codeforlife-portal/commit/5c946371706fa9f03495580a0988506cb891138c))
+
+
 ## v8.7.1 (2025-05-31)
 
 ### Bug Fixes
