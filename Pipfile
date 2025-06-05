@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+boto3 = "==1.36.14"
 cfl-common = {path = "./cfl_common", editable = true}
 django-classy-tags = "==4.1.0"
 django-formtools = "==2.5.1"
@@ -13,10 +14,17 @@ django-ratelimit = "==3.0.1"
 django-recaptcha = "==4.0.0"
 django-sekizai = "==4.1.0"
 django-treebeard = "==4.7.1"
+gunicorn = "==23.0.0"
 importlib-metadata = "==4.13.0"
+mypy-boto3-s3 = "==1.36.9"
 phonenumbers = "==8.12.12"
+psycopg2-binary = "==2.9.9"
+python-dotenv = "==1.0.1"
 pyyaml = "==6.0.2"
 reportlab = "==4.2.5"
+requests-toolbelt = "==1.0.0"
+uvicorn-worker = "==0.2.0"
+whitenoise = "==6.9.0"
 
 [dev-packages]
 black = "*"
