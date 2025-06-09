@@ -16,7 +16,6 @@ from selenium.webdriver.common.by import By
 from portal.tests.pageObjects.portal.base_page import BasePage
 from portal.tests.pageObjects.portal.home_page import HomePage
 from portal.tests.test_invite_teacher import FADE_TIME
-
 from .base_test import BaseTest
 from .utils.messages import is_organisation_created_message_showing
 
