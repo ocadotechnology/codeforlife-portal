@@ -204,8 +204,8 @@ class TestOrganisation(BaseTest, BasePage):
 
         page.change_organisation_details({"name": new_name})
 
-        assert page.has_school_edit_failed(
-            "School names cannot contain special characters except full stops and apostrophes."
+        assert page.was_form_invalid(
+            "edit_form", "School names cannot contain special characters except full stops and apostrophes."
         )
 
     def test_edit_clash(self):
@@ -225,4 +225,4 @@ class TestOrganisation(BaseTest, BasePage):
 
         page = page.change_organisation_details({"name": school1.name})
 
-        assert page.has_school_edit_failed("There is already a school or club registered with that name")
+        assert page.was_form_invalid("edit_form", "There is already a school or club registered with that name")
