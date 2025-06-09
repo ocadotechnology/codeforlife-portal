@@ -13,13 +13,13 @@ class OnboardingOrganisationPage(TeachBasePage):
 
         assert self.on_correct_page("onboarding_organisation_page")
 
-    def create_organisation(self, name, password, country="GB"):
-        self._create_organisation(name, password, country)
+    def create_organisation(self, name, country="GB"):
+        self._create_organisation(name, country)
 
         return onboarding_classes_page.OnboardingClassesPage(self.browser)
 
-    def create_organisation_failure(self, name, password, country="GB"):
-        self._create_organisation(name, password, country)
+    def create_organisation_failure(self, name, country="GB"):
+        self._create_organisation(name, country)
 
         return self
 
@@ -28,7 +28,7 @@ class OnboardingOrganisationPage(TeachBasePage):
 
         return self
 
-    def _create_organisation(self, name, password, country):
+    def _create_organisation(self, name, country):
         self.browser.find_element(By.ID, "id_name").send_keys(name)
         country_element = self.browser.find_element(By.ID, "id_country")
         select = Select(country_element)
@@ -46,6 +46,16 @@ class OnboardingOrganisationPage(TeachBasePage):
             self.browser.find_element(By.ID, "form-create-organisation").find_element(By.CLASS_NAME, "errorlist").text
         )
         error = "There is already a school or club registered with that name and postcode"
+        return error in errors
+
+    def was_name_invalid(self):
+        if not self.element_exists_by_css(".errorlist"):
+            return False
+
+        errors = (
+            self.browser.find_element(By.ID, "form-create-organisation").find_element(By.CLASS_NAME, "errorlist").text
+        )
+        error = "School names cannot contain special characters except full stops and apostrophes."
         return error in errors
 
     def was_postcode_invalid(self):

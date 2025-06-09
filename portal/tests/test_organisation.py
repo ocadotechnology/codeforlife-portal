@@ -28,8 +28,19 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login_no_school(email, password)
 
-        page, name = create_organisation(page, password)
-        assert is_organisation_created_message_showing(self.selenium, name)
+        school_name = "My School"
+        page.create_organisation(school_name)
+        assert is_organisation_created_message_showing(self.selenium, school_name)
+
+    def test_create_invalid_name(self):
+        email, password = signup_teacher_directly()
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_teacher_login_page().login_no_school(email, password)
+
+        invalid_school_name = "<a>My School</a"
+        page.create_organisation_failure(invalid_school_name)
+        assert page.was_name_invalid()
 
     def test_kick(self):
         email_1, password_1 = signup_teacher_directly()
