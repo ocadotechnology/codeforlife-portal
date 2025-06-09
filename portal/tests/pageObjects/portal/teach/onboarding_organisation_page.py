@@ -47,20 +47,3 @@ class OnboardingOrganisationPage(TeachBasePage):
         )
         error = "There is already a school or club registered with that name and postcode"
         return error in errors
-
-    def was_name_invalid(self):
-        if not self.element_exists_by_css(".errorlist"):
-            return False
-
-        errors = (
-            self.browser.find_element(By.ID, "form-create-organisation").find_element(By.CLASS_NAME, "errorlist").text
-        )
-        error = "School names cannot contain special characters except full stops and apostrophes."
-        return error in errors
-
-    def was_postcode_invalid(self):
-        errors = (
-            self.browser.find_element(By.ID, "form-create-organisation").find_element(By.CLASS_NAME, "errorlist").text
-        )
-        error = "Please enter a valid postcode or ZIP code"
-        return error in errors

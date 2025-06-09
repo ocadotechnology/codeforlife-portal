@@ -52,10 +52,9 @@ class TeachDashboardPage(TeachBasePage):
         self.browser.find_element(By.ID, "update_details_button").click()
         return self
 
-    def has_edit_failed(self):
+    def has_school_edit_failed(self, error):
         self.wait_for_element_by_id("edit_form")
         errorlist = self.browser.find_element(By.ID, "edit_form").find_element(By.CLASS_NAME, "errorlist").text
-        error = "There is already a school or club registered with that name"
         return error in errorlist
 
     def create_class(self, name, classmate_progress, teacher_id=None):

@@ -39,7 +39,10 @@ class TestOrganisation(BaseTest, BasePage):
 
         invalid_school_name = "<a>My School</a"
         page.create_organisation_failure(invalid_school_name)
-        assert page.was_name_invalid()
+        assert page.was_form_invalid(
+            "form-create-organisation",
+            "School names cannot contain special characters except full stops and apostrophes.",
+        )
 
     def test_kick(self):
         email_1, password_1 = signup_teacher_directly()
@@ -181,10 +184,29 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.check_organisation_details({"name": school.name})
 
-        new_name = "new " + school.name
+        new_name = f"new {school.name}"
 
         page.change_organisation_details({"name": new_name})
         assert page.check_organisation_details({"name": new_name})
+
+    def test_edit_details_invalid_name(self):
+        email, password = signup_teacher_directly()
+        school = create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
+
+        assert page.check_organisation_details({"name": school.name})
+
+        new_name = f"<a>{school.name}</a>"
+
+        page.change_organisation_details({"name": new_name})
+
+        assert page.has_school_edit_failed(
+            "School names cannot contain special characters except full stops and apostrophes."
+        )
 
     def test_edit_clash(self):
         email_1, _ = signup_teacher_directly()
@@ -203,4 +225,4 @@ class TestOrganisation(BaseTest, BasePage):
 
         page = page.change_organisation_details({"name": school1.name})
 
-        assert page.has_edit_failed()
+        assert page.has_school_edit_failed("There is already a school or club registered with that name")
