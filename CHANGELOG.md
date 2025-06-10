@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.7.5 (2025-06-10)
+
+### Bug Fixes
+
+- Update requests
+  ([`6052bbe`](https://github.com/ocadotechnology/codeforlife-portal/commit/6052bbe8f06ec2dd404495c3076a40281a761091))
+
+
 ## v8.7.4 (2025-06-10)
 
 ### Bug Fixes
