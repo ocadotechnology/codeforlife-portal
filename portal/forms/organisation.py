@@ -1,9 +1,9 @@
+import re
 from builtins import object
 
 from common.models import School
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.validators import EmailValidator
 from django_countries.widgets import CountrySelectWidget
 
 
@@ -167,16 +167,10 @@ class OrganisationForm(forms.ModelForm):
 
     def clean_name(self):
         name = self.cleaned_data.get("name", None)
-        validator = EmailValidator()
 
-        if name:
-            try:
-                validator(name)
-                is_email = True
-            except forms.ValidationError:
-                is_email = False
-
-            if is_email:
-                raise forms.ValidationError("Please make sure your organisation name is valid")
+        if re.match(re.compile("^[\w\.' ]+$"), name) is None:
+            raise forms.ValidationError(
+                "School names cannot contain special characters except full stops and apostrophes."
+            )
 
         return name

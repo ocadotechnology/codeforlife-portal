@@ -16,7 +16,6 @@ from selenium.webdriver.common.by import By
 from portal.tests.pageObjects.portal.base_page import BasePage
 from portal.tests.pageObjects.portal.home_page import HomePage
 from portal.tests.test_invite_teacher import FADE_TIME
-
 from .base_test import BaseTest
 from .utils.messages import is_organisation_created_message_showing
 
@@ -28,8 +27,22 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login_no_school(email, password)
 
-        page, name = create_organisation(page, password)
-        assert is_organisation_created_message_showing(self.selenium, name)
+        school_name = "My School"
+        page.create_organisation(school_name)
+        assert is_organisation_created_message_showing(self.selenium, school_name)
+
+    def test_create_invalid_name(self):
+        email, password = signup_teacher_directly()
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_teacher_login_page().login_no_school(email, password)
+
+        invalid_school_name = "<a>My School</a"
+        page.create_organisation_failure(invalid_school_name)
+        assert page.was_form_invalid(
+            "form-create-organisation",
+            "School names cannot contain special characters except full stops and apostrophes.",
+        )
 
     def test_kick(self):
         email_1, password_1 = signup_teacher_directly()
@@ -171,10 +184,29 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.check_organisation_details({"name": school.name})
 
-        new_name = "new " + school.name
+        new_name = f"new {school.name}"
 
         page.change_organisation_details({"name": new_name})
         assert page.check_organisation_details({"name": new_name})
+
+    def test_edit_details_invalid_name(self):
+        email, password = signup_teacher_directly()
+        school = create_organisation_directly(email)
+        _, _, access_code = create_class_directly(email)
+        create_school_student_directly(access_code)
+
+        self.selenium.get(self.live_server_url)
+        page = HomePage(self.selenium).go_to_teacher_login_page().login(email, password)
+
+        assert page.check_organisation_details({"name": school.name})
+
+        new_name = f"<a>{school.name}</a>"
+
+        page.change_organisation_details({"name": new_name})
+
+        assert page.was_form_invalid(
+            "edit_form", "School names cannot contain special characters except full stops and apostrophes."
+        )
 
     def test_edit_clash(self):
         email_1, _ = signup_teacher_directly()
@@ -193,4 +225,4 @@ class TestOrganisation(BaseTest, BasePage):
 
         page = page.change_organisation_details({"name": school1.name})
 
-        assert page.has_edit_failed()
+        assert page.was_form_invalid("edit_form", "There is already a school or club registered with that name")
