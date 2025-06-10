@@ -1,6 +1,22 @@
 # CHANGELOG
 
 
+## v8.7.4 (2025-06-10)
+
+### Bug Fixes
+
+- Pt59628-1312-r4632 ([#2448](https://github.com/ocadotechnology/codeforlife-portal/pull/2448),
+  [`0c3d309`](https://github.com/ocadotechnology/codeforlife-portal/commit/0c3d309e66198a4365fc01bf12732acd2f998754))
+
+* fix: PT59628-1312-R4632
+
+* fix test
+
+* Add dashboard test
+
+* Simplify
+
+
 ## v8.7.3 (2025-06-05)
 
 ### Bug Fixes
