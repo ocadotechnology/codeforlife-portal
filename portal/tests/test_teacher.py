@@ -772,7 +772,7 @@ class TestTeacherFrontend(BaseTest):
             .login_no_school(email, password)
         )
 
-        page = page.create_organisation("Test school", "W1", "GB")
+        page = page.create_organisation("Test school")
         page = page.create_class("Test class", True)
         page = (
             page.type_student_name("Test Student")

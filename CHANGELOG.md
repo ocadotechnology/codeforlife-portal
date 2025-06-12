@@ -1,6 +1,46 @@
 # CHANGELOG
 
 
+## v8.7.5 (2025-06-10)
+
+### Bug Fixes
+
+- Update requests
+  ([`6052bbe`](https://github.com/ocadotechnology/codeforlife-portal/commit/6052bbe8f06ec2dd404495c3076a40281a761091))
+
+
+## v8.7.4 (2025-06-10)
+
+### Bug Fixes
+
+- Pt59628-1312-r4632 ([#2448](https://github.com/ocadotechnology/codeforlife-portal/pull/2448),
+  [`0c3d309`](https://github.com/ocadotechnology/codeforlife-portal/commit/0c3d309e66198a4365fc01bf12732acd2f998754))
+
+* fix: PT59628-1312-R4632
+
+* fix test
+
+* Add dashboard test
+
+* Simplify
+
+
+## v8.7.3 (2025-06-05)
+
+### Bug Fixes
+
+- Django 5.9.10
+  ([`13b4744`](https://github.com/ocadotechnology/codeforlife-portal/commit/13b474426602102093086f9ad3c6ed33f4314813))
+
+
+## v8.7.2 (2025-06-05)
+
+### Bug Fixes
+
+- Django 5.9.10 ([#2443](https://github.com/ocadotechnology/codeforlife-portal/pull/2443),
+  [`5c94637`](https://github.com/ocadotechnology/codeforlife-portal/commit/5c946371706fa9f03495580a0988506cb891138c))
+
+
 ## v8.7.1 (2025-05-31)
 
 ### Bug Fixes
