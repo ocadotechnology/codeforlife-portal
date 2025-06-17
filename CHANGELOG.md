@@ -1,6 +1,15 @@
 # CHANGELOG
 
 
+## v8.7.6 (2025-06-17)
+
+### Bug Fixes
+
+- Add ci/cd dependencies for Snyk scan
+  ([#2442](https://github.com/ocadotechnology/codeforlife-portal/pull/2442),
+  [`99ec7cc`](https://github.com/ocadotechnology/codeforlife-portal/commit/99ec7ccffa1801a136bb110f425065f00c2eefb5))
+
+
 ## v8.7.5 (2025-06-10)
 
 ### Bug Fixes
