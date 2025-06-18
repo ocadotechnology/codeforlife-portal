@@ -110,30 +110,24 @@ def _compute_scores(
     """
     num_completed = num_top_scores = total_available_score = 0
     total_score = 0.0
-    # Get a QuerySet of best attempts for each level
-    best_attempts = Attempt.objects.filter(
-        level__in=levels, student=student, is_best_attempt=True
-    ).select_related("level")
+    # Get a QuerySet of attempts for each level
+    attempts = Attempt.objects.filter(level__in=levels, student=student)
 
     for level in levels:
         total_available_score += _get_max_score_for_level(level)
 
     # For each level, compare best attempt's score with level's max score and
     # increment variables as needed
-    if best_attempts:
-        attempts_dict = {
-            best_attempt.level.id: best_attempt
-            for best_attempt in best_attempts
-        }
+    if attempts:
         for level in levels:
-            attempt = attempts_dict.get(level.id)
+            attempt = attempts.filter(level=level.id)
 
-            if attempt and attempt.score:
+            if attempt.exists():
                 num_completed += 1
-                if attempt.score == _get_max_score_for_level(level):
+                if attempt[0].score == _get_max_score_for_level(level):
                     num_top_scores += 1
 
-                total_score += attempt.score
+                total_score += attempt[0].score
 
     return {
         "num_completed": num_completed,
