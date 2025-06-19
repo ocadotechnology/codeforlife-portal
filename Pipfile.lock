@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3ac5e609e0784ac81fec15da0c6aadcbac687a2b52094f4a83fe907c05830a87"
+            "sha256": "6186d7279b683b3159426bf153ff1d5d4198fe00a645afaa4698f4dc57333b4e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -428,15 +428,6 @@
             ],
             "markers": "python_version >= '3.5'",
             "version": "==8.7.0"
-        },
-        "mypy-boto3-s3": {
-            "hashes": [
-                "sha256:368c963969eda65bb3a9df61e87510dd8b3247cce59f559c2ec6c43d5796bef5",
-                "sha256:506edd56892452dff5b673e3c79a11b6f8935076ce4a9daaac4cda708a176201"
-            ],
-            "index": "pypi",
-            "markers": "python_version >= '3.8'",
-            "version": "==1.36.9"
         },
         "numpy": {
             "hashes": [
@@ -1842,11 +1833,11 @@
         },
         "rapid-router": {
             "hashes": [
-                "sha256:71d634bc496418a2b91be811b49657ef7708e9d0a14f0ce8e0b0fb5d2657746a",
-                "sha256:c9e5cdffc8e1fedc2175882257fd0af75a9180e2b7c68fe85128a5c09c82bc4f"
+                "sha256:65bc485a28e1aa08b8e351da9322b70872ff24b63cbf266e9616c48778b4c746",
+                "sha256:d781f417891c1ec97e258fee5ad536e3cac5d88d9fb9656d076ab5f132d5c634"
             ],
             "index": "pypi",
-            "version": "==7.5.14"
+            "version": "==7.5.15"
         },
         "requests": {
             "hashes": [
