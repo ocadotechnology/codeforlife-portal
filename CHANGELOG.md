@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.7.8 (2025-06-19)
+
+### Bug Fixes
+
+- Remove mypy ([#2451](https://github.com/ocadotechnology/codeforlife-portal/pull/2451),
+  [`4b6071d`](https://github.com/ocadotechnology/codeforlife-portal/commit/4b6071d4426da1b9e5ada8a8a79634fc07ebe6f8))
+
+
 ## v8.7.7 (2025-06-19)
 
 ### Bug Fixes
