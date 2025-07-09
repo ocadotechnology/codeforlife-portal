@@ -3,7 +3,7 @@
 
 <div class="header">
     <div class="menu">
-        <div class="menu__brand col-md-3">
+        <div class="menu__brand">
             {% if user|is_logged_in %}
                 {% if user|is_logged_in_as_teacher %}
                     <a href="{% url 'dashboard' %}">
@@ -26,9 +26,8 @@
             </span>
         </div>
         {% if user|is_logged_in %}
-        <div class="menu__left-side col-md-4 col-lg-5">
+        <div class="menu__left-side col-md-6 col-lg-7">
             {% if user|is_logged_in_as_teacher %}
-                <div class="menu--title hidden-md">Teacher</div>
                 {% if user|has_teacher_finished_onboarding %}
                     <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">Dashboard</a>
                     <div class="dropdown">
@@ -55,14 +54,9 @@
                 {% else %}
                     <a href="{% url 'onboarding-organisation' %}" class="button--menu button--menu--secondary button--menu--enabled">Dashboard</a>
                     <a class="button--menu button--menu--secondary button--menu--disabled">Games</a>
-                    <a class="button--menu button--menu--secondary button--menu--disabled">Teaching Resources</a>
+                    <a class="button--menu button--menu--secondary button--menu--disabled">Resources</a>
                 {% endif %}
             {% else %}
-                {% if user|is_independent_student %}
-                    <div class="menu--title">Independent</div>
-                {% else %}
-                    <div class="menu--title">Student</div>
-                {% endif %}
                 <a
                     {% if user|is_independent_student %}
                         href="{% url 'independent_student_details' %}"
@@ -90,7 +84,7 @@
                     <div class="dropdown">
                         <a id="teaching_resources_button"
                             class="button--menu button--menu--secondary button--menu--enabled">
-                            Learning Resources <span class="material-icons-outlined md-32">arrow_drop_down</span></a>
+                            Resources <span class="material-icons-outlined md-32">arrow_drop_down</span></a>
                         <div class="dropdown-content">
                             <a href="https://code-for-life.gitbook.io/independent-student-resources/" target="_blank">
                                 <small>Rapid Router</small><span class="iconify" data-icon="mdi:open-in-new"></span></a>
@@ -100,7 +94,7 @@
                 {% endif %}
             {% endif %}
         {% else %}
-            <div class="menu__left-side col-md-5">
+            <div class="menu__left-side col-md-6">
                 <a href="{% url 'teach' %}" class="button--menu button--menu--primary button--menu--enabled">Teachers</a>
                 <a href="{% url 'play' %}" class="button--menu button--menu--primary  button--menu--enabled">Students</a>
         {% endif %}
