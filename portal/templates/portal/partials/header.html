@@ -3,7 +3,7 @@
 
 <div class="header">
     <div class="menu">
-        <div class="menu__brand">
+        <div class="menu__brand col-md-3">
             {% if user|is_logged_in %}
                 {% if user|is_logged_in_as_teacher %}
                     <a href="{% url 'dashboard' %}">
@@ -26,9 +26,9 @@
             </span>
         </div>
         {% if user|is_logged_in %}
-        <div class="menu__left-side col-md-7">
+        <div class="menu__left-side col-md-4 col-lg-5">
             {% if user|is_logged_in_as_teacher %}
-                <div class="menu--title">Teacher</div>
+                <div class="menu--title hidden-md">Teacher</div>
                 {% if user|has_teacher_finished_onboarding %}
                     <a href="{% url 'dashboard' %}" class="button--menu button--menu--secondary button--menu--enabled">Dashboard</a>
                     <div class="dropdown">
@@ -43,7 +43,7 @@
                     <div class="dropdown">
                         <a id="teaching_resources_button"
                             class="button--menu button--menu--secondary button--menu--enabled">
-                            Teaching Resources <span class="material-icons-outlined md-32">arrow_drop_down</span></a>
+                            Resources <span class="material-icons-outlined md-32">arrow_drop_down</span></a>
                         <div class="dropdown-content">
                             <a id="rapid_router_resources_button" href="https://code-for-life.gitbook.io/teaching-resources/" target="_blank">
                                 <small>Rapid Router</small> <span class="iconify" data-icon="mdi:open-in-new"></span></a>
@@ -106,7 +106,7 @@
         {% endif %}
         </div>
         {% if user|is_logged_in %}
-        <div class="menu__right-side col-md-4">
+        <div class="menu__right-side col-md-5">
             <div class="dropdown header__account-details-dropdown">
                 <button id="logout_menu" class="button--regular button--secondary button--dropdown header__account-details-dropdown"
                         data-toggle="dropdown">
@@ -146,7 +146,7 @@
                 </ul>
             </div>
         {% else %}
-        <div class="menu__right-side col-md-5">
+        <div class="menu__right-side col-md-4">
             <a href="{% url 'register' %}" id="signup_button" class="button button--primary button--register register">Register for FREE</a>
             <div class="dropdown">
                 <button id="login_dropdown" class="button--regular button--secondary button--header--login button--dropdown"
