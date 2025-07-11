@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.7.9 (2025-07-10)
+
+### Bug Fixes
+
+- Update reportlab and pillow
+  ([`c4ff60f`](https://github.com/ocadotechnology/codeforlife-portal/commit/c4ff60f4834ff034344f3309905139a356c49d32))
+
+
 ## v8.7.8 (2025-06-19)
 
 ### Bug Fixes
