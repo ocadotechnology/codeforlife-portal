@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.8.1 (2025-08-08)
+
+### Bug Fixes
+
+- Remove unnecessary check in tmp auth middleware
+  ([`41dd00b`](https://github.com/ocadotechnology/codeforlife-portal/commit/41dd00b055a7fbaf65b62ad76b5496115c05bc6f))
+
+
 ## v8.8.0 (2025-08-08)
 
 ### Features
