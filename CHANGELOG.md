@@ -1,6 +1,21 @@
 # CHANGELOG
 
 
+## v8.8.0 (2025-08-08)
+
+### Features
+
+- Temp basic auth for OTP app
+  ([#2453](https://github.com/ocadotechnology/codeforlife-portal/pull/2453),
+  [`522a657`](https://github.com/ocadotechnology/codeforlife-portal/commit/522a6570b2c6609b06c5daafad32f22ed607bce3))
+
+* feat: Temporary basic auth for OTP app
+
+* Not actually needed in these settings lol
+
+* fix test
+
+
 ## v8.7.9 (2025-07-10)
 
 ### Bug Fixes
