@@ -18,3 +18,5 @@ SESSION_EXPIRY_TIME = 60 * 30
 
 # One hour
 SCREENTIME_WARNING_EXPIRY_TIME = 60 * 60
+
+TMP_AUTH_TOKEN = getattr(settings, "TMP_AUTH_TOKEN", "token")
