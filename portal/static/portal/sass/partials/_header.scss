@@ -27,8 +27,8 @@
 }
 
 .dropdown-menu {
-  @include _border-radius(0px, 0px, 0px, 0px);
   border: 2px solid $color-secondary-600;
+  border-radius: 0;
   border-top: 0;
   font-weight: 300;
   margin: 0;
@@ -181,7 +181,7 @@
 
   .menu--title {
     @include _font-size(27px);
-    @include _margin(0px, 40px, 0px, 10px);
+    @include _margin(0px, $spacing * 8, 0px, $spacing * 2);
     color: $color-text-tertiary;
     font-family: "Space Grotesk", sans-serif;
   }
@@ -209,9 +209,11 @@
 
 @media (min-width: $tablet-small-min-width) {
   .menu__right-side {
+    @include _margin-right($spacing * 3);
     align-items: center;
-    justify-content: flex-end;
     display: flex;
+    justify-content: flex-end;
+    width: 33%;
   }
 }
 
@@ -255,6 +257,7 @@
   .menu {
     background-color: $color-background-secondary;
     display: flex;
+    justify-content: space-between;
     position: fixed;
     top: 0;
     width: 100%;
@@ -284,17 +287,18 @@
 
     .button--register,
     .button--header--login {
-      @include _padding(10px, 15px, 10px, 15px);
+      @include _padding($spacing * 2, $spacing * 3, $spacing * 2, $spacing * 3);
       width: 155px;
       height: 45px;
     }
   }
 
   .menu__brand {
-    align-items: center;
     display: flex;
-    justify-content: flex-start;
-    width: 25%;
+
+    .menu__brand--ocado {
+      @include _margin-right($spacing * 7);
+    }
 
     img {
       max-width: none;
