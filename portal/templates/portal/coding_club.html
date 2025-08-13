@@ -42,9 +42,15 @@
                         at home or in school, on or offline.
                 </div>
                 <div>
-                    <a id="primary_pack" target="_blank" type="submit" class="button button--primary button--icon" href="https://code-for-life.gitbook.io/code-for-life-primary-club-resources">
-                        View Primary coding club pack<span class="iconify" data-icon="mdi:open-in-new"></span>
-                    </a>
+                    {% if user|is_logged_in_as_teacher %}
+                        <a id="primary_pack" target="_blank" type="submit" class="button button--primary button--icon" href="https://code-for-life.gitbook.io/teaching-resources/code-club-resources-primary/">
+                            Get started with our Primary coding club pack<span class="iconify" data-icon="mdi:open-in-new"></span>
+                        </a>
+                    {% else %}
+                        <a id="primary_pack" target="_blank" type="submit" class="button button--primary button--icon" href="https://code-for-life.gitbook.io/code-for-life-primary-club-resources">
+                            View Primary coding club pack<span class="iconify" data-icon="mdi:open-in-new"></span>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-sm-6 d-flex flex-column">
@@ -76,9 +82,15 @@
                     </p>
                 </div>
                 <div>
-                    <a id="python_pack" target="_blank" type="submit" class="button button--primary button--icon" href="https://code-for-life.gitbook.io/code-for-life-python-club-resources">
-                        View Python coding club packs<span class="iconify" data-icon="mdi:open-in-new"></span>
-                    </a>
+                    {% if user|is_logged_in_as_teacher %}
+                        <a id="python_pack" target="_blank" type="submit" class="button button--primary button--icon" href="https://code-for-life.gitbook.io/teaching-resources/rapid-introduction-to-python-code-club">
+                            Get started with our Python coding club packs<span class="iconify" data-icon="mdi:open-in-new"></span>
+                        </a>
+                    {% else %}
+                        <a id="python_pack" target="_blank" type="submit" class="button button--primary button--icon" href="https://code-for-life.gitbook.io/code-for-life-python-club-resources">
+                            View Python coding club packs<span class="iconify" data-icon="mdi:open-in-new"></span>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
