@@ -295,6 +295,7 @@
 
   .menu__brand {
     display: flex;
+    width: 66%;
 
     .menu__brand--ocado {
       @include _margin-right($spacing * 7);
