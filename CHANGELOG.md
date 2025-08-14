@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.8.2 (2025-08-14)
+
+### Bug Fixes
+
+- Add google fields ([#2454](https://github.com/ocadotechnology/codeforlife-portal/pull/2454),
+  [`48f3098`](https://github.com/ocadotechnology/codeforlife-portal/commit/48f30989da61d6047dc82ef4352750a77dfe28c1))
+
+
 ## v8.8.1 (2025-08-08)
 
 ### Bug Fixes
