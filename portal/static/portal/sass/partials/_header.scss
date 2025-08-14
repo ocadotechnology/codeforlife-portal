@@ -215,15 +215,15 @@
     justify-content: flex-end;
     width: 33%;
   }
+
+  .logo {
+    height: 100px;
+  }
 }
 
 @media (min-width: $desktop-small-min-width) {
   .menu {
     height: $menu-height;
-
-    .logo {
-      height: 100px;
-    }
 
     .menu__brand {
       @include _margin(0px, $spacing * 7, 0px, 0px);
