@@ -242,7 +242,7 @@
     height: $menu-height-xs;
 
     .logo {
-      @include _padding($spacing * 3, $spacing * 9, $spacing * 3, $spacing * 3);
+      @include _padding($spacing * 3, $spacing * 3, $spacing * 3, $spacing * 3);
     }
 
     .menu__brand--ocado {
@@ -301,9 +301,9 @@
       @include _margin-right($spacing * 7);
     }
 
-    img {
-      max-width: none;
-    }
+    //img {
+    //  max-width: none;
+    //}
   }
 
   .menu__left-side {
