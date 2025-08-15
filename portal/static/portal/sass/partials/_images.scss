@@ -62,7 +62,7 @@ img {
 }
 
 .logo {
-  @include _padding($spacing * 3, $spacing * 14, $spacing * 3, $spacing * 3);
+  @include _padding($spacing * 3, $spacing * 3, $spacing * 3, $spacing * 3);
 }
 
 .map-pin {
