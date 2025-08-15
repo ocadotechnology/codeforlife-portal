@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.8.3 (2025-08-15)
+
+### Bug Fixes
+
+- Add encryption key to app settings
+  ([`8de7581`](https://github.com/ocadotechnology/codeforlife-portal/commit/8de7581d9d93bdcecbe03be384297ff723c30eab))
+
+
 ## v8.8.2 (2025-08-14)
 
 ### Bug Fixes
