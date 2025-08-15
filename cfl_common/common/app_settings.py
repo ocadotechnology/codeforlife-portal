@@ -44,6 +44,9 @@ DOTMAILER_SEND_CAMPAIGN_URL = getattr(settings, "DOTMAILER_SEND_CAMPAIGN_URL", "
 # ID of the "Thanks for staying!" campaign in Dotmailer
 DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = getattr(settings, "DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", "")
 
+# Fernet encryption for OAuth2 sign in
+ENCRYPTION_KEY = getattr(settings, "ENCRYPTION_KEY", "")
+
 # The name of the google app engine service the application is running on, local otherwise
 MODULE_NAME = getattr(settings, "MODULE_NAME", "local")
 
