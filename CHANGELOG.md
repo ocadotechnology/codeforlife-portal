@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.4 (2025-08-18)
+
+### Bug Fixes
+
+- Allow for trailing slash
+  ([`b706af1`](https://github.com/ocadotechnology/codeforlife-portal/commit/b706af14032daa6eeb186fa0a8e4815101d98e67))
+
+
 ## v8.9.3 (2025-08-18)
 
 ### Bug Fixes
