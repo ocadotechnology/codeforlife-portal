@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.2 (2025-08-18)
+
+### Bug Fixes
+
+- Allow tmp basic auth on any domain
+  ([`5cc9bff`](https://github.com/ocadotechnology/codeforlife-portal/commit/5cc9bff73d86a153caa7e374f034a4c14c24b833))
+
+
 ## v8.9.1 (2025-08-18)
 
 ### Bug Fixes
