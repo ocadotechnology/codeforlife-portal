@@ -27,11 +27,11 @@ class TempBasicAuthMiddleware:
                 value=TMP_AUTH_TOKEN,
             )
             return response
-        # For any other request in the domain, check that a cookie with the token's value exists.
-        # Redirect to the main site if it doesn't.
+        # For any other request in the domain (except the health check), check that a cookie with the token's value
+        # exists. Redirect to the main site if it doesn't.
         else:
             value = request.COOKIES.get("TMP_AUTH_TOKEN")
-            if value is not None and value == TMP_AUTH_TOKEN:
+            if (value is not None and value == TMP_AUTH_TOKEN) or url.endswith("/health-check"):
                 return self.get_response(request)
 
         return redirect("https://www.codeforlife.education")
