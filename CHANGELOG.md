@@ -1,6 +1,31 @@
 # CHANGELOG
 
 
+## v8.9.1 (2025-08-18)
+
+### Bug Fixes
+
+- Fix header layout and sizing issues across browsers
+  ([#2456](https://github.com/ocadotechnology/codeforlife-portal/pull/2456),
+  [`33ff79d`](https://github.com/ocadotechnology/codeforlife-portal/commit/33ff79ddab8aef60d6017cb7557d4d7d583a29e2))
+
+* fix: Specify width on brand section of header
+
+* Try fit-content
+
+* fix: Fix brand width to 25%
+
+* Ditch columns and use flex stack
+
+* Specify brand element size for safari bug
+
+* Specify logo size on tablets too for Safari bug
+
+* Logo size and aspect ratio fix
+
+* Relock
+
+
 ## v8.9.0 (2025-08-15)
 
 ### Features
