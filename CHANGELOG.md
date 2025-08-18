@@ -1,6 +1,21 @@
 # CHANGELOG
 
 
+## v8.9.0 (2025-08-15)
+
+### Features
+
+- Full access to Python club packs to teachers
+  ([#2455](https://github.com/ocadotechnology/codeforlife-portal/pull/2455),
+  [`bf903ae`](https://github.com/ocadotechnology/codeforlife-portal/commit/bf903ae5b413523e3f69bc22a94b10202bdc494e))
+
+* fix: Remove download option for club packs
+
+* Link to full material if logged in as teacher
+
+* Merge branch 'master' into fix_club_pack_links
+
+
 ## v8.8.3 (2025-08-15)
 
 ### Bug Fixes
