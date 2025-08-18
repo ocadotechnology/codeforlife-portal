@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.3 (2025-08-18)
+
+### Bug Fixes
+
+- Whitelist health check endpoint in auth middleware
+  ([`02bfe93`](https://github.com/ocadotechnology/codeforlife-portal/commit/02bfe93a11caa12e1ebe9c87c1d06d08b4623a5f))
+
+
 ## v8.9.2 (2025-08-18)
 
 ### Bug Fixes
