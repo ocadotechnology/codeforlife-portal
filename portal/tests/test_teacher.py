@@ -667,6 +667,7 @@ class TestTeacherFrontend(BaseTest):
         join_teacher_to_organisation(joining_email, school.name)
 
         # refresh the page and scroll to the buttons
+        time.sleep(1)
         page.browser.find_element(By.CSS_SELECTOR, ".logo").click()
         page.browser.find_element(By.ID, "make_admin_button").click()
 

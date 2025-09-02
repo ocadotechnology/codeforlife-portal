@@ -1,6 +1,125 @@
 # CHANGELOG
 
 
+## v8.9.4 (2025-08-18)
+
+### Bug Fixes
+
+- Allow for trailing slash
+  ([`b706af1`](https://github.com/ocadotechnology/codeforlife-portal/commit/b706af14032daa6eeb186fa0a8e4815101d98e67))
+
+
+## v8.9.3 (2025-08-18)
+
+### Bug Fixes
+
+- Whitelist health check endpoint in auth middleware
+  ([`02bfe93`](https://github.com/ocadotechnology/codeforlife-portal/commit/02bfe93a11caa12e1ebe9c87c1d06d08b4623a5f))
+
+
+## v8.9.2 (2025-08-18)
+
+### Bug Fixes
+
+- Allow tmp basic auth on any domain
+  ([`5cc9bff`](https://github.com/ocadotechnology/codeforlife-portal/commit/5cc9bff73d86a153caa7e374f034a4c14c24b833))
+
+
+## v8.9.1 (2025-08-18)
+
+### Bug Fixes
+
+- Fix header layout and sizing issues across browsers
+  ([#2456](https://github.com/ocadotechnology/codeforlife-portal/pull/2456),
+  [`33ff79d`](https://github.com/ocadotechnology/codeforlife-portal/commit/33ff79ddab8aef60d6017cb7557d4d7d583a29e2))
+
+* fix: Specify width on brand section of header
+
+* Try fit-content
+
+* fix: Fix brand width to 25%
+
+* Ditch columns and use flex stack
+
+* Specify brand element size for safari bug
+
+* Specify logo size on tablets too for Safari bug
+
+* Logo size and aspect ratio fix
+
+* Relock
+
+
+## v8.9.0 (2025-08-15)
+
+### Features
+
+- Full access to Python club packs to teachers
+  ([#2455](https://github.com/ocadotechnology/codeforlife-portal/pull/2455),
+  [`bf903ae`](https://github.com/ocadotechnology/codeforlife-portal/commit/bf903ae5b413523e3f69bc22a94b10202bdc494e))
+
+* fix: Remove download option for club packs
+
+* Link to full material if logged in as teacher
+
+* Merge branch 'master' into fix_club_pack_links
+
+
+## v8.8.3 (2025-08-15)
+
+### Bug Fixes
+
+- Add encryption key to app settings
+  ([`8de7581`](https://github.com/ocadotechnology/codeforlife-portal/commit/8de7581d9d93bdcecbe03be384297ff723c30eab))
+
+
+## v8.8.2 (2025-08-14)
+
+### Bug Fixes
+
+- Add google fields ([#2454](https://github.com/ocadotechnology/codeforlife-portal/pull/2454),
+  [`48f3098`](https://github.com/ocadotechnology/codeforlife-portal/commit/48f30989da61d6047dc82ef4352750a77dfe28c1))
+
+
+## v8.8.1 (2025-08-08)
+
+### Bug Fixes
+
+- Remove unnecessary check in tmp auth middleware
+  ([`41dd00b`](https://github.com/ocadotechnology/codeforlife-portal/commit/41dd00b055a7fbaf65b62ad76b5496115c05bc6f))
+
+
+## v8.8.0 (2025-08-08)
+
+### Features
+
+- Temp basic auth for OTP app
+  ([#2453](https://github.com/ocadotechnology/codeforlife-portal/pull/2453),
+  [`522a657`](https://github.com/ocadotechnology/codeforlife-portal/commit/522a6570b2c6609b06c5daafad32f22ed607bce3))
+
+* feat: Temporary basic auth for OTP app
+
+* Not actually needed in these settings lol
+
+* fix test
+
+
+## v8.7.9 (2025-07-10)
+
+### Bug Fixes
+
+- Update reportlab and pillow
+  ([`c4ff60f`](https://github.com/ocadotechnology/codeforlife-portal/commit/c4ff60f4834ff034344f3309905139a356c49d32))
+
+
+## v8.7.8 (2025-06-19)
+
+### Bug Fixes
+
+- Remove mypy ([#2451](https://github.com/ocadotechnology/codeforlife-portal/pull/2451),
+  [`4b6071d`](https://github.com/ocadotechnology/codeforlife-portal/commit/4b6071d4426da1b9e5ada8a8a79634fc07ebe6f8))
+
+
 ## v8.7.7 (2025-06-19)
 
 ### Bug Fixes
