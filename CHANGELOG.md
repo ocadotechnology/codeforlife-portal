@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.5 (2025-09-05)
+
+### Bug Fixes
+
+- Upgrade to Django 5.1.12
+  ([`3ace6a1`](https://github.com/ocadotechnology/codeforlife-portal/commit/3ace6a1f3dfe14355ccf963f642bf012117270d7))
+
+
 ## v8.9.4 (2025-08-18)
 
 ### Bug Fixes
