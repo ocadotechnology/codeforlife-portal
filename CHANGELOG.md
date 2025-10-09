@@ -1,6 +1,30 @@
 # CHANGELOG
 
 
+## v8.9.6 (2025-10-09)
+
+### Bug Fixes
+
+- **deps**: Bump django from 5.1.12 to 5.1.13 in /cfl_common
+  ([#2459](https://github.com/ocadotechnology/codeforlife-portal/pull/2459),
+  [`3f4cec4`](https://github.com/ocadotechnology/codeforlife-portal/commit/3f4cec4ce5fcc8c0e39206f382c941ee1685af26))
+
+* fix(deps): bump django from 5.1.12 to 5.1.13 in /cfl_common
+
+Bumps [django](https://github.com/django/django) from 5.1.12 to 5.1.13. -
+  [Commits](https://github.com/django/django/compare/5.1.12...5.1.13)
+
+--- updated-dependencies: - dependency-name: django dependency-version: 5.1.13
+
+dependency-type: direct:production ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+* Also lock portal
+
+Co-Authored-By: faucomte97 <f.aucomte@hotmail.co.uk>
+
+
 ## v8.9.5 (2025-09-05)
 
 ### Bug Fixes
