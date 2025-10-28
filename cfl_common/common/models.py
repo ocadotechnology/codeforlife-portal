@@ -107,6 +107,9 @@ class UserProfile(models.Model):
 
 
 class SchoolModelManager(models.Manager):
+    def get_original_queryset(self):
+        return super().get_queryset()
+
     # Filter out inactive schools by default
     def get_queryset(self):
         return super().get_queryset().filter(is_active=True)
@@ -164,6 +167,9 @@ class TeacherModelManager(models.Manager):
         user_profile = UserProfile.objects.create(user=user)
 
         return Teacher.objects.create(user=user_profile, new_user=user)
+
+    def get_original_queryset(self):
+        return super().get_queryset()
 
     # Filter out non active teachers by default
     def get_queryset(self):
@@ -228,6 +234,9 @@ class Teacher(models.Model):
 
 
 class SchoolTeacherInvitationModelManager(models.Manager):
+    def get_original_queryset(self):
+        return super().get_queryset()
+
     # Filter out inactive invitations by default
     def get_queryset(self):
         return super().get_queryset().filter(is_active=True)
@@ -297,6 +306,9 @@ class ClassModelManager(models.Manager):
             members.append(c.teacher)
             members.extend(c.students.all())
         return members
+
+    def get_original_queryset(self):
+        return super().get_queryset()
 
     # Filter out non active classes by default
     def get_queryset(self):
