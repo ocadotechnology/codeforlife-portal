@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.7 (2025-10-28)
+
+### Bug Fixes
+
+- Get_original_queryset ([#2473](https://github.com/ocadotechnology/codeforlife-portal/pull/2473),
+  [`627f3f4`](https://github.com/ocadotechnology/codeforlife-portal/commit/627f3f43f373ff769fcb6c6aee0a16bb44a2f7d1))
+
+
 ## v8.9.6 (2025-10-09)
 
 ### Bug Fixes
