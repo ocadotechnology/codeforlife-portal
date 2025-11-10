@@ -1,6 +1,32 @@
 # CHANGELOG
 
 
+## v8.9.8 (2025-11-10)
+
+### Bug Fixes
+
+- **deps**: Bump django from 5.1.13 to 5.1.14
+  ([#2475](https://github.com/ocadotechnology/codeforlife-portal/pull/2475),
+  [`0b17d2e`](https://github.com/ocadotechnology/codeforlife-portal/commit/0b17d2e65477bd8e7353cff98e9c2829551922bd))
+
+* fix(deps): bump django from 5.1.13 to 5.1.14
+
+Bumps [django](https://github.com/django/django) from 5.1.13 to 5.1.14. -
+  [Commits](https://github.com/django/django/compare/5.1.13...5.1.14)
+
+--- updated-dependencies: - dependency-name: django dependency-version: 5.1.14
+
+dependency-type: indirect ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+* Lock everything properly
+
+* Fix test
+
+Co-Authored-By: faucomte97 <f.aucomte@hotmail.co.uk>
+
+
 ## v8.9.7 (2025-10-28)
 
 ### Bug Fixes
