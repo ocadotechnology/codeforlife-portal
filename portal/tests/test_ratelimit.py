@@ -1,6 +1,5 @@
 from __future__ import absolute_import
 
-import re
 from datetime import datetime, timedelta
 from unittest.mock import ANY, Mock, patch
 
