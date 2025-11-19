@@ -1,6 +1,72 @@
 # CHANGELOG
 
 
+## v8.9.8 (2025-11-10)
+
+### Bug Fixes
+
+- **deps**: Bump django from 5.1.13 to 5.1.14
+  ([#2475](https://github.com/ocadotechnology/codeforlife-portal/pull/2475),
+  [`0b17d2e`](https://github.com/ocadotechnology/codeforlife-portal/commit/0b17d2e65477bd8e7353cff98e9c2829551922bd))
+
+* fix(deps): bump django from 5.1.13 to 5.1.14
+
+Bumps [django](https://github.com/django/django) from 5.1.13 to 5.1.14. -
+  [Commits](https://github.com/django/django/compare/5.1.13...5.1.14)
+
+--- updated-dependencies: - dependency-name: django dependency-version: 5.1.14
+
+dependency-type: indirect ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+* Lock everything properly
+
+* Fix test
+
+Co-Authored-By: faucomte97 <f.aucomte@hotmail.co.uk>
+
+
+## v8.9.7 (2025-10-28)
+
+### Bug Fixes
+
+- Get_original_queryset ([#2473](https://github.com/ocadotechnology/codeforlife-portal/pull/2473),
+  [`627f3f4`](https://github.com/ocadotechnology/codeforlife-portal/commit/627f3f43f373ff769fcb6c6aee0a16bb44a2f7d1))
+
+
+## v8.9.6 (2025-10-09)
+
+### Bug Fixes
+
+- **deps**: Bump django from 5.1.12 to 5.1.13 in /cfl_common
+  ([#2459](https://github.com/ocadotechnology/codeforlife-portal/pull/2459),
+  [`3f4cec4`](https://github.com/ocadotechnology/codeforlife-portal/commit/3f4cec4ce5fcc8c0e39206f382c941ee1685af26))
+
+* fix(deps): bump django from 5.1.12 to 5.1.13 in /cfl_common
+
+Bumps [django](https://github.com/django/django) from 5.1.12 to 5.1.13. -
+  [Commits](https://github.com/django/django/compare/5.1.12...5.1.13)
+
+--- updated-dependencies: - dependency-name: django dependency-version: 5.1.13
+
+dependency-type: direct:production ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+* Also lock portal
+
+Co-Authored-By: faucomte97 <f.aucomte@hotmail.co.uk>
+
+
+## v8.9.5 (2025-09-05)
+
+### Bug Fixes
+
+- Upgrade to Django 5.1.12
+  ([`3ace6a1`](https://github.com/ocadotechnology/codeforlife-portal/commit/3ace6a1f3dfe14355ccf963f642bf012117270d7))
+
+
 ## v8.9.4 (2025-08-18)
 
 ### Bug Fixes
