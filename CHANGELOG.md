@@ -1,6 +1,20 @@
 # CHANGELOG
 
 
+## v8.9.10 (2025-12-05)
+
+### Bug Fixes
+
+- Improve generated urls ([#2477](https://github.com/ocadotechnology/codeforlife-portal/pull/2477),
+  [`62ea860`](https://github.com/ocadotechnology/codeforlife-portal/commit/62ea86036022376eba0f3804e160a81efce75070))
+
+* fix: Use custom domain setting instead of absolute URIs
+
+* Return SERVICE_BASE_URL if setting exists
+
+* Merge branch 'master' into improve_generated_urls
+
+
 ## v8.9.9 (2025-12-03)
 
 ### Bug Fixes
