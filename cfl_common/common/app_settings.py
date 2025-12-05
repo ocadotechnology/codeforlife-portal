@@ -56,6 +56,9 @@ COOKIE_MANAGEMENT_ENABLED = getattr(settings, "COOKIE_MANAGEMENT_ENABLED", True)
 
 def domain(request=None):
     """Returns the full domain depending on whether it's local, dev, staging or prod."""
+    if hasattr(settings, "SERVICE_BASE_URL"):
+        return getattr(settings, "SERVICE_BASE_URL")
+
     domain = "https://www.codeforlife.education"
 
     if MODULE_NAME == "local":
