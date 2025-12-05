@@ -78,17 +78,11 @@ PIPELINE = {
             "output_filename": "portal/css/portal.css",
         },
         "popup": {
-            "source_filenames": (
-                os.path.join(
-                    BASE_DIR, "static/portal/sass/partials/_popup.scss"
-                ),
-            ),
+            "source_filenames": (os.path.join(BASE_DIR, "static/portal/sass/partials/_popup.scss"),),
             "output_filename": "portal/css/popup.css",
         },
         "game-scss": {
-            "source_filenames": (
-                os.path.join(BASE_DIR, "static/game/sass/game.scss"),
-            ),
+            "source_filenames": (os.path.join(BASE_DIR, "static/game/sass/game.scss"),),
             "output_filename": "game/css/gamestyles.css",
         },
     },
@@ -157,9 +151,7 @@ CLOUD_STORAGE_PREFIX = "https://storage.googleapis.com/codeforlife-assets/"
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "handlers": {
-        "console": {"level": "DEBUG", "class": "logging.StreamHandler"}
-    },
+    "handlers": {"console": {"level": "DEBUG", "class": "logging.StreamHandler"}},
     "loggers": {"two_factor": {"handlers": ["console"], "level": "INFO"}},
 }
 RAPID_ROUTER_EARLY_ACCESS_FUNCTION_NAME = "portal.beta.has_beta_access"
@@ -187,8 +179,6 @@ from common.csp_config import *
 
 if MODULE_NAME == "local":
     # NOTE: This is only used locally for testing purposes.
-    os.environ.setdefault(
-        "ENCRYPTION_KEY", "XTgWqMlZCMI_E5BvCArkif9nrJIIhe_6Ic6Q_UcWJDk="
-    )
+    os.environ.setdefault("ENCRYPTION_KEY", "XTgWqMlZCMI_E5BvCArkif9nrJIIhe_6Ic6Q_UcWJDk=")
 
 ENCRYPTION_KEY = os.environ["ENCRYPTION_KEY"]

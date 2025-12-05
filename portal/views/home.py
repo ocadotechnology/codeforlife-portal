@@ -1,5 +1,6 @@
 import math
 
+from common.app_settings import domain
 from common.helpers.emails import (
     send_verification_email,
 )
@@ -61,15 +62,11 @@ def render_signup_form(request):
     invalid_form = False
 
     teacher_signup_form = TeacherSignupForm(prefix="teacher_signup")
-    independent_student_signup_form = IndependentStudentSignupForm(
-        prefix="independent_student_signup"
-    )
+    independent_student_signup_form = IndependentStudentSignupForm(prefix="independent_student_signup")
 
     if request.method == "POST":
         if "teacher_signup-teacher_email" in request.POST:
-            teacher_signup_form = TeacherSignupForm(
-                request.POST, prefix="teacher_signup"
-            )
+            teacher_signup_form = TeacherSignupForm(request.POST, prefix="teacher_signup")
 
             if not captcha.CAPTCHA_ENABLED:
                 remove_captcha_from_forms(teacher_signup_form)
@@ -123,9 +120,7 @@ def process_signup_form(request, data):
                 [email],
                 personalization_values={
                     "EMAIL": email,
-                    "LOGIN_URL": request.build_absolute_uri(
-                        reverse("teacher_login")
-                    ),
+                    "LOGIN_URL": f"{domain(request)}{reverse("teacher_login")}",
                 },
             )
     else:
@@ -138,9 +133,7 @@ def process_signup_form(request, data):
 
         send_verification_email(request, teacher.user.user, data)
 
-        TotalActivity.objects.update(
-            teacher_registrations=F("teacher_registrations") + 1
-        )
+        TotalActivity.objects.update(teacher_registrations=F("teacher_registrations") + 1)
 
     return render(
         request,
@@ -168,9 +161,7 @@ def process_independent_student_signup_form(request, data):
                 [email],
                 personalization_values={
                     "EMAIL": email,
-                    "LOGIN_URL": request.build_absolute_uri(
-                        reverse("independent_student_login")
-                    ),
+                    "LOGIN_URL": f"{domain(request)}{reverse("independent_student_login")}",
                 },
             )
 
@@ -191,9 +182,7 @@ def process_independent_student_signup_form(request, data):
 
     send_verification_email(request, student.new_user, data, age=age)
 
-    TotalActivity.objects.update(
-        independent_registrations=F("independent_registrations") + 1
-    )
+    TotalActivity.objects.update(independent_registrations=F("independent_registrations") + 1)
 
     return render(
         request,
@@ -204,10 +193,7 @@ def process_independent_student_signup_form(request, data):
 
 
 def is_developer(request):
-    return (
-        hasattr(request.user, "userprofile")
-        and request.user.userprofile.developer
-    )
+    return hasattr(request.user, "userprofile") and request.user.userprofile.developer
 
 
 def redirect_teacher_to_correct_page(request, teacher):
@@ -237,14 +223,10 @@ def home(request):
     # tests where the first Selenium test passes, but any following test
     # fails because it cannot find the Maintenance banner instance.
     try:
-        maintenance_banner = DynamicElement.objects.get(
-            name="Maintenance banner"
-        )
+        maintenance_banner = DynamicElement.objects.get(name="Maintenance banner")
 
         if maintenance_banner.active:
-            messages.info(
-                request, format_html(maintenance_banner.text), extra_tags="safe"
-            )
+            messages.info(request, format_html(maintenance_banner.text), extra_tags="safe")
     except ObjectDoesNotExist:
         pass
 
@@ -262,9 +244,7 @@ def home(request):
 
 
 def coding_club(request):
-    return render(
-        request, "portal/coding_club.html", {"BANNER": CODING_CLUB_BANNER}
-    )
+    return render(request, "portal/coding_club.html", {"BANNER": CODING_CLUB_BANNER})
 
 
 def home_learning(request):
@@ -276,9 +256,7 @@ def home_learning(request):
 
 
 def ten_year_map_page(request):
-    messages.info(
-        request, "This page is currently under construction.", extra_tags="safe"
-    )
+    messages.info(request, "This page is currently under construction.", extra_tags="safe")
     return render(
         request,
         "portal/ten_year_map.html",
