@@ -16,7 +16,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
-from game.models import Attempt, Level
+from game.models import LevelMetrics, Level
 
 from portal.forms.play import StudentJoinOrganisationForm
 
@@ -110,30 +110,23 @@ def _compute_scores(
     """
     num_completed = num_top_scores = total_available_score = 0
     total_score = 0.0
-    # Get a QuerySet of best attempts for each level
-    best_attempts = Attempt.objects.filter(
-        level__in=levels, student=student, is_best_attempt=True
-    ).select_related("level")
+    # Get a QuerySet of metrics for each level
+    levels_metrics = LevelMetrics.objects.filter(level__in=levels, student=student)
 
     for level in levels:
         total_available_score += _get_max_score_for_level(level)
 
-    # For each level, compare best attempt's score with level's max score and
-    # increment variables as needed
-    if best_attempts:
-        attempts_dict = {
-            best_attempt.level.id: best_attempt
-            for best_attempt in best_attempts
-        }
+    # For each level, compare top_score with level's max score and increment variables as needed
+    if levels_metrics:
         for level in levels:
-            attempt = attempts_dict.get(level.id)
+            level_metrics = levels_metrics.filter(level=level.id)
 
-            if attempt and attempt.score:
+            if level_metrics.exists():
                 num_completed += 1
-                if attempt.score == _get_max_score_for_level(level):
+                if level_metrics[0].top_score == _get_max_score_for_level(level):
                     num_top_scores += 1
 
-                total_score += attempt.score
+                total_score += level_metrics[0].top_score
 
     return {
         "num_completed": num_completed,
