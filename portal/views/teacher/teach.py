@@ -6,6 +6,7 @@ from functools import partial, wraps
 from uuid import uuid4
 
 import pytz
+from common.app_settings import domain
 from common.helpers.emails import send_verification_email
 from common.helpers.generators import (
     generate_access_code,
@@ -114,12 +115,10 @@ def create_class(form, class_teacher, class_creator=None):
 
 
 def generate_student_url(request, student, login_id):
-    return request.build_absolute_uri(
-        reverse(
-            "student_direct_login",
-            kwargs={"user_id": student.new_user.id, "login_id": login_id},
-        )
-    )
+    return f"{domain(request)}{reverse(
+        "student_direct_login",
+        kwargs={"user_id": student.new_user.id, "login_id": login_id},
+    )}"
 
 
 def process_edit_class(request, access_code, onboarding_done, next_url):
@@ -169,12 +168,10 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
                     "students_info": students_info,
                     "onboarding_done": onboarding_done,
                     "query_data": json.dumps(students_info),
-                    "class_url": request.build_absolute_uri(
-                        reverse(
-                            "student_login",
-                            kwargs={"access_code": klass.access_code},
-                        )
-                    ),
+                    "class_url": f"{domain(request)}{reverse(
+                        "student_login",
+                        kwargs={"access_code": klass.access_code},
+                    )}",
                 },
             )
     else:
@@ -525,12 +522,10 @@ def process_reset_password_form(request, student, password_form):
         # generate uuid for url and store the hashed
         uuidstr = uuid4().hex
         login_id = get_hashed_login_id(uuidstr)
-        login_url = request.build_absolute_uri(
-            reverse(
-                "student_direct_login",
-                kwargs={"user_id": student.new_user.id, "login_id": uuidstr},
-            )
-        )
+        login_url = f"{domain(request)}{reverse(
+            "student_direct_login",
+            kwargs={"user_id": student.new_user.id, "login_id": uuidstr},
+        )}"
 
         students_info = [
             {
@@ -557,12 +552,10 @@ def process_reset_password_form(request, student, password_form):
                 "students_info": students_info,
                 "onboarding_done": True,
                 "query_data": json.dumps(students_info),
-                "class_url": request.build_absolute_uri(
-                    reverse(
-                        "student_login",
-                        kwargs={"access_code": student.class_field.access_code},
-                    )
-                ),
+                "class_url": f"{domain(request)}{reverse(
+                    "student_login",
+                    kwargs={"access_code": student.class_field.access_code},
+                )}",
             },
         )
 
@@ -713,9 +706,7 @@ def teacher_class_password_reset(request, access_code):
             "passwords_reset": True,
             "students_info": students_info,
             "query_data": json.dumps(students_info),
-            "class_url": request.build_absolute_uri(
-                reverse("student_login", kwargs={"access_code": klass.access_code})
-            ),
+            "class_url": f"{domain(request)}{reverse("student_login", kwargs={"access_code": klass.access_code})}",
         },
     )
 
@@ -880,8 +871,8 @@ def teacher_print_reminder_cards(request, access_code):
 
     # Use data from the query string if given
     student_data = get_student_data(request)
-    student_login_link = request.build_absolute_uri(reverse("student_login_access_code"))
-    class_login_link = request.build_absolute_uri(reverse("student_login", kwargs={"access_code": access_code}))
+    student_login_link = f"{domain(request)}{reverse("student_login_access_code")}"
+    class_login_link = f"{domain(request)}{reverse("student_login", kwargs={"access_code": access_code})}"
 
     # Now draw everything
     x = 0
@@ -964,7 +955,7 @@ def teacher_download_csv(request, access_code):
     # Check auth
     check_teacher_authorised(request, klass.teacher)
 
-    class_url = request.build_absolute_uri(reverse("student_login", kwargs={"access_code": access_code}))
+    class_url = f"{domain(request)}{reverse("student_login", kwargs={"access_code": access_code})}"
 
     # Use data from the query string if given
     student_data = get_student_data(request)

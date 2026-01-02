@@ -54,12 +54,15 @@ MODULE_NAME = getattr(settings, "MODULE_NAME", "local")
 COOKIE_MANAGEMENT_ENABLED = getattr(settings, "COOKIE_MANAGEMENT_ENABLED", True)
 
 
-def domain():
+def domain(request=None):
     """Returns the full domain depending on whether it's local, dev, staging or prod."""
+    if hasattr(settings, "SERVICE_BASE_URL"):
+        return getattr(settings, "SERVICE_BASE_URL")
+
     domain = "https://www.codeforlife.education"
 
     if MODULE_NAME == "local":
-        domain = "localhost:8000"
+        domain = f"http://{request.get_host()}" if request is not None else "localhost:8000"
     elif MODULE_NAME == "staging" or MODULE_NAME == "dev":
         domain = f"https://{MODULE_NAME}-dot-decent-digit-629.appspot.com"
 

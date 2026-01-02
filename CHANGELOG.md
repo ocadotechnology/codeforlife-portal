@@ -1,6 +1,62 @@
 # CHANGELOG
 
 
+## v8.9.11 (2025-12-10)
+
+### Bug Fixes
+
+- **deps**: Bump urllib3 from 2.5.0 to 2.6.1
+  ([#2479](https://github.com/ocadotechnology/codeforlife-portal/pull/2479),
+  [`953b17b`](https://github.com/ocadotechnology/codeforlife-portal/commit/953b17b7593d70d9b92c5f98679bb8027bdbcf0e))
+
+* fix(deps): bump urllib3 from 2.5.0 to 2.6.1
+
+Bumps [urllib3](https://github.com/urllib3/urllib3) from 2.5.0 to 2.6.0. - [Release
+  notes](https://github.com/urllib3/urllib3/releases) -
+  [Changelog](https://github.com/urllib3/urllib3/blob/main/CHANGES.rst) -
+  [Commits](https://github.com/urllib3/urllib3/compare/2.5.0...2.6.0)
+
+--- updated-dependencies: - dependency-name: urllib3 dependency-version: 2.6.0
+
+dependency-type: indirect ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+* Also update portal lockfile
+
+* Reupdate common lockfile
+
+* Reupdate portal lockfile
+
+---------
+
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+Co-authored-by: faucomte97 <f.aucomte@hotmail.co.uk>
+
+
+## v8.9.10 (2025-12-05)
+
+### Bug Fixes
+
+- Improve generated urls ([#2477](https://github.com/ocadotechnology/codeforlife-portal/pull/2477),
+  [`62ea860`](https://github.com/ocadotechnology/codeforlife-portal/commit/62ea86036022376eba0f3804e160a81efce75070))
+
+* fix: Use custom domain setting instead of absolute URIs
+
+* Return SERVICE_BASE_URL if setting exists
+
+* Merge branch 'master' into improve_generated_urls
+
+
+## v8.9.9 (2025-12-03)
+
+### Bug Fixes
+
+- Upgrade to Django 5.1.15
+  ([`8b6f767`](https://github.com/ocadotechnology/codeforlife-portal/commit/8b6f767650a1b14edf806511b3f303f37999c78f))
+
+
 ## v8.9.8 (2025-11-10)
 
 ### Bug Fixes
