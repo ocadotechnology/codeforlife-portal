@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.12 (2026-01-02)
+
+### Bug Fixes
+
+- Relock Pipfiles
+  ([`9f3ac9c`](https://github.com/ocadotechnology/codeforlife-portal/commit/9f3ac9cb5e12baed61b58b176d98f65ad83e5024))
+
+
 ## v8.9.11 (2025-12-10)
 
 ### Bug Fixes
