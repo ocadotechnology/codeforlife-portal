@@ -17,6 +17,7 @@ more-itertools = "==8.7.0"
 pgeocode = "==0.4.0"
 pyjwt = "==2.6.0"
 pysqlite3-binary = "==0.5.4"
+numpy = "==2.4.0"
 
 [dev-packages]
 
