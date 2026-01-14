@@ -1,6 +1,28 @@
 # CHANGELOG
 
 
+## v8.9.13 (2026-01-14)
+
+### Bug Fixes
+
+- **deps**: Bump urllib3 from 2.6.2 to 2.6.3
+  ([#2480](https://github.com/ocadotechnology/codeforlife-portal/pull/2480),
+  [`afee24b`](https://github.com/ocadotechnology/codeforlife-portal/commit/afee24ba40adc63f1f4bfdd1b6141e63616ddbcf))
+
+Bumps [urllib3](https://github.com/urllib3/urllib3) from 2.6.2 to 2.6.3. - [Release
+  notes](https://github.com/urllib3/urllib3/releases) -
+  [Changelog](https://github.com/urllib3/urllib3/blob/main/CHANGES.rst) -
+  [Commits](https://github.com/urllib3/urllib3/compare/2.6.2...2.6.3)
+
+--- updated-dependencies: - dependency-name: urllib3 dependency-version: 2.6.3
+
+dependency-type: indirect ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+
 ## v8.9.12 (2026-01-02)
 
 ### Bug Fixes
