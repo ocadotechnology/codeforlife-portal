@@ -1,6 +1,32 @@
 # CHANGELOG
 
 
+## v8.9.14 (2026-01-14)
+
+### Bug Fixes
+
+- **deps**: Bump urllib3 from 2.6.2 to 2.6.3 in /cfl_common
+  ([#2481](https://github.com/ocadotechnology/codeforlife-portal/pull/2481),
+  [`ceac545`](https://github.com/ocadotechnology/codeforlife-portal/commit/ceac5454ff76522421ee7111b65e0ed13645a91e))
+
+* fix(deps): bump urllib3 from 2.6.2 to 2.6.3 in /cfl_common
+
+Bumps [urllib3](https://github.com/urllib3/urllib3) from 2.6.2 to 2.6.3. - [Release
+  notes](https://github.com/urllib3/urllib3/releases) -
+  [Changelog](https://github.com/urllib3/urllib3/blob/main/CHANGES.rst) -
+  [Commits](https://github.com/urllib3/urllib3/compare/2.6.2...2.6.3)
+
+--- updated-dependencies: - dependency-name: urllib3 dependency-version: 2.6.3
+
+dependency-type: indirect ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+* Merge branch 'master' into dependabot/pip/cfl_common/urllib3-2.6.3
+
+Co-Authored-By: Florian Aucomte <f.aucomte@hotmail.co.uk>
+
+
 ## v8.9.13 (2026-01-14)
 
 ### Bug Fixes
