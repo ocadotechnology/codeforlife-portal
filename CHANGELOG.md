@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.15 (2026-01-16)
+
+### Bug Fixes
+
+- Update lockfiles
+  ([`6c2fead`](https://github.com/ocadotechnology/codeforlife-portal/commit/6c2feadb58a195837fe0114453f5763b4292da7a))
+
+
 ## v8.9.14 (2026-01-14)
 
 ### Bug Fixes
