@@ -1,6 +1,18 @@
 # CHANGELOG
 
 
+## v8.9.16 (2026-01-19)
+
+### Bug Fixes
+
+- Impact report 2025 ([#2482](https://github.com/ocadotechnology/codeforlife-portal/pull/2482),
+  [`ba76f08`](https://github.com/ocadotechnology/codeforlife-portal/commit/ba76f0838987b14094e94463e8f26bdd7e291f71))
+
+* fix: Publish 2025 Impact Report and remove temp middleware
+
+* Remove middleware secret
+
+
 ## v8.9.15 (2026-01-16)
 
 ### Bug Fixes
