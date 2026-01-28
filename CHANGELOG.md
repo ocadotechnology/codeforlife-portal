@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.17 (2026-01-28)
+
+### Bug Fixes
+
+- Update lockfiles (wheel 0.46.3)
+  ([`ddec434`](https://github.com/ocadotechnology/codeforlife-portal/commit/ddec434cfe3a0e1fe0ce496238e05691e537915a))
+
+
 ## v8.9.16 (2026-01-19)
 
 ### Bug Fixes
