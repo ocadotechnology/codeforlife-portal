@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.19 (2026-01-28)
+
+### Bug Fixes
+
+- Remove pytz everywhere
+  ([`fb34521`](https://github.com/ocadotechnology/codeforlife-portal/commit/fb34521b29402f005726440c51dc047d462d5b4a))
+
+
 ## v8.9.18 (2026-01-28)
 
 ### Bug Fixes
