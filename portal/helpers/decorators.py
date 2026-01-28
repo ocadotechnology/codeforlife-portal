@@ -3,10 +3,10 @@ from __future__ import absolute_import
 import datetime
 from functools import wraps
 
-import pytz
 from common.models import Teacher, Student
 from django.contrib.auth import logout
 from django.shortcuts import render
+from django.utils.timezone import make_aware
 from ratelimit import ALL, UNSAFE
 
 from portal.helpers.ratelimit import is_ratelimited
@@ -16,9 +16,7 @@ from portal.templatetags.app_tags import is_logged_in
 __all__ = ["ratelimit"]
 
 
-def ratelimit(
-    group=None, key=None, rate=None, method=ALL, block=False, is_teacher=True
-):
+def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teacher=True):
     """
     Ratelimit decorator, adding custom functionality to django-ratelimit's default
     decorator. On block, the user is logged out, redirected to the "locked out" page,
@@ -67,21 +65,15 @@ def ratelimit(
                             new_user__first_name=username,
                             class_field__access_code=access_code,  # extract the found text from regex
                         )
-                        lockout_template = (
-                            "portal/locked_out_school_student.html"
-                        )
+                        lockout_template = "portal/locked_out_school_student.html"
                     # look for indy student or teacher
                     else:
-                        user_to_lockout = model_finder(
-                            new_user__username=username
-                        )
+                        user_to_lockout = model_finder(new_user__username=username)
                 else:
                     user_to_lockout = model.objects.get(new_user=request.user)
 
                 if user_to_lockout:
-                    user_to_lockout.blocked_time = datetime.datetime.now(
-                        tz=pytz.utc
-                    )
+                    user_to_lockout.blocked_time = make_aware(datetime.datetime.now())
                     user_to_lockout.save()
 
                     if is_logged_in(request.user):
