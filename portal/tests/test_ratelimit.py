@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 from unittest.mock import ANY, Mock, patch
 
 import pytest
-import pytz
 from common.mail import campaign_ids
 from common.models import DailyActivity, Student, Teacher
 from common.tests.utils.classes import create_class_directly
@@ -18,6 +17,7 @@ from common.tests.utils.teacher import generate_details, signup_teacher_directly
 from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy
+from django.utils.timezone import make_aware
 
 from portal.helpers.ratelimit import get_ratelimit_count_for_user
 from portal.views.login import has_user_lockout_expired
@@ -88,7 +88,7 @@ class TestRatelimit(TestCase):
     def _is_user_blocked(self, model: Teacher or Student, username: str, access_code: str = None) -> bool:
         """
         Checks if a Teacher or a Student object is blocked, by checking if they
-        have a blocked_time value, and if so, if it the lockout has expired or not.
+        have a blocked_time value, and if so, if the lockout has expired or not.
         :param model: The model Class to be checked against.
         :param username: The username of the Teacher or Student.
         :return: Whether or not the model object is marked as blocked.
@@ -117,7 +117,7 @@ class TestRatelimit(TestCase):
             else model.objects.get(new_user__first_name=username, class_field__access_code=access_code)
         )
 
-        user.blocked_time = datetime.now(tz=pytz.utc)
+        user.blocked_time = make_aware(datetime.now())
         user.save()
 
     def test_teacher_login_ratelimit(self):
@@ -263,7 +263,7 @@ class TestRatelimit(TestCase):
 
         # Manually change the blocked date to over 24 hours ago to emulate waiting.
         teacher = Teacher.objects.get(new_user__username=email)
-        teacher.blocked_time = datetime.now(tz=pytz.utc) - timedelta(hours=24)
+        teacher.blocked_time = make_aware(datetime.now()) - timedelta(hours=24)
         teacher.save()
 
         login_response = self._teacher_login(email, password)
@@ -291,7 +291,7 @@ class TestRatelimit(TestCase):
 
         # Manually change the blocked date to over 24 hours ago to emulate waiting.
         student = Student.objects.get(new_user__username=username)
-        student.blocked_time = datetime.now(tz=pytz.utc) - timedelta(hours=24)
+        student.blocked_time = make_aware(datetime.now()) - timedelta(hours=24)
         student.save()
 
         login_response = self._student_login(username, password)
