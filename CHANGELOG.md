@@ -1,6 +1,119 @@
 # CHANGELOG
 
 
+## v8.9.21 (2026-02-04)
+
+### Bug Fixes
+
+- Upgrade to Django 5.2
+  ([`fb25cc2`](https://github.com/ocadotechnology/codeforlife-portal/commit/fb25cc26e6578784182a5e192747bc6661a6216a))
+
+
+## v8.9.20 (2026-02-04)
+
+### Bug Fixes
+
+- Move psycopg2-binary to common
+  ([`6435a9f`](https://github.com/ocadotechnology/codeforlife-portal/commit/6435a9fba72cc1426b5f44d8ed49cb310b480cd4))
+
+
+## v8.9.19 (2026-01-28)
+
+### Bug Fixes
+
+- Remove pytz everywhere
+  ([`fb34521`](https://github.com/ocadotechnology/codeforlife-portal/commit/fb34521b29402f005726440c51dc047d462d5b4a))
+
+
+## v8.9.18 (2026-01-28)
+
+### Bug Fixes
+
+- Update lockfiles (wheel 0.46.3) pt. 2
+  ([`70cb464`](https://github.com/ocadotechnology/codeforlife-portal/commit/70cb4647818b1aaeb2e7214c1bd6eac552fe062e))
+
+### Continuous Integration
+
+- Remove typo
+  ([`3614878`](https://github.com/ocadotechnology/codeforlife-portal/commit/3614878b0ceb56dc527c1d5e53ea9557dae9a147))
+
+
+## v8.9.17 (2026-01-28)
+
+### Bug Fixes
+
+- Update lockfiles (wheel 0.46.3)
+  ([`ddec434`](https://github.com/ocadotechnology/codeforlife-portal/commit/ddec434cfe3a0e1fe0ce496238e05691e537915a))
+
+
+## v8.9.16 (2026-01-19)
+
+### Bug Fixes
+
+- Impact report 2025 ([#2482](https://github.com/ocadotechnology/codeforlife-portal/pull/2482),
+  [`ba76f08`](https://github.com/ocadotechnology/codeforlife-portal/commit/ba76f0838987b14094e94463e8f26bdd7e291f71))
+
+* fix: Publish 2025 Impact Report and remove temp middleware
+
+* Remove middleware secret
+
+
+## v8.9.15 (2026-01-16)
+
+### Bug Fixes
+
+- Update lockfiles
+  ([`6c2fead`](https://github.com/ocadotechnology/codeforlife-portal/commit/6c2feadb58a195837fe0114453f5763b4292da7a))
+
+
+## v8.9.14 (2026-01-14)
+
+### Bug Fixes
+
+- **deps**: Bump urllib3 from 2.6.2 to 2.6.3 in /cfl_common
+  ([#2481](https://github.com/ocadotechnology/codeforlife-portal/pull/2481),
+  [`ceac545`](https://github.com/ocadotechnology/codeforlife-portal/commit/ceac5454ff76522421ee7111b65e0ed13645a91e))
+
+* fix(deps): bump urllib3 from 2.6.2 to 2.6.3 in /cfl_common
+
+Bumps [urllib3](https://github.com/urllib3/urllib3) from 2.6.2 to 2.6.3. - [Release
+  notes](https://github.com/urllib3/urllib3/releases) -
+  [Changelog](https://github.com/urllib3/urllib3/blob/main/CHANGES.rst) -
+  [Commits](https://github.com/urllib3/urllib3/compare/2.6.2...2.6.3)
+
+--- updated-dependencies: - dependency-name: urllib3 dependency-version: 2.6.3
+
+dependency-type: indirect ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+* Merge branch 'master' into dependabot/pip/cfl_common/urllib3-2.6.3
+
+Co-Authored-By: Florian Aucomte <f.aucomte@hotmail.co.uk>
+
+
+## v8.9.13 (2026-01-14)
+
+### Bug Fixes
+
+- **deps**: Bump urllib3 from 2.6.2 to 2.6.3
+  ([#2480](https://github.com/ocadotechnology/codeforlife-portal/pull/2480),
+  [`afee24b`](https://github.com/ocadotechnology/codeforlife-portal/commit/afee24ba40adc63f1f4bfdd1b6141e63616ddbcf))
+
+Bumps [urllib3](https://github.com/urllib3/urllib3) from 2.6.2 to 2.6.3. - [Release
+  notes](https://github.com/urllib3/urllib3/releases) -
+  [Changelog](https://github.com/urllib3/urllib3/blob/main/CHANGES.rst) -
+  [Commits](https://github.com/urllib3/urllib3/compare/2.6.2...2.6.3)
+
+--- updated-dependencies: - dependency-name: urllib3 dependency-version: 2.6.3
+
+dependency-type: indirect ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+
 ## v8.9.12 (2026-01-02)
 
 ### Bug Fixes
