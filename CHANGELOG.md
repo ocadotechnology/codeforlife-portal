@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.21 (2026-02-04)
+
+### Bug Fixes
+
+- Upgrade to Django 5.2
+  ([`fb25cc2`](https://github.com/ocadotechnology/codeforlife-portal/commit/fb25cc26e6578784182a5e192747bc6661a6216a))
+
+
 ## v8.9.20 (2026-02-04)
 
 ### Bug Fixes
