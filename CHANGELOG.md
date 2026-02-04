@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.20 (2026-02-04)
+
+### Bug Fixes
+
+- Move psycopg2-binary to common
+  ([`6435a9f`](https://github.com/ocadotechnology/codeforlife-portal/commit/6435a9fba72cc1426b5f44d8ed49cb310b480cd4))
+
+
 ## v8.9.19 (2026-01-28)
 
 ### Bug Fixes
