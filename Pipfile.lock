@@ -3117,7 +3117,7 @@
         },
         "rapid-router": {
             "git": "https://github.com/ocadotechnology/rapid-router.git",
-            "ref": "8019594705e91a19a285338cb3d6057992005163"
+            "ref": "79924f909ff8320881db61a88091e90932ff93e8"
         },
         "reportlab": {
             "hashes": [
