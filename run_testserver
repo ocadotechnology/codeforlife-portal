@@ -4,6 +4,6 @@ cd "${BASH_SOURCE%/*}"
 
 ./manage.py collectstatic --noinput --clear
 ./manage.py testserver \
-  portal/cfl_common/common/fixtures/seed.json \
+  seed \
   portal/tests/cypress/fixtures/teachersToBeDeleted.json \
   --settings="example_project.portal_test_settings"
