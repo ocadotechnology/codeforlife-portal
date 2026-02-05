@@ -28,6 +28,8 @@ class TestAdminAccessMiddleware(TestCase):
     redirected to the teacher dashboard.
     - An authenticated user who is a superuser AND has 2FA enabled isn't redirected.
     """
+    
+    fixtures = ["seed"]
 
     def setUp(self) -> None:
         self.client = Client()
