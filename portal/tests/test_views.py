@@ -308,6 +308,8 @@ class TestTeacherViews(TestCase):
 
 
 class TestLoginViews(TestCase):
+    fixtures = ["seed"]
+
     @classmethod
     def setUpClass(cls):
         cls.orig_captcha_enabled = captcha.CAPTCHA_ENABLED
@@ -546,6 +548,8 @@ class TestLoginViews(TestCase):
 
 
 class TestViews(TestCase):
+    fixtures = ["seed"]
+
     def test_home_learning(self):
         c = Client()
         home_url = reverse("home")
@@ -1025,6 +1029,8 @@ class CronTestCase(APITestCase):
 
 
 class TestUser(CronTestCase):
+    fixtures = ["seed"]
+
     # TODO: use fixtures
     def setUp(self):
         teacher_email, _ = signup_teacher_directly(preverified=False)
