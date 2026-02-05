@@ -24,7 +24,7 @@ from common.models import (
 from common.permissions import check_teacher_authorised, logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.db.models import F
 from django.forms.formsets import formset_factory
@@ -56,6 +56,8 @@ from portal.forms.teach import (
 )
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.views.registration import handle_reset_password_tracking
+
+User = get_user_model()
 
 STUDENT_PASSWORD_LENGTH = 6
 REMINDER_CARDS_PDF_ROWS = 8

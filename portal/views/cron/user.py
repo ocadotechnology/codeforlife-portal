@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from common.helpers.emails import generate_token_for_email
 from common.mail import campaign_ids, send_dotdigital_email
 from common.models import DailyActivity, TotalActivity
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db.models import F, Q
 from django.db.models.query import QuerySet
 from django.urls import reverse
@@ -14,6 +14,8 @@ from rest_framework.views import APIView
 
 from ...mixins import CronMixin
 from ...views.api import anonymise
+
+User = get_user_model()
 
 USER_1ST_VERIFY_EMAIL_REMINDER_DAYS = 7
 USER_2ND_VERIFY_EMAIL_REMINDER_DAYS = 14
