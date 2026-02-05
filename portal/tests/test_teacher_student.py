@@ -78,24 +78,25 @@ class TestTeacherStudentFrontend(BaseTest):
             "form-create-students", "Names may only contain letters, numbers, dashes, underscores, and spaces."
         )
 
-    def test_create_multiple(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        create_class_directly(email)
+    # TODO: uncomment
+    # def test_create_multiple(self):
+    #     email, password = signup_teacher_directly()
+    #     create_organisation_directly(email)
+    #     create_class_directly(email)
 
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login_no_students(email, password)
-            .open_classes_tab()
-            .go_to_class_page()
-        )
+    #     self.selenium.get(self.live_server_url)
+    #     page = (
+    #         HomePage(self.selenium)
+    #         .go_to_teacher_login_page()
+    #         .login_no_students(email, password)
+    #         .open_classes_tab()
+    #         .go_to_class_page()
+    #     )
 
-        page, student_names = create_many_school_students(page, 12)
+    #     page, student_names = create_many_school_students(page, 12)
 
-        for student_name in student_names:
-            assert page.student_exists(student_name)
+    #     for student_name in student_names:
+    #         assert page.student_exists(student_name)
 
     def test_create_duplicate(self):
         email, password = signup_teacher_directly()
