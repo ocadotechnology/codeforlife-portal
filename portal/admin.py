@@ -13,6 +13,7 @@ from common.models import (
 )
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as _UserAdmin
+from django.contrib.auth.models import User as DjangoUser
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from import_export.admin import ExportActionMixin
@@ -213,6 +214,8 @@ admin.site.register(Class, ClassAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(School, SchoolAdmin)
+if admin.site.is_registered(DjangoUser):
+    admin.site.unregister(DjangoUser)
 if admin.site.is_registered(User):
     admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
