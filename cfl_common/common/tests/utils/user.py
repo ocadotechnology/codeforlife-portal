@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
+User = get_user_model()
+
 def get_superuser():
     """Get a superuser for testing, or create one if there isn't one."""
-    User = get_user_model()
     try:
         return User.objects.get(username="superuser")
     except User.DoesNotExist:
@@ -12,7 +13,6 @@ def get_superuser():
 
 def create_user_directly(active=True, **kwargs):
     """Create a user in the database."""
-    User = get_user_model()
     days_to_subtract = 10 if active else 2000
     username = "old_user+{:d}".format(create_user_directly.next_id)
     user = User.objects.create_user(username, password="password")
