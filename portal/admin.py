@@ -13,7 +13,7 @@ from common.models import (
 )
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as _UserAdmin
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from import_export.admin import ExportActionMixin
 
@@ -23,6 +23,7 @@ from portal.forms.admin import (
 )
 from portal.views.api import anonymise
 
+User = get_user_model()
 
 class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
@@ -212,7 +213,6 @@ admin.site.register(Class, ClassAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(School, SchoolAdmin)
-admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(SchoolTeacherInvitation, SchoolTeacherInvitationAdmin)

@@ -7,7 +7,7 @@ from common.models import Student, Teacher, UserSession, stripStudentName
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django_recaptcha.fields import ReCaptchaField
 from django_recaptcha.widgets import ReCaptchaV2Invisible
 from game.models import Episode, Worksheet
@@ -16,6 +16,7 @@ from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.helpers.password import PasswordStrength, form_clean_password
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 
+User = get_user_model()
 
 class InvitedTeacherForm(forms.Form):
     prefix = "teacher_signup"

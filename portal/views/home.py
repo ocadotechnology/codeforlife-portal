@@ -10,7 +10,7 @@ from common.permissions import logged_in_as_student, logged_in_as_teacher
 from common.utils import _using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import F
 from django.http import HttpResponse, HttpResponseRedirect
@@ -35,6 +35,8 @@ from portal.strings.ten_year_map import (
     TEN_YEAR_MAP_BANNER,
     TEN_YEAR_MAP_HEADLINE,
 )
+
+User = get_user_model()
 
 
 def register_view(request):

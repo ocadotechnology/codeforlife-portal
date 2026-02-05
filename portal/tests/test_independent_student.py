@@ -19,7 +19,7 @@ from common.tests.utils.student import (
     verify_email,
 )
 from common.tests.utils.teacher import signup_teacher_directly
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -38,6 +38,7 @@ from .utils.messages import (
     is_student_details_updated_message_showing,
 )
 
+User = get_user_model()
 
 class TestIndependentStudent(TestCase):
     def test_signup_short_password_fails(self):

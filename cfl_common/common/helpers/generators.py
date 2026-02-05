@@ -5,7 +5,9 @@ from builtins import range, str
 from uuid import uuid4
 
 from common.models import Class, Student
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 def get_random_username():

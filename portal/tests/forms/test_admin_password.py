@@ -1,8 +1,10 @@
 import pytest
 from common.tests.utils.user import create_user_directly
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from portal.forms.admin import AdminUserCreationForm, AdminChangeUserPasswordForm, AdminChangeOwnPasswordForm
+
+User = get_user_model()
 
 password_too_short = "Password!1234"
 password_no_special_char = "Password123456"

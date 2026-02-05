@@ -27,7 +27,7 @@ from common.tests.utils.student import (
     create_student_with_direct_login,
 )
 from common.tests.utils.teacher import signup_teacher_directly
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
@@ -53,6 +53,7 @@ from portal.views.teacher.teach import (
     count_student_details_click,
 )
 
+User = get_user_model()
 
 class TestTeacherViews(TestCase):
     @classmethod

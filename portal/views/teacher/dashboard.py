@@ -22,7 +22,7 @@ from common.utils import using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
@@ -52,6 +52,7 @@ from portal.helpers.ratelimit import (
 )
 from .teach import create_class
 
+User = get_user_model()
 
 def _get_update_account_rate(group, request):
     """

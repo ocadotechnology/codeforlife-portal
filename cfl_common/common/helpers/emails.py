@@ -13,12 +13,14 @@ from common.mail import (
 )
 from common.models import Student, Teacher
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.urls import reverse
 from django.utils import timezone
 from requests import delete, get, post, put
 from requests.exceptions import RequestException
+
+User = get_user_model()
 
 NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
 VERIFICATION_EMAIL = "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
