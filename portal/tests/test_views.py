@@ -56,6 +56,8 @@ from portal.views.teacher.teach import (
 User = get_user_model()
 
 class TestTeacherViews(TestCase):
+    fixtures = ["seed"]
+
     @classmethod
     def setUpTestData(cls):
         cls.email, cls.password = signup_teacher_directly()

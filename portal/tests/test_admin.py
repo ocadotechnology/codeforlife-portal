@@ -32,7 +32,7 @@ def test_export_user_data():
     c = Client()
     c.login(username=admin_username, password=admin_password)
 
-    url = reverse("admin:auth_user_changelist")
+    url = reverse("admin:common_user_changelist")
     data = {"action": "export_as_csv", "select_across": 0, "index": 0, "_selected_action": 11}
 
     response = c.post(url, data)
