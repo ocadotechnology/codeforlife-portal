@@ -1,6 +1,6 @@
 [
   {
-    "model": "auth.user",
+    "model": "common.user",
     "pk": 1001,
     "fields": {
       "password": "pbkdf2_sha256$260000$xG3ad8gi7Oex9qOZF0YKyq$8+knohUk1Ii4eMjVeifyNsPyDQUQIDWZWtMVeGy8kf0=",
@@ -18,7 +18,7 @@
     }
   },
   {
-    "model": "auth.user",
+    "model": "common.user",
     "pk": 1002,
     "fields": {
       "password": "pbkdf2_sha256$260000$xG3ad8gi7Oex9qOZF0YKyq$8+knohUk1Ii4eMjVeifyNsPyDQUQIDWZWtMVeGy8kf0=",
