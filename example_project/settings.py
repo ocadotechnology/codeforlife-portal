@@ -8,10 +8,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        "NAME": os.path.join(
-            os.path.abspath(os.path.dirname(__file__)), "db.sqlite3"
-        ),  # Or path to database file if using sqlite3.
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "legacy_portal",
+        "USER": "root",
+        "PASSWORD": "password",
+        "HOST": "db",
+        "PORT": 5432,
         "ATOMIC_REQUESTS": True,
     }
 }

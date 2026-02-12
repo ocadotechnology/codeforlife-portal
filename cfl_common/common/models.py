@@ -1,3 +1,17 @@
+# TODO: Import models from cfl package and delete models below.
+# from codeforlife.user.models import (
+#     Class,
+#     DailyActivity,
+#     JoinReleaseStudent,
+#     School,
+#     SchoolTeacherInvitation,
+#     Student,
+#     Teacher,
+#     TotalActivity,
+#     UserProfile,
+#     UserSession,
+# )
+
 import re
 import typing as t
 from datetime import timedelta
