@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-cryptography = "==44.0.1"
 django = "==5.2.11"
 django-countries = "==7.6.1"
 django-csp = "==3.8"
@@ -17,7 +16,7 @@ more-itertools = "==8.7.0"
 pgeocode = "==0.4.0"
 psycopg2-binary = "==2.9.9"
 pyjwt = "==2.6.0"
-tink = {version = "==1.13.0", extras = ["gcpkms"]}
+codeforlife = {ref = "workspace_1064", git = "https://github.com/ocadotechnology/codeforlife-package-python.git"}
 
 [dev-packages]
 
