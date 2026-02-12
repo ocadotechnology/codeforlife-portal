@@ -38,7 +38,7 @@ def parse_requirements(packages: t.Dict[str, t.Dict[str, t.Any]]):
             requirement += package["version"] 
             if "markers" in package:
                 requirement += f"; {package['markers']}"
-    requirements.append(requirement)
+        requirements.append(requirement)
 
     return requirements
 
