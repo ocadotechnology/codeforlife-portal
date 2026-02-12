@@ -5,10 +5,11 @@ from builtins import str
 from common.models import School, Student, UserProfile
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.teacher import signup_teacher_directly
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy
 
+User = get_user_model()
 
 class SecurityTestCase(TestCase):
     def _test_incorrect_teacher_cannot_login(self, view_name):

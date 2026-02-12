@@ -24,14 +24,18 @@ def parse_requirements(packages: t.Dict[str, t.Dict[str, t.Any]]):
 
     requirements: t.List[str] = []
     for name, package in packages.items():
+        if package == "cfl-common":
+            continue # Assume cfl-common is installed separately.
+
         requirement = name
-        if requirement == "cfl-common":
-            requirement += f"=={version}"
-        else:
+        if "git" in package:
+            requirement += f" @ git+{package['git']}"
+            if "ref" in package:
+                requirement += f"@{package['ref']}"
+        elif "version" in package:
             if "extras" in package:
                 requirement += f"[{','.join(package['extras'])}]"
-            if "version" in package:
-                requirement += package["version"]
+            requirement += package["version"] 
             if "markers" in package:
                 requirement += f"; {package['markers']}"
         requirements.append(requirement)

@@ -1,3 +1,17 @@
+# TODO: Import models from cfl package and delete models below.
+# from codeforlife.user.models import (
+#     Class,
+#     DailyActivity,
+#     JoinReleaseStudent,
+#     School,
+#     SchoolTeacherInvitation,
+#     Student,
+#     Teacher,
+#     TotalActivity,
+#     UserProfile,
+#     UserSession,
+# )
+
 import re
 import typing as t
 from datetime import timedelta
@@ -5,7 +19,7 @@ from uuid import uuid4
 
 from cryptography.fernet import Fernet
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 from django_countries.fields import CountryField
@@ -71,6 +85,10 @@ class EncryptedCharField(models.CharField):
             value = value[len(self._prefix) :]
             return self._fernet.decrypt(value).decode()
         return value
+
+
+class User(AbstractUser):
+    pass
 
 
 class UserProfile(models.Model):

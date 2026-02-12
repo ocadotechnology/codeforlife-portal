@@ -10,6 +10,8 @@ from .utils.teacher import signup_teacher_directly
 
 
 class TestModels(TestCase):
+    fixtures = ["seed"]
+
     def test_indep_student_pending_class_request_on_delete(self):
         """
         Given a class and an independent student,
