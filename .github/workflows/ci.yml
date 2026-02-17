@@ -11,6 +11,21 @@ jobs:
       LANG: C.UTF-8
       COVERAGE_REPORT: coverage.xml # NOTE: COVERAGE_FILE is reserved - do not use.
       OCADO_TECH_ORG_ID: 2088731
+    services:
+      postgres: # https://docs.github.com/en/actions/use-cases-and-examples/using-containerized-services/creating-postgresql-service-containers
+        image: postgres:17
+        env:
+          POSTGRES_DB: "legacy_rapid_router"
+          POSTGRES_HOST: "localhost"
+          POSTGRES_USER: "root"
+          POSTGRES_PASSWORD: "password"
+        options: >- # Set health checks to wait until postgres has started
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     steps:
       - name: Checkout
         uses: actions/checkout@v4
