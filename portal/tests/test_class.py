@@ -437,12 +437,12 @@ class TestClass(TestCase):
 
     def test_transfer_class(self):
         email1, password1 = signup_teacher_directly()
-        email2, password2 = signup_teacher_directly()
+        email2, _ = signup_teacher_directly()
         school = create_organisation_directly(email1)
         join_teacher_to_organisation(email2, school.name)
         klass1, _, access_code1 = create_class_directly(email1)
         klass2, _, access_code2 = create_class_directly(email2)
-        _, _, student1 = create_school_student_directly(access_code1)
+        create_school_student_directly(access_code1)
         _, _, student2 = create_school_student_directly(access_code2)
 
         teacher1 = Teacher.objects.get(new_user__username=email1)
@@ -472,7 +472,8 @@ class TestClass(TestCase):
 
         assert len(teacher1_classes) == 0
         assert len(teacher2_classes) == 2
-        assert teacher2_classes[1] == klass2
+        assert teacher2_classes[0] == klass2
+        assert teacher2_classes[1] == klass1
         assert not teacher1.teaches(student2.user)
         assert teacher2.teaches(student2.user)
 

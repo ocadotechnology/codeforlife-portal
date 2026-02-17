@@ -11,6 +11,7 @@ jobs:
       LANG: C.UTF-8
       COVERAGE_REPORT: coverage.xml # NOTE: COVERAGE_FILE is reserved - do not use.
       OCADO_TECH_ORG_ID: 2088731
+      DB_HOST: localhost
     services:
       postgres: # https://docs.github.com/en/actions/use-cases-and-examples/using-containerized-services/creating-postgresql-service-containers
         image: postgres:17
