@@ -25,7 +25,7 @@ def parse_requirements(packages: t.Dict[str, t.Dict[str, t.Any]]):
     requirements: t.List[str] = []
     for name, package in packages.items():
         if package == "cfl-common":
-            requirement = "cfl-common @ git+https://github.com/ocadotechnology/codeforlife-portal.git@b41862455bec42aea6a4c3630b984a78894b4afa#subdirectory=cfl_common"
+            requirement = "cfl-common @ git+https://github.com/ocadotechnology/codeforlife-portal.git@335377a9556263c92900540f8b1033b17c99562c#subdirectory=cfl_common"
         else:
             requirement = name
             if "git" in package:
