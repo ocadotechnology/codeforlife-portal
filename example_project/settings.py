@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "treebeard",
     "two_factor",
     "preventconcurrentlogins",
+    "codeforlife.user",
 ]
 
 PIPELINE = {
@@ -182,4 +183,4 @@ if MODULE_NAME == "local":
 
 ENCRYPTION_KEY = os.environ["ENCRYPTION_KEY"]
 
-AUTH_USER_MODEL = "common.User"
+AUTH_USER_MODEL = "user.User"
