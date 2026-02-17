@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 boto3 = "==1.36.14"
 celery = {extras = ["sqs"], version = "==5.4.0"}
-cfl-common = {path = "./cfl_common", editable = true}
+# cfl-common = {path = "./cfl_common", editable = true}
 django-classy-tags = "==4.1.0"
 django-formtools = "==2.5.1"
 django-preventconcurrentlogins = "==0.8.2"
@@ -38,7 +38,7 @@ pytest-order = "*"
 pytest-xdist = "*"
 pyvirtualdisplay = "*"
 # rapid-router = ">7.0.0"
-# rapid-router = {ref = "workspace_1054", git = "https://github.com/ocadotechnology/rapid-router.git"}
+rapid-router = {ref = "workspace_1054", git = "https://github.com/ocadotechnology/rapid-router.git"}
 responses = "==0.18.0"
 selenium = "==4.29.0"
 snapshottest = "==1.0.0a1"

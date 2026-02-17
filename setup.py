@@ -25,20 +25,22 @@ def parse_requirements(packages: t.Dict[str, t.Dict[str, t.Any]]):
     requirements: t.List[str] = []
     for name, package in packages.items():
         if package == "cfl-common":
-            continue # Assume cfl-common is installed separately.
-
-        requirement = name
-        if "git" in package:
-            requirement += f" @ git+{package['git']}"
-            if "ref" in package:
-                requirement += f"@{package['ref']}"
-        elif "version" in package:
-            if "extras" in package:
-                requirement += f"[{','.join(package['extras'])}]"
-            requirement += package["version"] 
-            if "markers" in package:
-                requirement += f"; {package['markers']}"
-        requirements.append(requirement)
+            requirement = "cfl-common @ git+https://github.com/ocadotechnology/codeforlife-portal.git@b41862455bec42aea6a4c3630b984a78894b4afa#subdirectory=cfl_common"
+        else:
+            requirement = name
+            if "git" in package:
+                requirement += f" @ git+{package['git']}"
+                if "ref" in package:
+                    requirement += f"@{package['ref']}"
+                if "subdirectory" in package:
+                    requirement += f"#subdirectory={package['subdirectory']}"
+            elif "version" in package:
+                if "extras" in package:
+                    requirement += f"[{','.join(package['extras'])}]"
+                requirement += package["version"]
+                if "markers" in package:
+                    requirement += f"; {package['markers']}"
+            requirements.append(requirement)
 
     return requirements
 
