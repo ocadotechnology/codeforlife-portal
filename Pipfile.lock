@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f6bc037f259ca7f2a39cebcde5aa9dc06911f929bfdd208b0bd0e3e3bfaa434e"
+            "sha256": "5a82c8be230d4825934c5bd541620843f68c576857cb59d2b469e210bc4d7ef1"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -990,7 +990,7 @@
                 "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3",
                 "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.9.0.post0"
         },
         "python-dotenv": {
@@ -1117,7 +1117,7 @@
                 "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
                 "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==1.17.0"
         },
         "sqlparse": {
@@ -2045,11 +2045,11 @@
         },
         "parso": {
             "hashes": [
-                "sha256:034d7354a9a018bdce352f48b2a8a450f05e9d6ee85db84764e9b6bd96dafe5a",
-                "sha256:646204b5ee239c396d040b90f9e272e9a8017c630092bf59980beb62fd033887"
+                "sha256:2b9a0332696df97d454fa67b81618fd69c35a7b90327cbe6ba5c92d2c68a7bfd",
+                "sha256:2c549f800b70a5c4952197248825584cb00f033b29c692671d3bf08bf380baff"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==0.8.5"
+            "version": "==0.8.6"
         },
         "pathspec": {
             "hashes": [
@@ -2300,7 +2300,7 @@
                 "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3",
                 "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.9.0.post0"
         },
         "pytokens": {
@@ -2368,12 +2368,8 @@
             "version": "==8.2"
         },
         "rapid-router": {
-            "hashes": [
-                "sha256:4eda474314fd66e8b4f7e375574d195ea203850f72874bcd4c99ef9267749642",
-                "sha256:b3a4828a7fd2d24f3c5ceabc49b194a19edb4c59ca1fbeb269ee7d28268e7223"
-            ],
-            "index": "pypi",
-            "version": "==7.6.20"
+            "git": "https://github.com/ocadotechnology/rapid-router.git",
+            "ref": "79b0aba870bd3e5c258d5bbe5985bb3b267c790a"
         },
         "requests": {
             "hashes": [
@@ -2414,7 +2410,7 @@
                 "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
                 "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==1.17.0"
         },
         "snapshottest": {
