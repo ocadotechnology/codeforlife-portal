@@ -7,6 +7,7 @@ name = "pypi"
 boto3 = "==1.36.14"
 celery = {extras = ["sqs"], version = "==5.4.0"}
 # cfl-common = {path = "./cfl_common", editable = true}
+cfl-common = {git = "https://github.com/ocadotechnology/codeforlife-portal.git", ref = "workspace_1054", subdirectory = "cfl_common"}
 django-classy-tags = "==4.1.0"
 django-formtools = "==2.5.1"
 django-preventconcurrentlogins = "==0.8.2"
