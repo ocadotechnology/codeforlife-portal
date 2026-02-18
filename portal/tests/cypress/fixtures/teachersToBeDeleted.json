@@ -1,6 +1,6 @@
 [
   {
-    "model": "common.user",
+    "model": "user.user",
     "pk": 1001,
     "fields": {
       "password": "pbkdf2_sha256$260000$xG3ad8gi7Oex9qOZF0YKyq$8+knohUk1Ii4eMjVeifyNsPyDQUQIDWZWtMVeGy8kf0=",
@@ -18,7 +18,7 @@
     }
   },
   {
-    "model": "common.user",
+    "model": "user.user",
     "pk": 1002,
     "fields": {
       "password": "pbkdf2_sha256$260000$xG3ad8gi7Oex9qOZF0YKyq$8+knohUk1Ii4eMjVeifyNsPyDQUQIDWZWtMVeGy8kf0=",
@@ -36,7 +36,7 @@
     }
   },
   {
-    "model": "common.teacher",
+    "model": "user.teacher",
     "pk": 1001,
     "fields": {
       "user": 1001,
@@ -47,7 +47,7 @@
     }
   },
   {
-    "model": "common.teacher",
+    "model": "user.teacher",
     "pk": 1002,
     "fields": {
       "user": 1002,
@@ -58,7 +58,7 @@
     }
   },
   {
-    "model": "common.userprofile",
+    "model": "user.userprofile",
     "pk": 1001,
     "fields": {
       "user": 1001,
@@ -67,7 +67,7 @@
     }
   },
   {
-    "model": "common.userprofile",
+    "model": "user.userprofile",
     "pk": 1002,
     "fields": {
       "user": 1002,
