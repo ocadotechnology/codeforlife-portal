@@ -1,6 +1,22 @@
 # CHANGELOG
 
 
+## v8.9.23 (2026-02-18)
+
+### Bug Fixes
+
+- Upgrade to cryptography 46.0.5
+  ([`04c19e1`](https://github.com/ocadotechnology/codeforlife-portal/commit/04c19e178c2ed17f1e75cf018d4ba792c74a71a4))
+
+
+## v8.9.22 (2026-02-17)
+
+### Bug Fixes
+
+- Relock pipfiles
+  ([`02af87a`](https://github.com/ocadotechnology/codeforlife-portal/commit/02af87ae6ad75be85c6940daee357feb59a7e427))
+
+
 ## v8.9.21 (2026-02-04)
 
 ### Bug Fixes
