@@ -33,7 +33,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           architecture: "x64"
@@ -54,7 +54,7 @@ jobs:
           SELENIUM_WEBDRIVER: firefox-headless
           SELENIUM_HEADLESS: True
       - name: Run Cypress tests
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v7
         with:
           browser: chrome
           install: false
