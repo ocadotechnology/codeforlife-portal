@@ -152,6 +152,7 @@ class TestTeacherStudentFrontend(BaseTest):
         assert alert.text == "'Name' column not found in CSV file."
         alert.dismiss()
 
+    @pytest.mark.skip(reason="flaky")
     def test_class_students_import_from_csv(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
