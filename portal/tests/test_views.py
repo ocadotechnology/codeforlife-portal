@@ -215,7 +215,7 @@ class TestTeacherViews(TestCase):
         # Expect a DailyActivity to have been created for today, and expect login cards
         # count to have been incremented
         assert DailyActivity.objects.count() == 1
-        daily_activity = DailyActivity.objects.get(id=1)
+        daily_activity = DailyActivity.objects.first()
         assert daily_activity.date == date.today()
         assert daily_activity.csv_click_count == 0
         assert daily_activity.login_cards_click_count == 1
@@ -229,7 +229,7 @@ class TestTeacherViews(TestCase):
         # Expect the same DailyActivity row to be there (no new rows), expect CSV click
         # count to have been incremented and login cards to stay the same
         assert DailyActivity.objects.count() == 1
-        daily_activity = DailyActivity.objects.get(id=1)
+        daily_activity = DailyActivity.objects.first()
         assert daily_activity.date == date.today()
         assert daily_activity.csv_click_count == 1
         assert daily_activity.login_cards_click_count == 1
