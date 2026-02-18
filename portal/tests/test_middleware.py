@@ -29,7 +29,7 @@ class TestAdminAccessMiddleware(TestCase):
     - An authenticated user who is a superuser AND has 2FA enabled isn't redirected.
     """
     
-    fixtures = ["seed"]
+    fixtures = ["legacy"]
 
     def setUp(self) -> None:
         self.client = Client()

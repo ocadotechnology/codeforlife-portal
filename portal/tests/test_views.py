@@ -56,7 +56,7 @@ from portal.views.teacher.teach import (
 User = get_user_model()
 
 class TestTeacherViews(TestCase):
-    fixtures = ["seed"]
+    fixtures = ["legacy"]
 
     @classmethod
     def setUpTestData(cls):
@@ -308,7 +308,7 @@ class TestTeacherViews(TestCase):
 
 
 class TestLoginViews(TestCase):
-    fixtures = ["seed"]
+    fixtures = ["legacy"]
 
     @classmethod
     def setUpClass(cls):
@@ -548,7 +548,7 @@ class TestLoginViews(TestCase):
 
 
 class TestViews(TestCase):
-    fixtures = ["seed"]
+    fixtures = ["legacy", "game"]
 
     def test_home_learning(self):
         c = Client()
@@ -1029,7 +1029,7 @@ class CronTestCase(APITestCase):
 
 
 class TestUser(CronTestCase):
-    fixtures = ["seed"]
+    fixtures = ["legacy"]
 
     # TODO: use fixtures
     def setUp(self):

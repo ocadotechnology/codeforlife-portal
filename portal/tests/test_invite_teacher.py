@@ -23,7 +23,7 @@ WAIT_TIME = 15
 
 
 class TestInviteTeacher(TestCase):
-    fixtures = ["seed"]
+    fixtures = ["legacy"]
     
     def test_invite_teacher_successful(self):
         email, password = signup_teacher_directly()

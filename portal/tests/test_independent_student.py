@@ -41,7 +41,7 @@ from .utils.messages import (
 User = get_user_model()
 
 class TestIndependentStudent(TestCase):
-    fixtures = ["seed"]
+    fixtures = ["legacy", "game"]
     
     def test_signup_short_password_fails(self):
         c = Client()

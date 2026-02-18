@@ -22,7 +22,7 @@ from rest_framework.test import APIClient, APITestCase
 User = get_user_model()
 
 class APITests(APITestCase):
-    fixtures = ["seed"]
+    fixtures = ["legacy"]
     
     def test_valid_date_registered(self):
         url = reverse(

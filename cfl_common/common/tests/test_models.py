@@ -10,7 +10,7 @@ from .utils.teacher import signup_teacher_directly
 
 
 class TestModels(TestCase):
-    fixtures = ["seed"]
+    fixtures = ["legacy"]
 
     def test_indep_student_pending_class_request_on_delete(self):
         """

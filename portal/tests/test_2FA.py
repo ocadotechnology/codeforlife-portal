@@ -21,7 +21,7 @@ class Test2FA(TestCase):
     See https://tools.ietf.org/html/rfc6238#section-5.2 for detailed specs on TOTP.
     """
     
-    fixtures = ["seed"]
+    fixtures = ["legacy"]
 
     def setUp(self) -> None:
         self.client = Client()

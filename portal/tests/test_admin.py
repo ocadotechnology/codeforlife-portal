@@ -25,7 +25,7 @@ class TestAdmin(BaseTest):
 
 # TODO uncomment
 # @pytest.mark.django_db
-# @pytest.mark.fixtures("seed")
+# @pytest.mark.fixtures("legacy")
 # def test_export_user_data():
 #     admin_username = "codeforlife-portal@ocado.com"
 #     admin_password = "abc123"
