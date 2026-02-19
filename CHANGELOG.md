@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.23 (2026-02-18)
+
+### Bug Fixes
+
+- Upgrade to cryptography 46.0.5
+  ([`04c19e1`](https://github.com/ocadotechnology/codeforlife-portal/commit/04c19e178c2ed17f1e75cf018d4ba792c74a71a4))
+
+
 ## v8.9.22 (2026-02-17)
 
 ### Bug Fixes
