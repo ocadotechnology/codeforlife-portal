@@ -16,7 +16,7 @@ jobs:
       postgres: # https://docs.github.com/en/actions/use-cases-and-examples/using-containerized-services/creating-postgresql-service-containers
         image: postgres:17
         env:
-          POSTGRES_DB: "legacy_rapid_router"
+          POSTGRES_DB: "legacy_portal"
           POSTGRES_HOST: "localhost"
           POSTGRES_USER: "root"
           POSTGRES_PASSWORD: "password"
@@ -58,7 +58,7 @@ jobs:
         with:
           browser: chrome
           install: false
-          start: bash ./run
+          start: bash ./run --settings example_project.portal_test_settings
           wait-on: http://localhost:8000
           wait-on-timeout: 300
           record: true
