@@ -58,7 +58,7 @@ jobs:
         with:
           browser: chrome
           install: false
-          start: bash ./run_testserver "--settings example_project.portal_test_settings"
+          start: bash ./run "--settings example_project.portal_test_settings"
           wait-on: http://localhost:8000
           wait-on-timeout: 300
           record: true
