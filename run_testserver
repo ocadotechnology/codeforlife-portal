@@ -3,4 +3,4 @@ set -e
 cd "${BASH_SOURCE%/*}"
 
 ./manage.py collectstatic --noinput --clear
-./manage.py testserver portal/tests/cypress/fixtures/teachersToBeDeleted.json --settings="example_project.portal_test_settings"
+./manage.py testserver portal/tests/cypress/fixtures/teachersToBeDeleted.json --settings="example_project.portal_test_settings" --use-natural-foreign-keys
