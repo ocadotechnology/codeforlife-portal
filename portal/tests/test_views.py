@@ -27,7 +27,7 @@ from common.tests.utils.student import (
     create_student_with_direct_login,
 )
 from common.tests.utils.teacher import signup_teacher_directly
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
@@ -53,8 +53,11 @@ from portal.views.teacher.teach import (
     count_student_details_click,
 )
 
+User = get_user_model()
 
 class TestTeacherViews(TestCase):
+    fixtures = ["legacy"]
+
     @classmethod
     def setUpTestData(cls):
         cls.email, cls.password = signup_teacher_directly()
@@ -305,6 +308,8 @@ class TestTeacherViews(TestCase):
 
 
 class TestLoginViews(TestCase):
+    fixtures = ["legacy"]
+
     @classmethod
     def setUpClass(cls):
         cls.orig_captcha_enabled = captcha.CAPTCHA_ENABLED
@@ -543,6 +548,8 @@ class TestLoginViews(TestCase):
 
 
 class TestViews(TestCase):
+    fixtures = ["legacy", "game"]
+
     def test_home_learning(self):
         c = Client()
         home_url = reverse("home")
@@ -1022,6 +1029,8 @@ class CronTestCase(APITestCase):
 
 
 class TestUser(CronTestCase):
+    fixtures = ["legacy"]
+
     # TODO: use fixtures
     def setUp(self):
         teacher_email, _ = signup_teacher_directly(preverified=False)

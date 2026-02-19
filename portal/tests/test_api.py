@@ -12,15 +12,18 @@ from common.tests.utils.organisation import (
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from common.tests.utils.user import create_user_directly, get_superuser
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.urls import reverse
 from hamcrest import *
 from hamcrest.core.base_matcher import BaseMatcher
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
+User = get_user_model()
 
 class APITests(APITestCase):
+    fixtures = ["legacy"]
+    
     def test_valid_date_registered(self):
         url = reverse(
             "registered-users",

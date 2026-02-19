@@ -1,11 +1,14 @@
 import re
 
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import (
     PasswordChangeForm,
     UserCreationForm,
     AdminPasswordChangeForm,
 )
+
+User = get_user_model()
 
 ADMIN_PASSWORD_TOO_WEAK_MESSAGE = """
 Password is too weak. Please choose a password that's at least 14 characters long,
@@ -52,6 +55,9 @@ class AdminUserCreationForm(UserCreationForm):
             )
 
         return password1
+    
+    class Meta(UserCreationForm.Meta):
+        model = User
 
 
 class AdminChangeUserPasswordForm(AdminPasswordChangeForm):

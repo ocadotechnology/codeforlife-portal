@@ -8,10 +8,12 @@ from common.tests.utils.organisation import create_organisation_directly
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from django.contrib import auth
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
 from django.test import Client, TestCase
 from django.urls import reverse
+
+User = get_user_model()
 
 MOCKED_SESSION_EXPIRY_TIME = 5
 
@@ -26,6 +28,8 @@ class TestAdminAccessMiddleware(TestCase):
     redirected to the teacher dashboard.
     - An authenticated user who is a superuser AND has 2FA enabled isn't redirected.
     """
+    
+    fixtures = ["legacy"]
 
     def setUp(self) -> None:
         self.client = Client()

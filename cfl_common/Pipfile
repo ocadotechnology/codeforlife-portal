@@ -17,6 +17,7 @@ more-itertools = "==8.7.0"
 pgeocode = "==0.4.0"
 psycopg2-binary = "==2.9.9"
 pyjwt = "==2.6.0"
+codeforlife = {ref = "workspace_1064", git = "https://github.com/ocadotechnology/codeforlife-package-python.git"}
 
 [dev-packages]
 

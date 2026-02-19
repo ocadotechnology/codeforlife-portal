@@ -1,6 +1,7 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 
+User = get_user_model()
 
 def get_superuser():
     """Get a superuser for testing, or create one if there isn't one."""

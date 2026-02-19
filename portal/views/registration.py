@@ -15,7 +15,7 @@ from django.contrib import messages as messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -42,6 +42,7 @@ from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.views.api import anonymise
 from portal.views.login import has_user_lockout_expired
 
+User = get_user_model()
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy("home"))
 def student_password_reset(request):

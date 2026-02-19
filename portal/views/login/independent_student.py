@@ -1,6 +1,6 @@
 from common.models import Student, UserSession
 from django.contrib import messages
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -9,6 +9,7 @@ from portal.forms.play import IndependentStudentLoginForm
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from . import has_user_lockout_expired
 
+User = get_user_model()
 
 class IndependentStudentLoginView(LoginView):
     template_name = "portal/login/independent_student.html"
