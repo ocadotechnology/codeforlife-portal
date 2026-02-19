@@ -159,7 +159,8 @@ describe("Teacher", () => {
   });
 
   it('cannot see an anonymised teacher in dashboard', () => {
-    const teacherEmail = 'teacher.to.be.deleted2@codeforlife.com'; // from teachersToBeDeleted fixture
+    cy.fixture('teachersToBeDeleted').as('teachersJson')
+    const teacherEmail = 'teacher.to.be.deleted2@codeforlife.com';
     const teacherName = 'Teacher To Be Deleted 2';
 
     // Login as default teacher and check the teacher is in the teachers table
