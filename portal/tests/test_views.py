@@ -32,7 +32,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils import timezone
 from game.models import Level
-from game.tests.utils.attempt import create_attempt
+from game.tests.utils.level_metrics import create_level_metrics
 from game.tests.utils.level import create_save_level
 from pypdf import PdfReader
 from rest_framework.test import APIClient, APITestCase
@@ -215,7 +215,7 @@ class TestTeacherViews(TestCase):
         # Expect a DailyActivity to have been created for today, and expect login cards
         # count to have been incremented
         assert DailyActivity.objects.count() == 1
-        daily_activity = DailyActivity.objects.get(id=1)
+        daily_activity = DailyActivity.objects.first()
         assert daily_activity.date == date.today()
         assert daily_activity.csv_click_count == 0
         assert daily_activity.login_cards_click_count == 1
@@ -229,7 +229,7 @@ class TestTeacherViews(TestCase):
         # Expect the same DailyActivity row to be there (no new rows), expect CSV click
         # count to have been incremented and login cards to stay the same
         assert DailyActivity.objects.count() == 1
-        daily_activity = DailyActivity.objects.get(id=1)
+        daily_activity = DailyActivity.objects.first()
         assert daily_activity.date == date.today()
         assert daily_activity.csv_click_count == 1
         assert daily_activity.login_cards_click_count == 1
@@ -656,15 +656,15 @@ class TestViews(TestCase):
         level1 = Level.objects.get(name="1")
         level2 = Level.objects.get(name="2")
 
-        create_attempt(student, level1, 20)
-        create_attempt(student, level2, 19)
+        create_level_metrics(student, level1, 20)
+        create_level_metrics(student, level2, 19)
 
         # Attempt the first and fourth Python Den levels, both perfect
         level1001 = Level.objects.get(name="1001")
         level1004 = Level.objects.get(name="1004")
 
-        create_attempt(student, level1001, 20)
-        create_attempt(student, level1004, 10)
+        create_level_metrics(student, level1001, 20)
+        create_level_metrics(student, level1004, 10)
 
         response = c.get(student_dashboard_url)
 
@@ -683,7 +683,7 @@ class TestViews(TestCase):
         student.new_user.shared.add(custom_level1, custom_level2)
         student.new_user.save()
 
-        create_attempt(student, custom_level2, 10)
+        create_level_metrics(student, custom_level2, 10)
 
         response = c.get(student_dashboard_url)
 

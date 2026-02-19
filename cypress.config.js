@@ -6,5 +6,6 @@ module.exports = {
     baseUrl: 'http://localhost:8000',
     specPattern: 'portal/tests//**/*.spec.js',
     supportFile: 'portal/tests/cypress/support/index.js',
+    fixturesFolder: 'portal/tests/cypress/fixtures',
   },
 }

@@ -1,6 +1,11 @@
 """Django settings for example_project project."""
-
 import os
+import sys
+try:
+    import pysqlite3
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+except ImportError:
+    pass
 
 from selenium import webdriver
 
@@ -60,10 +65,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        "NAME": os.path.join(
-            os.path.abspath(os.path.dirname(__file__)), "db.sqlite3"
-        ),  # Or path to database file if using sqlite3.
+        "ENGINE": "django.db.backends.postgresql",
+        "HOST": os.getenv("DB_HOST", "db"),
+        "NAME": "legacy_portal",
+        "USER": "root",
+        "PASSWORD": "password",
+        "PORT": "5432",
         "ATOMIC_REQUESTS": True,
     }
 }
@@ -84,7 +91,7 @@ LOGIN_REDIRECT_URL = "/teach/dashboard/"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-SILENCED_SYSTEM_CHECKS = ["captcha.recaptcha_test_key_error"]
+SILENCED_SYSTEM_CHECKS = ["django_recaptcha.recaptcha_test_key_error"]
 
 INSTALLED_APPS = [
     "game",
