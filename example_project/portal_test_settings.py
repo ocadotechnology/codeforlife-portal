@@ -91,7 +91,7 @@ LOGIN_REDIRECT_URL = "/teach/dashboard/"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-SILENCED_SYSTEM_CHECKS = ["captcha.recaptcha_test_key_error"]
+SILENCED_SYSTEM_CHECKS = ["django_recaptcha.recaptcha_test_key_error"]
 
 INSTALLED_APPS = [
     "game",
