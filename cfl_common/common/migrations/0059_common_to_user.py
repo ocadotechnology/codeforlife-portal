@@ -1,5 +1,4 @@
-import common.models
-from django.db import migrations, models
+from django.db import migrations
 
 
 class Migration(migrations.Migration):
@@ -26,17 +25,5 @@ ALTER TABLE common_userprofile RENAME TO user_userprofile;
 ALTER TABLE common_usersession RENAME TO user_usersession;
 """)
             ],
-            state_operations=[
-                migrations.DeleteModel(name="Class"),
-                migrations.DeleteModel(name="DailyActivity"),
-                migrations.DeleteModel(name="JoinReleaseStudent"),
-                migrations.DeleteModel(name="School"),
-                migrations.DeleteModel(name="SchoolTeacherInvitation"),
-                migrations.DeleteModel(name="Student"),
-                migrations.DeleteModel(name="Teacher"),
-                migrations.DeleteModel(name="TotalActivity"),
-                migrations.DeleteModel(name="UserProfile"),
-                migrations.DeleteModel(name="UserSession"),
-            ]
         )
     ]
