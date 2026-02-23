@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "treebeard",
     "two_factor",
     "preventconcurrentlogins",
+    "constance",
 ]
 
 PIPELINE = {
