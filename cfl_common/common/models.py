@@ -262,17 +262,11 @@ class SchoolTeacherInvitation(models.Model):
     invited_teacher_first_name = models.CharField(
         max_length=150
     )  # Same as User model
-    # TODO: Make not nullable once data has been transferred
-    _invited_teacher_first_name = models.BinaryField(null=True, blank=True)
     invited_teacher_last_name = models.CharField(
         max_length=150
     )  # Same as User model
-    # TODO: Make not nullable once data has been transferred
-    _invited_teacher_last_name = models.BinaryField(null=True, blank=True)
     # TODO: Switch to a CharField to be able to hold hashed value
     invited_teacher_email = models.EmailField()  # Same as User model
-    # TODO: Make not nullable once data has been transferred
-    _invited_teacher_email = models.BinaryField(null=True, blank=True)
     invited_teacher_is_admin = models.BooleanField(default=False)
     expiry = models.DateTimeField()
     creation_time = models.DateTimeField(default=timezone.now, null=True)

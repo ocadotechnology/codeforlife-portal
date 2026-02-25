@@ -4,7 +4,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("common", "0059_remove_userprofile__email_and_more"),
+        ("common", "0059_remove_schoolteacherinvitation__invited_teacher_email_and_more"),
         ("game", "0117_update_solutions_to_if_else"),
     ]
 
