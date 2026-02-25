@@ -109,6 +109,7 @@ INSTALLED_APPS = [
     "treebeard",
     "two_factor",
     "preventconcurrentlogins",
+    "constance",
 ]
 
 PIPELINE = {
@@ -175,7 +176,7 @@ MIDDLEWARE = [
     "preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware",
     "csp.middleware.CSPMiddleware",
     "deploy.middleware.screentime_warning.ScreentimeWarningMiddleware",
-    "deploy.middleware.maintenance.MaintenanceMiddleware",
+    "deploy.middleware.MaintenanceModeMiddleware",
 ]
 
 TEMPLATES = [
@@ -237,3 +238,8 @@ if MODULE_NAME == "local":
     )
 
 ENCRYPTION_KEY = os.environ["ENCRYPTION_KEY"]
+
+CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
+CONSTANCE_CONFIG = {
+    "MAINTENANCE_MODE": (False, "Enable maintenance mode for the site", bool),
+}
