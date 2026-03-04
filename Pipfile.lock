@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5a82c8be230d4825934c5bd541620843f68c576857cb59d2b469e210bc4d7ef1"
+            "sha256": "c65ef892eae5b6ae65b5401ec3c74d1e94d1b9491f9b44d4c5702b8f9b205163"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -167,8 +167,9 @@
             "version": "==2.0.0"
         },
         "cfl-common": {
-            "editable": true,
-            "path": "./cfl_common"
+            "git": "https://github.com/ocadotechnology/codeforlife-portal.git",
+            "ref": "7b180ab3989420ecdd8a9ebcb4db5043185f052d",
+            "subdirectory": "cfl_common"
         },
         "charset-normalizer": {
             "hashes": [
@@ -994,7 +995,7 @@
                 "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3",
                 "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.9.0.post0"
         },
         "python-dotenv": {
@@ -1380,8 +1381,9 @@
             "version": "==2.0.0"
         },
         "cfl-common": {
-            "editable": true,
-            "path": "./cfl_common"
+            "git": "https://github.com/ocadotechnology/codeforlife-portal.git",
+            "ref": "7b180ab3989420ecdd8a9ebcb4db5043185f052d",
+            "subdirectory": "cfl_common"
         },
         "charset-normalizer": {
             "hashes": [
@@ -2333,7 +2335,7 @@
                 "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3",
                 "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.9.0.post0"
         },
         "pytokens": {
