@@ -70,11 +70,11 @@
         },
         "certifi": {
             "hashes": [
-                "sha256:9943707519e4add1115f44c2bc244f782c0249876bf51b6599fee1ffbedd685c",
-                "sha256:ac726dd470482006e014ad384921ed6438c457018f4b3d204aea4281258b2120"
+                "sha256:027692e4402ad994f1c42e52a4997a9763c646b73e4096e4d5d6db8af1d6f0fa",
+                "sha256:e887ab5cee78ea814d3472169153c2d12cd43b14bd03329a39a9c6e2e80bfba7"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==2026.1.4"
+            "version": "==2026.2.25"
         },
         "cffi": {
             "hashes": [
@@ -385,11 +385,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:7f2d292ad8b9ee35e405d965fbbad293758b858c34bbf7f3df551aeeac6f02d3",
-                "sha256:e7130df33ada9ab5e5e929bc19346a20fe383f5454acb2cc004508f242ee92c0"
+                "sha256:4853482f395c3a151937f6991272540fcbf531464f254a347bf7c89f53c8cff7",
+                "sha256:6b809af7165c73eff5ce1c87fdae75d4da6520d6667f86401ecf55b681eb1eeb"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==5.2.11"
+            "version": "==5.2.12"
         },
         "django-classy-tags": {
             "hashes": [
@@ -989,19 +989,6 @@
             "markers": "python_version >= '3.7'",
             "version": "==2.6.0"
         },
-        "pysqlite3-binary": {
-            "hashes": [
-                "sha256:1a7e41f169994c140064e3757f9785f5f460e72607f1d9a5244853d4de3cc4f2",
-                "sha256:a4be1927a02d8079f1bf8e46af641798341e9bd1a3c5e57fa6f83207a0a8fa66",
-                "sha256:bb3653a0eb0ef5db2d0ed49d43b11ab4be24fdf5b2e65a39650fc59348e30dc6",
-                "sha256:bf257ca54a0b94dce14324b29960fae5b1d57a669ce327b92fe245049abf2854",
-                "sha256:c7146a400deb786b064fd299aa79589a81e532f6dccc38b7986744ace484afdc",
-                "sha256:c8d25d8568978669c8ba53f32d10fb779176f25d720cda148b28baaf6ef0a20c",
-                "sha256:cb551d736ac3a049b3a91332dbcb0df506eaed58add8a95acfd264dc45ce3fa8",
-                "sha256:df084f3da52bc92204357cd6ba68f98a8ef8e55a9e8dac3c4d96029ee56fb57b"
-            ],
-            "version": "==0.5.4"
-        },
         "python-dateutil": {
             "hashes": [
                 "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3",
@@ -1134,7 +1121,7 @@
                 "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
                 "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==1.17.0"
         },
         "sqlparse": {
@@ -1296,11 +1283,11 @@
         },
         "certifi": {
             "hashes": [
-                "sha256:9943707519e4add1115f44c2bc244f782c0249876bf51b6599fee1ffbedd685c",
-                "sha256:ac726dd470482006e014ad384921ed6438c457018f4b3d204aea4281258b2120"
+                "sha256:027692e4402ad994f1c42e52a4997a9763c646b73e4096e4d5d6db8af1d6f0fa",
+                "sha256:e887ab5cee78ea814d3472169153c2d12cd43b14bd03329a39a9c6e2e80bfba7"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==2026.1.4"
+            "version": "==2026.2.25"
         },
         "cffi": {
             "hashes": [
@@ -1711,11 +1698,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:7f2d292ad8b9ee35e405d965fbbad293758b858c34bbf7f3df551aeeac6f02d3",
-                "sha256:e7130df33ada9ab5e5e929bc19346a20fe383f5454acb2cc004508f242ee92c0"
+                "sha256:4853482f395c3a151937f6991272540fcbf531464f254a347bf7c89f53c8cff7",
+                "sha256:6b809af7165c73eff5ce1c87fdae75d4da6520d6667f86401ecf55b681eb1eeb"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==5.2.11"
+            "version": "==5.2.12"
         },
         "django-countries": {
             "hashes": [
@@ -1878,12 +1865,12 @@
         },
         "isort": {
             "hashes": [
-                "sha256:1bcabac8bc3c36c7fb7b98a76c8abb18e0f841a3ba81decac7691008592499c1",
-                "sha256:5513527951aadb3ac4292a41a16cbc50dd1642432f5e8c20057d414bdafb4187"
+                "sha256:171ac4ff559cdc060bcfff550bc8404a486fee0caab245679c2abe7cb253c78d",
+                "sha256:28b89bc70f751b559aeca209e6120393d43fbe2490de0559662be7a9787e3d75"
             ],
             "index": "pypi",
             "markers": "python_full_version >= '3.10.0'",
-            "version": "==7.0.0"
+            "version": "==8.0.1"
         },
         "jedi": {
             "hashes": [
@@ -2415,7 +2402,7 @@
         },
         "rapid-router": {
             "git": "https://github.com/ocadotechnology/rapid-router.git",
-            "ref": "66574c3d71bec5608402aa665d533a21c1faa97c"
+            "ref": "9a1414feb87bac70277446088cb4f6e510d2f734"
         },
         "requests": {
             "hashes": [
@@ -2456,7 +2443,7 @@
                 "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
                 "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==1.17.0"
         },
         "snapshottest": {
