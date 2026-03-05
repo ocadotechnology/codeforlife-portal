@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v8.9.26 (2026-03-05)
+
+### Bug Fixes
+
+- Checkout ref
+  ([`30811ca`](https://github.com/ocadotechnology/codeforlife-portal/commit/30811ca3ae3a5b289fc2344f903de00af72d2c59))
+
+- Undo version
+  ([`ff4c568`](https://github.com/ocadotechnology/codeforlife-portal/commit/ff4c568bfe1db105278c8fffb7b1dd81fced743d))
+
+
 ## v8.9.25 (2026-03-05)
 
 ### Bug Fixes
