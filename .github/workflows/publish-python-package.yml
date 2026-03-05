@@ -32,9 +32,15 @@ jobs:
           pip install pipenv build python-semantic-release==9.*
           pipenv install --dev --system
 
+      - name: 🤖 Set up CFL bot
+        uses: ocadotechnology/codeforlife-workspace/.github/actions/bot/setup@main
+        id: setup-bot
+        with:
+          cfl-app-private-key: ${{ secrets.CFL_APP_PRIVATE_KEY }}
+
       - name: 📜 Detect Semantic Version
         env:
-          GH_TOKEN: ${{ secrets.CFL_BOT_GH_TOKEN }}
+          GH_TOKEN: ${{ steps.setup-bot.outputs.token }}
         run: semantic-release version
 
       - name: Build package
@@ -42,7 +48,7 @@ jobs:
 
       - name: 🚀 Publish Semantic Release
         env:
-          GH_TOKEN: ${{ secrets.CFL_BOT_GH_TOKEN }}
+          GH_TOKEN: ${{ steps.setup-bot.outputs.token }}
         run: semantic-release publish
 
       - name: 🚀 Publish to PyPI
@@ -64,8 +70,14 @@ jobs:
 
   monitor:
     runs-on: ubuntu-22.04
-    needs: [ publish-pypi-packages ]
+    needs: [publish-pypi-packages]
     steps:
+      - name: 🤖 Set up CFL bot
+        uses: ocadotechnology/codeforlife-workspace/.github/actions/bot/setup@main
+        id: setup-bot
+        with:
+          cfl-app-private-key: ${{ secrets.CFL_APP_PRIVATE_KEY }}
+
       - name: 🐍 Set up Python 3.12 Environment
         uses: ocadotechnology/codeforlife-workspace/.github/actions/python/setup-environment@main
         with:
@@ -84,7 +96,7 @@ jobs:
         id: get-latest-release-tag
         uses: ocadotechnology/codeforlife-workspace/.github/actions/github/get-latest-release-tag@main
         with:
-          gh-token: ${{ secrets.CFL_BOT_GH_TOKEN }}
+          gh-token: ${{ steps.setup-bot.outputs.token }}
 
       - name: ❌ Delete frontend package manager files
         run: rm package.json yarn.lock
@@ -92,7 +104,7 @@ jobs:
       - name: 🐕‍🦺 Monitor Open-Source Vulnerabilities and License Issues
         uses: ocadotechnology/codeforlife-workspace/.github/actions/snyk/monitor-release@main
         with:
-          gh-token: ${{ secrets.CFL_BOT_GH_TOKEN }}
+          gh-token: ${{ steps.setup-bot.outputs.token }}
           snyk-token: ${{ secrets.SNYK_TOKEN }}
           snyk-config-path: "backend/.snyk"
           snyk-project-environment: backend
