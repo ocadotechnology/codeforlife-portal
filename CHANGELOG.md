@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.25 (2026-03-05)
+
+### Bug Fixes
+
+- Use cfl app
+  ([`7a98115`](https://github.com/ocadotechnology/codeforlife-portal/commit/7a98115372f088928e90bafb2665bdfb8fc58eb8))
+
+
 ## v8.9.24 (2026-02-25)
 
 ### Bug Fixes
