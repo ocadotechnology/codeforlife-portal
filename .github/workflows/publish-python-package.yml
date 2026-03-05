@@ -55,7 +55,7 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.setup-bot.outputs.token }}
           GIT_COMMIT_AUTHOR: ${{ steps.setup-bot.outputs.git-committer }}
-        run: semantic-release -vv --config=${{ env.CONFIG }} publish
+        run: semantic-release --config=${{ env.CONFIG }} publish
 
       - name: 🚀 Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
