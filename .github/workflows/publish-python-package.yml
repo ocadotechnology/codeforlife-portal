@@ -16,7 +16,7 @@ jobs:
     permissions:
       id-token: write
     env:
-      CONFIG: releaserc.toml
+      CONFIG: pyproject.toml
     steps:
       - name: 🤖 Set up CFL bot
         uses: ocadotechnology/codeforlife-workspace/.github/actions/bot/setup@main
