@@ -1,6 +1,39 @@
 # CHANGELOG
 
 
+## v8.9.26 (2026-03-05)
+
+### Bug Fixes
+
+- Checkout ref
+  ([`30811ca`](https://github.com/ocadotechnology/codeforlife-portal/commit/30811ca3ae3a5b289fc2344f903de00af72d2c59))
+
+- Undo version
+  ([`ff4c568`](https://github.com/ocadotechnology/codeforlife-portal/commit/ff4c568bfe1db105278c8fffb7b1dd81fced743d))
+
+
+## v8.9.25 (2026-03-05)
+
+### Bug Fixes
+
+- Use cfl app
+  ([`7a98115`](https://github.com/ocadotechnology/codeforlife-portal/commit/7a98115372f088928e90bafb2665bdfb8fc58eb8))
+
+
+## v8.9.24 (2026-02-25)
+
+### Bug Fixes
+
+- Workspace 1071 ([#2489](https://github.com/ocadotechnology/codeforlife-portal/pull/2489),
+  [`0ee3849`](https://github.com/ocadotechnology/codeforlife-portal/commit/0ee3849183a78d8ce8da263f20fe1f34d3661d33))
+
+* middleware
+
+* install app
+
+* fix
+
+
 ## v8.9.23 (2026-02-18)
 
 ### Bug Fixes
