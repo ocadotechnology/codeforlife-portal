@@ -15,7 +15,15 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       id-token: write
+    env:
+      CONFIG: releaserc.toml
     steps:
+      - name: 🤖 Set up CFL bot
+        uses: ocadotechnology/codeforlife-workspace/.github/actions/bot/setup@main
+        id: setup-bot
+        with:
+          cfl-app-private-key: ${{ secrets.CFL_APP_PRIVATE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -33,16 +41,11 @@ jobs:
           pip install pipenv build python-semantic-release==9.*
           pipenv install --dev --system
 
-      - name: 🤖 Set up CFL bot
-        uses: ocadotechnology/codeforlife-workspace/.github/actions/bot/setup@main
-        id: setup-bot
-        with:
-          cfl-app-private-key: ${{ secrets.CFL_APP_PRIVATE_KEY }}
-
       - name: 📜 Detect Semantic Version
         env:
           GH_TOKEN: ${{ steps.setup-bot.outputs.token }}
-        run: semantic-release version
+          GIT_COMMIT_AUTHOR: ${{ steps.setup-bot.outputs.git-committer }}
+        run: semantic-release --config=${{ env.CONFIG }} version
 
       - name: Build package
         run: python -m build --sdist --wheel
@@ -50,7 +53,8 @@ jobs:
       - name: 🚀 Publish Semantic Release
         env:
           GH_TOKEN: ${{ steps.setup-bot.outputs.token }}
-        run: semantic-release publish
+          GIT_COMMIT_AUTHOR: ${{ steps.setup-bot.outputs.git-committer }}
+        run: semantic-release --config=${{ env.CONFIG }} publish
 
       - name: 🚀 Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
