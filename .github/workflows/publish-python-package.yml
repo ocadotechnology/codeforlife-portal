@@ -24,9 +24,10 @@ jobs:
         with:
           cfl-app-private-key: ${{ secrets.CFL_APP_PRIVATE_KEY }}
 
-      - name: Checkout
+      - name: 🛫 Checkout
         uses: actions/checkout@v4
         with:
+          token: ${{ steps.setup-bot.outputs.token }}
           fetch-depth: 0
           persist-credentials: false
 
