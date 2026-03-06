@@ -40,7 +40,7 @@ pytest-order = "*"
 pytest-xdist = "*"
 pyvirtualdisplay = "*"
 # rapid-router = ">7.0.0"
-# rapid-router = {ref = "76437c8b2ef6ad83f67829f62167a9becfc00ae3", git = "https://github.com/ocadotechnology/rapid-router.git"}
+rapid-router = {ref = "509915a400ca7cd53105cc78f18abcd50fcc6fe2", git = "https://github.com/ocadotechnology/rapid-router.git"}
 responses = "==0.18.0"
 selenium = "==4.29.0"
 snapshottest = "==1.0.0a1"
