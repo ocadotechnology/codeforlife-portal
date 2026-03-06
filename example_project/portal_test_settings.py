@@ -246,3 +246,7 @@ CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 CONSTANCE_CONFIG = {
     "MAINTENANCE_MODE": (False, "Enable maintenance mode for the site", bool),
 }
+
+ENV = MODULE_NAME
+
+from codeforlife.settings import GCP_KMS_KEY_URI
