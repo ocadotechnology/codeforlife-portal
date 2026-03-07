@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.29 (2026-03-07)
+
+### Bug Fixes
+
+- Relock
+  ([`9ba1e93`](https://github.com/ocadotechnology/codeforlife-portal/commit/9ba1e93aadc78ca422304ac5cc7ee747f78eacb2))
+
+
 ## v8.9.28 (2026-03-07)
 
 ### Bug Fixes
