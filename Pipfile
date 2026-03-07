@@ -6,8 +6,7 @@ name = "pypi"
 [packages]
 boto3 = "==1.36.14"
 celery = {extras = ["sqs"], version = "==5.4.0"}
-# cfl-common = {path = "./cfl_common", editable = true}
-cfl-common = {git = "https://github.com/ocadotechnology/codeforlife-portal.git", ref = "96b5931fcaf4e91e10d88c8690b69cb778786d63", subdirectory = "cfl_common"}
+cfl-common = {path = "./cfl_common", editable = true}
 django-classy-tags = "==4.1.0"
 django-formtools = "==2.5.1"
 django-preventconcurrentlogins = "==0.8.2"
@@ -39,8 +38,7 @@ pytest-mock = "*"
 pytest-order = "*"
 pytest-xdist = "*"
 pyvirtualdisplay = "*"
-# rapid-router = ">7.0.0"
-rapid-router = {ref = "509915a400ca7cd53105cc78f18abcd50fcc6fe2", git = "https://github.com/ocadotechnology/rapid-router.git"}
+rapid-router = ">7.0.0"
 responses = "==0.18.0"
 selenium = "==4.29.0"
 snapshottest = "==1.0.0a1"
