@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-cryptography = "==46.0.5"
+codeforlife = "==0.32.0"
 django = "==5.2.11"
 django-countries = "==7.6.1"
 django-csp = "==3.8"

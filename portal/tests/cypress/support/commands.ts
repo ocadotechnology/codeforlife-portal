@@ -42,14 +42,14 @@ Cypress.Commands.add("changeAdminPassword", (oldPassword, newPassword) => {
 });
 
 Cypress.Commands.add("deleteUser", (username) => {
-  cy.get('[href="/administration/auth/user/"]').contains("Users").click();
+  cy.get('[href="/administration/user/user/"]').contains("Users").click();
   cy.get("a").contains(username).click();
   cy.get(".deletelink").contains("Delete").click();
   cy.get("[type=submit]").contains("Yes, I’m sure").click();
 });
 
 Cypress.Commands.add("anonymiseUser", (username) => {
-  cy.get('[href="/administration/auth/user/"]').contains("Users").click();
+  cy.get('[href="/administration/user/user/"]').contains("Users").click();
   cy.get("th.field-username")
     .contains(username)
     .parents("tr")

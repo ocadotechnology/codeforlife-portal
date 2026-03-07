@@ -5,11 +5,13 @@ from common.models import Teacher
 from common.permissions import logged_in_as_independent_student
 from django.conf import settings
 from django.contrib import messages as messages
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils import timezone
+
+User = get_user_model()
 
 
 def verify_email(request, token):
