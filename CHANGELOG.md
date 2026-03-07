@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.28 (2026-03-07)
+
+### Bug Fixes
+
+- Cfl-common
+  ([`876be72`](https://github.com/ocadotechnology/codeforlife-portal/commit/876be72a5ee99bb190c2af48a3f05eb077029491))
+
+
 ## v8.9.27 (2026-03-07)
 
 ### Bug Fixes
