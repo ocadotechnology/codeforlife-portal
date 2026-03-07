@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.27 (2026-03-07)
+
+### Bug Fixes
+
+- Workspace 1054 ([#2486](https://github.com/ocadotechnology/codeforlife-portal/pull/2486),
+  [`fa9bd7c`](https://github.com/ocadotechnology/codeforlife-portal/commit/fa9bd7c264736d0cf963e5ecd467cf548a42964d))
+
+
 ## v8.9.26 (2026-03-05)
 
 ### Bug Fixes
