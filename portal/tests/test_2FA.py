@@ -4,7 +4,7 @@ from common.tests.utils.organisation import create_organisation_directly
 from common.tests.utils.student import create_school_student_directly
 from common.tests.utils.teacher import signup_teacher_directly
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -12,6 +12,7 @@ from django_otp import DEVICE_ID_SESSION_KEY, user_has_device
 from django_otp.oath import totp
 from django_otp.util import random_hex
 
+User = get_user_model()
 
 class Test2FA(TestCase):
     """
@@ -19,6 +20,8 @@ class Test2FA(TestCase):
 
     See https://tools.ietf.org/html/rfc6238#section-5.2 for detailed specs on TOTP.
     """
+
+    fixtures = ["legacy"]
 
     def setUp(self) -> None:
         self.client = Client()

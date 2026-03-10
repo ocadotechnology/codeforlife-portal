@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+cd "${BASH_SOURCE%/*}"
+
+./manage.py collectstatic --noinput --clear
+./manage.py testserver \
+  legacy \
+  game \
+  portal/tests/cypress/fixtures/teachersToBeDeleted.json \
+  --settings="example_project.portal_test_settings"

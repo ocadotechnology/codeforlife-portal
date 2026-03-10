@@ -9,6 +9,7 @@ celery = {extras = ["sqs"], version = "==5.4.0"}
 #cfl-common = {path = "./cfl_common", editable = true}
 cfl-common = {git = "https://github.com/ocadotechnology/codeforlife-portal.git", ref = "simplify_attempts", subdirectory = "cfl_common"}
 django-classy-tags = "==4.1.0"
+django-constance = "==4.3.4"
 django-formtools = "==2.5.1"
 django-preventconcurrentlogins = "==0.8.2"
 django-ratelimit = "==3.0.1"
@@ -24,7 +25,6 @@ reportlab = "==4.4.2"
 requests-toolbelt = "==1.0.0"
 uvicorn-worker = "==0.2.0"
 whitenoise = "==6.9.0"
-django-constance = "==4.3.4"
 
 [dev-packages]
 black = "*"

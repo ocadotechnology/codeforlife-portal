@@ -3,7 +3,7 @@ import uuid
 
 from common.models import Class, School, Student, Teacher, UserProfile
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpRequest, HttpResponse
 from django.utils import timezone
 from rest_framework import generics, permissions, serializers, status
@@ -13,6 +13,8 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse_lazy
 
 from portal.app_settings import IS_CLOUD_SCHEDULER_FUNCTION
+
+User = get_user_model()
 
 THREE_YEARS_IN_DAYS = 1095
 

@@ -18,7 +18,7 @@ from common.tests.utils.student import (
     create_student_with_direct_login,
 )
 from common.tests.utils.teacher import signup_teacher_directly
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.test import Client
 from django.urls import reverse
 from selenium.webdriver.common.alert import Alert
@@ -27,6 +27,7 @@ from selenium.webdriver.common.by import By
 from portal.tests.pageObjects.portal.home_page import HomePage
 from .base_test import BaseTest
 
+User = get_user_model()
 
 class TestTeacherStudentFrontend(BaseTest):
     def test_create_valid_name(self):

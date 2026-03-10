@@ -1,6 +1,10 @@
-# https://github.com/python-semantic-release/python-semantic-release/blob/v7.33.0/docs/configuration.rst#distributions
+# https://github.com/python-semantic-release/python-semantic-release/blob/v9/docs/configuration.rst
 [tool.semantic_release]
 version_variables = ["portal/__init__.py:__version__"]
+commit_message = "v{version} [skip ci]"
+
+[tool.semantic_release.commit_author]
+env = "GIT_COMMIT_AUTHOR"
 
 [build-system]
 requires = ["setuptools", "wheel"]

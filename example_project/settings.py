@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "treebeard",
     "two_factor",
     "preventconcurrentlogins",
+    "codeforlife.user",
     "constance",
 ]
 
@@ -190,7 +191,13 @@ if MODULE_NAME == "local":
 
 ENCRYPTION_KEY = os.environ["ENCRYPTION_KEY"]
 
+AUTH_USER_MODEL = "user.User"
+
 CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 CONSTANCE_CONFIG = {
     "MAINTENANCE_MODE": (False, "Enable maintenance mode for the site", bool),
 }
+
+ENV = MODULE_NAME
+
+from codeforlife.settings import GCP_KMS_KEY_URI

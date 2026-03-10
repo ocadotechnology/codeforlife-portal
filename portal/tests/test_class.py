@@ -23,6 +23,8 @@ from .utils.messages import is_class_created_message_showing
 
 
 class TestClass(TestCase):
+    fixtures = ["legacy", "game"]
+    
     def test_delete_class(self):
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
