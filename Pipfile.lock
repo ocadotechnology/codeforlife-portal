@@ -191,7 +191,7 @@
         },
         "cfl-common": {
             "git": "https://github.com/ocadotechnology/codeforlife-portal.git",
-            "ref": "1040ee5bc35e8ef6d5959ff900881246fac64b24",
+            "ref": "ab380fbb262ccc1a0fe4d9324691aa61cf26fb4b",
             "subdirectory": "cfl_common"
         },
         "charset-normalizer": {
@@ -2024,7 +2024,7 @@
         },
         "cfl-common": {
             "git": "https://github.com/ocadotechnology/codeforlife-portal.git",
-            "ref": "1040ee5bc35e8ef6d5959ff900881246fac64b24",
+            "ref": "ab380fbb262ccc1a0fe4d9324691aa61cf26fb4b",
             "subdirectory": "cfl_common"
         },
         "charset-normalizer": {
@@ -3535,7 +3535,7 @@
         },
         "rapid-router": {
             "git": "https://github.com/ocadotechnology/rapid-router.git",
-            "ref": "5df8bb206ab4579194fbb8bf92fb04e6effe3437"
+            "ref": "a5592a9ecdafc04776e5f82572584ac418109f65"
         },
         "redis": {
             "extras": [
