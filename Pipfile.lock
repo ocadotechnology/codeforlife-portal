@@ -1401,11 +1401,12 @@
         },
         "pyjwt": {
             "hashes": [
-                "sha256:69285c7e31fc44f68a1feb309e948e0df53259d579295e6cfe2b1792329f05fd",
-                "sha256:d83c3d892a77bbb74d3e1a2cfa90afaadb60945205d1095d9221f04466f64c14"
+                "sha256:2f62390b667cd8257de560b850bb5a883102a388829274147f1d724453f8fb02",
+                "sha256:9bb459d1bdd0387967d287f5656bf7ec2b9a26645d1961628cda1764e087fd6e"
             ],
-            "markers": "python_version >= '3.7'",
-            "version": "==2.6.0"
+            "index": "pypi",
+            "markers": "python_version >= '3.9'",
+            "version": "==2.12.0"
         },
         "pyotp": {
             "hashes": [
