@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-codeforlife = "==0.32.3"
+codeforlife = "==0.32.4"
 django-import-export = "==4.2.0"
 django-pipeline = "==4.1.0"
 django-two-factor-auth = "==1.18.1"
