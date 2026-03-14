@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.9.31 (2026-03-14)
+
+### Bug Fixes
+
+- Install latest codeforlife
+  ([`773285f`](https://github.com/ocadotechnology/codeforlife-portal/commit/773285f535d113ce84d30ce850b5d69756efdb1e))
+
+
 ## v8.9.30 (2026-03-14)
 
 ### Bug Fixes
