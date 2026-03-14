@@ -1,6 +1,100 @@
 # CHANGELOG
 
 
+## v8.9.30 (2026-03-14)
+
+### Bug Fixes
+
+- Simplify attempts ([#2449](https://github.com/ocadotechnology/codeforlife-portal/pull/2449),
+  [`f9b5c16`](https://github.com/ocadotechnology/codeforlife-portal/commit/f9b5c162ce07374b9ff3405b65b011dc1e6cf555))
+
+* fix: Update how attempts are collected in student dashboard
+
+* Install RR changes
+
+* Typo
+
+* Use LevelMetrics
+
+* Use new test util
+
+* Install psyqlite3 binary for sqlite >= 3.38
+
+* Use pysqlite3 in settings
+
+* Use pysqlite3 in tests
+
+* Revert pipfile
+
+* Relock
+
+* Merge master
+
+* Lock
+
+* Move psycopg2 binary to common
+
+* Common lockfile
+
+* Install RR branch directly in pipfile
+
+* PSQL DB in CI
+
+* Fix some tests
+
+* Upgrade Cypress to 15.10.0
+
+* Node 24
+
+* Upgrade everything
+
+* Keep upgrading and mark test as skipped
+
+* Nother flaky test
+
+* Try Stefan's magic path
+
+* Revert
+
+* Use natural keys?
+
+* Load fixture directly in test (no testserver)
+
+* Correct DB name
+
+* Remove settings arg
+
+* Point to fixtures folder
+
+* Back to Cypress 13
+
+* Skip main tests for now
+
+* Test settings for cypress
+
+* Update captcha silence check
+
+* One run script to rule them all
+
+* But pick the right one
+
+* Remove quotes
+
+* Remove test
+
+* Feedback
+
+* Lock again
+
+* Run testserver?
+
+* Get latest RR
+
+* Remove unnecessary mig loader
+
+* Relock normally
+
+
 ## v8.9.29 (2026-03-07)
 
 ### Bug Fixes
