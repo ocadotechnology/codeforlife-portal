@@ -1070,7 +1070,7 @@ class TestUser(CronTestCase):
             student_user = User.objects.create(
                 first_name="Unverified",
                 last_name="DependentStudent",
-                _username_plain="UnverifiedDependentStudent",
+                username="UnverifiedDependentStudent",
                 date_joined=date_joined,
             )
             student_user_profile = UserProfile.objects.create(
@@ -1086,7 +1086,7 @@ class TestUser(CronTestCase):
             indy_user = User.objects.create(
                 first_name="Unverified",
                 last_name="IndependentStudent",
-                _username_plain="unverified.independentstudent@codeforlife.com",
+                username="unverified.independentstudent@codeforlife.com",
                 email="unverified.independentstudent@codeforlife.com",
                 date_joined=date_joined,
             )

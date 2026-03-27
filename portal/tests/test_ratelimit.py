@@ -96,7 +96,7 @@ class TestRatelimit(TestCase):
         user = (
             model.objects.get(new_user___username_plain=username)
             if not access_code
-            else model.objects.get(new_user__first_name=username, class_field___access_code_plain=access_code)
+            else model.objects.get(new_user___first_name_plain=username, class_field___access_code_plain=access_code)
         )
         if user.blocked_time:
             return not has_user_lockout_expired(user)
