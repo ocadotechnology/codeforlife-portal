@@ -129,7 +129,7 @@ class APITests(APITestCase):
 
         for user in users:
             with pytest.raises(User.DoesNotExist):
-                User.objects.get(username=user["username"])
+                User.objects.get(_username_plain=user["username"])
 
         deleted_users = list(User.objects.filter(is_active=False))
         new_deleted_users_count = len(deleted_users) - len(old_deleted_users)
@@ -140,7 +140,7 @@ class APITests(APITestCase):
             assert user.last_name == "User"
             assert user.email == ""
             assert not user.is_active
-            assert not client.login(username=user.username, password="password")
+            assert not client.login(_username_plain=user.username, password="password")
         response = client.get(url)
         assert len(response.data) == 0
 
@@ -316,7 +316,7 @@ class APITests(APITestCase):
             == len(random_accounts) + initial_users_length
         )
 
-        client.login(username=admin_username, password=admin_password)
+        client.login(_username_plain=admin_username, password=admin_password)
         response = client.get(reverse("remove_fake_accounts"))
         assert response.status_code == 204
 

@@ -18,7 +18,7 @@ class SecurityTestCase(TestCase):
         _, _, access_code = create_class_directly(email1)
 
         c = Client()
-        assert c.login(username=email2, password=pass2)
+        assert c.login(_username_plain=email2, password=pass2)
         page = reverse(view_name, args=[access_code])
         assert not c.get(page).status_code == 200
 
@@ -28,7 +28,7 @@ class SecurityTestCase(TestCase):
         _, _, access_code = create_class_directly(email1)
 
         c = Client()
-        assert c.login(username=email2, password=pass2)
+        assert c.login(_username_plain=email2, password=pass2)
 
         invalid_page = reverse(view_name, args=[access_code])
         invalid_login_code = c.get(invalid_page).status_code
@@ -66,7 +66,7 @@ class SecurityTestCase(TestCase):
         email, password = signup_teacher_directly()
 
         client = Client()
-        client.login(username=email, password=password)
+        client.login(_username_plain=email, password=password)
 
         url = reverse("onboarding-organisation")
         data = {"name": email, "postcode": "TEST", "country": "GB", "create_organisation": ""}

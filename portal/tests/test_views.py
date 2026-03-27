@@ -67,7 +67,7 @@ class TestTeacherViews(TestCase):
 
     def login(self):
         c = Client()
-        assert c.login(username=self.email, password=self.password)
+        assert c.login(_username_plain=self.email, password=self.password)
         return c
 
     def test_reminder_cards(self):
@@ -247,7 +247,7 @@ class TestTeacherViews(TestCase):
         assert student.user.is_verified
 
         c.logout()
-        c.login(username=self.email, password=self.password)
+        c.login(_username_plain=self.email, password=self.password)
 
         teacher = Teacher.objects.factory("the", "teacher", "theteacher@foo.com", "password")
         level = Level.objects.create()
@@ -461,7 +461,7 @@ class TestLoginViews(TestCase):
         now = timezone.now()
         oneminago = now - timedelta(minutes=1)
 
-        user = User.objects.get(username=username)
+        user = User.objects.get(_username_plain=username)
         q = UserSession.objects.filter(user=user)
         q = q.filter(login_time__range=(oneminago, now))
         assert len(q) == 1
@@ -699,7 +699,7 @@ class TestViews(TestCase):
         assert u.first_name == "Deleted"
         assert not u.is_active
 
-        assert c.login(username=email, password=password) == False
+        assert c.login(_username_plain=email, password=password) == False
 
     @patch("portal.views.registration.send_dotdigital_email")
     def test_delete_account_admin(self, mock_send_dotdigital_email: Mock):
@@ -853,18 +853,18 @@ class TestViews(TestCase):
         school = create_organisation_directly(email1)
         join_teacher_to_organisation(email2, school.name)
 
-        teacher1 = Teacher.objects.get(new_user__username=email1)
-        teacher2 = Teacher.objects.get(new_user__username=email2)
+        teacher1 = Teacher.objects.get(new_user___username_plain=email1)
+        teacher2 = Teacher.objects.get(new_user___username_plain=email2)
 
         c = Client()
 
-        c.login(username=email1, password=password1)
+        c.login(_username_plain=email1, password=password1)
 
         assert is_logged_in_as_admin_teacher(teacher1.new_user)
 
         c.logout()
 
-        c.login(username=email2, password=password2)
+        c.login(_username_plain=email2, password=password2)
 
         assert not is_logged_in_as_admin_teacher(teacher2.new_user)
 
@@ -925,7 +925,7 @@ class TestViews(TestCase):
         create_organisation_directly(teacher_email)
         _, _, access_code = create_class_directly(teacher_email)
 
-        c.login(username=teacher_email, password=teacher_password)
+        c.login(_username_plain=teacher_email, password=teacher_password)
         c.post(
             reverse("view_class", kwargs={"access_code": access_code}),
             {"names": "Student 1, Student 2, Student 3"},
@@ -1052,7 +1052,7 @@ class TestUser(CronTestCase):
             teacher_user = User.objects.create(
                 first_name="Unverified",
                 last_name="Teacher",
-                username="unverified.teacher@codeforlife.com",
+                _username_plain="unverified.teacher@codeforlife.com",
                 email="unverified.teacher@codeforlife.com",
                 date_joined=date_joined,
             )
@@ -1070,7 +1070,7 @@ class TestUser(CronTestCase):
             student_user = User.objects.create(
                 first_name="Unverified",
                 last_name="DependentStudent",
-                username="UnverifiedDependentStudent",
+                _username_plain="UnverifiedDependentStudent",
                 date_joined=date_joined,
             )
             student_user_profile = UserProfile.objects.create(
@@ -1086,7 +1086,7 @@ class TestUser(CronTestCase):
             indy_user = User.objects.create(
                 first_name="Unverified",
                 last_name="IndependentStudent",
-                username="unverified.independentstudent@codeforlife.com",
+                _username_plain="unverified.independentstudent@codeforlife.com",
                 email="unverified.independentstudent@codeforlife.com",
                 date_joined=date_joined,
             )

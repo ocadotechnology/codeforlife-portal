@@ -37,7 +37,7 @@ class TestClass(TestCase):
         url = reverse("teacher_delete_class", kwargs={"access_code": access_code})
 
         # Login as another teacher, try to delete the class and check for 404
-        c.login(username=email2, password=password2)
+        c.login(_username_plain=email2, password=password2)
 
         response = c.post(url)
 
@@ -46,9 +46,9 @@ class TestClass(TestCase):
         c.logout()
 
         # Login as first teacher, check there is a class
-        c.login(username=email1, password=password1)
+        c.login(_username_plain=email1, password=password1)
 
-        teacher = Teacher.objects.get(new_user__username=email1)
+        teacher = Teacher.objects.get(new_user___username_plain=email1)
         teacher_classes = Class.objects.filter(teacher=teacher)
 
         assert len(teacher_classes) == 1
@@ -98,7 +98,7 @@ class TestClass(TestCase):
         }
 
         # Login as another teacher, try to edit the class and check for 404
-        c.login(username=email2, password=password2)
+        c.login(_username_plain=email2, password=password2)
 
         response = c.post(url, data)
 
@@ -107,9 +107,9 @@ class TestClass(TestCase):
         c.logout()
 
         # Login as first teacher, check the default class settings
-        c.login(username=email1, password=password1)
+        c.login(_username_plain=email1, password=password1)
 
-        teacher = Teacher.objects.get(new_user__username=email1)
+        teacher = Teacher.objects.get(new_user___username_plain=email1)
         klass = Class.objects.get(teacher=teacher)
 
         assert klass.name == class_name
@@ -274,7 +274,7 @@ class TestClass(TestCase):
             "level_control_submit": "",
         }
 
-        c.login(username=email, password=password)
+        c.login(_username_plain=email, password=password)
 
         response = c.post(url, data)
 
@@ -447,8 +447,8 @@ class TestClass(TestCase):
         create_school_student_directly(access_code1)
         _, _, student2 = create_school_student_directly(access_code2)
 
-        teacher1 = Teacher.objects.get(new_user__username=email1)
-        teacher2 = Teacher.objects.get(new_user__username=email2)
+        teacher1 = Teacher.objects.get(new_user___username_plain=email1)
+        teacher2 = Teacher.objects.get(new_user___username_plain=email2)
         teacher1_classes = Class.objects.filter(teacher=teacher1)
         teacher2_classes = Class.objects.filter(teacher=teacher2)
 
@@ -461,7 +461,7 @@ class TestClass(TestCase):
         data = {"new_teacher": teacher2.id, "class_move_submit": ""}
 
         # Login as first teacher and transfer class to the second teacher
-        c.login(username=email1, password=password1)
+        c.login(_username_plain=email1, password=password1)
 
         response = c.post(url, data)
 

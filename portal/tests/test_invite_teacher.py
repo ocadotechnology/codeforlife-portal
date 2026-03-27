@@ -32,7 +32,7 @@ class TestInviteTeacher(TestCase):
         teacher = Teacher.objects.get(new_user__email=email)
 
         client = Client()
-        client.login(username=email, password=password)
+        client.login(_username_plain=email, password=password)
 
         invited_teacher_first_name = "Valid"
         invited_teacher_last_name = "Name"
@@ -99,7 +99,7 @@ class TestInviteTeacher(TestCase):
         teacher = Teacher.objects.get(new_user__email=email)
 
         client = Client()
-        client.login(username=email, password=password)
+        client.login(_username_plain=email, password=password)
 
         # Try to invite a teacher with an invalid email address
         dashboard_url = reverse("dashboard")
@@ -163,7 +163,7 @@ class TestInviteTeacher(TestCase):
 
         # Log in as standard teacher, try inviting a teacher, no invitation should be created
         client = Client()
-        client.login(username=standard_email, password=standard_password)
+        client.login(_username_plain=standard_email, password=standard_password)
 
         dashboard_url = reverse("dashboard")
         data = {
@@ -184,7 +184,7 @@ class TestInviteTeacher(TestCase):
         assert not SchoolTeacherInvitation.objects.filter(invited_teacher_email="new@teacher.com").exists()
 
         # Log in as admin teacher to invite a teacher
-        client.login(username=admin_email, password=admin_password)
+        client.login(_username_plain=admin_email, password=admin_password)
 
         dashboard_url = reverse("dashboard")
         data = {
@@ -201,7 +201,7 @@ class TestInviteTeacher(TestCase):
         invite =  SchoolTeacherInvitation.objects.get(invited_teacher_email="new@teacher.com")
 
         # Log in as standard teacher, try resending and deleting the invitation, both should fail
-        client.login(username=standard_email, password=standard_password)
+        client.login(_username_plain=standard_email, password=standard_password)
 
         response = client.post(reverse("resend_invite_teacher", kwargs={"token": invite.token}))
         message = list(response.wsgi_request._messages)[0].message
@@ -217,7 +217,7 @@ class TestInviteTeacher(TestCase):
         create_class_directly(email)
 
         client = Client()
-        client.login(username=email, password=password)
+        client.login(_username_plain=email, password=password)
 
         response = client.post(reverse("delete_teacher_invite", kwargs={"token": "2345678"}))
         message = list(response.wsgi_request._messages)[0].message

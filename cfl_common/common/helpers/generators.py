@@ -13,7 +13,7 @@ User = get_user_model()
 def get_random_username():
     while True:
         random_username = uuid4().hex[:30]  # generate a random username
-        if not User.objects.filter(username=random_username).exists():
+        if not User.objects.filter(_username_plain=random_username).exists():
             return random_username
 
 

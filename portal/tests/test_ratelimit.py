@@ -94,7 +94,7 @@ class TestRatelimit(TestCase):
         :return: Whether or not the model object is marked as blocked.
         """
         user = (
-            model.objects.get(new_user__username=username)
+            model.objects.get(new_user___username_plain=username)
             if not access_code
             else model.objects.get(new_user__first_name=username, class_field___access_code_plain=access_code)
         )
@@ -166,7 +166,7 @@ class TestRatelimit(TestCase):
         data = {"transfer_students": [[current_student.id]]}
         c = Client()
 
-        c.login(username=teacher_email, password=teacher_password)
+        c.login(_username_plain=teacher_email, password=teacher_password)
         c.post(url, data)
         assert not self._is_user_blocked(Student, student_name, klass_access_code)
 
@@ -262,7 +262,7 @@ class TestRatelimit(TestCase):
         assert login_response.status_code == 200
 
         # Manually change the blocked date to over 24 hours ago to emulate waiting.
-        teacher = Teacher.objects.get(new_user__username=email)
+        teacher = Teacher.objects.get(new_user___username_plain=email)
         teacher.blocked_time = make_aware(datetime.now()) - timedelta(hours=24)
         teacher.save()
 
@@ -290,7 +290,7 @@ class TestRatelimit(TestCase):
         assert login_response.status_code == 200
 
         # Manually change the blocked date to over 24 hours ago to emulate waiting.
-        student = Student.objects.get(new_user__username=username)
+        student = Student.objects.get(new_user___username_plain=username)
         student.blocked_time = make_aware(datetime.now()) - timedelta(hours=24)
         student.save()
 
@@ -407,7 +407,7 @@ class TestRatelimit(TestCase):
         self._block_user(Student, student_name, access_code=klass_access_code)
 
         c = Client()
-        c.login(username=teacher_email, password=teacher_password)
+        c.login(_username_plain=teacher_email, password=teacher_password)
 
         url = reverse_lazy("teacher_edit_student", kwargs={"pk": student.id})
         strong_password = "£EDCVFR$5tgb"
