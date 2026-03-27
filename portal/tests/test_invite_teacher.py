@@ -60,7 +60,7 @@ class TestInviteTeacher(TestCase):
         client.logout()
 
         # Complete the registration as the invited teacher
-        invitation = SchoolTeacherInvitation.objects.get(invited_teacher_email=invited_teacher_email)
+        invitation = SchoolTeacherInvitation.objects.get(_invited_teacher_email_plain=invited_teacher_email)
         invitation_url = reverse("invited_teacher", kwargs={"token": invitation.token})
         response = client.post(
             invitation_url,
@@ -85,7 +85,7 @@ class TestInviteTeacher(TestCase):
 
         # Check that the invitation is now inactive
         with pytest.raises(SchoolTeacherInvitation.DoesNotExist):
-            SchoolTeacherInvitation.objects.get(invited_teacher_email=invited_teacher_email)
+            SchoolTeacherInvitation.objects.get(_invited_teacher_email_plain=invited_teacher_email)
         old_invitation = SchoolTeacherInvitation._base_manager.get(id=invitation.id)
         assert old_invitation.invited_teacher_first_name != invited_teacher_first_name
         assert old_invitation.invited_teacher_last_name != invited_teacher_last_name
@@ -181,7 +181,7 @@ class TestInviteTeacher(TestCase):
         assert len(mail.outbox) == 0
         client.logout()
 
-        assert not SchoolTeacherInvitation.objects.filter(invited_teacher_email="new@teacher.com").exists()
+        assert not SchoolTeacherInvitation.objects.filter(_invited_teacher_email_plain="new@teacher.com").exists()
 
         # Log in as admin teacher to invite a teacher
         client.login(_username_plain=admin_email, password=admin_password)
@@ -197,8 +197,8 @@ class TestInviteTeacher(TestCase):
         client.post(dashboard_url, data)
         client.logout()
 
-        assert SchoolTeacherInvitation.objects.filter(invited_teacher_email="new@teacher.com").exists()
-        invite =  SchoolTeacherInvitation.objects.get(invited_teacher_email="new@teacher.com")
+        assert SchoolTeacherInvitation.objects.filter(_invited_teacher_email_plain="new@teacher.com").exists()
+        invite =  SchoolTeacherInvitation.objects.get(_invited_teacher_email_plain="new@teacher.com")
 
         # Log in as standard teacher, try resending and deleting the invitation, both should fail
         client.login(_username_plain=standard_email, password=standard_password)
