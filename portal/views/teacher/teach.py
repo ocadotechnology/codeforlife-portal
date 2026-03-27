@@ -235,7 +235,7 @@ def teacher_view_class(request, access_code):
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_delete_class(request, access_code):
-    klass = get_object_or_404(Class, access_code=access_code)
+    klass = get_object_or_404(Class, _access_code_plain=access_code)
 
     # check user authorised to see class
     check_teacher_authorised(request, klass.teacher)
@@ -255,7 +255,7 @@ def teacher_delete_class(request, access_code):
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(logged_in_as_teacher, login_url=reverse_lazy("teacher_login"))
 def teacher_delete_students(request, access_code):
-    klass = get_object_or_404(Class, access_code=access_code)
+    klass = get_object_or_404(Class, _access_code_plain=access_code)
 
     # check user is authorised to deal with class
     check_teacher_authorised(request, klass.teacher)
@@ -296,7 +296,7 @@ def teacher_edit_class(request, access_code):
     - Locking or unlocking specific Rapid Router levels
     - Transferring the class to another teacher
     """
-    klass = get_object_or_404(Class, access_code=access_code)
+    klass = get_object_or_404(Class, _access_code_plain=access_code)
     old_teacher = klass.teacher
     other_teachers = Teacher.objects.filter(school=old_teacher.school).exclude(user=old_teacher.user)
 
@@ -577,7 +577,7 @@ def teacher_dismiss_students(request, access_code):
     """
     Dismiss a student (make them independent)
     """
-    klass = get_object_or_404(Class, access_code=access_code)
+    klass = get_object_or_404(Class, _access_code_plain=access_code)
 
     check_teacher_authorised(request, klass.teacher)
 
@@ -676,7 +676,7 @@ def teacher_class_password_reset(request, access_code):
     """
     Reset passwords for one or more students
     """
-    klass = get_object_or_404(Class, access_code=access_code)
+    klass = get_object_or_404(Class, _access_code_plain=access_code)
 
     # check user authorised to see class
     check_teacher_authorised(request, klass.teacher)
@@ -728,7 +728,7 @@ def teacher_move_students(request, access_code):
     """
     Move students
     """
-    klass = get_object_or_404(Class, access_code=access_code)
+    klass = get_object_or_404(Class, _access_code_plain=access_code)
 
     # check user is authorised to deal with class
     check_teacher_authorised(request, klass.teacher)
@@ -760,7 +760,7 @@ def teacher_move_students_to_class(request, access_code):
     """
     Disambiguation for moving students (teacher gets to rename the students to avoid clashes)
     """
-    old_class = get_object_or_404(Class, access_code=access_code)
+    old_class = get_object_or_404(Class, _access_code_plain=access_code)
     new_class_id = request.POST.get("new_class", None)
     new_class = get_object_or_404(Class, id=new_class_id)
 
@@ -884,7 +884,7 @@ def teacher_print_reminder_cards(request, access_code):
 
     logo_image = ImageReader(staticfiles_storage.path("portal/img/logo_cfl_reminder_cards.jpg"))
 
-    klass = get_object_or_404(Class, access_code=access_code)
+    klass = get_object_or_404(Class, _access_code_plain=access_code)
     # Check auth
     check_teacher_authorised(request, klass.teacher)
 
@@ -970,7 +970,7 @@ def teacher_download_csv(request, access_code):
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = 'attachment; filename="student_login_urls.csv"'
 
-    klass = get_object_or_404(Class, access_code=access_code)
+    klass = get_object_or_404(Class, _access_code_plain=access_code)
     # Check auth
     check_teacher_authorised(request, klass.teacher)
 

@@ -238,11 +238,11 @@ def password_reset_confirm(
 
 def _check_and_unblock_user(username, usertype, access_code=None):
     if usertype == "TEACHER":
-        user = Teacher.objects.get(new_user__username=username)
+        user = Teacher.objects.get(new_user___username_plain=username)
     elif usertype == "INDEP_STUDENT":
-        user = Student.objects.get(new_user__username=username)
+        user = Student.objects.get(new_user___username_plain=username)
     elif usertype == "SCHOOL_STUDENT":
-        user = Student.objects.get(new_user__first_name=username, class_field__access_code=access_code)
+        user = Student.objects.get(new_user___first_name_plain=username, class_field___access_code_plain=access_code)
 
     if user.blocked_time is not None:
         user.blocked_time = None

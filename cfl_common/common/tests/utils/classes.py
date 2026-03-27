@@ -31,7 +31,7 @@ def create_class_directly(teacher_email: str, class_name: str = None) -> Tuple[C
     if class_name is not None:
         name = class_name
 
-    teacher = Teacher.objects.get(new_user__email=teacher_email)
+    teacher = Teacher.objects.get(new_user___email_plain=teacher_email)
 
     klass = Class.objects.create(name=name, access_code=access_code, teacher=teacher)
 

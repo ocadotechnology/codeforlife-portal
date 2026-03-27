@@ -378,7 +378,7 @@ class TestLoginViews(TestCase):
         assert q[0].school == teacher.school
 
     def _get_user_class(self, name, class_access_code):
-        klass = Class.objects.get(access_code=class_access_code)
+        klass = Class.objects.get(_access_code_plain=class_access_code)
         students = Student.objects.filter(new_user__first_name__iexact=name, class_field=klass)
         assert len(students) == 1
         user = students[0].new_user
@@ -491,7 +491,7 @@ class TestLoginViews(TestCase):
         q = UserSession.objects.filter(user=student.new_user)
         q = q.filter(login_time__range=(oneminago, now))
         assert len(q) == 1
-        klass = Class.objects.get(access_code=class_access_code)
+        klass = Class.objects.get(_access_code_plain=class_access_code)
         assert q[0].class_field == klass
         assert q[0].login_type == "direct"
 

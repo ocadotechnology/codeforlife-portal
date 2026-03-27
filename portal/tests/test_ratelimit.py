@@ -96,7 +96,7 @@ class TestRatelimit(TestCase):
         user = (
             model.objects.get(new_user__username=username)
             if not access_code
-            else model.objects.get(new_user__first_name=username, class_field__access_code=access_code)
+            else model.objects.get(new_user__first_name=username, class_field___access_code_plain=access_code)
         )
         if user.blocked_time:
             return not has_user_lockout_expired(user)
@@ -112,9 +112,9 @@ class TestRatelimit(TestCase):
         """
 
         user = (
-            model.objects.get(new_user__username=username)
+            model.objects.get(new_user___username_plain=username)
             if access_code is None
-            else model.objects.get(new_user__first_name=username, class_field__access_code=access_code)
+            else model.objects.get(new_user___first_name_plain=username, class_field___access_code_plain=access_code)
         )
 
         user.blocked_time = make_aware(datetime.now())
@@ -158,7 +158,7 @@ class TestRatelimit(TestCase):
         assert self._is_user_blocked(Student, student_name, klass_access_code)
         student = Student.objects.get(id=student.id)
         current_student = Student.objects.get(
-            new_user__first_name=student_name, class_field__access_code=klass_access_code
+            new_user___first_name_plain=student_name, class_field___access_code_plain=klass_access_code
         )
 
         # now check if teacher can unlock it, both ways :)
