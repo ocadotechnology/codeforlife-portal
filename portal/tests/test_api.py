@@ -230,12 +230,12 @@ class APITests(APITestCase):
         assert response.status_code == status.HTTP_204_NO_CONTENT
 
         # Check the first school/class/student still exist
-        assert School.objects.filter(name=school1.name).exists()
+        assert School.objects.filter(_name_plain=school1.name).exists()
         assert Class.objects.filter(pk=klass11.pk).exists()
         assert Student.objects.filter(pk=student11.pk).exists()
 
         # Check the second school exists and its first class/student, but the second ones are anonymised
-        assert School.objects.filter(name=school2.name).exists()
+        assert School.objects.filter(_name_plain=school2.name).exists()
         assert Class.objects.filter(pk=klass21.pk).exists()
         assert not Class.objects.filter(pk=klass22.pk).exists()
         assert Student.objects.filter(pk=student21.pk).exists()
@@ -246,17 +246,17 @@ class APITests(APITestCase):
         ).is_admin
 
         # Check the third school is anonymised together with its classes and students
-        assert not School.objects.filter(name=school3.name).exists()
+        assert not School.objects.filter(_name_plain=school3.name).exists()
         assert not Class.objects.filter(pk=klass31.pk).exists()
         assert not Class.objects.filter(pk=klass32.pk).exists()
         assert not Student.objects.get(pk=student31.pk).new_user.is_active
         assert not Student.objects.get(pk=student32.pk).new_user.is_active
 
         # Check that the fourth school is anonymised
-        assert not School.objects.filter(name=school4.name).exists()
+        assert not School.objects.filter(_name_plain=school4.name).exists()
 
         # Check that the fifth school is anonymised
-        assert not School.objects.filter(name=school5.name).exists()
+        assert not School.objects.filter(_name_plain=school5.name).exists()
 
     def test_remove_fake_accounts(self):
         client = APIClient()
