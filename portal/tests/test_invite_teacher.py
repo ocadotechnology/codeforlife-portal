@@ -138,7 +138,7 @@ class TestInviteTeacher(TestCase):
             token=uuid4().hex,
             school=school,
             from_teacher=teacher,
-            invited_teacher__first_name_plain="Valid",
+            invited_teacher_first_name="Valid",
             invited_teacher_last_name="Name",
             invited_teacher_email=email,
             expiry=timezone.now() + timedelta(days=1),
