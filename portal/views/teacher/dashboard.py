@@ -614,7 +614,7 @@ def teacher_reject_student_request(request, pk):
 @login_required(login_url=reverse_lazy("teacher_login"))
 def delete_teacher_invite(request, token):
     try:
-        invite = SchoolTeacherInvitation.objects.get(token=token)
+        invite = SchoolTeacherInvitation.objects.get(_token_plain=token)
     except SchoolTeacherInvitation.DoesNotExist:
         invite = None
     teacher = request.user.new_teacher
@@ -638,7 +638,7 @@ def delete_teacher_invite(request, token):
 @login_required(login_url=reverse_lazy("teacher_login"))
 def resend_invite_teacher(request, token):
     try:
-        invite = SchoolTeacherInvitation.objects.get(token=token)
+        invite = SchoolTeacherInvitation.objects.get(_token_plain=token)
     except SchoolTeacherInvitation.DoesNotExist:
         invite = None
     teacher = request.user.new_teacher
@@ -702,11 +702,11 @@ def invited_teacher(request, token):
 
 def process_teacher_invitation(request, token):
     try:
-        invitation = SchoolTeacherInvitation.objects.get(token=token, expiry__gt=timezone.now())
+        invitation = SchoolTeacherInvitation.objects.get(_token_plain=token, expiry__gt=timezone.now())
     except SchoolTeacherInvitation.DoesNotExist:
         return "Uh oh, the Invitation does not exist or it has expired. 😞"
 
-    if User.objects.filter(email=invitation.invited_teacher_email).exists():
+    if User.objects.filter(_email_plain=invitation.invited_teacher_email).exists():
         return (
             "It looks like an account is already registered with this email address. You will need to delete the "
             "other account first or change the email associated with it in order to proceed. You will then be able to "
