@@ -180,7 +180,7 @@ def dashboard_teacher_view(request, is_admin):
                     expiry=timezone.now() + timedelta(days=30),
                 )
 
-                account_exists = User.objects.filter(email=invited_teacher_email).exists()
+                account_exists = User.objects.filter(_email_plain=invited_teacher_email).exists()
 
                 registration_link = f"{domain(request)}{reverse('invited_teacher', kwargs={'token': token})} "
 

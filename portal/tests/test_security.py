@@ -49,7 +49,7 @@ class SecurityTestCase(TestCase):
     def test_student_edit_info_leak(self):
         c = Client()
         t_email, t_pass = signup_teacher_directly()
-        c.login(email=t_email, password=t_pass)
+        c.login(_email_plain=t_email, password=t_pass)
         profile = UserProfile(user=User.objects.create_user("test"))
         profile.save()
         stu = Student(user=profile)

@@ -103,7 +103,7 @@ class TeacherPasswordResetForm(PasswordResetForm):
     def clean_email(self):
         email = self.cleaned_data.get("email", None)
         self.username = ""
-        teacher = Teacher.objects.filter(new_user__email=email)
+        teacher = Teacher.objects.filter(new_user___email_plain=email)
         # Check such an email exists
         if teacher.exists():
             self.username = teacher[0].new_user.username
@@ -114,7 +114,7 @@ class StudentPasswordResetForm(PasswordResetForm):
     def clean_email(self):
         email = self.cleaned_data.get("email", None)
         self.username = ""
-        student = Student.objects.filter(new_user__email=email)
+        student = Student.objects.filter(new_user___email_plain=email)
         # Check such an email exists
         if student.exists():
             self.username = student[0].new_user.username

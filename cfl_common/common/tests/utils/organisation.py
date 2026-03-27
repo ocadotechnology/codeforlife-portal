@@ -17,7 +17,7 @@ def create_organisation_directly(teacher_email, **kwargs):
 
     school = School.objects.create(name=name, country="GB")
 
-    teacher = Teacher.objects.get(new_user__email=teacher_email)
+    teacher = Teacher.objects.get(new_user___email_plain=teacher_email)
     teacher.school = school
     teacher.is_admin = True
     teacher.save()
@@ -26,7 +26,7 @@ def create_organisation_directly(teacher_email, **kwargs):
 
 
 def join_teacher_to_organisation(teacher_email, org_name, is_admin=False):
-    teacher = Teacher.objects.get(new_user__email=teacher_email)
+    teacher = Teacher.objects.get(new_user___email_plain=teacher_email)
     school = School.objects.get(_name_plain=org_name)
 
     teacher.school = school

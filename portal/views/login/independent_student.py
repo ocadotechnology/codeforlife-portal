@@ -38,8 +38,8 @@ class IndependentStudentLoginView(LoginView):
         time is more than 24 hours before this is executed, the account is unlocked.
         """
         email = request.POST.get("username")
-        if Student.objects.filter(new_user__email=email).exists():
-            student = Student.objects.get(new_user__email=email)
+        if Student.objects.filter(new_user___email_plain=email).exists():
+            student = Student.objects.get(new_user___email_plain=email)
 
             if student.blocked_time is not None:
                 if has_user_lockout_expired(student):
@@ -62,7 +62,7 @@ class IndependentStudentLoginView(LoginView):
 
         # Log the login time
         email = self.request.POST.get("username")
-        user = User.objects.get(email=email)
+        user = User.objects.get(_email_plain=email)
         session = UserSession(user=user)
         session.save()
 

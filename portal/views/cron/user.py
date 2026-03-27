@@ -72,7 +72,7 @@ def get_inactive_users(days: int) -> QuerySet[User]:
         )
     )
 
-    return user_queryset.exclude(email__isnull=True).exclude(email="")
+    return user_queryset.exclude(_email_plain__isnull=True).exclude(_email_plain="")
 
 
 def build_absolute_google_uri(request, location: str) -> str:

@@ -56,7 +56,7 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_1, password_1)
 
-        teacher2 = Teacher.objects.get(new_user__email=email_2)
+        teacher2 = Teacher.objects.get(new_user___email_plain=email_2)
 
         assert page.is_teacher_in_school(teacher2.new_user.last_name)
 
@@ -80,7 +80,7 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_1, password_1)
 
-        teacher2 = Teacher.objects.get(new_user__email=email_2)
+        teacher2 = Teacher.objects.get(new_user___email_plain=email_2)
 
         assert page.is_teacher_in_school(teacher2.new_user.last_name)
 
@@ -118,7 +118,7 @@ class TestOrganisation(BaseTest, BasePage):
 
         page = page.logout().go_to_teacher_login_page().login(email_1, password_1)
 
-        teacher2 = Teacher.objects.get(new_user__email=email_2)
+        teacher2 = Teacher.objects.get(new_user___email_plain=email_2)
 
         assert page.is_not_teacher_in_school(teacher2.new_user.last_name)
 

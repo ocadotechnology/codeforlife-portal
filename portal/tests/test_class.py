@@ -495,7 +495,7 @@ class TestClassFrontend(BaseTest):
     def test_create_class_as_admin_for_another_teacher(self):
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
-        teacher2 = Teacher.objects.get(new_user__email=email2)
+        teacher2 = Teacher.objects.get(new_user___email_plain=email2)
         school = create_organisation_directly(email1)
         join_teacher_to_organisation(email2, school.name)
 

@@ -623,7 +623,7 @@ def process_dismiss_student_form(request, formset, klass, access_code):
     failed_users = []  # users that failed to be transferred
     for data in formset.cleaned_data:
         # check if email is already used
-        users_with_email = User.objects.filter(email=data["email"])
+        users_with_email = User.objects.filter(_email_plain=data["email"])
         # email is already taken, skip this user
         if users_with_email.exists():
             failed_users.append(data["orig_name"])

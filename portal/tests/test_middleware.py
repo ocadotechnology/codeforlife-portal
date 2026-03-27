@@ -49,7 +49,7 @@ class TestAdminAccessMiddleware(TestCase):
         return email, password
 
     def _make_user_superuser(self) -> None:
-        user = User.objects.get(email=self.email)
+        user = User.objects.get(_email_plain=self.email)
         user.is_superuser = True
         user.is_staff = True
         user.save()

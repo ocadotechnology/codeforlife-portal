@@ -173,12 +173,12 @@ class APITests(APITestCase):
         )
         _, _, student22 = create_school_student_directly(access_code22)
         school2_teacher1 = Teacher.objects.get(
-            new_user__email=school2_teacher1_email
+            new_user___email_plain=school2_teacher1_email
         )
         school2_teacher1.is_admin = False
         school2_teacher1.save()
         school2_teacher2 = Teacher.objects.get(
-            new_user__email=school2_teacher2_email
+            new_user___email_plain=school2_teacher2_email
         )
         school2_teacher2.new_user.is_active = False
         school2_teacher2.new_user.save()
@@ -197,12 +197,12 @@ class APITests(APITestCase):
         )
         _, _, student32 = create_school_student_directly(access_code32)
         school3_teacher1 = Teacher.objects.get(
-            new_user__email=school3_teacher1_email
+            new_user___email_plain=school3_teacher1_email
         )
         school3_teacher1.new_user.is_active = False
         school3_teacher1.new_user.save()
         school3_teacher2 = Teacher.objects.get(
-            new_user__email=school3_teacher2_email
+            new_user___email_plain=school3_teacher2_email
         )
         school3_teacher2.new_user.is_active = False
         school3_teacher2.new_user.save()
@@ -211,7 +211,7 @@ class APITests(APITestCase):
         school4_teacher1_email, _ = signup_teacher_directly()
         school4 = create_organisation_directly(school4_teacher1_email)
         school4_teacher1 = Teacher.objects.get(
-            new_user__email=school4_teacher1_email
+            new_user___email_plain=school4_teacher1_email
         )
         school4_teacher1.new_user.is_active = False
         school4_teacher1.new_user.save()
@@ -220,7 +220,7 @@ class APITests(APITestCase):
         school5_teacher1_email, _ = signup_teacher_directly()
         school5 = create_organisation_directly(school5_teacher1_email)
         school5_teacher1 = Teacher.objects.get(
-            new_user__email=school5_teacher1_email
+            new_user___email_plain=school5_teacher1_email
         )
         school5_teacher1.delete()
 
@@ -242,7 +242,7 @@ class APITests(APITestCase):
         assert not Student.objects.get(pk=student22.pk).new_user.is_active
         # Also check the first teacher is now an admin
         assert Teacher.objects.get(
-            new_user__email=school2_teacher1_email
+            new_user___email_plain=school2_teacher1_email
         ).is_admin
 
         # Check the third school is anonymised together with its classes and students

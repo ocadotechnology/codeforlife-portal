@@ -173,7 +173,7 @@ class TestTeacherViews(TestCase):
         school = create_organisation_directly(self.email)
         join_teacher_to_organisation(self.email, school.name, is_admin=True)
         join_teacher_to_organisation(teacher2_email, school.name)
-        teacher2_id = Teacher.objects.get(new_user__email=teacher2_email).id
+        teacher2_id = Teacher.objects.get(new_user___email_plain=teacher2_email).id
 
         client = self.login()
         url = reverse("organisation_kick", args=[teacher2_id])
@@ -369,7 +369,7 @@ class TestLoginViews(TestCase):
         now = timezone.now()
         oneminago = now - timedelta(minutes=1)
 
-        user = User.objects.get(email=email)
+        user = User.objects.get(_email_plain=email)
         q = UserSession.objects.filter(user=user)
         q = q.filter(login_time__range=(oneminago, now))
         assert len(q) == 1
@@ -661,7 +661,7 @@ class TestViews(TestCase):
     @patch("portal.views.registration.send_dotdigital_email")
     def test_delete_account(self, mock_send_dotdigital_email: Mock):
         email, password = signup_teacher_directly()
-        u = User.objects.get(email=email)
+        u = User.objects.get(_email_plain=email)
         usrid = u.id
 
         c = Client()
@@ -683,7 +683,7 @@ class TestViews(TestCase):
         mock_send_dotdigital_email.assert_not_called()
 
         # user has not been anonymised
-        u = User.objects.get(email=email)
+        u = User.objects.get(_email_plain=email)
         assert u.id == usrid
 
         # try again with the correct password
@@ -710,22 +710,22 @@ class TestViews(TestCase):
         email3, password3 = signup_teacher_directly()
         email4, password4 = signup_teacher_directly()
 
-        user1 = User.objects.get(email=email1)
+        user1 = User.objects.get(_email_plain=email1)
         user1.last_name = "Amir"
         user1.save()
         usrid1 = user1.id
 
-        user2 = User.objects.get(email=email2)
+        user2 = User.objects.get(_email_plain=email2)
         user2.last_name = "Bee"
         user2.save()
         usrid2 = user2.id
 
-        user3 = User.objects.get(email=email3)
+        user3 = User.objects.get(_email_plain=email3)
         user3.last_name = "Jung"
         user3.save()
         usrid3 = user3.id
 
-        user4 = User.objects.get(email=email4)
+        user4 = User.objects.get(_email_plain=email4)
         user4.last_name = "Kook"
         user4.save()
         usrid4 = user4.id
@@ -975,10 +975,10 @@ class TestUser(CronTestCase):
         _, _, student = create_school_student_directly(access_code)
         indy_email, _, _ = create_independent_student_directly()
 
-        self.teacher_user = User.objects.get(email=teacher_email)
+        self.teacher_user = User.objects.get(_email_plain=teacher_email)
         self.teacher_user_profile = UserProfile.objects.get(user=self.teacher_user)
 
-        self.indy_user = User.objects.get(email=indy_email)
+        self.indy_user = User.objects.get(_email_plain=indy_email)
         self.indy_user_profile = UserProfile.objects.get(user=self.indy_user)
 
         self.student_user: User = student.new_user
@@ -1052,7 +1052,7 @@ class TestUser(CronTestCase):
             teacher_user = User.objects.create(
                 first_name="Unverified",
                 last_name="Teacher",
-                _username_plain="unverified.teacher@codeforlife.com",
+                username="unverified.teacher@codeforlife.com",
                 email="unverified.teacher@codeforlife.com",
                 date_joined=date_joined,
             )

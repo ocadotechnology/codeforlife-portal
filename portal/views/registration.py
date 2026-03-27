@@ -76,7 +76,7 @@ def school_student_reset_password_tracker(request, activity_today):
 
 
 def teacher_or_indy_reset_password_tracker(request, activity_today, email):
-    get_user = Teacher.objects.filter(new_user__email=email) or Student.objects.filter(new_user__email=email)
+    get_user = Teacher.objects.filter(new_user___email_plain=email) or Student.objects.filter(new_user___email_plain=email)
     if get_user.exists():
         user = get_user[0]
         if blocked_and_not_expired(user):

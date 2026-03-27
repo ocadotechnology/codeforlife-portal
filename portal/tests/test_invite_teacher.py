@@ -29,7 +29,7 @@ class TestInviteTeacher(TestCase):
         email, password = signup_teacher_directly()
         school = create_organisation_directly(email)
         create_class_directly(email)
-        teacher = Teacher.objects.get(new_user__email=email)
+        teacher = Teacher.objects.get(new_user___email_plain=email)
 
         client = Client()
         client.login(_username_plain=email, password=password)
@@ -77,7 +77,7 @@ class TestInviteTeacher(TestCase):
         assert messages[0] == "Your account has been created successfully, please log in."
 
         # Check that the teacher account is created successfully and linked to the school
-        invited_teacher = Teacher.objects.get(new_user__email=invited_teacher_email)
+        invited_teacher = Teacher.objects.get(new_user___email_plain=invited_teacher_email)
         assert invited_teacher.new_user.first_name == invited_teacher_first_name
         assert invited_teacher.new_user.last_name == invited_teacher_last_name
         assert invited_teacher.school == school
@@ -96,7 +96,7 @@ class TestInviteTeacher(TestCase):
         email, password = signup_teacher_directly()
         school = create_organisation_directly(email)
         create_class_directly(email)
-        teacher = Teacher.objects.get(new_user__email=email)
+        teacher = Teacher.objects.get(new_user___email_plain=email)
 
         client = Client()
         client.login(_username_plain=email, password=password)
