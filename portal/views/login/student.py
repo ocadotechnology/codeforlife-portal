@@ -65,12 +65,12 @@ class StudentLoginView(LoginView):
     def _add_login_data(self, form, login_type):
         # class and student have been validated by this point
         class_code = self.kwargs["access_code"]
-        classes = Class.objects.filter(access_code__iexact=class_code)
+        classes = Class.objects.filter(_access_code_plain__iexact=class_code)
         klass = classes[0]
 
         name = form.cleaned_data.get("username")
         students = Student.objects.filter(
-            new_user__first_name__iexact=name, class_field=klass
+            new_user___first_name_plain__iexact=name, class_field=klass
         )
         student = students[0]
 
@@ -107,11 +107,12 @@ class StudentLoginView(LoginView):
         # get access code from the current url
         access_code = get_access_code_from_request(request)
         if Student.objects.filter(
-            new_user__first_name=username, class_field__access_code=access_code
+            new_user___first_name_plain=username,
+            class_field___access_code_plain=access_code
         ).exists():
             student = Student.objects.get(
-                new_user__first_name=username,
-                class_field__access_code=access_code,
+                new_user___first_name_plain=username,
+                class_field___access_code_plain=access_code,
             )
 
             if student.blocked_time is not None:

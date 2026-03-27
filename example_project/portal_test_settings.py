@@ -36,7 +36,6 @@ if os.environ.get("SELENIUM_HEADLESS", None):
     atexit.register(lambda: display.stop())
 
 ROOT_URLCONF = "example_project.urls"
-SECRET_KEY = "bad_test_secret"
 
 DOTDIGITAL_AUTH = "dummy_dotdigital_auth"
 
@@ -250,4 +249,4 @@ CONSTANCE_CONFIG = {
 
 ENV = MODULE_NAME
 
-from codeforlife.settings import GCP_KMS_KEY_URI
+from codeforlife.settings import GCP_KMS_KEY_URI, SECRET_KEY

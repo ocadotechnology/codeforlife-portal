@@ -92,7 +92,19 @@ def dashboard_teacher_view(request, is_admin):
     update_school_form = None
 
     if school:
-        coworkers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
+        coworkers = sorted(
+            Teacher.objects.filter(school=school).select_related("new_user").only(
+                "new_user__dek",
+                "new_user___last_name_enc",
+                "new_user___last_name_plain",
+                "new_user___first_name_enc",
+                "new_user___first_name_plain",
+            ),
+            key=lambda teacher: (
+                teacher.new_user.last_name.lower(),
+                teacher.new_user.first_name.lower(),
+            ),
+        )
 
         sent_invites = SchoolTeacherInvitation.objects.filter(school=school) if teacher.is_admin else []
 

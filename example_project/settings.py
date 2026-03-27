@@ -26,7 +26,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "portal/static")]
 MEDIA_ROOT = os.path.join(STATIC_ROOT, "email_media/")
-SECRET_KEY = "not-a-secret"
 
 ROOT_URLCONF = "example_project.urls"
 
@@ -194,4 +193,4 @@ CONSTANCE_CONFIG = {
 
 ENV = MODULE_NAME
 
-from codeforlife.settings import GCP_KMS_KEY_URI
+from codeforlife.settings import GCP_KMS_KEY_URI, SECRET_KEY

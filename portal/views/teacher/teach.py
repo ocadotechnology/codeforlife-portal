@@ -126,9 +126,19 @@ def process_edit_class(request, access_code, onboarding_done, next_url):
     """
     Handles student creation both during onboarding or on the class page
     """
-    klass = get_object_or_404(Class, access_code=access_code)
+    klass = get_object_or_404(Class, _access_code_plain=access_code)
     teacher = request.user.new_teacher
-    students = Student.objects.filter(class_field=klass, new_user__is_active=True).order_by("new_user__first_name")
+    students = sorted(
+        Student.objects.filter(
+            class_field=klass,
+            new_user__is_active=True
+        ).select_related("new_user").only(
+            "new_user__dek",
+            "new_user___first_name_enc",
+            "new_user___first_name_plain",
+        ),
+        key=lambda student: student.new_user.first_name.lower(),
+    )
 
     check_teacher_authorised(request, klass.teacher)
 
@@ -622,7 +632,7 @@ def process_dismiss_student_form(request, formset, klass, access_code):
         student = get_object_or_404(
             Student,
             class_field=klass,
-            new_user__first_name__iexact=data["orig_name"],
+            new_user___first_name_plain__iexact=data["orig_name"],
         )
 
         students_levels = Level.objects.filter(owner=student.new_user.userprofile).all()
@@ -762,8 +772,16 @@ def teacher_move_students_to_class(request, access_code):
     transfer_students = [get_object_or_404(Student, id=i, class_field=old_class) for i in transfer_students_ids]
 
     # get new class' students
-    new_class_students = Student.objects.filter(class_field=new_class, new_user__is_active=True).order_by(
-        "new_user__first_name"
+    new_class_students = sorted(
+        Student.objects.filter(
+            class_field=new_class,
+            new_user__is_active=True
+        ).select_related("new_user").only(
+            "new_user__dek",
+            "new_user___first_name_enc",
+            "new_user___first_name_plain",
+        ),
+        key=lambda student: student.new_user.first_name.lower(),
     )
 
     TeacherMoveStudentDisambiguationFormSet = formset_factory(
@@ -822,7 +840,7 @@ def process_move_students_form(request, formset, old_class, new_class):
         student = get_object_or_404(
             Student,
             class_field=old_class,
-            new_user__first_name__iexact=name_update["orig_name"],
+            new_user___first_name_plain__iexact=name_update["orig_name"],
         )
         student.class_field = new_class
         student.new_user.first_name = name_update["name"]

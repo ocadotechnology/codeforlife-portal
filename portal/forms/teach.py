@@ -149,7 +149,7 @@ class TeacherLoginForm(AuthenticationForm):
 
             user = self.find_user(email, user)
 
-            user = authenticate(username=user.username, password=password)
+            user = authenticate(_username_plain=user.username, password=password)
 
             self.check_email_errors(user)
 
@@ -166,7 +166,7 @@ class TeacherLoginForm(AuthenticationForm):
         return self.cleaned_data
 
     def find_user(self, email, user):
-        users = User.objects.filter(email=email)
+        users = User.objects.filter(_email_plain=email)
 
         for result in users:
             if hasattr(result, "userprofile") and hasattr(result.userprofile, "teacher"):
@@ -220,10 +220,21 @@ class ClassCreationForm(forms.Form):
 
             # Get coworkers and add them to the choices if the teacher is an admin
             if teacher.is_admin:
-                coworkers = (
+                coworkers = sorted(
                     Teacher.objects.filter(school=teacher.school)
                     .exclude(id=teacher.id)
-                    .order_by("new_user__last_name", "new_user__first_name")
+                    .select_related("new_user")
+                    .only(
+                        "new_user__dek",
+                        "new_user___last_name_enc",
+                        "new_user___last_name_plain",
+                        "new_user___first_name_enc",
+                        "new_user___first_name_plain",
+                    ),
+                    key=lambda teacher: (
+                        teacher.new_user.last_name.lower(),
+                        teacher.new_user.first_name.lower(),
+                    ),
                 )
                 for coworker in coworkers:
                     teacher_choices.append(
