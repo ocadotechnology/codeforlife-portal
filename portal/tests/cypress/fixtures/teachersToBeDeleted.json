@@ -3,17 +3,25 @@
     "model": "user.user",
     "pk": 1001,
     "fields": {
-      "password": "pbkdf2_sha256$260000$xG3ad8gi7Oex9qOZF0YKyq$8+knohUk1Ii4eMjVeifyNsPyDQUQIDWZWtMVeGy8kf0=",
-      "last_login": "2022-04-02T19:54:34.998Z",
-      "is_superuser": false,
-      "username": "teacher.to.be.deleted1@codeforlife.com",
-      "first_name": "Teacher To Be Deleted",
-      "last_name": "1",
-      "email": "teacher.to.be.deleted1@codeforlife.com",
-      "is_staff": false,
-      "is_active": true,
+      "_email_enc": "ZmFrZV9lbmM6TqgK+EmzaJBVSFhedY6qYzNX7tD2yO6/bMpt5bX1iuw97ZkpURVx1ZZ/RY4izM/46ydRWt081gV8cUmrZKEalbf4",
+      "_email_hash": "649cdc70f7f401b4633bf47dbcc6816b8bfdea180b5df74e116af785a5fcf394",
+      "_email_plain": "teacher.to.be.deleted1@codeforlife.com",
+      "_first_name_enc": "ZmFrZV9lbmM6XWprVNewIodc/A9Pa/lDB5p+KAoeoXAq/uWIKfaW7kAcsYVgSyYNEh4dbIeNpm36vQ==",
+      "_first_name_hash": "38caaa8ebe8583d33fe57e6fa47535be480b8071a03b5a7a1d720a79e7374cbb",
+      "_first_name_plain": "Teacher To Be Deleted",
+      "_last_name_enc": "ZmFrZV9lbmM6gt6B1j/4BsrkeM8f6YVhA7CqJHt/243JDVCzdx0=",
+      "_last_name_plain": "1",
+      "_username_enc": "ZmFrZV9lbmM6WcOM75p9AJHqnMu9vaQHQyy6ppmIybsRsLHqzM7lG0aypR1pxylCOrr7hotZPfU3KEIr5HY/ON2uGFxGskYOIJ6k",
+      "_username_hash": "649cdc70f7f401b4633bf47dbcc6816b8bfdea180b5df74e116af785a5fcf394",
+      "_username_plain": "teacher.to.be.deleted1@codeforlife.com",
       "date_joined": "2022-04-02T19:48:52.416Z",
+      "dek": "ZmFrZV9lbmM6uAY64con+fxUfQZji+jwoOarKHJyfKX8oRgtauj4S/Q4K+TM041quI8z5x9ydQlhmlMR9qZICBBA1nC8",
       "groups": [],
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "last_login": "2022-04-02T19:54:34.998Z",
+      "password": "pbkdf2_sha256$260000$xG3ad8gi7Oex9qOZF0YKyq$8+knohUk1Ii4eMjVeifyNsPyDQUQIDWZWtMVeGy8kf0=",
       "user_permissions": []
     }
   },
@@ -21,17 +29,25 @@
     "model": "user.user",
     "pk": 1002,
     "fields": {
-      "password": "pbkdf2_sha256$260000$xG3ad8gi7Oex9qOZF0YKyq$8+knohUk1Ii4eMjVeifyNsPyDQUQIDWZWtMVeGy8kf0=",
-      "last_login": "2022-04-02T19:54:34.998Z",
-      "is_superuser": false,
-      "username": "teacher.to.be.deleted2@codeforlife.com",
-      "first_name": "Teacher To Be Deleted",
-      "last_name": "2",
-      "email": "teacher.to.be.deleted2@codeforlife.com",
-      "is_staff": false,
-      "is_active": true,
+      "_email_enc": "ZmFrZV9lbmM6S+Efc1+wrw5r7e/N2QrI4his3egypauCOtCWFMfSb6TvTvrfW2b0oshFA56McV91yE3sdlcnZ9Yc4BedIfV/gep3",
+      "_email_hash": "d99b60dc7f92027f73af8c4ec6fa6b4927488942ced043260dd2ee1cc5307887",
+      "_email_plain": "teacher.to.be.deleted2@codeforlife.com",
+      "_first_name_enc": "ZmFrZV9lbmM6AC7uRZcRq8K5hql3XskgX2LNsUGfzOl2NlayF7Oymxg8n7XbKDzrx36Zm6o5aCHlMA==",
+      "_first_name_hash": "38caaa8ebe8583d33fe57e6fa47535be480b8071a03b5a7a1d720a79e7374cbb",
+      "_first_name_plain": "Teacher To Be Deleted",
+      "_last_name_enc": "ZmFrZV9lbmM6nrhX6VBCIUUfjtRXGyUUFXyQrZS+BPAFbyHeekg=",
+      "_last_name_plain": "2",
+      "_username_enc": "ZmFrZV9lbmM6j77o46BGoZpSL3aiCEB4Oi4Emx2B8SZQRF7QAbyTmgrS3dt4feTBK8RKT19zxpGTQOfQ97u/tiDqrzBrCqz6vqQH",
+      "_username_hash": "d99b60dc7f92027f73af8c4ec6fa6b4927488942ced043260dd2ee1cc5307887",
+      "_username_plain": "teacher.to.be.deleted2@codeforlife.com",
       "date_joined": "2022-04-02T19:48:52.416Z",
+      "dek": "ZmFrZV9lbmM6JSS4HdymXDurZAWD6p+53bBIBM1Pb/wbQt3U4lygRBvkcadHsibdSbxBm0cE3WMmBXuPmiCkc3IL8k3j",
       "groups": [],
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "last_login": "2022-04-02T19:54:34.998Z",
+      "password": "pbkdf2_sha256$260000$xG3ad8gi7Oex9qOZF0YKyq$8+knohUk1Ii4eMjVeifyNsPyDQUQIDWZWtMVeGy8kf0=",
       "user_permissions": []
     }
   },
@@ -39,40 +55,40 @@
     "model": "user.teacher",
     "pk": 1001,
     "fields": {
-      "user": 1001,
+      "blocked_time": null,
+      "is_admin": false,
       "new_user": 1001,
       "school": null,
-      "is_admin": false,
-      "blocked_time": null
+      "user": 1001
     }
   },
   {
     "model": "user.teacher",
     "pk": 1002,
     "fields": {
-      "user": 1002,
+      "blocked_time": null,
+      "is_admin": false,
       "new_user": 1002,
       "school": 1,
-      "is_admin": false,
-      "blocked_time": null
+      "user": 1002
     }
   },
   {
     "model": "user.userprofile",
     "pk": 1001,
     "fields": {
-      "user": 1001,
       "developer": false,
-      "is_verified": true
+      "is_verified": true,
+      "user": 1001
     }
   },
   {
     "model": "user.userprofile",
     "pk": 1002,
     "fields": {
-      "user": 1002,
       "developer": false,
-      "is_verified": true
+      "is_verified": true,
+      "user": 1002
     }
   }
 ]
