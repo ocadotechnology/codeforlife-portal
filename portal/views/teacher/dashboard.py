@@ -20,9 +20,8 @@ from common.models import (
 from common.permissions import check_teacher_authorised, logged_in_as_teacher
 from common.utils import using_two_factor
 from django.contrib import messages as messages
-from django.contrib.auth import logout
+from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth import get_user_model
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
@@ -50,6 +49,7 @@ from portal.helpers.ratelimit import (
     RATELIMIT_METHOD,
     clear_ratelimit_cache_for_user,
 )
+
 from .teach import create_class
 
 User = get_user_model()
@@ -516,7 +516,16 @@ def teacher_accept_student_request(request, pk):
 
     check_student_request_can_be_handled(request, student)
 
-    students = Student.objects.filter(class_field=student.pending_class_request).order_by("new_user__first_name")
+    students = sorted(
+        Student.objects.filter(class_field=student.pending_class_request)
+        .select_related("new_user")
+        .only(
+            "new_user__dek",
+            "new_user___first_name_plain",
+            "new_user___first_name_enc",
+        ),
+        key=lambda student: student.new_user.first_name.lower(),
+    )
 
     if request.method == "POST":
         form = TeacherAddExternalStudentForm(student.pending_class_request, request.POST)
