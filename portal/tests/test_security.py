@@ -5,6 +5,7 @@ from builtins import str
 from common.models import School, Student, UserProfile
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.teacher import signup_teacher_directly
+from common.tests.utils.organisation import create_organisation_directly
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy
@@ -14,21 +15,23 @@ User = get_user_model()
 class SecurityTestCase(TestCase):
     def _test_incorrect_teacher_cannot_login(self, view_name):
         email1, _ = signup_teacher_directly()
+        create_organisation_directly(email1)
         email2, pass2 = signup_teacher_directly()
         _, _, access_code = create_class_directly(email1)
 
         c = Client()
-        assert c.login(_username_plain=email2, password=pass2)
+        assert c.login(username=email2, password=pass2)
         page = reverse(view_name, args=[access_code])
         assert not c.get(page).status_code == 200
 
     def _test_incorrect_teacher_no_info_leak(self, view_name):
         email1, _ = signup_teacher_directly()
+        create_organisation_directly(email1)
         email2, pass2 = signup_teacher_directly()
         _, _, access_code = create_class_directly(email1)
 
         c = Client()
-        assert c.login(_username_plain=email2, password=pass2)
+        assert c.login(username=email2, password=pass2)
 
         invalid_page = reverse(view_name, args=[access_code])
         invalid_login_code = c.get(invalid_page).status_code
@@ -49,7 +52,7 @@ class SecurityTestCase(TestCase):
     def test_student_edit_info_leak(self):
         c = Client()
         t_email, t_pass = signup_teacher_directly()
-        c.login(_email_plain=t_email, password=t_pass)
+        c.login(email=t_email, password=t_pass)
         profile = UserProfile(user=User.objects.create_user("test"))
         profile.save()
         stu = Student(user=profile)
@@ -66,7 +69,7 @@ class SecurityTestCase(TestCase):
         email, password = signup_teacher_directly()
 
         client = Client()
-        client.login(_username_plain=email, password=password)
+        client.login(username=email, password=password)
 
         url = reverse("onboarding-organisation")
         data = {"name": email, "postcode": "TEST", "country": "GB", "create_organisation": ""}

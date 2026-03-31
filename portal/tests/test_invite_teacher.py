@@ -5,7 +5,10 @@ from uuid import uuid4
 import pytest
 from common.models import SchoolTeacherInvitation, Teacher
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
 from common.tests.utils.teacher import signup_teacher_directly
 from django.contrib.messages import get_messages
 from django.core import mail
@@ -258,7 +261,7 @@ class TestTeacherInviteActions(BaseTest):
         sleep(1)
         page.browser.find_element(By.ID, "add_admin_button").click()
 
-        invite = SchoolTeacherInvitation.objects.filter(invited_teacher__first_name_plain="Adam")[0]
+        invite = SchoolTeacherInvitation.objects.filter(_invited_teacher_first_name_plain="Adam")[0]
         assert invite.invited_teacher_is_admin
         banner = page.browser.find_element(By.ID, "messages")
         assert "Administrator invite status has been given successfully" in banner.text
@@ -286,7 +289,7 @@ class TestTeacherInviteActions(BaseTest):
         page.browser.find_element(By.NAME, "invite_teacher_button").click()
 
         # check object was created
-        invite_queryset = SchoolTeacherInvitation.objects.filter(invited_teacher__first_name_plain="Adam")
+        invite_queryset = SchoolTeacherInvitation.objects.filter(_invited_teacher_first_name_plain="Adam")
         assert len(invite_queryset) == 1
         sleep(FADE_TIME)
         # delete
@@ -295,7 +298,7 @@ class TestTeacherInviteActions(BaseTest):
         )
         delete_invite_button.click()
 
-        empty_invite_queryset = SchoolTeacherInvitation.objects.filter(invited_teacher__first_name_plain="Adam")
+        empty_invite_queryset = SchoolTeacherInvitation.objects.filter(_invited_teacher_first_name_plain="Adam")
         assert len(empty_invite_queryset) == 0
 
     def test_resend_invite(self):
@@ -325,5 +328,5 @@ class TestTeacherInviteActions(BaseTest):
         page.browser.find_element(By.ID, "resend-invite").click()
 
         # check if invite was updated by 30 days (used 29 for rounding errors)
-        new_invite_expiry = SchoolTeacherInvitation.objects.filter(invited_teacher__first_name_plain="Adam")[0].expiry
+        new_invite_expiry = SchoolTeacherInvitation.objects.filter(_invited_teacher_first_name_plain="Adam")[0].expiry
         assert timezone.now() + timedelta(days=29) <= new_invite_expiry

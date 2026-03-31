@@ -16,6 +16,7 @@ from selenium.webdriver.common.by import By
 from portal.tests.pageObjects.portal.base_page import BasePage
 from portal.tests.pageObjects.portal.home_page import HomePage
 from portal.tests.test_invite_teacher import FADE_TIME
+
 from .base_test import BaseTest
 from .utils.messages import is_organisation_created_message_showing
 
@@ -72,6 +73,7 @@ class TestOrganisation(BaseTest, BasePage):
         school = create_organisation_directly(email_1)
         _, _, access_code_1 = create_class_directly(email_1)
         create_school_student_directly(access_code_1)
+        create_organisation_directly(email_2)
         _, _, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
@@ -100,6 +102,7 @@ class TestOrganisation(BaseTest, BasePage):
         school = create_organisation_directly(email_1)
         _, _, access_code_1 = create_class_directly(email_1)
         create_school_student_directly(access_code_1)
+        create_organisation_directly(email_2)
         _, class_name_2, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
