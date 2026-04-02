@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from ...mixins import CronMixin
 
 
-class EncryptPlaintextFieldsView(CronMixin, APIView):
+class EncryptPlaintextFieldsView(APIView):
     def get(self, request):
         call_command("encrypt_plaintext_fields", "user")
         return Response(status=200)
