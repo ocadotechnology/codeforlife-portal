@@ -12,9 +12,9 @@ from common.models import (
     UserProfile,
 )
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as _UserAdmin
 from django.contrib.auth.models import User as DjangoUser
-from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from import_export.admin import ExportActionMixin
 
@@ -25,6 +25,7 @@ from portal.forms.admin import (
 from portal.views.api import anonymise
 
 User = get_user_model()
+
 
 class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
@@ -50,8 +51,8 @@ class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
 
 
 class SchoolAdmin(admin.ModelAdmin, ExportActionMixin):
-    search_fields = ["_name_plain", "country", "_county_plain"]
-    list_filter = ["_county_plain", "country"]
+    search_fields = ["_name_plain", "country", "county"]
+    list_filter = ["county", "country"]
     list_display = [
         "__str__",
         "country",
