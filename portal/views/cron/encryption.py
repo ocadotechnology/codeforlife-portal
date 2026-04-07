@@ -7,5 +7,5 @@ from ...mixins import CronMixin
 
 class EncryptPlaintextFieldsView(APIView):
     def get(self, request):
-        call_command("encrypt_plaintext_fields", "user")
+        call_command("encrypt_plaintext_fields", "user", "game")
         return Response(status=200)
