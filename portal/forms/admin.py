@@ -45,7 +45,7 @@ class AdminUserCreationForm(UserCreationForm):
         **UserCreationForm.error_messages,
         "password_too_weak": ADMIN_PASSWORD_TOO_WEAK_MESSAGE,
     }
-    
+
     username = UsernameField()
 
     def clean_password1(self):
