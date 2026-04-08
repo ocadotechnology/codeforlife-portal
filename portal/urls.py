@@ -187,11 +187,6 @@ urlpatterns = [
                         ]
                     ),
                 ),
-                path(
-                    "encrypt-plaintext-fields/",
-                    cron.encryption.EncryptPlaintextFieldsView.as_view(),
-                    name="encrypt-plaintext-fields",
-                ),
             ]
         ),
     ),
