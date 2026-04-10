@@ -1,6 +1,15 @@
 # CHANGELOG
 
 
+## v8.10.0 (2026-04-10)
+
+### Features
+
+- Show user ID and prefill Freshdesk widget
+  ([#2499](https://github.com/ocadotechnology/codeforlife-portal/pull/2499),
+  [`0e6cde8`](https://github.com/ocadotechnology/codeforlife-portal/commit/0e6cde82aab1e86ec60483f1c6b65d068b30864b))
+
+
 ## v8.9.32 (2026-03-25)
 
 ### Bug Fixes
