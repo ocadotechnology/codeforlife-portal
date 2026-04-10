@@ -1,4 +1,5 @@
 """Django settings for example_project project."""
+
 import os
 
 from selenium import webdriver
@@ -190,7 +191,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "sekizai.context_processors.sekizai",
-                "common.context_processors.module_name",
+                "common.context_processors.env",
                 "common.context_processors.cookie_management_enabled",
                 "portal.context_processors.process_newsletter_form",
             ]
@@ -232,7 +233,7 @@ SITE_ID = 1
 
 from common.csp_config import *
 
-if MODULE_NAME == "local":
+if ENV == "local":
     # NOTE: This is only used locally for testing purposes.
     os.environ.setdefault(
         "ENCRYPTION_KEY", "XTgWqMlZCMI_E5BvCArkif9nrJIIhe_6Ic6Q_UcWJDk="
@@ -246,7 +247,5 @@ CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 CONSTANCE_CONFIG = {
     "MAINTENANCE_MODE": (False, "Enable maintenance mode for the site", bool),
 }
-
-ENV = MODULE_NAME
 
 from codeforlife.settings import GCP_KMS_KEY_URI, SECRET_KEY

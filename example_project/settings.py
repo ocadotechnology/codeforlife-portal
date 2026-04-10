@@ -1,4 +1,5 @@
 """Django settings for example_project project."""
+
 import os
 
 DEBUG = True
@@ -80,11 +81,17 @@ PIPELINE = {
             "output_filename": "portal/css/portal.css",
         },
         "popup": {
-            "source_filenames": (os.path.join(BASE_DIR, "static/portal/sass/partials/_popup.scss"),),
+            "source_filenames": (
+                os.path.join(
+                    BASE_DIR, "static/portal/sass/partials/_popup.scss"
+                ),
+            ),
             "output_filename": "portal/css/popup.css",
         },
         "game-scss": {
-            "source_filenames": (os.path.join(BASE_DIR, "static/game/sass/game.scss"),),
+            "source_filenames": (
+                os.path.join(BASE_DIR, "static/game/sass/game.scss"),
+            ),
             "output_filename": "game/css/gamestyles.css",
         },
     },
@@ -139,7 +146,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "sekizai.context_processors.sekizai",
-                "common.context_processors.module_name",
+                "common.context_processors.env",
                 "common.context_processors.cookie_management_enabled",
                 "portal.context_processors.process_newsletter_form",
             ]
@@ -152,7 +159,9 @@ CLOUD_STORAGE_PREFIX = "https://storage.googleapis.com/codeforlife-assets/"
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "handlers": {"console": {"level": "DEBUG", "class": "logging.StreamHandler"}},
+    "handlers": {
+        "console": {"level": "DEBUG", "class": "logging.StreamHandler"}
+    },
     "loggers": {"two_factor": {"handlers": ["console"], "level": "INFO"}},
 }
 RAPID_ROUTER_EARLY_ACCESS_FUNCTION_NAME = "portal.beta.has_beta_access"
@@ -178,9 +187,11 @@ SITE_ID = 1
 
 from common.csp_config import *
 
-if MODULE_NAME == "local":
+if ENV == "local":
     # NOTE: This is only used locally for testing purposes.
-    os.environ.setdefault("ENCRYPTION_KEY", "XTgWqMlZCMI_E5BvCArkif9nrJIIhe_6Ic6Q_UcWJDk=")
+    os.environ.setdefault(
+        "ENCRYPTION_KEY", "XTgWqMlZCMI_E5BvCArkif9nrJIIhe_6Ic6Q_UcWJDk="
+    )
 
 ENCRYPTION_KEY = os.environ["ENCRYPTION_KEY"]
 
@@ -191,6 +202,5 @@ CONSTANCE_CONFIG = {
     "MAINTENANCE_MODE": (False, "Enable maintenance mode for the site", bool),
 }
 
-ENV = MODULE_NAME
 
 from codeforlife.settings import GCP_KMS_KEY_URI, SECRET_KEY

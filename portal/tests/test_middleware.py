@@ -28,7 +28,7 @@ class TestAdminAccessMiddleware(TestCase):
     redirected to the teacher dashboard.
     - An authenticated user who is a superuser AND has 2FA enabled isn't redirected.
     """
-    
+
     fixtures = ["legacy"]
 
     def setUp(self) -> None:
@@ -36,9 +36,7 @@ class TestAdminAccessMiddleware(TestCase):
         self.email, self.password = self._setup_user()
 
         self.monkeypatch = MonkeyPatch()
-        self.monkeypatch.setattr(
-            "deploy.middleware.admin_access.MODULE_NAME", "test"
-        )
+        self.monkeypatch.setattr("deploy.middleware.admin_access.ENV", "test")
 
     def _setup_user(self) -> Tuple[str, str]:
         email, password = signup_teacher_directly()

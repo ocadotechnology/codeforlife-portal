@@ -1,4 +1,4 @@
-from common.app_settings import MODULE_NAME
+from common.app_settings import ENV
 from common.utils import using_two_factor
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
@@ -26,7 +26,7 @@ class AdminAccessMiddleware(object):
                 return HttpResponseRedirect(reverse_lazy("teacher_login"))
 
     def _has_admin_access(self, request):
-        is_local = MODULE_NAME == "local"
+        is_local = ENV == "local"
         return (
             request.user.is_superuser
             and request.user.is_staff
