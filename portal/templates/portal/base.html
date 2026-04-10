@@ -235,6 +235,19 @@
     FreshworksWidget('hide');
     $('.freshdesk__contact-us').on('click', function() {
         FreshworksWidget('open');
+        {% if user|is_logged_in %}
+            FreshworksWidget('identify', 'ticketForm', {
+                name: "{{ user.first_name }} {{ user.last_name }}",
+                email: "{{ user.email }}",
+            });
+            FreshworksWidget('prefill', 'ticketForm', {
+                subject: "Support request - User ID: " + "{{ user|user_id }}",
+            });
+        {% else %}
+            FreshworksWidget('prefill', 'ticketForm', {
+                subject: "Support request - User ID: [Please enter your user ID]",
+            });
+        {% endif %}
     });
             </script>
             <script>
