@@ -239,8 +239,6 @@ if ENV == "local":
         "ENCRYPTION_KEY", "XTgWqMlZCMI_E5BvCArkif9nrJIIhe_6Ic6Q_UcWJDk="
     )
 
-ENCRYPTION_KEY = os.environ["ENCRYPTION_KEY"]
-
 AUTH_USER_MODEL = "user.User"
 
 CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
