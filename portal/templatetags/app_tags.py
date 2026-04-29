@@ -1,9 +1,9 @@
-from common import app_settings as common_app_settings
-from common.utils import using_two_factor
 from django import template
 from django.conf import settings
 from django.template.defaultfilters import stringfilter
 
+from common import app_settings as common_app_settings
+from common.utils import using_two_factor
 from portal import __version__, beta
 
 register = template.Library()
@@ -25,10 +25,7 @@ def is_logged_in(user):
     return (
         user
         and user.is_authenticated
-        and (
-            not using_two_factor(user)
-            or (hasattr(user, "is_verified") and user.userprofile.is_verified)
-        )
+        and (not using_two_factor(user) or (hasattr(user, "is_verified") and user.userprofile.is_verified))
     )
 
 
@@ -60,13 +57,14 @@ def make_into_username(user):
     return username
 
 
+@register.filter(name="user_id")
+def user_id(user):
+    return user.pk
+
+
 @register.filter(name="is_logged_in_as_teacher")
 def is_logged_in_as_teacher(user):
-    return (
-        is_logged_in(user)
-        and user.userprofile
-        and hasattr(user.userprofile, "teacher")
-    )
+    return is_logged_in(user) and user.userprofile and hasattr(user.userprofile, "teacher")
 
 
 @register.filter(name="is_logged_in_as_admin_teacher")
@@ -106,10 +104,7 @@ def is_logged_in_as_school_user(user):
         is_logged_in(user)
         and user.userprofile
         and (
-            (
-                hasattr(user.userprofile, "student")
-                and user.userprofile.student.class_field is not None
-            )
+            (hasattr(user.userprofile, "student") and user.userprofile.student.class_field is not None)
             or hasattr(user.userprofile, "teacher")
         )
     )

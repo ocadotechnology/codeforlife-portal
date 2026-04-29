@@ -103,7 +103,10 @@
             <div class="dropdown header__account-details-dropdown">
                 <button id="logout_menu" class="button--regular button--secondary button--dropdown header__account-details-dropdown"
                         data-toggle="dropdown">
-                    <div class="dropdown__text">{{ user|make_into_username }}</div>
+                    <div class="is-flex flex-column flex-grow-1 align-items-start">
+                        <div class="dropdown__text">{{ user|make_into_username }}</div>
+                        <small>User ID: {{ user|user_id }}</small>
+                    </div>
                 </button>
                 <ul class="dropdown-menu header__account-details-dropdown-menu">
                     <li class="dropdown-menu__option">
@@ -174,6 +177,9 @@
         {% if user|is_logged_in %}
             <div class="menu__item">
                 <h1>{{ user|make_into_username }}</h1>
+            </div>
+            <div class="menu__item">
+                <h3>User ID: {{ user|user_id }}</h3>
             </div>
             {% if user|is_logged_in_as_teacher %}
                 <button class="button--menu__item button--menu__item--sub-header"

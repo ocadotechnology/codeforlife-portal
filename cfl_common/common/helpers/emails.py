@@ -129,6 +129,7 @@ def send_verification_email(
                     personalization_values={
                         "VERIFICATION_LINK": url,
                         "SCHOOL_NAME": school.name,
+                        "USER_ID": user.pk,
                     },
                 )
             else:
@@ -137,7 +138,7 @@ def send_verification_email(
                 send_dotdigital_email(
                     campaign_ids["verify_new_user"],
                     [user.email],
-                    personalization_values={"VERIFICATION_LINK": url},
+                    personalization_values={"VERIFICATION_LINK": url, "USER_ID": user.pk},
                 )
 
                 if _newsletter_ticked(data):
@@ -158,6 +159,7 @@ def send_verification_email(
                     personalization_values={
                         "FIRST_NAME": user.first_name,
                         "ACTIVATION_LINK": url,
+                        "USER_ID": user.pk,
                     },
                 )
             else:
@@ -165,7 +167,7 @@ def send_verification_email(
                 send_dotdigital_email(
                     campaign_ids["verify_new_user"],
                     [user.email],
-                    personalization_values={"VERIFICATION_LINK": url},
+                    personalization_values={"VERIFICATION_LINK": url, "USER_ID": user.pk},
                 )
 
             if _newsletter_ticked(data):
@@ -183,7 +185,7 @@ def send_verification_email(
         send_dotdigital_email(
             campaign_ids["email_change_verification"],
             [new_email],
-            personalization_values={"VERIFICATION_LINK": url},
+            personalization_values={"VERIFICATION_LINK": url, "USER_ID": user.pk},
         )
 
 
