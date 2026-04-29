@@ -7,7 +7,9 @@ EMAIL_ADDRESS = getattr(
 )
 
 # Dotdigital authorization details
-DOTDIGITAL_AUTH = LatestSecret("DOTDIGITAL_AUTH", default="")
+DOTDIGITAL_AUTH = getattr(
+    settings, "DOTDIGITAL_AUTH", LatestSecret("DOTDIGITAL_AUTH", default="")
+)
 
 # Dotmailer URLs for adding users to the newsletter address book
 DOTMAILER_CREATE_CONTACT_URL = getattr(
@@ -24,10 +26,16 @@ DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = getattr(
 )
 
 # Dotmailer username for API authentication
-DOTMAILER_USER = LatestSecret("DOTMAILER_USER", default="")
+DOTMAILER_USER = getattr(
+    settings, "DOTMAILER_USER", LatestSecret("DOTMAILER_USER", default="")
+)
 
 # Dotmailer password for API authentication
-DOTMAILER_PASSWORD = LatestSecret("DOTMAILER_PASSWORD", default="")
+DOTMAILER_PASSWORD = getattr(
+    settings,
+    "DOTMAILER_PASSWORD",
+    LatestSecret("DOTMAILER_PASSWORD", default=""),
+)
 
 # Dotmailer default preferences to what users are signed up to
 DOTMAILER_DEFAULT_PREFERENCES = getattr(

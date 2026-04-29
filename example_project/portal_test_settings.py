@@ -2,6 +2,7 @@
 
 import os
 
+from codeforlife.settings import LatestSecret
 from selenium import webdriver
 
 DEBUG = True
@@ -38,7 +39,9 @@ if os.environ.get("SELENIUM_HEADLESS", None):
 
 ROOT_URLCONF = "example_project.urls"
 
-DOTDIGITAL_AUTH = "dummy_dotdigital_auth"
+DOTDIGITAL_AUTH = LatestSecret(
+    "DOTDIGITAL_AUTH", default="dummy_dotdigital_auth"
+)
 
 DOTMAILER_CREATE_CONTACT_URL = "https://test-create-contact/"
 DOTMAILER_DELETE_USER_BY_ID_URL = "https://test-delete-contact/"
@@ -50,8 +53,8 @@ DOTMAILER_GET_USER_BY_EMAIL_URL = "https://test-get-user/"
 DOTMAILER_PUT_CONSENT_DATA_URL = "https://test-consent-data/"
 DOTMAILER_SEND_CAMPAIGN_URL = "https://test-send-campaign/"
 DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = "1"
-DOTMAILER_USER = "username_here"
-DOTMAILER_PASSWORD = "password_here"
+DOTMAILER_USER = LatestSecret("DOTMAILER_USER", default="username_here")
+DOTMAILER_PASSWORD = LatestSecret("DOTMAILER_PASSWORD", default="password_here")
 DOTMAILER_DEFAULT_PREFERENCES = [{"trout": True}]
 
 
