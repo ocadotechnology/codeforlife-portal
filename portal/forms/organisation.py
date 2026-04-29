@@ -8,6 +8,14 @@ from django_countries.widgets import CountrySelectWidget
 
 
 class OrganisationForm(forms.ModelForm):
+    name = forms.CharField(
+        max_length=200,
+        help_text="Name of school or club",
+        widget=forms.TextInput(attrs={
+            "autocomplete": "off",
+            "placeholder": "Name of school or club"
+        }),
+    )
     county = forms.ChoiceField(
         choices=[
             [None, "(select county)"],
@@ -138,11 +146,9 @@ class OrganisationForm(forms.ModelForm):
         model = School
         fields = ["name", "country", "county"]
         widgets = {
-            "name": forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Name of school or club"}),
             "country": CountrySelectWidget(layout="{widget}"),
         }
         help_texts = {
-            "name": "Name of school or club",
             "country": "Country (optional)",
         }
 
@@ -156,7 +162,7 @@ class OrganisationForm(forms.ModelForm):
 
         if name:
             try:
-                school = School.objects.get(name=name)
+                school = School.objects.get(_name_plain=name)
             except ObjectDoesNotExist:
                 return self.cleaned_data
 

@@ -5,6 +5,7 @@ from builtins import str
 from common.models import School, Student, UserProfile
 from common.tests.utils.classes import create_class_directly
 from common.tests.utils.teacher import signup_teacher_directly
+from common.tests.utils.organisation import create_organisation_directly
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy
@@ -14,6 +15,7 @@ User = get_user_model()
 class SecurityTestCase(TestCase):
     def _test_incorrect_teacher_cannot_login(self, view_name):
         email1, _ = signup_teacher_directly()
+        create_organisation_directly(email1)
         email2, pass2 = signup_teacher_directly()
         _, _, access_code = create_class_directly(email1)
 
@@ -24,6 +26,7 @@ class SecurityTestCase(TestCase):
 
     def _test_incorrect_teacher_no_info_leak(self, view_name):
         email1, _ = signup_teacher_directly()
+        create_organisation_directly(email1)
         email2, pass2 = signup_teacher_directly()
         _, _, access_code = create_class_directly(email1)
 

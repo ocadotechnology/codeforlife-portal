@@ -1,4 +1,4 @@
-{% if module_name == "default" %}
+{% if env == "production" %}
     <!-- Production Environment -->
     <noscript>
         <iframe
@@ -9,7 +9,7 @@
         </iframe>
     </noscript>
 {% endif %}
-{% if module_name == "staging" %}
+{% if env == "staging" %}
     <!-- Staging environment -->
     <noscript>
     <iframe

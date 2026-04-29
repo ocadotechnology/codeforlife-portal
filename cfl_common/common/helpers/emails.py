@@ -22,9 +22,15 @@ from requests.exceptions import RequestException
 
 User = get_user_model()
 
-NOTIFICATION_EMAIL = "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
-VERIFICATION_EMAIL = "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
-PASSWORD_RESET_EMAIL = "Code For Life Password Reset <" + app_settings.EMAIL_ADDRESS + ">"
+NOTIFICATION_EMAIL = (
+    "Code For Life Notification <" + app_settings.EMAIL_ADDRESS + ">"
+)
+VERIFICATION_EMAIL = (
+    "Code For Life Verification <" + app_settings.EMAIL_ADDRESS + ">"
+)
+PASSWORD_RESET_EMAIL = (
+    "Code For Life Password Reset <" + app_settings.EMAIL_ADDRESS + ">"
+)
 INVITE_FROM = "Code For Life Invitation <" + app_settings.EMAIL_ADDRESS + ">"
 
 
@@ -48,7 +54,9 @@ def generate_token_for_email(email: str, new_email: str = ""):
             "email": email,
             "new_email": new_email,
             "email_verification_token": uuid4().hex[:30],
-            "expires": (timezone.now() + datetime.timedelta(hours=1)).timestamp(),
+            "expires": (
+                timezone.now() + datetime.timedelta(hours=1)
+            ).timestamp(),
         },
         settings.SECRET_KEY,
         algorithm="HS256",
@@ -81,7 +89,9 @@ def send_email(
     )
 
 
-def send_verification_email(request, user, data, new_email=None, age=None, school=None):
+def send_verification_email(
+    request, user, data, new_email=None, age=None, school=None
+):
     """
     Sends emails relating to email address verification.
 
@@ -188,7 +198,9 @@ def add_to_dotmailer(
 ):
     try:
         create_contact(first_name, last_name, email)
-        add_contact_to_address_book(first_name, last_name, email, address_book_id, user_type)
+        add_contact_to_address_book(
+            first_name, last_name, email, address_book_id, user_type
+        )
     except RequestException:
         return HttpResponse(status=404)
 
@@ -222,7 +234,7 @@ def create_contact(first_name, last_name, email):
     post(
         url,
         json=body,
-        auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+        auth=(app_settings.DOTMAILER_USER(), app_settings.DOTMAILER_PASSWORD()),
     )
 
 
@@ -249,21 +261,30 @@ def add_contact_to_address_book(
     post(
         main_address_book_url,
         json=body,
-        auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+        auth=(app_settings.DOTMAILER_USER(), app_settings.DOTMAILER_PASSWORD()),
     )
 
     if user_type is not None:
-        specific_address_book_url = app_settings.DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL
+        specific_address_book_url = (
+            app_settings.DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL
+        )
 
         if user_type == DotmailerUserType.TEACHER:
-            specific_address_book_url = app_settings.DOTMAILER_TEACHER_ADDRESS_BOOK_URL
+            specific_address_book_url = (
+                app_settings.DOTMAILER_TEACHER_ADDRESS_BOOK_URL
+            )
         elif user_type == DotmailerUserType.STUDENT:
-            specific_address_book_url = app_settings.DOTMAILER_STUDENT_ADDRESS_BOOK_URL
+            specific_address_book_url = (
+                app_settings.DOTMAILER_STUDENT_ADDRESS_BOOK_URL
+            )
 
         post(
             specific_address_book_url,
             json=body,
-            auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+            auth=(
+                app_settings.DOTMAILER_USER(),
+                app_settings.DOTMAILER_PASSWORD(),
+            ),
         )
 
 
@@ -272,12 +293,14 @@ def delete_contact(email: str):
         user = get_dotmailer_user_by_email(email)
         user_id = user.get("id")
         if user_id:
-            url = app_settings.DOTMAILER_DELETE_USER_BY_ID_URL.replace("ID", str(user_id))
+            url = app_settings.DOTMAILER_DELETE_USER_BY_ID_URL.replace(
+                "ID", str(user_id)
+            )
             delete(
                 url,
                 auth=(
-                    app_settings.DOTMAILER_USER,
-                    app_settings.DOTMAILER_PASSWORD,
+                    app_settings.DOTMAILER_USER(),
+                    app_settings.DOTMAILER_PASSWORD(),
                 ),
             )
     except RequestException:
@@ -287,7 +310,10 @@ def delete_contact(email: str):
 def get_dotmailer_user_by_email(email):
     url = app_settings.DOTMAILER_GET_USER_BY_EMAIL_URL.replace("EMAIL", email)
 
-    response = get(url, auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD))
+    response = get(
+        url,
+        auth=(app_settings.DOTMAILER_USER(), app_settings.DOTMAILER_PASSWORD()),
+    )
 
     return json.loads(response.content)
 
@@ -295,7 +321,9 @@ def get_dotmailer_user_by_email(email):
 def add_consent_record_to_dotmailer_user(user):
     consent_date_time = datetime.datetime.now().__str__()
 
-    url = app_settings.DOTMAILER_PUT_CONSENT_DATA_URL.replace("USER_ID", str(user["id"]))
+    url = app_settings.DOTMAILER_PUT_CONSENT_DATA_URL.replace(
+        "USER_ID", str(user["id"])
+    )
     body = {
         "contact": {
             "email": user["email"],
@@ -303,13 +331,19 @@ def add_consent_record_to_dotmailer_user(user):
             "emailType": user["emailType"],
             "dataFields": user["dataFields"],
         },
-        "consentFields": [{"fields": [{"key": "DATETIMECONSENTED", "value": consent_date_time}]}],
+        "consentFields": [
+            {
+                "fields": [
+                    {"key": "DATETIMECONSENTED", "value": consent_date_time}
+                ]
+            }
+        ],
     }
 
     put(
         url,
         json=body,
-        auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+        auth=(app_settings.DOTMAILER_USER(), app_settings.DOTMAILER_PASSWORD()),
     )
 
 
@@ -321,7 +355,7 @@ def send_dotmailer_consent_confirmation_email_to_user(user):
     post(
         url,
         json=body,
-        auth=(app_settings.DOTMAILER_USER, app_settings.DOTMAILER_PASSWORD),
+        auth=(app_settings.DOTMAILER_USER(), app_settings.DOTMAILER_PASSWORD()),
     )
 
 
@@ -331,7 +365,7 @@ def update_indy_email(user, request, data):
 
     if new_email != "" and new_email != user.email:
         changing_email = True
-        users_with_email = User.objects.filter(email=new_email)
+        users_with_email = User.objects.filter(_email_plain=new_email)
 
         send_dotdigital_email(
             campaign_ids["email_change_notification"],
@@ -352,7 +386,7 @@ def update_email(user: Teacher or Student, request, data):
 
     if new_email != "" and new_email != user.new_user.email:
         changing_email = True
-        users_with_email = User.objects.filter(email=new_email)
+        users_with_email = User.objects.filter(_email_plain=new_email)
 
         send_dotdigital_email(
             campaign_ids["email_change_notification"],

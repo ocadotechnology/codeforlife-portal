@@ -37,7 +37,7 @@ def is_developer(user):
 @register.filter
 def is_production(request):
     # 'production' excludes localhost/dev/staging
-    return common_app_settings.MODULE_NAME == "default"
+    return common_app_settings.ENV == "production"
 
 
 @register.filter

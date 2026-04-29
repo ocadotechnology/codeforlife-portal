@@ -1,6 +1,8 @@
 """Django settings for example_project project."""
+
 import os
 
+from codeforlife.settings import LatestSecret
 from selenium import webdriver
 
 DEBUG = True
@@ -36,9 +38,10 @@ if os.environ.get("SELENIUM_HEADLESS", None):
     atexit.register(lambda: display.stop())
 
 ROOT_URLCONF = "example_project.urls"
-SECRET_KEY = "bad_test_secret"
 
-DOTDIGITAL_AUTH = "dummy_dotdigital_auth"
+DOTDIGITAL_AUTH = LatestSecret(
+    "DOTDIGITAL_AUTH", default="dummy_dotdigital_auth"
+)
 
 DOTMAILER_CREATE_CONTACT_URL = "https://test-create-contact/"
 DOTMAILER_DELETE_USER_BY_ID_URL = "https://test-delete-contact/"
@@ -50,8 +53,8 @@ DOTMAILER_GET_USER_BY_EMAIL_URL = "https://test-get-user/"
 DOTMAILER_PUT_CONSENT_DATA_URL = "https://test-consent-data/"
 DOTMAILER_SEND_CAMPAIGN_URL = "https://test-send-campaign/"
 DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = "1"
-DOTMAILER_USER = "username_here"
-DOTMAILER_PASSWORD = "password_here"
+DOTMAILER_USER = LatestSecret("DOTMAILER_USER", default="username_here")
+DOTMAILER_PASSWORD = LatestSecret("DOTMAILER_PASSWORD", default="password_here")
 DOTMAILER_DEFAULT_PREFERENCES = [{"trout": True}]
 
 
@@ -191,7 +194,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "sekizai.context_processors.sekizai",
-                "common.context_processors.module_name",
+                "common.context_processors.env",
                 "common.context_processors.cookie_management_enabled",
                 "portal.context_processors.process_newsletter_form",
             ]
@@ -233,14 +236,6 @@ SITE_ID = 1
 
 from common.csp_config import *
 
-if MODULE_NAME == "local":
-    # NOTE: This is only used locally for testing purposes.
-    os.environ.setdefault(
-        "ENCRYPTION_KEY", "XTgWqMlZCMI_E5BvCArkif9nrJIIhe_6Ic6Q_UcWJDk="
-    )
-
-ENCRYPTION_KEY = os.environ["ENCRYPTION_KEY"]
-
 AUTH_USER_MODEL = "user.User"
 
 CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
@@ -248,6 +243,4 @@ CONSTANCE_CONFIG = {
     "MAINTENANCE_MODE": (False, "Enable maintenance mode for the site", bool),
 }
 
-ENV = MODULE_NAME
-
-from codeforlife.settings import GCP_KMS_KEY_URI
+from codeforlife.settings import GCP_KMS_KEY_URI, SECRET_KEY

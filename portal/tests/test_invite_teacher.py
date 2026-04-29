@@ -5,7 +5,10 @@ from uuid import uuid4
 import pytest
 from common.models import SchoolTeacherInvitation, Teacher
 from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly, join_teacher_to_organisation
+from common.tests.utils.organisation import (
+    create_organisation_directly,
+    join_teacher_to_organisation,
+)
 from common.tests.utils.teacher import signup_teacher_directly
 from django.contrib.messages import get_messages
 from django.core import mail
@@ -29,10 +32,10 @@ class TestInviteTeacher(TestCase):
         email, password = signup_teacher_directly()
         school = create_organisation_directly(email)
         create_class_directly(email)
-        teacher = Teacher.objects.get(new_user__email=email)
+        teacher = Teacher.objects.get(new_user___email_plain=email)
 
         client = Client()
-        client.login(username=email, password=password)
+        client.login(_username_plain=email, password=password)
 
         invited_teacher_first_name = "Valid"
         invited_teacher_last_name = "Name"
@@ -60,7 +63,7 @@ class TestInviteTeacher(TestCase):
         client.logout()
 
         # Complete the registration as the invited teacher
-        invitation = SchoolTeacherInvitation.objects.get(invited_teacher_email=invited_teacher_email)
+        invitation = SchoolTeacherInvitation.objects.get(_invited_teacher_email_plain=invited_teacher_email)
         invitation_url = reverse("invited_teacher", kwargs={"token": invitation.token})
         response = client.post(
             invitation_url,
@@ -77,7 +80,7 @@ class TestInviteTeacher(TestCase):
         assert messages[0] == "Your account has been created successfully, please log in."
 
         # Check that the teacher account is created successfully and linked to the school
-        invited_teacher = Teacher.objects.get(new_user__email=invited_teacher_email)
+        invited_teacher = Teacher.objects.get(new_user___email_plain=invited_teacher_email)
         assert invited_teacher.new_user.first_name == invited_teacher_first_name
         assert invited_teacher.new_user.last_name == invited_teacher_last_name
         assert invited_teacher.school == school
@@ -85,7 +88,7 @@ class TestInviteTeacher(TestCase):
 
         # Check that the invitation is now inactive
         with pytest.raises(SchoolTeacherInvitation.DoesNotExist):
-            SchoolTeacherInvitation.objects.get(invited_teacher_email=invited_teacher_email)
+            SchoolTeacherInvitation.objects.get(_invited_teacher_email_plain=invited_teacher_email)
         old_invitation = SchoolTeacherInvitation._base_manager.get(id=invitation.id)
         assert old_invitation.invited_teacher_first_name != invited_teacher_first_name
         assert old_invitation.invited_teacher_last_name != invited_teacher_last_name
@@ -96,10 +99,10 @@ class TestInviteTeacher(TestCase):
         email, password = signup_teacher_directly()
         school = create_organisation_directly(email)
         create_class_directly(email)
-        teacher = Teacher.objects.get(new_user__email=email)
+        teacher = Teacher.objects.get(new_user___email_plain=email)
 
         client = Client()
-        client.login(username=email, password=password)
+        client.login(_username_plain=email, password=password)
 
         # Try to invite a teacher with an invalid email address
         dashboard_url = reverse("dashboard")
@@ -163,7 +166,7 @@ class TestInviteTeacher(TestCase):
 
         # Log in as standard teacher, try inviting a teacher, no invitation should be created
         client = Client()
-        client.login(username=standard_email, password=standard_password)
+        client.login(_username_plain=standard_email, password=standard_password)
 
         dashboard_url = reverse("dashboard")
         data = {
@@ -181,10 +184,10 @@ class TestInviteTeacher(TestCase):
         assert len(mail.outbox) == 0
         client.logout()
 
-        assert not SchoolTeacherInvitation.objects.filter(invited_teacher_email="new@teacher.com").exists()
+        assert not SchoolTeacherInvitation.objects.filter(_invited_teacher_email_plain="new@teacher.com").exists()
 
         # Log in as admin teacher to invite a teacher
-        client.login(username=admin_email, password=admin_password)
+        client.login(_username_plain=admin_email, password=admin_password)
 
         dashboard_url = reverse("dashboard")
         data = {
@@ -197,11 +200,11 @@ class TestInviteTeacher(TestCase):
         client.post(dashboard_url, data)
         client.logout()
 
-        assert SchoolTeacherInvitation.objects.filter(invited_teacher_email="new@teacher.com").exists()
-        invite =  SchoolTeacherInvitation.objects.get(invited_teacher_email="new@teacher.com")
+        assert SchoolTeacherInvitation.objects.filter(_invited_teacher_email_plain="new@teacher.com").exists()
+        invite =  SchoolTeacherInvitation.objects.get(_invited_teacher_email_plain="new@teacher.com")
 
         # Log in as standard teacher, try resending and deleting the invitation, both should fail
-        client.login(username=standard_email, password=standard_password)
+        client.login(_username_plain=standard_email, password=standard_password)
 
         response = client.post(reverse("resend_invite_teacher", kwargs={"token": invite.token}))
         message = list(response.wsgi_request._messages)[0].message
@@ -217,7 +220,7 @@ class TestInviteTeacher(TestCase):
         create_class_directly(email)
 
         client = Client()
-        client.login(username=email, password=password)
+        client.login(_username_plain=email, password=password)
 
         response = client.post(reverse("delete_teacher_invite", kwargs={"token": "2345678"}))
         message = list(response.wsgi_request._messages)[0].message
@@ -258,7 +261,7 @@ class TestTeacherInviteActions(BaseTest):
         sleep(1)
         page.browser.find_element(By.ID, "add_admin_button").click()
 
-        invite = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0]
+        invite = SchoolTeacherInvitation.objects.filter(_invited_teacher_first_name_plain="Adam")[0]
         assert invite.invited_teacher_is_admin
         banner = page.browser.find_element(By.ID, "messages")
         assert "Administrator invite status has been given successfully" in banner.text
@@ -286,7 +289,7 @@ class TestTeacherInviteActions(BaseTest):
         page.browser.find_element(By.NAME, "invite_teacher_button").click()
 
         # check object was created
-        invite_queryset = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")
+        invite_queryset = SchoolTeacherInvitation.objects.filter(_invited_teacher_first_name_plain="Adam")
         assert len(invite_queryset) == 1
         sleep(FADE_TIME)
         # delete
@@ -295,7 +298,7 @@ class TestTeacherInviteActions(BaseTest):
         )
         delete_invite_button.click()
 
-        empty_invite_queryset = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")
+        empty_invite_queryset = SchoolTeacherInvitation.objects.filter(_invited_teacher_first_name_plain="Adam")
         assert len(empty_invite_queryset) == 0
 
     def test_resend_invite(self):
@@ -325,5 +328,5 @@ class TestTeacherInviteActions(BaseTest):
         page.browser.find_element(By.ID, "resend-invite").click()
 
         # check if invite was updated by 30 days (used 29 for rounding errors)
-        new_invite_expiry = SchoolTeacherInvitation.objects.filter(invited_teacher_first_name="Adam")[0].expiry
+        new_invite_expiry = SchoolTeacherInvitation.objects.filter(_invited_teacher_first_name_plain="Adam")[0].expiry
         assert timezone.now() + timedelta(days=29) <= new_invite_expiry

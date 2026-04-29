@@ -16,6 +16,7 @@ from selenium.webdriver.common.by import By
 from portal.tests.pageObjects.portal.base_page import BasePage
 from portal.tests.pageObjects.portal.home_page import HomePage
 from portal.tests.test_invite_teacher import FADE_TIME
+
 from .base_test import BaseTest
 from .utils.messages import is_organisation_created_message_showing
 
@@ -56,7 +57,7 @@ class TestOrganisation(BaseTest, BasePage):
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_1, password_1)
 
-        teacher2 = Teacher.objects.get(new_user__email=email_2)
+        teacher2 = Teacher.objects.get(new_user___email_plain=email_2)
 
         assert page.is_teacher_in_school(teacher2.new_user.last_name)
 
@@ -72,15 +73,14 @@ class TestOrganisation(BaseTest, BasePage):
         school = create_organisation_directly(email_1)
         _, _, access_code_1 = create_class_directly(email_1)
         create_school_student_directly(access_code_1)
+        join_teacher_to_organisation(email_2, school.name)
         _, _, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
-
-        join_teacher_to_organisation(email_2, school.name)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_1, password_1)
 
-        teacher2 = Teacher.objects.get(new_user__email=email_2)
+        teacher2 = Teacher.objects.get(new_user___email_plain=email_2)
 
         assert page.is_teacher_in_school(teacher2.new_user.last_name)
 
@@ -100,10 +100,9 @@ class TestOrganisation(BaseTest, BasePage):
         school = create_organisation_directly(email_1)
         _, _, access_code_1 = create_class_directly(email_1)
         create_school_student_directly(access_code_1)
+        join_teacher_to_organisation(email_2, school.name)
         _, class_name_2, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
-
-        join_teacher_to_organisation(email_2, school.name)
 
         self.selenium.get(self.live_server_url)
         page = HomePage(self.selenium).go_to_teacher_login_page().login(email_2, password_2)
@@ -118,7 +117,7 @@ class TestOrganisation(BaseTest, BasePage):
 
         page = page.logout().go_to_teacher_login_page().login(email_1, password_1)
 
-        teacher2 = Teacher.objects.get(new_user__email=email_2)
+        teacher2 = Teacher.objects.get(new_user___email_plain=email_2)
 
         assert page.is_not_teacher_in_school(teacher2.new_user.last_name)
 

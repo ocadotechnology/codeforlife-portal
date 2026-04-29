@@ -12,9 +12,9 @@ from common.models import (
     UserProfile,
 )
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as _UserAdmin
 from django.contrib.auth.models import User as DjangoUser
-from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from import_export.admin import ExportActionMixin
 
@@ -26,12 +26,13 @@ from portal.views.api import anonymise
 
 User = get_user_model()
 
+
 class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
-        "name",
-        "teacher__new_user__first_name",
-        "teacher__new_user__last_name",
-        "teacher__school__name",
+        "_name_plain",
+        "teacher__new_user___first_name_plain",
+        "teacher__new_user___last_name_plain",
+        "teacher__school___name_plain",
     ]
     list_display = [
         "__str__",
@@ -50,7 +51,7 @@ class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
 
 
 class SchoolAdmin(admin.ModelAdmin, ExportActionMixin):
-    search_fields = ["name", "country", "county"]
+    search_fields = ["_name_plain", "country", "county"]
     list_filter = ["county", "country"]
     list_display = [
         "__str__",
@@ -69,13 +70,13 @@ class SchoolAdmin(admin.ModelAdmin, ExportActionMixin):
 
 class StudentAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
-        "new_user__first_name",
-        "new_user__last_name",
-        "new_user__username",
-        "class_field__name",
-        "class_field__teacher__new_user__first_name",
-        "class_field__teacher__new_user__last_name",
-        "class_field__teacher__school__name",
+        "new_user___first_name_plain",
+        "new_user___last_name_plain",
+        "new_user___username_plain",
+        "class_field___name_plain",
+        "class_field__teacher__new_user___first_name_plain",
+        "class_field__teacher__new_user___last_name_plain",
+        "class_field__teacher__school___name_plain",
     ]
     list_display = [
         "__str__",
@@ -102,10 +103,10 @@ class StudentAdmin(admin.ModelAdmin, ExportActionMixin):
 
 class TeacherAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
-        "new_user__first_name",
-        "new_user__last_name",
-        "school__name",
-        "new_user__username",
+        "new_user___first_name_plain",
+        "new_user___last_name_plain",
+        "school___name_plain",
+        "new_user___username_plain",
     ]
     list_display = [
         "__str__",
@@ -124,9 +125,9 @@ class TeacherAdmin(admin.ModelAdmin, ExportActionMixin):
 class UserProfileAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
         "id",
-        "user__first_name",
-        "user__last_name",
-        "user__username",
+        "user___first_name_plain",
+        "user___last_name_plain",
+        "user___username_plain",
         "user__date_joined",
     ]
     list_filter = ["user__date_joined"]
@@ -143,13 +144,13 @@ class UserProfileAdmin(admin.ModelAdmin, ExportActionMixin):
 
 class SchoolTeacherInvitationAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
-        "from_teacher__new_user__first_name",
-        "from_teacher__new_user__last_name",
-        "from_teacher__new_user__email",
-        "school__name",
-        "invited_teacher_first_name",
-        "invited_teacher_last_name",
-        "invited_teacher_email",
+        "from_teacher__new_user___first_name_plain",
+        "from_teacher__new_user___last_name_plain",
+        "from_teacher__new_user___email_plain",
+        "school___name_plain",
+        "_invited_teacher_first_name_plain",
+        "_invited_teacher_last_name_plain",
+        "_invited_teacher_email_plain",
         "expiry",
         "creation_time",
     ]
@@ -179,6 +180,13 @@ _UserAdmin.list_filter += ("date_joined",)
 
 
 class UserAdmin(_UserAdmin):
+    search_fields = (
+        "_username_plain",
+        "_first_name_plain",
+        "_last_name_plain",
+        "_email_plain",
+    )
+    ordering = ("_username_plain",)
     actions = ["anonymise_user", "export_as_csv"]
     add_form = AdminUserCreationForm
     change_password_form = AdminChangeUserPasswordForm

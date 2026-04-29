@@ -6,6 +6,7 @@ from django.contrib.auth.forms import (
     PasswordChangeForm,
     UserCreationForm,
     AdminPasswordChangeForm,
+    UsernameField
 )
 
 User = get_user_model()
@@ -45,6 +46,8 @@ class AdminUserCreationForm(UserCreationForm):
         "password_too_weak": ADMIN_PASSWORD_TOO_WEAK_MESSAGE,
     }
 
+    username = UsernameField()
+
     def clean_password1(self):
         password1 = self.cleaned_data["password1"]
 
@@ -55,7 +58,11 @@ class AdminUserCreationForm(UserCreationForm):
             )
 
         return password1
-    
+
+    def clean_username(self):
+        """Cannot use super method as usernames are encrypted."""
+        return self.cleaned_data.get("username")
+
     class Meta(UserCreationForm.Meta):
         model = User
 

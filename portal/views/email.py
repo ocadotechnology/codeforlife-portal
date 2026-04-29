@@ -17,7 +17,7 @@ User = get_user_model()
 def verify_email(request, token):
     decoded_jwt = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
 
-    user_found = User.objects.filter(email=decoded_jwt["email"]).first()
+    user_found = User.objects.filter(_email_plain=decoded_jwt["email"]).first()
     usertype = (
         "TEACHER"
         if Teacher.objects.filter(new_user=user_found).exists()

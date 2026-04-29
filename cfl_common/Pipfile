@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-codeforlife = "==0.32.6"
+codeforlife = {ref = "workspace_1074_2", git = "https://github.com/ocadotechnology/codeforlife-package-python.git"}
 django-import-export = "==4.2.0"
 django-pipeline = "==4.1.0"
 django-two-factor-auth = "==1.18.1"

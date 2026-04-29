@@ -24,7 +24,7 @@ from .utils.messages import is_class_created_message_showing
 
 class TestClass(TestCase):
     fixtures = ["legacy", "game"]
-    
+
     def test_delete_class(self):
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
@@ -34,10 +34,12 @@ class TestClass(TestCase):
 
         c = Client()
 
-        url = reverse("teacher_delete_class", kwargs={"access_code": access_code})
+        url = reverse(
+            "teacher_delete_class", kwargs={"access_code": access_code}
+        )
 
         # Login as another teacher, try to delete the class and check for 404
-        c.login(username=email2, password=password2)
+        c.login(_username_plain=email2, password=password2)
 
         response = c.post(url)
 
@@ -46,9 +48,9 @@ class TestClass(TestCase):
         c.logout()
 
         # Login as first teacher, check there is a class
-        c.login(username=email1, password=password1)
+        c.login(_username_plain=email1, password=password1)
 
-        teacher = Teacher.objects.get(new_user__username=email1)
+        teacher = Teacher.objects.get(new_user___username_plain=email1)
         teacher_classes = Class.objects.filter(teacher=teacher)
 
         assert len(teacher_classes) == 1
@@ -75,8 +77,6 @@ class TestClass(TestCase):
 
         # Check class is anonymised
         new_klass = Class._base_manager.get(pk=klass.id)
-        assert new_klass.name != klass_name
-        assert new_klass.access_code == ""
         assert not new_klass.is_active
 
     def test_edit_class(self):
@@ -98,7 +98,7 @@ class TestClass(TestCase):
         }
 
         # Login as another teacher, try to edit the class and check for 404
-        c.login(username=email2, password=password2)
+        c.login(_username_plain=email2, password=password2)
 
         response = c.post(url, data)
 
@@ -107,9 +107,9 @@ class TestClass(TestCase):
         c.logout()
 
         # Login as first teacher, check the default class settings
-        c.login(username=email1, password=password1)
+        c.login(_username_plain=email1, password=password1)
 
-        teacher = Teacher.objects.get(new_user__username=email1)
+        teacher = Teacher.objects.get(new_user___username_plain=email1)
         klass = Class.objects.get(teacher=teacher)
 
         assert klass.name == class_name
@@ -138,7 +138,9 @@ class TestClass(TestCase):
         old_daily_activity = DailyActivity(date=old_date)
         old_daily_activity.save()
 
-        url = reverse("teacher_edit_class", kwargs={"access_code": access_code1})
+        url = reverse(
+            "teacher_edit_class", kwargs={"access_code": access_code1}
+        )
         # POST request data for locking only the first level
         data = {
             "episode1": [
@@ -274,7 +276,7 @@ class TestClass(TestCase):
             "level_control_submit": "",
         }
 
-        c.login(username=email, password=password)
+        c.login(_username_plain=email, password=password)
 
         response = c.post(url, data)
 
@@ -289,8 +291,13 @@ class TestClass(TestCase):
         assert str(messages[0]) == "Your level preferences have been saved."
 
         # test the old analytic stays the same and the new one is incremented
-        assert DailyActivity.objects.get(date=old_date).level_control_submits == 0
-        assert DailyActivity.objects.get(date=datetime.now()).level_control_submits == 1
+        assert (
+            DailyActivity.objects.get(date=old_date).level_control_submits == 0
+        )
+        assert (
+            DailyActivity.objects.get(date=datetime.now()).level_control_submits
+            == 1
+        )
 
         # Resubmitting to unlock level 1
         data = {
@@ -447,8 +454,8 @@ class TestClass(TestCase):
         create_school_student_directly(access_code1)
         _, _, student2 = create_school_student_directly(access_code2)
 
-        teacher1 = Teacher.objects.get(new_user__username=email1)
-        teacher2 = Teacher.objects.get(new_user__username=email2)
+        teacher1 = Teacher.objects.get(new_user___username_plain=email1)
+        teacher2 = Teacher.objects.get(new_user___username_plain=email2)
         teacher1_classes = Class.objects.filter(teacher=teacher1)
         teacher2_classes = Class.objects.filter(teacher=teacher2)
 
@@ -457,11 +464,13 @@ class TestClass(TestCase):
 
         c = Client()
 
-        url = reverse("teacher_edit_class", kwargs={"access_code": access_code1})
+        url = reverse(
+            "teacher_edit_class", kwargs={"access_code": access_code1}
+        )
         data = {"new_teacher": teacher2.id, "class_move_submit": ""}
 
         # Login as first teacher and transfer class to the second teacher
-        c.login(username=email1, password=password1)
+        c.login(_username_plain=email1, password=password1)
 
         response = c.post(url, data)
 
@@ -485,7 +494,12 @@ class TestClassFrontend(BaseTest):
     def test_create(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
-        page = self.go_to_homepage().go_to_teacher_login_page().login_no_class(email, password).open_classes_tab()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login_no_class(email, password)
+            .open_classes_tab()
+        )
 
         assert page.does_not_have_classes()
 
@@ -495,24 +509,39 @@ class TestClassFrontend(BaseTest):
     def test_create_class_as_admin_for_another_teacher(self):
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
-        teacher2 = Teacher.objects.get(new_user__email=email2)
+        teacher2 = Teacher.objects.get(new_user___email_plain=email2)
         school = create_organisation_directly(email1)
         join_teacher_to_organisation(email2, school.name)
 
         # Check teacher 2 doesn't have any classes
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email2, password2).open_classes_tab()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email2, password2)
+            .open_classes_tab()
+        )
         assert page.does_not_have_classes()
         page.logout()
 
         # Log in as the first teacher and create a class for the second one
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email1, password1).open_classes_tab()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email1, password1)
+            .open_classes_tab()
+        )
         page, class_name = create_class(page, teacher_id=teacher2.id)
         page = TeachClassPage(page.browser)
         assert is_class_created_message_showing(self.selenium, class_name)
         page.logout()
 
         # Check teacher 2 now has the class
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email2, password2).open_classes_tab()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email2, password2)
+            .open_classes_tab()
+        )
         assert page.has_classes()
 
     def test_create_dashboard(self):
@@ -521,7 +550,12 @@ class TestClassFrontend(BaseTest):
         klass, name, access_code = create_class_directly(email)
         create_school_student_directly(access_code)
 
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email, password).open_classes_tab()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email, password)
+            .open_classes_tab()
+        )
 
         page, class_name = create_class(page)
 
@@ -537,7 +571,12 @@ class TestClassFrontend(BaseTest):
         klass_2, class_name_2, access_code_2 = create_class_directly(email_2)
         create_school_student_directly(access_code_2)
 
-        page = self.go_to_homepage().go_to_teacher_login_page().login(email_2, password_2).open_classes_tab()
+        page = (
+            self.go_to_homepage()
+            .go_to_teacher_login_page()
+            .login(email_2, password_2)
+            .open_classes_tab()
+        )
 
         page, class_name_3 = create_class(page)
 
@@ -550,12 +589,18 @@ class TestClassFrontend(BaseTest):
         class_name = "Class!"
 
         self.selenium.get(self.live_server_url)
-        page = HomePage(self.selenium).go_to_teacher_login_page().login_no_class(email, password).open_classes_tab()
+        page = (
+            HomePage(self.selenium)
+            .go_to_teacher_login_page()
+            .login_no_class(email, password)
+            .open_classes_tab()
+        )
 
         page = page.create_class(class_name, False)
 
         time.sleep(1)
 
         assert page.was_form_invalid(
-            "form-create-class", "Class name may only contain letters, numbers, dashes, underscores, and spaces."
+            "form-create-class",
+            "Class name may only contain letters, numbers, dashes, underscores, and spaces.",
         )

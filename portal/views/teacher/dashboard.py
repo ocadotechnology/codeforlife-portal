@@ -20,9 +20,8 @@ from common.models import (
 from common.permissions import check_teacher_authorised, logged_in_as_teacher
 from common.utils import using_two_factor
 from django.contrib import messages as messages
-from django.contrib.auth import logout
+from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth import get_user_model
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
@@ -50,6 +49,7 @@ from portal.helpers.ratelimit import (
     RATELIMIT_METHOD,
     clear_ratelimit_cache_for_user,
 )
+
 from .teach import create_class
 
 User = get_user_model()
@@ -92,7 +92,19 @@ def dashboard_teacher_view(request, is_admin):
     update_school_form = None
 
     if school:
-        coworkers = Teacher.objects.filter(school=school).order_by("new_user__last_name", "new_user__first_name")
+        coworkers = sorted(
+            Teacher.objects.filter(school=school).select_related("new_user").only(
+                "new_user__dek",
+                "new_user___last_name_enc",
+                "new_user___last_name_plain",
+                "new_user___first_name_enc",
+                "new_user___first_name_plain",
+            ),
+            key=lambda teacher: (
+                teacher.new_user.last_name.lower(),
+                teacher.new_user.first_name.lower(),
+            ),
+        )
 
         sent_invites = SchoolTeacherInvitation.objects.filter(school=school) if teacher.is_admin else []
 
@@ -168,7 +180,7 @@ def dashboard_teacher_view(request, is_admin):
                     expiry=timezone.now() + timedelta(days=30),
                 )
 
-                account_exists = User.objects.filter(email=invited_teacher_email).exists()
+                account_exists = User.objects.filter(_email_plain=invited_teacher_email).exists()
 
                 registration_link = f"{domain(request)}{reverse('invited_teacher', kwargs={'token': token})} "
 
@@ -504,7 +516,16 @@ def teacher_accept_student_request(request, pk):
 
     check_student_request_can_be_handled(request, student)
 
-    students = Student.objects.filter(class_field=student.pending_class_request).order_by("new_user__first_name")
+    students = sorted(
+        Student.objects.filter(class_field=student.pending_class_request)
+        .select_related("new_user")
+        .only(
+            "new_user__dek",
+            "new_user___first_name_plain",
+            "new_user___first_name_enc",
+        ),
+        key=lambda student: student.new_user.first_name.lower(),
+    )
 
     if request.method == "POST":
         form = TeacherAddExternalStudentForm(student.pending_class_request, request.POST)
@@ -602,7 +623,7 @@ def teacher_reject_student_request(request, pk):
 @login_required(login_url=reverse_lazy("teacher_login"))
 def delete_teacher_invite(request, token):
     try:
-        invite = SchoolTeacherInvitation.objects.get(token=token)
+        invite = SchoolTeacherInvitation.objects.get(_token_plain=token)
     except SchoolTeacherInvitation.DoesNotExist:
         invite = None
     teacher = request.user.new_teacher
@@ -626,7 +647,7 @@ def delete_teacher_invite(request, token):
 @login_required(login_url=reverse_lazy("teacher_login"))
 def resend_invite_teacher(request, token):
     try:
-        invite = SchoolTeacherInvitation.objects.get(token=token)
+        invite = SchoolTeacherInvitation.objects.get(_token_plain=token)
     except SchoolTeacherInvitation.DoesNotExist:
         invite = None
     teacher = request.user.new_teacher
@@ -690,11 +711,11 @@ def invited_teacher(request, token):
 
 def process_teacher_invitation(request, token):
     try:
-        invitation = SchoolTeacherInvitation.objects.get(token=token, expiry__gt=timezone.now())
+        invitation = SchoolTeacherInvitation.objects.get(_token_plain=token, expiry__gt=timezone.now())
     except SchoolTeacherInvitation.DoesNotExist:
         return "Uh oh, the Invitation does not exist or it has expired. 😞"
 
-    if User.objects.filter(email=invitation.invited_teacher_email).exists():
+    if User.objects.filter(_email_plain=invitation.invited_teacher_email).exists():
         return (
             "It looks like an account is already registered with this email address. You will need to delete the "
             "other account first or change the email associated with it in order to proceed. You will then be able to "

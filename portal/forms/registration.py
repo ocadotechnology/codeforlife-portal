@@ -67,7 +67,7 @@ class PasswordResetForm(forms.Form):
         """
         UserModel = get_user_model()
         if self.username:
-            active_users = UserModel._default_manager.filter(username=self.username, is_active=True)
+            active_users = UserModel._default_manager.filter(_username_plain=self.username, is_active=True)
             for user in active_users:
                 # Make sure that no email is sent to a user that actually has
                 # a password marked as unusable
@@ -103,7 +103,7 @@ class TeacherPasswordResetForm(PasswordResetForm):
     def clean_email(self):
         email = self.cleaned_data.get("email", None)
         self.username = ""
-        teacher = Teacher.objects.filter(new_user__email=email)
+        teacher = Teacher.objects.filter(new_user___email_plain=email)
         # Check such an email exists
         if teacher.exists():
             self.username = teacher[0].new_user.username
@@ -114,7 +114,7 @@ class StudentPasswordResetForm(PasswordResetForm):
     def clean_email(self):
         email = self.cleaned_data.get("email", None)
         self.username = ""
-        student = Student.objects.filter(new_user__email=email)
+        student = Student.objects.filter(new_user___email_plain=email)
         # Check such an email exists
         if student.exists():
             self.username = student[0].new_user.username

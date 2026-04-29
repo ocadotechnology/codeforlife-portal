@@ -1,8 +1,8 @@
 from common import app_settings
 
 
-def module_name(request):
-    return {"module_name": app_settings.MODULE_NAME}
+def env(request):
+    return {"env": app_settings.ENV}
 
 
 def cookie_management_enabled(request):

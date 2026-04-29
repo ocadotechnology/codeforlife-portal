@@ -28,7 +28,7 @@ class TestAdminAccessMiddleware(TestCase):
     redirected to the teacher dashboard.
     - An authenticated user who is a superuser AND has 2FA enabled isn't redirected.
     """
-    
+
     fixtures = ["legacy"]
 
     def setUp(self) -> None:
@@ -36,9 +36,7 @@ class TestAdminAccessMiddleware(TestCase):
         self.email, self.password = self._setup_user()
 
         self.monkeypatch = MonkeyPatch()
-        self.monkeypatch.setattr(
-            "deploy.middleware.admin_access.MODULE_NAME", "test"
-        )
+        self.monkeypatch.setattr("deploy.middleware.admin_access.ENV", "test")
 
     def _setup_user(self) -> Tuple[str, str]:
         email, password = signup_teacher_directly()
@@ -49,7 +47,7 @@ class TestAdminAccessMiddleware(TestCase):
         return email, password
 
     def _make_user_superuser(self) -> None:
-        user = User.objects.get(email=self.email)
+        user = User.objects.get(_email_plain=self.email)
         user.is_superuser = True
         user.is_staff = True
         user.save()
@@ -62,7 +60,7 @@ class TestAdminAccessMiddleware(TestCase):
         assert response.url == "/login/teacher/"
 
     def test_authenticated_user_with_no_permissions_is_redirected(self):
-        self.client.login(username=self.email, password=self.password)
+        self.client.login(_username_plain=self.email, password=self.password)
 
         response = self.client.get("/administration/")
 
@@ -75,7 +73,7 @@ class TestAdminAccessMiddleware(TestCase):
     def test_superuser_without_2FA_is_redirected(self):
         self._make_user_superuser()
 
-        self.client.login(username=self.email, password=self.password)
+        self.client.login(_username_plain=self.email, password=self.password)
 
         response = self.client.get("/administration/")
 
@@ -91,7 +89,7 @@ class TestAdminAccessMiddleware(TestCase):
         autospec=True,
     )
     def test_non_superuser_with_2FA_is_redirected(self, mock_using_two_factor):
-        self.client.login(username=self.email, password=self.password)
+        self.client.login(_username_plain=self.email, password=self.password)
 
         response = self.client.get("/administration/")
 
@@ -111,7 +109,7 @@ class TestAdminAccessMiddleware(TestCase):
     ):
         self._make_user_superuser()
 
-        self.client.login(username=self.email, password=self.password)
+        self.client.login(_username_plain=self.email, password=self.password)
 
         response = self.client.get("/administration/")
 
@@ -161,7 +159,7 @@ class TestSessionTimeoutMiddleware(TestCase):
         return email, password
 
     def test_session_timeout(self):
-        self.client.login(username=self.email, password=self.password)
+        self.client.login(_username_plain=self.email, password=self.password)
 
         self.client.get("/")
         user = auth.get_user(self.client)
@@ -180,7 +178,7 @@ class TestSessionTimeoutMiddleware(TestCase):
         assert str(messages[0]) == "You have been logged out due to inactivity."
 
     def test_session_reset(self):
-        self.client.login(username=self.email, password=self.password)
+        self.client.login(_username_plain=self.email, password=self.password)
 
         self.client.get("/")
         user = auth.get_user(self.client)
@@ -223,7 +221,7 @@ class TestScreentimeWarningMiddleware(TestCase):
         assert "screentime_warning_timeout" not in session
 
         # Log in as a teacher
-        self.client.login(username=self.email, password=self.password)
+        self.client.login(_username_plain=self.email, password=self.password)
 
         # Check the screentime_warning_timeout decreases after consecutive requests
         self.client.get("/")

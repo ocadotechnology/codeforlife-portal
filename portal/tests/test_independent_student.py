@@ -178,7 +178,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page = page.go_to_account_page()
 
         # save the user to check if it was anonymised
-        user = User.objects.get(email=email)
+        user = User.objects.get(_email_plain=email)
         user_id = user.id
 
         # first check if a wrong password triggers the error
