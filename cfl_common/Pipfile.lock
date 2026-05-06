@@ -34,10 +34,10 @@
         },
         "bazel-runfiles": {
             "hashes": [
-                "sha256:66fb0f221e72ad904086eda6b208e873c76a2f5511ea308e7eae449534abc202"
+                "sha256:cc8c6390587d0de162a0826f5e8a1537ac3f5f0ebb0cf5e76328da059ab4ec01"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.9.0"
+            "version": "==2.0.0"
         },
         "cachetools": {
             "hashes": [
@@ -49,11 +49,11 @@
         },
         "certifi": {
             "hashes": [
-                "sha256:027692e4402ad994f1c42e52a4997a9763c646b73e4096e4d5d6db8af1d6f0fa",
-                "sha256:e887ab5cee78ea814d3472169153c2d12cd43b14bd03329a39a9c6e2e80bfba7"
+                "sha256:3cb2210c8f88ba2318d29b0388d1023c8492ff72ecdde4ebdaddbb13a31b1c4a",
+                "sha256:8d455352a37b71bf76a79caa83a3d6c25afee4a385d632127b6afb3963f1c580"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==2026.2.25"
+            "version": "==2026.4.22"
         },
         "cffi": {
             "hashes": [
@@ -282,16 +282,16 @@
         },
         "click": {
             "hashes": [
-                "sha256:14162b8b3b3550a7d479eafa77dfd3c38d9dc8951f6f69c78913a8f9a7540fd5",
-                "sha256:1924d2c27c5653561cd2cae4548d1406039cb79b858b747cfea24924bbc1616d"
+                "sha256:398329ad4837b2ff7cbe1dd166a4c0f8900c3ca3a218de04466f38f6497f18a2",
+                "sha256:a2bf429bb3033c89fa4936ffb35d5cb471e3719e1f3c8a7c3fff0b8314305613"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==8.3.2"
+            "version": "==8.3.3"
         },
         "codeforlife": {
             "git": "https://github.com/ocadotechnology/codeforlife-package-python.git",
             "markers": "python_version == '3.12'",
-            "ref": "d69ba3b4e6c1a3b48fa57260a848dd9c4ea0b40f"
+            "ref": "b652e68259bb703fe4c9415f2c5e26729577bbab"
         },
         "cryptography": {
             "hashes": [
@@ -358,11 +358,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:5788fce61da23788a8ce6f02583765ab060d396720924789f97fa42119d37f7a",
-                "sha256:a31589db5188d074c63f0945c3888fad104627dfcc236fb2b97f71f89da33bc4"
+                "sha256:58a63ba841662e5c686b57ba1fec52ddd68c0b93bd96ac3029d55728f00bf8a2",
+                "sha256:6f712143bd3064310d1f50fac859c3e9a274bdcfc9595339853be7779297fc76"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==5.2.13"
+            "version": "==5.2.14"
         },
         "django-cors-headers": {
             "hashes": [
@@ -750,11 +750,11 @@
         },
         "idna": {
             "hashes": [
-                "sha256:771a87f49d9defaf64091e6e6fe9c18d4833f140bd19464795bc32d966ca37ea",
-                "sha256:795dafcc9c04ed0c1fb032c2aa73654d8e8c5023a7df64a53f39190ada629902"
+                "sha256:585ea8fe5d69b9181ec1afba340451fba6ba764af97026f92a91d4eef164a242",
+                "sha256:892ea0cde124a99ce773decba204c5552b69c3c67ffd5f232eb7696135bc8bb3"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==3.11"
+            "version": "==3.13"
         },
         "libsass": {
             "hashes": [
@@ -858,11 +858,11 @@
         },
         "packaging": {
             "hashes": [
-                "sha256:00243ae351a257117b6a241061796684b084ed1c516a08c48a3f7e147a9d80b4",
-                "sha256:b36f1fef9334a5588b4166f8bcd26a14e521f2b55e6b9de3aaa80d3ff7a37529"
+                "sha256:5fc45236b9446107ff2415ce77c807cee2862cb6fac22b8a73826d0693b0980e",
+                "sha256:ff452ff5a3e828ce110190feff1178bb1f2ea2281fa2075aadb987c2fb221661"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==26.0"
+            "version": "==26.2"
         },
         "pandas": {
             "hashes": [
@@ -1309,19 +1309,19 @@
         },
         "uvicorn": {
             "hashes": [
-                "sha256:6c942071b68f07e178264b9152f1f16dfac5da85880c4ce06366a96d70d4f31e",
-                "sha256:ce937c99a2cc70279556967274414c087888e8cec9f9c94644dfca11bd3ced89"
+                "sha256:bbebbcbed972d162afca128605223022bedd345b7bc7855ce66deb31487a9048",
+                "sha256:fb9da0926999cc6cb22dc7cd71a94a632f078e6ae47ff683c5c420750fb7413d"
             ],
             "markers": "python_version >= '3.10'",
-            "version": "==0.44.0"
+            "version": "==0.46.0"
         },
         "uvicorn-worker": {
             "hashes": [
-                "sha256:65dcef25ab80a62e0919640f9582216ee05b3bb1dc2f0e58b354ca0511c398fb",
-                "sha256:f6894544391796be6eeed37d48cae9d7739e5a105f7e37061eccef2eac5a0295"
+                "sha256:8ee5306070d8f38dce124adce488c3c0b50f20cf0c0222b12c66188da7214493",
+                "sha256:e2ed952cef976f5e9e429d7269640bbcafbd36c80aa80f1003c8c77a6797abde"
             ],
-            "markers": "python_version >= '3.8'",
-            "version": "==0.2.0"
+            "markers": "python_version >= '3.9'",
+            "version": "==0.4.0"
         },
         "wheel": {
             "hashes": [
