@@ -15,6 +15,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as _UserAdmin
 from django.contrib.auth.models import User as DjangoUser
+from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponse
 from import_export.admin import ExportActionMixin
 
@@ -177,6 +178,32 @@ class TotalActivityAdmin(admin.ModelAdmin, ExportActionMixin):
 
 _UserAdmin.list_display += ("date_joined", "id")
 _UserAdmin.list_filter += ("date_joined",)
+_UserAdmin.fieldsets = (
+    (None, {"fields": ("_username_plain", "password")}),
+    (
+        _("Personal info"),
+        {
+            "fields": (
+                "_first_name_plain",
+                "_last_name_plain",
+                "_email_plain",
+            )
+        },
+    ),
+    (
+        _("Permissions"),
+        {
+            "fields": (
+                "is_active",
+                "is_staff",
+                "is_superuser",
+                "groups",
+                "user_permissions",
+            ),
+        },
+    ),
+    (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+)
 
 
 class UserAdmin(_UserAdmin):
@@ -216,6 +243,9 @@ class UserAdmin(_UserAdmin):
         return response
 
     export_as_csv.short_description = "Export selected users data as CSV"
+
+    def has_add_permission(self, request):
+        return False
 
 
 admin.site.register(Class, ClassAdmin)
