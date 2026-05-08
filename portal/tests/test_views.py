@@ -662,15 +662,15 @@ class TestViews(TestCase):
         assert response.context_data == EXPECTED_DATA_FIRST_LOGIN
 
         # Attempt the first two RR levels, one perfect attempt, one not
-        level1 = Level.objects.get(name="1")
-        level2 = Level.objects.get(name="2")
+        level1 = Level.objects.get(_name_plain="1")
+        level2 = Level.objects.get(_name_plain="2")
 
         LevelMetrics.objects.create(level=level1, student=student, top_score=20)
         LevelMetrics.objects.create(level=level2, student=student, top_score=19)
 
         # Attempt the first and fourth Python Den levels, both perfect
-        level1001 = Level.objects.get(name="1001")
-        level1004 = Level.objects.get(name="1004")
+        level1001 = Level.objects.get(_name_plain="1001")
+        level1004 = Level.objects.get(_name_plain="1004")
 
         LevelMetrics.objects.create(
             level=level1001, student=student, top_score=20

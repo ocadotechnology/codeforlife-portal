@@ -282,7 +282,7 @@ class TestClass(TestCase):
 
         assert response.status_code == 302
 
-        level1 = Level.objects.get(name=1)
+        level1 = Level.objects.get(_name_plain=1)
 
         assert klass1 in level1.locked_for_class.all()
         assert klass2 not in level1.locked_for_class.all()
@@ -439,7 +439,7 @@ class TestClass(TestCase):
 
         assert response.status_code == 302
 
-        level1 = Level.objects.get(name=1)
+        level1 = Level.objects.get(_name_plain=1)
 
         assert klass1 not in level1.locked_for_class.all()
         assert klass2 not in level1.locked_for_class.all()
