@@ -33,7 +33,7 @@ class TestModels(TestCase):
 
         klass.anonymise()
 
-        indep_student = Student.objects.get(new_user__username=username)
+        indep_student = Student.objects.get(new_user___username_plain=username)
 
         assert indep_student.pending_class_request is None
 
@@ -62,9 +62,9 @@ class TestModels(TestCase):
         join_teacher_to_organisation(email2, school.name)
         join_teacher_to_organisation(email3, school.name, is_admin=True)
 
-        teacher1 = Teacher.objects.get(new_user__username=email1)
-        teacher2 = Teacher.objects.get(new_user__username=email2)
-        teacher3 = Teacher.objects.get(new_user__username=email3)
+        teacher1 = Teacher.objects.get(new_user___username_plain=email1)
+        teacher2 = Teacher.objects.get(new_user___username_plain=email2)
+        teacher3 = Teacher.objects.get(new_user___username_plain=email3)
 
         assert len(school.admins()) == 2
         assert teacher1 in school.admins()

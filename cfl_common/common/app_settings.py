@@ -1,25 +1,46 @@
+from codeforlife.settings import ENV, LatestSecret
 from django.conf import settings
 
 # Email address to source notifications from
-EMAIL_ADDRESS = getattr(settings, "EMAIL_ADDRESS", "no-reply@codeforlife.education")
+EMAIL_ADDRESS = getattr(
+    settings, "EMAIL_ADDRESS", "no-reply@codeforlife.education"
+)
 
 # Dotdigital authorization details
-DOTDIGITAL_AUTH = getattr(settings, "DOTDIGITAL_AUTH", "")
+DOTDIGITAL_AUTH = getattr(
+    settings, "DOTDIGITAL_AUTH", LatestSecret("DOTDIGITAL_AUTH", default="")
+)
 
 # Dotmailer URLs for adding users to the newsletter address book
-DOTMAILER_CREATE_CONTACT_URL = getattr(settings, "DOTMAILER_CREATE_CONTACT_URL", "")
-DOTMAILER_TEACHER_ADDRESS_BOOK_URL = getattr(settings, "DOTMAILER_TEACHER_ADDRESS_BOOK_URL", "")
-DOTMAILER_STUDENT_ADDRESS_BOOK_URL = getattr(settings, "DOTMAILER_STUDENT_ADDRESS_BOOK_URL", "")
-DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = getattr(settings, "DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", "")
+DOTMAILER_CREATE_CONTACT_URL = getattr(
+    settings, "DOTMAILER_CREATE_CONTACT_URL", ""
+)
+DOTMAILER_TEACHER_ADDRESS_BOOK_URL = getattr(
+    settings, "DOTMAILER_TEACHER_ADDRESS_BOOK_URL", ""
+)
+DOTMAILER_STUDENT_ADDRESS_BOOK_URL = getattr(
+    settings, "DOTMAILER_STUDENT_ADDRESS_BOOK_URL", ""
+)
+DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL = getattr(
+    settings, "DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL", ""
+)
 
 # Dotmailer username for API authentication
-DOTMAILER_USER = getattr(settings, "DOTMAILER_USER", "")
+DOTMAILER_USER = getattr(
+    settings, "DOTMAILER_USER", LatestSecret("DOTMAILER_USER", default="")
+)
 
 # Dotmailer password for API authentication
-DOTMAILER_PASSWORD = getattr(settings, "DOTMAILER_PASSWORD", "")
+DOTMAILER_PASSWORD = getattr(
+    settings,
+    "DOTMAILER_PASSWORD",
+    LatestSecret("DOTMAILER_PASSWORD", default=""),
+)
 
 # Dotmailer default preferences to what users are signed up to
-DOTMAILER_DEFAULT_PREFERENCES = getattr(settings, "DOTMAILER_DEFAULT_PREFERENCES", [])
+DOTMAILER_DEFAULT_PREFERENCES = getattr(
+    settings, "DOTMAILER_DEFAULT_PREFERENCES", []
+)
 
 # Dotmailer URL for getting a user by email
 DOTMAILER_GET_USER_BY_EMAIL_URL = getattr(
@@ -36,19 +57,20 @@ DOTMAILER_DELETE_USER_BY_ID_URL = getattr(
 )
 
 # Dotmailer URL for adding consent data to a user
-DOTMAILER_PUT_CONSENT_DATA_URL = getattr(settings, "DOTMAILER_PUT_CONSENT_DATA_URL", "")
+DOTMAILER_PUT_CONSENT_DATA_URL = getattr(
+    settings, "DOTMAILER_PUT_CONSENT_DATA_URL", ""
+)
 
 # Dotmailer URL for sending a triggered campaign to a users
-DOTMAILER_SEND_CAMPAIGN_URL = getattr(settings, "DOTMAILER_SEND_CAMPAIGN_URL", "")
+DOTMAILER_SEND_CAMPAIGN_URL = getattr(
+    settings, "DOTMAILER_SEND_CAMPAIGN_URL", ""
+)
 
 # ID of the "Thanks for staying!" campaign in Dotmailer
-DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = getattr(settings, "DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", "")
+DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID = getattr(
+    settings, "DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID", ""
+)
 
-# Fernet encryption for OAuth2 sign in
-ENCRYPTION_KEY = getattr(settings, "ENCRYPTION_KEY", "")
-
-# The name of the google app engine service the application is running on, local otherwise
-MODULE_NAME = getattr(settings, "MODULE_NAME", "local")
 
 # Boolean indicating if OneTrust cookie management is enabled or not
 COOKIE_MANAGEMENT_ENABLED = getattr(settings, "COOKIE_MANAGEMENT_ENABLED", True)
@@ -59,11 +81,13 @@ def domain(request=None):
     if hasattr(settings, "SERVICE_BASE_URL"):
         return getattr(settings, "SERVICE_BASE_URL")
 
-    domain = "https://www.codeforlife.education"
-
-    if MODULE_NAME == "local":
-        domain = f"http://{request.get_host()}" if request is not None else "localhost:8000"
-    elif MODULE_NAME == "staging" or MODULE_NAME == "dev":
-        domain = f"https://{MODULE_NAME}-dot-decent-digit-629.appspot.com"
-
-    return domain
+    return {
+        "local": (
+            f"http://{request.get_host()}"
+            if request is not None
+            else "localhost:8000"
+        ),
+        "development": "https://dev-dot-decent-digit-629.appspot.com",
+        "staging": "https://staging-dot-decent-digit-629.appspot.com",
+        "production": "https://www.codeforlife.education",
+    }[ENV]

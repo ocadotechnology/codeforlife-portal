@@ -58,23 +58,23 @@ class StudentLoginForm(AuthenticationForm):
         return self.cleaned_data
 
     def check_for_errors(self, name, access_code, password):
-        classes = Class.objects.filter(access_code__iexact=access_code)
+        classes = Class.objects.filter(_access_code_plain__iexact=access_code)
         if len(classes) != 1:
             raise forms.ValidationError("Invalid name, class access code or password")
         klass = classes[0]
 
         name = stripStudentName(name)
 
-        students = Student.objects.filter(new_user__first_name__iexact=name, class_field=klass)
+        students = Student.objects.filter(new_user___first_name_plain__iexact=name, class_field=klass)
         if len(students) != 1:
             raise forms.ValidationError("Invalid name, class access code or password")
 
         student = students[0]
-        user = authenticate(username=student.new_user.username, password=password.lower())
+        user = authenticate(_username_plain=student.new_user.username, password=password.lower())
 
         # Try the case sensitive password too, for previous accounts that don't have the lowercase one stored
         if user is None:
-            user = authenticate(username=student.new_user.username, password=password)
+            user = authenticate(_username_plain=student.new_user.username, password=password)
 
         if user is None:
             raise forms.ValidationError("Invalid name, class access code or password")
@@ -280,7 +280,7 @@ class StudentJoinOrganisationForm(forms.Form):
         join_error_text = "The class code you entered either does not exist or is not currently accepting join requests. Please double check that you have entered the correct class code and contact the teacher of the class to ensure their class is currently accepting join requests."
 
         if access_code:
-            classes = Class.objects.filter(access_code=access_code)
+            classes = Class.objects.filter(_access_code_plain=access_code)
             if len(classes) != 1:
                 raise forms.ValidationError(join_error_text)
 

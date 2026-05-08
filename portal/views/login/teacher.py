@@ -33,8 +33,8 @@ class TeacherLoginView(LoginView):
 
         if wizard_step == "auth":
             email = request.POST.get("auth-username")
-            if Teacher.objects.filter(new_user__email=email).exists():
-                teacher = Teacher.objects.get(new_user__email=email)
+            if Teacher.objects.filter(new_user___email_plain=email).exists():
+                teacher = Teacher.objects.get(new_user___email_plain=email)
 
                 if teacher.blocked_time is not None:
                     if has_user_lockout_expired(teacher):

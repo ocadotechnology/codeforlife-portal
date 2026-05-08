@@ -410,7 +410,7 @@ class TestTeacherStudentFrontend(BaseTest):
         c.post(url, {"username": student_name, "password": student_password})
 
         # teacher login
-        c.login(username=email, password=password)
+        c.login(_username_plain=email, password=password)
 
         # delete the student
         url = reverse("teacher_delete_students", args=[access_code])

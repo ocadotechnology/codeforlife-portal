@@ -2,29 +2,28 @@ import datetime
 
 import pytest
 from common.helpers.emails import (
+    DotmailerUserType,
     add_consent_record_to_dotmailer_user,
     add_contact_to_address_book,
     add_to_dotmailer,
     create_contact,
     delete_contact,
     send_dotmailer_consent_confirmation_email_to_user,
-    DotmailerUserType,
 )
 from common.mail import address_book_ids
 from django.test import Client
 from django.urls import reverse
-
 from example_project.portal_test_settings import (
-    DOTMAILER_USER,
-    DOTMAILER_PASSWORD,
-    DOTMAILER_SEND_CAMPAIGN_URL,
-    DOTMAILER_PUT_CONSENT_DATA_URL,
-    DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID,
     DOTMAILER_CREATE_CONTACT_URL,
     DOTMAILER_DELETE_USER_BY_ID_URL,
-    DOTMAILER_TEACHER_ADDRESS_BOOK_URL,
-    DOTMAILER_STUDENT_ADDRESS_BOOK_URL,
     DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL,
+    DOTMAILER_PASSWORD,
+    DOTMAILER_PUT_CONSENT_DATA_URL,
+    DOTMAILER_SEND_CAMPAIGN_URL,
+    DOTMAILER_STUDENT_ADDRESS_BOOK_URL,
+    DOTMAILER_TEACHER_ADDRESS_BOOK_URL,
+    DOTMAILER_THANKS_FOR_STAYING_CAMPAIGN_ID,
+    DOTMAILER_USER,
 )
 
 FAKE_TIME = datetime.datetime(2020, 12, 25, 17, 5, 55)
@@ -75,7 +74,7 @@ def test_delete_account(mocker):
 
     mocked_delete.assert_called_once_with(
         DOTMAILER_DELETE_USER_BY_ID_URL,
-        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        auth=(DOTMAILER_USER(), DOTMAILER_PASSWORD()),
     )
 
 
@@ -120,7 +119,7 @@ def test_newsletter_sends_correct_request_data(
 
     mocked_post.assert_called_once_with(
         DOTMAILER_CREATE_CONTACT_URL,
-        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        auth=(DOTMAILER_USER(), DOTMAILER_PASSWORD()),
         json=expected_body1,
     )
 
@@ -136,7 +135,7 @@ def test_newsletter_sends_correct_request_data(
 
     mocked_post.assert_any_call(
         DOTMAILER_TEACHER_ADDRESS_BOOK_URL,
-        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        auth=(DOTMAILER_USER(), DOTMAILER_PASSWORD()),
         json=expected_body2,
     )
 
@@ -154,7 +153,7 @@ def test_newsletter_sends_correct_request_data(
 
     mocked_post.assert_any_call(
         DOTMAILER_STUDENT_ADDRESS_BOOK_URL,
-        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        auth=(DOTMAILER_USER(), DOTMAILER_PASSWORD()),
         json=expected_body2,
     )
 
@@ -172,7 +171,7 @@ def test_newsletter_sends_correct_request_data(
 
     mocked_post.assert_any_call(
         DOTMAILER_NO_ACCOUNT_ADDRESS_BOOK_URL,
-        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        auth=(DOTMAILER_USER(), DOTMAILER_PASSWORD()),
         json=expected_body2,
     )
 
@@ -225,7 +224,7 @@ def test_consent_calls_send_correct_request_data(
 
     mocked_put.assert_called_once_with(
         DOTMAILER_PUT_CONSENT_DATA_URL,
-        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        auth=(DOTMAILER_USER(), DOTMAILER_PASSWORD()),
         json=expected_body1,
     )
 
@@ -233,7 +232,7 @@ def test_consent_calls_send_correct_request_data(
 
     mocked_post.assert_called_with(
         DOTMAILER_SEND_CAMPAIGN_URL,
-        auth=(DOTMAILER_USER, DOTMAILER_PASSWORD),
+        auth=(DOTMAILER_USER(), DOTMAILER_PASSWORD()),
         json=expected_body2,
     )
 

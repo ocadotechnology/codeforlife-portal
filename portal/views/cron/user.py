@@ -72,7 +72,9 @@ def get_inactive_users(days: int) -> QuerySet[User]:
         )
     )
 
-    return user_queryset.exclude(email__isnull=True).exclude(email="")
+    return user_queryset.exclude(_email_plain__isnull=True).exclude(
+        _email_plain=""
+    )
 
 
 def build_absolute_google_uri(request, location: str) -> str:
@@ -93,6 +95,11 @@ class FirstVerifyEmailReminderView(CronMixin, APIView):
             USER_1ST_VERIFY_EMAIL_REMINDER_DAYS,
             same_day=True,
         )
+        teacher_queryset, independent_student_queryset = teacher_queryset.only(
+            "dek", "_email_enc", "_email_plain"
+        ), independent_student_queryset.only(
+            "dek", "_email_enc", "_email_plain"
+        )
         user_queryset = teacher_queryset.union(independent_student_queryset)
         user_count = user_queryset.count()
 
@@ -100,21 +107,19 @@ class FirstVerifyEmailReminderView(CronMixin, APIView):
 
         if user_count > 0:
             sent_email_count = 0
-            for email in user_queryset.values_list("email", flat=True).iterator(
-                chunk_size=500
-            ):
+            for user in user_queryset.iterator(chunk_size=500):
                 email_verification_url = build_absolute_google_uri(
                     request,
                     reverse(
                         "verify_email",
-                        kwargs={"token": generate_token_for_email(email)},
+                        kwargs={"token": generate_token_for_email(user.email)},
                     ),
                 )
 
                 try:
                     send_dotdigital_email(
                         campaign_ids["verify_new_user_first_reminder"],
-                        [email],
+                        [user.email],
                         personalization_values={
                             "VERIFICATION_LINK": email_verification_url
                         },
@@ -135,6 +140,11 @@ class SecondVerifyEmailReminderView(CronMixin, APIView):
             USER_2ND_VERIFY_EMAIL_REMINDER_DAYS,
             same_day=True,
         )
+        teacher_queryset, independent_student_queryset = teacher_queryset.only(
+            "dek", "_email_enc", "_email_plain"
+        ), independent_student_queryset.only(
+            "dek", "_email_enc", "_email_plain"
+        )
         user_queryset = teacher_queryset.union(independent_student_queryset)
         user_count = user_queryset.count()
 
@@ -143,21 +153,19 @@ class SecondVerifyEmailReminderView(CronMixin, APIView):
         if user_count > 0:
 
             sent_email_count = 0
-            for email in user_queryset.values_list("email", flat=True).iterator(
-                chunk_size=500
-            ):
+            for user in user_queryset.iterator(chunk_size=500):
                 email_verification_url = build_absolute_google_uri(
                     request,
                     reverse(
                         "verify_email",
-                        kwargs={"token": generate_token_for_email(email)},
+                        kwargs={"token": generate_token_for_email(user.email)},
                     ),
                 )
 
                 try:
                     send_dotdigital_email(
                         campaign_ids["verify_new_user_second_reminder"],
-                        [email],
+                        [user.email],
                         personalization_values={
                             "VERIFICATION_LINK": email_verification_url
                         },
@@ -226,15 +234,15 @@ class FirstInactivityReminderView(CronMixin, APIView):
 
         if user_count > 0:
             sent_email_count = 0
-            for email in user_queryset.values_list("email", flat=True).iterator(
-                chunk_size=500
-            ):
+            for user in user_queryset.only(
+                "dek", "_email_enc", "_email_plain"
+            ).iterator(chunk_size=500):
                 try:
                     send_dotdigital_email(
                         campaign_ids[
                             "inactive_users_on_website_first_reminder"
                         ],
-                        [email],
+                        [user.email],
                     )
 
                     sent_email_count += 1
@@ -260,15 +268,15 @@ class SecondInactivityReminderView(CronMixin, APIView):
 
         if user_count > 0:
             sent_email_count = 0
-            for email in user_queryset.values_list("email", flat=True).iterator(
-                chunk_size=500
-            ):
+            for user in user_queryset.only(
+                "dek", "_email_enc", "_email_plain"
+            ).iterator(chunk_size=500):
                 try:
                     send_dotdigital_email(
                         campaign_ids[
                             "inactive_users_on_website_second_reminder"
                         ],
-                        [email],
+                        [user.email],
                         personalization_values={
                             "DAYS_LEFT": USER_RETENTION_PERIOD
                             - USER_2ND_INACTIVE_REMINDER_DAYS
@@ -298,15 +306,15 @@ class FinalInactivityReminderView(CronMixin, APIView):
 
         if user_count > 0:
             sent_email_count = 0
-            for email in user_queryset.values_list("email", flat=True).iterator(
-                chunk_size=500
-            ):
+            for user in user_queryset.only(
+                "dek", "_email_enc", "_email_plain"
+            ).iterator(chunk_size=500):
                 try:
                     send_dotdigital_email(
                         campaign_ids[
                             "inactive_users_on_website_final_reminder"
                         ],
-                        [email],
+                        [user.email],
                         personalization_values={
                             "DAYS_LEFT": USER_RETENTION_PERIOD
                             - USER_FINAL_INACTIVE_REMINDER_DAYS

@@ -1,14 +1,11 @@
 {
   "configurations": [
     {
-      "args": [
-        "runserver",
-        "localhost:8000"
-      ],
+      "args": ["runserver", "localhost:8000"],
       "django": true,
       "justMyCode": false,
       "name": "Django Server",
-      "program": "${workspaceFolder}/example_project/manage.py",
+      "program": "${workspaceFolder}/manage.py",
       "request": "launch",
       "type": "debugpy"
     },

@@ -13,18 +13,18 @@ User = get_user_model()
 def get_random_username():
     while True:
         random_username = uuid4().hex[:30]  # generate a random username
-        if not User.objects.filter(username=random_username).exists():
+        if not User.objects.filter(_username_plain=random_username).exists():
             return random_username
 
 
 def generate_new_student_name(orig_name):
-    if not Student.objects.filter(new_user__username=orig_name).exists():
+    if not Student.objects.filter(new_user___username_plain=orig_name).exists():
         return orig_name
 
     i = 1
     while True:
         new_name = orig_name + str(i)
-        if not Student.objects.filter(new_user__username=new_name).exists():
+        if not Student.objects.filter(new_user___username_plain=new_name).exists():
             return new_name
         i += 1
 
@@ -33,7 +33,7 @@ def generate_access_code():
     while True:
         access_code = "".join(random.choice(string.ascii_uppercase) for _ in range(5))
 
-        if not Class.objects.filter(access_code=access_code).exists():
+        if not Class.objects.filter(_access_code_plain=access_code).exists():
             return access_code
 
 

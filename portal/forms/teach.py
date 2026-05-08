@@ -5,9 +5,8 @@ from builtins import map, range, str
 from common.helpers.emails import send_verification_email
 from common.models import Student, Teacher, UserSession, stripStudentName
 from django import forms
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import get_user_model
 from django_recaptcha.fields import ReCaptchaField
 from django_recaptcha.widgets import ReCaptchaV2Invisible
 from game.models import Episode, Worksheet
@@ -149,7 +148,7 @@ class TeacherLoginForm(AuthenticationForm):
 
             user = self.find_user(email, user)
 
-            user = authenticate(username=user.username, password=password)
+            user = authenticate(_username_plain=user.username, password=password)
 
             self.check_email_errors(user)
 
@@ -166,7 +165,7 @@ class TeacherLoginForm(AuthenticationForm):
         return self.cleaned_data
 
     def find_user(self, email, user):
-        users = User.objects.filter(email=email)
+        users = User.objects.filter(_email_plain=email)
 
         for result in users:
             if hasattr(result, "userprofile") and hasattr(result.userprofile, "teacher"):
@@ -220,10 +219,21 @@ class ClassCreationForm(forms.Form):
 
             # Get coworkers and add them to the choices if the teacher is an admin
             if teacher.is_admin:
-                coworkers = (
+                coworkers = sorted(
                     Teacher.objects.filter(school=teacher.school)
                     .exclude(id=teacher.id)
-                    .order_by("new_user__last_name", "new_user__first_name")
+                    .select_related("new_user")
+                    .only(
+                        "new_user__dek",
+                        "new_user___last_name_enc",
+                        "new_user___last_name_plain",
+                        "new_user___first_name_enc",
+                        "new_user___first_name_plain",
+                    ),
+                    key=lambda teacher: (
+                        teacher.new_user.last_name.lower(),
+                        teacher.new_user.first_name.lower(),
+                    ),
                 )
                 for coworker in coworkers:
                     teacher_choices.append(
@@ -377,7 +387,7 @@ class TeacherEditStudentForm(forms.Form):
         if re.match(re.compile("^[\w -]+$"), name) is None:
             raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
 
-        students = Student.objects.filter(class_field=self.klass, new_user__first_name__iexact=name)
+        students = Student.objects.filter(class_field=self.klass, new_user___first_name_plain__iexact=name)
         if students.exists() and students[0] != self.student:
             raise forms.ValidationError("There is already a student called '" + name + "' in this class")
 
@@ -437,7 +447,7 @@ def validateStudentNames(klass, names):
 
 def find_clashes(names, students, clashes_found, validationErrors):
     for name in names:
-        if students.filter(new_user__first_name__iexact=name).exists() and name not in clashes_found:
+        if students.filter(new_user___first_name_plain__iexact=name).exists() and name not in clashes_found:
             validationErrors.append(
                 forms.ValidationError("There is already a student called '" + name + "' in this class")
             )
@@ -642,7 +652,7 @@ class TeacherAddExternalStudentForm(forms.Form):
         if name == "":
             raise forms.ValidationError("'" + self.cleaned_data.get("name", "") + "' is not a valid name")
 
-        if Student.objects.filter(class_field=self.klass, new_user__first_name__iexact=name).exists():
+        if Student.objects.filter(class_field=self.klass, new_user___first_name_plain__iexact=name).exists():
             raise forms.ValidationError("There is already a student called '" + name + "' in this class")
 
         return name

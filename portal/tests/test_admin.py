@@ -32,7 +32,7 @@ class TestAdmin(BaseTest):
 #     expected_data = ["indianajones@codeforlife.com", "Indiana", "Jones", "indianajones@codeforlife.com"]
 
 #     c = Client()
-#     c.login(username=admin_username, password=admin_password)
+#     c.login(_username_plain=admin_username, password=admin_password)
 
 #     url = reverse("admin:common_user_changelist")
 #     data = {"action": "export_as_csv", "select_across": 0, "index": 0, "_selected_action": 11}

@@ -106,7 +106,7 @@ def _newsletter_ticked(form_data):
 def process_signup_form(request, data):
     email = data["teacher_email"]
 
-    if email and User.objects.filter(email=email).exists():
+    if email and User.objects.filter(_email_plain=email).exists():
 
         is_email_ratelimited = is_ratelimited(
             request=request,
@@ -148,7 +148,7 @@ def process_signup_form(request, data):
 def process_independent_student_signup_form(request, data):
     email = data["email"]
 
-    if email and User.objects.filter(email=email).exists():
+    if email and User.objects.filter(_email_plain=email).exists():
         is_email_ratelimited = is_ratelimited(
             request=request,
             group=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP,

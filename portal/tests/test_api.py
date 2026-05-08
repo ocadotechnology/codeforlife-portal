@@ -129,7 +129,7 @@ class APITests(APITestCase):
 
         for user in users:
             with pytest.raises(User.DoesNotExist):
-                User.objects.get(username=user["username"])
+                User.objects.get(_username_plain=user["username"])
 
         deleted_users = list(User.objects.filter(is_active=False))
         new_deleted_users_count = len(deleted_users) - len(old_deleted_users)
@@ -140,7 +140,7 @@ class APITests(APITestCase):
             assert user.last_name == "User"
             assert user.email == ""
             assert not user.is_active
-            assert not client.login(username=user.username, password="password")
+            assert not client.login(_username_plain=user.username, password="password")
         response = client.get(url)
         assert len(response.data) == 0
 
@@ -173,12 +173,12 @@ class APITests(APITestCase):
         )
         _, _, student22 = create_school_student_directly(access_code22)
         school2_teacher1 = Teacher.objects.get(
-            new_user__email=school2_teacher1_email
+            new_user___email_plain=school2_teacher1_email
         )
         school2_teacher1.is_admin = False
         school2_teacher1.save()
         school2_teacher2 = Teacher.objects.get(
-            new_user__email=school2_teacher2_email
+            new_user___email_plain=school2_teacher2_email
         )
         school2_teacher2.new_user.is_active = False
         school2_teacher2.new_user.save()
@@ -197,12 +197,12 @@ class APITests(APITestCase):
         )
         _, _, student32 = create_school_student_directly(access_code32)
         school3_teacher1 = Teacher.objects.get(
-            new_user__email=school3_teacher1_email
+            new_user___email_plain=school3_teacher1_email
         )
         school3_teacher1.new_user.is_active = False
         school3_teacher1.new_user.save()
         school3_teacher2 = Teacher.objects.get(
-            new_user__email=school3_teacher2_email
+            new_user___email_plain=school3_teacher2_email
         )
         school3_teacher2.new_user.is_active = False
         school3_teacher2.new_user.save()
@@ -211,7 +211,7 @@ class APITests(APITestCase):
         school4_teacher1_email, _ = signup_teacher_directly()
         school4 = create_organisation_directly(school4_teacher1_email)
         school4_teacher1 = Teacher.objects.get(
-            new_user__email=school4_teacher1_email
+            new_user___email_plain=school4_teacher1_email
         )
         school4_teacher1.new_user.is_active = False
         school4_teacher1.new_user.save()
@@ -220,7 +220,7 @@ class APITests(APITestCase):
         school5_teacher1_email, _ = signup_teacher_directly()
         school5 = create_organisation_directly(school5_teacher1_email)
         school5_teacher1 = Teacher.objects.get(
-            new_user__email=school5_teacher1_email
+            new_user___email_plain=school5_teacher1_email
         )
         school5_teacher1.delete()
 
@@ -230,33 +230,33 @@ class APITests(APITestCase):
         assert response.status_code == status.HTTP_204_NO_CONTENT
 
         # Check the first school/class/student still exist
-        assert School.objects.filter(name=school1.name).exists()
+        assert School.objects.filter(_name_plain=school1.name).exists()
         assert Class.objects.filter(pk=klass11.pk).exists()
         assert Student.objects.filter(pk=student11.pk).exists()
 
         # Check the second school exists and its first class/student, but the second ones are anonymised
-        assert School.objects.filter(name=school2.name).exists()
+        assert School.objects.filter(_name_plain=school2.name).exists()
         assert Class.objects.filter(pk=klass21.pk).exists()
         assert not Class.objects.filter(pk=klass22.pk).exists()
         assert Student.objects.filter(pk=student21.pk).exists()
         assert not Student.objects.get(pk=student22.pk).new_user.is_active
         # Also check the first teacher is now an admin
         assert Teacher.objects.get(
-            new_user__email=school2_teacher1_email
+            new_user___email_plain=school2_teacher1_email
         ).is_admin
 
         # Check the third school is anonymised together with its classes and students
-        assert not School.objects.filter(name=school3.name).exists()
+        assert not School.objects.filter(_name_plain=school3.name).exists()
         assert not Class.objects.filter(pk=klass31.pk).exists()
         assert not Class.objects.filter(pk=klass32.pk).exists()
         assert not Student.objects.get(pk=student31.pk).new_user.is_active
         assert not Student.objects.get(pk=student32.pk).new_user.is_active
 
         # Check that the fourth school is anonymised
-        assert not School.objects.filter(name=school4.name).exists()
+        assert not School.objects.filter(_name_plain=school4.name).exists()
 
         # Check that the fifth school is anonymised
-        assert not School.objects.filter(name=school5.name).exists()
+        assert not School.objects.filter(_name_plain=school5.name).exists()
 
     def test_remove_fake_accounts(self):
         client = APIClient()
@@ -316,7 +316,7 @@ class APITests(APITestCase):
             == len(random_accounts) + initial_users_length
         )
 
-        client.login(username=admin_username, password=admin_password)
+        client.login(_username_plain=admin_username, password=admin_password)
         response = client.get(reverse("remove_fake_accounts"))
         assert response.status_code == 204
 

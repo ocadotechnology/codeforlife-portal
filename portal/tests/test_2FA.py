@@ -44,7 +44,7 @@ class Test2FA(TestCase):
         def _post(data=None):
             return self.client.post("/login/teacher/", data=data)
 
-        user = User.objects.get(email=self.email)
+        user = User.objects.get(_email_plain=self.email)
 
         # In production tolerance value is 1 by default, which means it will accept any of three
         # tokens: the current one, the previous one, and the next one.

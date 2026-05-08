@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 import requests
 from common import app_settings
-from common.app_settings import MODULE_NAME, domain
+from common.app_settings import ENV, domain
 from django.core.mail import EmailMultiAlternatives
 from django.template import loader
 
@@ -142,7 +142,7 @@ def send_dotdigital_email(
     # pylint: enable=line-too-long
 
     # Dotdigital emails don't work locally, so if testing emails locally use Django to send a dummy email instead
-    if MODULE_NAME == "local":
+    if ENV == "local":
         django_send_email(
             from_address,
             to_addresses,
@@ -152,7 +152,7 @@ def send_dotdigital_email(
         )
     else:
         if auth is None:
-            auth = app_settings.DOTDIGITAL_AUTH
+            auth = app_settings.DOTDIGITAL_AUTH()
 
         body = {
             "campaignId": campaign_id,

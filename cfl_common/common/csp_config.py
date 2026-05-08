@@ -1,6 +1,6 @@
 """CSP Config"""
 
-from .app_settings import domain, MODULE_NAME
+from .app_settings import ENV, domain
 
 CSP_DEFAULT_SRC = ("self",)
 CSP_CONNECT_SRC = (
@@ -16,7 +16,12 @@ CSP_CONNECT_SRC = (
     "https://pyodide-cdn2.iodide.io/v0.15.0/full/",
     "https://crowdin.com/",
 )
-CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com/", "https://fonts.googleapis.com/", "https://use.typekit.net/")
+CSP_FONT_SRC = (
+    "'self'",
+    "https://fonts.gstatic.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.typekit.net/",
+)
 CSP_SCRIPT_SRC = (
     "'self'",
     "'unsafe-inline'",
@@ -77,7 +82,10 @@ CSP_IMG_SRC = (
     f"{domain()}/static/game/js/blockly/media/",
     f"{domain()}/static/icons/",
 )
-CSP_OBJECT_SRC = (f"{domain()}/static/common/img/", f"{domain()}/static/game/image/")
+CSP_OBJECT_SRC = (
+    f"{domain()}/static/common/img/",
+    f"{domain()}/static/game/image/",
+)
 CSP_MEDIA_SRC = (
     "https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/",
     f"{domain()}/static/game/sound/",

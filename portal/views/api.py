@@ -2,8 +2,8 @@ import datetime
 import uuid
 
 from common.models import Class, School, Student, Teacher, UserProfile
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from django.utils import timezone
 from rest_framework import generics, permissions, serializers, status
@@ -117,9 +117,22 @@ def anonymise(user):
 
     # if user is admin and the school does not have another admin, appoint another teacher as admin
     if is_admin:
-        teachers = Teacher.objects.filter(school=school).order_by(
-            "new_user__last_name", "new_user__first_name"
+        teachers = sorted(
+            Teacher.objects.filter(school=school)
+            .select_related("new_user")
+            .only(
+                "new_user__dek",
+                "new_user___last_name_plain",
+                "new_user___last_name_enc",
+                "new_user___first_name_plain",
+                "new_user___first_name_enc",
+            ),
+            key=lambda teacher: (
+                teacher.new_user.last_name.lower(),
+                teacher.new_user.first_name.lower(),
+            ),
         )
+
         if not teachers:
             # no other teacher, anonymise the school
             school.anonymise()

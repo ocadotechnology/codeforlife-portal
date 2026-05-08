@@ -62,13 +62,13 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                     # on to another try block similar logic followed afterwards
                     if access_code:
                         user_to_lockout = model_finder(
-                            new_user__first_name=username,
-                            class_field__access_code=access_code,  # extract the found text from regex
+                            new_user___first_name_plain=username,
+                            class_field___access_code_plain=access_code,  # extract the found text from regex
                         )
                         lockout_template = "portal/locked_out_school_student.html"
                     # look for indy student or teacher
                     else:
-                        user_to_lockout = model_finder(new_user__username=username)
+                        user_to_lockout = model_finder(new_user___username_plain=username)
                 else:
                     user_to_lockout = model.objects.get(new_user=request.user)
 
