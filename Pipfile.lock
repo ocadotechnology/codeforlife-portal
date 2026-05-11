@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d3c6b7102cb530542f17bb46297de52a90e5035bf87ce3efc11c5b7e7d4b97e7"
+            "sha256": "de19f39aaa96a6993f39c07843d75976a83ab437d9071823b72c4a2f5026d490"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -1927,13 +1927,6 @@
             "markers": "python_version >= '3.9'",
             "version": "==2.0.0"
         },
-        "cfl-common": {
-            "hashes": [
-                "sha256:9c87cdeab274effbaba54ceb12e7ca84112533521e020a086fea9e003e5023af",
-                "sha256:ff88a211c0065edaf9e1de5219e543d63dfa30b1597a5dcccd1d8861d7f494e5"
-            ],
-            "version": "==8.11.1"
-        },
         "charset-normalizer": {
             "hashes": [
                 "sha256:007d05ec7321d12a40227aae9e2bc6dca73f3cb21058999a1df9e193555a9dcc",
@@ -2761,11 +2754,11 @@
         },
         "matplotlib-inline": {
             "hashes": [
-                "sha256:d56ce5156ba6085e00a9d54fead6ed29a9c47e215cd1bba2e976ef39f5710a76",
-                "sha256:e1ee949c340d771fc39e241ea75683deb94762c8fa5f2927ec57c83c4dffa9fe"
+                "sha256:3c821cf1c209f59fb2d2d64abbf5b23b67bcb2210d663f9918dd851c6da1fcf6",
+                "sha256:72f3fe8fce36b70d4a5b612f899090cd0401deddc4ea90e1572b9f4bfb058c79"
             ],
             "markers": "python_version >= '3.9'",
-            "version": "==0.2.1"
+            "version": "==0.2.2"
         },
         "more-itertools": {
             "hashes": [
@@ -3320,12 +3313,8 @@
             "version": "==8.2"
         },
         "rapid-router": {
-            "hashes": [
-                "sha256:65eb69941d972d7abf7a5975fe114b8292ee884449788732089f4e3fe522ab74",
-                "sha256:95daa4e597030c5a4cc97b88cff77ebe081dfb80424ca53e55b6b85e7d478ca7"
-            ],
-            "index": "pypi",
-            "version": "==7.8.0"
+            "git": "https://github.com/ocadotechnology/rapid-router.git",
+            "ref": "d8c9e734ca2291cf99a140dd15b071e0cd3830d2"
         },
         "redis": {
             "extras": [
