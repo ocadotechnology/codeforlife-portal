@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "pipeline",
     "portal",
     "django_recaptcha",
-    "common",
+    "codeforlife.legacy",
     "django.contrib.admin",
     "django.contrib.admindocs",
     "django.contrib.auth",
