@@ -1,6 +1,6 @@
 import csv
 
-from common.models import (
+from codeforlife.legacy.models import (
     Class,
     DailyActivity,
     DynamicElement,

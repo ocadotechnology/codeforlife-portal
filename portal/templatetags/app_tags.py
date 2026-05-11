@@ -2,8 +2,8 @@ from django import template
 from django.conf import settings
 from django.template.defaultfilters import stringfilter
 
-from common import app_settings as common_app_settings
-from common.utils import using_two_factor
+from codeforlife.legacy import app_settings as common_app_settings
+from codeforlife.legacy.utils import using_two_factor
 from portal import __version__, beta
 
 register = template.Library()

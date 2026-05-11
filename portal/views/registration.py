@@ -2,15 +2,15 @@ import ast
 import re
 from datetime import datetime
 
-from common.helpers.emails import (
+from codeforlife.legacy.helpers.emails import (
     NOTIFICATION_EMAIL,
     PASSWORD_RESET_EMAIL,
     delete_contact,
     send_email,
 )
-from common.mail import campaign_ids, send_dotdigital_email
-from common.models import DailyActivity, Student, Teacher
-from common.permissions import not_fully_logged_in, not_logged_in
+from codeforlife.legacy.mail import campaign_ids, send_dotdigital_email
+from codeforlife.legacy.models import DailyActivity, Student, Teacher
+from codeforlife.legacy.permissions import not_fully_logged_in, not_logged_in
 from django.contrib import messages as messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test

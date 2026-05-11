@@ -5,8 +5,8 @@ from datetime import date, datetime, timedelta
 from unittest.mock import ANY, Mock, patch
 
 import pytest
-from common.mail import campaign_ids
-from common.models import (
+from codeforlife.legacy.mail import campaign_ids
+from codeforlife.legacy.models import (
     Class,
     DailyActivity,
     School,
@@ -16,17 +16,17 @@ from common.models import (
     UserProfile,
     UserSession,
 )
-from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
+from codeforlife.legacy.tests.utils.classes import create_class_directly
+from codeforlife.legacy.tests.utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from common.tests.utils.student import (
+from codeforlife.legacy.tests.utils.student import (
     create_independent_student_directly,
     create_school_student_directly,
     create_student_with_direct_login,
 )
-from common.tests.utils.teacher import signup_teacher_directly
+from codeforlife.legacy.tests.utils.teacher import signup_teacher_directly
 from deploy import captcha
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase

@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
-from common.models import Student
+from codeforlife.legacy.models import Student
 
-from common.helpers.generators import get_hashed_login_id
+from codeforlife.legacy.helpers.generators import get_hashed_login_id
 
 User = get_user_model()
 

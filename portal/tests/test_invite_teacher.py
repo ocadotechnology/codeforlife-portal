@@ -3,13 +3,13 @@ from time import sleep
 from uuid import uuid4
 
 import pytest
-from common.models import SchoolTeacherInvitation, Teacher
-from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
+from codeforlife.legacy.models import SchoolTeacherInvitation, Teacher
+from codeforlife.legacy.tests.utils.classes import create_class_directly
+from codeforlife.legacy.tests.utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from common.tests.utils.teacher import signup_teacher_directly
+from codeforlife.legacy.tests.utils.teacher import signup_teacher_directly
 from django.contrib.messages import get_messages
 from django.core import mail
 from django.test import Client, TestCase

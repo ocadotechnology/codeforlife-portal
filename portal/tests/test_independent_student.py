@@ -3,22 +3,22 @@ from __future__ import absolute_import
 import datetime
 from unittest.mock import ANY, Mock, patch
 
-from common.mail import campaign_ids
-from common.models import JoinReleaseStudent
-from common.tests.utils import email as email_utils
-from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
+from codeforlife.legacy.mail import campaign_ids
+from codeforlife.legacy.models import JoinReleaseStudent
+from codeforlife.legacy.tests.utils import email as email_utils
+from codeforlife.legacy.tests.utils.classes import create_class_directly
+from codeforlife.legacy.tests.utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from common.tests.utils.student import (
+from codeforlife.legacy.tests.utils.student import (
     create_independent_student,
     create_independent_student_directly,
     create_school_student_directly,
     generate_independent_student_details,
     verify_email,
 )
-from common.tests.utils.teacher import signup_teacher_directly
+from codeforlife.legacy.tests.utils.teacher import signup_teacher_directly
 from django.contrib.auth import get_user_model
 from django.core import mail
 from django.test import Client, TestCase

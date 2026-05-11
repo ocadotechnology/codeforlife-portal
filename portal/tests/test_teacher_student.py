@@ -5,19 +5,19 @@ import time
 from unittest.mock import Mock, patch
 
 import pytest
-from common.models import JoinReleaseStudent
-from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
+from codeforlife.legacy.models import JoinReleaseStudent
+from codeforlife.legacy.tests.utils.classes import create_class_directly
+from codeforlife.legacy.tests.utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from common.tests.utils.student import (
+from codeforlife.legacy.tests.utils.student import (
     create_many_school_students,
     create_school_student,
     create_school_student_directly,
     create_student_with_direct_login,
 )
-from common.tests.utils.teacher import signup_teacher_directly
+from codeforlife.legacy.tests.utils.teacher import signup_teacher_directly
 from django.contrib.auth import get_user_model
 from django.test import Client
 from django.urls import reverse

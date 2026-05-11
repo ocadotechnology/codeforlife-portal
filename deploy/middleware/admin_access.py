@@ -1,5 +1,5 @@
-from common.app_settings import ENV
-from common.utils import using_two_factor
+from codeforlife.legacy.app_settings import ENV
+from codeforlife.legacy.utils import using_two_factor
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 

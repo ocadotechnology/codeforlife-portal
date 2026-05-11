@@ -1,4 +1,4 @@
-from common.models import Student, UserSession
+from codeforlife.legacy.models import Student, UserSession
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView

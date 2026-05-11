@@ -1,9 +1,9 @@
 import re
 from datetime import timedelta, date
 
-from common.helpers.emails import send_verification_email
-from common.models import Class, Student, stripStudentName
-from common.permissions import logged_in_as_independent_student
+from codeforlife.legacy.helpers.emails import send_verification_email
+from codeforlife.legacy.models import Class, Student, stripStudentName
+from codeforlife.legacy.permissions import logged_in_as_independent_student
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm

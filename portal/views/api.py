@@ -1,7 +1,7 @@
 import datetime
 import uuid
 
-from common.models import Class, School, Student, Teacher, UserProfile
+from codeforlife.legacy.models import Class, School, Student, Teacher, UserProfile
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse

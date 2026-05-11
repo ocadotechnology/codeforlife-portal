@@ -2,10 +2,10 @@ from __future__ import absolute_import
 
 from builtins import str
 
-from common.models import School, Student, UserProfile
-from common.tests.utils.classes import create_class_directly
-from common.tests.utils.teacher import signup_teacher_directly
-from common.tests.utils.organisation import create_organisation_directly
+from codeforlife.legacy.models import School, Student, UserProfile
+from codeforlife.legacy.tests.utils.classes import create_class_directly
+from codeforlife.legacy.tests.utils.teacher import signup_teacher_directly
+from codeforlife.legacy.tests.utils.organisation import create_organisation_directly
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy

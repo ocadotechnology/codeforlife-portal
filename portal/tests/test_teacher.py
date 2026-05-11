@@ -6,18 +6,18 @@ from unittest.mock import ANY, Mock, patch
 from uuid import uuid4
 
 import jwt
-from common.mail import campaign_ids
-from common.tests.utils import email as email_utils
-from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
+from codeforlife.legacy.mail import campaign_ids
+from codeforlife.legacy.tests.utils import email as email_utils
+from codeforlife.legacy.tests.utils.classes import create_class_directly
+from codeforlife.legacy.tests.utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from common.tests.utils.student import (
+from codeforlife.legacy.tests.utils.student import (
     create_independent_student_directly,
     create_school_student_directly,
 )
-from common.tests.utils.teacher import (
+from codeforlife.legacy.tests.utils.teacher import (
     signup_duplicate_teacher_fail,
     signup_teacher,
     signup_teacher_directly,

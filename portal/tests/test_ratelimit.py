@@ -4,16 +4,16 @@ from datetime import datetime, timedelta
 from unittest.mock import ANY, Mock, patch
 
 import pytest
-from common.mail import campaign_ids
-from common.models import DailyActivity, Student, Teacher
-from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly
-from common.tests.utils.student import (
+from codeforlife.legacy.mail import campaign_ids
+from codeforlife.legacy.models import DailyActivity, Student, Teacher
+from codeforlife.legacy.tests.utils.classes import create_class_directly
+from codeforlife.legacy.tests.utils.organisation import create_organisation_directly
+from codeforlife.legacy.tests.utils.student import (
     create_independent_student_directly,
     create_school_student_directly,
     generate_independent_student_details,
 )
-from common.tests.utils.teacher import generate_details, signup_teacher_directly
+from codeforlife.legacy.tests.utils.teacher import generate_details, signup_teacher_directly
 from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy

@@ -1,14 +1,14 @@
 from collections import namedtuple
 
 import pytest
-from common.models import Class
-from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly
-from common.tests.utils.student import (
+from codeforlife.legacy.models import Class
+from codeforlife.legacy.tests.utils.classes import create_class_directly
+from codeforlife.legacy.tests.utils.organisation import create_organisation_directly
+from codeforlife.legacy.tests.utils.student import (
     create_independent_student_directly,
     create_school_student_directly,
 )
-from common.tests.utils.teacher import signup_teacher_directly
+from codeforlife.legacy.tests.utils.teacher import signup_teacher_directly
 
 SchoolStudent = namedtuple("student", ["username", "password"])
 IndependentStudent = namedtuple("independent_student", ["username", "password"])

@@ -1,4 +1,4 @@
-from common.models import Teacher
+from codeforlife.legacy.models import Teacher
 from django.shortcuts import render
 from two_factor.views import LoginView
 from two_factor.forms import AuthenticationTokenForm, BackupTokenForm

@@ -1,11 +1,11 @@
-from common.helpers.emails import (
+from codeforlife.legacy.helpers.emails import (
     add_to_dotmailer,
     get_dotmailer_user_by_email,
     send_dotmailer_consent_confirmation_email_to_user,
     add_consent_record_to_dotmailer_user,
     DotmailerUserType,
 )
-from common.mail import address_book_ids
+from codeforlife.legacy.mail import address_book_ids
 from django.contrib import messages as messages
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render

@@ -1,7 +1,7 @@
 import datetime
 
 import pytest
-from common.helpers.emails import (
+from codeforlife.legacy.helpers.emails import (
     DotmailerUserType,
     add_consent_record_to_dotmailer_user,
     add_contact_to_address_book,
@@ -10,7 +10,7 @@ from common.helpers.emails import (
     delete_contact,
     send_dotmailer_consent_confirmation_email_to_user,
 )
-from common.mail import address_book_ids
+from codeforlife.legacy.mail import address_book_ids
 from django.test import Client
 from django.urls import reverse
 from example_project.portal_test_settings import (

@@ -234,7 +234,7 @@ COOKIE_MANAGEMENT_ENABLED = False
 AUTOCONFIG_INDEX_VIEW = "home"
 SITE_ID = 1
 
-from common.csp_config import *
+from codeforlife.legacy.csp_config import *
 
 AUTH_USER_MODEL = "user.User"
 

@@ -1,5 +1,5 @@
-from common.mail import campaign_ids, send_dotdigital_email
-from common.models import Student, Teacher
+from codeforlife.legacy.mail import campaign_ids, send_dotdigital_email
+from codeforlife.legacy.models import Student, Teacher
 from django import forms
 from django.contrib.auth import forms as django_auth_forms
 from django.contrib.auth import get_user_model
