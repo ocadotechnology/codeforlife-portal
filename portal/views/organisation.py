@@ -1,4 +1,4 @@
-import common.permissions as permissions
+import codeforlife.legacy.permissions as permissions
 from codeforlife.legacy.models import Class, School, Teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
