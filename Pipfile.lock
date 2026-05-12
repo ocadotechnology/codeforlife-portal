@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "de19f39aaa96a6993f39c07843d75976a83ab437d9071823b72c4a2f5026d490"
+            "sha256": "5b016700f7822caa43ecf04fd677ab85e908bbaa2218494e84a5ce628b4c6fa9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -356,9 +356,13 @@
             "version": "==0.3.0"
         },
         "codeforlife": {
-            "git": "https://github.com/ocadotechnology/codeforlife-package-python.git",
+            "hashes": [
+                "sha256:24127f71d8f4dce88ac434c736d6896e7245569ac96a97f95b0d3d7c1a05cc7e",
+                "sha256:69a0dd8abb128357782e7cfc73f2d0d582667472b4631636b3939d3c317374e6"
+            ],
+            "index": "pypi",
             "markers": "python_version == '3.12'",
-            "ref": "6dee17c5aaf8ec3576f12e474a43decb8d1d3faa"
+            "version": "==0.34.0"
         },
         "cryptography": {
             "hashes": [
@@ -2071,9 +2075,13 @@
             "version": "==8.3.3"
         },
         "codeforlife": {
-            "git": "https://github.com/ocadotechnology/codeforlife-package-python.git",
+            "hashes": [
+                "sha256:24127f71d8f4dce88ac434c736d6896e7245569ac96a97f95b0d3d7c1a05cc7e",
+                "sha256:69a0dd8abb128357782e7cfc73f2d0d582667472b4631636b3939d3c317374e6"
+            ],
+            "index": "pypi",
             "markers": "python_version == '3.12'",
-            "ref": "6dee17c5aaf8ec3576f12e474a43decb8d1d3faa"
+            "version": "==0.34.0"
         },
         "coverage": {
             "extras": [
@@ -3314,7 +3322,7 @@
         },
         "rapid-router": {
             "git": "https://github.com/ocadotechnology/rapid-router.git",
-            "ref": "d8c9e734ca2291cf99a140dd15b071e0cd3830d2"
+            "ref": "5395aa3c642cecf26eaaf4877f86461b10bed24b"
         },
         "redis": {
             "extras": [
