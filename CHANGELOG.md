@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.12.0 (2026-05-12)
+
+### Features
+
+- Workspace 1111 ([#2501](https://github.com/ocadotechnology/codeforlife-portal/pull/2501),
+  [`e357036`](https://github.com/ocadotechnology/codeforlife-portal/commit/e357036c5fb19930d7730dac8020dbbcc8c54bd2))
+
+
 ## v8.11.1 (2026-05-08)
 
 ### Bug Fixes
