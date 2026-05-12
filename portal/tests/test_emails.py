@@ -44,7 +44,7 @@ def test_newsletter_calls_correct_requests(mocker, monkeypatch):
         "codeforlife.legacy.helpers.emails.create_contact"
     )
     mocked_add_to_address_book = mocker.patch(
-        "common.helpers.emails.add_contact_to_address_book"
+        "codeforlife.legacy.helpers.emails.add_contact_to_address_book"
     )
 
     add_to_dotmailer(
