@@ -17,11 +17,7 @@ ignore:
   - "example_project/**/*.py"
   - "portal_test_settings.py"
   - "setup.py"
-  - "cfl_common/setup.py"
-  - "cfl_common/common/apps.py"
   - "portal/helpers/ratelimit.py"
   - "portal/autoconfig.py"
-  - "cfl_common/common/app_settings.py"
-  - "cfl_common/common/csp_config.py"
 
 comment: false
