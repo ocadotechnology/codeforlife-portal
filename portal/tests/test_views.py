@@ -960,7 +960,7 @@ class TestViews(TestCase):
 
         c.logout()
 
-    @patch("common.helpers.emails.send_dotdigital_email")
+    @patch("codeforlife.legacy.helpers.emails.send_dotdigital_email")
     def test_registrations_increment_data(
         self, mock_send_dotdigital_email: Mock
     ):

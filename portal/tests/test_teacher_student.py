@@ -25,9 +25,11 @@ from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.common.by import By
 
 from portal.tests.pageObjects.portal.home_page import HomePage
+
 from .base_test import BaseTest
 
 User = get_user_model()
+
 
 class TestTeacherStudentFrontend(BaseTest):
     def test_create_valid_name(self):
@@ -75,7 +77,8 @@ class TestTeacherStudentFrontend(BaseTest):
 
         assert page.adding_students_failed()
         assert page.was_form_invalid(
-            "form-create-students", "Names may only contain letters, numbers, dashes, underscores, and spaces."
+            "form-create-students",
+            "Names may only contain letters, numbers, dashes, underscores, and spaces.",
         )
 
     def test_create_multiple(self):
@@ -113,7 +116,11 @@ class TestTeacherStudentFrontend(BaseTest):
             .go_to_class_page()
         )
 
-        page = page.type_student_name(student_name).type_student_name(student_name).click_create_students()
+        page = (
+            page.type_student_name(student_name)
+            .type_student_name(student_name)
+            .click_create_students()
+        )
         assert page.adding_students_failed()
         assert page.duplicate_students(student_name)
 
@@ -238,7 +245,12 @@ class TestTeacherStudentFrontend(BaseTest):
         login_url = page.get_first_login_url()
         page.browser.get(login_url)
         assert page.on_correct_page("play_dashboard_page")
-        assert new_student_name in page.browser.find_element(By.XPATH, "//div[@class='header']").text
+        assert (
+            new_student_name
+            in page.browser.find_element(
+                By.XPATH, "//div[@class='header']"
+            ).text
+        )
 
     def test_update_student_name(self):
         email, password = signup_teacher_directly()
@@ -343,7 +355,8 @@ class TestTeacherStudentFrontend(BaseTest):
 
         assert page.is_student_name(name)
         assert page.was_form_invalid(
-            "form-edit-student", "Names may only contain letters, numbers, dashes, underscores, and spaces."
+            "form-edit-student",
+            "Names may only contain letters, numbers, dashes, underscores, and spaces.",
         )
 
     def test_update_student_password(self):
@@ -402,7 +415,9 @@ class TestTeacherStudentFrontend(BaseTest):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
-        student, login_id, student_name, student_password = create_student_with_direct_login(access_code)
+        student, login_id, student_name, student_password = (
+            create_student_with_direct_login(access_code)
+        )
 
         # "active student" is one who has logged in
         c = Client()
@@ -535,10 +550,16 @@ class TestTeacherStudentFrontend(BaseTest):
 
         page = page.go_to_dashboard()
 
-        page = page.logout().go_to_teacher_login_page().login(email_2, password_2).open_classes_tab().go_to_class_page()
+        page = (
+            page.logout()
+            .go_to_teacher_login_page()
+            .login(email_2, password_2)
+            .open_classes_tab()
+            .go_to_class_page()
+        )
         assert page.student_exists(student_name_1)
 
-    @patch("common.helpers.emails.send_dotdigital_email")
+    @patch("codeforlife.legacy.helpers.emails.send_dotdigital_email")
     def test_dismiss(self, mock_send_dotdigital_email: Mock):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
@@ -560,7 +581,12 @@ class TestTeacherStudentFrontend(BaseTest):
         page = page.cancel()
         assert page.__class__.__name__ == "TeachClassPage"
 
-        page = page.toggle_select_student().dismiss_students().enter_email("student_email@gmail.com").dismiss()
+        page = (
+            page.toggle_select_student()
+            .dismiss_students()
+            .enter_email("student_email@gmail.com")
+            .dismiss()
+        )
         assert not page.student_exists(student_name_1)
 
         # check whether a record is created correctly
@@ -570,13 +596,15 @@ class TestTeacherStudentFrontend(BaseTest):
 
         mock_send_dotdigital_email.assert_called()
 
-    @patch("common.helpers.emails.send_dotdigital_email")
+    @patch("codeforlife.legacy.helpers.emails.send_dotdigital_email")
     def test_multiple_dismiss(self, mock_send_dotdigital_email: Mock):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
         _, _, access_code = create_class_directly(email)
         student_name_1, _, student = create_school_student_directly(access_code)
-        student_name_2, _, student_2 = create_school_student_directly(access_code)
+        student_name_2, _, student_2 = create_school_student_directly(
+            access_code
+        )
 
         self.selenium.get(self.live_server_url)
         page = (

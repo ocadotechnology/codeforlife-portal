@@ -34,6 +34,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.tests.test_invite_teacher import WAIT_TIME
+
 from .base_test import BaseTest
 from .pageObjects.portal.home_page import HomePage
 from .utils.messages import (
@@ -137,7 +138,7 @@ class TestTeacher(TestCase):
         # Assert response isn't a redirect (submit failure)
         assert response.status_code == 200
 
-    @patch("common.helpers.emails.send_dotdigital_email")
+    @patch("codeforlife.legacy.helpers.emails.send_dotdigital_email")
     def test_signup_email_verification(self, mock_send_dotdigital_email: Mock):
         c = Client()
 
@@ -268,7 +269,7 @@ class TestTeacherFrontend(BaseTest):
         page = page.login(email, password)
         assert self.is_dashboard_page(page)
 
-    @patch("common.helpers.emails.send_dotdigital_email")
+    @patch("codeforlife.legacy.helpers.emails.send_dotdigital_email")
     def test_login_not_verified(self, mock_send_dotdigital_email):
         email, password = signup_teacher_directly(preverified=False)
         create_organisation_directly(email)
@@ -362,7 +363,7 @@ class TestTeacherFrontend(BaseTest):
             {"first_name": "Florian", "last_name": "Aucomte"}
         )
 
-    @patch("common.helpers.emails.send_dotdigital_email")
+    @patch("codeforlife.legacy.helpers.emails.send_dotdigital_email")
     def test_change_email(self, mock_send_dotdigital_email):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
