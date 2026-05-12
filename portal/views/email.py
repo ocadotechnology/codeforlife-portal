@@ -1,8 +1,8 @@
 from datetime import timedelta
 
 import jwt
-from common.models import Teacher
-from common.permissions import logged_in_as_independent_student
+from codeforlife.legacy.models import Teacher
+from codeforlife.legacy.permissions import logged_in_as_independent_student
 from django.conf import settings
 from django.contrib import messages as messages
 from django.contrib.auth import get_user_model

@@ -2,8 +2,8 @@ import itertools
 import re
 from builtins import map, range, str
 
-from common.helpers.emails import send_verification_email
-from common.models import Student, Teacher, UserSession, stripStudentName
+from codeforlife.legacy.helpers.emails import send_verification_email
+from codeforlife.legacy.models import Student, Teacher, UserSession, stripStudentName
 from django import forms
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.forms import AuthenticationForm

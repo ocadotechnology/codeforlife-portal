@@ -1,12 +1,12 @@
 from typing import Any, Dict, List, Optional
 
-from common.mail import campaign_ids, send_dotdigital_email
-from common.models import Student
-from common.permissions import (
+from codeforlife.legacy.mail import campaign_ids, send_dotdigital_email
+from codeforlife.legacy.models import Student
+from codeforlife.legacy.permissions import (
     logged_in_as_independent_student,
     logged_in_as_school_student,
 )
-from common.utils import LoginRequiredNoErrorMixin
+from codeforlife.legacy.utils import LoginRequiredNoErrorMixin
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import UserPassesTestMixin

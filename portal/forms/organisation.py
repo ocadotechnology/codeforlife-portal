@@ -1,7 +1,7 @@
 import re
 from builtins import object
 
-from common.models import School
+from codeforlife.legacy.models import School
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from django_countries.widgets import CountrySelectWidget

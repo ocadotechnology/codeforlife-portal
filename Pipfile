@@ -4,9 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-boto3 = "==1.36.14"
-celery = {extras = ["sqs"], version = "==5.4.0"}
-cfl-common = {path = "./cfl_common", editable = true}
+codeforlife = "==0.34.1"
 django-classy-tags = "==4.1.0"
 django-constance = "==4.3.4"
 django-formtools = "==2.5.1"
@@ -15,13 +13,11 @@ django-ratelimit = "==3.0.1"
 django-recaptcha = "==4.1.0"
 django-sekizai = "==4.1.0"
 django-treebeard = "==4.8.0"
-gunicorn = "==23.0.0"
 importlib-metadata = "==4.13.0"
 phonenumbers = "==8.12.12"
 pyyaml = "==6.0.2"
 reportlab = "==4.4.2"
 requests-toolbelt = "==1.0.0"
-whitenoise = "==6.9.0"
 
 [dev-packages]
 black = "*"
@@ -36,7 +32,7 @@ pytest-mock = "*"
 pytest-order = "*"
 pytest-xdist = "*"
 pyvirtualdisplay = "*"
-rapid-router = "==7.8.0"
+rapid-router = {ref = "workspace_1111", git = "https://github.com/ocadotechnology/rapid-router.git"}
 responses = "==0.18.0"
 selenium = "==4.29.0"
 snapshottest = "==1.0.0a1"

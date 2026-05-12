@@ -4,16 +4,21 @@ from datetime import datetime, timedelta
 from unittest.mock import ANY, Mock, patch
 
 import pytest
-from common.mail import campaign_ids
-from common.models import DailyActivity, Student, Teacher
-from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly
-from common.tests.utils.student import (
+from codeforlife.legacy.mail import campaign_ids
+from codeforlife.legacy.models import DailyActivity, Student, Teacher
+from codeforlife.legacy.tests.utils.classes import create_class_directly
+from codeforlife.legacy.tests.utils.organisation import (
+    create_organisation_directly,
+)
+from codeforlife.legacy.tests.utils.student import (
     create_independent_student_directly,
     create_school_student_directly,
     generate_independent_student_details,
 )
-from common.tests.utils.teacher import generate_details, signup_teacher_directly
+from codeforlife.legacy.tests.utils.teacher import (
+    generate_details,
+    signup_teacher_directly,
+)
 from django.core import mail
 from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy
@@ -30,13 +35,22 @@ class TestRatelimit(TestCase):
     def _teacher_login(self, username, password):
         return self.client.post(
             reverse("teacher_login"),
-            {"auth-username": username, "auth-password": password, "teacher_login_view-current_step": "auth"},
+            {
+                "auth-username": username,
+                "auth-password": password,
+                "teacher_login_view-current_step": "auth",
+            },
         )
 
     def _student_login(self, username, password):
-        return self.client.post(reverse("independent_student_login"), {"username": username, "password": password})
+        return self.client.post(
+            reverse("independent_student_login"),
+            {"username": username, "password": password},
+        )
 
-    def _student_school_login(self, access_code, student_name, student_password):
+    def _student_school_login(
+        self, access_code, student_name, student_password
+    ):
         return self.client.post(
             reverse("student_login", kwargs={"access_code": access_code}),
             {"username": student_name, "password": student_password},
@@ -79,13 +93,18 @@ class TestRatelimit(TestCase):
 
     def _reset_password_request(self, email):
         return self.client.post(
-            reverse("teacher_password_reset"), {"email": email, "g-recaptcha-response": "something"}
+            reverse("teacher_password_reset"),
+            {"email": email, "g-recaptcha-response": "something"},
         )
 
     def _reset_password(self, url, new_password):
-        return self.client.post(url, {"new_password1": new_password, "new_password2": new_password})
+        return self.client.post(
+            url, {"new_password1": new_password, "new_password2": new_password}
+        )
 
-    def _is_user_blocked(self, model: Teacher or Student, username: str, access_code: str = None) -> bool:
+    def _is_user_blocked(
+        self, model: Teacher or Student, username: str, access_code: str = None
+    ) -> bool:
         """
         Checks if a Teacher or a Student object is blocked, by checking if they
         have a blocked_time value, and if so, if the lockout has expired or not.
@@ -96,14 +115,19 @@ class TestRatelimit(TestCase):
         user = (
             model.objects.get(new_user___username_plain=username)
             if not access_code
-            else model.objects.get(new_user___first_name_plain=username, class_field___access_code_plain=access_code)
+            else model.objects.get(
+                new_user___first_name_plain=username,
+                class_field___access_code_plain=access_code,
+            )
         )
         if user.blocked_time:
             return not has_user_lockout_expired(user)
         else:
             return False
 
-    def _block_user(self, model: Teacher or Student, username: str, access_code=None) -> None:
+    def _block_user(
+        self, model: Teacher or Student, username: str, access_code=None
+    ) -> None:
         """
         Finds the Teacher or Student corresponding to the username, and sets it as
         blocked and sets the blocked date to now.
@@ -114,7 +138,10 @@ class TestRatelimit(TestCase):
         user = (
             model.objects.get(new_user___username_plain=username)
             if access_code is None
-            else model.objects.get(new_user___first_name_plain=username, class_field___access_code_plain=access_code)
+            else model.objects.get(
+                new_user___first_name_plain=username,
+                class_field___access_code_plain=access_code,
+            )
         )
 
         user.blocked_time = make_aware(datetime.now())
@@ -145,45 +172,71 @@ class TestRatelimit(TestCase):
         """
         teacher_email, teacher_password = signup_teacher_directly()
         school = create_organisation_directly(teacher_email)
-        klass, klass_name, klass_access_code = create_class_directly(teacher_email)
-        student_name, student_password, student = create_school_student_directly(klass_access_code)
+        klass, klass_name, klass_access_code = create_class_directly(
+            teacher_email
+        )
+        student_name, student_password, student = (
+            create_school_student_directly(klass_access_code)
+        )
 
         for i in range(10):
-            response = self._student_school_login(klass_access_code, student_name, "bad_password")
+            response = self._student_school_login(
+                klass_access_code, student_name, "bad_password"
+            )
 
-            assert not self._is_user_blocked(Student, student_name, klass_access_code)
+            assert not self._is_user_blocked(
+                Student, student_name, klass_access_code
+            )
 
-        _ = self._student_school_login(klass_access_code, student_name, "bad_password")
+        _ = self._student_school_login(
+            klass_access_code, student_name, "bad_password"
+        )
 
         assert self._is_user_blocked(Student, student_name, klass_access_code)
         student = Student.objects.get(id=student.id)
         current_student = Student.objects.get(
-            new_user___first_name_plain=student_name, class_field___access_code_plain=klass_access_code
+            new_user___first_name_plain=student_name,
+            class_field___access_code_plain=klass_access_code,
         )
 
         # now check if teacher can unlock it, both ways :)
-        url = reverse_lazy("teacher_class_password_reset", kwargs={"access_code": klass_access_code})
+        url = reverse_lazy(
+            "teacher_class_password_reset",
+            kwargs={"access_code": klass_access_code},
+        )
         data = {"transfer_students": [[current_student.id]]}
         c = Client()
 
         c.login(_username_plain=teacher_email, password=teacher_password)
         c.post(url, data)
-        assert not self._is_user_blocked(Student, student_name, klass_access_code)
+        assert not self._is_user_blocked(
+            Student, student_name, klass_access_code
+        )
 
         # now block again and test the edit by student method
         self._block_user(Student, student_name, klass_access_code)
         assert self._is_user_blocked(Student, student_name, klass_access_code)
-        url = reverse_lazy("teacher_edit_student", kwargs={"pk": current_student.id})
+        url = reverse_lazy(
+            "teacher_edit_student", kwargs={"pk": current_student.id}
+        )
         strong_password = "£EDCVFR$5tgbnhy6"
-        data = {"password": strong_password, "confirm_password": strong_password, "set_password": ""}
+        data = {
+            "password": strong_password,
+            "confirm_password": strong_password,
+            "set_password": "",
+        }
 
         c.post(url, data)
-        assert not self._is_user_blocked(Student, student_name, klass_access_code)
+        assert not self._is_user_blocked(
+            Student, student_name, klass_access_code
+        )
         c.logout()
         student = Student.objects.get(id=student.id)
         self._student_school_login(klass_access_code, student_name, "password1")
         student = Student.objects.get(id=student.id)
-        assert not self._is_user_blocked(Student, student_name, klass_access_code)
+        assert not self._is_user_blocked(
+            Student, student_name, klass_access_code
+        )
 
     def test_independent_student_login_ratelimit(self):
         """
@@ -326,7 +379,9 @@ class TestRatelimit(TestCase):
         assert get_ratelimit_count_for_user(email) == 1
 
     @patch("portal.forms.registration.send_dotdigital_email")
-    def test_teacher_reset_password_unblocks_user(self, mock_send_dotdigital_email: Mock):
+    def test_teacher_reset_password_unblocks_user(
+        self, mock_send_dotdigital_email: Mock
+    ):
         """
         Given a blocked teacher,
         When they reset they password,
@@ -348,9 +403,9 @@ class TestRatelimit(TestCase):
             campaign_ids["reset_password"], ANY, personalization_values=ANY
         )
 
-        reset_password_url = mock_send_dotdigital_email.call_args.kwargs["personalization_values"][
-            "RESET_PASSWORD_LINK"
-        ]
+        reset_password_url = mock_send_dotdigital_email.call_args.kwargs[
+            "personalization_values"
+        ]["RESET_PASSWORD_LINK"]
 
         new_password = "AnotherPassword12!"
 
@@ -366,7 +421,9 @@ class TestRatelimit(TestCase):
         old_daily_activity = DailyActivity(date=old_date)
         old_daily_activity.save()
         teacher_email, teacher_password = signup_teacher_directly()
-        indy_email, indy_password, student = create_independent_student_directly()
+        indy_email, indy_password, student = (
+            create_independent_student_directly()
+        )
         create_organisation_directly(teacher_email)
 
         self._block_user(Teacher, teacher_email)
@@ -402,7 +459,9 @@ class TestRatelimit(TestCase):
 
         # method 1
         _, _, klass_access_code = create_class_directly(teacher_email)
-        student_name, _, student = create_school_student_directly(klass_access_code)
+        student_name, _, student = create_school_student_directly(
+            klass_access_code
+        )
 
         self._block_user(Student, student_name, access_code=klass_access_code)
 
@@ -411,7 +470,11 @@ class TestRatelimit(TestCase):
 
         url = reverse_lazy("teacher_edit_student", kwargs={"pk": student.id})
         strong_password = "£EDCVFR$5tgb"
-        data = {"password": strong_password, "confirm_password": strong_password, "set_password": ""}
+        data = {
+            "password": strong_password,
+            "confirm_password": strong_password,
+            "set_password": "",
+        }
 
         response = c.post(url, data)
         old_daily_activity = DailyActivity.objects.get(date=old_date)
@@ -423,7 +486,10 @@ class TestRatelimit(TestCase):
 
         # method 2
         self._block_user(Student, student_name, access_code=klass_access_code)
-        url = reverse_lazy("teacher_class_password_reset", kwargs={"access_code": klass_access_code})
+        url = reverse_lazy(
+            "teacher_class_password_reset",
+            kwargs={"access_code": klass_access_code},
+        )
         data = {"transfer_students": [[student.id]]}
 
         response = c.post(url, data)
@@ -435,9 +501,11 @@ class TestRatelimit(TestCase):
         assert current_daily_activity.school_student_lockout_resets == 2
 
 
-@patch("common.helpers.emails.send_dotdigital_email")
+@patch("codeforlife.legacy.helpers.emails.send_dotdigital_email")
 @pytest.mark.django_db
-def test_teacher_already_registered_email(mock_send_dotdigital_email: Mock, client):
+def test_teacher_already_registered_email(
+    mock_send_dotdigital_email: Mock, client
+):
     first_name, last_name, email, password = generate_details()
     register_url = reverse("register")
     data = {
@@ -452,7 +520,9 @@ def test_teacher_already_registered_email(mock_send_dotdigital_email: Mock, clie
 
     # Register the teacher first time, there should be a registration email
     client.post(register_url, data)
-    mock_send_dotdigital_email.assert_called_once_with(campaign_ids["verify_new_user"], ANY, personalization_values=ANY)
+    mock_send_dotdigital_email.assert_called_once_with(
+        campaign_ids["verify_new_user"], ANY, personalization_values=ANY
+    )
 
     # Register with the same email again, there should also be an already registered email
     client.post(register_url, data)
@@ -463,10 +533,14 @@ def test_teacher_already_registered_email(mock_send_dotdigital_email: Mock, clie
     assert len(mail.outbox) == 1
 
 
-@patch("common.helpers.emails.send_dotdigital_email")
+@patch("codeforlife.legacy.helpers.emails.send_dotdigital_email")
 @pytest.mark.django_db
-def test_independent_student_already_registered_email(mock_send_dotdigital_email: Mock, client):
-    name, username, email_address, password = generate_independent_student_details()
+def test_independent_student_already_registered_email(
+    mock_send_dotdigital_email: Mock, client
+):
+    name, username, email_address, password = (
+        generate_independent_student_details()
+    )
     register_url = reverse("register")
     data = {
         "independent_student_signup-date_of_birth_day": 7,
@@ -482,7 +556,9 @@ def test_independent_student_already_registered_email(mock_send_dotdigital_email
 
     # Register the independent student first time, there should be a registration email
     client.post(register_url, data)
-    mock_send_dotdigital_email.assert_called_once_with(campaign_ids["verify_new_user"], ANY, personalization_values=ANY)
+    mock_send_dotdigital_email.assert_called_once_with(
+        campaign_ids["verify_new_user"], ANY, personalization_values=ANY
+    )
 
     # Register with the same email again, there should also be an already registered email
     client.post(register_url, data)

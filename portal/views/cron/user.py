@@ -1,9 +1,9 @@
 import logging
 from datetime import datetime, timedelta
 
-from common.helpers.emails import generate_token_for_email
-from common.mail import campaign_ids, send_dotdigital_email
-from common.models import DailyActivity, TotalActivity
+from codeforlife.legacy.helpers.emails import generate_token_for_email
+from codeforlife.legacy.mail import campaign_ids, send_dotdigital_email
+from codeforlife.legacy.models import DailyActivity, TotalActivity
 from django.contrib.auth import get_user_model
 from django.db.models import F, Q
 from django.db.models.query import QuerySet

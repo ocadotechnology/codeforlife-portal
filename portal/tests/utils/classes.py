@@ -1,4 +1,4 @@
-from common.tests.utils.classes import generate_details
+from codeforlife.legacy.tests.utils.classes import generate_details
 
 
 def create_class(page, teacher_id=None):

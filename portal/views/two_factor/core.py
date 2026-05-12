@@ -1,4 +1,4 @@
-import common.permissions as permissions
+import codeforlife.legacy.permissions as permissions
 from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator

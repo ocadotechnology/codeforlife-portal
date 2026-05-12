@@ -7,7 +7,9 @@ import typing as t
 from setuptools import find_packages, setup
 
 with open("portal/__init__.py", "r") as fd:
-    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', fd.read(), re.MULTILINE).group(1)
+    version = re.search(
+        r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', fd.read(), re.MULTILINE
+    ).group(1)
 
 
 def parse_requirements(packages: t.Dict[str, t.Dict[str, t.Any]]):
@@ -24,24 +26,20 @@ def parse_requirements(packages: t.Dict[str, t.Dict[str, t.Any]]):
 
     requirements: t.List[str] = []
     for name, package in packages.items():
-        if package == "cfl-common":
-            # requirement = f"{package}=={version}"
-            continue
-        else:
-            requirement = name
-            if "git" in package:
-                requirement += f" @ git+{package['git']}"
-                if "ref" in package:
-                    requirement += f"@{package['ref']}"
-                if "subdirectory" in package:
-                    requirement += f"#subdirectory={package['subdirectory']}"
-            elif "version" in package:
-                if "extras" in package:
-                    requirement += f"[{','.join(package['extras'])}]"
-                requirement += package["version"]
-                if "markers" in package:
-                    requirement += f"; {package['markers']}"
-            requirements.append(requirement)
+        requirement = name
+        if "git" in package:
+            requirement += f" @ git+{package['git']}"
+            if "ref" in package:
+                requirement += f"@{package['ref']}"
+            if "subdirectory" in package:
+                requirement += f"#subdirectory={package['subdirectory']}"
+        elif "version" in package:
+            if "extras" in package:
+                requirement += f"[{','.join(package['extras'])}]"
+            requirement += package["version"]
+            if "markers" in package:
+                requirement += f"; {package['markers']}"
+        requirements.append(requirement)
 
     return requirements
 

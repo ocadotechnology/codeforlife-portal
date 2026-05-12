@@ -1,24 +1,24 @@
 from datetime import timedelta
 from uuid import uuid4
 
-from common.app_settings import domain
-from common.helpers.emails import (
+from codeforlife.legacy.app_settings import domain
+from codeforlife.legacy.helpers.emails import (
     DotmailerUserType,
     add_to_dotmailer,
     generate_token,
     update_email,
 )
-from common.helpers.generators import get_random_username
-from common.mail import address_book_ids, campaign_ids, send_dotdigital_email
-from common.models import (
+from codeforlife.legacy.helpers.generators import get_random_username
+from codeforlife.legacy.mail import address_book_ids, campaign_ids, send_dotdigital_email
+from codeforlife.legacy.models import (
     Class,
     JoinReleaseStudent,
     SchoolTeacherInvitation,
     Student,
     Teacher,
 )
-from common.permissions import check_teacher_authorised, logged_in_as_teacher
-from common.utils import using_two_factor
+from codeforlife.legacy.permissions import check_teacher_authorised, logged_in_as_teacher
+from codeforlife.legacy.utils import using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.decorators import login_required, user_passes_test

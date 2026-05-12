@@ -2,15 +2,15 @@ from __future__ import absolute_import
 
 import time
 
-from common.models import Teacher
-from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
+from codeforlife.legacy.models import Teacher
+from codeforlife.legacy.tests.utils.classes import create_class_directly
+from codeforlife.legacy.tests.utils.organisation import (
     create_organisation,
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from common.tests.utils.student import create_school_student_directly
-from common.tests.utils.teacher import signup_teacher_directly
+from codeforlife.legacy.tests.utils.student import create_school_student_directly
+from codeforlife.legacy.tests.utils.teacher import signup_teacher_directly
 from selenium.webdriver.common.by import By
 
 from portal.tests.pageObjects.portal.base_page import BasePage

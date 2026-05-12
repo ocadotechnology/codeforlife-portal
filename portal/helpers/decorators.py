@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import datetime
 from functools import wraps
 
-from common.models import Teacher, Student
+from codeforlife.legacy.models import Teacher, Student
 from django.contrib.auth import logout
 from django.shortcuts import render
 from django.utils.timezone import make_aware

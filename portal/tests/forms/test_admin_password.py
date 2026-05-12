@@ -1,5 +1,5 @@
 import pytest
-from common.tests.utils.user import create_user_directly
+from codeforlife.legacy.tests.utils.user import create_user_directly
 from django.contrib.auth import get_user_model
 
 from portal.forms.admin import AdminUserCreationForm, AdminChangeUserPasswordForm, AdminChangeOwnPasswordForm

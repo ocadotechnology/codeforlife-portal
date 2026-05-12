@@ -1,9 +1,9 @@
 from __future__ import absolute_import
 
-from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import create_organisation_directly
-from common.tests.utils.student import create_school_student_directly
-from common.tests.utils.teacher import signup_teacher_directly
+from codeforlife.legacy.tests.utils.classes import create_class_directly
+from codeforlife.legacy.tests.utils.organisation import create_organisation_directly
+from codeforlife.legacy.tests.utils.student import create_school_student_directly
+from codeforlife.legacy.tests.utils.teacher import signup_teacher_directly
 
 from portal.tests.pageObjects.portal.home_page import HomePage
 from .base_test import BaseTest

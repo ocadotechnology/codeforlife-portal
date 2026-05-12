@@ -1,11 +1,11 @@
-from common.helpers.emails import (
+from codeforlife.legacy.helpers.emails import (
     NOTIFICATION_EMAIL,
     delete_contact,
     send_email,
     update_indy_email,
 )
-from common.models import Student
-from common.permissions import logged_in_as_student
+from codeforlife.legacy.models import Student
+from codeforlife.legacy.permissions import logged_in_as_student
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, user_passes_test

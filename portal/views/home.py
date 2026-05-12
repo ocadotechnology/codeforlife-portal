@@ -1,13 +1,13 @@
 import math
 
-from common.app_settings import domain
-from common.helpers.emails import (
+from codeforlife.legacy.app_settings import domain
+from codeforlife.legacy.helpers.emails import (
     send_verification_email,
 )
-from common.mail import campaign_ids, send_dotdigital_email
-from common.models import DynamicElement, Student, Teacher, TotalActivity
-from common.permissions import logged_in_as_student, logged_in_as_teacher
-from common.utils import _using_two_factor
+from codeforlife.legacy.mail import campaign_ids, send_dotdigital_email
+from codeforlife.legacy.models import DynamicElement, Student, Teacher, TotalActivity
+from codeforlife.legacy.permissions import logged_in_as_student, logged_in_as_teacher
+from codeforlife.legacy.utils import _using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import logout
 from django.contrib.auth import get_user_model

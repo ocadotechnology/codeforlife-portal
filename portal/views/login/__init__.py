@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from common.models import Teacher, Student
+from codeforlife.legacy.models import Teacher, Student
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.timezone import make_aware

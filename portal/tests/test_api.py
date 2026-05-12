@@ -3,15 +3,15 @@ from __future__ import absolute_import
 from unittest.mock import patch
 
 import pytest
-from common.models import Class, School, Student, Teacher
-from common.tests.utils.classes import create_class_directly
-from common.tests.utils.organisation import (
+from codeforlife.legacy.models import Class, School, Student, Teacher
+from codeforlife.legacy.tests.utils.classes import create_class_directly
+from codeforlife.legacy.tests.utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from common.tests.utils.student import create_school_student_directly
-from common.tests.utils.teacher import signup_teacher_directly
-from common.tests.utils.user import create_user_directly, get_superuser
+from codeforlife.legacy.tests.utils.student import create_school_student_directly
+from codeforlife.legacy.tests.utils.teacher import signup_teacher_directly
+from codeforlife.legacy.tests.utils.user import create_user_directly, get_superuser
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from hamcrest import *

@@ -5,15 +5,15 @@ from enum import Enum
 from functools import partial, wraps
 from uuid import uuid4
 
-from common.app_settings import domain
-from common.helpers.emails import send_verification_email
-from common.helpers.generators import (
+from codeforlife.legacy.app_settings import domain
+from codeforlife.legacy.helpers.emails import send_verification_email
+from codeforlife.legacy.helpers.generators import (
     generate_access_code,
     generate_login_id,
     generate_password,
     get_hashed_login_id,
 )
-from common.models import (
+from codeforlife.legacy.models import (
     Class,
     DailyActivity,
     JoinReleaseStudent,
@@ -21,7 +21,7 @@ from common.models import (
     Teacher,
     TotalActivity,
 )
-from common.permissions import check_teacher_authorised, logged_in_as_teacher
+from codeforlife.legacy.permissions import check_teacher_authorised, logged_in_as_teacher
 from django.contrib import messages as messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import get_user_model

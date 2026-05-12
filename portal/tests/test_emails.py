@@ -1,7 +1,7 @@
 import datetime
 
 import pytest
-from common.helpers.emails import (
+from codeforlife.legacy.helpers.emails import (
     DotmailerUserType,
     add_consent_record_to_dotmailer_user,
     add_contact_to_address_book,
@@ -10,7 +10,7 @@ from common.helpers.emails import (
     delete_contact,
     send_dotmailer_consent_confirmation_email_to_user,
 )
-from common.mail import address_book_ids
+from codeforlife.legacy.mail import address_book_ids
 from django.test import Client
 from django.urls import reverse
 from example_project.portal_test_settings import (
@@ -40,9 +40,11 @@ def patch_datetime_now(monkeypatch):
 
 
 def test_newsletter_calls_correct_requests(mocker, monkeypatch):
-    mocked_create_contact = mocker.patch("common.helpers.emails.create_contact")
+    mocked_create_contact = mocker.patch(
+        "codeforlife.legacy.helpers.emails.create_contact"
+    )
     mocked_add_to_address_book = mocker.patch(
-        "common.helpers.emails.add_contact_to_address_book"
+        "codeforlife.legacy.helpers.emails.add_contact_to_address_book"
     )
 
     add_to_dotmailer(
@@ -67,8 +69,10 @@ def test_newsletter_get_not_allowed():
 
 
 def test_delete_account(mocker):
-    mocked_delete = mocker.patch("common.helpers.emails.delete")
-    mocker.patch("common.helpers.emails.get_dotmailer_user_by_email")
+    mocked_delete = mocker.patch("codeforlife.legacy.helpers.emails.delete")
+    mocker.patch(
+        "codeforlife.legacy.helpers.emails.get_dotmailer_user_by_email"
+    )
 
     delete_contact("example@mail.com")
 
@@ -81,7 +85,7 @@ def test_delete_account(mocker):
 def test_newsletter_sends_correct_request_data(
     mocker, monkeypatch, patch_datetime_now
 ):
-    mocked_post = mocker.patch("common.helpers.emails.post")
+    mocked_post = mocker.patch("codeforlife.legacy.helpers.emails.post")
 
     expected_body1 = {
         "contact": {
@@ -179,8 +183,8 @@ def test_newsletter_sends_correct_request_data(
 def test_consent_calls_send_correct_request_data(
     mocker, monkeypatch, patch_datetime_now
 ):
-    mocked_post = mocker.patch("common.helpers.emails.post")
-    mocked_put = mocker.patch("common.helpers.emails.put")
+    mocked_post = mocker.patch("codeforlife.legacy.helpers.emails.post")
+    mocked_put = mocker.patch("codeforlife.legacy.helpers.emails.put")
 
     user = {
         "id": 1,
