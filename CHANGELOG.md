@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.12.1 (2026-05-12)
+
+### Bug Fixes
+
+- Temporarily remove RR
+  ([`84f24f2`](https://github.com/ocadotechnology/codeforlife-portal/commit/84f24f2bd4d9cc8e330e77d00cfd80dcb1d56114))
+
+
 ## v8.12.0 (2026-05-12)
 
 ### Features
