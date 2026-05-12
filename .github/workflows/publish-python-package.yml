@@ -65,18 +65,6 @@ jobs:
         with:
           skip-existing: true
 
-      - name: Build cfl-common package
-        run: |
-          pushd cfl_common
-          python -m build --sdist --wheel
-          popd
-
-      - name: 🚀 Publish cfl-common package to PyPi
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          packages-dir: cfl_common/dist/
-          skip-existing: true
-
   monitor:
     runs-on: ubuntu-22.04
     needs: [publish-pypi-packages]
