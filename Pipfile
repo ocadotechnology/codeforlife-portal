@@ -32,7 +32,7 @@ pytest-mock = "*"
 pytest-order = "*"
 pytest-xdist = "*"
 pyvirtualdisplay = "*"
-rapid-router = {ref = "workspace_1111", git = "https://github.com/ocadotechnology/rapid-router.git"}
+# rapid-router = {ref = "workspace_1111", git = "https://github.com/ocadotechnology/rapid-router.git"}
 responses = "==0.18.0"
 selenium = "==4.29.0"
 snapshottest = "==1.0.0a1"
