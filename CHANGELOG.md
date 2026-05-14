@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.13.0 (2026-05-14)
+
+### Features
+
+- Workspace 1057 part2 ([#2502](https://github.com/ocadotechnology/codeforlife-portal/pull/2502),
+  [`4bdf74c`](https://github.com/ocadotechnology/codeforlife-portal/commit/4bdf74c8833097da1fc5ea24b87383286c97d8fb))
+
+
 ## v8.12.1 (2026-05-12)
 
 ### Bug Fixes
