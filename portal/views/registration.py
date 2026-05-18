@@ -11,11 +11,11 @@ from codeforlife.legacy.helpers.emails import (
 from codeforlife.legacy.mail import campaign_ids, send_dotdigital_email
 from codeforlife.legacy.models import DailyActivity, Student, Teacher
 from codeforlife.legacy.permissions import not_fully_logged_in, not_logged_in
+from deploy import captcha
 from django.contrib import messages as messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
-from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -29,7 +29,6 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_POST
 
-from deploy import captcha
 from portal import app_settings
 from portal.forms.registration import (
     StudentPasswordResetForm,
@@ -43,6 +42,7 @@ from portal.views.api import anonymise
 from portal.views.login import has_user_lockout_expired
 
 User = get_user_model()
+
 
 @user_passes_test(not_logged_in, login_url=reverse_lazy("home"))
 def student_password_reset(request):
@@ -62,7 +62,9 @@ def blocked_and_not_expired(user: Student or Teacher):
 
 def school_student_reset_password_tracker(request, activity_today):
     if "transfer_students" in request.POST:
-        student_list = ast.literal_eval(request.POST.get("transfer_students", []))
+        student_list = ast.literal_eval(
+            request.POST.get("transfer_students", [])
+        )
         for student_id in student_list:
             current_student = Student.objects.get(id=student_id)
             if blocked_and_not_expired(current_student):
@@ -76,7 +78,9 @@ def school_student_reset_password_tracker(request, activity_today):
 
 
 def teacher_or_indy_reset_password_tracker(request, activity_today, email):
-    get_user = Teacher.objects.filter(new_user___email_plain=email) or Student.objects.filter(new_user___email_plain=email)
+    get_user = Teacher.objects.filter(
+        new_user___email_hash__sha256=email
+    ) or Student.objects.filter(new_user___email_hash__sha256=email)
     if get_user.exists():
         user = get_user[0]
         if blocked_and_not_expired(user):
@@ -87,15 +91,21 @@ def teacher_or_indy_reset_password_tracker(request, activity_today, email):
             activity_today.save()
 
 
-def handle_reset_password_tracking(request, user_type, access_code=None, student_id=None):
-    activity_today = DailyActivity.objects.get_or_create(date=datetime.now().date())[0]
+def handle_reset_password_tracking(
+    request, user_type, access_code=None, student_id=None
+):
+    activity_today = DailyActivity.objects.get_or_create(
+        date=datetime.now().date()
+    )[0]
     # school student has 2 different ways of resetting password
     # hence the function is extended
     # check for indy student or teacher account
     if user_type == "SCHOOL_STUDENT":
         school_student_reset_password_tracker(request, activity_today)
     elif "email" in request.POST:
-        teacher_or_indy_reset_password_tracker(request, activity_today, request.POST.get("email", ""))
+        teacher_or_indy_reset_password_tracker(
+            request, activity_today, request.POST.get("email", "")
+        )
 
 
 @user_passes_test(not_fully_logged_in, login_url=reverse_lazy("teacher_login"))
@@ -141,7 +151,11 @@ def password_reset(
             }
             form.save(**opts)
 
-            return render(request, "portal/reset_password_email_sent.html", {"usertype": usertype})
+            return render(
+                request,
+                "portal/reset_password_email_sent.html",
+                {"usertype": usertype},
+            )
     else:
         form = password_reset_form()
 
@@ -221,7 +235,11 @@ def password_reset_confirm(
 
                 _check_and_unblock_user(user.username, usertype)
 
-                return render(request, "portal/reset_password_done.html", {"usertype": usertype})
+                return render(
+                    request,
+                    "portal/reset_password_done.html",
+                    {"usertype": usertype},
+                )
         else:
             form = set_password_form(user)
     else:
@@ -238,11 +256,14 @@ def password_reset_confirm(
 
 def _check_and_unblock_user(username, usertype, access_code=None):
     if usertype == "TEACHER":
-        user = Teacher.objects.get(new_user___username_plain=username)
+        user = Teacher.objects.get(new_user___username_hash__sha256=username)
     elif usertype == "INDEP_STUDENT":
-        user = Student.objects.get(new_user___username_plain=username)
+        user = Student.objects.get(new_user___username_hash__sha256=username)
     elif usertype == "SCHOOL_STUDENT":
-        user = Student.objects.get(new_user___first_name_plain=username, class_field___access_code_plain=access_code)
+        user = Student.objects.get(
+            new_user___first_name_hash__sha256=username,
+            class_field___access_code_hash__sha256=access_code,
+        )
 
     if user.blocked_time is not None:
         user.blocked_time = None
@@ -297,7 +318,9 @@ def delete_account(request):
     password = request.POST.get("password")
 
     if not user.check_password(password):
-        messages.error(request, "Your account was not deleted due to incorrect password.")
+        messages.error(
+            request, "Your account was not deleted due to incorrect password."
+        )
         return HttpResponseRedirect(reverse_lazy("dashboard"))
 
     email = user.email

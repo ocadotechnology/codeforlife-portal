@@ -5,12 +5,20 @@ from codeforlife.legacy.helpers.emails import (
     send_verification_email,
 )
 from codeforlife.legacy.mail import campaign_ids, send_dotdigital_email
-from codeforlife.legacy.models import DynamicElement, Student, Teacher, TotalActivity
-from codeforlife.legacy.permissions import logged_in_as_student, logged_in_as_teacher
+from codeforlife.legacy.models import (
+    DynamicElement,
+    Student,
+    Teacher,
+    TotalActivity,
+)
+from codeforlife.legacy.permissions import (
+    logged_in_as_student,
+    logged_in_as_teacher,
+)
 from codeforlife.legacy.utils import _using_two_factor
+from deploy import captcha
 from django.contrib import messages as messages
-from django.contrib.auth import logout
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, logout
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import F
 from django.http import HttpResponse, HttpResponseRedirect
@@ -20,7 +28,6 @@ from django.utils import timezone
 from django.utils.html import format_html
 from django.views.decorators.cache import cache_control
 
-from deploy import captcha
 from portal.forms.play import IndependentStudentSignupForm
 from portal.forms.teach import TeacherSignupForm
 from portal.helpers.captcha import remove_captcha_from_forms
@@ -64,11 +71,15 @@ def render_signup_form(request):
     invalid_form = False
 
     teacher_signup_form = TeacherSignupForm(prefix="teacher_signup")
-    independent_student_signup_form = IndependentStudentSignupForm(prefix="independent_student_signup")
+    independent_student_signup_form = IndependentStudentSignupForm(
+        prefix="independent_student_signup"
+    )
 
     if request.method == "POST":
         if "teacher_signup-teacher_email" in request.POST:
-            teacher_signup_form = TeacherSignupForm(request.POST, prefix="teacher_signup")
+            teacher_signup_form = TeacherSignupForm(
+                request.POST, prefix="teacher_signup"
+            )
 
             if not captcha.CAPTCHA_ENABLED:
                 remove_captcha_from_forms(teacher_signup_form)
@@ -106,7 +117,7 @@ def _newsletter_ticked(form_data):
 def process_signup_form(request, data):
     email = data["teacher_email"]
 
-    if email and User.objects.filter(_email_plain=email).exists():
+    if email and User.objects.filter(_email_hash__sha256=email).exists():
 
         is_email_ratelimited = is_ratelimited(
             request=request,
@@ -135,7 +146,9 @@ def process_signup_form(request, data):
 
         send_verification_email(request, teacher.user.user, data)
 
-        TotalActivity.objects.update(teacher_registrations=F("teacher_registrations") + 1)
+        TotalActivity.objects.update(
+            teacher_registrations=F("teacher_registrations") + 1
+        )
 
     return render(
         request,
@@ -148,7 +161,7 @@ def process_signup_form(request, data):
 def process_independent_student_signup_form(request, data):
     email = data["email"]
 
-    if email and User.objects.filter(_email_plain=email).exists():
+    if email and User.objects.filter(_email_hash__sha256=email).exists():
         is_email_ratelimited = is_ratelimited(
             request=request,
             group=RATELIMIT_USER_ALREADY_REGISTERED_EMAIL_GROUP,
@@ -184,7 +197,9 @@ def process_independent_student_signup_form(request, data):
 
     send_verification_email(request, student.new_user, data, age=age)
 
-    TotalActivity.objects.update(independent_registrations=F("independent_registrations") + 1)
+    TotalActivity.objects.update(
+        independent_registrations=F("independent_registrations") + 1
+    )
 
     return render(
         request,
@@ -195,7 +210,10 @@ def process_independent_student_signup_form(request, data):
 
 
 def is_developer(request):
-    return hasattr(request.user, "userprofile") and request.user.userprofile.developer
+    return (
+        hasattr(request.user, "userprofile")
+        and request.user.userprofile.developer
+    )
 
 
 def redirect_teacher_to_correct_page(request, teacher):
@@ -225,10 +243,14 @@ def home(request):
     # tests where the first Selenium test passes, but any following test
     # fails because it cannot find the Maintenance banner instance.
     try:
-        maintenance_banner = DynamicElement.objects.get(name="Maintenance banner")
+        maintenance_banner = DynamicElement.objects.get(
+            name="Maintenance banner"
+        )
 
         if maintenance_banner.active:
-            messages.info(request, format_html(maintenance_banner.text), extra_tags="safe")
+            messages.info(
+                request, format_html(maintenance_banner.text), extra_tags="safe"
+            )
     except ObjectDoesNotExist:
         pass
 
@@ -246,7 +268,9 @@ def home(request):
 
 
 def coding_club(request):
-    return render(request, "portal/coding_club.html", {"BANNER": CODING_CLUB_BANNER})
+    return render(
+        request, "portal/coding_club.html", {"BANNER": CODING_CLUB_BANNER}
+    )
 
 
 def home_learning(request):
@@ -258,7 +282,9 @@ def home_learning(request):
 
 
 def ten_year_map_page(request):
-    messages.info(request, "This page is currently under construction.", extra_tags="safe")
+    messages.info(
+        request, "This page is currently under construction.", extra_tags="safe"
+    )
     return render(
         request,
         "portal/ten_year_map.html",

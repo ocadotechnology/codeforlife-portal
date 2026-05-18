@@ -9,7 +9,11 @@ from codeforlife.legacy.helpers.emails import (
     update_email,
 )
 from codeforlife.legacy.helpers.generators import get_random_username
-from codeforlife.legacy.mail import address_book_ids, campaign_ids, send_dotdigital_email
+from codeforlife.legacy.mail import (
+    address_book_ids,
+    campaign_ids,
+    send_dotdigital_email,
+)
 from codeforlife.legacy.models import (
     Class,
     JoinReleaseStudent,
@@ -17,7 +21,10 @@ from codeforlife.legacy.models import (
     Student,
     Teacher,
 )
-from codeforlife.legacy.permissions import check_teacher_authorised, logged_in_as_teacher
+from codeforlife.legacy.permissions import (
+    check_teacher_authorised,
+    logged_in_as_teacher,
+)
 from codeforlife.legacy.utils import using_two_factor
 from django.contrib import messages as messages
 from django.contrib.auth import get_user_model, logout
@@ -53,6 +60,7 @@ from portal.helpers.ratelimit import (
 from .teach import create_class
 
 User = get_user_model()
+
 
 def _get_update_account_rate(group, request):
     """
@@ -93,12 +101,12 @@ def dashboard_teacher_view(request, is_admin):
 
     if school:
         coworkers = sorted(
-            Teacher.objects.filter(school=school).select_related("new_user").only(
+            Teacher.objects.filter(school=school)
+            .select_related("new_user")
+            .only(
                 "new_user__dek",
                 "new_user___last_name_enc",
-                "new_user___last_name_plain",
                 "new_user___first_name_enc",
-                "new_user___first_name_plain",
             ),
             key=lambda teacher: (
                 teacher.new_user.last_name.lower(),
@@ -106,9 +114,15 @@ def dashboard_teacher_view(request, is_admin):
             ),
         )
 
-        sent_invites = SchoolTeacherInvitation.objects.filter(school=school) if teacher.is_admin else []
+        sent_invites = (
+            SchoolTeacherInvitation.objects.filter(school=school)
+            if teacher.is_admin
+            else []
+        )
 
-        update_school_form = OrganisationForm(user=request.user, current_school=school)
+        update_school_form = OrganisationForm(
+            user=request.user, current_school=school
+        )
         update_school_form.fields["name"].initial = school.name
         update_school_form.fields["country"].initial = school.country
         update_school_form.fields["county"].initial = school.county
@@ -133,7 +147,9 @@ def dashboard_teacher_view(request, is_admin):
     if request.method == "POST":
         if can_process_update_school_form(request, is_admin):
             anchor = "school-details"
-            update_school_form = OrganisationForm(request.POST, user=request.user, current_school=school)
+            update_school_form = OrganisationForm(
+                request.POST, user=request.user, current_school=school
+            )
             anchor = process_update_school_form(request, school, anchor)
 
         elif "create_class" in request.POST:
@@ -143,11 +159,17 @@ def dashboard_teacher_view(request, is_admin):
                 class_teacher = teacher
                 # If the logged in teacher is an admin, then get the class teacher from the selected dropdown
                 if teacher.is_admin:
-                    class_teacher = get_object_or_404(Teacher, id=create_class_form.cleaned_data["teacher"])
-                created_class = create_class(create_class_form, class_teacher, class_creator=teacher)
+                    class_teacher = get_object_or_404(
+                        Teacher, id=create_class_form.cleaned_data["teacher"]
+                    )
+                created_class = create_class(
+                    create_class_form, class_teacher, class_creator=teacher
+                )
                 messages.success(
                     request,
-                    "The class '{className}' has been created successfully.".format(className=created_class.name),
+                    "The class '{className}' has been created successfully.".format(
+                        className=created_class.name
+                    ),
                 )
                 return HttpResponseRedirect(
                     reverse_lazy(
@@ -180,7 +202,9 @@ def dashboard_teacher_view(request, is_admin):
                     expiry=timezone.now() + timedelta(days=30),
                 )
 
-                account_exists = User.objects.filter(_email_plain=invited_teacher_email).exists()
+                account_exists = User.objects.filter(
+                    _email_hash__sha256=invited_teacher_email
+                ).exists()
 
                 registration_link = f"{domain(request)}{reverse('invited_teacher', kwargs={'token': token})} "
 
@@ -218,7 +242,9 @@ def dashboard_teacher_view(request, is_admin):
                 delete_account_confirm = True
         else:
             anchor = "account"
-            update_account_form = TeacherEditAccountForm(request.user, request.POST)
+            update_account_form = TeacherEditAccountForm(
+                request.user, request.POST
+            )
             (
                 changing_email,
                 new_email,
@@ -240,15 +266,25 @@ def dashboard_teacher_view(request, is_admin):
 
             if changing_password:
                 logout(request)
-                messages.success(request, "Please login using your new password.")
+                messages.success(
+                    request, "Please login using your new password."
+                )
                 return HttpResponseRedirect(reverse_lazy("teacher_login"))
 
     if teacher.is_admin:
         # Making sure the current teacher classes come up first
         classes = school.classes()
-        [classes.insert(0, classes.pop(i)) for i in range(len(classes)) if classes[i].teacher.id == teacher.id]
+        [
+            classes.insert(0, classes.pop(i))
+            for i in range(len(classes))
+            if classes[i].teacher.id == teacher.id
+        ]
 
-        requests = list(Student.objects.filter(pending_class_request__teacher__school=school))
+        requests = list(
+            Student.objects.filter(
+                pending_class_request__teacher__school=school
+            )
+        )
         [
             requests.insert(0, requests.pop(i))
             for i in range(len(requests))
@@ -257,7 +293,9 @@ def dashboard_teacher_view(request, is_admin):
 
     else:
         classes = Class.objects.filter(teacher=teacher)
-        requests = Student.objects.filter(pending_class_request__teacher=teacher)
+        requests = Student.objects.filter(
+            pending_class_request__teacher=teacher
+        )
 
     return render(
         request,
@@ -291,7 +329,9 @@ def check_backup_tokens(request):
     # For teachers using 2FA, find out how many backup tokens they have
     if using_two_factor(request.user):
         try:
-            backup_tokens = request.user.staticdevice_set.all()[0].token_set.count()
+            backup_tokens = request.user.staticdevice_set.all()[
+                0
+            ].token_set.count()
         except Exception:
             backup_tokens = 0
 
@@ -299,7 +339,9 @@ def check_backup_tokens(request):
 
 
 def process_update_school_form(request, school, old_anchor):
-    update_school_form = OrganisationForm(request.POST, user=request.user, current_school=school)
+    update_school_form = OrganisationForm(
+        request.POST, user=request.user, current_school=school
+    )
     if update_school_form.is_valid():
         data = update_school_form.cleaned_data
         name = data.get("name", "")
@@ -331,7 +373,9 @@ def process_update_account_form(request, teacher, old_anchor):
         data = update_account_form.cleaned_data
 
         # check not default value for CharField
-        changing_password = check_update_password(update_account_form, teacher.new_user, request, data)
+        changing_password = check_update_password(
+            update_account_form, teacher.new_user, request, data
+        )
 
         teacher.new_user.first_name = data["first_name"]
         teacher.new_user.last_name = data["last_name"]
@@ -346,7 +390,9 @@ def process_update_account_form(request, teacher, old_anchor):
         # Reset ratelimit cache after successful account details update
         clear_ratelimit_cache_for_user(teacher.new_user.username)
 
-        messages.success(request, "Your account details have been successfully changed.")
+        messages.success(
+            request, "Your account details have been successfully changed."
+        )
     else:
         anchor = old_anchor
 
@@ -378,7 +424,9 @@ def organisation_kick(request, pk):
 
     check_teacher_is_authorised(teacher, user)
 
-    success_message = "The teacher has been successfully removed from your school or club."
+    success_message = (
+        "The teacher has been successfully removed from your school or club."
+    )
 
     classes = Class.objects.filter(teacher=teacher)
     for klass in classes:
@@ -388,10 +436,14 @@ def organisation_kick(request, pk):
             klass.teacher = new_teacher
             klass.save()
 
-            success_message = success_message.replace(".", " and their classes were successfully transferred.")
+            success_message = success_message.replace(
+                ".", " and their classes were successfully transferred."
+            )
 
     classes = Class.objects.filter(teacher=teacher)
-    teachers = Teacher.objects.filter(school=teacher.school).exclude(id=teacher.id)
+    teachers = Teacher.objects.filter(school=teacher.school).exclude(
+        id=teacher.id
+    )
 
     if classes.exists():
         messages.info(
@@ -433,7 +485,9 @@ def invite_toggle_admin(request, invite_id):
     invite.save()
 
     if invite.invited_teacher_is_admin:
-        messages.success(request, "Administrator invite status has been given successfully")
+        messages.success(
+            request, "Administrator invite status has been given successfully"
+        )
         send_dotdigital_email(
             campaign_ids["admin_given"],
             [invite.invited_teacher_email],
@@ -444,7 +498,9 @@ def invite_toggle_admin(request, invite_id):
         )
 
     else:
-        messages.success(request, "Administrator invite status has been revoked successfully")
+        messages.success(
+            request, "Administrator invite status has been revoked successfully"
+        )
         send_dotdigital_email(
             campaign_ids["admin_revoked"],
             [invite.invited_teacher_email],
@@ -467,7 +523,9 @@ def organisation_toggle_admin(request, pk):
     teacher.save()
 
     if teacher.is_admin:
-        messages.success(request, "Administrator status has been given successfully.")
+        messages.success(
+            request, "Administrator status has been given successfully."
+        )
         send_dotdigital_email(
             campaign_ids["admin_given"],
             [teacher.new_user.email],
@@ -481,9 +539,12 @@ def organisation_toggle_admin(request, pk):
         [
             unshare_level(level, teacher.new_user)
             for level in levels_shared_with(teacher.new_user)
-            if hasattr(level.owner, "student") and not teacher.teaches(level.owner)
+            if hasattr(level.owner, "student")
+            and not teacher.teaches(level.owner)
         ]
-        messages.success(request, "Administrator status has been revoked successfully.")
+        messages.success(
+            request, "Administrator status has been revoked successfully."
+        )
         send_dotdigital_email(
             campaign_ids["admin_revoked"],
             [teacher.new_user.email],
@@ -503,7 +564,11 @@ def teacher_disable_2FA(request, pk):
     if teacher.school != user.school or not user.is_admin:
         raise Http404
 
-    [device.delete() for device in devices_for_user(teacher.new_user) if request.method == "POST"]
+    [
+        device.delete()
+        for device in devices_for_user(teacher.new_user)
+        if request.method == "POST"
+    ]
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
 
@@ -519,16 +584,14 @@ def teacher_accept_student_request(request, pk):
     students = sorted(
         Student.objects.filter(class_field=student.pending_class_request)
         .select_related("new_user")
-        .only(
-            "new_user__dek",
-            "new_user___first_name_plain",
-            "new_user___first_name_enc",
-        ),
+        .only("new_user__dek", "new_user___first_name_enc"),
         key=lambda student: student.new_user.first_name.lower(),
     )
 
     if request.method == "POST":
-        form = TeacherAddExternalStudentForm(student.pending_class_request, request.POST)
+        form = TeacherAddExternalStudentForm(
+            student.pending_class_request, request.POST
+        )
         if form.is_valid():
             data = form.cleaned_data
             student.class_field = student.pending_class_request
@@ -539,10 +602,17 @@ def teacher_accept_student_request(request, pk):
             student.new_user.last_name = ""
             student.new_user.email = ""
 
-            students_levels = Level.objects.filter(owner=student.new_user.userprofile).all()
+            students_levels = Level.objects.filter(
+                owner=student.new_user.userprofile
+            ).all()
             school_admins = teacher.school.admins()
             for level in students_levels:
-                level.shared_with.add(*[school_admin.new_user.id for school_admin in school_admins])
+                level.shared_with.add(
+                    *[
+                        school_admin.new_user.id
+                        for school_admin in school_admins
+                    ]
+                )
 
                 if not teacher.is_admin:
                     level.shared_with.add(teacher.new_user)
@@ -555,7 +625,9 @@ def teacher_accept_student_request(request, pk):
             student.new_user.userprofile.save()
 
             # log the data
-            joinrelease = JoinReleaseStudent.objects.create(student=student, action_type=JoinReleaseStudent.JOIN)
+            joinrelease = JoinReleaseStudent.objects.create(
+                student=student, action_type=JoinReleaseStudent.JOIN
+            )
             joinrelease.save()
 
             return render(
@@ -623,13 +695,17 @@ def teacher_reject_student_request(request, pk):
 @login_required(login_url=reverse_lazy("teacher_login"))
 def delete_teacher_invite(request, token):
     try:
-        invite = SchoolTeacherInvitation.objects.get(_token_plain=token)
+        invite = SchoolTeacherInvitation.objects.get(_token_hash__sha256=token)
     except SchoolTeacherInvitation.DoesNotExist:
         invite = None
     teacher = request.user.new_teacher
 
     # auth the user before deletion
-    if invite is None or teacher.school != invite.school or not is_admin_teacher(request.user):
+    if (
+        invite is None
+        or teacher.school != invite.school
+        or not is_admin_teacher(request.user)
+    ):
         messages.error(
             request,
             "You do not have permission to perform this action or the invite does not exist",
@@ -647,13 +723,17 @@ def delete_teacher_invite(request, token):
 @login_required(login_url=reverse_lazy("teacher_login"))
 def resend_invite_teacher(request, token):
     try:
-        invite = SchoolTeacherInvitation.objects.get(_token_plain=token)
+        invite = SchoolTeacherInvitation.objects.get(_token_hash__sha256=token)
     except SchoolTeacherInvitation.DoesNotExist:
         invite = None
     teacher = request.user.new_teacher
 
     # auth the user before deletion
-    if invite is None or teacher.school != invite.school or not is_admin_teacher(request.user):
+    if (
+        invite is None
+        or teacher.school != invite.school
+        or not is_admin_teacher(request.user)
+    ):
         messages.error(
             request,
             "You do not have permission to perform this action or the invite does not exist",
@@ -711,11 +791,15 @@ def invited_teacher(request, token):
 
 def process_teacher_invitation(request, token):
     try:
-        invitation = SchoolTeacherInvitation.objects.get(_token_plain=token, expiry__gt=timezone.now())
+        invitation = SchoolTeacherInvitation.objects.get(
+            _token_hash__sha256=token, expiry__gt=timezone.now()
+        )
     except SchoolTeacherInvitation.DoesNotExist:
         return "Uh oh, the Invitation does not exist or it has expired. 😞"
 
-    if User.objects.filter(_email_plain=invitation.invited_teacher_email).exists():
+    if User.objects.filter(
+        _email_hash__sha256=invitation.invited_teacher_email
+    ).exists():
         return (
             "It looks like an account is already registered with this email address. You will need to delete the "
             "other account first or change the email associated with it in order to proceed. You will then be able to "

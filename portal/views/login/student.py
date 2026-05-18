@@ -1,13 +1,13 @@
-from codeforlife.legacy.models import UserSession, Student, Class
+from codeforlife.legacy.models import Class, Student, UserSession
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.views import LoginView, FormView
+from django.contrib.auth.views import FormView, LoginView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.html import escape
 
-from portal.forms.play import StudentLoginForm, StudentClassCodeForm
+from portal.forms.play import StudentClassCodeForm, StudentLoginForm
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.helpers.request_handlers import get_access_code_from_request
 from portal.views.login import has_user_lockout_expired
@@ -107,12 +107,12 @@ class StudentLoginView(LoginView):
         # get access code from the current url
         access_code = get_access_code_from_request(request)
         if Student.objects.filter(
-            new_user___first_name_plain=username,
-            class_field___access_code_plain=access_code
+            new_user___first_name_hash__sha256=username,
+            class_field___access_code_hash__sha256=access_code,
         ).exists():
             student = Student.objects.get(
-                new_user___first_name_plain=username,
-                class_field___access_code_plain=access_code,
+                new_user___first_name_hash__sha256=username,
+                class_field___access_code_hash__sha256=access_code,
             )
 
             if student.blocked_time is not None:

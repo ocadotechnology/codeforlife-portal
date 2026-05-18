@@ -1,5 +1,5 @@
 import re
-from datetime import timedelta, date
+from datetime import date, timedelta
 
 from codeforlife.legacy.helpers.emails import send_verification_email
 from codeforlife.legacy.models import Class, Student, stripStudentName
@@ -18,7 +18,9 @@ from portal.helpers.regexes import ACCESS_CODE_PATTERN
 
 class StudentClassCodeForm(forms.Form):
     access_code = forms.CharField(
-        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Class code"}),
+        widget=forms.TextInput(
+            attrs={"autocomplete": "off", "placeholder": "Class code"}
+        ),
         help_text="Enter your class code",
     )
 
@@ -27,18 +29,24 @@ class StudentClassCodeForm(forms.Form):
 
         if access_code:
             if re.fullmatch(ACCESS_CODE_PATTERN, access_code.upper()) is None:
-                raise forms.ValidationError("Uh oh! You didn't input a valid class code.")
+                raise forms.ValidationError(
+                    "Uh oh! You didn't input a valid class code."
+                )
 
         return self.cleaned_data
 
 
 class StudentLoginForm(AuthenticationForm):
     username = forms.CharField(
-        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Username"}),
+        widget=forms.TextInput(
+            attrs={"autocomplete": "off", "placeholder": "Username"}
+        ),
         help_text="Enter your username",
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Password"}
+        ),
         help_text="Enter your password",
     )
 
@@ -51,7 +59,9 @@ class StudentLoginForm(AuthenticationForm):
         password = self.cleaned_data.get("password", None)
 
         if name and self.access_code and password:
-            student, user = self.check_for_errors(name, self.access_code, password)
+            student, user = self.check_for_errors(
+                name, self.access_code, password
+            )
 
             self.student = student
             self.user_cache = user
@@ -60,26 +70,40 @@ class StudentLoginForm(AuthenticationForm):
     def check_for_errors(self, name, access_code, password):
         classes = Class.objects.filter(_access_code_plain__iexact=access_code)
         if len(classes) != 1:
-            raise forms.ValidationError("Invalid name, class access code or password")
+            raise forms.ValidationError(
+                "Invalid name, class access code or password"
+            )
         klass = classes[0]
 
         name = stripStudentName(name)
 
-        students = Student.objects.filter(new_user___first_name_plain__iexact=name, class_field=klass)
+        students = Student.objects.filter(
+            new_user___first_name_plain__iexact=name, class_field=klass
+        )
         if len(students) != 1:
-            raise forms.ValidationError("Invalid name, class access code or password")
+            raise forms.ValidationError(
+                "Invalid name, class access code or password"
+            )
 
         student = students[0]
-        user = authenticate(_username_plain=student.new_user.username, password=password.lower())
+        user = authenticate(
+            _username_plain=student.new_user.username, password=password.lower()
+        )
 
         # Try the case sensitive password too, for previous accounts that don't have the lowercase one stored
         if user is None:
-            user = authenticate(_username_plain=student.new_user.username, password=password)
+            user = authenticate(
+                _username_plain=student.new_user.username, password=password
+            )
 
         if user is None:
-            raise forms.ValidationError("Invalid name, class access code or password")
+            raise forms.ValidationError(
+                "Invalid name, class access code or password"
+            )
         if not user.is_active:
-            raise forms.ValidationError("This user account has been deactivated")
+            raise forms.ValidationError(
+                "This user account has been deactivated"
+            )
 
         return student, user
 
@@ -87,16 +111,22 @@ class StudentLoginForm(AuthenticationForm):
 class StudentEditAccountForm(forms.Form):
     password = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "New password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "New password"}
+        ),
         help_text="Enter new password",
     )
     confirm_password = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Confirm new password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Confirm new password"}
+        ),
         help_text="Confirm new password",
     )
     current_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Current password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Current password"}
+        ),
         help_text="Enter your current password",
     )
 
@@ -115,28 +145,44 @@ class IndependentStudentEditAccountForm(forms.Form):
     name = forms.CharField(
         max_length=100,
         required=False,
-        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Name"}),
+        widget=forms.TextInput(
+            attrs={"autocomplete": "off", "placeholder": "Name"}
+        ),
         help_text="Enter your name",
     )
     email = forms.EmailField(
         required=False,
-        widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "New email address (optional)"}),
+        widget=forms.EmailInput(
+            attrs={
+                "autocomplete": "off",
+                "placeholder": "New email address (optional)",
+            }
+        ),
         help_text="Enter new email address (optional)",
     )
     password = forms.CharField(
         required=False,
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "New password (optional)"}),
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "off",
+                "placeholder": "New password (optional)",
+            }
+        ),
         help_text="Enter new password (optional)",
     )
     confirm_password = forms.CharField(
         label="Confirm new password",
         required=False,
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Confirm new password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Confirm new password"}
+        ),
         help_text="Confirm new password",
     )
     current_password = forms.CharField(
         label="Current password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Current password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Current password"}
+        ),
         help_text="Enter your current password",
     )
 
@@ -151,12 +197,16 @@ class IndependentStudentEditAccountForm(forms.Form):
                 raise forms.ValidationError("This field is required")
 
             if re.match(re.compile("^[\w ]+$"), name) is None:
-                raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
+                raise forms.ValidationError(
+                    "Names may only contain letters, numbers, dashes, underscores, and spaces."
+                )
 
         return name
 
     def clean_password(self):
-        return form_clean_password(self, "password", PasswordStrength.INDEPENDENT)
+        return form_clean_password(
+            self, "password", PasswordStrength.INDEPENDENT
+        )
 
     def clean(self):
         return clean_confirm_password(self, independent=True)
@@ -179,7 +229,9 @@ def clean_confirm_password(self, independent=True):
 
     if current_password and not self.user.check_password(current_password):
         # If it's not an independent student, check their lowercase password as well
-        if independent or not self.user.check_password(current_password.lower()):
+        if independent or not self.user.check_password(
+            current_password.lower()
+        ):
             raise forms.ValidationError("Your current password was incorrect")
 
     return self.cleaned_data
@@ -193,7 +245,8 @@ class IndependentStudentSignupForm(forms.Form):
     date_of_birth = forms.DateField(
         help_text="Please enter your date of birth (we do not store this information).",
         widget=forms.SelectDateWidget(
-            years=range(date.today().year, date.today().year - 100, -1), empty_label=("Year", "Month", "Day")
+            years=range(date.today().year, date.today().year - 100, -1),
+            empty_label=("Year", "Month", "Day"),
         ),
         required=False,
     )
@@ -201,25 +254,37 @@ class IndependentStudentSignupForm(forms.Form):
     name = forms.CharField(
         max_length=100,
         help_text="Enter full name",
-        widget=forms.TextInput(attrs={"autocomplete": "off", "placeholder": "Full name"}),
+        widget=forms.TextInput(
+            attrs={"autocomplete": "off", "placeholder": "Full name"}
+        ),
     )
 
     email = forms.EmailField(
         help_text="Enter your email address",
-        widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "Email address"}),
+        widget=forms.EmailInput(
+            attrs={"autocomplete": "off", "placeholder": "Email address"}
+        ),
     )
 
-    consent_ticked = forms.BooleanField(widget=forms.CheckboxInput(), initial=False, required=True)
-    newsletter_ticked = forms.BooleanField(widget=forms.CheckboxInput(), initial=False, required=False)
+    consent_ticked = forms.BooleanField(
+        widget=forms.CheckboxInput(), initial=False, required=True
+    )
+    newsletter_ticked = forms.BooleanField(
+        widget=forms.CheckboxInput(), initial=False, required=False
+    )
 
     password = forms.CharField(
         help_text="Enter a password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Password"}
+        ),
     )
 
     confirm_password = forms.CharField(
         help_text="Repeat password",
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Repeat password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Repeat password"}
+        ),
     )
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
@@ -227,12 +292,16 @@ class IndependentStudentSignupForm(forms.Form):
     def clean_name(self):
         name = self.cleaned_data.get("name", None)
         if re.match(re.compile("^[\w ]+$"), name) is None:
-            raise forms.ValidationError("Names may only contain letters, numbers, dashes, underscores, and spaces.")
+            raise forms.ValidationError(
+                "Names may only contain letters, numbers, dashes, underscores, and spaces."
+            )
 
         return name
 
     def clean_password(self):
-        return form_clean_password(self, "password", PasswordStrength.INDEPENDENT)
+        return form_clean_password(
+            self, "password", PasswordStrength.INDEPENDENT
+        )
 
     def clean(self):
         password = self.cleaned_data.get("password", None)
@@ -246,11 +315,15 @@ class IndependentStudentSignupForm(forms.Form):
 
 class IndependentStudentLoginForm(AuthenticationForm):
     username = forms.EmailField(
-        widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "Email address"}),
+        widget=forms.EmailInput(
+            attrs={"autocomplete": "off", "placeholder": "Email address"}
+        ),
         help_text="Enter your email address",
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Password"}
+        ),
         help_text="Enter your password",
     )
 
@@ -273,14 +346,19 @@ class IndependentStudentLoginForm(AuthenticationForm):
 
 
 class StudentJoinOrganisationForm(forms.Form):
-    access_code = forms.CharField(label="Class Access Code", widget=forms.TextInput(attrs={"placeholder": "AB123"}))
+    access_code = forms.CharField(
+        label="Class Access Code",
+        widget=forms.TextInput(attrs={"placeholder": "AB123"}),
+    )
 
     def clean(self):
         access_code = self.cleaned_data.get("access_code", None)
         join_error_text = "The class code you entered either does not exist or is not currently accepting join requests. Please double check that you have entered the correct class code and contact the teacher of the class to ensure their class is currently accepting join requests."
 
         if access_code:
-            classes = Class.objects.filter(_access_code_plain=access_code)
+            classes = Class.objects.filter(
+                _access_code_hash__sha256=access_code
+            )
             if len(classes) != 1:
                 raise forms.ValidationError(join_error_text)
 

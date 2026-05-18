@@ -1,7 +1,13 @@
 import datetime
 import uuid
 
-from codeforlife.legacy.models import Class, School, Student, Teacher, UserProfile
+from codeforlife.legacy.models import (
+    Class,
+    School,
+    Student,
+    Teacher,
+    UserProfile,
+)
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
@@ -122,9 +128,7 @@ def anonymise(user):
             .select_related("new_user")
             .only(
                 "new_user__dek",
-                "new_user___last_name_plain",
                 "new_user___last_name_enc",
-                "new_user___first_name_plain",
                 "new_user___first_name_enc",
             ),
             key=lambda teacher: (

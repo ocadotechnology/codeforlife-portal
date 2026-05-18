@@ -113,11 +113,11 @@ class TestRatelimit(TestCase):
         :return: Whether or not the model object is marked as blocked.
         """
         user = (
-            model.objects.get(new_user___username_plain=username)
+            model.objects.get(new_user___username_hash__sha256=username)
             if not access_code
             else model.objects.get(
-                new_user___first_name_plain=username,
-                class_field___access_code_plain=access_code,
+                new_user___first_name_hash__sha256=username,
+                class_field___access_code_hash__sha256=access_code,
             )
         )
         if user.blocked_time:
@@ -136,11 +136,11 @@ class TestRatelimit(TestCase):
         """
 
         user = (
-            model.objects.get(new_user___username_plain=username)
+            model.objects.get(new_user___username_hash__sha256=username)
             if access_code is None
             else model.objects.get(
-                new_user___first_name_plain=username,
-                class_field___access_code_plain=access_code,
+                new_user___first_name_hash__sha256=username,
+                class_field___access_code_hash__sha256=access_code,
             )
         )
 
@@ -195,8 +195,8 @@ class TestRatelimit(TestCase):
         assert self._is_user_blocked(Student, student_name, klass_access_code)
         student = Student.objects.get(id=student.id)
         current_student = Student.objects.get(
-            new_user___first_name_plain=student_name,
-            class_field___access_code_plain=klass_access_code,
+            new_user___first_name_hash__sha256=student_name,
+            class_field___access_code_hash__sha256=klass_access_code,
         )
 
         # now check if teacher can unlock it, both ways :)
@@ -207,7 +207,7 @@ class TestRatelimit(TestCase):
         data = {"transfer_students": [[current_student.id]]}
         c = Client()
 
-        c.login(_username_plain=teacher_email, password=teacher_password)
+        c.login(_username_hash=teacher_email, password=teacher_password)
         c.post(url, data)
         assert not self._is_user_blocked(
             Student, student_name, klass_access_code
@@ -315,7 +315,7 @@ class TestRatelimit(TestCase):
         assert login_response.status_code == 200
 
         # Manually change the blocked date to over 24 hours ago to emulate waiting.
-        teacher = Teacher.objects.get(new_user___username_plain=email)
+        teacher = Teacher.objects.get(new_user___username_hash__sha256=email)
         teacher.blocked_time = make_aware(datetime.now()) - timedelta(hours=24)
         teacher.save()
 
@@ -343,7 +343,7 @@ class TestRatelimit(TestCase):
         assert login_response.status_code == 200
 
         # Manually change the blocked date to over 24 hours ago to emulate waiting.
-        student = Student.objects.get(new_user___username_plain=username)
+        student = Student.objects.get(new_user___username_hash__sha256=username)
         student.blocked_time = make_aware(datetime.now()) - timedelta(hours=24)
         student.save()
 
@@ -466,7 +466,7 @@ class TestRatelimit(TestCase):
         self._block_user(Student, student_name, access_code=klass_access_code)
 
         c = Client()
-        c.login(_username_plain=teacher_email, password=teacher_password)
+        c.login(_username_hash=teacher_email, password=teacher_password)
 
         url = reverse_lazy("teacher_edit_student", kwargs={"pk": student.id})
         strong_password = "£EDCVFR$5tgb"

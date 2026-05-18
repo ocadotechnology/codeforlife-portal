@@ -69,7 +69,7 @@ class TestTeacherViews(TestCase):
 
     def login(self):
         c = Client()
-        assert c.login(_username_plain=self.email, password=self.password)
+        assert c.login(_username_hash=self.email, password=self.password)
         return c
 
     def test_reminder_cards(self):
@@ -182,7 +182,7 @@ class TestTeacherViews(TestCase):
         join_teacher_to_organisation(self.email, school.name, is_admin=True)
         join_teacher_to_organisation(teacher2_email, school.name)
         teacher2_id = Teacher.objects.get(
-            new_user___email_plain=teacher2_email
+            new_user___email_hash__sha256=teacher2_email
         ).id
 
         client = self.login()
@@ -261,7 +261,7 @@ class TestTeacherViews(TestCase):
         assert student.user.is_verified
 
         c.logout()
-        c.login(_username_plain=self.email, password=self.password)
+        c.login(_username_hash=self.email, password=self.password)
 
         teacher = Teacher.objects.factory(
             "the", "teacher", "theteacher@foo.com", "password"
@@ -400,7 +400,7 @@ class TestLoginViews(TestCase):
         now = timezone.now()
         oneminago = now - timedelta(minutes=1)
 
-        user = User.objects.get(_email_plain=email)
+        user = User.objects.get(_email_hash__sha256=email)
         q = UserSession.objects.filter(user=user)
         q = q.filter(login_time__range=(oneminago, now))
         assert len(q) == 1
@@ -409,7 +409,7 @@ class TestLoginViews(TestCase):
         assert q[0].school == teacher.school
 
     def _get_user_class(self, name, class_access_code):
-        klass = Class.objects.get(_access_code_plain=class_access_code)
+        klass = Class.objects.get(_access_code_hash__sha256=class_access_code)
         students = Student.objects.filter(
             new_user___first_name_plain__iexact=name, class_field=klass
         )
@@ -498,7 +498,7 @@ class TestLoginViews(TestCase):
         now = timezone.now()
         oneminago = now - timedelta(minutes=1)
 
-        user = User.objects.get(_username_plain=username)
+        user = User.objects.get(_username_hash__sha256=username)
         q = UserSession.objects.filter(user=user)
         q = q.filter(login_time__range=(oneminago, now))
         assert len(q) == 1
@@ -530,7 +530,7 @@ class TestLoginViews(TestCase):
         q = UserSession.objects.filter(user=student.new_user)
         q = q.filter(login_time__range=(oneminago, now))
         assert len(q) == 1
-        klass = Class.objects.get(_access_code_plain=class_access_code)
+        klass = Class.objects.get(_access_code_hash__sha256=class_access_code)
         assert q[0].class_field == klass
         assert q[0].login_type == "direct"
 
@@ -662,15 +662,15 @@ class TestViews(TestCase):
         assert response.context_data == EXPECTED_DATA_FIRST_LOGIN
 
         # Attempt the first two RR levels, one perfect attempt, one not
-        level1 = Level.objects.get(_name_plain="1")
-        level2 = Level.objects.get(_name_plain="2")
+        level1 = Level.objects.get(_name_hash__sha256="1")
+        level2 = Level.objects.get(_name_hash__sha256="2")
 
         LevelMetrics.objects.create(level=level1, student=student, top_score=20)
         LevelMetrics.objects.create(level=level2, student=student, top_score=19)
 
         # Attempt the first and fourth Python Den levels, both perfect
-        level1001 = Level.objects.get(_name_plain="1001")
-        level1004 = Level.objects.get(_name_plain="1004")
+        level1001 = Level.objects.get(_name_hash__sha256="1001")
+        level1004 = Level.objects.get(_name_hash__sha256="1004")
 
         LevelMetrics.objects.create(
             level=level1001, student=student, top_score=20
@@ -708,7 +708,7 @@ class TestViews(TestCase):
     @patch("portal.views.registration.send_dotdigital_email")
     def test_delete_account(self, mock_send_dotdigital_email: Mock):
         email, password = signup_teacher_directly()
-        u = User.objects.get(_email_plain=email)
+        u = User.objects.get(_email_hash__sha256=email)
         usrid = u.id
 
         c = Client()
@@ -730,7 +730,7 @@ class TestViews(TestCase):
         mock_send_dotdigital_email.assert_not_called()
 
         # user has not been anonymised
-        u = User.objects.get(_email_plain=email)
+        u = User.objects.get(_email_hash__sha256=email)
         assert u.id == usrid
 
         # try again with the correct password
@@ -748,7 +748,7 @@ class TestViews(TestCase):
         assert u.first_name == "Deleted"
         assert not u.is_active
 
-        assert c.login(_username_plain=email, password=password) == False
+        assert c.login(_username_hash=email, password=password) == False
 
     @patch("portal.views.registration.send_dotdigital_email")
     def test_delete_account_admin(self, mock_send_dotdigital_email: Mock):
@@ -759,22 +759,22 @@ class TestViews(TestCase):
         email3, password3 = signup_teacher_directly()
         email4, password4 = signup_teacher_directly()
 
-        user1 = User.objects.get(_email_plain=email1)
+        user1 = User.objects.get(_email_hash__sha256=email1)
         user1.last_name = "Amir"
         user1.save()
         usrid1 = user1.id
 
-        user2 = User.objects.get(_email_plain=email2)
+        user2 = User.objects.get(_email_hash__sha256=email2)
         user2.last_name = "Bee"
         user2.save()
         usrid2 = user2.id
 
-        user3 = User.objects.get(_email_plain=email3)
+        user3 = User.objects.get(_email_hash__sha256=email3)
         user3.last_name = "Jung"
         user3.save()
         usrid3 = user3.id
 
-        user4 = User.objects.get(_email_plain=email4)
+        user4 = User.objects.get(_email_hash__sha256=email4)
         user4.last_name = "Kook"
         user4.save()
         usrid4 = user4.id
@@ -824,9 +824,7 @@ class TestViews(TestCase):
             .select_related("new_user")
             .only(
                 "new_user__dek",
-                "new_user___last_name_plain",
                 "new_user___last_name_enc",
-                "new_user___first_name_plain",
                 "new_user___first_name_enc",
             ),
             key=lambda teacher: (
@@ -869,9 +867,7 @@ class TestViews(TestCase):
             .select_related("new_user")
             .only(
                 "new_user__dek",
-                "new_user___last_name_plain",
                 "new_user___last_name_enc",
-                "new_user___first_name_plain",
                 "new_user___first_name_enc",
             ),
             key=lambda teacher: (
@@ -895,9 +891,7 @@ class TestViews(TestCase):
             .select_related("new_user")
             .only(
                 "new_user__dek",
-                "new_user___last_name_plain",
                 "new_user___last_name_enc",
-                "new_user___first_name_plain",
                 "new_user___first_name_enc",
             ),
             key=lambda teacher: (
@@ -943,18 +937,18 @@ class TestViews(TestCase):
         school = create_organisation_directly(email1)
         join_teacher_to_organisation(email2, school.name)
 
-        teacher1 = Teacher.objects.get(new_user___username_plain=email1)
-        teacher2 = Teacher.objects.get(new_user___username_plain=email2)
+        teacher1 = Teacher.objects.get(new_user___username_hash__sha256=email1)
+        teacher2 = Teacher.objects.get(new_user___username_hash__sha256=email2)
 
         c = Client()
 
-        c.login(_username_plain=email1, password=password1)
+        c.login(_username_hash=email1, password=password1)
 
         assert is_logged_in_as_admin_teacher(teacher1.new_user)
 
         c.logout()
 
-        c.login(_username_plain=email2, password=password2)
+        c.login(_username_hash=email2, password=password2)
 
         assert not is_logged_in_as_admin_teacher(teacher2.new_user)
 
@@ -1025,7 +1019,7 @@ class TestViews(TestCase):
         create_organisation_directly(teacher_email)
         _, _, access_code = create_class_directly(teacher_email)
 
-        c.login(_username_plain=teacher_email, password=teacher_password)
+        c.login(_username_hash=teacher_email, password=teacher_password)
         c.post(
             reverse("view_class", kwargs={"access_code": access_code}),
             {"names": "Student 1, Student 2, Student 3"},
@@ -1082,12 +1076,12 @@ class TestUser(CronTestCase):
         _, _, student = create_school_student_directly(access_code)
         indy_email, _, _ = create_independent_student_directly()
 
-        self.teacher_user = User.objects.get(_email_plain=teacher_email)
+        self.teacher_user = User.objects.get(_email_hash__sha256=teacher_email)
         self.teacher_user_profile = UserProfile.objects.get(
             user=self.teacher_user
         )
 
-        self.indy_user = User.objects.get(_email_plain=indy_email)
+        self.indy_user = User.objects.get(_email_hash__sha256=indy_email)
         self.indy_user_profile = UserProfile.objects.get(user=self.indy_user)
 
         self.student_user: User = student.new_user

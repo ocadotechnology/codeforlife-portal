@@ -11,10 +11,12 @@ class OrganisationForm(forms.ModelForm):
     name = forms.CharField(
         max_length=200,
         help_text="Name of school or club",
-        widget=forms.TextInput(attrs={
-            "autocomplete": "off",
-            "placeholder": "Name of school or club"
-        }),
+        widget=forms.TextInput(
+            attrs={
+                "autocomplete": "off",
+                "placeholder": "Name of school or club",
+            }
+        ),
     )
     county = forms.ChoiceField(
         choices=[
@@ -162,12 +164,14 @@ class OrganisationForm(forms.ModelForm):
 
         if name:
             try:
-                school = School.objects.get(_name_plain=name)
+                school = School.objects.get(_name_hash__sha256=name)
             except ObjectDoesNotExist:
                 return self.cleaned_data
 
             if not self.current_school or self.current_school.id != school.id:
-                raise forms.ValidationError("There is already a school or club registered with that name")
+                raise forms.ValidationError(
+                    "There is already a school or club registered with that name"
+                )
 
         return self.cleaned_data
 

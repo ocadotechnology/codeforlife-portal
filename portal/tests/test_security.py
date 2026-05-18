@@ -4,13 +4,16 @@ from builtins import str
 
 from codeforlife.legacy.models import School, Student, UserProfile
 from codeforlife.legacy.tests.utils.classes import create_class_directly
+from codeforlife.legacy.tests.utils.organisation import (
+    create_organisation_directly,
+)
 from codeforlife.legacy.tests.utils.teacher import signup_teacher_directly
-from codeforlife.legacy.tests.utils.organisation import create_organisation_directly
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse, reverse_lazy
 
 User = get_user_model()
+
 
 class SecurityTestCase(TestCase):
     def _test_incorrect_teacher_cannot_login(self, view_name):
@@ -20,7 +23,7 @@ class SecurityTestCase(TestCase):
         _, _, access_code = create_class_directly(email1)
 
         c = Client()
-        assert c.login(username=email2, password=pass2)
+        assert c.login(_username_hash=email2, password=pass2)
         page = reverse(view_name, args=[access_code])
         assert not c.get(page).status_code == 200
 
@@ -31,7 +34,7 @@ class SecurityTestCase(TestCase):
         _, _, access_code = create_class_directly(email1)
 
         c = Client()
-        assert c.login(username=email2, password=pass2)
+        assert c.login(_username_hash=email2, password=pass2)
 
         invalid_page = reverse(view_name, args=[access_code])
         invalid_login_code = c.get(invalid_page).status_code
@@ -43,7 +46,9 @@ class SecurityTestCase(TestCase):
 
     def test_reminder_cards_info_leak(self):
         """Check that it isn't leaked whether an access code exists."""
-        self._test_incorrect_teacher_no_info_leak("teacher_print_reminder_cards")
+        self._test_incorrect_teacher_no_info_leak(
+            "teacher_print_reminder_cards"
+        )
 
     def test_class_page_info_leak(self):
         """Check that it isn't leaked whether an access code exists."""
@@ -59,8 +64,12 @@ class SecurityTestCase(TestCase):
         stu.save()
 
         assert (
-            c.get(reverse("teacher_edit_student", kwargs={"pk": "9999"})).status_code
-            == c.get(reverse("teacher_edit_student", kwargs={"pk": stu.pk})).status_code
+            c.get(
+                reverse("teacher_edit_student", kwargs={"pk": "9999"})
+            ).status_code
+            == c.get(
+                reverse("teacher_edit_student", kwargs={"pk": stu.pk})
+            ).status_code
         )
 
     def test_cannot_create_school_with_email_as_name(self):
@@ -69,10 +78,15 @@ class SecurityTestCase(TestCase):
         email, password = signup_teacher_directly()
 
         client = Client()
-        client.login(username=email, password=password)
+        client.login(_username_hash=email, password=password)
 
         url = reverse("onboarding-organisation")
-        data = {"name": email, "postcode": "TEST", "country": "GB", "create_organisation": ""}
+        data = {
+            "name": email,
+            "postcode": "TEST",
+            "country": "GB",
+            "create_organisation": "",
+        }
 
         client.post(url, data)
 
@@ -80,9 +94,10 @@ class SecurityTestCase(TestCase):
 
     def test_reminder_cards_wrong_teacher(self):
         """Try and view reminder cards without being the teacher for that class."""
-        self._test_incorrect_teacher_cannot_login("teacher_print_reminder_cards")
+        self._test_incorrect_teacher_cannot_login(
+            "teacher_print_reminder_cards"
+        )
 
     def test_class_page_wrong_teacher(self):
         """Try and view a class page without being the teacher for that class."""
         self._test_incorrect_teacher_cannot_login("onboarding-class")
-

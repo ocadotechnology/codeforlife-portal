@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import datetime
 from functools import wraps
 
-from codeforlife.legacy.models import Teacher, Student
+from codeforlife.legacy.models import Student, Teacher
 from django.contrib.auth import logout
 from django.shortcuts import render
 from django.utils.timezone import make_aware
@@ -16,7 +16,9 @@ from portal.templatetags.app_tags import is_logged_in
 __all__ = ["ratelimit"]
 
 
-def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teacher=True):
+def ratelimit(
+    group=None, key=None, rate=None, method=ALL, block=False, is_teacher=True
+):
     """
     Ratelimit decorator, adding custom functionality to django-ratelimit's default
     decorator. On block, the user is logged out, redirected to the "locked out" page,
@@ -62,18 +64,24 @@ def ratelimit(group=None, key=None, rate=None, method=ALL, block=False, is_teach
                     # on to another try block similar logic followed afterwards
                     if access_code:
                         user_to_lockout = model_finder(
-                            new_user___first_name_plain=username,
-                            class_field___access_code_plain=access_code,  # extract the found text from regex
+                            new_user___first_name_hash__sha256=username,
+                            class_field___access_code_hash__sha256=access_code,  # extract the found text from regex
                         )
-                        lockout_template = "portal/locked_out_school_student.html"
+                        lockout_template = (
+                            "portal/locked_out_school_student.html"
+                        )
                     # look for indy student or teacher
                     else:
-                        user_to_lockout = model_finder(new_user___username_plain=username)
+                        user_to_lockout = model_finder(
+                            new_user___username_hash__sha256=username
+                        )
                 else:
                     user_to_lockout = model.objects.get(new_user=request.user)
 
                 if user_to_lockout:
-                    user_to_lockout.blocked_time = make_aware(datetime.datetime.now())
+                    user_to_lockout.blocked_time = make_aware(
+                        datetime.datetime.now()
+                    )
                     user_to_lockout.save()
 
                     if is_logged_in(request.user):
