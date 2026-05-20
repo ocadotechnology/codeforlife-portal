@@ -9,7 +9,7 @@ name = "pypi"
 codeforlife = {ref = "workspace_1115", git = "https://github.com/ocadotechnology/codeforlife-package-python.git"}
 django-classy-tags = "==4.1.0"
 django-constance = "==4.3.4"
-django-formtools = "==2.5.1"
+django-formtools = "==2.6.1"
 django-preventconcurrentlogins = "==0.8.2"
 django-ratelimit = "==3.0.1"
 django-recaptcha = "==4.1.0"
