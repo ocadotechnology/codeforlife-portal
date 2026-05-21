@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "123db5f334100cd73164d139a0e64e642dc579b808415ffc33f5af2cef199aa1"
+            "sha256": "d08d42275a9100504c73b1e0f5f9792e1b4de36854ba4cb14776fbcb6428ca7f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -3120,8 +3120,12 @@
             "version": "==8.2"
         },
         "rapid-router": {
-            "git": "https://github.com/ocadotechnology/rapid-router.git",
-            "ref": "97d51221fd7e2e6241cd2bafa7cc7288c9c68238"
+            "hashes": [
+                "sha256:94d9466093092a201f993c0ff02ca416f76fe9af9400e06b770e1acbbaf2b17c",
+                "sha256:c4acf2c8ef4d81dc5771b097275e133f672140a12bd043131a744c758f02a8b6"
+            ],
+            "index": "pypi",
+            "version": "==7.11.1"
         },
         "redis": {
             "extras": [

@@ -34,9 +34,9 @@ pytest-mock = "*"
 pytest-order = "*"
 pytest-xdist = "*"
 pyvirtualdisplay = "*"
-# rapid-router = "==7.10.0"
+rapid-router = "==7.11.1"
 # rapid-router = {file = "../rapid-router", editable = true}
-rapid-router = {ref = "workspace_1115", git = "https://github.com/ocadotechnology/rapid-router.git"}
+# rapid-router = {ref = "BRANCH_NAME_OR_COMMIT_SHA", git = "https://github.com/ocadotechnology/rapid-router.git"}
 responses = "==0.18.0"
 selenium = "==4.29.0"
 snapshottest = "==1.0.0a1"
