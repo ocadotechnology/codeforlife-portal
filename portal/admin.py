@@ -15,12 +15,13 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as _UserAdmin
 from django.contrib.auth.models import User as DjangoUser
-from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponse
+from django.utils.translation import gettext_lazy as _
 from import_export.admin import ExportActionMixin
 
 from portal.forms.admin import (
     AdminChangeUserPasswordForm,
+    AdminUserChangeForm,
     AdminUserCreationForm,
 )
 from portal.views.api import anonymise
@@ -30,10 +31,9 @@ User = get_user_model()
 
 class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
-        "_name_plain",
-        "teacher__new_user___first_name_plain",
-        "teacher__new_user___last_name_plain",
-        "teacher__school___name_plain",
+        "_name_hash__sha256",
+        "teacher__new_user___first_name_hash__sha256",
+        "teacher__school___name_hash__sha256",
     ]
     list_display = [
         "__str__",
@@ -52,7 +52,7 @@ class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
 
 
 class SchoolAdmin(admin.ModelAdmin, ExportActionMixin):
-    search_fields = ["_name_plain", "country", "county"]
+    search_fields = ["_name_hash__sha256", "country", "county"]
     list_filter = ["county", "country"]
     list_display = [
         "__str__",
@@ -71,13 +71,11 @@ class SchoolAdmin(admin.ModelAdmin, ExportActionMixin):
 
 class StudentAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
-        "new_user___first_name_plain",
-        "new_user___last_name_plain",
-        "new_user___username_plain",
-        "class_field___name_plain",
-        "class_field__teacher__new_user___first_name_plain",
-        "class_field__teacher__new_user___last_name_plain",
-        "class_field__teacher__school___name_plain",
+        "new_user___first_name_hash__sha256",
+        "new_user___username_hash__sha256",
+        "class_field___name_hash__sha256",
+        "class_field__teacher__new_user___first_name_hash__sha256",
+        "class_field__teacher__school___name_hash__sha256",
     ]
     list_display = [
         "__str__",
@@ -104,10 +102,9 @@ class StudentAdmin(admin.ModelAdmin, ExportActionMixin):
 
 class TeacherAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
-        "new_user___first_name_plain",
-        "new_user___last_name_plain",
-        "school___name_plain",
-        "new_user___username_plain",
+        "new_user___first_name_hash__sha256",
+        "school___name_hash__sha256",
+        "new_user___username_hash__sha256",
     ]
     list_display = [
         "__str__",
@@ -126,9 +123,8 @@ class TeacherAdmin(admin.ModelAdmin, ExportActionMixin):
 class UserProfileAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
         "id",
-        "user___first_name_plain",
-        "user___last_name_plain",
-        "user___username_plain",
+        "user___first_name_hash__sha256",
+        "user___username_hash__sha256",
         "user__date_joined",
     ]
     list_filter = ["user__date_joined"]
@@ -145,13 +141,11 @@ class UserProfileAdmin(admin.ModelAdmin, ExportActionMixin):
 
 class SchoolTeacherInvitationAdmin(admin.ModelAdmin, ExportActionMixin):
     search_fields = [
-        "from_teacher__new_user___first_name_plain",
-        "from_teacher__new_user___last_name_plain",
-        "from_teacher__new_user___email_plain",
-        "school___name_plain",
-        "_invited_teacher_first_name_plain",
-        "_invited_teacher_last_name_plain",
-        "_invited_teacher_email_plain",
+        "from_teacher__new_user___first_name_hash__sha256",
+        "from_teacher__new_user___email_hash__sha256",
+        "school___name_hash__sha256",
+        "_invited_teacher_first_name_hash__sha256",
+        "_invited_teacher_email_hash__sha256",
         "expiry",
         "creation_time",
     ]
