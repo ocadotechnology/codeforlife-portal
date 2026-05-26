@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.14.1 (2026-05-26)
+
+### Bug Fixes
+
+- School.name ([#2505](https://github.com/ocadotechnology/codeforlife-portal/pull/2505),
+  [`5073c79`](https://github.com/ocadotechnology/codeforlife-portal/commit/5073c7920aa178f160868f67d13fdbbaf10ee997))
+
+
 ## v8.14.0 (2026-05-21)
 
 ### Features
