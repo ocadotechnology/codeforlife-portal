@@ -188,9 +188,7 @@ class TeacherLoginForm(AuthenticationForm):
 
             user = self.find_user(email, user)
 
-            user = authenticate(
-                _username_plain=user.username, password=password
-            )
+            user = authenticate(username=user.username, password=password)
 
             self.check_email_errors(user)
 
@@ -446,7 +444,7 @@ class TeacherEditStudentForm(forms.Form):
             )
 
         students = Student.objects.filter(
-            class_field=self.klass, new_user___first_name_plain__iexact=name
+            class_field=self.klass, new_user___first_name_hash__sha256=name
         )
         if students.exists() and students[0] != self.student:
             raise forms.ValidationError(
@@ -514,7 +512,7 @@ def validateStudentNames(klass, names):
 def find_clashes(names, students, clashes_found, validationErrors):
     for name in names:
         if (
-            students.filter(new_user___first_name_plain__iexact=name).exists()
+            students.filter(new_user___first_name_hash__sha256=name).exists()
             and name not in clashes_found
         ):
             validationErrors.append(
@@ -758,7 +756,7 @@ class TeacherAddExternalStudentForm(forms.Form):
             )
 
         if Student.objects.filter(
-            class_field=self.klass, new_user___first_name_plain__iexact=name
+            class_field=self.klass, new_user___first_name_hash__sha256=name
         ).exists():
             raise forms.ValidationError(
                 "There is already a student called '" + name + "' in this class"

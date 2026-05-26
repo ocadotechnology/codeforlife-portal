@@ -65,12 +65,12 @@ class StudentLoginView(LoginView):
     def _add_login_data(self, form, login_type):
         # class and student have been validated by this point
         class_code = self.kwargs["access_code"]
-        classes = Class.objects.filter(_access_code_plain__iexact=class_code)
+        classes = Class.objects.filter(_access_code_hash__sha256=class_code)
         klass = classes[0]
 
         name = form.cleaned_data.get("username")
         students = Student.objects.filter(
-            new_user___first_name_plain__iexact=name, class_field=klass
+            new_user___first_name_hash__sha256=name, class_field=klass
         )
         student = students[0]
 

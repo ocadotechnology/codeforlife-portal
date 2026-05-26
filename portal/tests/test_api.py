@@ -147,7 +147,7 @@ class APITests(APITestCase):
             assert user.email == ""
             assert not user.is_active
             assert not client.login(
-                _username_plain=user.username, password="password"
+                _username_hash__sha256=user.username, password="password"
             )
         response = client.get(url)
         assert len(response.data) == 0

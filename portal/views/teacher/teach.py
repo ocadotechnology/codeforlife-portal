@@ -691,7 +691,7 @@ def process_dismiss_student_form(request, formset, klass, access_code):
         student = get_object_or_404(
             Student,
             class_field=klass,
-            new_user___first_name_plain__iexact=data["orig_name"],
+            new_user___first_name_hash__sha256=data["orig_name"],
         )
 
         students_levels = Level.objects.filter(
@@ -923,7 +923,7 @@ def process_move_students_form(request, formset, old_class, new_class):
         student = get_object_or_404(
             Student,
             class_field=old_class,
-            new_user___first_name_plain__iexact=name_update["orig_name"],
+            new_user___first_name_hash__sha256=name_update["orig_name"],
         )
         student.class_field = new_class
         student.new_user.first_name = name_update["name"]

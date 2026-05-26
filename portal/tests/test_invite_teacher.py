@@ -64,7 +64,7 @@ class TestInviteTeacher(TestCase):
 
         # Complete the registration as the invited teacher
         invitation = SchoolTeacherInvitation.objects.get(
-            _invited_teacher_email_hash__sha256=invited_teacher_email
+            from_teacher__new_user___email_hash__sha256=email
         )
         invitation_url = reverse(
             "invited_teacher", kwargs={"token": invitation.token}
@@ -97,9 +97,7 @@ class TestInviteTeacher(TestCase):
 
         # Check that the invitation is now inactive
         with pytest.raises(SchoolTeacherInvitation.DoesNotExist):
-            SchoolTeacherInvitation.objects.get(
-                _invited_teacher_email_hash__sha256=invited_teacher_email
-            )
+            SchoolTeacherInvitation.objects.get(id=invitation.id)
         old_invitation = SchoolTeacherInvitation._base_manager.get(
             id=invitation.id
         )
@@ -220,7 +218,7 @@ class TestInviteTeacher(TestCase):
         client.logout()
 
         assert not SchoolTeacherInvitation.objects.filter(
-            _invited_teacher_email_hash__sha256="new@teacher.com"
+            from_teacher__new_user___email_hash__sha256=standard_email
         ).exists()
 
         # Log in as admin teacher to invite a teacher
@@ -238,10 +236,10 @@ class TestInviteTeacher(TestCase):
         client.logout()
 
         assert SchoolTeacherInvitation.objects.filter(
-            _invited_teacher_email_hash__sha256="new@teacher.com"
+            from_teacher__new_user___email_hash__sha256=admin_email
         ).exists()
         invite = SchoolTeacherInvitation.objects.get(
-            _invited_teacher_email_hash__sha256="new@teacher.com"
+            from_teacher__new_user___email_hash__sha256=admin_email
         )
 
         # Log in as standard teacher, try resending and deleting the invitation, both should fail

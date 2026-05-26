@@ -411,7 +411,7 @@ class TestLoginViews(TestCase):
     def _get_user_class(self, name, class_access_code):
         klass = Class.objects.get(_access_code_hash__sha256=class_access_code)
         students = Student.objects.filter(
-            new_user___first_name_plain__iexact=name, class_field=klass
+            new_user___first_name_hash__sha256=name, class_field=klass
         )
         assert len(students) == 1
         user = students[0].new_user

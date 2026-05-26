@@ -68,7 +68,7 @@ class StudentLoginForm(AuthenticationForm):
         return self.cleaned_data
 
     def check_for_errors(self, name, access_code, password):
-        classes = Class.objects.filter(_access_code_plain__iexact=access_code)
+        classes = Class.objects.filter(_access_code_hash__sha256=access_code)
         if len(classes) != 1:
             raise forms.ValidationError(
                 "Invalid name, class access code or password"
@@ -78,7 +78,7 @@ class StudentLoginForm(AuthenticationForm):
         name = stripStudentName(name)
 
         students = Student.objects.filter(
-            new_user___first_name_plain__iexact=name, class_field=klass
+            new_user___first_name_hash__sha256=name, class_field=klass
         )
         if len(students) != 1:
             raise forms.ValidationError(
@@ -87,13 +87,13 @@ class StudentLoginForm(AuthenticationForm):
 
         student = students[0]
         user = authenticate(
-            _username_plain=student.new_user.username, password=password.lower()
+            username=student.new_user.username, password=password.lower()
         )
 
         # Try the case sensitive password too, for previous accounts that don't have the lowercase one stored
         if user is None:
             user = authenticate(
-                _username_plain=student.new_user.username, password=password
+                username=student.new_user.username, password=password
             )
 
         if user is None:
