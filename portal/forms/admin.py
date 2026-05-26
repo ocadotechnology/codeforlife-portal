@@ -3,10 +3,10 @@ import re
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import (
+    AdminPasswordChangeForm,
     PasswordChangeForm,
     UserCreationForm,
-    AdminPasswordChangeForm,
-    UsernameField
+    UsernameField,
 )
 
 User = get_user_model()
@@ -83,3 +83,47 @@ class AdminChangeUserPasswordForm(AdminPasswordChangeForm):
             )
 
         return password1
+
+
+class AdminUserChangeForm(forms.ModelForm):
+    username = UsernameField(required=False)
+    first_name = forms.CharField(required=False, max_length=150)
+    last_name = forms.CharField(required=False, max_length=150)
+    email = forms.EmailField(required=False, max_length=254)
+
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "is_active",
+            "is_staff",
+            "is_superuser",
+            "groups",
+            "user_permissions",
+            "last_login",
+            "date_joined",
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields["username"].initial = self.instance.username
+            self.fields["first_name"].initial = self.instance.first_name
+            self.fields["last_name"].initial = self.instance.last_name
+            self.fields["email"].initial = self.instance.email
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.username = self.cleaned_data.get("username", "")
+        instance.first_name = self.cleaned_data.get("first_name", "")
+        instance.last_name = self.cleaned_data.get("last_name", "")
+        instance.email = self.cleaned_data.get("email", "")
+
+        if commit:
+            instance.save()
+            self.save_m2m()
+
+        return instance

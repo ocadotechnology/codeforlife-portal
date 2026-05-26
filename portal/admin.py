@@ -176,47 +176,54 @@ class TotalActivityAdmin(admin.ModelAdmin, ExportActionMixin):
         return False
 
 
-_UserAdmin.list_display += ("date_joined", "id")
-_UserAdmin.list_filter += ("date_joined",)
-_UserAdmin.fieldsets = (
-    (None, {"fields": ("_username_plain", "password")}),
-    (
-        _("Personal info"),
-        {
-            "fields": (
-                "_first_name_plain",
-                "_last_name_plain",
-                "_email_plain",
-            )
-        },
-    ),
-    (
-        _("Permissions"),
-        {
-            "fields": (
-                "is_active",
-                "is_staff",
-                "is_superuser",
-                "groups",
-                "user_permissions",
-            ),
-        },
-    ),
-    (_("Important dates"), {"fields": ("last_login", "date_joined")}),
-)
-
-
 class UserAdmin(_UserAdmin):
+    form = AdminUserChangeForm
     search_fields = (
-        "_username_plain",
-        "_first_name_plain",
-        "_last_name_plain",
-        "_email_plain",
+        "id",
+        "_username_hash__sha256",
+        "_first_name_hash__sha256",
+        "_email_hash__sha256",
     )
-    ordering = ("_username_plain",)
+    ordering = ("id",)
     actions = ["anonymise_user", "export_as_csv"]
     add_form = AdminUserCreationForm
     change_password_form = AdminChangeUserPasswordForm
+    list_display = (
+        "id",
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "is_staff",
+        "date_joined",
+    )
+    list_filter = (
+        "is_staff",
+        "is_superuser",
+        "is_active",
+        "groups",
+        "date_joined",
+    )
+    fieldsets = (
+        (None, {"fields": ("username", "password")}),
+        (
+            _("Personal info"),
+            {"fields": ("first_name", "last_name", "email")},
+        ),
+        (
+            _("Permissions"),
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                ),
+            },
+        ),
+        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+    )
 
     def anonymise_user(self, request, queryset):
         for user in queryset:
