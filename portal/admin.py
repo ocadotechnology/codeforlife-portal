@@ -1,5 +1,6 @@
 import csv
 
+from codeforlife.admin import HashSearchModelAdmin
 from codeforlife.legacy.models import (
     Class,
     DailyActivity,
@@ -29,7 +30,7 @@ from portal.views.api import anonymise
 User = get_user_model()
 
 
-class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
+class ClassAdmin(HashSearchModelAdmin, ExportActionMixin):
     search_fields = [
         "_name_hash__sha256",
         "teacher__new_user___first_name_hash__sha256",
@@ -51,7 +52,7 @@ class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
         return len(obj.students.all())
 
 
-class SchoolAdmin(admin.ModelAdmin, ExportActionMixin):
+class SchoolAdmin(HashSearchModelAdmin, ExportActionMixin):
     search_fields = ["_name_hash__sha256", "country", "county"]
     list_filter = ["county", "country"]
     list_display = [
@@ -69,7 +70,7 @@ class SchoolAdmin(admin.ModelAdmin, ExportActionMixin):
         return len(obj.classes()) if obj.classes() else 0
 
 
-class StudentAdmin(admin.ModelAdmin, ExportActionMixin):
+class StudentAdmin(HashSearchModelAdmin, ExportActionMixin):
     search_fields = [
         "new_user___first_name_hash__sha256",
         "new_user___username_hash__sha256",
@@ -100,7 +101,7 @@ class StudentAdmin(admin.ModelAdmin, ExportActionMixin):
             return "Independent"
 
 
-class TeacherAdmin(admin.ModelAdmin, ExportActionMixin):
+class TeacherAdmin(HashSearchModelAdmin, ExportActionMixin):
     search_fields = [
         "new_user___first_name_hash__sha256",
         "school___name_hash__sha256",
@@ -120,7 +121,7 @@ class TeacherAdmin(admin.ModelAdmin, ExportActionMixin):
         return len(obj.class_teacher.all())
 
 
-class UserProfileAdmin(admin.ModelAdmin, ExportActionMixin):
+class UserProfileAdmin(HashSearchModelAdmin, ExportActionMixin):
     search_fields = [
         "id",
         "user___first_name_hash__sha256",
@@ -139,7 +140,7 @@ class UserProfileAdmin(admin.ModelAdmin, ExportActionMixin):
         return "TEACHER"
 
 
-class SchoolTeacherInvitationAdmin(admin.ModelAdmin, ExportActionMixin):
+class SchoolTeacherInvitationAdmin(HashSearchModelAdmin, ExportActionMixin):
     search_fields = [
         "from_teacher__new_user___first_name_hash__sha256",
         "from_teacher__new_user___email_hash__sha256",
@@ -170,7 +171,7 @@ class TotalActivityAdmin(admin.ModelAdmin, ExportActionMixin):
         return False
 
 
-class UserAdmin(_UserAdmin):
+class UserAdmin(HashSearchModelAdmin, _UserAdmin):
     form = AdminUserChangeForm
     search_fields = (
         "id",
