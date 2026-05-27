@@ -145,8 +145,6 @@ class SchoolTeacherInvitationAdmin(HashSearchModelAdmin, ExportActionMixin):
         "from_teacher__new_user___first_name_hash__sha256",
         "from_teacher__new_user___email_hash__sha256",
         "school___name_hash__sha256",
-        "_invited_teacher_first_name_hash__sha256",
-        "_invited_teacher_email_hash__sha256",
         "expiry",
         "creation_time",
     ]
