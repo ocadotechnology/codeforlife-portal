@@ -1,5 +1,6 @@
 import csv
 
+from codeforlife.admin import HashSearchModelAdmin
 from codeforlife.legacy.models import (
     Class,
     DailyActivity,
@@ -15,12 +16,13 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as _UserAdmin
 from django.contrib.auth.models import User as DjangoUser
-from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponse
+from django.utils.translation import gettext_lazy as _
 from import_export.admin import ExportActionMixin
 
 from portal.forms.admin import (
     AdminChangeUserPasswordForm,
+    AdminUserChangeForm,
     AdminUserCreationForm,
 )
 from portal.views.api import anonymise
@@ -28,12 +30,11 @@ from portal.views.api import anonymise
 User = get_user_model()
 
 
-class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
+class ClassAdmin(HashSearchModelAdmin, ExportActionMixin):
     search_fields = [
-        "_name_plain",
-        "teacher__new_user___first_name_plain",
-        "teacher__new_user___last_name_plain",
-        "teacher__school___name_plain",
+        "_name_hash__sha256",
+        "teacher__new_user___first_name_hash__sha256",
+        "teacher__school___name_hash__sha256",
     ]
     list_display = [
         "__str__",
@@ -51,8 +52,8 @@ class ClassAdmin(admin.ModelAdmin, ExportActionMixin):
         return len(obj.students.all())
 
 
-class SchoolAdmin(admin.ModelAdmin, ExportActionMixin):
-    search_fields = ["_name_plain", "country", "county"]
+class SchoolAdmin(HashSearchModelAdmin, ExportActionMixin):
+    search_fields = ["_name_hash__sha256", "country", "county"]
     list_filter = ["county", "country"]
     list_display = [
         "__str__",
@@ -69,15 +70,13 @@ class SchoolAdmin(admin.ModelAdmin, ExportActionMixin):
         return len(obj.classes()) if obj.classes() else 0
 
 
-class StudentAdmin(admin.ModelAdmin, ExportActionMixin):
+class StudentAdmin(HashSearchModelAdmin, ExportActionMixin):
     search_fields = [
-        "new_user___first_name_plain",
-        "new_user___last_name_plain",
-        "new_user___username_plain",
-        "class_field___name_plain",
-        "class_field__teacher__new_user___first_name_plain",
-        "class_field__teacher__new_user___last_name_plain",
-        "class_field__teacher__school___name_plain",
+        "new_user___first_name_hash__sha256",
+        "new_user___username_hash__sha256",
+        "class_field___name_hash__sha256",
+        "class_field__teacher__new_user___first_name_hash__sha256",
+        "class_field__teacher__school___name_hash__sha256",
     ]
     list_display = [
         "__str__",
@@ -102,12 +101,11 @@ class StudentAdmin(admin.ModelAdmin, ExportActionMixin):
             return "Independent"
 
 
-class TeacherAdmin(admin.ModelAdmin, ExportActionMixin):
+class TeacherAdmin(HashSearchModelAdmin, ExportActionMixin):
     search_fields = [
-        "new_user___first_name_plain",
-        "new_user___last_name_plain",
-        "school___name_plain",
-        "new_user___username_plain",
+        "new_user___first_name_hash__sha256",
+        "school___name_hash__sha256",
+        "new_user___username_hash__sha256",
     ]
     list_display = [
         "__str__",
@@ -123,12 +121,11 @@ class TeacherAdmin(admin.ModelAdmin, ExportActionMixin):
         return len(obj.class_teacher.all())
 
 
-class UserProfileAdmin(admin.ModelAdmin, ExportActionMixin):
+class UserProfileAdmin(HashSearchModelAdmin, ExportActionMixin):
     search_fields = [
         "id",
-        "user___first_name_plain",
-        "user___last_name_plain",
-        "user___username_plain",
+        "user___first_name_hash__sha256",
+        "user___username_hash__sha256",
         "user__date_joined",
     ]
     list_filter = ["user__date_joined"]
@@ -143,15 +140,11 @@ class UserProfileAdmin(admin.ModelAdmin, ExportActionMixin):
         return "TEACHER"
 
 
-class SchoolTeacherInvitationAdmin(admin.ModelAdmin, ExportActionMixin):
+class SchoolTeacherInvitationAdmin(HashSearchModelAdmin, ExportActionMixin):
     search_fields = [
-        "from_teacher__new_user___first_name_plain",
-        "from_teacher__new_user___last_name_plain",
-        "from_teacher__new_user___email_plain",
-        "school___name_plain",
-        "_invited_teacher_first_name_plain",
-        "_invited_teacher_last_name_plain",
-        "_invited_teacher_email_plain",
+        "from_teacher__new_user___first_name_hash__sha256",
+        "from_teacher__new_user___email_hash__sha256",
+        "school___name_hash__sha256",
         "expiry",
         "creation_time",
     ]
@@ -176,47 +169,54 @@ class TotalActivityAdmin(admin.ModelAdmin, ExportActionMixin):
         return False
 
 
-_UserAdmin.list_display += ("date_joined", "id")
-_UserAdmin.list_filter += ("date_joined",)
-_UserAdmin.fieldsets = (
-    (None, {"fields": ("_username_plain", "password")}),
-    (
-        _("Personal info"),
-        {
-            "fields": (
-                "_first_name_plain",
-                "_last_name_plain",
-                "_email_plain",
-            )
-        },
-    ),
-    (
-        _("Permissions"),
-        {
-            "fields": (
-                "is_active",
-                "is_staff",
-                "is_superuser",
-                "groups",
-                "user_permissions",
-            ),
-        },
-    ),
-    (_("Important dates"), {"fields": ("last_login", "date_joined")}),
-)
-
-
-class UserAdmin(_UserAdmin):
+class UserAdmin(HashSearchModelAdmin, _UserAdmin):
+    form = AdminUserChangeForm
     search_fields = (
-        "_username_plain",
-        "_first_name_plain",
-        "_last_name_plain",
-        "_email_plain",
+        "id",
+        "_username_hash__sha256",
+        "_first_name_hash__sha256",
+        "_email_hash__sha256",
     )
-    ordering = ("_username_plain",)
+    ordering = ("id",)
     actions = ["anonymise_user", "export_as_csv"]
     add_form = AdminUserCreationForm
     change_password_form = AdminChangeUserPasswordForm
+    list_display = (
+        "id",
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "is_staff",
+        "date_joined",
+    )
+    list_filter = (
+        "is_staff",
+        "is_superuser",
+        "is_active",
+        "groups",
+        "date_joined",
+    )
+    fieldsets = (
+        (None, {"fields": ("username", "password")}),
+        (
+            _("Personal info"),
+            {"fields": ("first_name", "last_name", "email")},
+        ),
+        (
+            _("Permissions"),
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                ),
+            },
+        ),
+        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+    )
 
     def anonymise_user(self, request, queryset):
         for user in queryset:

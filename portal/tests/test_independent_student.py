@@ -184,7 +184,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page = page.go_to_account_page()
 
         # save the user to check if it was anonymised
-        user = User.objects.get(_email_plain=email)
+        user = User.objects.get(_email_hash__sha256=email)
         user_id = user.id
 
         # first check if a wrong password triggers the error
@@ -627,6 +627,7 @@ class TestIndependentStudentFrontend(BaseTest):
         page = homepage.go_to_independent_student_login_page()
 
         username, password, student = create_independent_student_directly()
+        user = User.objects.get(_username_hash__sha256=username)
 
         page = (
             page.independent_student_login(username, password)
@@ -643,11 +644,11 @@ class TestIndependentStudentFrontend(BaseTest):
             .login(teacher_email, teacher_password)
             .open_classes_tab()
             .accept_independent_join_request()
-            .save(username)
+            .save(user.first_name)
             .return_to_class()
         )
 
-        assert page.student_exists(username)
+        assert page.student_exists(user.first_name)
 
         # check whether a record is created correctly
         logs = JoinReleaseStudent.objects.filter(student=student)
@@ -705,6 +706,8 @@ class TestIndependentStudentFrontend(BaseTest):
         username1, password1, student1 = create_independent_student_directly()
         username2, password2, student2 = create_independent_student_directly()
 
+        user1 = User.objects.get(_username_hash__sha256=username1)
+
         # Login as both students and request to join the same class
         homepage = self.go_to_homepage()
         page = homepage.go_to_independent_student_login_page()
@@ -735,11 +738,11 @@ class TestIndependentStudentFrontend(BaseTest):
             .login(admin_email, admin_password1)
             .open_classes_tab()
             .accept_independent_join_request()
-            .save(username1)
+            .save(user1.first_name)
             .return_to_class()
         )
 
-        assert page.student_exists(username1)
+        assert page.student_exists(user1.first_name)
 
         # check whether a record is created correctly
         logs = JoinReleaseStudent.objects.filter(student=student1)

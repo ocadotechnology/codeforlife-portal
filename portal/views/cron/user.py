@@ -72,8 +72,11 @@ def get_inactive_users(days: int) -> QuerySet[User]:
         )
     )
 
-    return user_queryset.exclude(_email_plain__isnull=True).exclude(
-        _email_plain=""
+    return (
+        user_queryset.exclude(_email_hash__isnull=True)
+        .exclude(_email_hash="")
+        .exclude(_email_enc__isnull=True)
+        .exclude(_email_enc=b"")
     )
 
 
@@ -96,10 +99,8 @@ class FirstVerifyEmailReminderView(CronMixin, APIView):
             same_day=True,
         )
         teacher_queryset, independent_student_queryset = teacher_queryset.only(
-            "dek", "_email_enc", "_email_plain"
-        ), independent_student_queryset.only(
-            "dek", "_email_enc", "_email_plain"
-        )
+            "dek", "_email_enc"
+        ), independent_student_queryset.only("dek", "_email_enc")
         user_queryset = teacher_queryset.union(independent_student_queryset)
         user_count = user_queryset.count()
 
@@ -141,10 +142,8 @@ class SecondVerifyEmailReminderView(CronMixin, APIView):
             same_day=True,
         )
         teacher_queryset, independent_student_queryset = teacher_queryset.only(
-            "dek", "_email_enc", "_email_plain"
-        ), independent_student_queryset.only(
-            "dek", "_email_enc", "_email_plain"
-        )
+            "dek", "_email_enc"
+        ), independent_student_queryset.only("dek", "_email_enc")
         user_queryset = teacher_queryset.union(independent_student_queryset)
         user_count = user_queryset.count()
 
@@ -234,9 +233,9 @@ class FirstInactivityReminderView(CronMixin, APIView):
 
         if user_count > 0:
             sent_email_count = 0
-            for user in user_queryset.only(
-                "dek", "_email_enc", "_email_plain"
-            ).iterator(chunk_size=500):
+            for user in user_queryset.only("dek", "_email_enc").iterator(
+                chunk_size=500
+            ):
                 try:
                     send_dotdigital_email(
                         campaign_ids[
@@ -268,9 +267,9 @@ class SecondInactivityReminderView(CronMixin, APIView):
 
         if user_count > 0:
             sent_email_count = 0
-            for user in user_queryset.only(
-                "dek", "_email_enc", "_email_plain"
-            ).iterator(chunk_size=500):
+            for user in user_queryset.only("dek", "_email_enc").iterator(
+                chunk_size=500
+            ):
                 try:
                     send_dotdigital_email(
                         campaign_ids[
@@ -306,9 +305,9 @@ class FinalInactivityReminderView(CronMixin, APIView):
 
         if user_count > 0:
             sent_email_count = 0
-            for user in user_queryset.only(
-                "dek", "_email_enc", "_email_plain"
-            ).iterator(chunk_size=500):
+            for user in user_queryset.only("dek", "_email_enc").iterator(
+                chunk_size=500
+            ):
                 try:
                     send_dotdigital_email(
                         campaign_ids[

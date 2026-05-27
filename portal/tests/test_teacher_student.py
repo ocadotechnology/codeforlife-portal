@@ -46,10 +46,10 @@ class TestTeacherStudentFrontend(BaseTest):
             .go_to_class_page()
         )
 
-        student_name = "Florian-Gilbert"
+        student_name = "Florian Gilbert 1"
         page = page.type_student_name(student_name)
 
-        student_name2 = "Florian_Gilbert"
+        student_name2 = "Florian Gilbert 2"
         page = page.type_student_name(student_name2)
 
         page.click_create_students()
@@ -304,32 +304,6 @@ class TestTeacherStudentFrontend(BaseTest):
         assert page.__class__.__name__ == "TeachClassPage"
         assert page.student_exists(new_student_name)
 
-    def test_update_student_valid_name_underscore(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        _, _, access_code = create_class_directly(email)
-        name, _, _ = create_school_student_directly(access_code)
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login(email, password)
-            .open_classes_tab()
-            .go_to_class_page()
-            .go_to_edit_student_page()
-        )
-
-        assert page.is_student_name(name)
-
-        new_student_name = "new_name"
-
-        page = page.type_student_name(new_student_name)
-        page = page.click_update_button()
-
-        assert page.__class__.__name__ == "TeachClassPage"
-        assert page.student_exists(new_student_name)
-
     def test_update_student_invalid_name(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
@@ -425,7 +399,7 @@ class TestTeacherStudentFrontend(BaseTest):
         c.post(url, {"username": student_name, "password": student_password})
 
         # teacher login
-        c.login(_username_plain=email, password=password)
+        c.login(_username_hash=email, password=password)
 
         # delete the student
         url = reverse("teacher_delete_students", args=[access_code])

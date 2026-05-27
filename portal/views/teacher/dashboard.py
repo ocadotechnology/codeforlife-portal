@@ -106,9 +106,7 @@ def dashboard_teacher_view(request, is_admin):
             .only(
                 "new_user__dek",
                 "new_user___last_name_enc",
-                "new_user___last_name_plain",
                 "new_user___first_name_enc",
-                "new_user___first_name_plain",
             ),
             key=lambda teacher: (
                 teacher.new_user.last_name.lower(),
@@ -205,7 +203,7 @@ def dashboard_teacher_view(request, is_admin):
                 )
 
                 account_exists = User.objects.filter(
-                    _email_plain=invited_teacher_email
+                    _email_hash__sha256=invited_teacher_email
                 ).exists()
 
                 registration_link = f"{domain(request)}{reverse('invited_teacher', kwargs={'token': token})} "
@@ -586,11 +584,7 @@ def teacher_accept_student_request(request, pk):
     students = sorted(
         Student.objects.filter(class_field=student.pending_class_request)
         .select_related("new_user")
-        .only(
-            "new_user__dek",
-            "new_user___first_name_plain",
-            "new_user___first_name_enc",
-        ),
+        .only("new_user__dek", "new_user___first_name_enc"),
         key=lambda student: student.new_user.first_name.lower(),
     )
 
@@ -701,7 +695,7 @@ def teacher_reject_student_request(request, pk):
 @login_required(login_url=reverse_lazy("teacher_login"))
 def delete_teacher_invite(request, token):
     try:
-        invite = SchoolTeacherInvitation.objects.get(_token_plain=token)
+        invite = SchoolTeacherInvitation.objects.get(_token_hash__sha256=token)
     except SchoolTeacherInvitation.DoesNotExist:
         invite = None
     teacher = request.user.new_teacher
@@ -729,7 +723,7 @@ def delete_teacher_invite(request, token):
 @login_required(login_url=reverse_lazy("teacher_login"))
 def resend_invite_teacher(request, token):
     try:
-        invite = SchoolTeacherInvitation.objects.get(_token_plain=token)
+        invite = SchoolTeacherInvitation.objects.get(_token_hash__sha256=token)
     except SchoolTeacherInvitation.DoesNotExist:
         invite = None
     teacher = request.user.new_teacher
@@ -798,13 +792,13 @@ def invited_teacher(request, token):
 def process_teacher_invitation(request, token):
     try:
         invitation = SchoolTeacherInvitation.objects.get(
-            _token_plain=token, expiry__gt=timezone.now()
+            _token_hash__sha256=token, expiry__gt=timezone.now()
         )
     except SchoolTeacherInvitation.DoesNotExist:
         return "Uh oh, the Invitation does not exist or it has expired. 😞"
 
     if User.objects.filter(
-        _email_plain=invitation.invited_teacher_email
+        _email_hash__sha256=invitation.invited_teacher_email
     ).exists():
         return (
             "It looks like an account is already registered with this email address. You will need to delete the "

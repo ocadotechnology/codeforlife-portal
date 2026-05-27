@@ -16,35 +16,53 @@ from portal.helpers.password import PasswordStrength, form_clean_password
 
 class TeacherPasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
     def __init__(self, user, *args, **kwargs):
-        super(TeacherPasswordResetSetPasswordForm, self).__init__(user, *args, **kwargs)
+        super(TeacherPasswordResetSetPasswordForm, self).__init__(
+            user, *args, **kwargs
+        )
         self.fields["new_password1"].help_text = "Enter your new password"
-        self.fields["new_password1"].widget.attrs["placeholder"] = "New password"
+        self.fields["new_password1"].widget.attrs[
+            "placeholder"
+        ] = "New password"
         self.fields["new_password1"].widget.attrs["autocomplete"] = "off"
         self.fields["new_password2"].help_text = "Confirm your new password"
-        self.fields["new_password2"].widget.attrs["placeholder"] = "Confirm password"
+        self.fields["new_password2"].widget.attrs[
+            "placeholder"
+        ] = "Confirm password"
         self.fields["new_password2"].widget.attrs["autocomplete"] = "off"
 
     def clean_new_password1(self):
-        return form_clean_password(self, "new_password1", PasswordStrength.TEACHER)
+        return form_clean_password(
+            self, "new_password1", PasswordStrength.TEACHER
+        )
 
 
 class StudentPasswordResetSetPasswordForm(django_auth_forms.SetPasswordForm):
     def __init__(self, user, *args, **kwargs):
-        super(StudentPasswordResetSetPasswordForm, self).__init__(user, *args, **kwargs)
+        super(StudentPasswordResetSetPasswordForm, self).__init__(
+            user, *args, **kwargs
+        )
         self.fields["new_password1"].help_text = "Enter your new password"
-        self.fields["new_password1"].widget.attrs["placeholder"] = "New password"
+        self.fields["new_password1"].widget.attrs[
+            "placeholder"
+        ] = "New password"
         self.fields["new_password1"].widget.attrs["autocomplete"] = "off"
         self.fields["new_password2"].help_text = "Confirm your new password"
-        self.fields["new_password2"].widget.attrs["placeholder"] = "Confirm password"
+        self.fields["new_password2"].widget.attrs[
+            "placeholder"
+        ] = "Confirm password"
         self.fields["new_password2"].widget.attrs["autocomplete"] = "off"
 
     def clean_new_password1(self):
-        return form_clean_password(self, "new_password1", PasswordStrength.INDEPENDENT)
+        return form_clean_password(
+            self, "new_password1", PasswordStrength.INDEPENDENT
+        )
 
 
 class PasswordResetForm(forms.Form):
     email = forms.EmailField(
-        widget=forms.EmailInput(attrs={"autocomplete": "off", "placeholder": "Email address"}),
+        widget=forms.EmailInput(
+            attrs={"autocomplete": "off", "placeholder": "Email address"}
+        ),
         help_text="Enter your email address",
     )
 
@@ -67,7 +85,9 @@ class PasswordResetForm(forms.Form):
         """
         UserModel = get_user_model()
         if self.username:
-            active_users = UserModel._default_manager.filter(_username_plain=self.username, is_active=True)
+            active_users = UserModel._default_manager.filter(
+                _username_hash__sha256=self.username, is_active=True
+            )
             for user in active_users:
                 # Make sure that no email is sent to a user that actually has
                 # a password marked as unusable
@@ -87,12 +107,16 @@ class PasswordResetForm(forms.Form):
                     },
                 )
                 protocol = self._compute_protocol(use_https)
-                reset_password_url = f"{protocol}://{domain}{reset_password_uri}"
+                reset_password_url = (
+                    f"{protocol}://{domain}{reset_password_uri}"
+                )
 
                 send_dotdigital_email(
                     campaign_ids["reset_password"],
                     [user.email],
-                    personalization_values={"RESET_PASSWORD_LINK": reset_password_url},
+                    personalization_values={
+                        "RESET_PASSWORD_LINK": reset_password_url
+                    },
                 )
 
     def _compute_protocol(self, use_https):
@@ -103,7 +127,7 @@ class TeacherPasswordResetForm(PasswordResetForm):
     def clean_email(self):
         email = self.cleaned_data.get("email", None)
         self.username = ""
-        teacher = Teacher.objects.filter(new_user___email_plain=email)
+        teacher = Teacher.objects.filter(new_user___email_hash__sha256=email)
         # Check such an email exists
         if teacher.exists():
             self.username = teacher[0].new_user.username
@@ -114,7 +138,7 @@ class StudentPasswordResetForm(PasswordResetForm):
     def clean_email(self):
         email = self.cleaned_data.get("email", None)
         self.username = ""
-        student = Student.objects.filter(new_user___email_plain=email)
+        student = Student.objects.filter(new_user___email_hash__sha256=email)
         # Check such an email exists
         if student.exists():
             self.username = student[0].new_user.username
@@ -124,7 +148,9 @@ class StudentPasswordResetForm(PasswordResetForm):
 class DeleteAccountForm(forms.Form):
     delete_password = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={"autocomplete": "off", "placeholder": "Confirm password"}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "off", "placeholder": "Confirm password"}
+        ),
         help_text="Confirm password",
     )
 

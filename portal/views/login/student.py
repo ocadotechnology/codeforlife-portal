@@ -1,13 +1,13 @@
-from codeforlife.legacy.models import UserSession, Student, Class
+from codeforlife.legacy.models import Class, Student, UserSession
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.views import LoginView, FormView
+from django.contrib.auth.views import FormView, LoginView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.html import escape
 
-from portal.forms.play import StudentLoginForm, StudentClassCodeForm
+from portal.forms.play import StudentClassCodeForm, StudentLoginForm
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
 from portal.helpers.request_handlers import get_access_code_from_request
 from portal.views.login import has_user_lockout_expired
@@ -65,12 +65,12 @@ class StudentLoginView(LoginView):
     def _add_login_data(self, form, login_type):
         # class and student have been validated by this point
         class_code = self.kwargs["access_code"]
-        classes = Class.objects.filter(_access_code_plain__iexact=class_code)
+        classes = Class.objects.filter(_access_code_hash__sha256=class_code)
         klass = classes[0]
 
         name = form.cleaned_data.get("username")
         students = Student.objects.filter(
-            new_user___first_name_plain__iexact=name, class_field=klass
+            new_user___first_name_hash__sha256=name, class_field=klass
         )
         student = students[0]
 
@@ -107,12 +107,12 @@ class StudentLoginView(LoginView):
         # get access code from the current url
         access_code = get_access_code_from_request(request)
         if Student.objects.filter(
-            new_user___first_name_plain=username,
-            class_field___access_code_plain=access_code
+            new_user___first_name_hash__sha256=username,
+            class_field___access_code_hash__sha256=access_code,
         ).exists():
             student = Student.objects.get(
-                new_user___first_name_plain=username,
-                class_field___access_code_plain=access_code,
+                new_user___first_name_hash__sha256=username,
+                class_field___access_code_hash__sha256=access_code,
             )
 
             if student.blocked_time is not None:

@@ -1,14 +1,14 @@
 from codeforlife.legacy.models import Teacher
 from django.shortcuts import render
-from two_factor.views import LoginView
 from two_factor.forms import AuthenticationTokenForm, BackupTokenForm
-
-from portal.forms.teach import TeacherLoginForm
-from portal.views.home import redirect_teacher_to_correct_page
-from . import has_user_lockout_expired
+from two_factor.views import LoginView
 
 # This import is required so that 2FA works properly
 from portal import handlers
+from portal.forms.teach import TeacherLoginForm
+from portal.views.home import redirect_teacher_to_correct_page
+
+from . import has_user_lockout_expired
 
 
 class TeacherLoginView(LoginView):
@@ -21,7 +21,9 @@ class TeacherLoginView(LoginView):
 
     def get_success_url(self):
         url = self.get_redirect_url()
-        return url or redirect_teacher_to_correct_page(self.request, self.request.user.userprofile.teacher)
+        return url or redirect_teacher_to_correct_page(
+            self.request, self.request.user.userprofile.teacher
+        )
 
     def post(self, request, *args, **kwargs):
         """
@@ -29,12 +31,18 @@ class TeacherLoginView(LoginView):
         account, this redirects the user to the locked out page. However, if the lockout
         time is more than 24 hours before this is executed, the account is unlocked.
         """
-        wizard_step = self.request.POST.get("teacher_login_view-current_step", None)
+        wizard_step = self.request.POST.get(
+            "teacher_login_view-current_step", None
+        )
 
         if wizard_step == "auth":
             email = request.POST.get("auth-username")
-            if Teacher.objects.filter(new_user___email_plain=email).exists():
-                teacher = Teacher.objects.get(new_user___email_plain=email)
+            if Teacher.objects.filter(
+                new_user___email_hash__sha256=email
+            ).exists():
+                teacher = Teacher.objects.get(
+                    new_user___email_hash__sha256=email
+                )
 
                 if teacher.blocked_time is not None:
                     if has_user_lockout_expired(teacher):

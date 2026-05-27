@@ -9,7 +9,9 @@ from codeforlife.legacy.tests.utils.organisation import (
     create_organisation_directly,
     join_teacher_to_organisation,
 )
-from codeforlife.legacy.tests.utils.student import create_school_student_directly
+from codeforlife.legacy.tests.utils.student import (
+    create_school_student_directly,
+)
 from codeforlife.legacy.tests.utils.teacher import signup_teacher_directly
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -39,7 +41,7 @@ class TestClass(TestCase):
         )
 
         # Login as another teacher, try to delete the class and check for 404
-        c.login(_username_plain=email2, password=password2)
+        c.login(_username_hash=email2, password=password2)
 
         response = c.post(url)
 
@@ -48,9 +50,9 @@ class TestClass(TestCase):
         c.logout()
 
         # Login as first teacher, check there is a class
-        c.login(_username_plain=email1, password=password1)
+        c.login(_username_hash=email1, password=password1)
 
-        teacher = Teacher.objects.get(new_user___username_plain=email1)
+        teacher = Teacher.objects.get(new_user___username_hash__sha256=email1)
         teacher_classes = Class.objects.filter(teacher=teacher)
 
         assert len(teacher_classes) == 1
@@ -98,7 +100,7 @@ class TestClass(TestCase):
         }
 
         # Login as another teacher, try to edit the class and check for 404
-        c.login(_username_plain=email2, password=password2)
+        c.login(_username_hash=email2, password=password2)
 
         response = c.post(url, data)
 
@@ -107,9 +109,9 @@ class TestClass(TestCase):
         c.logout()
 
         # Login as first teacher, check the default class settings
-        c.login(_username_plain=email1, password=password1)
+        c.login(_username_hash=email1, password=password1)
 
-        teacher = Teacher.objects.get(new_user___username_plain=email1)
+        teacher = Teacher.objects.get(new_user___username_hash__sha256=email1)
         klass = Class.objects.get(teacher=teacher)
 
         assert klass.name == class_name
@@ -276,13 +278,13 @@ class TestClass(TestCase):
             "level_control_submit": "",
         }
 
-        c.login(_username_plain=email, password=password)
+        c.login(_username_hash=email, password=password)
 
         response = c.post(url, data)
 
         assert response.status_code == 302
 
-        level1 = Level.objects.get(_name_plain=1)
+        level1 = Level.objects.get(_name_plain="1")
 
         assert klass1 in level1.locked_for_class.all()
         assert klass2 not in level1.locked_for_class.all()
@@ -439,7 +441,7 @@ class TestClass(TestCase):
 
         assert response.status_code == 302
 
-        level1 = Level.objects.get(_name_plain=1)
+        level1 = Level.objects.get(_name_plain="1")
 
         assert klass1 not in level1.locked_for_class.all()
         assert klass2 not in level1.locked_for_class.all()
@@ -454,8 +456,8 @@ class TestClass(TestCase):
         create_school_student_directly(access_code1)
         _, _, student2 = create_school_student_directly(access_code2)
 
-        teacher1 = Teacher.objects.get(new_user___username_plain=email1)
-        teacher2 = Teacher.objects.get(new_user___username_plain=email2)
+        teacher1 = Teacher.objects.get(new_user___username_hash__sha256=email1)
+        teacher2 = Teacher.objects.get(new_user___username_hash__sha256=email2)
         teacher1_classes = Class.objects.filter(teacher=teacher1)
         teacher2_classes = Class.objects.filter(teacher=teacher2)
 
@@ -470,7 +472,7 @@ class TestClass(TestCase):
         data = {"new_teacher": teacher2.id, "class_move_submit": ""}
 
         # Login as first teacher and transfer class to the second teacher
-        c.login(_username_plain=email1, password=password1)
+        c.login(_username_hash=email1, password=password1)
 
         response = c.post(url, data)
 
@@ -509,7 +511,7 @@ class TestClassFrontend(BaseTest):
     def test_create_class_as_admin_for_another_teacher(self):
         email1, password1 = signup_teacher_directly()
         email2, password2 = signup_teacher_directly()
-        teacher2 = Teacher.objects.get(new_user___email_plain=email2)
+        teacher2 = Teacher.objects.get(new_user___email_hash__sha256=email2)
         school = create_organisation_directly(email1)
         join_teacher_to_organisation(email2, school.name)
 

@@ -7,9 +7,11 @@ from django.urls import reverse_lazy
 
 from portal.forms.play import IndependentStudentLoginForm
 from portal.helpers.ratelimit import clear_ratelimit_cache_for_user
+
 from . import has_user_lockout_expired
 
 User = get_user_model()
+
 
 class IndependentStudentLoginView(LoginView):
     template_name = "portal/login/independent_student.html"
@@ -38,8 +40,8 @@ class IndependentStudentLoginView(LoginView):
         time is more than 24 hours before this is executed, the account is unlocked.
         """
         email = request.POST.get("username")
-        if Student.objects.filter(new_user___email_plain=email).exists():
-            student = Student.objects.get(new_user___email_plain=email)
+        if Student.objects.filter(new_user___email_hash__sha256=email).exists():
+            student = Student.objects.get(new_user___email_hash__sha256=email)
 
             if student.blocked_time is not None:
                 if has_user_lockout_expired(student):
@@ -52,7 +54,9 @@ class IndependentStudentLoginView(LoginView):
                         {"is_teacher": False},
                     )
 
-        return super(IndependentStudentLoginView, self).post(request, *args, **kwargs)
+        return super(IndependentStudentLoginView, self).post(
+            request, *args, **kwargs
+        )
 
     def form_valid(self, form):
         self._add_logged_in_as_message(self.request)
@@ -62,7 +66,7 @@ class IndependentStudentLoginView(LoginView):
 
         # Log the login time
         email = self.request.POST.get("username")
-        user = User.objects.get(_email_plain=email)
+        user = User.objects.get(_email_hash__sha256=email)
         session = UserSession(user=user)
         session.save()
 
