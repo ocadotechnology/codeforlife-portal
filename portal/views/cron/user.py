@@ -76,7 +76,7 @@ def get_inactive_users(days: int) -> QuerySet[User]:
         user_queryset.exclude(_email_hash__isnull=True)
         .exclude(_email_hash="")
         .exclude(_email_enc__isnull=True)
-        .exclude(_email_enc="")
+        .exclude(_email_enc=b"")
     )
 
 
