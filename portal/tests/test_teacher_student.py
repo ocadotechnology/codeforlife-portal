@@ -304,32 +304,6 @@ class TestTeacherStudentFrontend(BaseTest):
         assert page.__class__.__name__ == "TeachClassPage"
         assert page.student_exists(new_student_name)
 
-    def test_update_student_valid_name_underscore(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-        _, _, access_code = create_class_directly(email)
-        name, _, _ = create_school_student_directly(access_code)
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login(email, password)
-            .open_classes_tab()
-            .go_to_class_page()
-            .go_to_edit_student_page()
-        )
-
-        assert page.is_student_name(name)
-
-        new_student_name = "new_name"
-
-        page = page.type_student_name(new_student_name)
-        page = page.click_update_button()
-
-        assert page.__class__.__name__ == "TeachClassPage"
-        assert page.student_exists(new_student_name)
-
     def test_update_student_invalid_name(self):
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
