@@ -46,10 +46,10 @@ class TestTeacherStudentFrontend(BaseTest):
             .go_to_class_page()
         )
 
-        student_name = "Florian-Gilbert"
+        student_name = "Florian Gilbert 1"
         page = page.type_student_name(student_name)
 
-        student_name2 = "Florian_Gilbert"
+        student_name2 = "Florian Gilbert 2"
         page = page.type_student_name(student_name2)
 
         page.click_create_students()
