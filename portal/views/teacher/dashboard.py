@@ -492,7 +492,7 @@ def invite_toggle_admin(request, invite_id):
             campaign_ids["admin_given"],
             [invite.invited_teacher_email],
             personalization_values={
-                "SCHOOL_CLUB_NAME": invite.school,
+                "SCHOOL_CLUB_NAME": invite.school.name,
                 "MANAGEMENT_LINK": f"{domain(request)}{reverse("dashboard")}",
             },
         )
@@ -504,7 +504,7 @@ def invite_toggle_admin(request, invite_id):
         send_dotdigital_email(
             campaign_ids["admin_revoked"],
             [invite.invited_teacher_email],
-            personalization_values={"SCHOOL_CLUB_NAME": invite.school},
+            personalization_values={"SCHOOL_CLUB_NAME": invite.school.name},
         )
 
     return HttpResponseRedirect(reverse_lazy("dashboard"))
@@ -757,7 +757,7 @@ def resend_invite_teacher(request, token):
             campaign_id,
             [invite.invited_teacher_email],
             personalization_values={
-                "SCHOOL_NAME": invite.school,
+                "SCHOOL_NAME": invite.school.name,
                 "REGISTRATION_LINK": registration_link,
             },
         )
