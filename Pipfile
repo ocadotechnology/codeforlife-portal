@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-codeforlife = "==0.37.3"
+codeforlife = "==1.0.0"
 # codeforlife = {file = "../../backend/package", editable = true}
 # codeforlife = {ref = "BRANCH_NAME_OR_COMMIT_SHA", git = "https://github.com/codeforlife-education/codeforlife-package-python.git"}
 django-classy-tags = "==4.1.0"
@@ -34,7 +34,7 @@ pytest-mock = "*"
 pytest-order = "*"
 pytest-xdist = "*"
 pyvirtualdisplay = "*"
-rapid-router = "==7.12.2"
+#rapid-router = "==7.12.2"
 # rapid-router = {file = "../rapid-router", editable = true}
 # rapid-router = {ref = "BRANCH_NAME_OR_COMMIT_SHA", git = "https://github.com/codeforlife-education/rapid-router.git"}
 responses = "==0.18.0"
