@@ -1,6 +1,22 @@
 # CHANGELOG
 
 
+## v8.15.3 (2026-08-27)
+
+### Bug Fixes
+
+- Get latest python package
+  ([`751904c`](https://github.com/codeforlife-education/codeforlife-portal/commit/751904cc334ac51e8cb0e87858ef0a06d2e0b0b1))
+
+- Temp fix
+  ([`3035066`](https://github.com/codeforlife-education/codeforlife-portal/commit/303506624a86f533a1906ef8c41cca34cceb0a34))
+
+### Continuous Integration
+
+- Latest RR
+  ([`65c4db9`](https://github.com/codeforlife-education/codeforlife-portal/commit/65c4db95226f8b7c870eca0c4965d83591e62a83))
+
+
 ## v8.15.2 (2026-07-14)
 
 ### Bug Fixes
