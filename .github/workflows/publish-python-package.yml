@@ -43,6 +43,8 @@ jobs:
       - name: Install pip requirements
         run: |
           pip install pipenv build python-semantic-release==9.*
+          # TODO: Remove once python-semantic-release have released a fix
+          pip install build GitPython==3.1.59
           pipenv install --dev --system
 
       - name: 📜 Detect Semantic Version
