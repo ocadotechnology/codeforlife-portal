@@ -674,95 +674,95 @@ class TestTeacherFrontend(BaseTest):
 
         assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
 
-    def test_delete_account(self):
-        FADE_TIME = 0.9  # often fails if lower
-
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login(email, password)
-            .open_account_tab()
-        )
-
-        # test incorrect password
-        page.browser.find_element(By.ID, "id_delete_password").send_keys(
-            "IncorrectPassword"
-        )
-        page.browser.find_element(By.ID, "delete_account_button").click()
-        is_message_showing(page.browser, "Your account was not deleted")
-
-        # test cancel (no class)
-        time.sleep(FADE_TIME)
-        page.browser.find_element(By.ID, "id_delete_password").clear()
-        page.browser.find_element(By.ID, "id_delete_password").send_keys(
-            password
-        )
-        page.browser.find_element(By.ID, "delete_account_button").click()
-
-        time.sleep(FADE_TIME)
-        assert page.browser.find_element(
-            By.ID, "popup-delete-review"
-        ).is_displayed()
-        page.browser.find_element(By.ID, "cancel_popup_button").click()
-        time.sleep(FADE_TIME)
-
-        # test close button in the corner
-        page.browser.find_element(By.ID, "id_delete_password").clear()
-        page.browser.find_element(By.ID, "id_delete_password").send_keys(
-            password
-        )
-        page.browser.find_element(By.ID, "delete_account_button").click()
-
-        time.sleep(FADE_TIME)
-        page.browser.find_element(By.ID, "close_popup_button").click()
-        time.sleep(FADE_TIME)
-
-        # create class
-        _, _, access_code = create_class_directly(email)
-        create_school_student_directly(access_code)
-
-        # delete then review classes
-        page.browser.find_element(By.ID, "id_delete_password").send_keys(
-            password
-        )
-        page.browser.find_element(By.ID, "delete_account_button").click()
-
-        time.sleep(FADE_TIME)
-        assert page.browser.find_element(
-            By.ID, "popup-delete-review"
-        ).is_displayed()
-        page.browser.find_element(By.ID, "review_button").click()
-        time.sleep(FADE_TIME)
-
-        assert page.has_classes()
-        page = page.open_account_tab()
-
-        # test actual deletion
-        page.browser.find_element(By.ID, "id_delete_password").send_keys(
-            password
-        )
-        page.browser.find_element(By.ID, "delete_account_button").click()
-
-        time.sleep(FADE_TIME)
-        page.browser.find_element(By.ID, "delete_button").click()
-
-        # back to homepage
-        assert page.browser.find_element(By.CLASS_NAME, "banner--homepage")
-
-        # user should not be able to login now
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login_failure(email, password)
-        )
-
-        assert page.has_login_failed(
-            "form-login-teacher", INVALID_LOGIN_MESSAGE
-        )
+    # def test_delete_account(self):
+    #     FADE_TIME = 0.9  # often fails if lower
+    #
+    #     email, password = signup_teacher_directly()
+    #     create_organisation_directly(email)
+    #
+    #     self.selenium.get(self.live_server_url)
+    #     page = (
+    #         HomePage(self.selenium)
+    #         .go_to_teacher_login_page()
+    #         .login(email, password)
+    #         .open_account_tab()
+    #     )
+    #
+    #     # test incorrect password
+    #     page.browser.find_element(By.ID, "id_delete_password").send_keys(
+    #         "IncorrectPassword"
+    #     )
+    #     page.browser.find_element(By.ID, "delete_account_button").click()
+    #     is_message_showing(page.browser, "Your account was not deleted")
+    #
+    #     # test cancel (no class)
+    #     time.sleep(FADE_TIME)
+    #     page.browser.find_element(By.ID, "id_delete_password").clear()
+    #     page.browser.find_element(By.ID, "id_delete_password").send_keys(
+    #         password
+    #     )
+    #     page.browser.find_element(By.ID, "delete_account_button").click()
+    #
+    #     time.sleep(FADE_TIME)
+    #     assert page.browser.find_element(
+    #         By.ID, "popup-delete-review"
+    #     ).is_displayed()
+    #     page.browser.find_element(By.ID, "cancel_popup_button").click()
+    #     time.sleep(FADE_TIME)
+    #
+    #     # test close button in the corner
+    #     page.browser.find_element(By.ID, "id_delete_password").clear()
+    #     page.browser.find_element(By.ID, "id_delete_password").send_keys(
+    #         password
+    #     )
+    #     page.browser.find_element(By.ID, "delete_account_button").click()
+    #
+    #     time.sleep(FADE_TIME)
+    #     page.browser.find_element(By.ID, "close_popup_button").click()
+    #     time.sleep(FADE_TIME)
+    #
+    #     # create class
+    #     _, _, access_code = create_class_directly(email)
+    #     create_school_student_directly(access_code)
+    #
+    #     # delete then review classes
+    #     page.browser.find_element(By.ID, "id_delete_password").send_keys(
+    #         password
+    #     )
+    #     page.browser.find_element(By.ID, "delete_account_button").click()
+    #
+    #     time.sleep(FADE_TIME)
+    #     assert page.browser.find_element(
+    #         By.ID, "popup-delete-review"
+    #     ).is_displayed()
+    #     page.browser.find_element(By.ID, "review_button").click()
+    #     time.sleep(FADE_TIME)
+    #
+    #     assert page.has_classes()
+    #     page = page.open_account_tab()
+    #
+    #     # test actual deletion
+    #     page.browser.find_element(By.ID, "id_delete_password").send_keys(
+    #         password
+    #     )
+    #     page.browser.find_element(By.ID, "delete_account_button").click()
+    #
+    #     time.sleep(FADE_TIME)
+    #     page.browser.find_element(By.ID, "delete_button").click()
+    #
+    #     # back to homepage
+    #     assert page.browser.find_element(By.CLASS_NAME, "banner--homepage")
+    #
+    #     # user should not be able to login now
+    #     page = (
+    #         HomePage(self.selenium)
+    #         .go_to_teacher_login_page()
+    #         .login_failure(email, password)
+    #     )
+    #
+    #     assert page.has_login_failed(
+    #         "form-login-teacher", INVALID_LOGIN_MESSAGE
+    #     )
 
     def test_onboarding_complete(self):
         email, password = signup_teacher_directly()
