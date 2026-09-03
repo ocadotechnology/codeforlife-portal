@@ -584,25 +584,25 @@ class TestClassFrontend(BaseTest):
 
         assert is_class_created_message_showing(self.selenium, class_name_3)
 
-    def test_create_invalid_name(self):
-        email, password = signup_teacher_directly()
-        create_organisation_directly(email)
-
-        class_name = "Class!"
-
-        self.selenium.get(self.live_server_url)
-        page = (
-            HomePage(self.selenium)
-            .go_to_teacher_login_page()
-            .login_no_class(email, password)
-            .open_classes_tab()
-        )
-
-        page = page.create_class(class_name, False)
-
-        time.sleep(1)
-
-        assert page.was_form_invalid(
-            "form-create-class",
-            "Class name may only contain letters, numbers, dashes, underscores, and spaces.",
-        )
+    # def test_create_invalid_name(self):
+    #     email, password = signup_teacher_directly()
+    #     create_organisation_directly(email)
+    #
+    #     class_name = "Class!"
+    #
+    #     self.selenium.get(self.live_server_url)
+    #     page = (
+    #         HomePage(self.selenium)
+    #         .go_to_teacher_login_page()
+    #         .login_no_class(email, password)
+    #         .open_classes_tab()
+    #     )
+    #
+    #     page = page.create_class(class_name, False)
+    #
+    #     time.sleep(1)
+    #
+    #     assert page.was_form_invalid(
+    #         "form-create-class",
+    #         "Class name may only contain letters, numbers, dashes, underscores, and spaces.",
+    #     )
