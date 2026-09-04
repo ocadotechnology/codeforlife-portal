@@ -697,7 +697,6 @@ class TestTeacherFrontend(BaseTest):
 
         # test cancel (no class)
         time.sleep(FADE_TIME)
-        # page.open_account_tab()
         page.browser.find_element(By.ID, "id_delete_password").clear()
         page.browser.find_element(By.ID, "id_delete_password").send_keys(
             password
