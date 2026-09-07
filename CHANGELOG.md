@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v8.15.5 (2026-09-07)
+
+### Bug Fixes
+
+- Install latest package
+  ([`e86f178`](https://github.com/codeforlife-education/codeforlife-portal/commit/e86f1781c546797c0c6c16f7919d8ec950f7d6c4))
+
+
 ## v8.15.4 (2026-09-07)
 
 ### Bug Fixes
