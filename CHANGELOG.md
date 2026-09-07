@@ -1,6 +1,27 @@
 # CHANGELOG
 
 
+## v8.15.4 (2026-09-07)
+
+### Bug Fixes
+
+- Remove Freshdesk ([#2509](https://github.com/codeforlife-education/codeforlife-portal/pull/2509),
+  [`7e17a19`](https://github.com/codeforlife-education/codeforlife-portal/commit/7e17a193c68bdfb900323608ef3c26377742004d))
+
+* fix: Remove Freshdesk
+
+* Test comment out
+
+* Fix tests
+
+* Final clean
+
+### Continuous Integration
+
+- Latest RR
+  ([`0d9eb2d`](https://github.com/codeforlife-education/codeforlife-portal/commit/0d9eb2df5d2bab290456bc3438073c6508f1c7f5))
+
+
 ## v8.15.3 (2026-08-27)
 
 ### Bug Fixes
