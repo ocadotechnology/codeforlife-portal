@@ -602,6 +602,8 @@ class TestClassFrontend(BaseTest):
 
         time.sleep(1)
 
+        page.open_classes_tab()
+
         assert page.was_form_invalid(
             "form-create-class",
             "Class name may only contain letters, numbers, dashes, underscores, and spaces.",

@@ -675,7 +675,7 @@ class TestTeacherFrontend(BaseTest):
         assert page.element_exists((By.CLASS_NAME, "popup-box__msg"))
 
     def test_delete_account(self):
-        FADE_TIME = 0.9  # often fails if lower
+        FADE_TIME = 1  # often fails if lower
 
         email, password = signup_teacher_directly()
         create_organisation_directly(email)
@@ -711,6 +711,7 @@ class TestTeacherFrontend(BaseTest):
         time.sleep(FADE_TIME)
 
         # test close button in the corner
+        page.open_account_tab()
         page.browser.find_element(By.ID, "id_delete_password").clear()
         page.browser.find_element(By.ID, "id_delete_password").send_keys(
             password
@@ -726,6 +727,7 @@ class TestTeacherFrontend(BaseTest):
         create_school_student_directly(access_code)
 
         # delete then review classes
+        page.open_account_tab()
         page.browser.find_element(By.ID, "id_delete_password").send_keys(
             password
         )

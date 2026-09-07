@@ -255,7 +255,8 @@
         {% endif %}
         <a class="button button--menu__item" href="{% url 'about' %}">About us
             <span class="material-icons-outlined md-32">chevron_right</span></a>
-        <a class="button button--menu__item freshdesk__contact-us">Help and support
+        <a href="mailto:support@codeforlife.education?subject=Support request - User ID: {{ user|user_id }}"
+           class="button button--menu__item">Contact us
             <span class="material-icons-outlined md-32">chevron_right</span></a>
         <a class="button button--menu__item" target="_blank"
               href="https://2662351606-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-M_6UDUiGoJDhr_OXetO%2Fuploads%2FHx2kJLPwUER9Ez7gdQFp%2F2023_Impact_Report_Final.pdf?alt=media">
