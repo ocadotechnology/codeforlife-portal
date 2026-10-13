@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v8.15.13 (2026-10-13)
+
+### Bug Fixes
+
+- Install latest package
+  ([`d5d876c`](https://github.com/codeforlife-education/codeforlife-portal/commit/d5d876c16dbba0b2f3126123dfadde09a68f9576))
+
+### Continuous Integration
+
+- Install latest RR
+  ([`b27fcf5`](https://github.com/codeforlife-education/codeforlife-portal/commit/b27fcf5bfb7640786a0843f83c6e269ade07499f))
+
+
 ## v8.15.12 (2026-10-01)
 
 ### Bug Fixes
