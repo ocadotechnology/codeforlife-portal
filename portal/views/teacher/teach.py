@@ -262,19 +262,12 @@ def teacher_delete_students(request, access_code):
     student_ids = json.loads(request.POST.get("transfer_students", "[]"))
     students = [get_object_or_404(Student, id=i, class_field=klass) for i in student_ids]
 
-    def __anonymise(user):
-        # Delete all personal data from inactive user and mark as inactive.
-        # Student only has random username, password, first_name
-        user.dek = None
-        user.is_active = False
-        user.save()
-
     # Delete all of the students
     for student in students:
         # If the student has previously logged in, anonymise
         user = student.new_user
         if user.last_login:
-            __anonymise(user)
+            user.anonymize()
             # remove login id so they can't log in with direct link anymore
             student.login_id = ""
             student.save()
