@@ -33,6 +33,7 @@ User = get_user_model()
 class ClassAdmin(HashSearchModelAdmin, ExportActionMixin):
     search_fields = [
         "_name_hash__sha256",
+        "_access_code_hash__sha256",
         "teacher__new_user___first_name_hash__sha256",
         "teacher__school___name_hash__sha256",
     ]
