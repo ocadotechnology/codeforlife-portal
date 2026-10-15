@@ -262,7 +262,7 @@ def teacher_delete_students(request, access_code):
     student_ids = json.loads(request.POST.get("transfer_students", "[]"))
     students = [get_object_or_404(Student, id=i, class_field=klass) for i in student_ids]
 
-    def __anonymise(user):
+    def __anonymise(user): # delete?
         # Delete all personal data from inactive user and mark as inactive.
         # Student only has random username, password, first_name
         user.dek = None
