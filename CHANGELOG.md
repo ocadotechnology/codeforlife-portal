@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v8.15.14 (2026-10-15)
+
+### Bug Fixes
+
+- Username
+  ([`3eef5c7`](https://github.com/codeforlife-education/codeforlife-portal/commit/3eef5c7eeba4d95540fccd3ba462f4918fde9f4f))
+
+### Continuous Integration
+
+- Install latest RR
+  ([`5ada5c3`](https://github.com/codeforlife-education/codeforlife-portal/commit/5ada5c3923def33fd8c2687077d68636d255326f))
+
+
 ## v8.15.13 (2026-10-13)
 
 ### Bug Fixes
