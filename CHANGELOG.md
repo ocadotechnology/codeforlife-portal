@@ -1,6 +1,18 @@
 # CHANGELOG
 
 
+## v8.15.15 (2026-10-15)
+
+### Bug Fixes
+
+- Lol ([#2512](https://github.com/codeforlife-education/codeforlife-portal/pull/2512),
+  [`08090dc`](https://github.com/codeforlife-education/codeforlife-portal/commit/08090dcb1db29063d716614226ff2f93dc43cade))
+
+* lol
+
+* fix
+
+
 ## v8.15.14 (2026-10-15)
 
 ### Bug Fixes
