@@ -140,7 +140,11 @@ class APITests(APITestCase):
                     _username_hash__sha256=user["username"],
                 )
 
-        deleted_users = list(User.objects.filter(is_active=False).exclude(id__in=[user.id for user in old_deleted_users]))
+        deleted_users = list(
+            User.objects.filter(is_active=False).exclude(
+                id__in=[user.id for user in old_deleted_users]
+            )
+        )
         new_deleted_users_count = len(deleted_users) - len(old_deleted_users)
         assert new_deleted_users_count == 1
 
@@ -187,8 +191,7 @@ class APITests(APITestCase):
         school2_teacher2 = Teacher.objects.get(
             new_user___email_hash__sha256=school2_teacher2_email
         )
-        school2_teacher2.new_user.is_active = False
-        school2_teacher2.new_user.save()
+        school2_teacher2.new_user.anonymize()
 
         # Create a school with 2 inactive teachers
         school3_teacher1_email, _ = signup_teacher_directly()
@@ -206,13 +209,11 @@ class APITests(APITestCase):
         school3_teacher1 = Teacher.objects.get(
             new_user___email_hash__sha256=school3_teacher1_email
         )
-        school3_teacher1.new_user.is_active = False
-        school3_teacher1.new_user.save()
+        school3_teacher1.new_user.anonymize()
         school3_teacher2 = Teacher.objects.get(
             new_user___email_hash__sha256=school3_teacher2_email
         )
-        school3_teacher2.new_user.is_active = False
-        school3_teacher2.new_user.save()
+        school3_teacher2.new_user.anonymize()
 
         # Create a school with no active teachers
         school4_teacher1_email, _ = signup_teacher_directly()
@@ -220,8 +221,7 @@ class APITests(APITestCase):
         school4_teacher1 = Teacher.objects.get(
             new_user___email_hash__sha256=school4_teacher1_email
         )
-        school4_teacher1.new_user.is_active = False
-        school4_teacher1.new_user.save()
+        school4_teacher1.new_user.anonymize()
 
         # Create a school with no teachers
         school5_teacher1_email, _ = signup_teacher_directly()
