@@ -5,7 +5,7 @@ from codeforlife.legacy.helpers.emails import send_verification_email
 from codeforlife.legacy.models import Class, Student, stripStudentName
 from codeforlife.legacy.permissions import logged_in_as_independent_student
 from django import forms
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
 from django_recaptcha.fields import ReCaptchaField
@@ -14,6 +14,8 @@ from django_recaptcha.widgets import ReCaptchaV2Invisible
 from portal.forms.error_messages import INVALID_LOGIN_MESSAGE
 from portal.helpers.password import PasswordStrength, form_clean_password
 from portal.helpers.regexes import ACCESS_CODE_PATTERN
+
+User = get_user_model()
 
 
 class StudentClassCodeForm(forms.Form):
@@ -149,6 +151,7 @@ class IndependentStudentEditAccountForm(forms.Form):
             attrs={"autocomplete": "off", "placeholder": "Name"}
         ),
         help_text="Enter your name",
+        validators=User.first_name_validators,
     )
     email = forms.EmailField(
         required=False,
@@ -159,6 +162,7 @@ class IndependentStudentEditAccountForm(forms.Form):
             }
         ),
         help_text="Enter new email address (optional)",
+        validators=User.email_validators,
     )
     password = forms.CharField(
         required=False,
@@ -257,6 +261,7 @@ class IndependentStudentSignupForm(forms.Form):
         widget=forms.TextInput(
             attrs={"autocomplete": "off", "placeholder": "Full name"}
         ),
+        validators=User.first_name_validators,
     )
 
     email = forms.EmailField(
@@ -264,6 +269,7 @@ class IndependentStudentSignupForm(forms.Form):
         widget=forms.EmailInput(
             attrs={"autocomplete": "off", "placeholder": "Email address"}
         ),
+        validators=User.email_validators,
     )
 
     consent_ticked = forms.BooleanField(

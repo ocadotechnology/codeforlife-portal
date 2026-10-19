@@ -77,6 +77,7 @@ class TeacherSignupForm(InvitedTeacherForm):
         widget=forms.TextInput(
             attrs={"autocomplete": "off", "placeholder": "First name"}
         ),
+        validators=User.first_name_validators,
     )
     teacher_last_name = forms.CharField(
         help_text="Enter your last name",
@@ -84,12 +85,14 @@ class TeacherSignupForm(InvitedTeacherForm):
         widget=forms.TextInput(
             attrs={"autocomplete": "off", "placeholder": "Last name"}
         ),
+        validators=User.last_name_validators,
     )
     teacher_email = forms.EmailField(
         help_text="Enter your email address",
         widget=forms.EmailInput(
             attrs={"autocomplete": "off", "placeholder": "Email address"}
         ),
+        validators=User.email_validators,
     )
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
@@ -102,6 +105,7 @@ class TeacherEditAccountForm(forms.Form):
             attrs={"placeholder": "First name", "class": "fName"}
         ),
         help_text="First name",
+        validators=User.first_name_validators,
     )
     last_name = forms.CharField(
         max_length=100,
@@ -109,6 +113,7 @@ class TeacherEditAccountForm(forms.Form):
             attrs={"placeholder": "Last name", "class": "lName"}
         ),
         help_text="Last name",
+        validators=User.last_name_validators,
     )
     email = forms.EmailField(
         required=False,
@@ -116,6 +121,7 @@ class TeacherEditAccountForm(forms.Form):
             attrs={"placeholder": "New email address (optional)"}
         ),
         help_text="New email address (optional)",
+        validators=User.email_validators,
     )
     password = forms.CharField(
         required=False,
