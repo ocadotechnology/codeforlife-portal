@@ -17,6 +17,7 @@ class OrganisationForm(forms.ModelForm):
                 "placeholder": "Name of school or club",
             }
         ),
+        validators=School.name_validators,
     )
     county = forms.ChoiceField(
         choices=[
