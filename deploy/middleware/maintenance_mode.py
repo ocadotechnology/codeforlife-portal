@@ -13,7 +13,7 @@ class MaintenanceModeMiddleware:
                 request.path != reverse("maintenance")
                 and request.path != reverse("teacher_login")
                 and not request.path.startswith("/admin")
-                and not (hasattr(request.user, 'is_superuser') and request.user.is_superuser)
+                and not (hasattr(request.user, "is_superuser") and request.user.is_superuser)
             ):
                 return redirect("maintenance")
 
