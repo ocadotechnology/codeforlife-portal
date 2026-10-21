@@ -5,6 +5,9 @@
 
 ### Bug Fixes
 
+- Bump version (formatting)
+  ([`edb57ac`](https://github.com/codeforlife-education/codeforlife-portal/commit/edb57ac47a3cb993c2259dbf1747eb2faf1b7d39))
+
 - Install latest package
   ([`2e24d95`](https://github.com/codeforlife-education/codeforlife-portal/commit/2e24d959e20232e05c62c81241e12cc5bff28a74))
 
