@@ -78,7 +78,7 @@ class TestTeacherStudentFrontend(BaseTest):
         assert page.adding_students_failed()
         assert page.was_form_invalid(
             "form-create-students",
-            "Names may only contain letters, numbers, dashes, underscores, and spaces.",
+            "can only contain: $unicode alphanumeric characters, spaces, special characters (-')",
         )
 
     def test_create_multiple(self):

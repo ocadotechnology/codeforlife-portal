@@ -293,16 +293,6 @@ class ClassCreationForm(forms.Form):
 
             self.fields["teacher"].choices = teacher_choices
 
-    def clean(self):
-        name = self.cleaned_data.get("class_name", "")
-
-        if re.match(re.compile("^[\w -]+$"), name) is None:
-            raise forms.ValidationError(
-                "Class name may only contain letters, numbers, dashes, underscores, and spaces."
-            )
-
-        return self.cleaned_data
-
 
 class ClassEditForm(forms.Form):
     # select dropdown choices for potentially limiting time in which external students may join
@@ -361,16 +351,6 @@ class ClassEditForm(forms.Form):
         choices=join_choices,
         widget=forms.Select(),
     )
-
-    def clean(self):
-        name = self.cleaned_data.get("name", "")
-
-        if re.match(re.compile("^[\w -]+$"), name) is None:
-            raise forms.ValidationError(
-                "Class name may only contain letters, numbers, dashes, underscores, and spaces."
-            )
-
-        return self.cleaned_data
 
 
 class ClassLevelControlForm(forms.Form):
@@ -446,11 +426,6 @@ class TeacherEditStudentForm(forms.Form):
                 "'"
                 + self.cleaned_data.get("name", "")
                 + "' is not a valid name"
-            )
-
-        if re.match(re.compile("^[\w -]+$"), name) is None:
-            raise forms.ValidationError(
-                "Names may only contain letters, numbers, dashes, underscores, and spaces."
             )
 
         students = Student.objects.filter(
@@ -553,14 +528,11 @@ def find_duplicates(names, lower_names, validationErrors):
 
 def find_illegal_characters(names, validationErrors):
     for name in names:
-        if re.match(re.compile("^[\w -]+$"), name) is None:
-            validationErrors.append(
-                forms.ValidationError(
-                    "Names may only contain letters, numbers, dashes, underscores, and spaces. You must rename '"
-                    + name
-                    + "'."
-                )
-            )
+        for validator in User.first_name_validators:
+            try:
+                validator(name)
+            except forms.ValidationError as e:
+                validationErrors.append(e)
 
 
 def check_passwords(password, confirm_password):

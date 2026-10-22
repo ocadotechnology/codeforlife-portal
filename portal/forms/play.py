@@ -200,11 +200,6 @@ class IndependentStudentEditAccountForm(forms.Form):
             if name == "":
                 raise forms.ValidationError("This field is required")
 
-            if re.match(re.compile("^[\w ]+$"), name) is None:
-                raise forms.ValidationError(
-                    "Names may only contain letters, numbers, dashes, underscores, and spaces."
-                )
-
         return name
 
     def clean_password(self):
@@ -294,15 +289,6 @@ class IndependentStudentSignupForm(forms.Form):
     )
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
-
-    def clean_name(self):
-        name = self.cleaned_data.get("name", None)
-        if re.match(re.compile("^[\w ]+$"), name) is None:
-            raise forms.ValidationError(
-                "Names may only contain letters, numbers, dashes, underscores, and spaces."
-            )
-
-        return name
 
     def clean_password(self):
         return form_clean_password(
