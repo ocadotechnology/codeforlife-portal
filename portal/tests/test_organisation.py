@@ -249,7 +249,7 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.was_form_invalid(
             "edit_form",
-            "School names cannot contain special characters except full stops and apostrophes.",
+            "can only contain: $unicode alphanumeric characters, spaces, special characters ('.)",
         )
 
     def test_edit_clash(self):
