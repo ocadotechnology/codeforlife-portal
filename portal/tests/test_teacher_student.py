@@ -330,7 +330,7 @@ class TestTeacherStudentFrontend(BaseTest):
         assert page.is_student_name(name)
         assert page.was_form_invalid(
             "form-edit-student",
-            "Names may only contain letters, numbers, dashes, underscores, and spaces.",
+            "can only contain: $unicode alphanumeric characters, spaces, special characters (-')",
         )
 
     def test_update_student_password(self):
