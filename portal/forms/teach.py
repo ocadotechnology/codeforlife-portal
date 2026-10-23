@@ -4,6 +4,7 @@ from builtins import map, range, str
 
 from codeforlife.legacy.helpers.emails import send_verification_email
 from codeforlife.legacy.models import (
+    Class,
     Student,
     Teacher,
     UserSession,
@@ -77,6 +78,7 @@ class TeacherSignupForm(InvitedTeacherForm):
         widget=forms.TextInput(
             attrs={"autocomplete": "off", "placeholder": "First name"}
         ),
+        validators=User.first_name_validators,
     )
     teacher_last_name = forms.CharField(
         help_text="Enter your last name",
@@ -84,12 +86,14 @@ class TeacherSignupForm(InvitedTeacherForm):
         widget=forms.TextInput(
             attrs={"autocomplete": "off", "placeholder": "Last name"}
         ),
+        validators=User.last_name_validators,
     )
     teacher_email = forms.EmailField(
         help_text="Enter your email address",
         widget=forms.EmailInput(
             attrs={"autocomplete": "off", "placeholder": "Email address"}
         ),
+        validators=User.email_validators,
     )
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
@@ -102,6 +106,7 @@ class TeacherEditAccountForm(forms.Form):
             attrs={"placeholder": "First name", "class": "fName"}
         ),
         help_text="First name",
+        validators=User.first_name_validators,
     )
     last_name = forms.CharField(
         max_length=100,
@@ -109,6 +114,7 @@ class TeacherEditAccountForm(forms.Form):
             attrs={"placeholder": "Last name", "class": "lName"}
         ),
         help_text="Last name",
+        validators=User.last_name_validators,
     )
     email = forms.EmailField(
         required=False,
@@ -116,6 +122,7 @@ class TeacherEditAccountForm(forms.Form):
             attrs={"placeholder": "New email address (optional)"}
         ),
         help_text="New email address (optional)",
+        validators=User.email_validators,
     )
     password = forms.CharField(
         required=False,
@@ -238,6 +245,7 @@ class ClassCreationForm(forms.Form):
     class_name = forms.CharField(
         widget=forms.TextInput(attrs={"placeholder": "Class name"}),
         help_text="Enter a class name",
+        validators=Class.name_validators,
     )
     teacher = forms.ChoiceField(help_text="Select teacher", required=False)
     classmate_progress = forms.BooleanField(
@@ -285,16 +293,6 @@ class ClassCreationForm(forms.Form):
 
             self.fields["teacher"].choices = teacher_choices
 
-    def clean(self):
-        name = self.cleaned_data.get("class_name", "")
-
-        if re.match(re.compile("^[\w -]+$"), name) is None:
-            raise forms.ValidationError(
-                "Class name may only contain letters, numbers, dashes, underscores, and spaces."
-            )
-
-        return self.cleaned_data
-
 
 class ClassEditForm(forms.Form):
     # select dropdown choices for potentially limiting time in which external students may join
@@ -338,6 +336,7 @@ class ClassEditForm(forms.Form):
     name = forms.CharField(
         widget=forms.TextInput(attrs={"placeholder": "Enter class name"}),
         help_text="Enter class name",
+        validators=Class.name_validators,
     )
     classmate_progress = forms.BooleanField(
         label="Allow students to see their classmates' progress?",
@@ -352,16 +351,6 @@ class ClassEditForm(forms.Form):
         choices=join_choices,
         widget=forms.Select(),
     )
-
-    def clean(self):
-        name = self.cleaned_data.get("name", "")
-
-        if re.match(re.compile("^[\w -]+$"), name) is None:
-            raise forms.ValidationError(
-                "Class name may only contain letters, numbers, dashes, underscores, and spaces."
-            )
-
-        return self.cleaned_data
 
 
 class ClassLevelControlForm(forms.Form):
@@ -421,6 +410,7 @@ class TeacherEditStudentForm(forms.Form):
         label="Name",
         widget=forms.TextInput(attrs={"placeholder": "Name"}),
         help_text="Choose a name",
+        validators=User.first_name_validators,
     )
 
     def __init__(self, student, *args, **kwargs):
@@ -436,11 +426,6 @@ class TeacherEditStudentForm(forms.Form):
                 "'"
                 + self.cleaned_data.get("name", "")
                 + "' is not a valid name"
-            )
-
-        if re.match(re.compile("^[\w -]+$"), name) is None:
-            raise forms.ValidationError(
-                "Names may only contain letters, numbers, dashes, underscores, and spaces."
             )
 
         students = Student.objects.filter(
@@ -543,14 +528,11 @@ def find_duplicates(names, lower_names, validationErrors):
 
 def find_illegal_characters(names, validationErrors):
     for name in names:
-        if re.match(re.compile("^[\w -]+$"), name) is None:
-            validationErrors.append(
-                forms.ValidationError(
-                    "Names may only contain letters, numbers, dashes, underscores, and spaces. You must rename '"
-                    + name
-                    + "'."
-                )
-            )
+        for validator in User.first_name_validators:
+            try:
+                validator(name)
+            except forms.ValidationError as e:
+                validationErrors.append(e)
 
 
 def check_passwords(password, confirm_password):
@@ -604,6 +586,7 @@ class TeacherMoveStudentDisambiguationForm(forms.Form):
         widget=forms.TextInput(
             attrs={"placeholder": "Name", "style": "margin : 0px"}
         ),
+        validators=User.first_name_validators,
     )
 
     def clean_name(self):
@@ -654,6 +637,7 @@ class TeacherDismissStudentsForm(forms.Form):
         widget=forms.TextInput(
             attrs={"placeholder": "Enter new student name", "class": "m-0"}
         ),
+        validators=User.first_name_validators,
     )
     email = forms.EmailField(
         label="Email",
@@ -661,6 +645,7 @@ class TeacherDismissStudentsForm(forms.Form):
         widget=forms.EmailInput(
             attrs={"placeholder": "Enter email address", "class": "m-0"}
         ),
+        validators=User.email_validators,
     )
     confirm_email = forms.EmailField(
         label="Confirm Email",
@@ -668,6 +653,7 @@ class TeacherDismissStudentsForm(forms.Form):
         widget=forms.EmailInput(
             attrs={"placeholder": "Confirm email address", "class": "m-0"}
         ),
+        validators=User.email_validators,
     )
 
     def clean_name(self):
@@ -739,6 +725,7 @@ class TeacherAddExternalStudentForm(forms.Form):
     name = forms.CharField(
         label="Student name",
         widget=forms.TextInput(attrs={"placeholder": "Name"}),
+        validators=User.first_name_validators,
     )
 
     def __init__(self, klass, *args, **kwargs):
