@@ -1,6 +1,34 @@
 # CHANGELOG
 
 
+## v8.15.17 (2026-10-23)
+
+### Bug Fixes
+
+- Form field validators
+  ([#2513](https://github.com/codeforlife-education/codeforlife-portal/pull/2513),
+  [`4f0757f`](https://github.com/codeforlife-education/codeforlife-portal/commit/4f0757fd629157424da678a028021d3d97f291be))
+
+* fix: form field validators
+
+* more validators
+
+* fix invalid name tests
+
+* fix
+
+* Install latest python package
+
+---------
+
+Co-authored-by: Florian Aucomte <f.aucomte@hotmail.co.uk>
+
+### Continuous Integration
+
+- Latest RR
+  ([`eaf4446`](https://github.com/codeforlife-education/codeforlife-portal/commit/eaf44461adeb1c7d309951cbe267b6e56c1219f4))
+
+
 ## v8.15.16 (2026-10-21)
 
 ### Bug Fixes
