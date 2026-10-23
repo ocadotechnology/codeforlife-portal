@@ -54,7 +54,7 @@ class TestOrganisation(BaseTest, BasePage):
         page.create_organisation_failure(invalid_school_name)
         assert page.was_form_invalid(
             "form-create-organisation",
-            "can only contain: $unicode alphanumeric characters, spaces, special characters ('.)",
+            "can only contain: unicode alphanumeric characters, spaces, special characters ('.)",
         )
 
     def test_kick(self):
@@ -249,7 +249,7 @@ class TestOrganisation(BaseTest, BasePage):
 
         assert page.was_form_invalid(
             "edit_form",
-            "can only contain: $unicode alphanumeric characters, spaces, special characters ('.)",
+            "can only contain: unicode alphanumeric characters, spaces, special characters ('.)",
         )
 
     def test_edit_clash(self):

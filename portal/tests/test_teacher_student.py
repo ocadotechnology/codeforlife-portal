@@ -78,7 +78,7 @@ class TestTeacherStudentFrontend(BaseTest):
         assert page.adding_students_failed()
         assert page.was_form_invalid(
             "form-create-students",
-            "can only contain: $unicode alphanumeric characters, spaces, special characters (-')",
+            "can only contain: unicode alphanumeric characters, spaces, special characters (-')",
         )
 
     def test_create_multiple(self):
@@ -330,7 +330,7 @@ class TestTeacherStudentFrontend(BaseTest):
         assert page.is_student_name(name)
         assert page.was_form_invalid(
             "form-edit-student",
-            "can only contain: $unicode alphanumeric characters, spaces, special characters (-')",
+            "can only contain: unicode alphanumeric characters, spaces, special characters (-')",
         )
 
     def test_update_student_password(self):

@@ -606,5 +606,5 @@ class TestClassFrontend(BaseTest):
 
         assert page.was_form_invalid(
             "form-create-class",
-            "can only contain: $unicode alphanumeric characters, spaces, special characters (-_)",
+            "can only contain: unicode alphanumeric characters, spaces, special characters (-_)",
         )

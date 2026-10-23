@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "HOST": os.getenv("DB_HOST", "db"),
+        "HOST": os.getenv("DB_HOST", "localhost"),
         "NAME": "legacy_portal",
         "USER": "root",
         "PASSWORD": "password",

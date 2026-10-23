@@ -431,7 +431,7 @@ class TestIndependentStudentFrontend(BaseTest):
         assert self.is_account_page(page)
         assert page.was_form_invalid(
             "student_account_form",
-            "can only contain: $unicode alphanumeric characters, spaces, special characters (-')",
+            "can only contain: unicode alphanumeric characters, spaces, special characters (-')",
         )
 
     @patch("codeforlife.legacy.helpers.emails.send_dotdigital_email")
