@@ -11,9 +11,7 @@ class BasicAuthMiddleware:
                                 <h1>Authorization Required</h1></body></html>""",
             content_type="text/html",
         )
-        response["WWW-Authenticate"] = (
-            'Basic realm="' + os.getenv("APPLICATION_ID", "") + '"'
-        )
+        response["WWW-Authenticate"] = 'Basic realm="' + os.getenv("APPLICATION_ID", "") + '"'
         response.status_code = 401
         return response
 
@@ -23,10 +21,7 @@ class BasicAuthMiddleware:
             if authmeth.lower() == "basic":
                 auth = auth.strip().decode("base64")
                 username, password = auth.split(":", 1)
-                if (
-                    username != settings.BASICAUTH_USERNAME
-                    or password != settings.BASICAUTH_PASSWORD
-                ):
+                if username != settings.BASICAUTH_USERNAME or password != settings.BASICAUTH_PASSWORD:
                     return self.unauthed()
             else:
                 return self.unauthed()

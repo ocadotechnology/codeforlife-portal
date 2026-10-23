@@ -27,8 +27,4 @@ class AdminAccessMiddleware(object):
 
     def _has_admin_access(self, request):
         is_local = ENV == "local"
-        return (
-            request.user.is_superuser
-            and request.user.is_staff
-            and (using_two_factor(request.user) or is_local)
-        )
+        return request.user.is_superuser and request.user.is_staff and (using_two_factor(request.user) or is_local)
